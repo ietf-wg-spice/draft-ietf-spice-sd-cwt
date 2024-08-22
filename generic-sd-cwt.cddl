@@ -1,0 +1,55 @@
+sd-cwt = #6.18([
+   protected: bstr .cbor sd-protected,
+   unprotected,
+   payload: bstr .cbor sd-payload,
+   signature: bstr
+])
+
+sd-protected = {
+   &(alg: 1): int, 
+   &(typ: 16): text,
+   * key => any   
+}
+
+unprotected = {
+   ? &(sd_claims: TBD1): [ +salted ],
+   ? &(sd_kbt: TBD2): bstr,    ;.cbor sd-cwt-kbt,
+   * key => any   
+}
+
+sd-payload = {
+    ; standard claims
+    ? &(iss: 1): tstr, ; "https://issuer.example"
+    ? &(sub: 2): tstr, ; "https://device.example"
+      &(aud: 3): tstr, ; "https://verifier.example"
+    ? &(exp: 4): int,  ; 1883000000
+    ? &(nbf: 5): int,  ; 1683000000
+      &(iat: 6): int,  ; 1683000000
+    ? &(cnf: 8): { * key => any }, ; key confirmation
+    ? &(cnonce: 39): bstr
+    ;
+    ; sd-cwt new claims
+    ? &(sd_hash: TBD3): bstr, ; 
+    ? &(sd_alg: TBD4): int,            ; -16 for sha-256
+    ? &(redacted_keys: TBD5): [ * bstr ]
+   * key => any   
+}
+
+;redacted_element = { "...": bstr }
+salted = salted-claim / salted-element
+salted-claim = bstr .cbor [
+  bstr ;.size 16,     ; 128-bit salt
+  (int / text),      ; claim name
+  any                ; claim value
+]
+salted-element = bstr .cbor [
+  bstr ;.size 16,     ; 128-bit salt
+  any                ; claim value
+]
+
+key = int / text
+TBD1 = 1111
+TBD2 = 1112
+TBD3 = 1113
+TBD4 = 1114
+TBD5 = 1115

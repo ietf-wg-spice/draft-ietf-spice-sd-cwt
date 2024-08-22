@@ -1,0 +1,96 @@
+sd-cwt-types = sd-cwt-presentation / sd-cwt-issued / kbt-cwt
+
+sd-cwt-presentation = #6.18([
+   protected: bstr .cbor sd-protected,
+   unprotected-presentation,
+   payload: bstr .cbor sd-payload,
+   signature: bstr
+])
+
+sd-cwt-issued = #6.18([
+   protected: bstr .cbor sd-protected,
+   unprotected-issued,
+   payload: bstr .cbor sd-payload,
+   signature: bstr
+])
+
+kbt-cwt = #6.18([
+   protected: bstr .cbor kbt-protected,
+   kbt-unprotected,
+   payload: bstr .cbor kbt-payload,
+   signature: bstr
+])
+
+sd-protected = {
+   &(typ: 16) ^ => "application/sd+cwt",
+   &(alg: 1) ^ => int, 
+   * key => any   
+}
+
+kbt-protected = {
+   &(typ: 16)^ => "application/kb+cwt",
+   &(alg: 1)^ => int, 
+   * key => any   
+}
+
+unprotected-presentation = {
+   &(sd_kbt: TBD2) ^ => bstr .cbor kbt-cwt,
+   ? &(sd_claims: TBD1) ^ => [ +bstr .cbor salted ],
+   * key => any   
+}
+
+unprotected-issued = {
+   ? &(sd_claims: TBD1) ^ => [ +bstr .cbor salted ],
+   * key => any   
+}
+
+kbt-unprotected = {
+   * key => any   
+}
+
+sd-payload = {
+    ; standard claims
+      &(iss: 1) ^ => tstr, ; "https://issuer.example"
+      &(sub: 2) ^ => tstr, ; "https://device.example"
+      &(aud: 3) ^ => tstr, ; "https://verifier.example"
+    ? &(exp: 4) ^ => int,  ; 1883000000
+    ? &(nbf: 5) ^ => int,  ; 1683000000
+      &(iat: 6) ^ => int,  ; 1683000000
+      &(cnf: 8) ^ => { * key => any }, ; key confirmation
+    ? &(cnonce: 39) ^ => bstr,
+    ;
+    ; sd-cwt new claims
+      &(sd_hash: TBD3) ^ => bstr, 
+      &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
+    ? &(redacted_keys: TBD5) ^ => [ * bstr ],
+    * key => any   
+}
+
+kbt-payload = {
+      &(aud: 3) ^ => tstr, ; "https://verifier.example"
+    ? &(exp: 4) ^ => int,  ; 1883000000
+    ? &(nbf: 5) ^ => int,  ; 1683000000
+      &(iat: 6) ^ => int,  ; 1683000000
+      &(cnonce: 39) ^ => bstr,
+      &(sd_hash: TBD3) ^ => bstr,
+    * key => any   
+}
+
+;redacted_element = { "...": bstr }
+salted = salted-claim / salted-element
+salted-claim = [
+  bstr ;.size 16,     ; 128-bit salt
+  (int / text),      ; claim name
+  any                ; claim value
+]
+salted-element = [
+  bstr ;.size 16,     ; 128-bit salt
+  any                ; claim value
+]
+
+key = int / text
+TBD1 = 17
+TBD2 = 18
+TBD3 = 11
+TBD4 = 12
+TBD5 = 13
