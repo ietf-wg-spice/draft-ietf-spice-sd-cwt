@@ -406,6 +406,39 @@ The following example contains claims needed to demonstrate redaction of key-val
 ~~~~~~~~~~
 {: #example-edn title="An EDN Example"}
 
+# Implementation Status
+
+Note to RFC Editor: Please remove this section as well as references to {{BCP205}} before AUTH48.
+
+This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in {{BCP205}}.
+The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.
+Please note that the listing of any individual implementation here does not imply endorsement by the IETF.
+Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.
+This is not intended as, and must not be construed to be, a catalog of available implementations or their features.
+Readers are advised to note that other implementations may exist.
+
+According to {{BCP205}}, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.
+It is up to the individual working groups to use this information as they see fit".
+
+## Transmute Prototype
+
+Organization: Transmute Industries Inc
+
+Name: [github.com/transmute-industries/sd-cwt](https://github.com/transmute-industries/sd-cwt)
+
+Description: An open source implementation of this draft.
+
+Maturity: Prototype
+
+Coverage: The current version ('main') implements functionality similar to that described in this document, and will be revised, with breaking changes to support the generation of example data to support this specification.
+
+License: Apache-2.0
+
+Implementation Experience: No interop testing has been done yet. The code works as proof of concept, but is not yet production ready.
+
+Contact: Orie Steele (orie@transmute.industries)
+
+
 # Security Considerations
 
 Security considerations from COSE {RFC9052} and CWT {RFC8392} apply to this specificaton.
@@ -569,7 +602,6 @@ The following completed registration template is provided:
 * Change controller: IETF
 * Provisional registration?  No
 
-
 --- back
 
 # Complete CDDL Schema {#cddl}
@@ -606,38 +638,6 @@ The presentation process for SD-CWT is similar to SD-JWT, with the exception tha
 ## Validation
 
 The validation process for SD-JWT is similar to SD-JWT, however, JSON Objects are replaced with CBOR Maps which can contain integer keys and CBOR Tags.
-
-# Implementation Status
-
-Note to RFC Editor: Please remove this section as well as references to {{BCP205}} before AUTH48.
-
-This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in {{BCP205}}.
-The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.
-Please note that the listing of any individual implementation here does not imply endorsement by the IETF.
-Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.
-This is not intended as, and must not be construed to be, a catalog of available implementations or their features.
-Readers are advised to note that other implementations may exist.
-
-According to {{BCP205}}, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.
-It is up to the individual working groups to use this information as they see fit".
-
-## Transmute Prototype
-
-Organization: Transmute Industries Inc
-
-Name: https://github.com/transmute-industries/sd-cwt
-
-Description: An open source implementation of this draft.
-
-Maturity: Prototype
-
-Coverage: The current version ('main') implements functionality similar to that described in this document, and will be revised, with breaking changes to support the generation of example data to support this specification.
-
-License: Apache-2.0
-
-Implementation Experience: No interop testing has been done yet. The code works as proof of concept, but is not yet production ready.
-
-Contact: Orie Steele (orie@transmute.industries)
 
 # Acknowledgments
 {:numbered="false"}
