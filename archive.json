@@ -1,0 +1,180 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-08-25T00:41:19.102410+00:00",
+  "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 5,
+      "id": "I_kwDOMm_Q2s6T73zE",
+      "title": "those who worked on selective disclosure mechanisms with JSON",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/5",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "https://www.ietf.org/archive/id/draft-ietf-spice-sd-cwt-00.html#name-acknowledgments\r\n\r\nhas anyone else worked on similar items for providing selective disclosure mechanisms in JSON? \r\n\r\nasking for a friend :) one who believes he's done some work on https://datatracker.ietf.org/doc/draft-ietf-oauth-selective-disclosure-jwt/ ",
+      "createdAt": "2024-08-22T22:55:26Z",
+      "updatedAt": "2024-08-23T18:36:40Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOMm_Q2s55KTAC",
+      "title": "Setup repo",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/1",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-08-22T18:32:04Z",
+      "updatedAt": "2024-08-22T18:32:35Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "fa6f420fec3d0b0f6f9f821aa20afc46fb2e76fd",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "wg-adopted-version-setup",
+      "headRefOid": "1ed326bf6a6415da085e3bd5bcab2ca793f4e7d1",
+      "closedAt": "2024-08-22T18:32:35Z",
+      "mergedAt": "2024-08-22T18:32:35Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "3368a5a1c96e25cbcb7fdc63c867d1ce4f3fe4aa"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOMm_Q2s55Ketm",
+      "title": "Copy over draft text",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/2",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This pull requests copies over https://github.com/mesur-io/ietf-misc/blob/main/editor_drafts/draft-prorock-spice-cose-sd-cwt.md\r\n\r\nadjusts formatting and references, and lints the text... otherwise no changes",
+      "createdAt": "2024-08-22T19:03:01Z",
+      "updatedAt": "2024-08-22T19:04:32Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c33bed1a04db0ac8ee15c7786cb6985797c3c0d2",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "intialize-draft-contents",
+      "headRefOid": "fc571c5a8f9315e31097fa2b1cba22c3a27b962e",
+      "closedAt": "2024-08-22T19:04:31Z",
+      "mergedAt": "2024-08-22T19:04:31Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOMm_Q2s55KjFR",
+      "title": "Move implementation status in accordance with BCP205",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/3",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "For inclusion in -01... now that the \"no change\" adoption call version is up: https://datatracker.ietf.org/doc/draft-ietf-spice-sd-cwt/00/",
+      "createdAt": "2024-08-22T19:16:14Z",
+      "updatedAt": "2024-08-22T19:28:01Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "editorial-cleanup",
+      "headRefOid": "40ede7a1f1184168a5e3d2b788ebc45ce1088ea8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOMm_Q2s55KzUA",
+      "title": "Update meta",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/4",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-08-22T20:02:00Z",
+      "updatedAt": "2024-08-22T20:03:40Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "misc-update",
+      "headRefOid": "529e2f2c276d64e49c5460a6af2911dc1c3fc729",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
