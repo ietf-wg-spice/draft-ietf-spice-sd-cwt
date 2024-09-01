@@ -10,6 +10,7 @@ consensus: true
 v: 3
 area: "Security"
 workgroup: "Secure Patterns for Internet CrEdentials"
+updates: RFC8392
 keyword:
  - cose
  - cwt
@@ -47,6 +48,7 @@ normative:
   RFC7515:
   RFC7519:
   RFC8392:
+  RFC9052:
   BCP205:
 
 informative:
@@ -55,17 +57,16 @@ informative:
 
 --- abstract
 
-This document describes a data minimization technique for use with CBOR Web Token (CWT) {{RFC8392}}.
-The approach is based on SD-JWT {{-SD-JWT}}, with changes to align with CBOR Object Signing and Encryption (COSE).
-This document updates {{RFC8392}}.
+This document describes a data minimization technique for use with CBOR Web Token (CWT).
+The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE).
 
 
 --- middle
 
 # Introduction
 
-This document updates RFC8392, enabling the holder of a CWT to disclose or redact special claims marked disclosable by the issuer of a CWT.
-The approach is modeled after SD-JWT, with changes to align with conventions from CBOR Object Signing and Encryption (COSE).
+This document updates the CBOR Web Token (CWT) specification {{RFC8392}}, enabling the holder of a CWT to disclose or redact special claims marked disclosable by the issuer of a CWT.
+The approach is modeled after SD-JWT {{-SD-JWT}}, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) {{RFC9052}}.
 The ability to minimize disclosure of sensitive identity attributes, while demonstrating possession of key material and enabling a verifier to confirm the attributes have been unaltered by the issuer, is an important building block for many digital credential use cases.
 This specification brings selective disclosure capabilities to CWT, enabling application profiles to impose additional security criteria beyond the minimum security requirements this specification requires.
 Specific use cases are out of scope for this document.
