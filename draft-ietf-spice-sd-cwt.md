@@ -158,8 +158,6 @@ Full Disclosure
 Verifier
 : An entity that validates a Partial or Full Disclosure by a holder.
 
-
-
 # SD-CWT Issuance
 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE.
@@ -638,6 +636,107 @@ License: Apache-2.0
 Implementation Experience: No interop testing has been done yet. The code works as proof of concept, but is not yet production ready.
 
 Contact: Orie Steele (orie@transmute.industries)
+
+# Keys used in the examples
+
+## Subject / Holder
+
+Holder key pair in JWK format
+~~~
+{
+  "kty": "EC",
+  "alg": "ES256",
+  "kid": "WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M",
+  "crv": "P-256",
+  "x": "hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1Sei0",
+  "y": "TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M",
+  "d": "V1moblm7OwAt3kZ9pLUvPQbmws1DlFbPBIW5uGQpTOU"
+}
+~~~
+
+Input to Holder public JWK thumbprint (ignore line breaks)
+~~~
+{"crv":"P-256","kty":"EC","x":"hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1S
+ei0","y":"TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M"}
+~~~
+
+SHA-256 of the Holder public JWK input string (in hex)
+~~~
+59143645b6394582422317c340bf5a825f5f15209856ee17a1ca9beb37ab7353
+~~~
+
+Holder public JWK thumbprint
+~~~
+WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M
+~~~
+
+Holder public key in PEM format
+~~~
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEhVTrJ13Nb70cesZBqiyQ2SAi/Q0w
+JLWvGMfMYa1Sei1Nx64sZ36W0MyCWXZVzpLVUD9UKT2Hh10eec5HcBlDQw==
+-----END PUBLIC KEY-----
+~~~
+
+Hodler private key in PEM format
+~~~
+-----BEGIN PRIVATE KEY-----
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgV1moblm7OwAt3kZ9
+pLUvPQbmws1DlFbPBIW5uGQpTOWhRANCAASFVOsnXc1vvRx6xkGqLJDZICL9DTAk
+ta8Yx8xhrVJ6LU3HrixnfpbQzIJZdlXOktVQP1QpPYeHXR55zkdwGUND
+-----END PRIVATE KEY-----
+~~~
+
+## Issuer
+
+Issuer key pair in JWK format
+~~~
+{
+"kty": "EC",
+"alg": "ES384",
+"kid": "https://issuer.example/jwks.json",
+"crv": "P-384",
+"x":"wxeYsMeIX6NSj7-HfltMOm3GelpdxrMHtyjDclkm8qvl-0lkzZHjlIpUk_brtsu_",
+"y":"j2x-x2FpHK03TE2qk4dFPxgFjs5Y6wqOhKBVox-3-SFLJ1CVIsFZ52T4cR4RYJVU",
+"d":"ccVNIiGTfqYS2xIh8NPd93HJOBxOO-QdWqConWhfCc_vdMS78QR4P9V-h6sifQdM"
+}
+~~~
+
+Input to Issuer JWK thumbprint (ignore line breaks)
+~~~
+{"crv":"P-384","kty":"EC","x":"wxeYsMeIX6NSj7-HfltMOm3GelpdxrMHtyjDclkm
+8qvl-0lkzZHjlIpUk_brtsu_","y":"j2x-x2FpHK03TE2qk4dFPxgFjs5Y6wqOhKBVox-3
+-SFLJ1CVIsFZ52T4cR4RYJVU"}
+~~~
+
+SHA-256 of the Issuer JWK input string (in hex)
+~~~
+18d4ddb7065d945357e3972dee76af4eddc7c285fb42efcfa900c6a4f8437850
+~~~
+
+Issuer JWK thumbprint
+~~~
+GNTdtwZdlFNX45ct7navTt3HwoX7Qu_PqQDGpPhDeFA
+~~~
+
+Issuer public key in PEM format
+~~~
+-----BEGIN PUBLIC KEY-----
+MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEwxeYsMeIX6NSj7+HfltMOm3GelpdxrMH
+tyjDclkm8qvl+0lkzZHjlIpUk/brtsu/j2x+x2FpHK03TE2qk4dFPxgFjs5Y6wqO
+hKBVox+3+SFLJ1CVIsFZ52T4cR4RYJVU
+-----END PUBLIC KEY-----
+~~~
+
+Issuer private key in PEM format
+~~~
+-----BEGIN PRIVATE KEY-----
+MIG2AgEAMBAGByqGSM49AgEGBSuBBAAiBIGeMIGbAgEBBDBxxU0iIZN+phLbEiHw
+0933cck4HE475B1aoKidaF8Jz+90xLvxBHg/1X6HqyJ9B0yhZANiAATDF5iwx4hf
+o1KPv4d+W0w6bcZ6Wl3Gswe3KMNyWSbyq+X7SWTNkeOUilST9uu2y7+PbH7HYWkc
+rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
+-----END PRIVATE KEY-----
+~~~
 
 # Acknowledgments
 {:numbered="false"}
