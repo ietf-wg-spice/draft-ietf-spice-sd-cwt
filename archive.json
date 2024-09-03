@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-01T00:46:52.990780+00:00",
+  "timestamp": "2024-09-03T00:38:47.266227+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -136,7 +136,7 @@
       "labels": [],
       "body": "For inclusion in -01... now that the \"no change\" adoption call version is up: https://datatracker.ietf.org/doc/draft-ietf-spice-sd-cwt/00/",
       "createdAt": "2024-08-22T19:16:14Z",
-      "updatedAt": "2024-08-22T19:28:01Z",
+      "updatedAt": "2024-09-02T15:46:02Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
@@ -148,7 +148,34 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6HkWx6",
+          "commit": {
+            "abbreviatedOid": "40ede7a"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-01T16:41:46Z",
+          "updatedAt": "2024-09-01T16:41:46Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Hp9IA",
+          "commit": {
+            "abbreviatedOid": "40ede7a"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-02T15:46:02Z",
+          "updatedAt": "2024-09-02T15:46:02Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 4,
@@ -162,7 +189,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-08-22T20:02:00Z",
-      "updatedAt": "2024-08-22T20:03:40Z",
+      "updatedAt": "2024-09-02T15:45:44Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
@@ -174,7 +201,127 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6HkWzX",
+          "commit": {
+            "abbreviatedOid": "529e2f2"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-01T16:42:39Z",
+          "updatedAt": "2024-09-01T16:42:39Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Hp9C1",
+          "commit": {
+            "abbreviatedOid": "529e2f2"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-02T15:45:44Z",
+          "updatedAt": "2024-09-02T15:45:44Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOMm_Q2s56FzXj",
+      "title": "small fix to the CDDL",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/6",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "fix to full cddl and one instance of the same CDDL in the body of the draft\r\n\r\nCDDL was not happy with:\r\n\r\n```\r\n? &(sd_claims: TBD1) ^ => [ +bstr .cbor salted ]\r\n```\r\n\r\n, so I replaced with:\r\n\r\n```\r\n? &(sd_claims: TBD1) ^ => bstr .cbor salted-array,\r\n```\r\n\r\nwhere `salted-array` is `salted-array = [ +bstr .cbor salted ]`",
+      "createdAt": "2024-09-01T17:15:50Z",
+      "updatedAt": "2024-09-02T15:46:28Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
+      "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
+      "headRefName": "cddl-fix",
+      "headRefOid": "b7e9acf04eeeebba95d8cfe0615b51fb3a5d4681",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6HkaPd",
+          "commit": {
+            "abbreviatedOid": "b7e9acf"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-01T18:37:59Z",
+          "updatedAt": "2024-09-01T18:37:59Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Hp9Sl",
+          "commit": {
+            "abbreviatedOid": "b7e9acf"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-02T15:46:28Z",
+          "updatedAt": "2024-09-02T15:46:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOMm_Q2s56F301",
+      "title": "Make Abstract conform to IETF-required style",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/7",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "According to https://authors.ietf.org/required-content (Abstract section), the Abstract of an I-D or RFC needs to stand alone. It should not contain abbreviations or references.\r\n\r\nChanges:\r\n- Removed references from Abstract\r\n- Expanded abbreviations in Abstract\r\n- Added Updates: RFC8392 to metadata\r\n- Introduced first references in Introduction\r\n- ",
+      "createdAt": "2024-09-01T18:09:11Z",
+      "updatedAt": "2024-09-02T15:47:25Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
+      "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
+      "headRefName": "fix-abstract",
+      "headRefOid": "01828c1b58342d0c63c10833f91fa5cffcb26b46",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6Hp9n7",
+          "commit": {
+            "abbreviatedOid": "01828c1"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-02T15:47:25Z",
+          "updatedAt": "2024-09-02T15:47:25Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
