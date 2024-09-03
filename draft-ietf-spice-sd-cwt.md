@@ -158,6 +158,230 @@ Full Disclosure
 Verifier
 : An entity that validates a Partial or Full Disclosure by a holder.
 
+# Overview of Selective Disclosure CWT
+
+## A CWT without Selective Disclosure
+
+Below is the payload of a standard CWT without selective disclosure. It
+consists of standard CWT claims, the holder confirmation key, and five specific custom claims. The payload is shown below in CBOR Extended Diagnostic Notation (EDN). Note that some of the CWT claim map keys shown in the examples have been invented for this example and do not have registered integer keys.
+
+~~~ cbor-diag
+{
+    / iss / 1  : "https://issuer.example",
+    / sub / 2  : "WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M",
+    / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
+    / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
+    / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
+    / cnf / 8  : {
+      / cose key / 1 : {
+        / alg: ES256 /  3: -7,
+        / kty: EC2   /  1: 2,
+        / crv: P-256 / -1: 1,
+        / x / -2: h'hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1Sei0',
+        / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
+      }
+    },
+    / name /  170 : "Alice Smith",
+    / age_at_least_18 /  500 : true,
+    / age_at_least_21 /  501 : false,
+    / swversion / 271 : [
+      "3.5.5",
+      "4.1.7"
+    ],
+    / address /  187 : {
+        "country"   : "us",          / United States /
+        "region"    : "ca",          / California /
+        "locality"  : "San Francisco",
+        "post_code" : "94188"
+    }
+}
+~~~
+
+The custom claims consist of the Holder's name (Alice Smith), that she is at
+least 18 years old but not yet 21, that her client supports software
+versions 3.5.5 and 4.1.7, and her address is in San Francisco.
+
+## Holder gets an SD-CWT from the Issuer
+
+Alice would like to selectively disclose some of these (custom) claims to
+different verifiers. (For brevity, we will leave out the name and locality
+claims.) Note that some of the claims may not be selectively disclosable
+(Alice's country and her oldest supported software version in this example).
+First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as follows:
+
+~~~ cbor-diag
+/ cose-sign1 / 18([
+  / protected / << {
+    / alg / 1  : -35, / ES384 /
+    / typ / 16 : "application/sd+cwt",
+    / kid / 4  : 'https://issuer.example/cwk3.cbor'
+  } >>,
+  / unprotected / {
+    / sd_claims / 17 : /these are all the disclosures/
+    <<[
+        <<[
+            /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
+            /claim/  500,  / age_at_least_18 /
+            /value/  true
+        ]>>,
+        <<[
+            /salt/   h'd84c364fad31e0075213141ca7d1408f',
+            /claim/  501,  / age_at_least_21 /
+            /value/  false
+        ]>>,
+        <<[
+            /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
+            /claim/  "region",
+            /value/  "ca" /California/
+        ]>>,
+        <<[
+            /salt/   h'284538c4a1881fac49b2edc550c1913e',
+            /claim/  "post_code",
+            /value/  "94188"
+        ]>>,
+        <<[
+            /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
+            /value/  "4.1.7"
+        ]>>
+    ]>>
+  },
+  / payload / << {
+    / iss / 1  : "https://issuer.example",
+    / sub / 2  : "WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M",
+    / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
+    / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
+    / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
+    / cnf / 8  : {
+      / cose key / 1 : {
+        / alg: ES256 /  3: -7,
+        / kty: EC2   /  1: 2,
+        / crv: P-256 / -1: 1,
+        / x / -2: h'hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1Sei0',
+        / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
+      }
+    },
+#    / sd_hash / 11       : h'abcdef12', / TODO: fix ??? /
+    / sd_alg /  12       : -16, / SHA-256 /
+    / redacted_keys / 13 : [
+        / redacted age_at_least_18 /
+        h'7e6e350907d0ba3aa7ae114f8da5b360' +
+        h'601c0bb7995cd40049b98e4f58fb6ec0',
+        / redacted age_at_least_21 /
+        h'1e7275bcda9bc183079cd4515c5c0282' +
+        h'a2a0e9105b660933e2e68f9a3f40974b'
+    ],
+    / swversion / 271 : [
+      "3.5.5",
+      /redacted version "4.1.7" /
+      { "...":  h'a0f74264a8c97655c958aff3687f1390' +
+                h'ed0ab6f64cd78ba43c3fefee0de7b835' }
+    ],
+    "address": {
+        "country" : "us",            / United States /
+        /redacted_keys/ 13 : [
+            / redacted region /
+            h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
+            h'ed010ac9ae1c93403ec72572bb1e00e7',
+            / redacted post_code /
+            h'0b616e522a05d8d134a834979710120d' +
+            h'41ac1522b056d5f9509cf7e850047302'
+        ]
+    }
+  } >>,
+  / signature / h'3337af2e66959614' /TODO: fix /
+])
+~~~
+
+Some of the claims are *redacted* in the payload. The corresponding
+*disclosure* is communicated in the unprotected header in the `sd_claims`
+key. For example, the `age_at_least_18` claim is a Salted Disclosed Claim,
+consisting of a per-disclosure random salt, the claim name, and claim value.
+
+~~~ cbor-diag
+<<[
+    /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
+    /claim/  500,  / age_at_least_18 /
+    /value/  true
+]>>,
+~~~
+
+This is represented in hex by the CBOR byte string value:
+
+~~~
+5683508D5C15FA86265D8FF77A0E92720CA8371901F4F5
+~~~
+
+The SHA-256 hash (the hash algorithm identified in the `sd_hash` field in
+the payload) of that bytes string is the Digested Salted Disclosed Claim
+(in hex). The digest value is included in the payload in a `redacted_keys`
+field for a Redacted Key (in this example), or in a named array for a Redacted Element (ex: for a redacted element of `swversion`).
+
+~~~
+7e6e350907d0ba3aa7ae114f8da5b360601c0bb7995cd40049b98e4f58fb6ec0
+~~~
+
+# Holder prepares an SD-CWT for a Verifier
+
+When the Holder wants to send an SD-CWT and disclose none, some, or all
+of the redacted values, it makes a list of the values to disclose and puts
+them in `sd_claims` in the unprotected header.
+
+For example, Alice decides to disclosure to a verifier the `age_at_least_18`
+claim (true), the `region` claim (California), and the other element in the
+`swversion` array (4.1.7).
+
+~~~ cbor-diag
+/ sd_claims / 17 : /just the disclosures chosen by the Holder/
+<<[
+	<<[
+		/salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
+		/claim/  500,  / age_at_least_18 /
+		/value/  true
+	]>>,
+	<<[
+		/salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
+		/claim/  "region",
+		/value/  "ca" /California/
+	]>>,
+	<<[
+		/salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
+		/value/  "4.1.7"
+	]>>
+]>>
+~~~
+
+The Holder will also typically fetch a nonce from the Verifier to prevent
+replay.
+
+Finally, the Holder generates a Selective Disclosure Key Binding Token
+(SD-KBT) that ties together any disclosures, the Verifier nonce and target
+audience, and proof of possession of the Holder's private key.
+
+~~~
+/ sd_kbt    / 18 : << 18([
+  / protected / << {
+	  / alg / 1 : -7 / ES256 /,
+	  / typ / 16 : "application/kb+cwt"
+  } >>,
+  / unprotected / {},
+  / payload / << {
+	/ cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
+	/ aud     / 3    : "https://verifier.example/app",
+	/ iat     / 6    : 1725283443, / 2024-09-02T06:24:03Z /
+	/ sd_alg  / 12 : -16,  /SHA-256/
+	/ sd_hash / 11 :
+	/hash of sd_claims in target SD-CWT using hash in sd_alg/
+    h'4287237578266d07a3a2909fab6579ce9b4ab8f61b67afa00f6724b9b952557b'
+  } >>,
+  / signature / h'1237af2e678945'  / TODO: fix /
+]) >>
+~~~
+
+Finally, the unprotected part of the SD-CWT received from the Holder is replaced with the `sd_claims` and `sd_kbt` fields generated by the Holder.
+
+Together the digests in protected parts of the issued SD-CWT, and the disclosures hashed in the SW-KBT are used by the Verifier to confirm the
+disclosed claims.
+
 # SD-CWT Issuance
 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE.
@@ -694,7 +918,7 @@ Issuer key pair in JWK format
 {
 "kty": "EC",
 "alg": "ES384",
-"kid": "https://issuer.example/jwks.json",
+"kid": "https://issuer.example/cwk3.cbor",
 "crv": "P-384",
 "x":"wxeYsMeIX6NSj7-HfltMOm3GelpdxrMHtyjDclkm8qvl-0lkzZHjlIpUk_brtsu_",
 "y":"j2x-x2FpHK03TE2qk4dFPxgFjs5Y6wqOhKBVox-3-SFLJ1CVIsFZ52T4cR4RYJVU",
