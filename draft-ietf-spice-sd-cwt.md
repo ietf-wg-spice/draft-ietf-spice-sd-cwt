@@ -866,6 +866,7 @@ Contact: Orie Steele (orie@transmute.industries)
 ## Subject / Holder
 
 Holder key pair in JWK format
+
 ~~~
 {
   "kty": "EC",
@@ -879,22 +880,26 @@ Holder key pair in JWK format
 ~~~
 
 Input to Holder public JWK thumbprint (ignore line breaks)
+
 ~~~
 {"crv":"P-256","kty":"EC","x":"hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1S
 ei0","y":"TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M"}
 ~~~
 
 SHA-256 of the Holder public JWK input string (in hex)
+
 ~~~
 59143645b6394582422317c340bf5a825f5f15209856ee17a1ca9beb37ab7353
 ~~~
 
 Holder public JWK thumbprint
+
 ~~~
 WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M
 ~~~
 
 Holder public key in PEM format
+
 ~~~
 -----BEGIN PUBLIC KEY-----
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEhVTrJ13Nb70cesZBqiyQ2SAi/Q0w
@@ -903,6 +908,7 @@ JLWvGMfMYa1Sei1Nx64sZ36W0MyCWXZVzpLVUD9UKT2Hh10eec5HcBlDQw==
 ~~~
 
 Hodler private key in PEM format
+
 ~~~
 -----BEGIN PRIVATE KEY-----
 MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgV1moblm7OwAt3kZ9
@@ -914,6 +920,7 @@ ta8Yx8xhrVJ6LU3HrixnfpbQzIJZdlXOktVQP1QpPYeHXR55zkdwGUND
 ## Issuer
 
 Issuer key pair in JWK format
+
 ~~~
 {
 "kty": "EC",
@@ -927,6 +934,7 @@ Issuer key pair in JWK format
 ~~~
 
 Input to Issuer JWK thumbprint (ignore line breaks)
+
 ~~~
 {"crv":"P-384","kty":"EC","x":"wxeYsMeIX6NSj7-HfltMOm3GelpdxrMHtyjDclkm
 8qvl-0lkzZHjlIpUk_brtsu_","y":"j2x-x2FpHK03TE2qk4dFPxgFjs5Y6wqOhKBVox-3
@@ -934,16 +942,19 @@ Input to Issuer JWK thumbprint (ignore line breaks)
 ~~~
 
 SHA-256 of the Issuer JWK input string (in hex)
+
 ~~~
 18d4ddb7065d945357e3972dee76af4eddc7c285fb42efcfa900c6a4f8437850
 ~~~
 
 Issuer JWK thumbprint
+
 ~~~
 GNTdtwZdlFNX45ct7navTt3HwoX7Qu_PqQDGpPhDeFA
 ~~~
 
 Issuer public key in PEM format
+
 ~~~
 -----BEGIN PUBLIC KEY-----
 MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEwxeYsMeIX6NSj7+HfltMOm3GelpdxrMH
@@ -953,6 +964,7 @@ hKBVox+3+SFLJ1CVIsFZ52T4cR4RYJVU
 ~~~
 
 Issuer private key in PEM format
+
 ~~~
 -----BEGIN PRIVATE KEY-----
 MIG2AgEAMBAGByqGSM49AgEGBSuBBAAiBIGeMIGbAgEBBDBxxU0iIZN+phLbEiHw
