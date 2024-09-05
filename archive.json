@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-03T00:38:47.266227+00:00",
+  "timestamp": "2024-09-05T00:39:20.062262+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -322,6 +322,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOMm_Q2s56TSjv",
+      "title": "Add an Overview section which walks through the mechanism",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/8",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "- Added an Overview section which walks through the mechanism with plenty of examples.\r\n- all salts use recommended length. digests are correct. (signatures still not yet)\r\n- added an appendix with the keys for the Issuer and Holder\r\n-",
+      "createdAt": "2024-09-03T19:08:09Z",
+      "updatedAt": "2024-09-03T19:08:10Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
+      "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
+      "headRefName": "walkthrough",
+      "headRefOid": "417aa2c77f8b0d95e97d31ca2b3f4670c930bce6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
