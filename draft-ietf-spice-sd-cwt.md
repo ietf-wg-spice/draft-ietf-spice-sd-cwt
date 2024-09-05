@@ -114,10 +114,10 @@ However the following guidance is generally recommended, regardless of protocol 
 
 {::boilerplate bcp14-tagged}
 
+This document uses terms from CWT {{RFC8392}}, and COSE {{!RFC9052}}
+{{!RFC9053}}.
 
-The terminology used in this document is inherited from RFC8392, RFC9052 and RFC9053.
-
-This document defines the following new terms related to concepts originally described in SD-JWT.
+This document defines the following new terms related to concepts originally described in SD-JWT {{-SD-JWT}}.
 
 Selective Disclosure CBOR Web Token (SD-CWT)
 : A CWT with claims enabling selective disclosure with key binding.
@@ -125,11 +125,26 @@ Selective Disclosure CBOR Web Token (SD-CWT)
 Selective Disclosure Key Binding Token (SD-CWT-KBT)
 : A CWT used to demonstrate possession of a confirmation method, associated to an SD-CWT.
 
-Salted Disclosed Claims
-: The salted claims disclosed via an SD-CWT.
+Issuer
+: An entity that produces a Selective Disclosure CBOR Web Token.
+
+Holder
+: An entity that presents a Selective Disclosure CBOR Web Token which includes a Selective Disclosure Key Binding Token.
+
+Verifier
+: An entity that validates a Partial or Full Disclosure by a holder.
+
+Partial Disclosure
+: When a subset of the original claims protected by the Issuer, are disclosed by the Holder.
+
+Full Disclosure
+: When the full set of claims protected by the Issuer, is disclosed by the Holder.
+
+Salted Disclosed Claim
+: A salted claim disclosed in the unprotected header of an SD-CWT.
 
 Digested Salted Disclosed Claim
-: A hash digest of a Salted Disclosed Claims.
+: A hash digest of a Salted Disclosed Claim.
 
 Redacted keys
 : The hashes of claims redacted from a map data structure.
@@ -142,22 +157,6 @@ Presented Disclosed Claimset
 
 Validated Disclosed Claimset
 : The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and ommiting all instances of redacted_keys and redacted_element claims that are present in the original sd_cwt.
-
-Issuer
-: An entity that produces a Selective Disclosure CBOR Web Token.
-
-Holder
-: An entity that presents a Selective Disclosure CBOR Web Token which includes a Selective Disclosure Key Binding Token.
-
-Partial Disclosure
-: When a subset of the original claims protected by the Issuer, are disclosed by the Holder.
-
-Full Disclosure
-: When the full set of claims protected by the Issuer, is disclosed by the Holder.
-
-Verifier
-: An entity that validates a Partial or Full Disclosure by a holder.
-
 
 
 # SD-CWT Issuance
