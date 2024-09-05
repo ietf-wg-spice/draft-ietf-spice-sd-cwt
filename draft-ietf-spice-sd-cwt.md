@@ -119,47 +119,47 @@ This document uses terms from CWT {{RFC8392}}, and COSE {{!RFC9052}}
 
 This document defines the following new terms related to concepts originally described in SD-JWT {{-SD-JWT}}.
 
-Selective Disclosure CBOR Web Token (SD-CWT)
+Selective Disclosure CBOR Web Token (SD-CWT):
 : A CWT with claims enabling selective disclosure with key binding.
 
-Selective Disclosure Key Binding Token (SD-CWT-KBT)
+Selective Disclosure Key Binding Token (SD-CWT-KBT):
 : A CWT used to demonstrate possession of a confirmation method, associated to an SD-CWT.
 
-Issuer
+Issuer:
 : An entity that produces a Selective Disclosure CBOR Web Token.
 
-Holder
+Holder:
 : An entity that presents a Selective Disclosure CBOR Web Token which includes a Selective Disclosure Key Binding Token.
 
-Verifier
+Verifier:
 : An entity that validates a Partial or Full Disclosure by a holder.
 
-Partial Disclosure
+Partial Disclosure:
 : When a subset of the original claims protected by the Issuer, are disclosed by the Holder.
 
-Full Disclosure
+Full Disclosure:
 : When the full set of claims protected by the Issuer, is disclosed by the Holder.
 
-Salted Disclosed Claim
+Salted Disclosed Claim:
 : A salted claim disclosed in the unprotected header of an SD-CWT.
 
-Digested Salted Disclosed Claim / Blinded Claim Hash
+Digested Salted Disclosed Claim / Blinded Claim Hash:
 : A hash digest of a Salted Disclosed Claim.
 
-Blinded Claim
+Blinded Claim:
 : Any Redacted key or Redacted element which has been replaced in the
 CWT payload by a Blinded Claim Hash.
 
-Redacted key
+Redacted key:
 : The hash of a claim redacted from a map data structure.
 
-Redacted element
+Redacted element:
 : The hash of an element redacted from an array data structure.
 
-Presented Disclosed Claimset
+Presented Disclosed Claimset:
 : The CBOR map containing zero or more Redacted keys or Redacted elements.
 
-Validated Disclosed Claimset
+Validated Disclosed Claimset:
 : The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and ommiting all instances of redacted_keys and redacted_element claims that are present in the original sd_cwt.
 
 
