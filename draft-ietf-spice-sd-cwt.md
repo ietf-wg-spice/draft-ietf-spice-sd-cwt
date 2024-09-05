@@ -143,14 +143,18 @@ Full Disclosure
 Salted Disclosed Claim
 : A salted claim disclosed in the unprotected header of an SD-CWT.
 
-Digested Salted Disclosed Claim
+Digested Salted Disclosed Claim / Blinded Claim Hash
 : A hash digest of a Salted Disclosed Claim.
 
-Redacted keys
-: The hashes of claims redacted from a map data structure.
+Blinded Claim
+: Any Redacted key or Redacted element which has been replaced in the
+CWT payload by a Blinded Claim Hash.
 
-Redacted elements
-: The hashes of elements redacted from an array data structure.
+Redacted key
+: The hash of a claim redacted from a map data structure.
+
+Redacted element
+: The hash of an element redacted from an array data structure.
 
 Presented Disclosed Claimset
 : The CBOR map containing zero or more Redacted keys or Redacted elements.
@@ -159,27 +163,153 @@ Validated Disclosed Claimset
 : The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and ommiting all instances of redacted_keys and redacted_element claims that are present in the original sd_cwt.
 
 
-# SD-CWT Issuance
+# SD-CWT definition
 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE.
 
-An SD-CWT is a CWT containing the hash digest (the "blinded claim hash") of each blinded claim in `redacted_values` in the payload, and optionally the salted claim values (and often claim names) for the values that are actually disclosed in the `sd_claims` claim in the unprotected header. When blinding an individual item in an array, the value of the item is replaced with a dict containing only the special key "...".
+An SD-CWT is a CWT containing the "blinded claim hash" of
+at least one blinded claim in the CWT payload. Optionally the salted claim
+values (and often claim names) for the corresponding Blinded Claim Hash are
+actually disclosed in the `sd_claims` claim in the unprotected header of the
+CWT (the disclosures).
+
+Any party with a Salted Disclosed Claim can generate its hash, find that
+hash in the CWT payload, and unblind the content. However a Verifier with the hash cannot reconstruct the corresponding blinded claim without
+disclosure of the Salted Disclosed Claim.
+
+## Types of blinded claims
+
+Salted Disclosed Claims for named claims are structured as a 128-bit salt, the name of the redacted element, and the disclosed value. For Salted
+Disclosed Claims of items in an array, the name is omitted.
 
 ~~~ cddl
-redacted_element = { "...": bstr }
+salted = salted-claim / salted-element / decoy
+salted-claim = [
+  bstr .size 16,     ; 128-bit salt
+  (int / text),      ; claim name
+  any                ; claim value
+]
+salted-element = [
+  bstr .size 16,     ; 128-bit salt
+  any                ; claim value
+]
+decoy = [
+  bstr .size 16,     ; 128-bit salt
+]
+
+; a collection of Salted Disclosed Claims
+salted-array = [ +bstr .cbor salted ]
 ~~~
 
-A Holder key binding CWT (#kbt) MUST be present in a `sd_kbt` claim in the unprotected header when presenting an SD-CWT to a Verifier.
-The `sd_kbt` claim can only be absent when the Issuer is providing the
-SD-CWT to the Holder.
+When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_values` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 
-An SD-CWT is a CWT containing zero or more Digested Salted Disclosed Claim, and zero or more Salted Disclosed Claims.
-The salt acts as a blinding factor, preventing a Verifier of an SD-CWT from learning claims that were not intentionally disclosed by a Holder.
+When blinding an individual item in an array, the value of the item is
+replaced with a dict containing only the special key "...".
+
+~~~ cddl
+redacted_element = { "...": ANY }
+~~~
+
+Blinded claims can be nested. For example, both individual keys in the
+`address` claim, and the entire `address` element can be separately blinded.
+An example nested claim is shown in **TODO iref**.
+
+Finally, an issuer may create "decoy digests" which look like a blinded
+claim hash but have only a salt. Decoy digests are discussed in **TODO iref**.
+
+
+# SD-CWT Issuance
+
+How the Holder communicates to the Issuer to request a CWT or an SD-CWT is
+out-of-scope of this specification. Likewise, how the Holder determines
+which claims to blind or to always disclose is a policy matter which is
+not discussed in this specification. This specification defines the format
+of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of an SD-CWT communicated between a Holder and a
+Verifier in the next section.
+
+The unprotected header MUST contain an `sd_claims` section with a Salted
+Disclosed Claim for *every* blinded claim hash present anywhere in the
+payload. The payload MUST also include a key confirmation element (`cnf`)
+for the Holder's public key, and an `sd_alg` claim identifying the
+algorithm used to hash the Salted Disclosed Claims.
+
+## Issuer generation
+
+The Issuer follows all the requirements of generating a valid CWT.
+The Issuer MUST implement COSESign1 using an appropriate asymmetric
+signature algorithm / curve combination (for example ES256/P-256 or
+EdDSA/Ed25519)
+
+The Issuer MUST generate a unique cryptographically random salt of at least
+128-bits of entropy for each Salted Disclosed Claim. If the client
+communicates a client-generated nonce (`cnonce`) when requesting the SD-CWT,
+the Issuer SHOULD include it in the payload.
+
+## Holder validation
+
+Upon receiving an SD-CWT from the Issuer with the Holder as the subject, the
+Holder verifies the following:
+
+- the issuer (`iss`) and subject (`sub`) are correct;
+- if an audience (`aud`) is present, it is acceptable;
+- the CWT is valid according to the `nbf` and `exp` claims;
+- a public key under the control of the Holder is present in the `cnf` claim;
+- the hash algorithm in `sd-alg` is supported by the Holder;
+- if a `cnonce` is present, it was provided by the Holder to this Issuer and is still "fresh";
+- there are no unblinded claims about the subject which violate its privacy policies;
+- every blinded claim hash has a corresponding Salted Disclosed Claim, and vice versa;
+- all the Salted Disclosed Claims are correct in their unblinded context in the payload.
+
+The following informative CDDL is provided to describe the syntax for an
+SD-CWT issuance. A complete CDDL schema is in {{cddl}}.
+
+~~~ cddl
+sd-cwt-issued = #6.18([
+   protected: bstr .cbor sd-protected,
+   unprotected-issued,
+   payload: bstr .cbor sd-payload,
+   signature: bstr
+])
+
+sd-protected = {
+   &(typ: 16) ^ => "application/sd+cwt",
+   &(alg: 1) ^ => int,
+   * key => any
+}
+
+unprotected-issued = {
+   &(sd_claims: TBD1) ^ => bstr .cbor salted-array,
+   * key => any
+}
+
+sd-payload = {
+    ; standard claims
+      &(iss: 1) ^ => tstr, ; "https://issuer.example"
+      &(sub: 2) ^ => tstr, ; "https://device.example"
+    ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
+    ? &(exp: 4) ^ => int,  ; 1883000000
+    ? &(nbf: 5) ^ => int,  ; 1683000000
+      &(iat: 6) ^ => int,  ; 1683000000
+      &(cnf: 8) ^ => { * key => any }, ; key confirmation
+    ? &(cnonce: 39) ^ => bstr,
+    ;
+    ; sd-cwt new claims
+      # TODO: should sd_hash be included in issued?
+      &(sd_hash: TBD3) ^ => bstr,
+      &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
+    ? &(redacted_keys: TBD5) ^ => [ * bstr ],
+    * key => any
+}
+~~~
+
+
+
+
+Please note this example contains some claims for demonstration of the disclosure syntax, such as `swversion`, `address`, and `age_at_least_18`.
 
 The following informative CDDL is provided to explain the syntax for an
 SD-CWT presentation. A complete CDDL schema is in (#cddl).
 
-Please note this example contains claims for demonstration of the disclosure syntax, such as `swversion`, `address`, and ``.
 
 ~~~ cddl
 sd-cwt-presentation = #6.18([
@@ -219,20 +349,7 @@ sd-payload = {
 }
 ~~~
 
-Disclosures for named claims are structured as a 32 bit salt, the name of the redacted element, and the disclosed value. For disclosures of items in an array, the name is ommitted.
 
-~~~ cddl
-salted = salted-claim / salted-element
-salted-claim = [
-  bstr ;.size 16,     ; 128-bit salt
-  (int / text),      ; claim name
-  any                ; claim value
-]
-salted-element = [
-  bstr ;.size 16,     ; 128-bit salt
-  any                ; claim value
-]
-~~~
 
 ## Creating a Key Binding Token {#kbt}
 
@@ -296,7 +413,18 @@ The mechanism through which map keys and array elements are disclosed is differe
 CWT Claims which are not explictly marked redactable by the Issuer are mandatory to disclose by the Holder.
 A detailed privacy and security analysis of all mandatory and optionally disclosed claims SHOULD be performed prior to issuance.
 
+
 # SD-CWT Presentation
+
+Once a Holder has an SD-CWT, it can provide it to a Verifier, disclosing
+none, some, or all of the blinded claims. If the Holder wishes to disclose any claims, it includes those Salted Disclosed Claims in the unprotected header.
+
+Regardless if it discloses any claims, the Holder MUST include a Holder key
+binding CWT {{kbt}} in a `sd_kbt` claim in the unprotected header when presenting an SD-CWT to a Verifier.
+The `sd_kbt` claim can only be absent when the Issuer is providing the
+SD-CWT to the Holder.
+
+
 
 Presentations of an SD-CWT by a Holder to a Verifier require the Holder to issue an SD-CWT-KBT.
 
@@ -349,6 +477,7 @@ The `cnonce` and `audience` are essential to assure the Verifier that the Holder
 Note that `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
 
 The details associated with these protocol parameters are out of scope for this document.
+
 
 # SD-CWT Validation
 
