@@ -449,7 +449,7 @@ The following example contains claims needed to demonstrate redaction of key-val
 
 # Security Considerations
 
-Security considerations from COSE {RFC9052} and CWT {RFC8392} apply to this specificaton.
+Security considerations from COSE {(RFC9052)} and CWT {{RFC8392}} apply to this specificaton.
 
 ## Random Numbers
 
