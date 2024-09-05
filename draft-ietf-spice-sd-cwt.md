@@ -177,8 +177,8 @@ consists of standard CWT claims, the holder confirmation key, and five specific 
         / alg: ES256 /  3: -7,
         / kty: EC2   /  1: 2,
         / crv: P-256 / -1: 1,
-        / x / -2: h'hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1Sei0',
-        / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
+        / x / -2: b64'hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1Sei0',
+        / y / -3: b64'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
       }
     },
     / name /  170 : "Alice Smith",
