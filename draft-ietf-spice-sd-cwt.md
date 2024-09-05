@@ -165,7 +165,9 @@ Validated Disclosed Claimset
 
 # SD-CWT definition
 
-SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE.
+SD-CWT is modeled after SD-JWT, with adjustments to align with conventions
+in CBOR and COSE. An SD-CWT MUST include a `typ` claim of
+ "application/sd-cwt" in the protected header of the SD-CWT.
 
 An SD-CWT is a CWT containing the "blinded claim hash" of
 at least one blinded claim in the CWT payload. Optionally the salted claim
@@ -207,7 +209,7 @@ When blinding an individual item in an array, the value of the item is
 replaced with a dict containing only the special key "...".
 
 ~~~ cddl
-redacted_element = { "...": ANY }
+redacted_element = { "...": any }
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the
@@ -303,13 +305,10 @@ sd-payload = {
 ~~~
 
 
+# SD-CWT Presentation
 
-
-Please note this example contains some claims for demonstration of the disclosure syntax, such as `swversion`, `address`, and `age_at_least_18`.
-
-The following informative CDDL is provided to explain the syntax for an
-SD-CWT presentation. A complete CDDL schema is in (#cddl).
-
+When a Holder presents an SD-CWT to a Verifier, it can disclose
+none, some, or all of its blinded claims. If the Holder wishes to disclose any claims, it includes those Salted Disclosed Claims in the `sd_claims` claim of the unprotected header.
 
 ~~~ cddl
 sd-cwt-presentation = #6.18([
@@ -319,126 +318,39 @@ sd-cwt-presentation = #6.18([
    signature: bstr
 ])
 
-sd-protected = {
-   &(typ: 16) ^ => "application/sd+cwt",
-   &(alg: 1) ^ => int,
-   * key => any
-}
-
 unprotected-presentation = {
    &(sd_kbt: TBD2) ^ => bstr .cbor kbt-cwt,
-   ? &(sd_claims: TBD1) ^ => bstr .cbor [ + bstr .cbor salted ],
+   ? &(sd_claims: TBD1) ^ => bstr .cbor salted-array,
    * key => any
-}
-
-sd-payload = {
-    ; standard claims
-      &(iss: 1) ^ => tstr, ; "https://issuer.example"
-      &(sub: 2) ^ => tstr, ; "https://device.example"
-      &(aud: 3) ^ => tstr, ; "https://verifier.example"
-    ? &(exp: 4) ^ => int,  ; 1883000000
-    ? &(nbf: 5) ^ => int,  ; 1683000000
-      &(iat: 6) ^ => int,  ; 1683000000
-      &(cnf: 8) ^ => { * key => any }, ; key confirmation
-    ? &(cnonce: 39) ^ => bstr,
-    ;
-    ; sd-cwt new claims
-      &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
-    ? &(redacted_values: TBD5) ^ => [ * bstr ],
-    * key => any
 }
 ~~~
 
-
+As described in the CDDL above, a SD-CWT presentation to a Verifier has the
+same syntax as an SD-CWT issued to a Holder, except for its unprotected header.
 
 ## Creating a Key Binding Token {#kbt}
 
-~~~ cddl
-
-digested-salted-disclosed-claim = bstr;
-salted-disclosed-claim = salted-claim / salted-element
-salted-claim = [
-  bstr .size 16,  ; 128-bit salt
-  (int / text),   ; claim name
-  any             ; claim value
-]
-salted-element = [
-  bstr .size 16, ; 128-bit salt
-  any            ; claim value
-]
-sd-cwt-cnf = COSE_Key / Encrypted_COSE_Key / kid
-sd-cwt = [
-  protected,
-  unprotected: {
-    ?(sd_claims: TBD1): bstr .cbor [ + salted-disclosed-claim ],
-    ?(sd_kbt: TBD2): bstr .cbor sd-cwt-kbt,
-  },
-  payload :  bstr .cbor {
-    ?(iss: 1) => tstr, ; "https://issuer.example"
-    ?(sub: 2) => tstr, ; "https://device.example"
-    ?(aud: 3) => tstr, ; "https://verifier.example"
-    ?(exp: 4) => int,  ; 1883000000
-    ?(nbf: 5) => int,  ; 1683000000
-    ?(iat: 6) => int,  ; 1683000000
-    &(cnf: 8) => sd-cwt-cnf,  ; 1683000000
-
-    ?(sd_alg: TBD4) => int,             ; -16 for sha-256
-    ?(redacted_keys: TBD5) => [         ; redacted map keys
-      digested-salted-disclosed-claim
-    ],
-
-    ; redaction in an example map value that is an array
-    &(example-array-key: -65537) => [
-      123,
-      { ; redacted array element
-        &(redacted_element: TBD6) =>
-        digested-salted-disclosed-claim
-      },
-      789,
-      { ; redacted array element
-        &(redacted_element: TBD6) =>
-        digested-salted-disclosed-claim
-      },
-    ]
-  }
-  signature : bstr,
-]
-~~~
-
-As described above, an SD-CWT is a CWT with claims that require confirmation and support selective disclosure.
-Confirmation mitigates risks associated with bearer token theft.
-Note that new confirmation methods might be registered and used after this document is published.
-Selective disclosure enables data minimization.
-The mechanism through which map keys and array elements are disclosed is different, see SD-CWT Validation for details.
-CWT Claims which are not explictly marked redactable by the Issuer are mandatory to disclose by the Holder.
-A detailed privacy and security analysis of all mandatory and optionally disclosed claims SHOULD be performed prior to issuance.
-
-
-# SD-CWT Presentation
-
-Once a Holder has an SD-CWT, it can provide it to a Verifier, disclosing
-none, some, or all of the blinded claims. If the Holder wishes to disclose any claims, it includes those Salted Disclosed Claims in the unprotected header.
-
 Regardless if it discloses any claims, the Holder MUST include a Holder key
-binding CWT {{kbt}} in a `sd_kbt` claim in the unprotected header when presenting an SD-CWT to a Verifier.
-The `sd_kbt` claim can only be absent when the Issuer is providing the
-SD-CWT to the Holder.
+binding (SD_KBT) {{kbt}} in a `sd_kbt` claim in the unprotected header in
+every presentation of an SD-CWT by a Holder to a Verifier.
+(The `sd_kbt` claim is absent when the Issuer is providing the
+SD-CWT to the Holder.) An SD-KBT is itself a type of CWT. The `typ` claim of
+"application/sd-kbt" MUST be included in the protected header of the SD-KBT.
 
+The SD-KBT provides the following assurances to the Verifier:
 
+- the Holder of the SD-CWT controls the confirmation method chosen by the Issuer;
+- the Holder's disclosures have not been tampered with since confirmation occurred;
+- the Holder intended to address the SD-CWT to the Verifier specified in the
+audience (`aud`) claim;
+- the Holder's disclosure is linked to the creation time (`iat`) of the key binding.
 
-Presentations of an SD-CWT by a Holder to a Verifier require the Holder to issue an SD-CWT-KBT.
-
-The SD-CWT-KBT is essential to assuring the Verifier:
-
-- a) the Holder of the SD-CWT controls the confirmation method chosen by the Issuer.
-- b) the Holder's disclosures have not been tampered with since confirmation occured.
-
-The SD-CWT-KBT prevents an attacker from copying and pasting disclosures, or from adding or removing disclosures without detection.
+The SD-KBT prevents an attacker from copying and pasting disclosures, or from adding or removing disclosures without detection.
 Confirmation is established according to RFC 8747, using the `cnf` claim in the payload of the SD-CWT.
-The Digested Salted Disclosed Claim are included in the `sd_hash` claim in the payload of the SD-CWT-KBT.
 
-The proof of possession associated with the confirmation claim in an SD-CWT is called the SD-CWT-KBT.
-As noted above, SD-CWT Issuance, `sd_kbt` SHALL be present in every presentation of an SD-CWT by a Holder to a Verifier.
+Using the algorithm established in `sd_alg` in the payloads of both the SD-CWT and the SD-KBT, the Holder constructs the hash of all the Salted Disclosed Claims it will share with the Verifier. This is the hash of the entire `sd_claims` array in the unprotected header of the SD-CWT. This composite hash is included in the `sd_hash` claim in the payload of the SD-KBT.
+
+The Holder signs the SD-KBT using the key specified in the `cnf` claim in the SD-CWT. This proves possession of the Holder's private key.
 
 ~~~ cddl
 kbt-cwt = #6.18([
@@ -470,13 +382,7 @@ kbt-payload = {
 }
 ~~~
 
-Note that `sd_hash` is the digest using `sd_alg` of the `sd_claims` which are either Partially or Fully Redacted in the Presented SD-CWT.
-
-The `cnonce` and `audience` are essential to assure the Verifier that the Holder is currently in control of the associated confirmation method, and that the holder intended to disclose the SD-CWT to the Verifier.
-
-Note that `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
-
-The details associated with these protocol parameters are out of scope for this document.
+The `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
 
 
 # SD-CWT Validation
@@ -485,21 +391,21 @@ The exact order of the following steps MAY be changed, as long as all checks are
 
 First the Verifier must validate the SD-CWT as described in {{Section 7.2 of RFC8392}}.
 
-After validation, the SD-CWT-KBT MUST be extracted from the unprotected header, and validated as described in {{Section 7.2 of RFC8392}}.
+After validation, the SD-KBT MUST be extracted from the unprotected header, and validated as described in {{Section 7.2 of RFC8392}}.
 
-The Verifier MUST confirm the `sd_hash` claim of the validated SD-CWT-KBT matches the hash of the `sd_claims` member of the unprotected header, using the hash algorithm obtained from the validated `sd_alg` claim of the SD-CWT.
+The Verifier MUST confirm that the `sd_alg` in the SD-KBT and the `sd_alg` in the SD-CWT are identical, and that the `sd_hash` claim of the validated SD-CWT-KBT matches the hash of the `sd_claims` member of the unprotected header, using the hash algorithm obtained from the validated `sd_alg` claim.
 
 Next, the Verifier MUST extract and decode the disclosed claims from the `sd_claims` in the unprotected header.
 
 The decoded `sd_claims` are converted to an intermediate data structure called a Digest To Disclosed Claim Map which is used to transform the Presented Disclosed Claimset, into a Validated Disclosed Claimset.
 
-The Verifier MUST compute the hash of each `salted-disclosed-claim`, in order to match each disclosed value to each entry of the Presented Disclosed Claimset.
+The Verifier MUST compute the hash of each Salted Disclosed Claim (`salted`), in order to match each disclosed value to each entry of the Presented Disclosed Claimset.
 
 One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map could be:
 
 ~~~ cddl-ish
 {
-  &(digested-salted-disclosed-claim) => salted-disclosed-claim
+  &(digested-salted-disclosed-claim) => salted
 }
 ~~~
 
@@ -511,19 +417,22 @@ If there remain unused Digest To Disclosed Claim Map at the end of this procedur
 Otherwise the SD-CWT is considered valid, and the Validated Disclosed Claimset is now a CWT Claimset with no claims marked for redaction.
 Further validation logic can be applied to the Validated Disclosed Claimset, as it might normally be applied to a validated CWT claimset.
 
+# Decoy Digests
 
-## Credential Types
+**TODO**
+
+# Credential Types
 
 This specification defines the CWT claim vct (for verifiable credential type). The vct value MUST be a case-sensitive StringOrURI (see {{RFC7519}}) value serving as an identifier for the type of the SD-CWT claimset. The vct value MUST be a Collision-Resistant Name as defined in Section 2 of {{RFC7515}}.
 
 This claim is defined COSE based verifiable credentials, similar to the JOSE based verifiable credentials described in Section 3.2.2.1.1 of SD-JWT-VC.
 
-Profiles built on this specifiation are also encouraged to use more specific media types, as described in [draft-ietf-cose-typ-header-parameter](https://datatracker.ietf.org/doc/draft-ietf-cose-typ-header-parameter/).
+Profiles built on this specifiation are also encouraged to use more specific media types, as described in {{?I-D.ietf-cose-typ-header-parameter}}.
 
 
 # Examples
 
-TBD - Provide more examples
+**TODO** - Provide more examples
 
 ## Minimal spanning example
 
@@ -533,6 +442,10 @@ The following example contains claims needed to demonstrate redaction of key-val
 {::include ./sd-cwt-example.cbor-diag}
 ~~~~~~~~~~
 {: #example-edn title="An EDN Example"}
+
+## Nested example
+
+**TODO**
 
 # Security Considerations
 
