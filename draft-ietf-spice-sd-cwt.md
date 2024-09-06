@@ -163,7 +163,11 @@ Verifier
 ## A CWT without Selective Disclosure
 
 Below is the payload of a standard CWT without selective disclosure. It
-consists of standard CWT claims, the holder confirmation key, and five specific custom claims. The payload is shown below in CBOR Extended Diagnostic Notation (EDN). Note that some of the CWT claim map keys shown in the examples have been invented for this example and do not have registered integer keys.
+consists of standard CWT claims, the holder confirmation key, and five specific
+custom claims. The payload is shown below in CBOR Extended Diagnostic
+Notation (EDN) {{!I-D.ietf-cbor-edn-literals}}. Note that some of the CWT claim
+map keys shown in the examples have been invented for this example and do not
+have registered integer keys.
 
 ~~~ cbor-diag
 {
