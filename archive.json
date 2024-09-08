@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-05T00:39:20.062262+00:00",
+  "timestamp": "2024-09-08T00:43:26.909515+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -63,6 +63,54 @@
       "body": "https://www.ietf.org/archive/id/draft-ietf-spice-sd-cwt-00.html#name-acknowledgments\r\n\r\nhas anyone else worked on similar items for providing selective disclosure mechanisms in JSON? \r\n\r\nasking for a friend :) one who believes he's done some work on https://datatracker.ietf.org/doc/draft-ietf-oauth-selective-disclosure-jwt/ ",
       "createdAt": "2024-08-22T22:55:26Z",
       "updatedAt": "2024-08-23T18:36:40Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOMm_Q2s6VnxZC",
+      "title": "sd_hash in issued CWT? issuer includes all possible disclosures?",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/10",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "currently the sd_hash claim in an SD-CWT is allowed when sent between an issuer and the holder. This is a claim which could not be verified by a verifier. I propose we remove it. If instead the Issuer is required to send salted claim disclosures for every digest in the payload (already proposed in PR #9 ), then the holder has another way of detecting tapering of the unprotected header. \r\n\r\nwe also need confidentiality of the disclosures. the most common ways (ex: transport crypto, authenticated encryption of the entire SD-CWT) also provide additional integrity protection of the unprotected header between an issuer and a holder",
+      "createdAt": "2024-09-06T11:35:31Z",
+      "updatedAt": "2024-09-06T11:40:25Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOMm_Q2s6Vnz3a",
+      "title": "Support Decoy Digests",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/11",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "do we want to support decoy digests like SD-JWT does?\r\n\r\nIf so, I left a simple hook to do so in PR #9 ",
+      "createdAt": "2024-09-06T11:41:52Z",
+      "updatedAt": "2024-09-06T11:41:52Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOMm_Q2s6Vn1_n",
+      "title": "Can you have an SD-CWT with no blinded claims",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/12",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "is a zebra with no stripes still a zebra? \r\n\r\nlikewise is it legal to have an SD-CWT with no blinded claims. shouldn't that just be a regular CWT?\r\n\r\nIt is easier to talk about what various roles have to do with this requirement. Is there a good reason to allow a CWT with `typ` \"application/sd-cwt\" that has no blinded claims?\r\n\r\nNote that PR #9 currently assumes an SD-CWT needs at least one blinded claim.",
+      "createdAt": "2024-09-06T11:47:09Z",
+      "updatedAt": "2024-09-06T11:47:09Z",
       "closedAt": null,
       "comments": []
     }
@@ -335,19 +383,115 @@
       "labels": [],
       "body": "- Added an Overview section which walks through the mechanism with plenty of examples.\r\n- all salts use recommended length. digests are correct. (signatures still not yet)\r\n- added an appendix with the keys for the Issuer and Holder\r\n-",
       "createdAt": "2024-09-03T19:08:09Z",
-      "updatedAt": "2024-09-03T19:08:10Z",
+      "updatedAt": "2024-09-06T17:44:18Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
       "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
       "headRefName": "walkthrough",
-      "headRefOid": "417aa2c77f8b0d95e97d31ca2b3f4670c930bce6",
+      "headRefOid": "f0b7e8ec750e5c21d34a2d59752f376751258aa8",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6IIsY2",
+          "commit": {
+            "abbreviatedOid": "fd7e6f4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-05T20:05:34Z",
+          "updatedAt": "2024-09-05T20:05:34Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ITob-",
+          "commit": {
+            "abbreviatedOid": "fd7e6f4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-06T17:41:53Z",
+          "updatedAt": "2024-09-06T17:44:04Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\nconsists of standard CWT claims, the holder confirmation key, and five specific\r\ncustom claims. The payload is shown below in CBOR Extended Diagnostic\r\nNotation (EDN) {{!I-D.ietf-cbor-edn-literals}}. Note that some of the CWT claim\r\nmap keys shown in the examples have been invented for this example and do not\r\nhave registered integer keys.\r\n```",
+              "createdAt": "2024-09-06T17:41:53Z",
+              "updatedAt": "2024-09-06T17:44:04Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOMm_Q2s56lEkB",
+      "title": "Reoganize and partially rewrite the main normative sections",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/9",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-09-05T21:32:18Z",
+      "updatedAt": "2024-09-06T17:46:44Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
+      "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
+      "headRefName": "reorg",
+      "headRefOid": "d8b874401e0fe3b761f13ce8ef6a3e2599e243b4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "body": "sent to spice mailing list:\r\n\"A made three small technical changes, for which I will create issues after I take a break.\r\n\r\n1) The text in this PR says that the Issuer has to send the Salted Disclosed Claims for every digest in an SD-CWT. If not the Issuer could issue claims that the Holder can never verify that could be embarrassing or false (like \"Alice still likes the boy band of her youth\", or \"Rohan thinks the earth is flat\").\r\n2) I questioned if a CWT with no blinded claims can be an SD-CWT. My conclusion was no, so I changed the cardinality to at least 1 blinded claim. Of course you can disclose between zero and all of them.\r\n3) I left a hook to allow us to trivially add Decoy Digests\r\n\r\nI can change any of these things. Changing 1 and 3 are pretty trivial, and Changing 2 is still straightforward.\"",
+          "createdAt": "2024-09-06T11:38:30Z",
+          "updatedAt": "2024-09-06T11:38:30Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "body": "The acronym \"EDN\" is used without being expanded.  And there's no citation to its definition.\r\n\r\nPlease expand the acronym on first use *and* provide a citation.",
+          "createdAt": "2024-09-06T16:46:40Z",
+          "updatedAt": "2024-09-06T16:46:40Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "body": "> The acronym \"EDN\" is used without being expanded. And there's no citation to its definition.\r\n> \r\n> Please expand the acronym on first use _and_ provide a citation.\r\n\r\nHi Mike,\r\nThere is an expansion of EDN in PR #8 which would come earlier in the document. I just added a reference there in [this commit](https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/8/commits/f0b7e8ec750e5c21d34a2d59752f376751258aa8). I'll leave this comment open in case this PR is merged but #8 is not.",
+          "createdAt": "2024-09-06T17:46:42Z",
+          "updatedAt": "2024-09-06T17:46:42Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6IRhfz",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-06T13:35:34Z",
+          "updatedAt": "2024-09-06T13:35:35Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
