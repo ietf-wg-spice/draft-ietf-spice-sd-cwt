@@ -4,7 +4,7 @@
 
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
-Intended status: Informational                                 O. Steele
+Intended status: Standards Track                               O. Steele
 Expires: 13 March 2025                                         Transmute
                                                              H. Birkholz
                                                           Fraunhofer SIT
