@@ -1,13 +1,12 @@
 ---
+v: 3
 title: "SPICE SD-CWT"
-category: info
-
+category: std
 docname: draft-ietf-spice-sd-cwt-latest
-submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
+stream: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
 consensus: true
-v: 3
 area: "Security"
 workgroup: "Secure Patterns for Internet CrEdentials"
 keyword:
