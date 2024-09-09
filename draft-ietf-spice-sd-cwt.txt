@@ -4,9 +4,9 @@
 
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
-Intended status: Standards Track                               O. Steele
-Expires: 13 March 2025                                         Transmute
-                                                             H. Birkholz
+Updates: RFC8392 (if approved)                                 O. Steele
+Intended status: Standards Track                               Transmute
+Expires: 13 March 2025                                       H. Birkholz
                                                           Fraunhofer SIT
                                                         9 September 2024
 
@@ -17,10 +17,9 @@ Expires: 13 March 2025                                         Transmute
 Abstract
 
    This document describes a data minimization technique for use with
-   CBOR Web Token (CWT) [RFC8392].  The approach is based on SD-JWT
-   [I-D.ietf-oauth-selective-disclosure-jwt], with changes to align with
-   CBOR Object Signing and Encryption (COSE).  This document updates
-   [RFC8392].
+   CBOR Web Token (CWT).  The approach is based on Selective Disclosure
+   JSON Web Token (SD-JWT), with changes to align with CBOR Object
+   Signing and Encryption (COSE).
 
 About This Document
 
@@ -115,20 +114,22 @@ Table of Contents
 
 1.  Introduction
 
-   This document updates RFC8392, enabling the holder of a CWT to
-   disclose or redact special claims marked disclosable by the issuer of
-   a CWT.  The approach is modeled after SD-JWT, with changes to align
-   with conventions from CBOR Object Signing and Encryption (COSE).  The
-   ability to minimize disclosure of sensitive identity attributes,
-   while demonstrating possession of key material and enabling a
-   verifier to confirm the attributes have been unaltered by the issuer,
-   is an important building block for many digital credential use cases.
-   This specification brings selective disclosure capabilities to CWT,
-   enabling application profiles to impose additional security criteria
-   beyond the minimum security requirements this specification requires.
-   Specific use cases are out of scope for this document.  However,
-   feedback has been gathered from a wide range of stakeholders, some of
-   which is reflected in the examples provided in the appendix.
+   This document updates the CBOR Web Token (CWT) specification
+   [RFC8392], enabling the holder of a CWT to disclose or redact special
+   claims marked disclosable by the issuer of a CWT.  The approach is
+   modeled after SD-JWT [I-D.ietf-oauth-selective-disclosure-jwt], with
+   changes to align with conventions from CBOR Object Signing and
+   Encryption (COSE) [RFC9052].  The ability to minimize disclosure of
+   sensitive identity attributes, while demonstrating possession of key
+   material and enabling a verifier to confirm the attributes have been
+   unaltered by the issuer, is an important building block for many
+   digital credential use cases.  This specification brings selective
+   disclosure capabilities to CWT, enabling application profiles to
+   impose additional security criteria beyond the minimum security
+   requirements this specification requires.  Specific use cases are out
+   of scope for this document.  However, feedback has been gathered from
+   a wide range of stakeholders, some of which is reflected in the
+   examples provided in the appendix.
 
 1.1.  Overview
 
@@ -869,6 +870,11 @@ Issuer                           Holder                         Verifier
    [RFC8392]  Jones, M., Wahlstroem, E., Erdtman, S., and H. Tschofenig,
               "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
               May 2018, <https://www.rfc-editor.org/rfc/rfc8392>.
+
+   [RFC9052]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
+              Structures and Process", STD 96, RFC 9052,
+              DOI 10.17487/RFC9052, August 2022,
+              <https://www.rfc-editor.org/rfc/rfc9052>.
 
 10.2.  Informative References
 
