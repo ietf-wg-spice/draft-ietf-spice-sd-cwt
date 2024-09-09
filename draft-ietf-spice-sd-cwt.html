@@ -1485,9 +1485,11 @@ sd-protected = {
    * key =&gt; any
 }
 
+salted-array = [ +bstr .cbor salted ]
+
 unprotected-presentation = {
    &amp;(sd_kbt: TBD2) ^ =&gt; bstr .cbor kbt-cwt,
-   ? &amp;(sd_claims: TBD1) ^ =&gt; bstr .cbor [ + bstr .cbor salted ],
+   ? &amp;(sd_claims: TBD1) ^ =&gt; bstr .cbor salted-array,
    * key =&gt; any
 }
 
@@ -2206,14 +2208,16 @@ kbt-protected = {
    * key =&gt; any
 }
 
+salted-array = [ +bstr .cbor salted ]
+
 unprotected-presentation = {
    &amp;(sd_kbt: TBD2) ^ =&gt; bstr .cbor kbt-cwt,
-   ? &amp;(sd_claims: TBD1) ^ =&gt; [ +bstr .cbor salted ],
+   ? &amp;(sd_claims: TBD1) ^ =&gt; bstr .cbor salted-array,
    * key =&gt; any
 }
 
 unprotected-issued = {
-   ? &amp;(sd_claims: TBD1) ^ =&gt; [ +bstr .cbor salted ],
+   ? &amp;(sd_claims: TBD1) ^ =&gt; bstr .cbor salted-array,
    * key =&gt; any
 }
 
