@@ -13,13 +13,13 @@
 The approach is based on SD-JWT  , with changes to align with CBOR Object Signing and Encryption (COSE).
 This document updates  . 
     " name="description">
-<meta content="xml2rfc 3.22.0" name="generator">
+<meta content="xml2rfc 3.23.0" name="generator">
 <meta content="cose" name="keyword">
 <meta content="cwt" name="keyword">
 <meta content="selective disclosure" name="keyword">
 <meta content="draft-ietf-spice-sd-cwt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.22.0
+  xml2rfc 3.23.0
     Python 3.12.3
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
@@ -1030,11 +1030,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SPICE SD-CWT</td>
-<td class="right">August 2024</td>
+<td class="right">September 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 23 February 2025</td>
+<td class="center">Expires 13 March 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1047,12 +1047,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-08-22" class="published">22 August 2024</time>
+<time datetime="2024-09-09" class="published">9 September 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-02-23">23 February 2025</time></dd>
+<dd class="expires"><time datetime="2025-03-13">13 March 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1112,7 +1112,7 @@ This document updates <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 23 February 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 13 March 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1180,107 +1180,107 @@ This document updates <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-implementation-status" class="internal xref">Implementation Status</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
-                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-random-numbers" class="internal xref">Random Numbers</a></p>
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-transmute-prototype" class="internal xref">Transmute Prototype</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-cose-header-parameters" class="internal xref">COSE Header Parameters</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.1">
-                    <p id="section-toc.1-1.8.2.1.2.1.1"><a href="#section-8.1.1" class="auto internal xref">8.1.1</a>.  <a href="#name-sd_claims" class="internal xref">sd_claims</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.2">
-                    <p id="section-toc.1-1.8.2.1.2.2.1"><a href="#section-8.1.2" class="auto internal xref">8.1.2</a>.  <a href="#name-sd_kbt" class="internal xref">sd_kbt</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-cbor-web-token-cwt-claims" class="internal xref">CBOR Web Token (CWT) Claims</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2.2.1">
-                    <p id="section-toc.1-1.8.2.2.2.1.1"><a href="#section-8.2.1" class="auto internal xref">8.2.1</a>.  <a href="#name-sd_alg" class="internal xref">sd_alg</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2.2.2">
-                    <p id="section-toc.1-1.8.2.2.2.2.1"><a href="#section-8.2.2" class="auto internal xref">8.2.2</a>.  <a href="#name-sd_hash" class="internal xref">sd_hash</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2.2.3">
-                    <p id="section-toc.1-1.8.2.2.2.3.1"><a href="#section-8.2.3" class="auto internal xref">8.2.3</a>.  <a href="#name-redacted_values" class="internal xref">redacted_values</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2.2.4">
-                    <p id="section-toc.1-1.8.2.2.2.4.1"><a href="#section-8.2.4" class="auto internal xref">8.2.4</a>.  <a href="#name-redacted_element" class="internal xref">redacted_element</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2.2.5">
-                    <p id="section-toc.1-1.8.2.2.2.5.1"><a href="#section-8.2.5" class="auto internal xref">8.2.5</a>.  <a href="#name-vct" class="internal xref">vct</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
-                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-media-types" class="internal xref">Media Types</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3.2.1">
-                    <p id="section-toc.1-1.8.2.3.2.1.1"><a href="#section-8.3.1" class="auto internal xref">8.3.1</a>.  <a href="#name-application-sdcwt" class="internal xref">application/sd+cwt</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3.2.2">
-                    <p id="section-toc.1-1.8.2.3.2.2.1"><a href="#section-8.3.2" class="auto internal xref">8.3.2</a>.  <a href="#name-application-kbcwt" class="internal xref">application/kb+cwt</a></p>
-</li>
-                </ul>
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-random-numbers" class="internal xref">Random Numbers</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-references" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-cose-header-parameters" class="internal xref">COSE Header Parameters</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.1">
+                    <p id="section-toc.1-1.9.2.1.2.1.1"><a href="#section-9.1.1" class="auto internal xref">9.1.1</a>.  <a href="#name-sd_claims" class="internal xref">sd_claims</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.2">
+                    <p id="section-toc.1-1.9.2.1.2.2.1"><a href="#section-9.1.2" class="auto internal xref">9.1.2</a>.  <a href="#name-sd_kbt" class="internal xref">sd_kbt</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-cbor-web-token-cwt-claims" class="internal xref">CBOR Web Token (CWT) Claims</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.1">
+                    <p id="section-toc.1-1.9.2.2.2.1.1"><a href="#section-9.2.1" class="auto internal xref">9.2.1</a>.  <a href="#name-sd_alg" class="internal xref">sd_alg</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.2">
+                    <p id="section-toc.1-1.9.2.2.2.2.1"><a href="#section-9.2.2" class="auto internal xref">9.2.2</a>.  <a href="#name-sd_hash" class="internal xref">sd_hash</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.3">
+                    <p id="section-toc.1-1.9.2.2.2.3.1"><a href="#section-9.2.3" class="auto internal xref">9.2.3</a>.  <a href="#name-redacted_values" class="internal xref">redacted_values</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.4">
+                    <p id="section-toc.1-1.9.2.2.2.4.1"><a href="#section-9.2.4" class="auto internal xref">9.2.4</a>.  <a href="#name-redacted_element" class="internal xref">redacted_element</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.5">
+                    <p id="section-toc.1-1.9.2.2.2.5.1"><a href="#section-9.2.5" class="auto internal xref">9.2.5</a>.  <a href="#name-vct" class="internal xref">vct</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
+                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-media-types" class="internal xref">Media Types</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3.2.1">
+                    <p id="section-toc.1-1.9.2.3.2.1.1"><a href="#section-9.3.1" class="auto internal xref">9.3.1</a>.  <a href="#name-application-sdcwt" class="internal xref">application/sd+cwt</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3.2.2">
+                    <p id="section-toc.1-1.9.2.3.2.2.1"><a href="#section-9.3.2" class="auto internal xref">9.3.2</a>.  <a href="#name-application-kbcwt" class="internal xref">application/kb+cwt</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-complete-cddl-schema" class="internal xref">Complete CDDL Schema</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-comparison-to-sd-jwt" class="internal xref">Comparison to SD-JWT</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-references" class="internal xref">References</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
-                <p id="section-toc.1-1.11.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-media-types-2" class="internal xref">Media Types</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
-                <p id="section-toc.1-1.11.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-redaction-claims" class="internal xref">Redaction Claims</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3">
-                <p id="section-toc.1-1.11.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-issuance" class="internal xref">Issuance</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.4">
-                <p id="section-toc.1-1.11.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-presentation" class="internal xref">Presentation</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.5">
-                <p id="section-toc.1-1.11.2.5.1"><a href="#appendix-B.5" class="auto internal xref">B.5</a>.  <a href="#name-validation" class="internal xref">Validation</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-complete-cddl-schema" class="internal xref">Complete CDDL Schema</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="auto internal xref">Appendix C</a>.  <a href="#name-implementation-status" class="internal xref">Implementation Status</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-comparison-to-sd-jwt" class="internal xref">Comparison to SD-JWT</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1">
-                <p id="section-toc.1-1.12.2.1.1"><a href="#appendix-C.1" class="auto internal xref">C.1</a>.  <a href="#name-transmute-prototype" class="internal xref">Transmute Prototype</a></p>
+                <p id="section-toc.1-1.12.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-media-types-2" class="internal xref">Media Types</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2">
+                <p id="section-toc.1-1.12.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-redaction-claims" class="internal xref">Redaction Claims</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.3">
+                <p id="section-toc.1-1.12.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-issuance" class="internal xref">Issuance</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.4">
+                <p id="section-toc.1-1.12.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-presentation" class="internal xref">Presentation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.5">
+                <p id="section-toc.1-1.12.2.5.1"><a href="#appendix-B.5" class="auto internal xref">B.5</a>.  <a href="#name-validation" class="internal xref">Validation</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
-            <p id="section-toc.1-1.14.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.14.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1789,283 +1789,314 @@ Further validation logic can be applied to the Validated Disclosed Claimset, as 
 </div>
 </section>
 </div>
-<div id="security-considerations">
+<div id="implementation-status">
 <section id="section-7">
-      <h2 id="name-security-considerations">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      <h2 id="name-implementation-status">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-implementation-status" class="section-name selfRef">Implementation Status</a>
       </h2>
-<p id="section-7-1">Security considerations from COSE {RFC9052} and CWT {RFC8392} apply to this specificaton.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<div id="random-numbers">
+<p id="section-7-1">Note to RFC Editor: Please remove this section as well as references to <span>[<a href="#BCP205" class="cite xref">BCP205</a>]</span> before AUTH48.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in <span>[<a href="#BCP205" class="cite xref">BCP205</a>]</span>.
+The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.
+Please note that the listing of any individual implementation here does not imply endorsement by the IETF.
+Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.
+This is not intended as, and must not be construed to be, a catalog of available implementations or their features.
+Readers are advised to note that other implementations may exist.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">According to <span>[<a href="#BCP205" class="cite xref">BCP205</a>]</span>, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.
+It is up to the individual working groups to use this information as they see fit".<a href="#section-7-3" class="pilcrow">¶</a></p>
+<div id="transmute-prototype">
 <section id="section-7.1">
-        <h3 id="name-random-numbers">
-<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-random-numbers" class="section-name selfRef">Random Numbers</a>
+        <h3 id="name-transmute-prototype">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-transmute-prototype" class="section-name selfRef">Transmute Prototype</a>
         </h3>
-<p id="section-7.1-1">Each salt used to protect disclosed claims <span class="bcp14">MUST</span> be generated independently from the salts of other claims. The salts <span class="bcp14">MUST</span> be generated from a source of entropy that is acceptable to the issuer.
-Poor choice of salts can lead to brute force attacks that can reveal redacted claims.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-1">Organization: Transmute Industries Inc<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">Name: <a href="https://github.com/transmute-industries/sd-cwt">github.com/transmute-industries/sd-cwt</a><a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1-3">Description: An open source implementation of this draft.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">Maturity: Prototype<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.1-5">Coverage: The current version ('main') implements functionality similar to that described in this document, and will be revised, with breaking changes to support the generation of example data to support this specification.<a href="#section-7.1-5" class="pilcrow">¶</a></p>
+<p id="section-7.1-6">License: Apache-2.0<a href="#section-7.1-6" class="pilcrow">¶</a></p>
+<p id="section-7.1-7">Implementation Experience: No interop testing has been done yet. The code works as proof of concept, but is not yet production ready.<a href="#section-7.1-7" class="pilcrow">¶</a></p>
+<p id="section-7.1-8">Contact: Orie Steele (orie@transmute.industries)<a href="#section-7.1-8" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-8">
+      <h2 id="name-security-considerations">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-8-1">Security considerations from COSE {RFC9052} and CWT {RFC8392} apply to this specificaton.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<div id="random-numbers">
+<section id="section-8.1">
+        <h3 id="name-random-numbers">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-random-numbers" class="section-name selfRef">Random Numbers</a>
+        </h3>
+<p id="section-8.1-1">Each salt used to protect disclosed claims <span class="bcp14">MUST</span> be generated independently from the salts of other claims. The salts <span class="bcp14">MUST</span> be generated from a source of entropy that is acceptable to the issuer.
+Poor choice of salts can lead to brute force attacks that can reveal redacted claims.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-8">
+<section id="section-9">
       <h2 id="name-iana-considerations">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
 <div id="cose-header-parameters">
-<section id="section-8.1">
+<section id="section-9.1">
         <h3 id="name-cose-header-parameters">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-cose-header-parameters" class="section-name selfRef">COSE Header Parameters</a>
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-cose-header-parameters" class="section-name selfRef">COSE Header Parameters</a>
         </h3>
-<p id="section-8.1-1">IANA is requested to add the following entries to the CWT claims registry (https://www.iana.org/assignments/cose/cose.xhtml#header-parameters).<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-1">IANA is requested to add the following entries to the CWT claims registry (https://www.iana.org/assignments/cose/cose.xhtml#header-parameters).<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <div id="sdclaims">
-<section id="section-8.1.1">
+<section id="section-9.1.1">
           <h4 id="name-sd_claims">
-<a href="#section-8.1.1" class="section-number selfRef">8.1.1. </a><a href="#name-sd_claims" class="section-name selfRef">sd_claims</a>
+<a href="#section-9.1.1" class="section-number selfRef">9.1.1. </a><a href="#name-sd_claims" class="section-name selfRef">sd_claims</a>
           </h4>
-<p id="section-8.1.1-1">The following completed registration template per RFC8152 is provided:<a href="#section-8.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.1.1-2">Name: sd_claims
+<p id="section-9.1.1-1">The following completed registration template per RFC8152 is provided:<a href="#section-9.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1.1-2">Name: sd_claims
 Label: TBD1 (requested assignment 17)
 Value Type: bstr
 Value Registry: (empty)
 Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
-Reference: RFC XXXX<a href="#section-8.1.1-2" class="pilcrow">¶</a></p>
+Reference: RFC XXXX<a href="#section-9.1.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sdkbt">
-<section id="section-8.1.2">
+<section id="section-9.1.2">
           <h4 id="name-sd_kbt">
-<a href="#section-8.1.2" class="section-number selfRef">8.1.2. </a><a href="#name-sd_kbt" class="section-name selfRef">sd_kbt</a>
+<a href="#section-9.1.2" class="section-number selfRef">9.1.2. </a><a href="#name-sd_kbt" class="section-name selfRef">sd_kbt</a>
           </h4>
-<p id="section-8.1.2-1">The following completed registration template per RFC8152 is provided:<a href="#section-8.1.2-1" class="pilcrow">¶</a></p>
-<p id="section-8.1.2-2">Name: sd_kbt
+<p id="section-9.1.2-1">The following completed registration template per RFC8152 is provided:<a href="#section-9.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.1.2-2">Name: sd_kbt
 Label: TBD2 (requested assignment 18)
 Value Type: bstr
 Value Registry: (empty)
 Description: Key binding token for disclosed claims
-Reference: RFC XXXX<a href="#section-8.1.2-2" class="pilcrow">¶</a></p>
+Reference: RFC XXXX<a href="#section-9.1.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="cbor-web-token-cwt-claims">
-<section id="section-8.2">
+<section id="section-9.2">
         <h3 id="name-cbor-web-token-cwt-claims">
-<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-cbor-web-token-cwt-claims" class="section-name selfRef">CBOR Web Token (CWT) Claims</a>
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-cbor-web-token-cwt-claims" class="section-name selfRef">CBOR Web Token (CWT) Claims</a>
         </h3>
-<p id="section-8.2-1">IANA is requested to add the following entries to the CWT claims registry (https://www.iana.org/assignments/cwt/cwt.xhtml).<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-1">IANA is requested to add the following entries to the CWT claims registry (https://www.iana.org/assignments/cwt/cwt.xhtml).<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <div id="sdalg">
-<section id="section-8.2.1">
+<section id="section-9.2.1">
           <h4 id="name-sd_alg">
-<a href="#section-8.2.1" class="section-number selfRef">8.2.1. </a><a href="#name-sd_alg" class="section-name selfRef">sd_alg</a>
+<a href="#section-9.2.1" class="section-number selfRef">9.2.1. </a><a href="#name-sd_alg" class="section-name selfRef">sd_alg</a>
           </h4>
-<p id="section-8.2.1-1">The following completed registration template per RFC8392 is provided:<a href="#section-8.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.2.1-2">Claim Name: sd_alg
+<p id="section-9.2.1-1">The following completed registration template per RFC8392 is provided:<a href="#section-9.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.2.1-2">Claim Name: sd_alg
 Claim Description: Hash algorithm used for selective disclosure
 JWT Claim Name: sd_alg
 Claim Key: TBD4 (request assignment 12)
 Claim Value Type(s): integer
 Change Controller: IETF
-Specification Document(s): RFC XXXX<a href="#section-8.2.1-2" class="pilcrow">¶</a></p>
+Specification Document(s): RFC XXXX<a href="#section-9.2.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sdhash">
-<section id="section-8.2.2">
+<section id="section-9.2.2">
           <h4 id="name-sd_hash">
-<a href="#section-8.2.2" class="section-number selfRef">8.2.2. </a><a href="#name-sd_hash" class="section-name selfRef">sd_hash</a>
+<a href="#section-9.2.2" class="section-number selfRef">9.2.2. </a><a href="#name-sd_hash" class="section-name selfRef">sd_hash</a>
           </h4>
-<p id="section-8.2.2-1">The following completed registration template per RFC8392 is provided:<a href="#section-8.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-8.2.2-2">Claim Name: sd_hash
+<p id="section-9.2.2-1">The following completed registration template per RFC8392 is provided:<a href="#section-9.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2.2-2">Claim Name: sd_hash
 Claim Description: Hash of encoded disclosed claims
 JWT Claim Name: sd_hash
 Claim Key: TBD3 (request assignment 11)
 Claim Value Type(s): bstr
 Change Controller: IETF
-Specification Document(s): RFC XXXX<a href="#section-8.2.2-2" class="pilcrow">¶</a></p>
+Specification Document(s): RFC XXXX<a href="#section-9.2.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="redactedvalues">
-<section id="section-8.2.3">
+<section id="section-9.2.3">
           <h4 id="name-redacted_values">
-<a href="#section-8.2.3" class="section-number selfRef">8.2.3. </a><a href="#name-redacted_values" class="section-name selfRef">redacted_values</a>
+<a href="#section-9.2.3" class="section-number selfRef">9.2.3. </a><a href="#name-redacted_values" class="section-name selfRef">redacted_values</a>
           </h4>
-<p id="section-8.2.3-1">The following completed registration template per RFC8392 is provided:<a href="#section-8.2.3-1" class="pilcrow">¶</a></p>
-<p id="section-8.2.3-2">Claim Name: redacted_values
+<p id="section-9.2.3-1">The following completed registration template per RFC8392 is provided:<a href="#section-9.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.2.3-2">Claim Name: redacted_values
 Claim Description: Redacted claims in a map.
 JWT Claim Name: redacted_keys
 Claim Key: TBD5 (request assignment 13)
 Claim Value Type(s): array of bstr
 Change Controller: IETF
-Specification Document(s): RFC XXXX<a href="#section-8.2.3-2" class="pilcrow">¶</a></p>
+Specification Document(s): RFC XXXX<a href="#section-9.2.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="redactedelement">
-<section id="section-8.2.4">
+<section id="section-9.2.4">
           <h4 id="name-redacted_element">
-<a href="#section-8.2.4" class="section-number selfRef">8.2.4. </a><a href="#name-redacted_element" class="section-name selfRef">redacted_element</a>
+<a href="#section-9.2.4" class="section-number selfRef">9.2.4. </a><a href="#name-redacted_element" class="section-name selfRef">redacted_element</a>
           </h4>
-<p id="section-8.2.4-1">The following completed registration template per RFC8392 is provided:<a href="#section-8.2.4-1" class="pilcrow">¶</a></p>
-<p id="section-8.2.4-2">Claim Name: redacted_element
+<p id="section-9.2.4-1">The following completed registration template per RFC8392 is provided:<a href="#section-9.2.4-1" class="pilcrow">¶</a></p>
+<p id="section-9.2.4-2">Claim Name: redacted_element
 Claim Description: Redacted element of an array
 JWT Claim Name: redacted_element
 Claim Key: TBD (request assignment TBD6)
 Claim Value Type(s): array of bstr
 Change Controller: IETF
-Specification Document(s): RFC XXXX<a href="#section-8.2.4-2" class="pilcrow">¶</a></p>
+Specification Document(s): RFC XXXX<a href="#section-9.2.4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="vct">
-<section id="section-8.2.5">
+<section id="section-9.2.5">
           <h4 id="name-vct">
-<a href="#section-8.2.5" class="section-number selfRef">8.2.5. </a><a href="#name-vct" class="section-name selfRef">vct</a>
+<a href="#section-9.2.5" class="section-number selfRef">9.2.5. </a><a href="#name-vct" class="section-name selfRef">vct</a>
           </h4>
-<p id="section-8.2.5-1">The following completed registration template per RFC8392 is provided:<a href="#section-8.2.5-1" class="pilcrow">¶</a></p>
-<p id="section-8.2.5-2">Claim Name: vct
+<p id="section-9.2.5-1">The following completed registration template per RFC8392 is provided:<a href="#section-9.2.5-1" class="pilcrow">¶</a></p>
+<p id="section-9.2.5-2">Claim Name: vct
 Claim Description: Verifiable credential type
 JWT Claim Name: vct
 Claim Key: TBD (request assignment TBD7)
 Claim Value Type(s): bstr
 Change Controller: IETF
-Specification Document(s): RFC XXXX<a href="#section-8.2.5-2" class="pilcrow">¶</a></p>
+Specification Document(s): RFC XXXX<a href="#section-9.2.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="media-types">
-<section id="section-8.3">
+<section id="section-9.3">
         <h3 id="name-media-types">
-<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-media-types" class="section-name selfRef">Media Types</a>
+<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-media-types" class="section-name selfRef">Media Types</a>
         </h3>
-<p id="section-8.3-1">This section requests the registration of new media types in https://www.iana.org/assignments/media-types/media-types.xhtml.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.3-1">This section requests the registration of new media types in https://www.iana.org/assignments/media-types/media-types.xhtml.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
 <div id="applicationsdcwt">
-<section id="section-8.3.1">
+<section id="section-9.3.1">
           <h4 id="name-application-sdcwt">
-<a href="#section-8.3.1" class="section-number selfRef">8.3.1. </a><a href="#name-application-sdcwt" class="section-name selfRef">application/sd+cwt</a>
+<a href="#section-9.3.1" class="section-number selfRef">9.3.1. </a><a href="#name-application-sdcwt" class="section-name selfRef">application/sd+cwt</a>
           </h4>
-<p id="section-8.3.1-1">IANA is requested to add the following entry to the media types registry in accordance with RFC6838, RFC4289, and RFC6657.<a href="#section-8.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.3.1-2">The following completed registration template is provided:<a href="#section-8.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-9.3.1-1">IANA is requested to add the following entry to the media types registry in accordance with RFC6838, RFC4289, and RFC6657.<a href="#section-9.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.3.1-2">The following completed registration template is provided:<a href="#section-9.3.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3.1-3.1">
-              <p id="section-8.3.1-3.1.1">Type name: application<a href="#section-8.3.1-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-9.3.1-3.1">
+              <p id="section-9.3.1-3.1.1">Type name: application<a href="#section-9.3.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.2">
-              <p id="section-8.3.1-3.2.1">Subtype name: sd+cwt<a href="#section-8.3.1-3.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.2">
+              <p id="section-9.3.1-3.2.1">Subtype name: sd+cwt<a href="#section-9.3.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.3">
-              <p id="section-8.3.1-3.3.1">Required parameters: n/a<a href="#section-8.3.1-3.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.3">
+              <p id="section-9.3.1-3.3.1">Required parameters: n/a<a href="#section-9.3.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.4">
-              <p id="section-8.3.1-3.4.1">Optional parameters: n/a<a href="#section-8.3.1-3.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.4">
+              <p id="section-9.3.1-3.4.1">Optional parameters: n/a<a href="#section-9.3.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.5">
-              <p id="section-8.3.1-3.5.1">Encoding considerations: binary<a href="#section-8.3.1-3.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.5">
+              <p id="section-9.3.1-3.5.1">Encoding considerations: binary<a href="#section-9.3.1-3.5.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.6">
-              <p id="section-8.3.1-3.6.1">Security considerations: See the Security Considerations section
-of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span><a href="#section-8.3.1-3.6.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.6">
+              <p id="section-9.3.1-3.6.1">Security considerations: See the Security Considerations section
+of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span><a href="#section-9.3.1-3.6.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.7">
-              <p id="section-8.3.1-3.7.1">Interoperability considerations: n/a<a href="#section-8.3.1-3.7.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.7">
+              <p id="section-9.3.1-3.7.1">Interoperability considerations: n/a<a href="#section-9.3.1-3.7.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.8">
-              <p id="section-8.3.1-3.8.1">Published specification: RFC XXXX<a href="#section-8.3.1-3.8.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.8">
+              <p id="section-9.3.1-3.8.1">Published specification: RFC XXXX<a href="#section-9.3.1-3.8.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.9">
-              <p id="section-8.3.1-3.9.1">Applications that use this media type: TBD<a href="#section-8.3.1-3.9.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.9">
+              <p id="section-9.3.1-3.9.1">Applications that use this media type: TBD<a href="#section-9.3.1-3.9.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.10">
-              <p id="section-8.3.1-3.10.1">Fragment identifier considerations: n/a<a href="#section-8.3.1-3.10.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.10">
+              <p id="section-9.3.1-3.10.1">Fragment identifier considerations: n/a<a href="#section-9.3.1-3.10.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.11">
-              <p id="section-8.3.1-3.11.1">Additional information:
+            <li class="normal" id="section-9.3.1-3.11">
+              <p id="section-9.3.1-3.11.1">Additional information:
     Magic number(s): n/a
     File extension(s): n/a
-    Macintosh file type code(s): n/a<a href="#section-8.3.1-3.11.1" class="pilcrow">¶</a></p>
+    Macintosh file type code(s): n/a<a href="#section-9.3.1-3.11.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.12">
-              <p id="section-8.3.1-3.12.1">Person &amp; email address to contact for further information:
-Michael Prorock, mprorock@mesur.io<a href="#section-8.3.1-3.12.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.12">
+              <p id="section-9.3.1-3.12.1">Person &amp; email address to contact for further information:
+Michael Prorock, mprorock@mesur.io<a href="#section-9.3.1-3.12.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.13">
-              <p id="section-8.3.1-3.13.1">Intended usage: COMMON<a href="#section-8.3.1-3.13.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.13">
+              <p id="section-9.3.1-3.13.1">Intended usage: COMMON<a href="#section-9.3.1-3.13.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.14">
-              <p id="section-8.3.1-3.14.1">Restrictions on usage: none<a href="#section-8.3.1-3.14.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.14">
+              <p id="section-9.3.1-3.14.1">Restrictions on usage: none<a href="#section-9.3.1-3.14.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.15">
-              <p id="section-8.3.1-3.15.1">Author: Michael Prorock, mprorock@mesur.io<a href="#section-8.3.1-3.15.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.15">
+              <p id="section-9.3.1-3.15.1">Author: Michael Prorock, mprorock@mesur.io<a href="#section-9.3.1-3.15.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.16">
-              <p id="section-8.3.1-3.16.1">Change controller: IETF<a href="#section-8.3.1-3.16.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.16">
+              <p id="section-9.3.1-3.16.1">Change controller: IETF<a href="#section-9.3.1-3.16.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.1-3.17">
-              <p id="section-8.3.1-3.17.1">Provisional registration?  No<a href="#section-8.3.1-3.17.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.1-3.17">
+              <p id="section-9.3.1-3.17.1">Provisional registration?  No<a href="#section-9.3.1-3.17.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
 <div id="applicationkbcwt">
-<section id="section-8.3.2">
+<section id="section-9.3.2">
           <h4 id="name-application-kbcwt">
-<a href="#section-8.3.2" class="section-number selfRef">8.3.2. </a><a href="#name-application-kbcwt" class="section-name selfRef">application/kb+cwt</a>
+<a href="#section-9.3.2" class="section-number selfRef">9.3.2. </a><a href="#name-application-kbcwt" class="section-name selfRef">application/kb+cwt</a>
           </h4>
-<p id="section-8.3.2-1">IANA is requested to add the following entry to the media types registry in accordance with RFC6838, RFC4289, and RFC6657.<a href="#section-8.3.2-1" class="pilcrow">¶</a></p>
-<p id="section-8.3.2-2">The following completed registration template is provided:<a href="#section-8.3.2-2" class="pilcrow">¶</a></p>
+<p id="section-9.3.2-1">IANA is requested to add the following entry to the media types registry in accordance with RFC6838, RFC4289, and RFC6657.<a href="#section-9.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.3.2-2">The following completed registration template is provided:<a href="#section-9.3.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3.2-3.1">
-              <p id="section-8.3.2-3.1.1">Type name: application<a href="#section-8.3.2-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-9.3.2-3.1">
+              <p id="section-9.3.2-3.1.1">Type name: application<a href="#section-9.3.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.2">
-              <p id="section-8.3.2-3.2.1">Subtype name: kb+cwt<a href="#section-8.3.2-3.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.2">
+              <p id="section-9.3.2-3.2.1">Subtype name: kb+cwt<a href="#section-9.3.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.3">
-              <p id="section-8.3.2-3.3.1">Required parameters: n/a<a href="#section-8.3.2-3.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.3">
+              <p id="section-9.3.2-3.3.1">Required parameters: n/a<a href="#section-9.3.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.4">
-              <p id="section-8.3.2-3.4.1">Optional parameters: n/a<a href="#section-8.3.2-3.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.4">
+              <p id="section-9.3.2-3.4.1">Optional parameters: n/a<a href="#section-9.3.2-3.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.5">
-              <p id="section-8.3.2-3.5.1">Encoding considerations: binary<a href="#section-8.3.2-3.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.5">
+              <p id="section-9.3.2-3.5.1">Encoding considerations: binary<a href="#section-9.3.2-3.5.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.6">
-              <p id="section-8.3.2-3.6.1">Security considerations: See the Security Considerations section
-of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span><a href="#section-8.3.2-3.6.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.6">
+              <p id="section-9.3.2-3.6.1">Security considerations: See the Security Considerations section
+of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span><a href="#section-9.3.2-3.6.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.7">
-              <p id="section-8.3.2-3.7.1">Interoperability considerations: n/a<a href="#section-8.3.2-3.7.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.7">
+              <p id="section-9.3.2-3.7.1">Interoperability considerations: n/a<a href="#section-9.3.2-3.7.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.8">
-              <p id="section-8.3.2-3.8.1">Published specification: RFC XXXX<a href="#section-8.3.2-3.8.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.8">
+              <p id="section-9.3.2-3.8.1">Published specification: RFC XXXX<a href="#section-9.3.2-3.8.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.9">
-              <p id="section-8.3.2-3.9.1">Applications that use this media type: TBD<a href="#section-8.3.2-3.9.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.9">
+              <p id="section-9.3.2-3.9.1">Applications that use this media type: TBD<a href="#section-9.3.2-3.9.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.10">
-              <p id="section-8.3.2-3.10.1">Fragment identifier considerations: n/a<a href="#section-8.3.2-3.10.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.10">
+              <p id="section-9.3.2-3.10.1">Fragment identifier considerations: n/a<a href="#section-9.3.2-3.10.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.11">
-              <p id="section-8.3.2-3.11.1">Additional information:
+            <li class="normal" id="section-9.3.2-3.11">
+              <p id="section-9.3.2-3.11.1">Additional information:
     Magic number(s): n/a
     File extension(s): n/a
-    Macintosh file type code(s): n/a<a href="#section-8.3.2-3.11.1" class="pilcrow">¶</a></p>
+    Macintosh file type code(s): n/a<a href="#section-9.3.2-3.11.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.12">
-              <p id="section-8.3.2-3.12.1">Person &amp; email address to contact for further information:
-Orie Steele, orie@transmute.industries<a href="#section-8.3.2-3.12.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.12">
+              <p id="section-9.3.2-3.12.1">Person &amp; email address to contact for further information:
+Orie Steele, orie@transmute.industries<a href="#section-9.3.2-3.12.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.13">
-              <p id="section-8.3.2-3.13.1">Intended usage: COMMON<a href="#section-8.3.2-3.13.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.13">
+              <p id="section-9.3.2-3.13.1">Intended usage: COMMON<a href="#section-9.3.2-3.13.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.14">
-              <p id="section-8.3.2-3.14.1">Restrictions on usage: none<a href="#section-8.3.2-3.14.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.14">
+              <p id="section-9.3.2-3.14.1">Restrictions on usage: none<a href="#section-9.3.2-3.14.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.15">
-              <p id="section-8.3.2-3.15.1">Author: Orie Steele, orie@transmute.industries<a href="#section-8.3.2-3.15.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.15">
+              <p id="section-9.3.2-3.15.1">Author: Orie Steele, orie@transmute.industries<a href="#section-9.3.2-3.15.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.16">
-              <p id="section-8.3.2-3.16.1">Change controller: IETF<a href="#section-8.3.2-3.16.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.16">
+              <p id="section-9.3.2-3.16.1">Change controller: IETF<a href="#section-9.3.2-3.16.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-8.3.2-3.17">
-              <p id="section-8.3.2-3.17.1">Provisional registration?  No<a href="#section-8.3.2-3.17.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-9.3.2-3.17">
+              <p id="section-9.3.2-3.17.1">Provisional registration?  No<a href="#section-9.3.2-3.17.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2075,14 +2106,14 @@ Orie Steele, orie@transmute.industries<a href="#section-8.3.2-3.12.1" class="pil
 </section>
 </div>
 <div id="sec-combined-references">
-<section id="section-9">
+<section id="section-10">
       <h2 id="name-references">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-9.1">
+<section id="section-10.1">
         <h3 id="name-normative-references">
-<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="BCP205">[BCP205]</dt>
@@ -2117,14 +2148,14 @@ Orie Steele, orie@transmute.industries<a href="#section-8.3.2-3.12.1" class="pil
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-9.2">
+<section id="section-10.2">
         <h3 id="name-informative-references">
-<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="I-D.ietf-oauth-selective-disclosure-jwt">[I-D.ietf-oauth-selective-disclosure-jwt]</dt>
       <dd>
-<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-11</span>, <time datetime="2024-08-22" class="refDate">22 August 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-11">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-11</a>&gt;</span>. </dd>
+<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-12</span>, <time datetime="2024-09-03" class="refDate">3 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-12">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-12</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -2294,49 +2325,18 @@ TBD5 = 13
 </div>
 </section>
 </div>
-<div id="implementation-status">
-<section id="appendix-C">
-      <h2 id="name-implementation-status">
-<a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-implementation-status" class="section-name selfRef">Implementation Status</a>
-      </h2>
-<p id="appendix-C-1">Note to RFC Editor: Please remove this section as well as references to <span>[<a href="#BCP205" class="cite xref">BCP205</a>]</span> before AUTH48.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
-<p id="appendix-C-2">This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in <span>[<a href="#BCP205" class="cite xref">BCP205</a>]</span>.
-The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.
-Please note that the listing of any individual implementation here does not imply endorsement by the IETF.
-Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.
-This is not intended as, and must not be construed to be, a catalog of available implementations or their features.
-Readers are advised to note that other implementations may exist.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
-<p id="appendix-C-3">According to <span>[<a href="#BCP205" class="cite xref">BCP205</a>]</span>, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.
-It is up to the individual working groups to use this information as they see fit".<a href="#appendix-C-3" class="pilcrow">¶</a></p>
-<div id="transmute-prototype">
-<section id="appendix-C.1">
-        <h3 id="name-transmute-prototype">
-<a href="#appendix-C.1" class="section-number selfRef">C.1. </a><a href="#name-transmute-prototype" class="section-name selfRef">Transmute Prototype</a>
-        </h3>
-<p id="appendix-C.1-1">Organization: Transmute Industries Inc<a href="#appendix-C.1-1" class="pilcrow">¶</a></p>
-<p id="appendix-C.1-2">Name: https://github.com/transmute-industries/sd-cwt<a href="#appendix-C.1-2" class="pilcrow">¶</a></p>
-<p id="appendix-C.1-3">Description: An open source implementation of this draft.<a href="#appendix-C.1-3" class="pilcrow">¶</a></p>
-<p id="appendix-C.1-4">Maturity: Prototype<a href="#appendix-C.1-4" class="pilcrow">¶</a></p>
-<p id="appendix-C.1-5">Coverage: The current version ('main') implements functionality similar to that described in this document, and will be revised, with breaking changes to support the generation of example data to support this specification.<a href="#appendix-C.1-5" class="pilcrow">¶</a></p>
-<p id="appendix-C.1-6">License: Apache-2.0<a href="#appendix-C.1-6" class="pilcrow">¶</a></p>
-<p id="appendix-C.1-7">Implementation Experience: No interop testing has been done yet. The code works as proof of concept, but is not yet production ready.<a href="#appendix-C.1-7" class="pilcrow">¶</a></p>
-<p id="appendix-C.1-8">Contact: Orie Steele (orie@transmute.industries)<a href="#appendix-C.1-8" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
 <div id="acknowledgments">
-<section id="appendix-D">
+<section id="appendix-C">
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-D-1">The authors would like to thank those that have worked on similar items for providing selective disclosure mechanisms in JSON, especially:
+<p id="appendix-C-1">The authors would like to thank those that have worked on similar items for providing selective disclosure mechanisms in JSON, especially:
 Brent Zundel, Roy Williams, Tobias Looker, Kristina Yasuda, Daniel Fett,
-Oliver Terbu, and Michael Jones.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
+Oliver Terbu, and Michael Jones.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-E">
+<section id="appendix-D">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>

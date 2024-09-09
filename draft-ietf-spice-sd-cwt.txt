@@ -5,10 +5,10 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Informational                                 O. Steele
-Expires: 23 February 2025                                      Transmute
+Expires: 13 March 2025                                         Transmute
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                          22 August 2024
+                                                        9 September 2024
 
 
                               SPICE SD-CWT
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 February 2025.
+   This Internet-Draft will expire on 13 March 2025.
 
 Copyright Notice
 
@@ -83,24 +83,26 @@ Table of Contents
      5.1.  Credential Types
    6.  Examples
      6.1.  Minimal spanning example
-   7.  Security Considerations
-     7.1.  Random Numbers
-   8.  IANA Considerations
-     8.1.  COSE Header Parameters
-       8.1.1.  sd_claims
-       8.1.2.  sd_kbt
-     8.2.  CBOR Web Token (CWT) Claims
-       8.2.1.  sd_alg
-       8.2.2.  sd_hash
-       8.2.3.  redacted_values
-       8.2.4.  redacted_element
-       8.2.5.  vct
-     8.3.  Media Types
-       8.3.1.  application/sd+cwt
-       8.3.2.  application/kb+cwt
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+   7.  Implementation Status
+     7.1.  Transmute Prototype
+   8.  Security Considerations
+     8.1.  Random Numbers
+   9.  IANA Considerations
+     9.1.  COSE Header Parameters
+       9.1.1.  sd_claims
+       9.1.2.  sd_kbt
+     9.2.  CBOR Web Token (CWT) Claims
+       9.2.1.  sd_alg
+       9.2.2.  sd_hash
+       9.2.3.  redacted_values
+       9.2.4.  redacted_element
+       9.2.5.  vct
+     9.3.  Media Types
+       9.3.1.  application/sd+cwt
+       9.3.2.  application/kb+cwt
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Appendix A.  Complete CDDL Schema
    Appendix B.  Comparison to SD-JWT
      B.1.  Media Types
@@ -108,8 +110,6 @@ Table of Contents
      B.3.  Issuance
      B.4.  Presentation
      B.5.  Validation
-   Appendix C.  Implementation Status
-     C.1.  Transmute Prototype
    Acknowledgments
    Authors' Addresses
 
@@ -598,12 +598,60 @@ Issuer                           Holder                         Verifier
 
                           Figure 1: An EDN Example
 
-7.  Security Considerations
+7.  Implementation Status
+
+   Note to RFC Editor: Please remove this section as well as references
+   to [BCP205] before AUTH48.
+
+   This section records the status of known implementations of the
+   protocol defined by this specification at the time of posting of this
+   Internet-Draft, and is based on a proposal described in [BCP205].
+   The description of implementations in this section is intended to
+   assist the IETF in its decision processes in progressing drafts to
+   RFCs.  Please note that the listing of any individual implementation
+   here does not imply endorsement by the IETF.  Furthermore, no effort
+   has been spent to verify the information presented here that was
+   supplied by IETF contributors.  This is not intended as, and must not
+   be construed to be, a catalog of available implementations or their
+   features.  Readers are advised to note that other implementations may
+   exist.
+
+   According to [BCP205], "this will allow reviewers and working groups
+   to assign due consideration to documents that have the benefit of
+   running code, which may serve as evidence of valuable experimentation
+   and feedback that have made the implemented protocols more mature.
+   It is up to the individual working groups to use this information as
+   they see fit".
+
+7.1.  Transmute Prototype
+
+   Organization: Transmute Industries Inc
+
+   Name: github.com/transmute-industries/sd-cwt (https://github.com/
+   transmute-industries/sd-cwt)
+
+   Description: An open source implementation of this draft.
+
+   Maturity: Prototype
+
+   Coverage: The current version ('main') implements functionality
+   similar to that described in this document, and will be revised, with
+   breaking changes to support the generation of example data to support
+   this specification.
+
+   License: Apache-2.0
+
+   Implementation Experience: No interop testing has been done yet.  The
+   code works as proof of concept, but is not yet production ready.
+
+   Contact: Orie Steele (orie@transmute.industries)
+
+8.  Security Considerations
 
    Security considerations from COSE {RFC9052} and CWT {RFC8392} apply
    to this specificaton.
 
-7.1.  Random Numbers
+8.1.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
    independently from the salts of other claims.  The salts MUST be
@@ -611,15 +659,15 @@ Issuer                           Holder                         Verifier
    Poor choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
-8.  IANA Considerations
+9.  IANA Considerations
 
-8.1.  COSE Header Parameters
+9.1.  COSE Header Parameters
 
    IANA is requested to add the following entries to the CWT claims
    registry (https://www.iana.org/assignments/cose/cose.xhtml#header-
    parameters).
 
-8.1.1.  sd_claims
+9.1.1.  sd_claims
 
    The following completed registration template per RFC8152 is
    provided:
@@ -629,7 +677,7 @@ Issuer                           Holder                         Verifier
    disclosed claims, which were originally redacted, then later
    disclosed at the discretion of the sender.  Reference: RFC XXXX
 
-8.1.2.  sd_kbt
+9.1.2.  sd_kbt
 
    The following completed registration template per RFC8152 is
    provided:
@@ -638,12 +686,12 @@ Issuer                           Holder                         Verifier
    Value Registry: (empty) Description: Key binding token for disclosed
    claims Reference: RFC XXXX
 
-8.2.  CBOR Web Token (CWT) Claims
+9.2.  CBOR Web Token (CWT) Claims
 
    IANA is requested to add the following entries to the CWT claims
    registry (https://www.iana.org/assignments/cwt/cwt.xhtml).
 
-8.2.1.  sd_alg
+9.2.1.  sd_alg
 
    The following completed registration template per RFC8392 is
    provided:
@@ -653,7 +701,7 @@ Issuer                           Holder                         Verifier
    assignment 12) Claim Value Type(s): integer Change Controller: IETF
    Specification Document(s): RFC XXXX
 
-8.2.2.  sd_hash
+9.2.2.  sd_hash
 
    The following completed registration template per RFC8392 is
    provided:
@@ -663,7 +711,7 @@ Issuer                           Holder                         Verifier
    11) Claim Value Type(s): bstr Change Controller: IETF Specification
    Document(s): RFC XXXX
 
-8.2.3.  redacted_values
+9.2.3.  redacted_values
 
    The following completed registration template per RFC8392 is
    provided:
@@ -673,7 +721,7 @@ Issuer                           Holder                         Verifier
    assignment 13) Claim Value Type(s): array of bstr Change Controller:
    IETF Specification Document(s): RFC XXXX
 
-8.2.4.  redacted_element
+9.2.4.  redacted_element
 
    The following completed registration template per RFC8392 is
    provided:
@@ -683,7 +731,7 @@ Issuer                           Holder                         Verifier
    assignment TBD6) Claim Value Type(s): array of bstr Change
    Controller: IETF Specification Document(s): RFC XXXX
 
-8.2.5.  vct
+9.2.5.  vct
 
    The following completed registration template per RFC8392 is
    provided:
@@ -693,12 +741,12 @@ Issuer                           Holder                         Verifier
    Type(s): bstr Change Controller: IETF Specification Document(s): RFC
    XXXX
 
-8.3.  Media Types
+9.3.  Media Types
 
    This section requests the registration of new media types in
    https://www.iana.org/assignments/media-types/media-types.xhtml.
 
-8.3.1.  application/sd+cwt
+9.3.1.  application/sd+cwt
 
    IANA is requested to add the following entry to the media types
    registry in accordance with RFC6838, RFC4289, and RFC6657.
@@ -742,7 +790,7 @@ Issuer                           Holder                         Verifier
 
    *  Provisional registration?  No
 
-8.3.2.  application/kb+cwt
+9.3.2.  application/kb+cwt
 
    IANA is requested to add the following entry to the media types
    registry in accordance with RFC6838, RFC4289, and RFC6657.
@@ -786,9 +834,9 @@ Issuer                           Holder                         Verifier
 
    *  Provisional registration?  No
 
-9.  References
+10.  References
 
-9.1.  Normative References
+10.1.  Normative References
 
    [BCP205]   Best Current Practice 205,
               <https://www.rfc-editor.org/info/bcp205>.
@@ -820,14 +868,14 @@ Issuer                           Holder                         Verifier
               "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
               May 2018, <https://www.rfc-editor.org/rfc/rfc8392>.
 
-9.2.  Informative References
+10.2.  Informative References
 
    [I-D.ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-11, 22
-              August 2024, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-selective-disclosure-jwt-11>.
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-12, 3
+              September 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-oauth-selective-disclosure-jwt-12>.
 
 Appendix A.  Complete CDDL Schema
 
@@ -962,53 +1010,6 @@ B.5.  Validation
    The validation process for SD-JWT is similar to SD-JWT, however, JSON
    Objects are replaced with CBOR Maps which can contain integer keys
    and CBOR Tags.
-
-Appendix C.  Implementation Status
-
-   Note to RFC Editor: Please remove this section as well as references
-   to [BCP205] before AUTH48.
-
-   This section records the status of known implementations of the
-   protocol defined by this specification at the time of posting of this
-   Internet-Draft, and is based on a proposal described in [BCP205].
-   The description of implementations in this section is intended to
-   assist the IETF in its decision processes in progressing drafts to
-   RFCs.  Please note that the listing of any individual implementation
-   here does not imply endorsement by the IETF.  Furthermore, no effort
-   has been spent to verify the information presented here that was
-   supplied by IETF contributors.  This is not intended as, and must not
-   be construed to be, a catalog of available implementations or their
-   features.  Readers are advised to note that other implementations may
-   exist.
-
-   According to [BCP205], "this will allow reviewers and working groups
-   to assign due consideration to documents that have the benefit of
-   running code, which may serve as evidence of valuable experimentation
-   and feedback that have made the implemented protocols more mature.
-   It is up to the individual working groups to use this information as
-   they see fit".
-
-C.1.  Transmute Prototype
-
-   Organization: Transmute Industries Inc
-
-   Name: https://github.com/transmute-industries/sd-cwt
-
-   Description: An open source implementation of this draft.
-
-   Maturity: Prototype
-
-   Coverage: The current version ('main') implements functionality
-   similar to that described in this document, and will be revised, with
-   breaking changes to support the generation of example data to support
-   this specification.
-
-   License: Apache-2.0
-
-   Implementation Experience: No interop testing has been done yet.  The
-   code works as proof of concept, but is not yet production ready.
-
-   Contact: Orie Steele (orie@transmute.industries)
 
 Acknowledgments
 
