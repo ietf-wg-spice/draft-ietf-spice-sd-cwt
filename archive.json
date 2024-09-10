@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-08T00:43:26.909515+00:00",
+  "timestamp": "2024-09-10T00:39:53.297702+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -177,24 +177,26 @@
       "id": "PR_kwDOMm_Q2s55KjFR",
       "title": "Move implementation status in accordance with BCP205",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/3",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "For inclusion in -01... now that the \"no change\" adoption call version is up: https://datatracker.ietf.org/doc/draft-ietf-spice-sd-cwt/00/",
       "createdAt": "2024-08-22T19:16:14Z",
-      "updatedAt": "2024-09-02T15:46:02Z",
+      "updatedAt": "2024-09-09T17:30:01Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "editorial-cleanup",
       "headRefOid": "40ede7a1f1184168a5e3d2b788ebc45ce1088ea8",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-09-09T17:30:01Z",
+      "mergedAt": "2024-09-09T17:30:01Z",
+      "mergedBy": "mprorock",
+      "mergeCommit": {
+        "oid": "5d71f5cf4a6209a7b7bb07d19a23fffc13188c1e"
+      },
       "comments": [],
       "reviews": [
         {
@@ -230,24 +232,26 @@
       "id": "PR_kwDOMm_Q2s55KzUA",
       "title": "Update meta",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/4",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-08-22T20:02:00Z",
-      "updatedAt": "2024-09-02T15:45:44Z",
+      "updatedAt": "2024-09-09T17:30:27Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "misc-update",
       "headRefOid": "529e2f2c276d64e49c5460a6af2911dc1c3fc729",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-09-09T17:30:26Z",
+      "mergedAt": "2024-09-09T17:30:26Z",
+      "mergedBy": "mprorock",
+      "mergeCommit": {
+        "oid": "239964d1a720b3b65e10261e045a7ad7babd4c0b"
+      },
       "comments": [],
       "reviews": [
         {
@@ -283,24 +287,26 @@
       "id": "PR_kwDOMm_Q2s56FzXj",
       "title": "small fix to the CDDL",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/6",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "fix to full cddl and one instance of the same CDDL in the body of the draft\r\n\r\nCDDL was not happy with:\r\n\r\n```\r\n? &(sd_claims: TBD1) ^ => [ +bstr .cbor salted ]\r\n```\r\n\r\n, so I replaced with:\r\n\r\n```\r\n? &(sd_claims: TBD1) ^ => bstr .cbor salted-array,\r\n```\r\n\r\nwhere `salted-array` is `salted-array = [ +bstr .cbor salted ]`",
       "createdAt": "2024-09-01T17:15:50Z",
-      "updatedAt": "2024-09-02T15:46:28Z",
+      "updatedAt": "2024-09-09T17:30:39Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
       "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
       "headRefName": "cddl-fix",
       "headRefOid": "b7e9acf04eeeebba95d8cfe0615b51fb3a5d4681",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-09-09T17:30:38Z",
+      "mergedAt": "2024-09-09T17:30:38Z",
+      "mergedBy": "mprorock",
+      "mergeCommit": {
+        "oid": "e180a5b86473e64c116344c71ad6be153ecb0932"
+      },
       "comments": [],
       "reviews": [
         {
@@ -336,24 +342,26 @@
       "id": "PR_kwDOMm_Q2s56F301",
       "title": "Make Abstract conform to IETF-required style",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/7",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "According to https://authors.ietf.org/required-content (Abstract section), the Abstract of an I-D or RFC needs to stand alone. It should not contain abbreviations or references.\r\n\r\nChanges:\r\n- Removed references from Abstract\r\n- Expanded abbreviations in Abstract\r\n- Added Updates: RFC8392 to metadata\r\n- Introduced first references in Introduction\r\n- ",
       "createdAt": "2024-09-01T18:09:11Z",
-      "updatedAt": "2024-09-02T15:47:25Z",
+      "updatedAt": "2024-09-09T17:30:51Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
       "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
       "headRefName": "fix-abstract",
       "headRefOid": "01828c1b58342d0c63c10833f91fa5cffcb26b46",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-09-09T17:30:51Z",
+      "mergedAt": "2024-09-09T17:30:51Z",
+      "mergedBy": "mprorock",
+      "mergeCommit": {
+        "oid": "4428aa66bb9417012df8a6897185c1e66571bf46"
+      },
       "comments": [],
       "reviews": [
         {
@@ -383,7 +391,7 @@
       "labels": [],
       "body": "- Added an Overview section which walks through the mechanism with plenty of examples.\r\n- all salts use recommended length. digests are correct. (signatures still not yet)\r\n- added an appendix with the keys for the Issuer and Holder\r\n-",
       "createdAt": "2024-09-03T19:08:09Z",
-      "updatedAt": "2024-09-06T17:44:18Z",
+      "updatedAt": "2024-09-09T19:38:47Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
@@ -394,7 +402,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@rohanmahy mind taking a look at conflicts post merge real quick?",
+          "createdAt": "2024-09-09T17:31:45Z",
+          "updatedAt": "2024-09-09T17:31:45Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s6IIsY2",
@@ -428,6 +444,112 @@
               "updatedAt": "2024-09-06T17:44:04Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Ifbfm",
+          "commit": {
+            "abbreviatedOid": "f0b7e8e"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-09T13:34:46Z",
+          "updatedAt": "2024-09-09T13:34:46Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IimrY",
+          "commit": {
+            "abbreviatedOid": "f0b7e8e"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T19:25:22Z",
+          "updatedAt": "2024-09-09T19:25:22Z",
+          "comments": [
+            {
+              "originalPosition": 86,
+              "body": "```suggestion\r\n            /claim/  \"postal_code\",\r\n```\r\n\"postal_code\" is the registered JWT claim name, so you might as well use it in the example.",
+              "createdAt": "2024-09-09T19:25:22Z",
+              "updatedAt": "2024-09-09T19:25:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IinlT",
+          "commit": {
+            "abbreviatedOid": "f0b7e8e"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T19:27:39Z",
+          "updatedAt": "2024-09-09T19:27:39Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "```suggestion\r\n        \"postal_code\" : \"94188\"\r\n```",
+              "createdAt": "2024-09-09T19:27:39Z",
+              "updatedAt": "2024-09-09T19:27:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Iin2z",
+          "commit": {
+            "abbreviatedOid": "f0b7e8e"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T19:28:20Z",
+          "updatedAt": "2024-09-09T19:28:21Z",
+          "comments": [
+            {
+              "originalPosition": 132,
+              "body": "```suggestion\r\n            / redacted postal_code /\r\n```",
+              "createdAt": "2024-09-09T19:28:20Z",
+              "updatedAt": "2024-09-09T19:28:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Iiqug",
+          "commit": {
+            "abbreviatedOid": "f0b7e8e"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T19:33:53Z",
+          "updatedAt": "2024-09-09T19:33:53Z",
+          "comments": [
+            {
+              "originalPosition": 159,
+              "body": "```suggestion\r\n```\r\n\r\nI don't think that including a hex CBOR representation enhances the readers' comprehension of the text.  The CDDL above does the job fine by itself.  I'd delete the hex CBOR.",
+              "createdAt": "2024-09-09T19:33:53Z",
+              "updatedAt": "2024-09-09T19:33:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Iisuy",
+          "commit": {
+            "abbreviatedOid": "f0b7e8e"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "Approved with suggestions",
+          "createdAt": "2024-09-09T19:38:47Z",
+          "updatedAt": "2024-09-09T19:38:47Z",
+          "comments": []
         }
       ]
     },
@@ -443,7 +565,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-09-05T21:32:18Z",
-      "updatedAt": "2024-09-06T17:46:44Z",
+      "updatedAt": "2024-09-09T18:27:25Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
@@ -475,6 +597,13 @@
           "body": "> The acronym \"EDN\" is used without being expanded. And there's no citation to its definition.\r\n> \r\n> Please expand the acronym on first use _and_ provide a citation.\r\n\r\nHi Mike,\r\nThere is an expansion of EDN in PR #8 which would come earlier in the document. I just added a reference there in [this commit](https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/8/commits/f0b7e8ec750e5c21d34a2d59752f376751258aa8). I'll leave this comment open in case this PR is merged but #8 is not.",
           "createdAt": "2024-09-06T17:46:42Z",
           "updatedAt": "2024-09-06T17:46:42Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "body": "This PR is missing a description in the History appendix of the changes it is making in draft -01.  That's understandable under the circumstances, because the History section is missing from the draft!\r\n\r\nPlease create the History appendix at the end of the document, describing these changes in the -01 entry.  I suggest using this text:\r\n\r\n# Document History\r\n\r\n[[ to be removed by the RFC Editor before publication as an RFC ]]\r\n\r\n-01\r\n\r\n* <<<Change 1 description>>>\r\n* <<<Change 2 description>>>\r\n* <<<etc.>>>\r\n\r\n-00\r\n\r\n* Initial working group draft.\r\n",
+          "createdAt": "2024-09-09T18:27:24Z",
+          "updatedAt": "2024-09-09T18:27:24Z"
         }
       ],
       "reviews": [
@@ -490,6 +619,332 @@
           "createdAt": "2024-09-06T13:35:34Z",
           "updatedAt": "2024-09-06T13:35:35Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Ifb5v",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-09T13:35:26Z",
+          "updatedAt": "2024-09-09T13:35:26Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhRJ4",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T16:39:37Z",
+          "updatedAt": "2024-09-09T16:39:37Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "```suggestion\r\nPresented Disclosed Claims Set:\r\n```",
+              "createdAt": "2024-09-09T16:39:37Z",
+              "updatedAt": "2024-09-09T16:39:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhRSO",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T16:39:54Z",
+          "updatedAt": "2024-09-09T16:39:54Z",
+          "comments": [
+            {
+              "originalPosition": 64,
+              "body": "```suggestion\r\nValidated Disclosed Claims Set:\r\n```",
+              "createdAt": "2024-09-09T16:39:54Z",
+              "updatedAt": "2024-09-09T16:39:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhS09",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "CHANGES_REQUESTED",
+          "body": "Please change all instances of \"claimset\" to \"Claims Set\".  This aligns with both the CWT and JWT terminology and SD-JWT, which adopted it.",
+          "createdAt": "2024-09-09T16:43:07Z",
+          "updatedAt": "2024-09-09T16:43:07Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhWsI",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T16:50:14Z",
+          "updatedAt": "2024-09-09T16:50:14Z",
+          "comments": [
+            {
+              "originalPosition": 78,
+              "body": "```suggestion\r\nin CBOR and COSE. An SD-CWT MUST include the protected header parameter\r\n`typ` {RFC9596} with the value `application/sd-cwt` in the SD-CWT.\r\n```",
+              "createdAt": "2024-09-09T16:50:14Z",
+              "updatedAt": "2024-09-09T16:50:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhYNh",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T16:53:11Z",
+          "updatedAt": "2024-09-09T16:53:11Z",
+          "comments": [
+            {
+              "originalPosition": 124,
+              "body": "\"dict\" isn't a CBOR or COSE term.",
+              "createdAt": "2024-09-09T16:53:11Z",
+              "updatedAt": "2024-09-09T16:53:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhZyj",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T16:56:24Z",
+          "updatedAt": "2024-09-09T16:56:25Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "```suggestion\r\npayload. The payload MUST also include a key confirmation element (`cnf`) {RFC8747}\r\n```",
+              "createdAt": "2024-09-09T16:56:24Z",
+              "updatedAt": "2024-09-09T16:56:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Ihfuc",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T17:08:45Z",
+          "updatedAt": "2024-09-09T17:08:45Z",
+          "comments": [
+            {
+              "originalPosition": 165,
+              "body": "```suggestion\r\nThe Issuer MUST implement COSE_Sign1 using an appropriate asymmetric\r\n```",
+              "createdAt": "2024-09-09T17:08:45Z",
+              "updatedAt": "2024-09-09T17:08:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhhGq",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T17:11:47Z",
+          "updatedAt": "2024-09-09T17:11:47Z",
+          "comments": [
+            {
+              "originalPosition": 169,
+              "body": "```suggestion\r\nThe Issuer MUST generate a unique cryptographically random salt with at least\r\n```",
+              "createdAt": "2024-09-09T17:11:47Z",
+              "updatedAt": "2024-09-09T17:11:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhiCz",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T17:13:44Z",
+          "updatedAt": "2024-09-09T17:13:44Z",
+          "comments": [
+            {
+              "originalPosition": 181,
+              "body": "```suggestion\r\n- the CWT is valid according to the `iat` and `exp` claims;\r\n```",
+              "createdAt": "2024-09-09T17:13:44Z",
+              "updatedAt": "2024-09-09T17:13:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhirA",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T17:15:07Z",
+          "updatedAt": "2024-09-09T17:15:07Z",
+          "comments": [
+            {
+              "originalPosition": 219,
+              "body": "Why is \"exp\" optional?  It seems like it should be required.",
+              "createdAt": "2024-09-09T17:15:07Z",
+              "updatedAt": "2024-09-09T17:15:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhlZ5",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T17:21:00Z",
+          "updatedAt": "2024-09-09T17:21:00Z",
+          "comments": [
+            {
+              "originalPosition": 230,
+              "body": "I would change all instances of \"redacted_keys\" to \"redacted_values\".  It is unfortunate that CBOR chose to use the term \"key\" for the labels of objects, as it inevitably causes readers confusion between cryptographic keys and object keys.\r\n\r\nPlease let's reserve the term \"key\" for cryptographic keys.",
+              "createdAt": "2024-09-09T17:21:00Z",
+              "updatedAt": "2024-09-09T17:21:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhmcD",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T17:23:20Z",
+          "updatedAt": "2024-09-09T17:23:20Z",
+          "comments": [
+            {
+              "originalPosition": 326,
+              "body": "I would suggest saying what about the unprotected header is different.  Help readers understand without having to look elsewhere in the spec.",
+              "createdAt": "2024-09-09T17:23:20Z",
+              "updatedAt": "2024-09-09T17:23:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhoPY",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T17:27:25Z",
+          "updatedAt": "2024-09-09T17:27:25Z",
+          "comments": [
+            {
+              "originalPosition": 219,
+              "body": "RFC8392 is silent about if exp is required in a CWT. It refers to the definition in [Section 4.1.4 of RFC7519](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.4) which says `exp` is optional in a JWT.",
+              "createdAt": "2024-09-09T17:27:25Z",
+              "updatedAt": "2024-09-09T17:27:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IhoTB",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T17:27:32Z",
+          "updatedAt": "2024-09-09T17:27:32Z",
+          "comments": [
+            {
+              "originalPosition": 337,
+              "body": "```suggestion\r\nSD-CWT to the Holder.) An SD-KBT is itself a type of CWT. The protected header of the SD-KBT\r\nMUST include the `typ` header parameter with the value `application/sd-kbt`.\r\n```",
+              "createdAt": "2024-09-09T17:27:32Z",
+              "updatedAt": "2024-09-09T17:27:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IiFDM",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T18:13:50Z",
+          "updatedAt": "2024-09-09T18:13:50Z",
+          "comments": [
+            {
+              "originalPosition": 420,
+              "body": "```suggestion\r\nProfiles built on this specification are also encouraged to use more specific media types, as described in {{?RFC9596}}.\r\n```",
+              "createdAt": "2024-09-09T18:13:50Z",
+              "updatedAt": "2024-09-09T18:13:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IiION",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-09T18:20:20Z",
+          "updatedAt": "2024-09-09T18:20:20Z",
+          "comments": [
+            {
+              "originalPosition": 219,
+              "body": "For what it's worth, *all* claims are optional in JWTs because they are expected to be profiled for particular use cases.  In our case, we may want to define the minimum required claims.\r\n\r\nI thought that the \"?\" syntax above made \"exp\" optional.  Am I correct?  And similarly, the change above makes \"aud\" optional.  Is that what we want to do?",
+              "createdAt": "2024-09-09T18:20:20Z",
+              "updatedAt": "2024-09-09T18:20:20Z"
+            }
+          ]
         }
       ]
     }
