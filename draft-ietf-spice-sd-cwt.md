@@ -196,7 +196,7 @@ have registered integer keys.
         "country"   : "us",          / United States /
         "region"    : "ca",          / California /
         "locality"  : "San Francisco",
-        "post_code" : "94188"
+        "postal_code" : "94188"
     }
 }
 ~~~
@@ -240,7 +240,7 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
         ]>>,
         <<[
             /salt/   h'284538c4a1881fac49b2edc550c1913e',
-            /claim/  "post_code",
+            /claim/  "postal_code",
             /value/  "94188"
         ]>>,
         <<[
@@ -286,7 +286,7 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
             / redacted region /
             h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
             h'ed010ac9ae1c93403ec72572bb1e00e7',
-            / redacted post_code /
+            / redacted postal_code /
             h'0b616e522a05d8d134a834979710120d' +
             h'41ac1522b056d5f9509cf7e850047302'
         ]
@@ -309,11 +309,6 @@ consisting of a per-disclosure random salt, the claim name, and claim value.
 ]>>,
 ~~~
 
-This is represented in hex by the CBOR byte string value:
-
-~~~
-5683508D5C15FA86265D8FF77A0E92720CA8371901F4F5
-~~~
 
 The SHA-256 hash (the hash algorithm identified in the `sd_hash` field in
 the payload) of that bytes string is the Digested Salted Disclosed Claim
