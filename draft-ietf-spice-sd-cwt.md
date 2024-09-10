@@ -166,8 +166,8 @@ Validated Disclosed Claimset:
 # SD-CWT definition
 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions
-in CBOR and COSE. An SD-CWT MUST include a `typ` claim of
- "application/sd-cwt" in the protected header of the SD-CWT.
+in CBOR and COSE. An SD-CWT MUST include the protected header parameter
+`typ` {{!RFC9596}} with the value "application/sd-cwt" in the SD-CWT.
 
 An SD-CWT is a CWT containing the "blinded claim hash" of
 at least one blinded claim in the CWT payload. Optionally the salted claim
@@ -206,7 +206,7 @@ salted-array = [ +bstr .cbor salted ]
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_values` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 
 When blinding an individual item in an array, the value of the item is
-replaced with a dict containing only the special key "...".
+replaced with a CBOR map containing only the special key "...".
 
 ~~~ cddl
 redacted_element = { "...": any }
@@ -231,18 +231,18 @@ Verifier in the next section.
 
 The unprotected header MUST contain an `sd_claims` section with a Salted
 Disclosed Claim for *every* blinded claim hash present anywhere in the
-payload. The payload MUST also include a key confirmation element (`cnf`)
+payload. The payload MUST also include a key confirmation element (`cnf`) {{!RFC8747}}
 for the Holder's public key, and an `sd_alg` claim identifying the
 algorithm used to hash the Salted Disclosed Claims.
 
 ## Issuer generation
 
 The Issuer follows all the requirements of generating a valid CWT.
-The Issuer MUST implement COSESign1 using an appropriate asymmetric
+The Issuer MUST implement COSE_Sign1 using an appropriate asymmetric
 signature algorithm / curve combination (for example ES256/P-256 or
 EdDSA/Ed25519)
 
-The Issuer MUST generate a unique cryptographically random salt of at least
+The Issuer MUST generate a unique cryptographically random salt with at least
 128-bits of entropy for each Salted Disclosed Claim. If the client
 communicates a client-generated nonce (`cnonce`) when requesting the SD-CWT,
 the Issuer SHOULD include it in the payload.
@@ -334,8 +334,8 @@ Regardless if it discloses any claims, the Holder MUST include a Holder key
 binding (SD_KBT) {{kbt}} in a `sd_kbt` claim in the unprotected header in
 every presentation of an SD-CWT by a Holder to a Verifier.
 (The `sd_kbt` claim is absent when the Issuer is providing the
-SD-CWT to the Holder.) An SD-KBT is itself a type of CWT. The `typ` claim of
-"application/sd-kbt" MUST be included in the protected header of the SD-KBT.
+SD-CWT to the Holder.) An SD-KBT is itself a type of CWT. The protected header of the SD-KBT
+MUST include the `typ` header parameter with the value `application/sd-kbt`.
 
 The SD-KBT provides the following assurances to the Verifier:
 
@@ -427,7 +427,8 @@ This specification defines the CWT claim vct (for verifiable credential type). T
 
 This claim is defined COSE based verifiable credentials, similar to the JOSE based verifiable credentials described in Section 3.2.2.1.1 of SD-JWT-VC.
 
-Profiles built on this specifiation are also encouraged to use more specific media types, as described in {{?I-D.ietf-cose-typ-header-parameter}}.
+Profiles built on this specification are also encouraged to use more specific media
+types, as described in {{!RFC9596}}.
 
 
 # Examples
