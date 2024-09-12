@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-10T00:39:53.297702+00:00",
+  "timestamp": "2024-09-12T00:39:48.794277+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -391,13 +391,13 @@
       "labels": [],
       "body": "- Added an Overview section which walks through the mechanism with plenty of examples.\r\n- all salts use recommended length. digests are correct. (signatures still not yet)\r\n- added an appendix with the keys for the Issuer and Holder\r\n-",
       "createdAt": "2024-09-03T19:08:09Z",
-      "updatedAt": "2024-09-09T19:38:47Z",
+      "updatedAt": "2024-09-10T07:03:15Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
-      "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
+      "baseRefOid": "4428aa66bb9417012df8a6897185c1e66571bf46",
       "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
       "headRefName": "walkthrough",
-      "headRefOid": "f0b7e8ec750e5c21d34a2d59752f376751258aa8",
+      "headRefOid": "cdf4f928585cae44bc9e0acbc04e454a1e9a5907",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -409,6 +409,13 @@
           "body": "@rohanmahy mind taking a look at conflicts post merge real quick?",
           "createdAt": "2024-09-09T17:31:45Z",
           "updatedAt": "2024-09-09T17:31:45Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "body": "> @rohanmahy mind taking a look at conflicts post merge real quick?\r\n\r\nresolved. The implementation section moved from an Appendix to a section in the main body of the draft.\r\nAll comments I received have been resolved (Thanks @selfissued ). @mprorock please go ahead and merge.",
+          "createdAt": "2024-09-10T07:03:14Z",
+          "updatedAt": "2024-09-10T07:03:14Z"
         }
       ],
       "reviews": [
@@ -565,13 +572,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-09-05T21:32:18Z",
-      "updatedAt": "2024-09-09T18:27:25Z",
+      "updatedAt": "2024-09-11T14:39:18Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
-      "baseRefOid": "e1d2ab32c69f181b322726a4b48c0ccd59c6edf0",
+      "baseRefOid": "5a9e413d698fe8534c20cab115cc592f8a067360",
       "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
       "headRefName": "reorg",
-      "headRefOid": "d8b874401e0fe3b761f13ce8ef6a3e2599e243b4",
+      "headRefOid": "e75cbca7950cf0ccbe55012c733ee9e08d86e64c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -604,6 +611,13 @@
           "body": "This PR is missing a description in the History appendix of the changes it is making in draft -01.  That's understandable under the circumstances, because the History section is missing from the draft!\r\n\r\nPlease create the History appendix at the end of the document, describing these changes in the -01 entry.  I suggest using this text:\r\n\r\n# Document History\r\n\r\n[[ to be removed by the RFC Editor before publication as an RFC ]]\r\n\r\n-01\r\n\r\n* <<<Change 1 description>>>\r\n* <<<Change 2 description>>>\r\n* <<<etc.>>>\r\n\r\n-00\r\n\r\n* Initial working group draft.\r\n",
           "createdAt": "2024-09-09T18:27:24Z",
           "updatedAt": "2024-09-09T18:27:24Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "body": "> Please change all instances of \"claimset\" to \"Claims Set\". This aligns with both the CWT and JWT terminology and SD-JWT, which adopted it.\r\n\r\n@selfissued I'm fine with this either way. @mprorock @OR13 could one of you weigh in on this terminology change?",
+          "createdAt": "2024-09-10T07:04:29Z",
+          "updatedAt": "2024-09-10T07:04:29Z"
         }
       ],
       "reviews": [
@@ -943,6 +957,226 @@
               "body": "For what it's worth, *all* claims are optional in JWTs because they are expected to be profiled for particular use cases.  In our case, we may want to define the minimum required claims.\r\n\r\nI thought that the \"?\" syntax above made \"exp\" optional.  Am I correct?  And similarly, the change above makes \"aud\" optional.  Is that what we want to do?",
               "createdAt": "2024-09-09T18:20:20Z",
               "updatedAt": "2024-09-09T18:20:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IlkMd",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-10T07:09:12Z",
+          "updatedAt": "2024-09-10T07:09:13Z",
+          "comments": [
+            {
+              "originalPosition": 78,
+              "body": "> \r\n\r\n```suggestion\r\nin CBOR and COSE. An SD-CWT MUST include the protected header parameter\r\n`typ` {{!RFC9596}} with the value \"application/sd-cwt\" in the SD-CWT.\r\n```",
+              "createdAt": "2024-09-10T07:09:12Z",
+              "updatedAt": "2024-09-10T07:11:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Ilkrg",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-10T07:10:08Z",
+          "updatedAt": "2024-09-10T07:10:09Z",
+          "comments": [
+            {
+              "originalPosition": 124,
+              "body": "```suggestion\r\nreplaced with a CBOR map containing only the special key \"...\".\r\n```",
+              "createdAt": "2024-09-10T07:10:09Z",
+              "updatedAt": "2024-09-10T07:10:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Illfo",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-10T07:11:41Z",
+          "updatedAt": "2024-09-10T07:11:42Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "> \r\n\r\n```suggestion\r\npayload. The payload MUST also include a key confirmation element (`cnf`) {{!RFC8747}}\r\n```",
+              "createdAt": "2024-09-10T07:11:41Z",
+              "updatedAt": "2024-09-10T07:11:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Ilm_O",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-10T07:14:00Z",
+          "updatedAt": "2024-09-10T07:14:00Z",
+          "comments": [
+            {
+              "originalPosition": 219,
+              "body": "I have a legitimate use case for \"aud\" to be optional (use in MLS), but the \"aud\" would be required in the Key Binding Token.\r\n\r\nFor \"exp\" I cannot think of a use case where we want a never expiring SD-CWT, but I was hesitant to change the optionality and break someone else's use case.",
+              "createdAt": "2024-09-10T07:14:00Z",
+              "updatedAt": "2024-09-10T07:14:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Iln48",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-10T07:15:43Z",
+          "updatedAt": "2024-09-10T07:15:44Z",
+          "comments": [
+            {
+              "originalPosition": 230,
+              "body": "> I would change all instances of \"redacted_keys\" to \"redacted_values\". It is unfortunate that CBOR chose to use the term \"key\" for the labels of objects, as it inevitably causes readers confusion between cryptographic keys and object keys.\r\n> \r\n> Please let's reserve the term \"key\" for cryptographic keys.\r\n\r\n\"values\" doesn't convey the difference between array items map elements. keys isn't really correct either.  How do folks feel about `redacted_elements`?",
+              "createdAt": "2024-09-10T07:15:44Z",
+              "updatedAt": "2024-09-10T07:15:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6IlorK",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-10T07:17:19Z",
+          "updatedAt": "2024-09-10T07:17:19Z",
+          "comments": [
+            {
+              "originalPosition": 420,
+              "body": "> \r\n\r\n```suggestion\r\nProfiles built on this specification are also encouraged to use more specific media\r\ntypes, as described in {{!RFC9596}}.\r\n```",
+              "createdAt": "2024-09-10T07:17:19Z",
+              "updatedAt": "2024-09-10T07:17:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Imhjd",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-10T08:51:31Z",
+          "updatedAt": "2024-09-10T08:51:31Z",
+          "comments": [
+            {
+              "originalPosition": 181,
+              "body": "I meant `nbf` and `exp`. The current time is greater or equal to `nbf` and not more than `exp`. What comparison would you make with `iat`?",
+              "createdAt": "2024-09-10T08:51:31Z",
+              "updatedAt": "2024-09-10T08:51:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Imh8B",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-10T08:52:07Z",
+          "updatedAt": "2024-09-10T08:52:07Z",
+          "comments": [
+            {
+              "originalPosition": 326,
+              "body": "I'll take a stab at this tomorrow.",
+              "createdAt": "2024-09-10T08:52:07Z",
+              "updatedAt": "2024-09-10T08:52:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Iq9l7",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-10T16:02:14Z",
+          "updatedAt": "2024-09-10T16:02:14Z",
+          "comments": [
+            {
+              "originalPosition": 124,
+              "body": "fixed",
+              "createdAt": "2024-09-10T16:02:14Z",
+              "updatedAt": "2024-09-10T16:02:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6I7snY",
+          "commit": {
+            "abbreviatedOid": "e75cbca"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-11T14:36:26Z",
+          "updatedAt": "2024-09-11T14:36:27Z",
+          "comments": [
+            {
+              "originalPosition": 328,
+              "body": "```suggestion\r\nsame syntax as an SD-CWT issued to a Holder, except for its unprotected header.\r\nSince the unprotected header is not included in the signature, it will contain\r\nall the Salted Disclosed Claims when sent from the Issuer to the Holder. By\r\ncomparison, the unprotected header will include a Key Binding Token and contain\r\nnone, some, or all of these Claims when sent from the Holder to the Verifier.\r\n```",
+              "createdAt": "2024-09-11T14:36:26Z",
+              "updatedAt": "2024-09-11T14:36:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6I7vy2",
+          "commit": {
+            "abbreviatedOid": "e75cbca"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-11T14:39:18Z",
+          "updatedAt": "2024-09-11T14:39:18Z",
+          "comments": [
+            {
+              "originalPosition": 326,
+              "body": "> I'll take a stab at this tomorrow.\r\n\r\nHow well does the proposed change (starting line 329) address your concern about explaining the unprotected header?",
+              "createdAt": "2024-09-11T14:39:18Z",
+              "updatedAt": "2024-09-11T14:39:18Z"
             }
           ]
         }
