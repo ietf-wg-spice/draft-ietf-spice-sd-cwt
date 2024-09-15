@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-12T00:39:48.794277+00:00",
+  "timestamp": "2024-09-15T00:44:55.138934+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -73,7 +73,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/10",
       "state": "OPEN",
       "author": "rohanmahy",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "currently the sd_hash claim in an SD-CWT is allowed when sent between an issuer and the holder. This is a claim which could not be verified by a verifier. I propose we remove it. If instead the Issuer is required to send salted claim disclosures for every digest in the payload (already proposed in PR #9 ), then the holder has another way of detecting tapering of the unprotected header. \r\n\r\nwe also need confidentiality of the disclosures. the most common ways (ex: transport crypto, authenticated encryption of the entire SD-CWT) also provide additional integrity protection of the unprotected header between an issuer and a holder",
@@ -89,7 +89,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/11",
       "state": "OPEN",
       "author": "rohanmahy",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "do we want to support decoy digests like SD-JWT does?\r\n\r\nIf so, I left a simple hook to do so in PR #9 ",
@@ -105,12 +105,28 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/12",
       "state": "OPEN",
       "author": "rohanmahy",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "is a zebra with no stripes still a zebra? \r\n\r\nlikewise is it legal to have an SD-CWT with no blinded claims. shouldn't that just be a regular CWT?\r\n\r\nIt is easier to talk about what various roles have to do with this requirement. Is there a good reason to allow a CWT with `typ` \"application/sd-cwt\" that has no blinded claims?\r\n\r\nNote that PR #9 currently assumes an SD-CWT needs at least one blinded claim.",
       "createdAt": "2024-09-06T11:47:09Z",
       "updatedAt": "2024-09-06T11:47:09Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOMm_Q2s6WcXNp",
+      "title": "Add History/Changes section",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/13",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-09-13T06:54:30Z",
+      "updatedAt": "2024-09-13T06:54:30Z",
       "closedAt": null,
       "comments": []
     }
@@ -205,7 +221,7 @@
             "abbreviatedOid": "40ede7a"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-09-01T16:41:46Z",
@@ -260,7 +276,7 @@
             "abbreviatedOid": "529e2f2"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-09-01T16:42:39Z",
@@ -289,7 +305,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/6",
       "state": "MERGED",
       "author": "rohanmahy",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "fix to full cddl and one instance of the same CDDL in the body of the draft\r\n\r\nCDDL was not happy with:\r\n\r\n```\r\n? &(sd_claims: TBD1) ^ => [ +bstr .cbor salted ]\r\n```\r\n\r\n, so I replaced with:\r\n\r\n```\r\n? &(sd_claims: TBD1) ^ => bstr .cbor salted-array,\r\n```\r\n\r\nwhere `salted-array` is `salted-array = [ +bstr .cbor salted ]`",
@@ -344,7 +360,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/7",
       "state": "MERGED",
       "author": "rohanmahy",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "According to https://authors.ietf.org/required-content (Abstract section), the Abstract of an I-D or RFC needs to stand alone. It should not contain abbreviations or references.\r\n\r\nChanges:\r\n- Removed references from Abstract\r\n- Expanded abbreviations in Abstract\r\n- Added Updates: RFC8392 to metadata\r\n- Introduced first references in Introduction\r\n- ",
@@ -384,24 +400,26 @@
       "id": "PR_kwDOMm_Q2s56TSjv",
       "title": "Add an Overview section which walks through the mechanism",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/8",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "- Added an Overview section which walks through the mechanism with plenty of examples.\r\n- all salts use recommended length. digests are correct. (signatures still not yet)\r\n- added an appendix with the keys for the Issuer and Holder\r\n-",
       "createdAt": "2024-09-03T19:08:09Z",
-      "updatedAt": "2024-09-10T07:03:15Z",
+      "updatedAt": "2024-09-13T13:34:52Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "4428aa66bb9417012df8a6897185c1e66571bf46",
       "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
       "headRefName": "walkthrough",
       "headRefOid": "cdf4f928585cae44bc9e0acbc04e454a1e9a5907",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-09-13T13:34:52Z",
+      "mergedAt": "2024-09-13T13:34:52Z",
+      "mergedBy": "mprorock",
+      "mergeCommit": {
+        "oid": "5e0241f4423535421db598e15ad6e5372906acbf"
+      },
       "comments": [
         {
           "author": "mprorock",
@@ -412,7 +430,7 @@
         },
         {
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> @rohanmahy mind taking a look at conflicts post merge real quick?\r\n\r\nresolved. The implementation section moved from an Appendix to a section in the main body of the draft.\r\nAll comments I received have been resolved (Thanks @selfissued ). @mprorock please go ahead and merge.",
           "createdAt": "2024-09-10T07:03:14Z",
           "updatedAt": "2024-09-10T07:03:14Z"
@@ -438,7 +456,7 @@
             "abbreviatedOid": "fd7e6f4"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-06T17:41:53Z",
@@ -471,7 +489,7 @@
             "abbreviatedOid": "f0b7e8e"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T19:25:22Z",
@@ -491,7 +509,7 @@
             "abbreviatedOid": "f0b7e8e"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T19:27:39Z",
@@ -511,7 +529,7 @@
             "abbreviatedOid": "f0b7e8e"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T19:28:20Z",
@@ -531,7 +549,7 @@
             "abbreviatedOid": "f0b7e8e"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T19:33:53Z",
@@ -551,7 +569,7 @@
             "abbreviatedOid": "f0b7e8e"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "APPROVED",
           "body": "Approved with suggestions",
           "createdAt": "2024-09-09T19:38:47Z",
@@ -567,7 +585,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/9",
       "state": "OPEN",
       "author": "rohanmahy",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
@@ -586,35 +604,35 @@
       "comments": [
         {
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "sent to spice mailing list:\r\n\"A made three small technical changes, for which I will create issues after I take a break.\r\n\r\n1) The text in this PR says that the Issuer has to send the Salted Disclosed Claims for every digest in an SD-CWT. If not the Issuer could issue claims that the Holder can never verify that could be embarrassing or false (like \"Alice still likes the boy band of her youth\", or \"Rohan thinks the earth is flat\").\r\n2) I questioned if a CWT with no blinded claims can be an SD-CWT. My conclusion was no, so I changed the cardinality to at least 1 blinded claim. Of course you can disclose between zero and all of them.\r\n3) I left a hook to allow us to trivially add Decoy Digests\r\n\r\nI can change any of these things. Changing 1 and 3 are pretty trivial, and Changing 2 is still straightforward.\"",
           "createdAt": "2024-09-06T11:38:30Z",
           "updatedAt": "2024-09-06T11:38:30Z"
         },
         {
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "The acronym \"EDN\" is used without being expanded.  And there's no citation to its definition.\r\n\r\nPlease expand the acronym on first use *and* provide a citation.",
           "createdAt": "2024-09-06T16:46:40Z",
           "updatedAt": "2024-09-06T16:46:40Z"
         },
         {
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> The acronym \"EDN\" is used without being expanded. And there's no citation to its definition.\r\n> \r\n> Please expand the acronym on first use _and_ provide a citation.\r\n\r\nHi Mike,\r\nThere is an expansion of EDN in PR #8 which would come earlier in the document. I just added a reference there in [this commit](https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/8/commits/f0b7e8ec750e5c21d34a2d59752f376751258aa8). I'll leave this comment open in case this PR is merged but #8 is not.",
           "createdAt": "2024-09-06T17:46:42Z",
           "updatedAt": "2024-09-06T17:46:42Z"
         },
         {
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "This PR is missing a description in the History appendix of the changes it is making in draft -01.  That's understandable under the circumstances, because the History section is missing from the draft!\r\n\r\nPlease create the History appendix at the end of the document, describing these changes in the -01 entry.  I suggest using this text:\r\n\r\n# Document History\r\n\r\n[[ to be removed by the RFC Editor before publication as an RFC ]]\r\n\r\n-01\r\n\r\n* <<<Change 1 description>>>\r\n* <<<Change 2 description>>>\r\n* <<<etc.>>>\r\n\r\n-00\r\n\r\n* Initial working group draft.\r\n",
           "createdAt": "2024-09-09T18:27:24Z",
           "updatedAt": "2024-09-09T18:27:24Z"
         },
         {
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> Please change all instances of \"claimset\" to \"Claims Set\". This aligns with both the CWT and JWT terminology and SD-JWT, which adopted it.\r\n\r\n@selfissued I'm fine with this either way. @mprorock @OR13 could one of you weigh in on this terminology change?",
           "createdAt": "2024-09-10T07:04:29Z",
           "updatedAt": "2024-09-10T07:04:29Z"
@@ -653,7 +671,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T16:39:37Z",
@@ -673,7 +691,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T16:39:54Z",
@@ -693,7 +711,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "CHANGES_REQUESTED",
           "body": "Please change all instances of \"claimset\" to \"Claims Set\".  This aligns with both the CWT and JWT terminology and SD-JWT, which adopted it.",
           "createdAt": "2024-09-09T16:43:07Z",
@@ -706,7 +724,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T16:50:14Z",
@@ -726,7 +744,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T16:53:11Z",
@@ -746,7 +764,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T16:56:24Z",
@@ -766,7 +784,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T17:08:45Z",
@@ -786,7 +804,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T17:11:47Z",
@@ -806,7 +824,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T17:13:44Z",
@@ -826,7 +844,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T17:15:07Z",
@@ -846,7 +864,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T17:21:00Z",
@@ -866,7 +884,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T17:23:20Z",
@@ -886,7 +904,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T17:27:25Z",
@@ -906,7 +924,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T17:27:32Z",
@@ -926,7 +944,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T18:13:50Z",
@@ -946,7 +964,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "selfissued",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T18:20:20Z",
@@ -966,7 +984,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:09:12Z",
@@ -986,7 +1004,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:10:08Z",
@@ -1006,7 +1024,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:11:41Z",
@@ -1026,7 +1044,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:14:00Z",
@@ -1046,7 +1064,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:15:43Z",
@@ -1066,7 +1084,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:17:19Z",
@@ -1086,7 +1104,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T08:51:31Z",
@@ -1106,7 +1124,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T08:52:07Z",
@@ -1126,7 +1144,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T16:02:14Z",
@@ -1146,7 +1164,7 @@
             "abbreviatedOid": "e75cbca"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-11T14:36:26Z",
@@ -1166,7 +1184,7 @@
             "abbreviatedOid": "e75cbca"
           },
           "author": "rohanmahy",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-11T14:39:18Z",
