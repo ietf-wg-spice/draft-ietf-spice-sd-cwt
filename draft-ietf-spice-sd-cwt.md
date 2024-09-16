@@ -156,10 +156,10 @@ Redacted key:
 Redacted element:
 : The hash of an element redacted from an array data structure.
 
-Presented Disclosed Claimset:
+Presented Disclosed Claims Set:
 : The CBOR map containing zero or more Redacted keys or Redacted elements.
 
-Validated Disclosed Claimset:
+Validated Disclosed Claims Set:
 : The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and ommiting all instances of redacted_keys and redacted_element claims that are present in the original sd_cwt.
 
 
