@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-15T00:44:55.138934+00:00",
+  "timestamp": "2024-09-17T00:33:17.156877+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -127,6 +127,22 @@
       "body": "",
       "createdAt": "2024-09-13T06:54:30Z",
       "updatedAt": "2024-09-13T06:54:30Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOMm_Q2s6WuDG5",
+      "title": "Optional vs. mandatory claims?",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/14",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The standard claims (iss, sub, iat, exp, nbf, etc.) in CBOR Web Token largely reference the semantics of the corresponding claims in JSON Web Token, which makes all the claims optional. Which of the standard claims do we want to make mandatory or optional?\r\n\r\n## Summary of standard claims in SD-CWT and SD-KBT\r\n\r\n### issuer (iss / 1)\r\nThis is currently mandatory in the SD-CWT and optional in the SD-KBT.\r\n\r\n### subject (sub / 2)\r\nCurrently mandatory in the SD-CWT and optional in the SD-KBT. \r\n\r\n### audience (aud / 3)\r\nCurrently optional in the SD-CWT and mandatory in the SD-KBT. Use of an SD-CWT with no audience, or a different/less specific audience than the SD-KBT, is a requirement for use inside MLS credentials.\r\n\r\n### expiration (exp / 4)\r\nThis is currently optional in the SD-CWT, but I think it should be mandatory in both.\r\n\r\n### not-before (nbf / 5)\r\nCurrent optional in both.\r\n\r\n### issued-at (iat / 6)\r\nCurrently mandatory in both. I think this is fine, but we could potentially relax this to require either iat or cti\r\n\r\n### cwt token id (cti / 7)\r\nCurrently optional. See comment above.  \r\n\r\n### key confirmation (cnf / 8)\r\nMandatory in SD-CWT. Not present in SD-KBT.\r\n\r\n### client nonce (cnonce / 39)\r\nCurrently mandatory in SD-KBT and optional in SD-CWT.\r\n\r\n### disclosures-hash (sd_hash / TBD3)\r\nCurrently mandatory in both. Recommend removing from SD-CWT as discussed in issue #10\r\n\r\n### disclosures hash algorithm (sd_alg / TBD4)\r\nMandatory in SD-CWT. Not present in SD-KBT.\r\n\r\n## Proposed changes\r\n - Add expiration (exp / 4) as mandatory in SD-CWT\r\n - Remove sd_hash from SD-CWT as discussed in #10 \r\n\r\n",
+      "createdAt": "2024-09-16T14:31:52Z",
+      "updatedAt": "2024-09-16T14:31:52Z",
       "closedAt": null,
       "comments": []
     }
@@ -590,13 +606,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-09-05T21:32:18Z",
-      "updatedAt": "2024-09-11T14:39:18Z",
+      "updatedAt": "2024-09-16T14:01:50Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5a9e413d698fe8534c20cab115cc592f8a067360",
       "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
       "headRefName": "reorg",
-      "headRefOid": "e75cbca7950cf0ccbe55012c733ee9e08d86e64c",
+      "headRefOid": "eb79d85878fb20a671b93a73ab6b1d3563f3ce5f",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
