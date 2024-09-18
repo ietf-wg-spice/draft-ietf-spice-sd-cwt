@@ -318,7 +318,7 @@ consisting of a per-disclosure random salt, the claim name, and claim value.
 The SHA-256 hash (the hash algorithm identified in the `sd_hash` field in
 the payload) of that bytes string is the Digested Salted Disclosed Claim
 (in hex). The digest value is included in the payload in a `redacted_keys`
-field for a Redacted Key (in this example), or in a named array for a 
+field for a Redacted Key (in this example), or in a named array for a
 Redacted Element (ex: for a redacted element of `swversion`).
 
 ~~~
