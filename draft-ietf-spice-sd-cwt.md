@@ -642,6 +642,7 @@ Contact: Orie Steele (orie@transmute.industries)
 # Acknowledgments
 {:numbered="false"}
 
-The authors would like to thank those that have worked on similar items for providing selective disclosure mechanisms in JSON, especially:
+The authors would like to thank those that have worked on similar items for
+providing selective disclosure mechanisms in JSON, especially:
 Brent Zundel, Roy Williams, Tobias Looker, Kristina Yasuda, Daniel Fett,
-Oliver Terbu, and Michael Jones.
+Brian Campbell, Oliver Terbu, and Michael Jones.
