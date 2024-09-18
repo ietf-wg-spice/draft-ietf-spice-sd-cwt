@@ -551,6 +551,10 @@ unprotected-presentation = {
 
 As described in the CDDL above, a SD-CWT presentation to a Verifier has the
 same syntax as an SD-CWT issued to a Holder, except for its unprotected header.
+Since the unprotected header is not included in the signature, it will contain
+all the Salted Disclosed Claims when sent from the Issuer to the Holder. By
+comparison, the unprotected header will include a Key Binding Token and contain
+none, some, or all of these Claims when sent from the Holder to the Verifier.
 
 ## Creating a Key Binding Token {#kbt}
 
