@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-17T00:33:17.156877+00:00",
+  "timestamp": "2024-09-19T00:40:32.111461+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -55,15 +55,15 @@
       "id": "I_kwDOMm_Q2s6T73zE",
       "title": "those who worked on selective disclosure mechanisms with JSON",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/5",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bc-pi",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "https://www.ietf.org/archive/id/draft-ietf-spice-sd-cwt-00.html#name-acknowledgments\r\n\r\nhas anyone else worked on similar items for providing selective disclosure mechanisms in JSON? \r\n\r\nasking for a friend :) one who believes he's done some work on https://datatracker.ietf.org/doc/draft-ietf-oauth-selective-disclosure-jwt/ ",
       "createdAt": "2024-08-22T22:55:26Z",
-      "updatedAt": "2024-08-23T18:36:40Z",
-      "closedAt": null,
+      "updatedAt": "2024-09-18T18:33:39Z",
+      "closedAt": "2024-09-18T18:33:39Z",
       "comments": []
     },
     {
@@ -145,6 +145,37 @@
       "updatedAt": "2024-09-16T14:31:52Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 15,
+      "id": "I_kwDOMm_Q2s6XBPp0",
+      "title": "Using \"keys\" in claim names for non-cryptographic keys is potentially confusing",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/15",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hi, Mike Jones pointed out that SD-CWT is using \"keys\" in claim names (ex: `redacted_keys`) in a way which is potentially confusing. We refer to cryptographic keys (ex: confirmation key\u2014`cnf`) and CBOR map keys throughout the document.\r\n\r\nThe proposal is to rename `redacted_keys` to something else which makes it clear that it is a \"map key\" and not a cryptographic key. `redacted_elements` or `redacted_values` imply that only the values (and not the claim names) are included.\r\n\r\nI propose:\r\n\r\n`redacted_map_claims`\r\n\r\n\r\n\r\n",
+      "createdAt": "2024-09-18T13:02:16Z",
+      "updatedAt": "2024-09-18T14:27:39Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This naming needs to be consistent for arrays and maps.\r\n\r\n- redacted_map_claims\r\n- redacted_array_claim \r\n\r\n?",
+          "createdAt": "2024-09-18T13:58:46Z",
+          "updatedAt": "2024-09-18T13:58:46Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> This naming needs to be consistent for arrays and maps.\r\n> \r\n>     * redacted_map_claims\r\n>     * redacted_array_claim\r\n\r\nI'm not sure. The first is an array of claims that are each items in a map at the same level, and will have an integer key. The second is the map key of a single-element map which represents one item inside an array, and might be represented by the text strong \"...\".  \r\n\r\nThis still might be the best suggestion (or least bad). Let's see.",
+          "createdAt": "2024-09-18T14:27:38Z",
+          "updatedAt": "2024-09-18T14:27:38Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -599,31 +630,33 @@
       "id": "PR_kwDOMm_Q2s56lEkB",
       "title": "Reoganize and partially rewrite the main normative sections",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/9",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-09-05T21:32:18Z",
-      "updatedAt": "2024-09-16T14:01:50Z",
+      "updatedAt": "2024-09-18T18:32:22Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
-      "baseRefOid": "5a9e413d698fe8534c20cab115cc592f8a067360",
+      "baseRefOid": "5e0241f4423535421db598e15ad6e5372906acbf",
       "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
       "headRefName": "reorg",
-      "headRefOid": "eb79d85878fb20a671b93a73ab6b1d3563f3ce5f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "2e3299dc08e16813deddb1ffe7701267d13a55f7",
+      "closedAt": "2024-09-18T18:32:22Z",
+      "mergedAt": "2024-09-18T18:32:22Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "6e146c8218d12e87735d181a982b1c3221d98b65"
+      },
       "comments": [
         {
           "author": "rohanmahy",
           "authorAssociation": "CONTRIBUTOR",
-          "body": "sent to spice mailing list:\r\n\"A made three small technical changes, for which I will create issues after I take a break.\r\n\r\n1) The text in this PR says that the Issuer has to send the Salted Disclosed Claims for every digest in an SD-CWT. If not the Issuer could issue claims that the Holder can never verify that could be embarrassing or false (like \"Alice still likes the boy band of her youth\", or \"Rohan thinks the earth is flat\").\r\n2) I questioned if a CWT with no blinded claims can be an SD-CWT. My conclusion was no, so I changed the cardinality to at least 1 blinded claim. Of course you can disclose between zero and all of them.\r\n3) I left a hook to allow us to trivially add Decoy Digests\r\n\r\nI can change any of these things. Changing 1 and 3 are pretty trivial, and Changing 2 is still straightforward.\"",
+          "body": "sent to spice mailing list:\r\n\"A made three small technical changes, for which I will create issues after I take a break.\r\n\r\n1) The text in this PR says that the Issuer has to send the Salted Disclosed Claims for every digest in an SD-CWT. If not the Issuer could issue claims that the Holder can never verify that could be embarrassing or false (like \"Alice still likes the boy band of her youth\", or \"Rohan thinks the earth is flat\"). (Update: Issue #10 )\r\n2) I questioned if a CWT with no blinded claims can be an SD-CWT. My conclusion was no, so I changed the cardinality to at least 1 blinded claim. Of course you can disclose between zero and all of them. (Update: Issue #12 )\r\n3) I left a hook to allow us to trivially add Decoy Digests (Update: Issue #11 )\r\n\r\nI can change any of these things. Changing 1 and 3 are pretty trivial, and Changing 2 is still straightforward.\"",
           "createdAt": "2024-09-06T11:38:30Z",
-          "updatedAt": "2024-09-06T11:38:30Z"
+          "updatedAt": "2024-09-18T12:33:40Z"
         },
         {
           "author": "selfissued",
@@ -652,6 +685,13 @@
           "body": "> Please change all instances of \"claimset\" to \"Claims Set\". This aligns with both the CWT and JWT terminology and SD-JWT, which adopted it.\r\n\r\n@selfissued I'm fine with this either way. @mprorock @OR13 could one of you weigh in on this terminology change?",
           "createdAt": "2024-09-10T07:04:29Z",
           "updatedAt": "2024-09-10T07:04:29Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@mprorock conflicts are fixed. I created separate issues for the two remaining comments from @selfissued.\r\nPlease merge.\r\n\r\nMany thanks,\r\n-r",
+          "createdAt": "2024-09-18T13:47:54Z",
+          "updatedAt": "2024-09-18T13:47:54Z"
         }
       ],
       "reviews": [
@@ -1213,6 +1253,128 @@
               "updatedAt": "2024-09-11T14:39:18Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6J1s5V",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-18T12:35:49Z",
+          "updatedAt": "2024-09-18T12:35:50Z",
+          "comments": [
+            {
+              "originalPosition": 219,
+              "body": "I created Issue #14 for this. I propose we resolve in this PR and incorporate the result of this conclusion in another PR.",
+              "createdAt": "2024-09-18T12:35:50Z",
+              "updatedAt": "2024-09-18T12:35:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6J2AhE",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-18T13:07:52Z",
+          "updatedAt": "2024-09-18T13:07:52Z",
+          "comments": [
+            {
+              "originalPosition": 230,
+              "body": "I proposed `redacted_map_claims` in Issue #15 . Let's please merge this PR while these other issues get discussed.",
+              "createdAt": "2024-09-18T13:07:52Z",
+              "updatedAt": "2024-09-18T13:07:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6J2ddM",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-18T13:45:42Z",
+          "updatedAt": "2024-09-18T13:45:42Z",
+          "comments": [
+            {
+              "originalPosition": 181,
+              "body": "Marking as resolved, to be addressed in Issue #14 ",
+              "createdAt": "2024-09-18T13:45:42Z",
+              "updatedAt": "2024-09-18T13:45:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6J2d5z",
+          "commit": {
+            "abbreviatedOid": "d8b8744"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-18T13:46:21Z",
+          "updatedAt": "2024-09-18T13:46:21Z",
+          "comments": [
+            {
+              "originalPosition": 230,
+              "body": "Marking resolved. Captured in Issue #15 ",
+              "createdAt": "2024-09-18T13:46:21Z",
+              "updatedAt": "2024-09-18T13:46:21Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "id": "PR_kwDOMm_Q2s576Azo",
+      "title": "Add Brian to Acknowledgments",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/16",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #5 ",
+      "createdAt": "2024-09-18T13:56:34Z",
+      "updatedAt": "2024-09-18T18:33:38Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "5e0241f4423535421db598e15ad6e5372906acbf",
+      "headRepository": "rohanmahy/draft-ietf-spice-sd-cwt",
+      "headRefName": "ack-brian",
+      "headRefOid": "9b789a9411b8d539b8c23ce7e084430f02412823",
+      "closedAt": "2024-09-18T18:33:38Z",
+      "mergedAt": "2024-09-18T18:33:38Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "96aef2f4539ad61784b445357330aa225fd3b1f3"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6J5M6-",
+          "commit": {
+            "abbreviatedOid": "9b789a9"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-18T18:32:43Z",
+          "updatedAt": "2024-09-18T18:32:43Z",
+          "comments": []
         }
       ]
     }
