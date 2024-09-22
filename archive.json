@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-19T00:40:32.111461+00:00",
+  "timestamp": "2024-09-22T00:45:00.971175+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -158,7 +158,7 @@
       "labels": [],
       "body": "Hi, Mike Jones pointed out that SD-CWT is using \"keys\" in claim names (ex: `redacted_keys`) in a way which is potentially confusing. We refer to cryptographic keys (ex: confirmation key\u2014`cnf`) and CBOR map keys throughout the document.\r\n\r\nThe proposal is to rename `redacted_keys` to something else which makes it clear that it is a \"map key\" and not a cryptographic key. `redacted_elements` or `redacted_values` imply that only the values (and not the claim names) are included.\r\n\r\nI propose:\r\n\r\n`redacted_map_claims`\r\n\r\n\r\n\r\n",
       "createdAt": "2024-09-18T13:02:16Z",
-      "updatedAt": "2024-09-18T14:27:39Z",
+      "updatedAt": "2024-09-20T18:20:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -174,6 +174,13 @@
           "body": "> This naming needs to be consistent for arrays and maps.\r\n> \r\n>     * redacted_map_claims\r\n>     * redacted_array_claim\r\n\r\nI'm not sure. The first is an array of claims that are each items in a map at the same level, and will have an integer key. The second is the map key of a single-element map which represents one item inside an array, and might be represented by the text strong \"...\".  \r\n\r\nThis still might be the best suggestion (or least bad). Let's see.",
           "createdAt": "2024-09-18T14:27:38Z",
           "updatedAt": "2024-09-18T14:27:38Z"
+        },
+        {
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "body": "what about:\r\nredacted_claim_XXX <- XXX replaced appropriated\r\n?",
+          "createdAt": "2024-09-20T18:20:13Z",
+          "updatedAt": "2024-09-20T18:20:13Z"
         }
       ]
     }
