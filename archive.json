@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-29T00:46:05.045684+00:00",
+  "timestamp": "2024-10-01T00:46:51.877909+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1391,6 +1391,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 17,
+      "id": "PR_kwDOMm_Q2s59FUD2",
+      "title": "turn the cnonce in the kbt optional",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/17",
+      "state": "OPEN",
+      "author": "beltram",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Hi,\r\n\r\nthis fixes a small inconsistency in the draft since it is stated at the beginning of the draft that `To protect against replay attacks, the verifier SHOULD provide a nonce, and reject requests that do not include an acceptable an nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer`.\r\n\r\nThere are two options here: either turn the claim optional or have the Holder use a fixed nonce in case he did not get one from the Verifier. I prefer the former. \r\n\r\nThoughts ?",
+      "createdAt": "2024-09-30T08:56:17Z",
+      "updatedAt": "2024-09-30T08:56:17Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "96aef2f4539ad61784b445357330aa225fd3b1f3",
+      "headRepository": "beltram/draft-ietf-spice-sd-cwt",
+      "headRefName": "kbt-cnonce-opt",
+      "headRefOid": "5d539a401bb1f7484d3d532721c25372f6d5279f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
