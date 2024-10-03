@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-01T00:46:51.877909+00:00",
+  "timestamp": "2024-10-03T00:41:51.585243+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1404,19 +1404,113 @@
       "labels": [],
       "body": "Hi,\r\n\r\nthis fixes a small inconsistency in the draft since it is stated at the beginning of the draft that `To protect against replay attacks, the verifier SHOULD provide a nonce, and reject requests that do not include an acceptable an nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer`.\r\n\r\nThere are two options here: either turn the claim optional or have the Holder use a fixed nonce in case he did not get one from the Verifier. I prefer the former. \r\n\r\nThoughts ?",
       "createdAt": "2024-09-30T08:56:17Z",
-      "updatedAt": "2024-09-30T08:56:17Z",
+      "updatedAt": "2024-10-02T22:58:14Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "96aef2f4539ad61784b445357330aa225fd3b1f3",
       "headRepository": "beltram/draft-ietf-spice-sd-cwt",
       "headRefName": "kbt-cnonce-opt",
-      "headRefOid": "5d539a401bb1f7484d3d532721c25372f6d5279f",
+      "headRefOid": "72dae20cf929ef2183e2ae4f75aff1044a29fd49",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6LjXRy",
+          "commit": {
+            "abbreviatedOid": "5d539a4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-01T19:50:27Z",
+          "updatedAt": "2024-10-01T19:50:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Ljay3",
+          "commit": {
+            "abbreviatedOid": "5d539a4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T19:53:58Z",
+          "updatedAt": "2024-10-01T19:53:59Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nThe Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the one described in draft-ietf-httpbis-unprompted-auth-12.\r\n```",
+              "createdAt": "2024-10-01T19:53:58Z",
+              "updatedAt": "2024-10-01T19:53:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Ljb2A",
+          "commit": {
+            "abbreviatedOid": "5d539a4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-01T19:55:21Z",
+          "updatedAt": "2024-10-01T19:55:21Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "We might also consider a reference to the nonce endpoint as described here: https://github.com/openid/OpenID4VCI/pull/381/files",
+              "createdAt": "2024-10-01T19:55:21Z",
+              "updatedAt": "2024-10-01T19:55:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Lot1G",
+          "commit": {
+            "abbreviatedOid": "5d539a4"
+          },
+          "author": "beltram",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-02T11:56:26Z",
+          "updatedAt": "2024-10-02T11:56:26Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "I wonder, since this is related to VC, if it shouldn't go in a \"profile\" document (for VC in this case). Regarding nonces we could however add a section in the \"Security Considerations\" and incorporate sane recommendations (size, expiry, reuse etc..) by inspiring us from this draft",
+              "createdAt": "2024-10-02T11:56:26Z",
+              "updatedAt": "2024-10-02T11:56:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Lusy0",
+          "commit": {
+            "abbreviatedOid": "72dae20"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-02T22:58:14Z",
+          "updatedAt": "2024-10-02T22:58:14Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "I consider nonce management part of safely executing cnf, which is a layer above profiles that need confirmation... But you are right that many app protocol flows will probably need to support nonces in order to support the protocol.",
+              "createdAt": "2024-10-02T22:58:14Z",
+              "updatedAt": "2024-10-02T22:58:14Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
