@@ -355,8 +355,7 @@ claim (true), the `region` claim (California), and the other element in the
 ]>>
 ~~~
 
-The Holder will also typically fetch a nonce from the Verifier to prevent
-replay.
+The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the one described in draft-ietf-httpbis-unprompted-auth-12.
 
 Finally, the Holder generates a Selective Disclosure Key Binding Token
 (SD-KBT) that ties together any disclosures, the Verifier nonce and target
@@ -603,7 +602,7 @@ kbt-payload = {
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
       &(iat: 6) ^ => int,  ; 1683000000
-      &(cnonce: 39) ^ => bstr,
+    ? &(cnonce: 39) ^ => bstr,
       ; matches the hash of sd_claims in the presentation token
       &(sd_hash: TBD3) ^ => bstr,
     * key => any
