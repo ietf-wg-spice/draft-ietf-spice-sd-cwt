@@ -6,9 +6,9 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 22 March 2025                                       H. Birkholz
+Expires: 16 April 2025                                       H. Birkholz
                                                           Fraunhofer SIT
-                                                       18 September 2024
+                                                         13 October 2024
 
 
                               SPICE SD-CWT
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 March 2025.
+   This Internet-Draft will expire on 16 April 2025.
 
 Copyright Notice
 
@@ -433,8 +433,9 @@ Issuer                           Holder                         Verifier
            ]>>
    ]>>
 
-   The Holder will also typically fetch a nonce from the Verifier to
-   prevent replay.
+   The Holder MAY fetch a nonce from the Verifier to prevent replay, or
+   obtain a nonce acceptable to the verifier through a process similar
+   to the one described in draft-ietf-httpbis-unprompted-auth-12.
 
    Finally, the Holder generates a Selective Disclosure Key Binding
    Token (SD-KBT) that ties together any disclosures, the Verifier nonce
@@ -712,7 +713,7 @@ Issuer                           Holder                         Verifier
        ? &(exp: 4) ^ => int,  ; 1883000000
        ? &(nbf: 5) ^ => int,  ; 1683000000
          &(iat: 6) ^ => int,  ; 1683000000
-         &(cnonce: 39) ^ => bstr,
+       ? &(cnonce: 39) ^ => bstr,
          ; matches the hash of sd_claims in the presentation token
          &(sd_hash: TBD3) ^ => bstr,
        * key => any
