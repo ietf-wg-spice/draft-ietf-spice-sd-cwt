@@ -68,7 +68,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
 
 This document updates the CBOR Web Token (CWT) specification {{RFC8392}}, enabling the holder of a CWT to disclose or redact special claims marked disclosable by the issuer of a CWT.
 The approach is modeled after SD-JWT {{-SD-JWT}}, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) {{RFC9052}}.
-This specification enables holders of CWT based credentials to prove the integrity and authenticity of selected attributes asserted by an issuer about a subject to a verifier.
+This specification enables Holders of CWT based credentials to prove the integrity and authenticity of selected attributes asserted by an Issuer about a Subject to a Verifier.
 Although techniques such as one time use and batch issuance can improve the confidentiality and security characteristics of CWT based credential protocols, CWTs remain traceable.
 Selective Disclosure CBOR Web Tokens (SD-CWTs) are CWTs and can be deployed in protocols that are already using CWTs, even if they contain no optional to disclose claims.
 Credential types are distinguished by their attributes, for example a license to operate a vehicle and a license to import a product will contain different attributes.
