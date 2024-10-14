@@ -169,7 +169,7 @@ Presented Disclosed Claims Set:
 : The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.
 
 Validated Disclosed Claims Set:
-: The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and ommiting all instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
+: The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and ommiting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
 
 
 # Overview of Selective Disclosure CWT
