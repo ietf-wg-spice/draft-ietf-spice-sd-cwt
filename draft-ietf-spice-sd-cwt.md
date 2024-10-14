@@ -75,7 +75,7 @@ Credential types are distinguished by their attributes, for example a license to
 The specification of credential types is out of scope for this document, and the examples used in this document are informative.
 SD-CWT operates on CWT Claims Sets as described in {{RFC8392}}.
 CWT Claims Sets contain Claim Keys and Claim Values, which are expressed using the Major Types described in {{RFC8949}}.
-SD-CWT enables Issuer's to mark certain Claim Keys or Claim Values mandatory or optional for a holder of a CWT to disclose.
+SD-CWT enables Issuers to mark certain Claim Keys or Claim Values mandatory or optional for a holder of a CWT to disclose.
 A verifier who does not understand optional to disclose Claims in an SD-CWT can still process the mandatory to disclose attributes.
 Claim Keys and Claim Values which are not understood remain ignored as described in {{Section 3 of RFC8392}}.
 
