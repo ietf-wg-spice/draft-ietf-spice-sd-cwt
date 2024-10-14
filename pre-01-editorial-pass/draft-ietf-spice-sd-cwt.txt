@@ -260,8 +260,8 @@ Issuer                           Holder                         Verifier
    Validated Disclosed Claims Set:  The CBOR map containing all
       mandatory to disclose claims signed by the issuer, all selectively
       disclosed claims presented by the holder, and ommiting all
-      instances of Redacted Claim Keys and Redacted Claim Element claims
-      that are present in the original SD-CWT.
+      undisclosed instances of Redacted Claim Keys and Redacted Claim
+      Element claims that are present in the original SD-CWT.
 
 3.  Overview of Selective Disclosure CWT
 
