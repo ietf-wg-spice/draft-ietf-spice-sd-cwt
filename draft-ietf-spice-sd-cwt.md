@@ -611,7 +611,7 @@ Further validation logic can be applied to the Validated Disclosed Claimset, as 
 
 This specification defines the CWT claim vct (for verifiable credential type). The vct value MUST be a case-sensitive StringOrURI (see {{RFC7519}}) value serving as an identifier for the type of the SD-CWT claimset. The vct value MUST be a Collision-Resistant Name as defined in Section 2 of {{RFC7515}}.
 
-This claim is defined COSE based verifiable credentials, similar to the JOSE based verifiable credentials described in {{-SD-JWT-VC}}.
+This claim is defined for COSE based verifiable credentials, similar to the JOSE based verifiable credentials claim (`vct`) described in Section 3.2.2.1.1 of {{-SD-JWT-VC}}.
 
 Profiles built on this specification are also encouraged to use more specific media types, as described in {{!RFC9596}}.
 
