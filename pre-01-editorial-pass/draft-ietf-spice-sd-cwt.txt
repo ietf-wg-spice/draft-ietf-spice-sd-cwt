@@ -255,7 +255,7 @@ Issuer                           Holder                         Verifier
       array data structure.
 
    Presented Disclosed Claims Set:  The CBOR map containing zero or more
-      Redacted keys or Redacted Claim Element.
+      Redacted Claim Keys or Redacted Claim Elements.
 
    Validated Disclosed Claims Set:  The CBOR map containing all
       mandatory to disclose claims signed by the issuer, all selectively
