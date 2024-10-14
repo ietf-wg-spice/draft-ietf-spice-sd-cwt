@@ -1344,7 +1344,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
 The approach is modeled after SD-JWT <span>[<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span>, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span>.
 This specification enables holders of CWT based credentials to prove the integrity and authenticity of selected attributes asserted by an issuer about a subject to a verifier.
 Although techniques such as one time use and batch issuance can improve the confidentiality and security characteristics of CWT based credential protocols, CWTs remain traceable.
-Selective Disclosure CBOR Web Tokens (SD-CWTs) are CWTs and can be deployed in protocols that are already using CWTs, even if they contain no optional do disclose claims.
+Selective Disclosure CBOR Web Tokens (SD-CWTs) are CWTs and can be deployed in protocols that are already using CWTs, even if they contain no optional to disclose claims.
 Credential types are distinguished by their attributes, for example a license to operate a vehicle and a license to import a product will contain different attributes.
 The specification of credential types is out of scope for this document, and the examples used in this document are informative.
 SD-CWT operates on CWT Claims Sets as described in <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.

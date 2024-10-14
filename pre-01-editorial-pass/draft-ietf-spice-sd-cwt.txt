@@ -141,7 +141,7 @@ Table of Contents
    of CWT based credential protocols, CWTs remain traceable.  Selective
    Disclosure CBOR Web Tokens (SD-CWTs) are CWTs and can be deployed in
    protocols that are already using CWTs, even if they contain no
-   optional do disclose claims.  Credential types are distinguished by
+   optional to disclose claims.  Credential types are distinguished by
    their attributes, for example a license to operate a vehicle and a
    license to import a product will contain different attributes.  The
    specification of credential types is out of scope for this document,
