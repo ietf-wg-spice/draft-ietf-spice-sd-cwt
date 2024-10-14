@@ -319,7 +319,7 @@ For example, the `age_at_least_18` claim is a Salted Disclosed Claim, consisting
 
 
 The SHA-256 hash (the hash algorithm identified in the `sd_hash` field in the payload) of that bytes string is the Digested Salted Disclosed Claim (in hex).
-The digest value is included in the payload in a `redacted_keys` field for a Redacted Key (in this example), or in a named array for a Redacted Element (ex: for a redacted element of `swversion`).
+The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of `swversion`).
 
 ~~~
 7e6e350907d0ba3aa7ae114f8da5b360601c0bb7995cd40049b98e4f58fb6ec0
