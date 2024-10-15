@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-13T00:45:15.166316+00:00",
+  "timestamp": "2024-10-15T00:42:23.989178+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1397,24 +1397,26 @@
       "id": "PR_kwDOMm_Q2s59FUD2",
       "title": "turn the cnonce in the kbt optional",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/17",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "beltram",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Hi,\r\n\r\nthis fixes a small inconsistency in the draft since it is stated at the beginning of the draft that `To protect against replay attacks, the verifier SHOULD provide a nonce, and reject requests that do not include an acceptable an nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer`.\r\n\r\nThere are two options here: either turn the claim optional or have the Holder use a fixed nonce in case he did not get one from the Verifier. I prefer the former. \r\n\r\nThoughts ?",
       "createdAt": "2024-09-30T08:56:17Z",
-      "updatedAt": "2024-10-02T22:58:14Z",
+      "updatedAt": "2024-10-13T19:04:34Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "96aef2f4539ad61784b445357330aa225fd3b1f3",
       "headRepository": "beltram/draft-ietf-spice-sd-cwt",
       "headRefName": "kbt-cnonce-opt",
       "headRefOid": "72dae20cf929ef2183e2ae4f75aff1044a29fd49",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-13T19:04:33Z",
+      "mergedAt": "2024-10-13T19:04:33Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "cde0a46514dd538ae8717cf96057fca0741982ad"
+      },
       "comments": [],
       "reviews": [
         {
@@ -1476,7 +1478,7 @@
             "abbreviatedOid": "5d539a4"
           },
           "author": "beltram",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-02T11:56:26Z",
@@ -1507,6 +1509,202 @@
               "body": "I consider nonce management part of safely executing cnf, which is a layer above profiles that need confirmation... But you are right that many app protocol flows will probably need to support nonces in order to support the protocol.",
               "createdAt": "2024-10-02T22:58:14Z",
               "updatedAt": "2024-10-02T22:58:14Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "id": "PR_kwDOMm_Q2s5-dRC0",
+      "title": "Addressing a few issues",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/18",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/15\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/14\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/13\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/12\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/10\r\n\r\nI also did a bunch of editorial work, addressing some TDBs and making all sentences start on new lines.",
+      "createdAt": "2024-10-13T20:35:36Z",
+      "updatedAt": "2024-10-14T22:01:05Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "cde0a46514dd538ae8717cf96057fca0741982ad",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "pre-01-editorial-pass",
+      "headRefOid": "8ebc8a77e361d4d93b925f932c511b35db9d8d8c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "What's the reason for changing the registry values from TBD<n> to concrete integers that will probably change?",
+          "createdAt": "2024-10-13T23:27:20Z",
+          "updatedAt": "2024-10-13T23:27:20Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Consistency, we could go the other way and use TBDs in the examples and only list the number in the requested assignments.\n",
+          "createdAt": "2024-10-14T21:51:37Z",
+          "updatedAt": "2024-10-14T21:51:37Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6M9tsM",
+          "commit": {
+            "abbreviatedOid": "10a47fa"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-13T20:44:24Z",
+          "updatedAt": "2024-10-13T20:44:24Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "```suggestion\r\nSelective Disclosure CBOR Web Tokens (SD-CWTs) are CWTs and can be deployed in protocols that are already using CWTs, even if they contain no optional to disclose claims.\r\n```",
+              "createdAt": "2024-10-13T20:44:24Z",
+              "updatedAt": "2024-10-13T20:44:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6M92sK",
+          "commit": {
+            "abbreviatedOid": "10a47fa"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I think the new formulation of redacted_claim_element is extremely problematic and needs to be rolled back.",
+          "createdAt": "2024-10-13T23:01:01Z",
+          "updatedAt": "2024-10-13T23:26:22Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "```suggestion\r\nSD-CWT enables Issuers to mark certain Claim Keys or Claim Values mandatory or optional for a holder of a CWT to disclose.\r\n```",
+              "createdAt": "2024-10-13T23:01:01Z",
+              "updatedAt": "2024-10-13T23:26:22Z"
+            },
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\nThis specification enables Holders of CWT based credentials to prove the integrity and authenticity of selected attributes asserted by an Issuer about a Subject to a Verifier.\r\n```",
+              "createdAt": "2024-10-13T23:01:44Z",
+              "updatedAt": "2024-10-13T23:26:22Z"
+            },
+            {
+              "originalPosition": 31,
+              "body": "What is this sentence trying to accomplish? To anyone familiar with CBOR this is a extraneous. To anyone just trying to follow this conceptually this is going to be confusing.",
+              "createdAt": "2024-10-13T23:05:00Z",
+              "updatedAt": "2024-10-13T23:26:22Z"
+            },
+            {
+              "originalPosition": 76,
+              "body": "```suggestion\r\n: The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.\r\n```",
+              "createdAt": "2024-10-13T23:05:57Z",
+              "updatedAt": "2024-10-13T23:26:22Z"
+            },
+            {
+              "originalPosition": 80,
+              "body": "```suggestion\r\n: The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and ommiting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.\r\n```",
+              "createdAt": "2024-10-13T23:07:32Z",
+              "updatedAt": "2024-10-13T23:26:22Z"
+            },
+            {
+              "originalPosition": 150,
+              "body": "This doesn't work. There is a reasonable chance that some array out in the world will have an array element which takes a map of an integer to something and already uses the integer key value 14. The \"...\" is weird and ugly because it is supposed to be so weird and so ugly that nobody in their right mind is using a map with a key of \"...\".",
+              "createdAt": "2024-10-13T23:14:21Z",
+              "updatedAt": "2024-10-13T23:26:22Z"
+            },
+            {
+              "originalPosition": 182,
+              "body": "```suggestion\r\nThe digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of `swversion`).\r\n```",
+              "createdAt": "2024-10-13T23:15:40Z",
+              "updatedAt": "2024-10-13T23:26:22Z"
+            },
+            {
+              "originalPosition": 448,
+              "body": "```suggestion\r\nThis claim is defined for COSE based verifiable credentials, similar to the JOSE based verifiable credentials claim (`vct`) described in Section 3.2.2.1.1 of {{-SD-JWT-VC}}.\r\n```",
+              "createdAt": "2024-10-13T23:20:03Z",
+              "updatedAt": "2024-10-13T23:26:22Z"
+            },
+            {
+              "originalPosition": 479,
+              "body": "??",
+              "createdAt": "2024-10-13T23:23:25Z",
+              "updatedAt": "2024-10-13T23:26:22Z"
+            },
+            {
+              "originalPosition": 511,
+              "body": "I don't think this is going to work as I described above.",
+              "createdAt": "2024-10-13T23:24:18Z",
+              "updatedAt": "2024-10-13T23:26:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6NIINz",
+          "commit": {
+            "abbreviatedOid": "f8a391e"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-14T21:56:08Z",
+          "updatedAt": "2024-10-14T21:56:09Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "This \"Claim\" terminology is specific to CWT, not CBOR.\n\nThe intention was to address part of Mike's comment about map keys and cryptographic  keys being confusing, I'm repeating the CWT terminology here to try to address that, although I am more than happy to remove this text if we can avoid it.",
+              "createdAt": "2024-10-14T21:56:09Z",
+              "updatedAt": "2024-10-14T21:56:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6NIImI",
+          "commit": {
+            "abbreviatedOid": "e5c6e5a"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-14T21:58:03Z",
+          "updatedAt": "2024-10-14T21:58:03Z",
+          "comments": [
+            {
+              "originalPosition": 150,
+              "body": "Yep, I agree... We're discussing this on CBOR and SPICE lists currently.",
+              "createdAt": "2024-10-14T21:58:03Z",
+              "updatedAt": "2024-10-14T21:58:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6NIJP3",
+          "commit": {
+            "abbreviatedOid": "8ebc8a7"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-14T22:01:05Z",
+          "updatedAt": "2024-10-14T22:01:05Z",
+          "comments": [
+            {
+              "originalPosition": 479,
+              "body": "I think my intention was to relate the registration requests... This should probably just be removed.",
+              "createdAt": "2024-10-14T22:01:05Z",
+              "updatedAt": "2024-10-14T22:01:05Z"
             }
           ]
         }
