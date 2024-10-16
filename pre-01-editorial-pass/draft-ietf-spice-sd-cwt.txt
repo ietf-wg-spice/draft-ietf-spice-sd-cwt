@@ -6,9 +6,9 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 17 April 2025                                       H. Birkholz
+Expires: 19 April 2025                                       H. Birkholz
                                                           Fraunhofer SIT
-                                                         14 October 2024
+                                                         16 October 2024
 
 
                               SPICE SD-CWT
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 April 2025.
+   This Internet-Draft will expire on 19 April 2025.
 
 Copyright Notice
 
@@ -147,8 +147,7 @@ Table of Contents
    specification of credential types is out of scope for this document,
    and the examples used in this document are informative.  SD-CWT
    operates on CWT Claims Sets as described in [RFC8392].  CWT Claims
-   Sets contain Claim Keys and Claim Values, which are expressed using
-   the Major Types described in [RFC8949].  SD-CWT enables Issuers to
+   Sets contain Claim Keys and Claim Values.  SD-CWT enables Issuers to
    mark certain Claim Keys or Claim Values mandatory or optional for a
    holder of a CWT to disclose.  A verifier who does not understand
    optional to disclose Claims in an SD-CWT can still process the
