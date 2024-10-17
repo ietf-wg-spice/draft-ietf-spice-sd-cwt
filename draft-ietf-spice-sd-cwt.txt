@@ -6,9 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 19 April 2025                                       H. Birkholz
+Expires: 20 April 2025                                       H. Birkholz
                                                           Fraunhofer SIT
-                                                         16 October 2024
+                                                                 R. Mahy
+                                          Rohan Mahy Consulting Services
+                                                         17 October 2024
 
 
                               SPICE SD-CWT
@@ -54,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 April 2025.
+   This Internet-Draft will expire on 20 April 2025.
 
 Copyright Notice
 
@@ -1465,3 +1467,8 @@ Authors' Addresses
    64295 Darmstadt
    Germany
    Email: henk.birkholz@ietf.contact
+
+
+   Rohan Mahy
+   Rohan Mahy Consulting Services
+   Email: rohan.ietf@gmail.com
