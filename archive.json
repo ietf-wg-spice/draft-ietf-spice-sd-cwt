@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-15T00:42:23.989178+00:00",
+  "timestamp": "2024-10-17T00:41:58.531172+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -188,6 +188,37 @@
           "body": "Mike Prorock asked:\r\n>what about:\r\n>redacted_claim_XXX <- XXX replaced appropriated\r\n\r\nMike, do you mean this?\r\nredacted_claim_map_key\r\nredacted_claim_array_item\r\n\r\nThanks,\r\n-rohan\r\n\r\n\r\nOn Fri, Sep 20, 2024 at 11:20\u202fAM Mike Prorock ***@***.***>\r\nwrote:\r\n\r\n> what about:\r\n> redacted_claim_XXX <- XXX replaced appropriated\r\n> ?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/15#issuecomment-2364283845>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPSJI6XFH7UKJHUAP33ZXRRPJAVCNFSM6AAAAABONUWA2SVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDGNRUGI4DGOBUGU>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
           "createdAt": "2024-09-22T17:57:58Z",
           "updatedAt": "2024-09-22T17:57:58Z"
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "id": "I_kwDOMm_Q2s6afjKJ",
+      "title": "Addressing collisions in CBOR map keys at arbitrary depth",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/19",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As discussed in:\r\nhttps://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/18#discussion_r1798617534\r\n\r\nRelated references:\r\n\r\n- https://www.rfc-editor.org/rfc/rfc9277.html#appendix-B\r\n- https://datatracker.ietf.org/doc/html/rfc8392#section-3\r\n- https://datatracker.ietf.org/doc/html/rfc8392#section-9.1.1\r\n- https://datatracker.ietf.org/doc/html/rfc8392#section-1.1",
+      "createdAt": "2024-10-16T13:49:20Z",
+      "updatedAt": "2024-10-16T17:39:31Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "To tag or not to tag the keys.",
+          "createdAt": "2024-10-16T13:50:01Z",
+          "updatedAt": "2024-10-16T13:50:01Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "For now, I have just made the requested assignments very large: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/20\r\n\r\nIn the future, we want to use tags, we'll be sharing a proposal for this on the list in a bit.",
+          "createdAt": "2024-10-16T17:39:30Z",
+          "updatedAt": "2024-10-16T17:39:30Z"
         }
       ]
     }
@@ -1519,24 +1550,26 @@
       "id": "PR_kwDOMm_Q2s5-dRC0",
       "title": "Addressing a few issues",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/18",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/15\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/14\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/13\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/12\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/10\r\n\r\nI also did a bunch of editorial work, addressing some TDBs and making all sentences start on new lines.",
       "createdAt": "2024-10-13T20:35:36Z",
-      "updatedAt": "2024-10-14T22:01:05Z",
+      "updatedAt": "2024-10-16T17:35:07Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "cde0a46514dd538ae8717cf96057fca0741982ad",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "pre-01-editorial-pass",
-      "headRefOid": "8ebc8a77e361d4d93b925f932c511b35db9d8d8c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "798e98a52e7ad0ad919632e7428ea6ef52bfb772",
+      "closedAt": "2024-10-16T17:35:07Z",
+      "mergedAt": "2024-10-16T17:35:07Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "0205d7dac7e685799a2d27d3549958f288ae4378"
+      },
       "comments": [
         {
           "author": "rohanmahy",
@@ -1551,6 +1584,13 @@
           "body": "Consistency, we could go the other way and use TBDs in the examples and only list the number in the requested assignments.\n",
           "createdAt": "2024-10-14T21:51:37Z",
           "updatedAt": "2024-10-14T21:51:37Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We discussed the following references related to this:\r\n\r\n- https://www.rfc-editor.org/rfc/rfc9277.html#appendix-B\r\n- https://datatracker.ietf.org/doc/html/rfc8392#section-3\r\n- https://datatracker.ietf.org/doc/html/rfc8392#section-9.1.1\r\n- https://datatracker.ietf.org/doc/html/rfc8392#section-1.1",
+          "createdAt": "2024-10-16T13:42:57Z",
+          "updatedAt": "2024-10-16T13:42:57Z"
         }
       ],
       "reviews": [
@@ -1707,8 +1747,195 @@
               "updatedAt": "2024-10-14T22:01:05Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6NJI0n",
+          "commit": {
+            "abbreviatedOid": "10a47fa"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-15T02:29:00Z",
+          "updatedAt": "2024-10-15T02:29:00Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "I was referring to \", which are expressed using the Major Types described in {{RFC8949}}.\" Can we please just nuke that?",
+              "createdAt": "2024-10-15T02:29:00Z",
+              "updatedAt": "2024-10-15T02:29:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6NJJHW",
+          "commit": {
+            "abbreviatedOid": "8ebc8a7"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-15T02:30:34Z",
+          "updatedAt": "2024-10-15T02:30:35Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\nCWT Claims Sets contain Claim Keys and Claim Values.\r\n```",
+              "createdAt": "2024-10-15T02:30:34Z",
+              "updatedAt": "2024-10-15T02:30:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6NaC1D",
+          "commit": {
+            "abbreviatedOid": "8ebc8a7"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-16T13:06:16Z",
+          "updatedAt": "2024-10-16T13:06:16Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6NaHz-",
+          "commit": {
+            "abbreviatedOid": "10a47fa"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-16T13:13:47Z",
+          "updatedAt": "2024-10-16T13:13:47Z",
+          "comments": [
+            {
+              "originalPosition": 150,
+              "body": "We should merge as is, and revisit after list discussion",
+              "createdAt": "2024-10-16T13:13:47Z",
+              "updatedAt": "2024-10-16T13:13:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6NaH_t",
+          "commit": {
+            "abbreviatedOid": "10a47fa"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-16T13:14:04Z",
+          "updatedAt": "2024-10-16T13:14:04Z",
+          "comments": [
+            {
+              "originalPosition": 479,
+              "body": "I am fine with removing",
+              "createdAt": "2024-10-16T13:14:04Z",
+              "updatedAt": "2024-10-16T13:14:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6NalSV",
+          "commit": {
+            "abbreviatedOid": "10a47fa"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-16T13:49:58Z",
+          "updatedAt": "2024-10-16T13:49:58Z",
+          "comments": [
+            {
+              "originalPosition": 150,
+              "body": "we're gonna have keep processing this, here: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/19",
+              "createdAt": "2024-10-16T13:49:58Z",
+              "updatedAt": "2024-10-16T13:49:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6NaltK",
+          "commit": {
+            "abbreviatedOid": "10a47fa"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-16T13:50:34Z",
+          "updatedAt": "2024-10-16T13:50:35Z",
+          "comments": [
+            {
+              "originalPosition": 511,
+              "body": "same issue https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/19",
+              "createdAt": "2024-10-16T13:50:35Z",
+              "updatedAt": "2024-10-16T13:50:35Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDOMm_Q2s5-3cjz",
+      "title": "Reduce chance of collisions",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/20",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-16T17:37:41Z",
+      "updatedAt": "2024-10-16T17:39:43Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "0205d7dac7e685799a2d27d3549958f288ae4378",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "additional-revisions",
+      "headRefOid": "d4ddf6de7ab03786b9bd5978f3529a061d58afa7",
+      "closedAt": "2024-10-16T17:39:42Z",
+      "mergedAt": "2024-10-16T17:39:42Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "44b433f2fcc3f76858b70838835997da337a1433"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 21,
+      "id": "PR_kwDOMm_Q2s5-3kou",
+      "title": "Add author",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/21",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-16T17:55:52Z",
+      "updatedAt": "2024-10-16T17:55:52Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "44b433f2fcc3f76858b70838835997da337a1433",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "add-author",
+      "headRefOid": "9bf218cebbdd9ae0fe59d7d6a92403e9baa418d9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
