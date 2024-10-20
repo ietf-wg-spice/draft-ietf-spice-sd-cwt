@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-17T00:41:58.531172+00:00",
+  "timestamp": "2024-10-20T00:46:32.756759+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -73,7 +73,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/10",
       "state": "OPEN",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "currently the sd_hash claim in an SD-CWT is allowed when sent between an issuer and the holder. This is a claim which could not be verified by a verifier. I propose we remove it. If instead the Issuer is required to send salted claim disclosures for every digest in the payload (already proposed in PR #9 ), then the holder has another way of detecting tapering of the unprotected header. \r\n\r\nwe also need confidentiality of the disclosures. the most common ways (ex: transport crypto, authenticated encryption of the entire SD-CWT) also provide additional integrity protection of the unprotected header between an issuer and a holder",
@@ -89,7 +89,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/11",
       "state": "OPEN",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "do we want to support decoy digests like SD-JWT does?\r\n\r\nIf so, I left a simple hook to do so in PR #9 ",
@@ -103,16 +103,24 @@
       "id": "I_kwDOMm_Q2s6Vn1_n",
       "title": "Can you have an SD-CWT with no blinded claims",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/12",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "is a zebra with no stripes still a zebra? \r\n\r\nlikewise is it legal to have an SD-CWT with no blinded claims. shouldn't that just be a regular CWT?\r\n\r\nIt is easier to talk about what various roles have to do with this requirement. Is there a good reason to allow a CWT with `typ` \"application/sd-cwt\" that has no blinded claims?\r\n\r\nNote that PR #9 currently assumes an SD-CWT needs at least one blinded claim.",
       "createdAt": "2024-09-06T11:47:09Z",
-      "updatedAt": "2024-09-06T11:47:09Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-10-18T03:32:28Z",
+      "closedAt": "2024-10-18T03:32:28Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "concluded. An SD-CWT can have zero blinded claims. Closing",
+          "createdAt": "2024-10-18T03:32:28Z",
+          "updatedAt": "2024-10-18T03:32:28Z"
+        }
+      ]
     },
     {
       "number": 13,
@@ -121,7 +129,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/13",
       "state": "OPEN",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
@@ -137,7 +145,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/14",
       "state": "OPEN",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The standard claims (iss, sub, iat, exp, nbf, etc.) in CBOR Web Token largely reference the semantics of the corresponding claims in JSON Web Token, which makes all the claims optional. Which of the standard claims do we want to make mandatory or optional?\r\n\r\n## Summary of standard claims in SD-CWT and SD-KBT\r\n\r\n### issuer (iss / 1)\r\nThis is currently mandatory in the SD-CWT and optional in the SD-KBT.\r\n\r\n### subject (sub / 2)\r\nCurrently mandatory in the SD-CWT and optional in the SD-KBT. \r\n\r\n### audience (aud / 3)\r\nCurrently optional in the SD-CWT and mandatory in the SD-KBT. Use of an SD-CWT with no audience, or a different/less specific audience than the SD-KBT, is a requirement for use inside MLS credentials.\r\n\r\n### expiration (exp / 4)\r\nThis is currently optional in the SD-CWT, but I think it should be mandatory in both.\r\n\r\n### not-before (nbf / 5)\r\nCurrent optional in both.\r\n\r\n### issued-at (iat / 6)\r\nCurrently mandatory in both. I think this is fine, but we could potentially relax this to require either iat or cti\r\n\r\n### cwt token id (cti / 7)\r\nCurrently optional. See comment above.  \r\n\r\n### key confirmation (cnf / 8)\r\nMandatory in SD-CWT. Not present in SD-KBT.\r\n\r\n### client nonce (cnonce / 39)\r\nCurrently mandatory in SD-KBT and optional in SD-CWT.\r\n\r\n### disclosures-hash (sd_hash / TBD3)\r\nCurrently mandatory in both. Recommend removing from SD-CWT as discussed in issue #10\r\n\r\n### disclosures hash algorithm (sd_alg / TBD4)\r\nMandatory in SD-CWT. Not present in SD-KBT.\r\n\r\n## Proposed changes\r\n - Add expiration (exp / 4) as mandatory in SD-CWT\r\n - Remove sd_hash from SD-CWT as discussed in #10 \r\n\r\n",
@@ -153,7 +161,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/15",
       "state": "OPEN",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Hi, Mike Jones pointed out that SD-CWT is using \"keys\" in claim names (ex: `redacted_keys`) in a way which is potentially confusing. We refer to cryptographic keys (ex: confirmation key\u2014`cnf`) and CBOR map keys throughout the document.\r\n\r\nThe proposal is to rename `redacted_keys` to something else which makes it clear that it is a \"map key\" and not a cryptographic key. `redacted_elements` or `redacted_values` imply that only the values (and not the claim names) are included.\r\n\r\nI propose:\r\n\r\n`redacted_map_claims`\r\n\r\n\r\n\r\n",
@@ -170,7 +178,7 @@
         },
         {
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "> This naming needs to be consistent for arrays and maps.\r\n> \r\n>     * redacted_map_claims\r\n>     * redacted_array_claim\r\n\r\nI'm not sure. The first is an array of claims that are each items in a map at the same level, and will have an integer key. The second is the map key of a single-element map which represents one item inside an array, and might be represented by the text strong \"...\".  \r\n\r\nThis still might be the best suggestion (or least bad). Let's see.",
           "createdAt": "2024-09-18T14:27:38Z",
           "updatedAt": "2024-09-18T14:27:38Z"
@@ -184,7 +192,7 @@
         },
         {
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "Mike Prorock asked:\r\n>what about:\r\n>redacted_claim_XXX <- XXX replaced appropriated\r\n\r\nMike, do you mean this?\r\nredacted_claim_map_key\r\nredacted_claim_array_item\r\n\r\nThanks,\r\n-rohan\r\n\r\n\r\nOn Fri, Sep 20, 2024 at 11:20\u202fAM Mike Prorock ***@***.***>\r\nwrote:\r\n\r\n> what about:\r\n> redacted_claim_XXX <- XXX replaced appropriated\r\n> ?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/15#issuecomment-2364283845>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPSJI6XFH7UKJHUAP33ZXRRPJAVCNFSM6AAAAABONUWA2SVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDGNRUGI4DGOBUGU>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
           "createdAt": "2024-09-22T17:57:58Z",
           "updatedAt": "2024-09-22T17:57:58Z"
@@ -313,7 +321,7 @@
             "abbreviatedOid": "40ede7a"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-09-01T16:41:46Z",
@@ -368,7 +376,7 @@
             "abbreviatedOid": "529e2f2"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-09-01T16:42:39Z",
@@ -397,7 +405,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/6",
       "state": "MERGED",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "fix to full cddl and one instance of the same CDDL in the body of the draft\r\n\r\nCDDL was not happy with:\r\n\r\n```\r\n? &(sd_claims: TBD1) ^ => [ +bstr .cbor salted ]\r\n```\r\n\r\n, so I replaced with:\r\n\r\n```\r\n? &(sd_claims: TBD1) ^ => bstr .cbor salted-array,\r\n```\r\n\r\nwhere `salted-array` is `salted-array = [ +bstr .cbor salted ]`",
@@ -452,7 +460,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/7",
       "state": "MERGED",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "According to https://authors.ietf.org/required-content (Abstract section), the Abstract of an I-D or RFC needs to stand alone. It should not contain abbreviations or references.\r\n\r\nChanges:\r\n- Removed references from Abstract\r\n- Expanded abbreviations in Abstract\r\n- Added Updates: RFC8392 to metadata\r\n- Introduced first references in Introduction\r\n- ",
@@ -494,7 +502,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/8",
       "state": "MERGED",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- Added an Overview section which walks through the mechanism with plenty of examples.\r\n- all salts use recommended length. digests are correct. (signatures still not yet)\r\n- added an appendix with the keys for the Issuer and Holder\r\n-",
@@ -522,7 +530,7 @@
         },
         {
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "> @rohanmahy mind taking a look at conflicts post merge real quick?\r\n\r\nresolved. The implementation section moved from an Appendix to a section in the main body of the draft.\r\nAll comments I received have been resolved (Thanks @selfissued ). @mprorock please go ahead and merge.",
           "createdAt": "2024-09-10T07:03:14Z",
           "updatedAt": "2024-09-10T07:03:14Z"
@@ -548,7 +556,7 @@
             "abbreviatedOid": "fd7e6f4"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-06T17:41:53Z",
@@ -677,7 +685,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/9",
       "state": "MERGED",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
@@ -698,7 +706,7 @@
       "comments": [
         {
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "sent to spice mailing list:\r\n\"A made three small technical changes, for which I will create issues after I take a break.\r\n\r\n1) The text in this PR says that the Issuer has to send the Salted Disclosed Claims for every digest in an SD-CWT. If not the Issuer could issue claims that the Holder can never verify that could be embarrassing or false (like \"Alice still likes the boy band of her youth\", or \"Rohan thinks the earth is flat\"). (Update: Issue #10 )\r\n2) I questioned if a CWT with no blinded claims can be an SD-CWT. My conclusion was no, so I changed the cardinality to at least 1 blinded claim. Of course you can disclose between zero and all of them. (Update: Issue #12 )\r\n3) I left a hook to allow us to trivially add Decoy Digests (Update: Issue #11 )\r\n\r\nI can change any of these things. Changing 1 and 3 are pretty trivial, and Changing 2 is still straightforward.\"",
           "createdAt": "2024-09-06T11:38:30Z",
           "updatedAt": "2024-09-18T12:33:40Z"
@@ -712,7 +720,7 @@
         },
         {
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "> The acronym \"EDN\" is used without being expanded. And there's no citation to its definition.\r\n> \r\n> Please expand the acronym on first use _and_ provide a citation.\r\n\r\nHi Mike,\r\nThere is an expansion of EDN in PR #8 which would come earlier in the document. I just added a reference there in [this commit](https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/8/commits/f0b7e8ec750e5c21d34a2d59752f376751258aa8). I'll leave this comment open in case this PR is merged but #8 is not.",
           "createdAt": "2024-09-06T17:46:42Z",
           "updatedAt": "2024-09-06T17:46:42Z"
@@ -726,14 +734,14 @@
         },
         {
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "> Please change all instances of \"claimset\" to \"Claims Set\". This aligns with both the CWT and JWT terminology and SD-JWT, which adopted it.\r\n\r\n@selfissued I'm fine with this either way. @mprorock @OR13 could one of you weigh in on this terminology change?",
           "createdAt": "2024-09-10T07:04:29Z",
           "updatedAt": "2024-09-10T07:04:29Z"
         },
         {
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "@mprorock conflicts are fixed. I created separate issues for the two remaining comments from @selfissued.\r\nPlease merge.\r\n\r\nMany thanks,\r\n-r",
           "createdAt": "2024-09-18T13:47:54Z",
           "updatedAt": "2024-09-18T13:47:54Z"
@@ -1005,7 +1013,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-09T17:27:25Z",
@@ -1085,7 +1093,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:09:12Z",
@@ -1105,7 +1113,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:10:08Z",
@@ -1125,7 +1133,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:11:41Z",
@@ -1145,7 +1153,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:14:00Z",
@@ -1165,7 +1173,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:15:43Z",
@@ -1185,7 +1193,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T07:17:19Z",
@@ -1205,7 +1213,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T08:51:31Z",
@@ -1225,7 +1233,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T08:52:07Z",
@@ -1245,7 +1253,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-10T16:02:14Z",
@@ -1265,7 +1273,7 @@
             "abbreviatedOid": "e75cbca"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-11T14:36:26Z",
@@ -1285,7 +1293,7 @@
             "abbreviatedOid": "e75cbca"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-11T14:39:18Z",
@@ -1305,7 +1313,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-18T12:35:49Z",
@@ -1325,7 +1333,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-18T13:07:52Z",
@@ -1345,7 +1353,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-18T13:45:42Z",
@@ -1365,7 +1373,7 @@
             "abbreviatedOid": "d8b8744"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-09-18T13:46:21Z",
@@ -1388,7 +1396,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/16",
       "state": "MERGED",
       "author": "rohanmahy",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #5 ",
@@ -1573,7 +1581,7 @@
       "comments": [
         {
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "What's the reason for changing the registry values from TBD<n> to concrete integers that will probably change?",
           "createdAt": "2024-10-13T23:27:20Z",
           "updatedAt": "2024-10-13T23:27:20Z"
@@ -1620,7 +1628,7 @@
             "abbreviatedOid": "10a47fa"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "CHANGES_REQUESTED",
           "body": "I think the new formulation of redacted_claim_element is extremely problematic and needs to be rolled back.",
           "createdAt": "2024-10-13T23:01:01Z",
@@ -1754,7 +1762,7 @@
             "abbreviatedOid": "10a47fa"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-15T02:29:00Z",
@@ -1774,7 +1782,7 @@
             "abbreviatedOid": "8ebc8a7"
           },
           "author": "rohanmahy",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-10-15T02:30:34Z",
@@ -1916,26 +1924,42 @@
       "id": "PR_kwDOMm_Q2s5-3kou",
       "title": "Add author",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/21",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-10-16T17:55:52Z",
-      "updatedAt": "2024-10-16T17:55:52Z",
+      "updatedAt": "2024-10-17T17:21:50Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "44b433f2fcc3f76858b70838835997da337a1433",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "add-author",
       "headRefOid": "9bf218cebbdd9ae0fe59d7d6a92403e9baa418d9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-17T17:21:50Z",
+      "mergedAt": "2024-10-17T17:21:50Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "9d99a2aef3995417d24ad1199e7a9c000098f7da"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6Nm-w7",
+          "commit": {
+            "abbreviatedOid": "9bf218c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-17T17:05:35Z",
+          "updatedAt": "2024-10-17T17:05:35Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
