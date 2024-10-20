@@ -175,7 +175,7 @@ Presented Disclosed Claims Set:
 : The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.
 
 Validated Disclosed Claims Set:
-: The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and ommiting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
+: The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
 
 
 # Overview of Selective Disclosure CWT
@@ -357,7 +357,7 @@ For example, Alice decides to disclosure to a verifier the `age_at_least_18` cla
 ]>>
 ~~~
 
-The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the one described in draft-ietf-httpbis-unprompted-auth-12.
+The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the method described in draft-ietf-httpbis-unprompted-auth-12.
 
 Finally, the Holder generates a Selective Disclosure Key Binding Token (SD-KBT) that ties together any disclosures, the Verifier nonce and target audience, and proof of possession of the Holder's private key.
 
@@ -605,7 +605,7 @@ One possible concrete representation of the intermediate data structure for the 
 The Verifier constructs an empty cbor map called the Validated Disclosed Claimset, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claimset.
 Next the Verifier performs a breadth first or depth first traversal of the Presented Disclosed Claimset, Validated Disclosed Claimset, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claimset when they appear in the Presented Disclosed Claimset.
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
-If there remain unused Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid, as if the siganture had failed to verify.
+If there remain unused Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid, as if the signature had failed to verify.
 Otherwise the SD-CWT is considered valid, and the Validated Disclosed Claimset is now a CWT Claimset with no claims marked for redaction.
 Further validation logic can be applied to the Validated Disclosed Claimset, as it might normally be applied to a validated CWT claimset.
 
@@ -676,7 +676,7 @@ Contact: Orie Steele (orie@transmute.industries)
 
 # Security Considerations
 
-Security considerations from COSE {(RFC9052)} and CWT {{RFC8392}} apply to this specificaton.
+Security considerations from COSE {(RFC9052)} and CWT {{RFC8392}} apply to this specification.
 
 ## Random Numbers
 
