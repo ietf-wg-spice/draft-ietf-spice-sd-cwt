@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 20 April 2025                                       H. Birkholz
+Expires: 23 April 2025                                       H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                         17 October 2024
+                                                         20 October 2024
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 April 2025.
+   This Internet-Draft will expire on 23 April 2025.
 
 Copyright Notice
 
@@ -260,7 +260,7 @@ Issuer                           Holder                         Verifier
 
    Validated Disclosed Claims Set:  The CBOR map containing all
       mandatory to disclose claims signed by the issuer, all selectively
-      disclosed claims presented by the holder, and ommiting all
+      disclosed claims presented by the holder, and omitting all
       undisclosed instances of Redacted Claim Keys and Redacted Claim
       Element claims that are present in the original SD-CWT.
 
@@ -454,7 +454,7 @@ Issuer                           Holder                         Verifier
 
    The Holder MAY fetch a nonce from the Verifier to prevent replay, or
    obtain a nonce acceptable to the verifier through a process similar
-   to the one described in draft-ietf-httpbis-unprompted-auth-12.
+   to the method described in draft-ietf-httpbis-unprompted-auth-12.
 
    Finally, the Holder generates a Selective Disclosure Key Binding
    Token (SD-KBT) that ties together any disclosures, the Verifier nonce
@@ -775,7 +775,7 @@ Issuer                           Holder                         Verifier
    cryptographically verify the integrity of the protected claims and
    verify they have not been tampered with.  If there remain unused
    Digest To Disclosed Claim Map at the end of this procedure the SD-CWT
-   MUST be considered invalid, as if the siganture had failed to verify.
+   MUST be considered invalid, as if the signature had failed to verify.
    Otherwise the SD-CWT is considered valid, and the Validated Disclosed
    Claimset is now a CWT Claimset with no claims marked for redaction.
    Further validation logic can be applied to the Validated Disclosed
@@ -944,7 +944,7 @@ Issuer                           Holder                         Verifier
 13.  Security Considerations
 
    Security considerations from COSE {(RFC9052)} and CWT [RFC8392] apply
-   to this specificaton.
+   to this specification.
 
 13.1.  Random Numbers
 
@@ -1206,9 +1206,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-12, 3
-              September 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-selective-disclosure-jwt-12>.
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-13, 18
+              October 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-oauth-selective-disclosure-jwt-13>.
 
 Appendix A.  Complete CDDL Schema
 
