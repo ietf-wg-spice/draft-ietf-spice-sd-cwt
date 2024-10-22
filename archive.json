@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-20T00:46:32.756759+00:00",
+  "timestamp": "2024-10-22T00:42:42.581744+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -229,6 +229,22 @@
           "updatedAt": "2024-10-16T17:39:30Z"
         }
       ]
+    },
+    {
+      "number": 22,
+      "id": "I_kwDOMm_Q2s6bMcTE",
+      "title": "Example of computing a disclosure",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/22",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Per comment on this list: https://mailarchive.ietf.org/arch/msg/spice/2zCXJoEK2vjiU--Y1s1GFqVu6A8/\r\n\r\nIt would be nice to show a simple example inline here.",
+      "createdAt": "2024-10-21T21:44:49Z",
+      "updatedAt": "2024-10-21T21:48:23Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
