@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-22T00:42:42.581744+00:00",
+  "timestamp": "2024-10-24T00:42:03.974227+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -243,6 +243,22 @@
       "body": "Per comment on this list: https://mailarchive.ietf.org/arch/msg/spice/2zCXJoEK2vjiU--Y1s1GFqVu6A8/\r\n\r\nIt would be nice to show a simple example inline here.",
       "createdAt": "2024-10-21T21:44:49Z",
       "updatedAt": "2024-10-21T21:48:23Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 23,
+      "id": "I_kwDOMm_Q2s6bfZ82",
+      "title": "CDE CWT Claimsets",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/23",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "An issuer could exploit map key ordering to signal information regarding redaction.\r\nProbably using a high precision datetime is an easier path to this, but it is worth documenting as a privacy consideration, and perhaps we should recommend CDE",
+      "createdAt": "2024-10-23T13:50:55Z",
+      "updatedAt": "2024-10-23T13:50:55Z",
       "closedAt": null,
       "comments": []
     }
