@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-29T00:43:38.939049+00:00",
+  "timestamp": "2024-10-31T00:43:04.792109+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -259,6 +259,38 @@
       "body": "An issuer could exploit map key ordering to signal information regarding redaction.\r\nProbably using a high precision datetime is an easier path to this, but it is worth documenting as a privacy consideration, and perhaps we should recommend CDE",
       "createdAt": "2024-10-23T13:50:55Z",
       "updatedAt": "2024-10-23T13:50:55Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 24,
+      "id": "I_kwDOMm_Q2s6cXMEp",
+      "title": "renaming \"sd_claims\"",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/24",
+      "state": "OPEN",
+      "author": "beltram",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently, disclosed claims, represented in the CDDL by a `salted_array` have the same name (`sd_claims`) and the same key (`TBD1`), regardless if they are in the issued token or the presented one.\r\n\r\nFirst of all, in each case they carry different semantics: they are \"potentially disclosable\" in the `sd-cwt-issued` whereas they are actually \"actually disclosed\" in the `sd-cwt-presentation`. So I think they should have at least a different name. Since we're not using JSON we do not have to abbreviate our keys so I would go for a full name.\r\n\r\nThen, they both have structural differences. If we add Decoys as suggested in #11 , the `sd_claims` issued supports them whereas the presented one must not. I think it will help down the road help implementation of the spec easier by \"making illegal state unrepresentable\".\r\n\r\nI think it could look like this: \r\n```cddl\r\nsalted-issued = salted-claim / salted-element / decoy\r\nsalted-presentation = salted-claim / salted-element\r\n\r\nsalted-array-issued = [ +bstr .cbor salted-issued ]\r\nsalted-array-presentation = [ +bstr .cbor salted-presentation ]\r\n\r\nunprotected-issued = {\r\n   &(disclosures-issued: TBD_X) ^ => bstr .cbor salted-array-issued,\r\n}\r\n\r\nunprotected-presentation = {\r\n   ? &(disclosures-presentation: TBD_Y) ^ => bstr .cbor salted-array-presentation,\r\n}\r\n```\r\n\r\nWhat do you think ? I'll be happy to contribute to that in a PR.",
+      "createdAt": "2024-10-30T08:57:15Z",
+      "updatedAt": "2024-10-30T08:57:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 25,
+      "id": "I_kwDOMm_Q2s6caI9s",
+      "title": "Clarify that SD Claimset can or cannot contain duplicate map keys",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/25",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-30T13:24:16Z",
+      "updatedAt": "2024-10-30T13:24:16Z",
       "closedAt": null,
       "comments": []
     }
