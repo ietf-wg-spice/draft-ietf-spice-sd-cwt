@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-05T00:41:41.063485+00:00",
+  "timestamp": "2024-11-07T00:41:48.561473+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -291,6 +291,38 @@
       "body": "",
       "createdAt": "2024-10-30T13:24:16Z",
       "updatedAt": "2024-10-30T13:24:16Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 26,
+      "id": "I_kwDOMm_Q2s6dFbks",
+      "title": "Create a better set of default examples",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/26",
+      "state": "OPEN",
+      "author": "mprorock",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Identify a better example case that is not age verification over web, and update spec with that example accordingly",
+      "createdAt": "2024-11-05T13:18:43Z",
+      "updatedAt": "2024-11-05T13:18:43Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 27,
+      "id": "I_kwDOMm_Q2s6dFn_4",
+      "title": "privacy considerations should include linkability or unlinkability, and the associated use cases",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/27",
+      "state": "OPEN",
+      "author": "npdoty",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Privacy considerations are currently missing from this draft, but could use some extensive documentation.\r\n\r\nBut most urgently, the draft should be clear about whether selective disclosure also reveals linkability across different verifiers, or not. What is revealed about the issuer is also a separate disclosure, as well as a potential source of linkability. It sounds like there might be some significant use cases where linkability and selective disclosure is desirable, though age verification might not be one like that.\r\n\r\nFor many use cases, particularly on the web, linkability across verifiers (or between colluding verifier and issuer) is a particular privacy concern and unlinkability is a desirable property. The draft should make it clear which properties are provided.",
+      "createdAt": "2024-11-05T13:39:25Z",
+      "updatedAt": "2024-11-05T13:39:25Z",
       "closedAt": null,
       "comments": []
     }
