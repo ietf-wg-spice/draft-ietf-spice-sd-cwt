@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-10T00:44:44.451944+00:00",
+  "timestamp": "2024-11-12T00:41:06.243147+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -322,9 +322,17 @@
       "labels": [],
       "body": "Privacy considerations are currently missing from this draft, but could use some extensive documentation.\r\n\r\nBut most urgently, the draft should be clear about whether selective disclosure also reveals linkability across different verifiers, or not. What is revealed about the issuer is also a separate disclosure, as well as a potential source of linkability. It sounds like there might be some significant use cases where linkability and selective disclosure is desirable, though age verification might not be one like that.\r\n\r\nFor many use cases, particularly on the web, linkability across verifiers (or between colluding verifier and issuer) is a particular privacy concern and unlinkability is a desirable property. The draft should make it clear which properties are provided.",
       "createdAt": "2024-11-05T13:39:25Z",
-      "updatedAt": "2024-11-05T13:39:25Z",
+      "updatedAt": "2024-11-10T08:29:57Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The privacy considerations for sd-cwt are very similar to that of sd-jwt, @npdoty do you think we should use a reference, or would you like us to propose alternative framing of these considerations?\n\nIf you have a chance to review the sd-jwt considerations, I welcome any comments on where we should add more or less text.\n\nHope to see you in person at a future IETF.",
+          "createdAt": "2024-11-10T08:29:55Z",
+          "updatedAt": "2024-11-10T08:29:55Z"
+        }
+      ]
     }
   ],
   "pulls": [
