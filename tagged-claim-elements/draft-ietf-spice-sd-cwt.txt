@@ -533,7 +533,7 @@ Issuer                           Holder                         Verifier
 
    When blinding an individual item in an array, the value of the item
    is replaced with the digested salted hash as a CBOR binary string,
-   wrapped with CBOR tag 60.
+   wrapped with a CBOR tag (requested tag number 60).
 
    redacted_claim_element = #6.60( bstr .size 16 )
 
@@ -1005,7 +1005,7 @@ Issuer                           Holder                         Verifier
    The binary string inside the tag is a selective disclosure redacted
    claim element of an array.
 
-   *  Tag: 60 (requested)
+   *  Tag: TBD9 (requested assignment 60)
 
    *  Data Item: byte string
 
@@ -1018,7 +1018,7 @@ Issuer                           Holder                         Verifier
    The array claim element, or map key and value inside the "To be
    redacted" tag is intended to be redacted using selective disclosure.
 
-   *  Tag: 58 (requested)
+   *  Tag: TBD10 (requested assignment 58)
 
    *  Data Item: (any)
 

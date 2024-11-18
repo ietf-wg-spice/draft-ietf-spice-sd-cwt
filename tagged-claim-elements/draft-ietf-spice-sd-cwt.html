@@ -1835,7 +1835,7 @@ salted-array = [ +bstr .cbor salted ]
 </pre><a href="#section-5.1-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.1-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with CBOR tag 60.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with a CBOR tag (requested tag number 60).<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-5.1-5">
 <pre>
 redacted_claim_element = #6.60( bstr .size 16 )
@@ -2326,7 +2326,7 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
 <p id="section-14.2.1-1">The binary string inside the tag is a selective disclosure redacted claim element of an array.<a href="#section-14.2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-14.2.1-2.1">
-              <p id="section-14.2.1-2.1.1">Tag: 60 (requested)<a href="#section-14.2.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-14.2.1-2.1.1">Tag: TBD9 (requested assignment 60)<a href="#section-14.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-14.2.1-2.2">
               <p id="section-14.2.1-2.2.1">Data Item: byte string<a href="#section-14.2.1-2.2.1" class="pilcrow">¶</a></p>
@@ -2348,7 +2348,7 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
 <p id="section-14.2.2-1">The array claim element, or map key and value inside the "To be redacted" tag is intended to be redacted using selective disclosure.<a href="#section-14.2.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-14.2.2-2.1">
-              <p id="section-14.2.2-2.1.1">Tag: 58 (requested)<a href="#section-14.2.2-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-14.2.2-2.1.1">Tag: TBD10 (requested assignment 58)<a href="#section-14.2.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-14.2.2-2.2">
               <p id="section-14.2.2-2.2.1">Data Item: (any)<a href="#section-14.2.2-2.2.1" class="pilcrow">¶</a></p>
