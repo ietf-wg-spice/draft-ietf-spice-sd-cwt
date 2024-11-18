@@ -418,7 +418,7 @@ salted-array = [ +bstr .cbor salted ]
 
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 
-When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with CBOR tag 60.
+When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with a CBOR tag (requested tag number 60).
 
 ~~~ cddl
 redacted_claim_element = #6.60( bstr .size 16 )
@@ -714,7 +714,7 @@ The following completed registration template per RFC8152 is provided:
 
 The binary string inside the tag is a selective disclosure redacted claim element of an array.
 
-* Tag: 60 (requested)
+* Tag: TBD9 (requested assignment 60)
 * Data Item: byte string
 * Semantics: A selective disclosure redacted (array) claim element.
 * Specification Document(s): RFC XXXX
@@ -723,7 +723,7 @@ The binary string inside the tag is a selective disclosure redacted claim elemen
 
 The array claim element, or map key and value inside the "To be redacted" tag is intended to be redacted using selective disclosure.
 
-* Tag: 58 (requested)
+* Tag: TBD10 (requested assignment 58)
 * Data Item: (any)
 * Semantics: An array claim element, or map key and value intended to be redacted.
 * Specification Document(s): RFC XXXX
