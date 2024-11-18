@@ -393,7 +393,7 @@ This specification relaxes that requirement, by also allowing CBOR tagged intege
 Note that holders presenting to a verifier that does not support this specification would need to present a CWT without tagged map keys.
 
 Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
-Instead the tag provides additional information about the claim key and value.
+Instead the tag provides additional information about the tagged claim key and corresponding (untagged) value.
 Multiple levels of tags in a key are not permitted.
 
 # SD-CWT definition
