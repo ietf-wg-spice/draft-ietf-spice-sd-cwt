@@ -279,7 +279,7 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
       }
     },
     / sd_alg /  12       : -16, / SHA-256 /
-    / redacted_claim_keys / 65556 : [
+    / redacted_claim_keys / -65536 : [
         / redacted age_at_least_18 /
         h'7e6e350907d0ba3aa7ae114f8da5b360' +
         h'601c0bb7995cd40049b98e4f58fb6ec0',
@@ -295,7 +295,7 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
     ],
     "address": {
         "country" : "us",            / United States /
-        / redacted_claim_keys / 65556 : [
+        / redacted_claim_keys / -65536 : [
             / redacted region /
             h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
             h'ed010ac9ae1c93403ec72572bb1e00e7',
@@ -497,7 +497,7 @@ sd-payload = {
     ;
     ; sd-cwt new claims
       &(sd_alg: 12) ^ => int,            ; -16 for sha-256
-    ? &(redacted_keys: 65556) ^ => [ * bstr ],
+    ? &(redacted_keys: -65536) ^ => [ * bstr ],
     * key => any
 }
 ~~~
@@ -741,7 +741,7 @@ The following completed registration template per RFC8392 is provided:
 Claim Name: redacted_claim_keys
 Claim Description: Redacted Claim Keys in a map.
 JWT Claim Name: _sd
-Claim Key: TBD5 (request assignment 65556)
+Claim Key: TBD5 (request assignment -65536)
 Claim Value Type(s): array of bstr
 Change Controller: IETF
 Specification Document(s): RFC XXXX
@@ -865,9 +865,9 @@ THe COSE equivalent of `application/kb+jwt` is `application/kb+cwt`.
 
 ## Redaction Claims
 
-The COSE equivalent of `_sd` is TBD5 (requested assignment 65556).
+The COSE equivalent of `_sd` is TBD5 (requested assignment -65536).
 
-The COSE equivalent of `...` is TBD6 (requested assignment 65555).
+The COSE equivalent of `...` is a CBOR tag (requested assignment 60) of the digested salted claim.
 
 ## Issuance
 
