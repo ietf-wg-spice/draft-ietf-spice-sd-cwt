@@ -8,23 +8,24 @@
 <meta content="Michael Prorock" name="author">
 <meta content="Orie Steele" name="author">
 <meta content="Henk Birkholz" name="author">
+<meta content="Rohan Mahy" name="author">
 <meta content="
        This document describes a data minimization technique for use with CBOR Web Token (CWT).
 The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE). 
     " name="description">
-<meta content="xml2rfc 3.23.2" name="generator">
+<meta content="xml2rfc 3.24.0" name="generator">
 <meta content="cose" name="keyword">
 <meta content="cwt" name="keyword">
 <meta content="selective disclosure" name="keyword">
 <meta content="draft-ietf-spice-sd-cwt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.23.2
+  xml2rfc 3.24.0
     Python 3.12.7
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.4
-    lxml 4.9.4
+    lxml 5.3.0
     platformdirs 4.3.6
     pycountry 22.3.5
     PyYAML 6.0.1
@@ -166,31 +167,6 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
 }
 
 @font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: 'Oxygen Mono';
   font-style: normal;
   font-weight: 400;
@@ -207,6 +183,77 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: light dark;
   --background-color: #fff;
@@ -219,6 +266,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
   --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
   scrollbar-color: #bbb #eee;
 }
 body {
@@ -237,8 +285,8 @@ body {
 
 /* headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Cabin Condensed", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 680;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
@@ -646,6 +694,12 @@ sub, sup {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
 }
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+  }
+}
 #toc nav ul {
   margin: 0 0.5em 0 0;
   padding: 0;
@@ -1029,11 +1083,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SPICE SD-CWT</td>
-<td class="right">October 2024</td>
+<td class="right">November 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 19 April 2025</td>
+<td class="center">Expires 22 May 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1049,12 +1103,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfcRFC8392" class="eref">RFC8392</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-10-16" class="published">16 October 2024</time>
+<time datetime="2024-11-18" class="published">18 November 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-04-19">19 April 2025</time></dd>
+<dd class="expires"><time datetime="2025-05-22">22 May 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1068,6 +1122,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div class="author">
       <div class="author-name">H. Birkholz</div>
 <div class="org">Fraunhofer SIT</div>
+</div>
+<div class="author">
+      <div class="author-name">R. Mahy</div>
+<div class="org">Rohan Mahy Consulting Services</div>
 </div>
 </dd>
 </dl>
@@ -1113,7 +1171,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1245,33 +1303,41 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2">
-                <p id="section-toc.1-1.14.2.2.1"><a href="#section-14.2" class="auto internal xref">14.2</a>.  <a href="#name-cbor-web-token-cwt-claims" class="internal xref">CBOR Web Token (CWT) Claims</a></p>
+                <p id="section-toc.1-1.14.2.2.1"><a href="#section-14.2" class="auto internal xref">14.2</a>.  <a href="#name-cbor-tags" class="internal xref">CBOR Tags</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2.2.1">
-                    <p id="section-toc.1-1.14.2.2.2.1.1"><a href="#section-14.2.1" class="auto internal xref">14.2.1</a>.  <a href="#name-redacted_claim_keys" class="internal xref">redacted_claim_keys</a></p>
+                    <p id="section-toc.1-1.14.2.2.2.1.1"><a href="#section-14.2.1" class="auto internal xref">14.2.1</a>.  <a href="#name-redacted-claim-element-tag" class="internal xref">Redacted claim element tag</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2.2.2">
-                    <p id="section-toc.1-1.14.2.2.2.2.1"><a href="#section-14.2.2" class="auto internal xref">14.2.2</a>.  <a href="#name-redacted_claim_element" class="internal xref">redacted_claim_element</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2.2.3">
-                    <p id="section-toc.1-1.14.2.2.2.3.1"><a href="#section-14.2.3" class="auto internal xref">14.2.3</a>.  <a href="#name-sd_alg" class="internal xref">sd_alg</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2.2.4">
-                    <p id="section-toc.1-1.14.2.2.2.4.1"><a href="#section-14.2.4" class="auto internal xref">14.2.4</a>.  <a href="#name-sd_hash" class="internal xref">sd_hash</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2.2.5">
-                    <p id="section-toc.1-1.14.2.2.2.5.1"><a href="#section-14.2.5" class="auto internal xref">14.2.5</a>.  <a href="#name-vct" class="internal xref">vct</a></p>
+                    <p id="section-toc.1-1.14.2.2.2.2.1"><a href="#section-14.2.2" class="auto internal xref">14.2.2</a>.  <a href="#name-to-be-redacted-tag" class="internal xref">To be redacted tag</a></p>
 </li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.3">
-                <p id="section-toc.1-1.14.2.3.1"><a href="#section-14.3" class="auto internal xref">14.3</a>.  <a href="#name-media-types" class="internal xref">Media Types</a></p>
+                <p id="section-toc.1-1.14.2.3.1"><a href="#section-14.3" class="auto internal xref">14.3</a>.  <a href="#name-cbor-web-token-cwt-claims" class="internal xref">CBOR Web Token (CWT) Claims</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.3.2.1">
-                    <p id="section-toc.1-1.14.2.3.2.1.1"><a href="#section-14.3.1" class="auto internal xref">14.3.1</a>.  <a href="#name-application-sdcwt" class="internal xref">application/sd+cwt</a></p>
+                    <p id="section-toc.1-1.14.2.3.2.1.1"><a href="#section-14.3.1" class="auto internal xref">14.3.1</a>.  <a href="#name-redacted_claim_keys" class="internal xref">redacted_claim_keys</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.3.2.2">
-                    <p id="section-toc.1-1.14.2.3.2.2.1"><a href="#section-14.3.2" class="auto internal xref">14.3.2</a>.  <a href="#name-application-kbcwt" class="internal xref">application/kb+cwt</a></p>
+                    <p id="section-toc.1-1.14.2.3.2.2.1"><a href="#section-14.3.2" class="auto internal xref">14.3.2</a>.  <a href="#name-sd_alg" class="internal xref">sd_alg</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.3.2.3">
+                    <p id="section-toc.1-1.14.2.3.2.3.1"><a href="#section-14.3.3" class="auto internal xref">14.3.3</a>.  <a href="#name-sd_hash" class="internal xref">sd_hash</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.3.2.4">
+                    <p id="section-toc.1-1.14.2.3.2.4.1"><a href="#section-14.3.4" class="auto internal xref">14.3.4</a>.  <a href="#name-vct" class="internal xref">vct</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.4">
+                <p id="section-toc.1-1.14.2.4.1"><a href="#section-14.4" class="auto internal xref">14.4</a>.  <a href="#name-media-types" class="internal xref">Media Types</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.4.2.1">
+                    <p id="section-toc.1-1.14.2.4.2.1.1"><a href="#section-14.4.1" class="auto internal xref">14.4.1</a>.  <a href="#name-application-sdcwt" class="internal xref">application/sd+cwt</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.4.2.2">
+                    <p id="section-toc.1-1.14.2.4.2.2.1"><a href="#section-14.4.2" class="auto internal xref">14.4.2</a>.  <a href="#name-application-kbcwt" class="internal xref">application/kb+cwt</a></p>
 </li>
                 </ul>
 </li>
@@ -1507,7 +1573,7 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-5.20.1" class="pilcrow">
         <dd class="break"></dd>
 <dt id="section-2-5.27">Validated Disclosed Claims Set:</dt>
         <dd style="margin-left: 1.5em" id="section-2-5.28">
-          <p id="section-2-5.28.1">The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and ommiting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.<a href="#section-2-5.28.1" class="pilcrow">¶</a></p>
+          <p id="section-2-5.28.1">The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.<a href="#section-2-5.28.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1624,7 +1690,7 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
       }
     },
     / sd_alg /  12       : -16, / SHA-256 /
-    / redacted_claim_keys / 65556 : [
+    / redacted_claim_keys / -65536 : [
         / redacted age_at_least_18 /
         h'7e6e350907d0ba3aa7ae114f8da5b360' +
         h'601c0bb7995cd40049b98e4f58fb6ec0',
@@ -1635,15 +1701,12 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
     / swversion / 271 : [
       "3.5.5",
       / redacted version "4.1.7" /
-      {
-        / redacted_claim_element / 65555:
-        h'a0f74264a8c97655c958aff3687f1390' +
-        h'ed0ab6f64cd78ba43c3fefee0de7b835'
-      }
+      60(h'a0f74264a8c97655c958aff3687f1390' +
+         h'ed0ab6f64cd78ba43c3fefee0de7b835')
     ],
     "address": {
         "country" : "us",            / United States /
-        / redacted_claim_keys / 65556 : [
+        / redacted_claim_keys / -65536 : [
             / redacted region /
             h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
             h'ed010ac9ae1c93403ec72572bb1e00e7',
@@ -1707,7 +1770,7 @@ The digest value is included in the payload in a <code>redacted_claim_keys</code
 ]&gt;&gt;
 </pre><a href="#section-4-3" class="pilcrow">¶</a>
 </div>
-<p id="section-4-4">The Holder <span class="bcp14">MAY</span> fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the one described in draft-ietf-httpbis-unprompted-auth-12.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-4">The Holder <span class="bcp14">MAY</span> fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the method described in draft-ietf-httpbis-unprompted-auth-12.<a href="#section-4-4" class="pilcrow">¶</a></p>
 <p id="section-4-5">Finally, the Holder generates a Selective Disclosure Key Binding Token (SD-KBT) that ties together any disclosures, the Verifier nonce and target audience, and proof of possession of the Holder's private key.<a href="#section-4-5" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-4-6">
 <pre>
@@ -1771,11 +1834,11 @@ decoy = [
 salted-array = [ +bstr .cbor salted ]
 </pre><a href="#section-5.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-5.1-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_values</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with a CBOR map containing only the special key "...".<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with CBOR tag 60.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-5.1-5">
 <pre>
-redacted_element = { "...": any }
+redacted_claim_element = #6.60( bstr .size 16 )
 </pre><a href="#section-5.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-5.1-6">Blinded claims can be nested. For example, both individual keys in the <code>address</code> claim, and the entire <code>address</code> element can be separately blinded.
@@ -1877,7 +1940,7 @@ sd-payload = {
     ;
     ; sd-cwt new claims
       &amp;(sd_alg: 12) ^ =&gt; int,            ; -16 for sha-256
-    ? &amp;(redacted_keys: 65556) ^ =&gt; [ * bstr ],
+    ? &amp;(redacted_keys: -65536) ^ =&gt; [ * bstr ],
     * key =&gt; any
 }
 </pre><a href="#section-6.2-4" class="pilcrow">¶</a>
@@ -2000,7 +2063,7 @@ One possible concrete representation of the intermediate data structure for the 
 <p id="section-8-3">The Verifier constructs an empty cbor map called the Validated Disclosed Claimset, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claimset.
 Next the Verifier performs a breadth first or depth first traversal of the Presented Disclosed Claimset, Validated Disclosed Claimset, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claimset when they appear in the Presented Disclosed Claimset.
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
-If there remain unused Digest To Disclosed Claim Map at the end of this procedure the SD-CWT <span class="bcp14">MUST</span> be considered invalid, as if the siganture had failed to verify.
+If there remain unused Digest To Disclosed Claim Map at the end of this procedure the SD-CWT <span class="bcp14">MUST</span> be considered invalid, as if the signature had failed to verify.
 Otherwise the SD-CWT is considered valid, and the Validated Disclosed Claimset is now a CWT Claimset with no claims marked for redaction.
 Further validation logic can be applied to the Validated Disclosed Claimset, as it might normally be applied to a validated CWT claimset.<a href="#section-8-3" class="pilcrow">¶</a></p>
 </section>
@@ -2097,17 +2160,17 @@ Further validation logic can be applied to the Validated Disclosed Claimset, as 
     / cnonce / 39 : h'12345678',
     / sd_hash / 11       : h'abcdef12',
     / sd_alg /  12       : -16, / SHA-256 /
-    / redacted_keys / 13 : [
+    / redacted_claim_keys / -65536 : [
         h'abbdefef',  / redacted age_over_18 /
         h'132d75e7'  / redacted age_over_21 /
     ],
     / swversion / 271 : [
       "3.5.5",
-      { "...": h'45dd87af'  /redacted version element/ }
+      60(h'45dd87af') /redacted version element/ }
     ],
     "address": {
         "country" : "us",            / United States /
-        /redacted_keys/ 13 : [
+        /redacted_claim_keys/ -65536 : [
             h'adb7060403da225b',  / redacted region /
             h'e04bdfc44d3d40bc'   / redacted post_code /
         ]
@@ -2169,7 +2232,7 @@ It is up to the individual working groups to use this information as they see fi
       <h2 id="name-security-considerations">
 <a href="#section-13" class="section-number selfRef">13. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-13-1">Security considerations from COSE {(RFC9052)} and CWT <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span> apply to this specificaton.<a href="#section-13-1" class="pilcrow">¶</a></p>
+<p id="section-13-1">Security considerations from COSE {(RFC9052)} and CWT <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span> apply to this specification.<a href="#section-13-1" class="pilcrow">¶</a></p>
 <div id="random-numbers">
 <section id="section-13.1">
         <h3 id="name-random-numbers">
@@ -2198,12 +2261,26 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
 <a href="#section-14.1.1" class="section-number selfRef">14.1.1. </a><a href="#name-sd_claims" class="section-name selfRef">sd_claims</a>
           </h4>
 <p id="section-14.1.1-1">The following completed registration template per RFC8152 is provided:<a href="#section-14.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-14.1.1-2">Name: sd_claims
-Label: TBD9 (requested assignment 17)
-Value Type: bstr
-Value Registry: (empty)
-Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
-Reference: RFC XXXX<a href="#section-14.1.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.1.1-2.1">
+              <p id="section-14.1.1-2.1.1">Name: sd_claims<a href="#section-14.1.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.1.1-2.2">
+              <p id="section-14.1.1-2.2.1">Label: TBD9 (requested assignment 17)<a href="#section-14.1.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.1.1-2.3">
+              <p id="section-14.1.1-2.3.1">Value Type: bstr<a href="#section-14.1.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.1.1-2.4">
+              <p id="section-14.1.1-2.4.1">Value Registry: (empty)<a href="#section-14.1.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.1.1-2.5">
+              <p id="section-14.1.1-2.5.1">Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.<a href="#section-14.1.1-2.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.1.1-2.6">
+              <p id="section-14.1.1-2.6.1">Reference: RFC XXXX<a href="#section-14.1.1-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
 <div id="sdkbt">
@@ -2212,235 +2289,365 @@ Reference: RFC XXXX<a href="#section-14.1.1-2" class="pilcrow">¶</a></p>
 <a href="#section-14.1.2" class="section-number selfRef">14.1.2. </a><a href="#name-sd_kbt" class="section-name selfRef">sd_kbt</a>
           </h4>
 <p id="section-14.1.2-1">The following completed registration template per RFC8152 is provided:<a href="#section-14.1.2-1" class="pilcrow">¶</a></p>
-<p id="section-14.1.2-2">Name: sd_kbt
-Label: TBD8 (requested assignment 18)
-Value Type: bstr
-Value Registry: (empty)
-Description: Key binding token for disclosed claims
-Reference: RFC XXXX<a href="#section-14.1.2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.1.2-2.1">
+              <p id="section-14.1.2-2.1.1">Name: sd_kbt<a href="#section-14.1.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.1.2-2.2">
+              <p id="section-14.1.2-2.2.1">Label: TBD8 (requested assignment 18)<a href="#section-14.1.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.1.2-2.3">
+              <p id="section-14.1.2-2.3.1">Value Type: bstr<a href="#section-14.1.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.1.2-2.4">
+              <p id="section-14.1.2-2.4.1">Value Registry: (empty)<a href="#section-14.1.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.1.2-2.5">
+              <p id="section-14.1.2-2.5.1">Description: Key binding token for disclosed claims<a href="#section-14.1.2-2.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.1.2-2.6">
+              <p id="section-14.1.2-2.6.1">Reference: RFC XXXX<a href="#section-14.1.2-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="cbor-tags">
+<section id="section-14.2">
+        <h3 id="name-cbor-tags">
+<a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-cbor-tags" class="section-name selfRef">CBOR Tags</a>
+        </h3>
+<div id="redacted-claim-element-tag">
+<section id="section-14.2.1">
+          <h4 id="name-redacted-claim-element-tag">
+<a href="#section-14.2.1" class="section-number selfRef">14.2.1. </a><a href="#name-redacted-claim-element-tag" class="section-name selfRef">Redacted claim element tag</a>
+          </h4>
+<p id="section-14.2.1-1">The binary string inside the tag is a selective disclosure redacted claim element of an array.<a href="#section-14.2.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.2.1-2.1">
+              <p id="section-14.2.1-2.1.1">Tag: 60 (requested)<a href="#section-14.2.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.2.1-2.2">
+              <p id="section-14.2.1-2.2.1">Data Item: byte string<a href="#section-14.2.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.2.1-2.3">
+              <p id="section-14.2.1-2.3.1">Semantics: A selective disclosure redacted (array) claim element.<a href="#section-14.2.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.2.1-2.4">
+              <p id="section-14.2.1-2.4.1">Specification Document(s): RFC XXXX<a href="#section-14.2.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="to-be-redacted-tag">
+<section id="section-14.2.2">
+          <h4 id="name-to-be-redacted-tag">
+<a href="#section-14.2.2" class="section-number selfRef">14.2.2. </a><a href="#name-to-be-redacted-tag" class="section-name selfRef">To be redacted tag</a>
+          </h4>
+<p id="section-14.2.2-1">The array claim element, or map key and value inside the "To be redacted" tag is intended to be redacted using selective disclosure.<a href="#section-14.2.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.2.2-2.1">
+              <p id="section-14.2.2-2.1.1">Tag: 58 (requested)<a href="#section-14.2.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.2.2-2.2">
+              <p id="section-14.2.2-2.2.1">Data Item: (any)<a href="#section-14.2.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.2.2-2.3">
+              <p id="section-14.2.2-2.3.1">Semantics: An array claim element, or map key and value intended to be redacted.<a href="#section-14.2.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.2.2-2.4">
+              <p id="section-14.2.2-2.4.1">Specification Document(s): RFC XXXX<a href="#section-14.2.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
 </section>
 </div>
 <div id="cbor-web-token-cwt-claims">
-<section id="section-14.2">
+<section id="section-14.3">
         <h3 id="name-cbor-web-token-cwt-claims">
-<a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-cbor-web-token-cwt-claims" class="section-name selfRef">CBOR Web Token (CWT) Claims</a>
+<a href="#section-14.3" class="section-number selfRef">14.3. </a><a href="#name-cbor-web-token-cwt-claims" class="section-name selfRef">CBOR Web Token (CWT) Claims</a>
         </h3>
-<p id="section-14.2-1">IANA is requested to add the following entries to the CWT claims registry (https://www.iana.org/assignments/cwt/cwt.xhtml).<a href="#section-14.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.3-1">IANA is requested to add the following entries to the CWT claims registry (https://www.iana.org/assignments/cwt/cwt.xhtml).<a href="#section-14.3-1" class="pilcrow">¶</a></p>
 <div id="redactedclaimkeys">
-<section id="section-14.2.1">
+<section id="section-14.3.1">
           <h4 id="name-redacted_claim_keys">
-<a href="#section-14.2.1" class="section-number selfRef">14.2.1. </a><a href="#name-redacted_claim_keys" class="section-name selfRef">redacted_claim_keys</a>
+<a href="#section-14.3.1" class="section-number selfRef">14.3.1. </a><a href="#name-redacted_claim_keys" class="section-name selfRef">redacted_claim_keys</a>
           </h4>
-<p id="section-14.2.1-1">The following completed registration template per RFC8392 is provided:<a href="#section-14.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-14.2.1-2">Claim Name: redacted_claim_keys
-Claim Description: Redacted Claim Keys in a map.
-JWT Claim Name: _sd
-Claim Key: TBD5 (request assignment 65556)
-Claim Value Type(s): array of bstr
-Change Controller: IETF
-Specification Document(s): RFC XXXX<a href="#section-14.2.1-2" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="redactedclaimelement">
-<section id="section-14.2.2">
-          <h4 id="name-redacted_claim_element">
-<a href="#section-14.2.2" class="section-number selfRef">14.2.2. </a><a href="#name-redacted_claim_element" class="section-name selfRef">redacted_claim_element</a>
-          </h4>
-<p id="section-14.2.2-1">The following completed registration template per RFC8392 is provided:<a href="#section-14.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-14.2.2-2">Claim Name: redacted_claim_element
-Claim Description: Redacted element of an array
-JWT Claim Name: ...
-Claim Key: TBD6 (request assignment 65555)
-Claim Value Type(s): array of bstr
-Change Controller: IETF
-Specification Document(s): RFC XXXX<a href="#section-14.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-14.3.1-1">The following completed registration template per RFC8392 is provided:<a href="#section-14.3.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.3.1-2.1">
+              <p id="section-14.3.1-2.1.1">Claim Name: redacted_claim_keys<a href="#section-14.3.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.1-2.2">
+              <p id="section-14.3.1-2.2.1">Claim Description: Redacted Claim Keys in a map.<a href="#section-14.3.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.1-2.3">
+              <p id="section-14.3.1-2.3.1">JWT Claim Name: _sd<a href="#section-14.3.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.1-2.4">
+              <p id="section-14.3.1-2.4.1">Claim Key: TBD5 (request assignment -65536)<a href="#section-14.3.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.1-2.5">
+              <p id="section-14.3.1-2.5.1">Claim Value Type(s): array of bstr<a href="#section-14.3.1-2.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.1-2.6">
+              <p id="section-14.3.1-2.6.1">Change Controller: IETF<a href="#section-14.3.1-2.6.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.1-2.7">
+              <p id="section-14.3.1-2.7.1">Specification Document(s): RFC XXXX<a href="#section-14.3.1-2.7.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
 <div id="sdalg">
-<section id="section-14.2.3">
+<section id="section-14.3.2">
           <h4 id="name-sd_alg">
-<a href="#section-14.2.3" class="section-number selfRef">14.2.3. </a><a href="#name-sd_alg" class="section-name selfRef">sd_alg</a>
+<a href="#section-14.3.2" class="section-number selfRef">14.3.2. </a><a href="#name-sd_alg" class="section-name selfRef">sd_alg</a>
           </h4>
-<p id="section-14.2.3-1">The following completed registration template per RFC8392 is provided:<a href="#section-14.2.3-1" class="pilcrow">¶</a></p>
-<p id="section-14.2.3-2">Claim Name: sd_alg
-Claim Description: Hash algorithm used for selective disclosure
-JWT Claim Name: _sd_alg
-Claim Key: TBD4 (request assignment 12)
-Claim Value Type(s): integer
-Change Controller: IETF
-Specification Document(s): RFC XXXX<a href="#section-14.2.3-2" class="pilcrow">¶</a></p>
+<p id="section-14.3.2-1">The following completed registration template per RFC8392 is provided:<a href="#section-14.3.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.3.2-2.1">
+              <p id="section-14.3.2-2.1.1">Claim Name: sd_alg<a href="#section-14.3.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.2-2.2">
+              <p id="section-14.3.2-2.2.1">Claim Description: Hash algorithm used for selective disclosure<a href="#section-14.3.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.2-2.3">
+              <p id="section-14.3.2-2.3.1">JWT Claim Name: _sd_alg<a href="#section-14.3.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.2-2.4">
+              <p id="section-14.3.2-2.4.1">Claim Key: TBD4 (request assignment 12)<a href="#section-14.3.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.2-2.5">
+              <p id="section-14.3.2-2.5.1">Claim Value Type(s): integer<a href="#section-14.3.2-2.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.2-2.6">
+              <p id="section-14.3.2-2.6.1">Change Controller: IETF<a href="#section-14.3.2-2.6.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.2-2.7">
+              <p id="section-14.3.2-2.7.1">Specification Document(s): RFC XXXX<a href="#section-14.3.2-2.7.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
 <div id="sdhash">
-<section id="section-14.2.4">
+<section id="section-14.3.3">
           <h4 id="name-sd_hash">
-<a href="#section-14.2.4" class="section-number selfRef">14.2.4. </a><a href="#name-sd_hash" class="section-name selfRef">sd_hash</a>
+<a href="#section-14.3.3" class="section-number selfRef">14.3.3. </a><a href="#name-sd_hash" class="section-name selfRef">sd_hash</a>
           </h4>
-<p id="section-14.2.4-1">The following completed registration template per RFC8392 is provided:<a href="#section-14.2.4-1" class="pilcrow">¶</a></p>
-<p id="section-14.2.4-2">Claim Name: sd_hash
-Claim Description: Hash of encoded disclosed claims
-JWT Claim Name: sd_hash
-Claim Key: TBD3 (request assignment 11)
-Claim Value Type(s): bstr
-Change Controller: IETF
-Specification Document(s): RFC XXXX<a href="#section-14.2.4-2" class="pilcrow">¶</a></p>
+<p id="section-14.3.3-1">The following completed registration template per RFC8392 is provided:<a href="#section-14.3.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.3.3-2.1">
+              <p id="section-14.3.3-2.1.1">Claim Name: sd_hash<a href="#section-14.3.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.3-2.2">
+              <p id="section-14.3.3-2.2.1">Claim Description: Hash of encoded disclosed claims<a href="#section-14.3.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.3-2.3">
+              <p id="section-14.3.3-2.3.1">JWT Claim Name: sd_hash<a href="#section-14.3.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.3-2.4">
+              <p id="section-14.3.3-2.4.1">Claim Key: TBD3 (request assignment 11)<a href="#section-14.3.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.3-2.5">
+              <p id="section-14.3.3-2.5.1">Claim Value Type(s): bstr<a href="#section-14.3.3-2.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.3-2.6">
+              <p id="section-14.3.3-2.6.1">Change Controller: IETF<a href="#section-14.3.3-2.6.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.3-2.7">
+              <p id="section-14.3.3-2.7.1">Specification Document(s): RFC XXXX<a href="#section-14.3.3-2.7.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
 <div id="vct">
-<section id="section-14.2.5">
+<section id="section-14.3.4">
           <h4 id="name-vct">
-<a href="#section-14.2.5" class="section-number selfRef">14.2.5. </a><a href="#name-vct" class="section-name selfRef">vct</a>
+<a href="#section-14.3.4" class="section-number selfRef">14.3.4. </a><a href="#name-vct" class="section-name selfRef">vct</a>
           </h4>
-<p id="section-14.2.5-1">The following completed registration template per RFC8392 is provided:<a href="#section-14.2.5-1" class="pilcrow">¶</a></p>
-<p id="section-14.2.5-2">Claim Name: vct
-Claim Description: Verifiable credential type
-JWT Claim Name: vct
-Claim Key: TBD7 (request assignment 15)
-Claim Value Type(s): bstr
-Change Controller: IETF
-Specification Document(s): RFC XXXX<a href="#section-14.2.5-2" class="pilcrow">¶</a></p>
+<p id="section-14.3.4-1">The following completed registration template per RFC8392 is provided:<a href="#section-14.3.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.3.4-2.1">
+              <p id="section-14.3.4-2.1.1">Claim Name: vct<a href="#section-14.3.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.4-2.2">
+              <p id="section-14.3.4-2.2.1">Claim Description: Verifiable credential type<a href="#section-14.3.4-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.4-2.3">
+              <p id="section-14.3.4-2.3.1">JWT Claim Name: vct<a href="#section-14.3.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.4-2.4">
+              <p id="section-14.3.4-2.4.1">Claim Key: TBD7 (request assignment 15)<a href="#section-14.3.4-2.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.4-2.5">
+              <p id="section-14.3.4-2.5.1">Claim Value Type(s): bstr<a href="#section-14.3.4-2.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.4-2.6">
+              <p id="section-14.3.4-2.6.1">Change Controller: IETF<a href="#section-14.3.4-2.6.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.3.4-2.7">
+              <p id="section-14.3.4-2.7.1">Specification Document(s): RFC XXXX<a href="#section-14.3.4-2.7.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
 </section>
 </div>
 <div id="media-types">
-<section id="section-14.3">
+<section id="section-14.4">
         <h3 id="name-media-types">
-<a href="#section-14.3" class="section-number selfRef">14.3. </a><a href="#name-media-types" class="section-name selfRef">Media Types</a>
+<a href="#section-14.4" class="section-number selfRef">14.4. </a><a href="#name-media-types" class="section-name selfRef">Media Types</a>
         </h3>
-<p id="section-14.3-1">This section requests the registration of new media types in https://www.iana.org/assignments/media-types/media-types.xhtml.<a href="#section-14.3-1" class="pilcrow">¶</a></p>
+<p id="section-14.4-1">This section requests the registration of new media types in https://www.iana.org/assignments/media-types/media-types.xhtml.<a href="#section-14.4-1" class="pilcrow">¶</a></p>
 <div id="applicationsdcwt">
-<section id="section-14.3.1">
+<section id="section-14.4.1">
           <h4 id="name-application-sdcwt">
-<a href="#section-14.3.1" class="section-number selfRef">14.3.1. </a><a href="#name-application-sdcwt" class="section-name selfRef">application/sd+cwt</a>
+<a href="#section-14.4.1" class="section-number selfRef">14.4.1. </a><a href="#name-application-sdcwt" class="section-name selfRef">application/sd+cwt</a>
           </h4>
-<p id="section-14.3.1-1">IANA is requested to add the following entry to the media types registry in accordance with RFC6838, RFC4289, and RFC6657.<a href="#section-14.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-14.3.1-2">The following completed registration template is provided:<a href="#section-14.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-14.4.1-1">IANA is requested to add the following entry to the media types registry in accordance with RFC6838, RFC4289, and RFC6657.<a href="#section-14.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-14.4.1-2">The following completed registration template is provided:<a href="#section-14.4.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.3.1-3.1">
-              <p id="section-14.3.1-3.1.1">Type name: application<a href="#section-14.3.1-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.4.1-3.1">
+              <p id="section-14.4.1-3.1.1">Type name: application<a href="#section-14.4.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.2">
-              <p id="section-14.3.1-3.2.1">Subtype name: sd+cwt<a href="#section-14.3.1-3.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.2">
+              <p id="section-14.4.1-3.2.1">Subtype name: sd+cwt<a href="#section-14.4.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.3">
-              <p id="section-14.3.1-3.3.1">Required parameters: n/a<a href="#section-14.3.1-3.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.3">
+              <p id="section-14.4.1-3.3.1">Required parameters: n/a<a href="#section-14.4.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.4">
-              <p id="section-14.3.1-3.4.1">Optional parameters: n/a<a href="#section-14.3.1-3.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.4">
+              <p id="section-14.4.1-3.4.1">Optional parameters: n/a<a href="#section-14.4.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.5">
-              <p id="section-14.3.1-3.5.1">Encoding considerations: binary<a href="#section-14.3.1-3.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.5">
+              <p id="section-14.4.1-3.5.1">Encoding considerations: binary<a href="#section-14.4.1-3.5.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.6">
-              <p id="section-14.3.1-3.6.1">Security considerations: See the Security Considerations section
-of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span><a href="#section-14.3.1-3.6.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.6">
+              <p id="section-14.4.1-3.6.1">Security considerations: See the Security Considerations section
+of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span><a href="#section-14.4.1-3.6.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.7">
-              <p id="section-14.3.1-3.7.1">Interoperability considerations: n/a<a href="#section-14.3.1-3.7.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.7">
+              <p id="section-14.4.1-3.7.1">Interoperability considerations: n/a<a href="#section-14.4.1-3.7.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.8">
-              <p id="section-14.3.1-3.8.1">Published specification: RFC XXXX<a href="#section-14.3.1-3.8.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.8">
+              <p id="section-14.4.1-3.8.1">Published specification: RFC XXXX<a href="#section-14.4.1-3.8.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.9">
-              <p id="section-14.3.1-3.9.1">Applications that use this media type: TBD<a href="#section-14.3.1-3.9.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.9">
+              <p id="section-14.4.1-3.9.1">Applications that use this media type: TBD<a href="#section-14.4.1-3.9.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.10">
-              <p id="section-14.3.1-3.10.1">Fragment identifier considerations: n/a<a href="#section-14.3.1-3.10.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.10">
+              <p id="section-14.4.1-3.10.1">Fragment identifier considerations: n/a<a href="#section-14.4.1-3.10.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.11">
-              <p id="section-14.3.1-3.11.1">Additional information:
-    Magic number(s): n/a
-    File extension(s): n/a
-    Macintosh file type code(s): n/a<a href="#section-14.3.1-3.11.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.11">
+              <p id="section-14.4.1-3.11.1">Additional information:<a href="#section-14.4.1-3.11.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.4.1-3.11.2.1">
+                  <p id="section-14.4.1-3.11.2.1.1">Magic number(s): n/a<a href="#section-14.4.1-3.11.2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.12">
-              <p id="section-14.3.1-3.12.1">Person &amp; email address to contact for further information:
-Michael Prorock, mprorock@mesur.io<a href="#section-14.3.1-3.12.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-14.4.1-3.11.2.2">
+                  <p id="section-14.4.1-3.11.2.2.1">File extension(s): n/a<a href="#section-14.4.1-3.11.2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.13">
-              <p id="section-14.3.1-3.13.1">Intended usage: COMMON<a href="#section-14.3.1-3.13.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-14.4.1-3.11.2.3">
+                  <p id="section-14.4.1-3.11.2.3.1">Macintosh file type code(s): n/a<a href="#section-14.4.1-3.11.2.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.14">
-              <p id="section-14.3.1-3.14.1">Restrictions on usage: none<a href="#section-14.3.1-3.14.1" class="pilcrow">¶</a></p>
+              </ul>
 </li>
-            <li class="normal" id="section-14.3.1-3.15">
-              <p id="section-14.3.1-3.15.1">Author: Michael Prorock, mprorock@mesur.io<a href="#section-14.3.1-3.15.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.12">
+              <p id="section-14.4.1-3.12.1">Person &amp; email address to contact for further information:
+Michael Prorock, mprorock@mesur.io<a href="#section-14.4.1-3.12.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.16">
-              <p id="section-14.3.1-3.16.1">Change controller: IETF<a href="#section-14.3.1-3.16.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.13">
+              <p id="section-14.4.1-3.13.1">Intended usage: COMMON<a href="#section-14.4.1-3.13.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.1-3.17">
-              <p id="section-14.3.1-3.17.1">Provisional registration?  No<a href="#section-14.3.1-3.17.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.1-3.14">
+              <p id="section-14.4.1-3.14.1">Restrictions on usage: none<a href="#section-14.4.1-3.14.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.4.1-3.15">
+              <p id="section-14.4.1-3.15.1">Author: Michael Prorock, mprorock@mesur.io<a href="#section-14.4.1-3.15.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.4.1-3.16">
+              <p id="section-14.4.1-3.16.1">Change controller: IETF<a href="#section-14.4.1-3.16.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.4.1-3.17">
+              <p id="section-14.4.1-3.17.1">Provisional registration?  No<a href="#section-14.4.1-3.17.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
 <div id="applicationkbcwt">
-<section id="section-14.3.2">
+<section id="section-14.4.2">
           <h4 id="name-application-kbcwt">
-<a href="#section-14.3.2" class="section-number selfRef">14.3.2. </a><a href="#name-application-kbcwt" class="section-name selfRef">application/kb+cwt</a>
+<a href="#section-14.4.2" class="section-number selfRef">14.4.2. </a><a href="#name-application-kbcwt" class="section-name selfRef">application/kb+cwt</a>
           </h4>
-<p id="section-14.3.2-1">IANA is requested to add the following entry to the media types registry in accordance with RFC6838, RFC4289, and RFC6657.<a href="#section-14.3.2-1" class="pilcrow">¶</a></p>
-<p id="section-14.3.2-2">The following completed registration template is provided:<a href="#section-14.3.2-2" class="pilcrow">¶</a></p>
+<p id="section-14.4.2-1">IANA is requested to add the following entry to the media types registry in accordance with RFC6838, RFC4289, and RFC6657.<a href="#section-14.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.4.2-2">The following completed registration template is provided:<a href="#section-14.4.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.3.2-3.1">
-              <p id="section-14.3.2-3.1.1">Type name: application<a href="#section-14.3.2-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.4.2-3.1">
+              <p id="section-14.4.2-3.1.1">Type name: application<a href="#section-14.4.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.2">
-              <p id="section-14.3.2-3.2.1">Subtype name: kb+cwt<a href="#section-14.3.2-3.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.2">
+              <p id="section-14.4.2-3.2.1">Subtype name: kb+cwt<a href="#section-14.4.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.3">
-              <p id="section-14.3.2-3.3.1">Required parameters: n/a<a href="#section-14.3.2-3.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.3">
+              <p id="section-14.4.2-3.3.1">Required parameters: n/a<a href="#section-14.4.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.4">
-              <p id="section-14.3.2-3.4.1">Optional parameters: n/a<a href="#section-14.3.2-3.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.4">
+              <p id="section-14.4.2-3.4.1">Optional parameters: n/a<a href="#section-14.4.2-3.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.5">
-              <p id="section-14.3.2-3.5.1">Encoding considerations: binary<a href="#section-14.3.2-3.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.5">
+              <p id="section-14.4.2-3.5.1">Encoding considerations: binary<a href="#section-14.4.2-3.5.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.6">
-              <p id="section-14.3.2-3.6.1">Security considerations: See the Security Considerations section
-of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span><a href="#section-14.3.2-3.6.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.6">
+              <p id="section-14.4.2-3.6.1">Security considerations: See the Security Considerations section
+of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span><a href="#section-14.4.2-3.6.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.7">
-              <p id="section-14.3.2-3.7.1">Interoperability considerations: n/a<a href="#section-14.3.2-3.7.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.7">
+              <p id="section-14.4.2-3.7.1">Interoperability considerations: n/a<a href="#section-14.4.2-3.7.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.8">
-              <p id="section-14.3.2-3.8.1">Published specification: RFC XXXX<a href="#section-14.3.2-3.8.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.8">
+              <p id="section-14.4.2-3.8.1">Published specification: RFC XXXX<a href="#section-14.4.2-3.8.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.9">
-              <p id="section-14.3.2-3.9.1">Applications that use this media type: TBD<a href="#section-14.3.2-3.9.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.9">
+              <p id="section-14.4.2-3.9.1">Applications that use this media type: TBD<a href="#section-14.4.2-3.9.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.10">
-              <p id="section-14.3.2-3.10.1">Fragment identifier considerations: n/a<a href="#section-14.3.2-3.10.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.10">
+              <p id="section-14.4.2-3.10.1">Fragment identifier considerations: n/a<a href="#section-14.4.2-3.10.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.11">
-              <p id="section-14.3.2-3.11.1">Additional information:
-    Magic number(s): n/a
-    File extension(s): n/a
-    Macintosh file type code(s): n/a<a href="#section-14.3.2-3.11.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.11">
+              <p id="section-14.4.2-3.11.1">Additional information:<a href="#section-14.4.2-3.11.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.4.2-3.11.2.1">
+                  <p id="section-14.4.2-3.11.2.1.1">Magic number(s): n/a<a href="#section-14.4.2-3.11.2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.12">
-              <p id="section-14.3.2-3.12.1">Person &amp; email address to contact for further information:
-Orie Steele, orie@transmute.industries<a href="#section-14.3.2-3.12.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-14.4.2-3.11.2.2">
+                  <p id="section-14.4.2-3.11.2.2.1">File extension(s): n/a<a href="#section-14.4.2-3.11.2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.13">
-              <p id="section-14.3.2-3.13.1">Intended usage: COMMON<a href="#section-14.3.2-3.13.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-14.4.2-3.11.2.3">
+                  <p id="section-14.4.2-3.11.2.3.1">Macintosh file type code(s): n/a<a href="#section-14.4.2-3.11.2.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.14">
-              <p id="section-14.3.2-3.14.1">Restrictions on usage: none<a href="#section-14.3.2-3.14.1" class="pilcrow">¶</a></p>
+              </ul>
 </li>
-            <li class="normal" id="section-14.3.2-3.15">
-              <p id="section-14.3.2-3.15.1">Author: Orie Steele, orie@transmute.industries<a href="#section-14.3.2-3.15.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.12">
+              <p id="section-14.4.2-3.12.1">Person &amp; email address to contact for further information:
+Orie Steele, orie@transmute.industries<a href="#section-14.4.2-3.12.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.16">
-              <p id="section-14.3.2-3.16.1">Change controller: IETF<a href="#section-14.3.2-3.16.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.13">
+              <p id="section-14.4.2-3.13.1">Intended usage: COMMON<a href="#section-14.4.2-3.13.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.3.2-3.17">
-              <p id="section-14.3.2-3.17.1">Provisional registration?  No<a href="#section-14.3.2-3.17.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.2-3.14">
+              <p id="section-14.4.2-3.14.1">Restrictions on usage: none<a href="#section-14.4.2-3.14.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.4.2-3.15">
+              <p id="section-14.4.2-3.15.1">Author: Orie Steele, orie@transmute.industries<a href="#section-14.4.2-3.15.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.4.2-3.16">
+              <p id="section-14.4.2-3.16.1">Change controller: IETF<a href="#section-14.4.2-3.16.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.4.2-3.17">
+              <p id="section-14.4.2-3.17.1">Provisional registration?  No<a href="#section-14.4.2-3.17.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2470,7 +2677,7 @@ Orie Steele, orie@transmute.industries<a href="#section-14.3.2-3.12.1" class="pi
 <dd class="break"></dd>
 <dt id="I-D.ietf-cbor-edn-literals">[I-D.ietf-cbor-edn-literals]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Extended Diagnostic Notation (EDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-12</span>, <time datetime="2024-09-01" class="refDate">1 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-12">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-12</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Extended Diagnostic Notation (EDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-13</span>, <time datetime="2024-11-03" class="refDate">3 November 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-13">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-13</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -2523,11 +2730,11 @@ Orie Steele, orie@transmute.industries<a href="#section-14.3.2-3.12.1" class="pi
 <dl class="references">
 <dt id="I-D.draft-ietf-oauth-sd-jwt-vc">[I-D.draft-ietf-oauth-sd-jwt-vc]</dt>
         <dd>
-<span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-05</span>, <time datetime="2024-09-18" class="refDate">18 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-05">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-05</a>&gt;</span>. </dd>
+<span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-06</span>, <time datetime="2024-11-13" class="refDate">13 November 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-06">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-06</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-oauth-selective-disclosure-jwt">[I-D.draft-ietf-oauth-selective-disclosure-jwt]</dt>
       <dd>
-<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-12</span>, <time datetime="2024-09-03" class="refDate">3 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-12">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-12</a>&gt;</span>. </dd>
+<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-14</span>, <time datetime="2024-11-15" class="refDate">15 November 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-14">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-14</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -2609,7 +2816,7 @@ sd-payload = {
     ; sd-cwt new claims
       &amp;(sd_hash: TBD3) ^ =&gt; bstr,
       &amp;(sd_alg: TBD4) ^ =&gt; int,            ; -16 for sha-256
-    ? &amp;(redacted_keys: TBD5) ^ =&gt; [ * bstr ],
+    ? &amp;(redacted_claim_keys: TBD5) ^ =&gt; [ * bstr ],
     * key =&gt; any
 }
 
@@ -2623,7 +2830,7 @@ kbt-payload = {
     * key =&gt; any
 }
 
-;redacted_element = { "...": bstr }
+;redacted_claim_element = #6.60( bstr .size 16 )
 salted = salted-claim / salted-element
 salted-claim = [
   bstr ;.size 16,     ; 128-bit salt
@@ -2640,7 +2847,7 @@ TBD1 = 17
 TBD2 = 18
 TBD3 = 11
 TBD4 = 12
-TBD5 = 13
+TBD5 = -65536
 </pre>
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
@@ -2669,8 +2876,8 @@ TBD5 = 13
         <h3 id="name-redaction-claims">
 <a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-redaction-claims" class="section-name selfRef">Redaction Claims</a>
         </h3>
-<p id="appendix-B.2-1">The COSE equivalent of <code>_sd</code> is TBD5 (requested assignment 65556).<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
-<p id="appendix-B.2-2">The COSE equivalent of <code>...</code> is TBD6 (requested assignment 65555).<a href="#appendix-B.2-2" class="pilcrow">¶</a></p>
+<p id="appendix-B.2-1">The COSE equivalent of <code>_sd</code> is TBD5 (requested assignment -65536).<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-B.2-2">The COSE equivalent of <code>...</code> is a CBOR tag (requested assignment 60) of the digested salted claim.<a href="#appendix-B.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="issuance">
@@ -2883,6 +3090,14 @@ Brian Campbell, Oliver Terbu, and Michael Jones.<a href="#appendix-E-1" class="p
 <div class="email">
 <span>Email:</span>
 <a href="mailto:henk.birkholz@ietf.contact" class="email">henk.birkholz@ietf.contact</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Rohan Mahy</span></div>
+<div dir="auto" class="left"><span class="org">Rohan Mahy Consulting Services</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:rohan.ietf@gmail.com" class="email">rohan.ietf@gmail.com</a>
 </div>
 </address>
 </section>

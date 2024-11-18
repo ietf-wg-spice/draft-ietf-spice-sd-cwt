@@ -6,9 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 19 April 2025                                       H. Birkholz
+Expires: 22 May 2025                                         H. Birkholz
                                                           Fraunhofer SIT
-                                                         16 October 2024
+                                                                 R. Mahy
+                                          Rohan Mahy Consulting Services
+                                                        18 November 2024
 
 
                               SPICE SD-CWT
@@ -54,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 April 2025.
+   This Internet-Draft will expire on 22 May 2025.
 
 Copyright Notice
 
@@ -100,15 +102,17 @@ Table of Contents
      14.1.  COSE Header Parameters
        14.1.1.  sd_claims
        14.1.2.  sd_kbt
-     14.2.  CBOR Web Token (CWT) Claims
-       14.2.1.  redacted_claim_keys
-       14.2.2.  redacted_claim_element
-       14.2.3.  sd_alg
-       14.2.4.  sd_hash
-       14.2.5.  vct
-     14.3.  Media Types
-       14.3.1.  application/sd+cwt
-       14.3.2.  application/kb+cwt
+     14.2.  CBOR Tags
+       14.2.1.  Redacted claim element tag
+       14.2.2.  To be redacted tag
+     14.3.  CBOR Web Token (CWT) Claims
+       14.3.1.  redacted_claim_keys
+       14.3.2.  sd_alg
+       14.3.3.  sd_hash
+       14.3.4.  vct
+     14.4.  Media Types
+       14.4.1.  application/sd+cwt
+       14.4.2.  application/kb+cwt
    15. References
      15.1.  Normative References
      15.2.  Informative References
@@ -258,7 +262,7 @@ Issuer                           Holder                         Verifier
 
    Validated Disclosed Claims Set:  The CBOR map containing all
       mandatory to disclose claims signed by the issuer, all selectively
-      disclosed claims presented by the holder, and ommiting all
+      disclosed claims presented by the holder, and omitting all
       undisclosed instances of Redacted Claim Keys and Redacted Claim
       Element claims that are present in the original SD-CWT.
 
@@ -369,7 +373,7 @@ Issuer                           Holder                         Verifier
          }
        },
        / sd_alg /  12       : -16, / SHA-256 /
-       / redacted_claim_keys / 65556 : [
+       / redacted_claim_keys / -65536 : [
            / redacted age_at_least_18 /
            h'7e6e350907d0ba3aa7ae114f8da5b360' +
            h'601c0bb7995cd40049b98e4f58fb6ec0',
@@ -380,15 +384,12 @@ Issuer                           Holder                         Verifier
        / swversion / 271 : [
          "3.5.5",
          / redacted version "4.1.7" /
-         {
-           / redacted_claim_element / 65555:
-           h'a0f74264a8c97655c958aff3687f1390' +
-           h'ed0ab6f64cd78ba43c3fefee0de7b835'
-         }
+         60(h'a0f74264a8c97655c958aff3687f1390' +
+            h'ed0ab6f64cd78ba43c3fefee0de7b835')
        ],
        "address": {
            "country" : "us",            / United States /
-           / redacted_claim_keys / 65556 : [
+           / redacted_claim_keys / -65536 : [
                / redacted region /
                h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
                h'ed010ac9ae1c93403ec72572bb1e00e7',
@@ -452,7 +453,7 @@ Issuer                           Holder                         Verifier
 
    The Holder MAY fetch a nonce from the Verifier to prevent replay, or
    obtain a nonce acceptable to the verifier through a process similar
-   to the one described in draft-ietf-httpbis-unprompted-auth-12.
+   to the method described in draft-ietf-httpbis-unprompted-auth-12.
 
    Finally, the Holder generates a Selective Disclosure Key Binding
    Token (SD-KBT) that ties together any disclosures, the Verifier nonce
@@ -527,13 +528,14 @@ Issuer                           Holder                         Verifier
    salted-array = [ +bstr .cbor salted ]
 
    When a blinded claim is a key in a map, its blinded claim hash is
-   added to a redacted_values array claim in the CWT payload that is at
-   the same level of hierarchy as the key being blinded.
+   added to a redacted_claim_keys array claim in the CWT payload that is
+   at the same level of hierarchy as the key being blinded.
 
    When blinding an individual item in an array, the value of the item
-   is replaced with a CBOR map containing only the special key "...".
+   is replaced with the digested salted hash as a CBOR binary string,
+   wrapped with CBOR tag 60.
 
-   redacted_element = { "...": any }
+   redacted_claim_element = #6.60( bstr .size 16 )
 
    Blinded claims can be nested.  For example, both individual keys in
    the address claim, and the entire address element can be separately
@@ -635,7 +637,7 @@ Issuer                           Holder                         Verifier
        ;
        ; sd-cwt new claims
          &(sd_alg: 12) ^ => int,            ; -16 for sha-256
-       ? &(redacted_keys: 65556) ^ => [ * bstr ],
+       ? &(redacted_keys: -65536) ^ => [ * bstr ],
        * key => any
    }
 
@@ -773,7 +775,7 @@ Issuer                           Holder                         Verifier
    cryptographically verify the integrity of the protected claims and
    verify they have not been tampered with.  If there remain unused
    Digest To Disclosed Claim Map at the end of this procedure the SD-CWT
-   MUST be considered invalid, as if the siganture had failed to verify.
+   MUST be considered invalid, as if the signature had failed to verify.
    Otherwise the SD-CWT is considered valid, and the Validated Disclosed
    Claimset is now a CWT Claimset with no claims marked for redaction.
    Further validation logic can be applied to the Validated Disclosed
@@ -866,17 +868,17 @@ Issuer                           Holder                         Verifier
        / cnonce / 39 : h'12345678',
        / sd_hash / 11       : h'abcdef12',
        / sd_alg /  12       : -16, / SHA-256 /
-       / redacted_keys / 13 : [
+       / redacted_claim_keys / -65536 : [
            h'abbdefef',  / redacted age_over_18 /
            h'132d75e7'  / redacted age_over_21 /
        ],
        / swversion / 271 : [
          "3.5.5",
-         { "...": h'45dd87af'  /redacted version element/ }
+         60(h'45dd87af') /redacted version element/ }
        ],
        "address": {
            "country" : "us",            / United States /
-           /redacted_keys/ 13 : [
+           /redacted_claim_keys/ -65536 : [
                h'adb7060403da225b',  / redacted region /
                h'e04bdfc44d3d40bc'   / redacted post_code /
            ]
@@ -942,7 +944,7 @@ Issuer                           Holder                         Verifier
 13.  Security Considerations
 
    Security considerations from COSE {(RFC9052)} and CWT [RFC8392] apply
-   to this specificaton.
+   to this specification.
 
 13.1.  Random Numbers
 
@@ -965,81 +967,153 @@ Issuer                           Holder                         Verifier
    The following completed registration template per RFC8152 is
    provided:
 
-   Name: sd_claims Label: TBD9 (requested assignment 17) Value Type:
-   bstr Value Registry: (empty) Description: A list of selectively
-   disclosed claims, which were originally redacted, then later
-   disclosed at the discretion of the sender.  Reference: RFC XXXX
+   *  Name: sd_claims
+
+   *  Label: TBD9 (requested assignment 17)
+
+   *  Value Type: bstr
+
+   *  Value Registry: (empty)
+
+   *  Description: A list of selectively disclosed claims, which were
+      originally redacted, then later disclosed at the discretion of the
+      sender.
+
+   *  Reference: RFC XXXX
 
 14.1.2.  sd_kbt
 
    The following completed registration template per RFC8152 is
    provided:
 
-   Name: sd_kbt Label: TBD8 (requested assignment 18) Value Type: bstr
-   Value Registry: (empty) Description: Key binding token for disclosed
-   claims Reference: RFC XXXX
+   *  Name: sd_kbt
 
-14.2.  CBOR Web Token (CWT) Claims
+   *  Label: TBD8 (requested assignment 18)
+
+   *  Value Type: bstr
+
+   *  Value Registry: (empty)
+
+   *  Description: Key binding token for disclosed claims
+
+   *  Reference: RFC XXXX
+
+14.2.  CBOR Tags
+
+14.2.1.  Redacted claim element tag
+
+   The binary string inside the tag is a selective disclosure redacted
+   claim element of an array.
+
+   *  Tag: 60 (requested)
+
+   *  Data Item: byte string
+
+   *  Semantics: A selective disclosure redacted (array) claim element.
+
+   *  Specification Document(s): RFC XXXX
+
+14.2.2.  To be redacted tag
+
+   The array claim element, or map key and value inside the "To be
+   redacted" tag is intended to be redacted using selective disclosure.
+
+   *  Tag: 58 (requested)
+
+   *  Data Item: (any)
+
+   *  Semantics: An array claim element, or map key and value intended
+      to be redacted.
+
+   *  Specification Document(s): RFC XXXX
+
+14.3.  CBOR Web Token (CWT) Claims
 
    IANA is requested to add the following entries to the CWT claims
    registry (https://www.iana.org/assignments/cwt/cwt.xhtml).
 
-14.2.1.  redacted_claim_keys
+14.3.1.  redacted_claim_keys
 
    The following completed registration template per RFC8392 is
    provided:
 
-   Claim Name: redacted_claim_keys Claim Description: Redacted Claim
-   Keys in a map.  JWT Claim Name: _sd Claim Key: TBD5 (request
-   assignment 65556) Claim Value Type(s): array of bstr Change
-   Controller: IETF Specification Document(s): RFC XXXX
+   *  Claim Name: redacted_claim_keys
 
-14.2.2.  redacted_claim_element
+   *  Claim Description: Redacted Claim Keys in a map.
 
-   The following completed registration template per RFC8392 is
-   provided:
+   *  JWT Claim Name: _sd
 
-   Claim Name: redacted_claim_element Claim Description: Redacted
-   element of an array JWT Claim Name: ... Claim Key: TBD6 (request
-   assignment 65555) Claim Value Type(s): array of bstr Change
-   Controller: IETF Specification Document(s): RFC XXXX
+   *  Claim Key: TBD5 (request assignment -65536)
 
-14.2.3.  sd_alg
+   *  Claim Value Type(s): array of bstr
 
-   The following completed registration template per RFC8392 is
-   provided:
+   *  Change Controller: IETF
 
-   Claim Name: sd_alg Claim Description: Hash algorithm used for
-   selective disclosure JWT Claim Name: _sd_alg Claim Key: TBD4 (request
-   assignment 12) Claim Value Type(s): integer Change Controller: IETF
-   Specification Document(s): RFC XXXX
+   *  Specification Document(s): RFC XXXX
 
-14.2.4.  sd_hash
+14.3.2.  sd_alg
 
    The following completed registration template per RFC8392 is
    provided:
 
-   Claim Name: sd_hash Claim Description: Hash of encoded disclosed
-   claims JWT Claim Name: sd_hash Claim Key: TBD3 (request assignment
-   11) Claim Value Type(s): bstr Change Controller: IETF Specification
-   Document(s): RFC XXXX
+   *  Claim Name: sd_alg
 
-14.2.5.  vct
+   *  Claim Description: Hash algorithm used for selective disclosure
+
+   *  JWT Claim Name: _sd_alg
+
+   *  Claim Key: TBD4 (request assignment 12)
+
+   *  Claim Value Type(s): integer
+
+   *  Change Controller: IETF
+
+   *  Specification Document(s): RFC XXXX
+
+14.3.3.  sd_hash
 
    The following completed registration template per RFC8392 is
    provided:
 
-   Claim Name: vct Claim Description: Verifiable credential type JWT
-   Claim Name: vct Claim Key: TBD7 (request assignment 15) Claim Value
-   Type(s): bstr Change Controller: IETF Specification Document(s): RFC
-   XXXX
+   *  Claim Name: sd_hash
 
-14.3.  Media Types
+   *  Claim Description: Hash of encoded disclosed claims
+
+   *  JWT Claim Name: sd_hash
+
+   *  Claim Key: TBD3 (request assignment 11)
+
+   *  Claim Value Type(s): bstr
+
+   *  Change Controller: IETF
+
+   *  Specification Document(s): RFC XXXX
+
+14.3.4.  vct
+
+   The following completed registration template per RFC8392 is
+   provided:
+
+   *  Claim Name: vct
+
+   *  Claim Description: Verifiable credential type
+
+   *  JWT Claim Name: vct
+
+   *  Claim Key: TBD7 (request assignment 15)
+
+   *  Claim Value Type(s): bstr
+
+   *  Change Controller: IETF
+
+   *  Specification Document(s): RFC XXXX
+
+14.4.  Media Types
 
    This section requests the registration of new media types in
    https://www.iana.org/assignments/media-types/media-types.xhtml.
 
-14.3.1.  application/sd+cwt
+14.4.1.  application/sd+cwt
 
    IANA is requested to add the following entry to the media types
    registry in accordance with RFC6838, RFC4289, and RFC6657.
@@ -1067,8 +1141,13 @@ Issuer                           Holder                         Verifier
 
    *  Fragment identifier considerations: n/a
 
-   *  Additional information: Magic number(s): n/a File extension(s): n/
-      a Macintosh file type code(s): n/a
+   *  Additional information:
+
+      -  Magic number(s): n/a
+
+      -  File extension(s): n/a
+
+      -  Macintosh file type code(s): n/a
 
    *  Person & email address to contact for further information: Michael
       Prorock, mprorock@mesur.io
@@ -1083,7 +1162,7 @@ Issuer                           Holder                         Verifier
 
    *  Provisional registration?  No
 
-14.3.2.  application/kb+cwt
+14.4.2.  application/kb+cwt
 
    IANA is requested to add the following entry to the media types
    registry in accordance with RFC6838, RFC4289, and RFC6657.
@@ -1111,8 +1190,13 @@ Issuer                           Holder                         Verifier
 
    *  Fragment identifier considerations: n/a
 
-   *  Additional information: Magic number(s): n/a File extension(s): n/
-      a Macintosh file type code(s): n/a
+   *  Additional information:
+
+      -  Magic number(s): n/a
+
+      -  File extension(s): n/a
+
+      -  Macintosh file type code(s): n/a
 
    *  Person & email address to contact for further information: Orie
       Steele, orie@transmute.industries
@@ -1143,9 +1227,9 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "CBOR Extended Diagnostic Notation (EDN)",
               Work in Progress, Internet-Draft, draft-ietf-cbor-edn-
-              literals-12, 1 September 2024,
+              literals-13, 3 November 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              edn-literals-12>.
+              edn-literals-13>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1197,16 +1281,16 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Credentials (SD-JWT VC)", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-sd-jwt-vc-05, 18
-              September 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-sd-jwt-vc-05>.
+              Internet-Draft, draft-ietf-oauth-sd-jwt-vc-06, 13 November
+              2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              oauth-sd-jwt-vc-06>.
 
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-12, 3
-              September 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-selective-disclosure-jwt-12>.
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-14, 15
+              November 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-oauth-selective-disclosure-jwt-14>.
 
 Appendix A.  Complete CDDL Schema
 
@@ -1276,7 +1360,7 @@ Appendix A.  Complete CDDL Schema
        ; sd-cwt new claims
          &(sd_hash: TBD3) ^ => bstr,
          &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
-       ? &(redacted_keys: TBD5) ^ => [ * bstr ],
+       ? &(redacted_claim_keys: TBD5) ^ => [ * bstr ],
        * key => any
    }
 
@@ -1290,7 +1374,7 @@ Appendix A.  Complete CDDL Schema
        * key => any
    }
 
-   ;redacted_element = { "...": bstr }
+   ;redacted_claim_element = #6.60( bstr .size 16 )
    salted = salted-claim / salted-element
    salted-claim = [
      bstr ;.size 16,     ; 128-bit salt
@@ -1307,7 +1391,7 @@ Appendix A.  Complete CDDL Schema
    TBD2 = 18
    TBD3 = 11
    TBD4 = 12
-   TBD5 = 13
+   TBD5 = -65536
 
               Figure 2: A complete CDDL description of SD-CWT
 
@@ -1324,9 +1408,10 @@ B.1.  Media Types
 
 B.2.  Redaction Claims
 
-   The COSE equivalent of _sd is TBD5 (requested assignment 65556).
+   The COSE equivalent of _sd is TBD5 (requested assignment -65536).
 
-   The COSE equivalent of ... is TBD6 (requested assignment 65555).
+   The COSE equivalent of ... is a CBOR tag (requested assignment 60) of
+   the digested salted claim.
 
 B.3.  Issuance
 
@@ -1465,3 +1550,8 @@ Authors' Addresses
    64295 Darmstadt
    Germany
    Email: henk.birkholz@ietf.contact
+
+
+   Rohan Mahy
+   Rohan Mahy Consulting Services
+   Email: rohan.ietf@gmail.com
