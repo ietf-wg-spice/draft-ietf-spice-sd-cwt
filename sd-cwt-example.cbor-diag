@@ -56,7 +56,7 @@
     / cnonce / 39 : h'12345678',
     / sd_hash / 11       : h'abcdef12',
     / sd_alg /  12       : -16, / SHA-256 /
-    / redacted_claim_keys / -65536 : [ 
+    / redacted_claim_keys / -65536 : [
         h'abbdefef',  / redacted age_over_18 /
         h'132d75e7'  / redacted age_over_21 /
     ],
