@@ -499,8 +499,8 @@ Issuer                           Holder                         Verifier
 
    Tagged keys are not registered in the CBOR Web Token Claims IANA
    registry.  Instead the tag provides additional information about the
-   claim key and value.  Multiple levels of tags in a key are not
-   permitted.
+   tagged claim key and the corresponding (untagged) value.  Multiple
+   levels of tags in a key are not permitted.
 
 6.  SD-CWT definition
 

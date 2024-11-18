@@ -1804,7 +1804,7 @@ The digest value is included in the payload in a <code>redacted_claim_keys</code
 This specification relaxes that requirement, by also allowing CBOR tagged integers and text strings as map keys.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">Note that holders presenting to a verifier that does not support this specification would need to present a CWT without tagged map keys.<a href="#section-5-2" class="pilcrow">¶</a></p>
 <p id="section-5-3">Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
-Instead the tag provides additional information about the claim key and value.
+Instead the tag provides additional information about the tagged claim key and the corresponding (untagged) value.
 Multiple levels of tags in a key are not permitted.<a href="#section-5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
