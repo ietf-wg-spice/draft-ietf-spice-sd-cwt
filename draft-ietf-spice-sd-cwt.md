@@ -290,11 +290,8 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
     / swversion / 271 : [
       "3.5.5",
       / redacted version "4.1.7" /
-      {
-        / redacted_claim_element / 65555:
-        h'a0f74264a8c97655c958aff3687f1390' +
-        h'ed0ab6f64cd78ba43c3fefee0de7b835'
-      }
+      60(h'a0f74264a8c97655c958aff3687f1390' +
+         h'ed0ab6f64cd78ba43c3fefee0de7b835')
     ],
     "address": {
         "country" : "us",            / United States /
@@ -419,12 +416,12 @@ decoy = [
 salted-array = [ +bstr .cbor salted ]
 ~~~
 
-When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_values` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
+When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 
-When blinding an individual item in an array, the value of the item is replaced with a CBOR map containing only the special key "...".
+When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with CBOR tag 60.
 
 ~~~ cddl
-redacted_element = { "...": any }
+redacted_claim_element = #6.60( bstr .size 16 )
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `address` claim, and the entire `address` element can be separately blinded.
@@ -711,6 +708,26 @@ Value Registry: (empty)
 Description: Key binding token for disclosed claims
 Reference: RFC XXXX
 
+## CBOR Tags
+
+### Redacted claim element tag
+
+The binary string inside the tag is a selective disclosure redacted claim element of an array.
+
+Tag: 60 (requested)
+Data Item: byte string
+Semantics: A selective disclosure redacted (array) claim element.
+Specification Document(s): RFC XXXX
+
+### To be redacted tag
+
+The array claim element, or map key and value inside the "To be redacted" tag is intended to be redacted using selective disclosure.
+
+Tag: 58 (requested)
+Data Item: (any)
+Semantics: An array claim element, or map key and value intended to be redacted.
+Specification Document(s): RFC XXXX
+
 ## CBOR Web Token (CWT) Claims
 
 IANA is requested to add the following entries to the CWT claims registry (https://www.iana.org/assignments/cwt/cwt.xhtml).
@@ -725,18 +742,6 @@ Claim Name: redacted_claim_keys
 Claim Description: Redacted Claim Keys in a map.
 JWT Claim Name: _sd
 Claim Key: TBD5 (request assignment 65556)
-Claim Value Type(s): array of bstr
-Change Controller: IETF
-Specification Document(s): RFC XXXX
-
-### redacted_claim_element
-
-The following completed registration template per RFC8392 is provided:
-
-Claim Name: redacted_claim_element
-Claim Description: Redacted element of an array
-JWT Claim Name: ...
-Claim Key: TBD6 (request assignment 65555)
 Claim Value Type(s): array of bstr
 Change Controller: IETF
 Specification Document(s): RFC XXXX
