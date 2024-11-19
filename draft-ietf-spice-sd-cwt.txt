@@ -81,41 +81,42 @@ Table of Contents
      3.1.  A CWT without Selective Disclosure
      3.2.  Holder gets an SD-CWT from the Issuer
    4.  Holder prepares an SD-CWT for a Verifier
-   5.  SD-CWT definition
-     5.1.  Types of blinded claims
-   6.  SD-CWT Issuance
-     6.1.  Issuer generation
-     6.2.  Holder validation
-   7.  SD-CWT Presentation
-     7.1.  Creating a Key Binding Token
-   8.  SD-CWT Validation
-   9.  Decoy Digests
-   10. Credential Types
-   11. Examples
-     11.1.  Minimal spanning example
-     11.2.  Nested example
-   12. Implementation Status
-     12.1.  Transmute Prototype
-   13. Security Considerations
-     13.1.  Random Numbers
-   14. IANA Considerations
-     14.1.  COSE Header Parameters
-       14.1.1.  sd_claims
-       14.1.2.  sd_kbt
-     14.2.  CBOR Tags
-       14.2.1.  Redacted claim element tag
-       14.2.2.  To be redacted tag
-     14.3.  CBOR Web Token (CWT) Claims
-       14.3.1.  redacted_claim_keys
-       14.3.2.  sd_alg
-       14.3.3.  sd_hash
-       14.3.4.  vct
-     14.4.  Media Types
-       14.4.1.  application/sd+cwt
-       14.4.2.  application/kb+cwt
-   15. References
-     15.1.  Normative References
-     15.2.  Informative References
+   5.  Update to the CBOR Web Token Specification
+   6.  SD-CWT definition
+     6.1.  Types of blinded claims
+   7.  SD-CWT Issuance
+     7.1.  Issuer generation
+     7.2.  Holder validation
+   8.  SD-CWT Presentation
+     8.1.  Creating a Key Binding Token
+   9.  SD-CWT Validation
+   10. Decoy Digests
+   11. Credential Types
+   12. Examples
+     12.1.  Minimal spanning example
+     12.2.  Nested example
+   13. Implementation Status
+     13.1.  Transmute Prototype
+   14. Security Considerations
+     14.1.  Random Numbers
+   15. IANA Considerations
+     15.1.  COSE Header Parameters
+       15.1.1.  sd_claims
+       15.1.2.  sd_kbt
+     15.2.  CBOR Tags
+       15.2.1.  Redacted claim element tag
+       15.2.2.  To be redacted tag
+     15.3.  CBOR Web Token (CWT) Claims
+       15.3.1.  redacted_claim_keys
+       15.3.2.  sd_alg
+       15.3.3.  sd_hash
+       15.3.4.  vct
+     15.4.  Media Types
+       15.4.1.  application/sd+cwt
+       15.4.2.  application/kb+cwt
+   16. References
+     16.1.  Normative References
+     16.2.  Informative References
    Appendix A.  Complete CDDL Schema
    Appendix B.  Comparison to SD-JWT
      B.1.  Media Types
@@ -153,11 +154,10 @@ Table of Contents
    operates on CWT Claims Sets as described in [RFC8392].  CWT Claims
    Sets contain Claim Keys and Claim Values.  SD-CWT enables Issuers to
    mark certain Claim Keys or Claim Values mandatory or optional for a
-   holder of a CWT to disclose.  A verifier who does not understand
-   optional to disclose Claims in an SD-CWT can still process the
-   mandatory to disclose attributes.  Claim Keys and Claim Values which
-   are not understood remain ignored as described in Section 3 of
-   [RFC8392].
+   holder of a CWT to disclose.  A holder cannot send redacted claim
+   keys to a verifier who does not understand selective disclosure at
+   all.  However, Claim Keys and Claim Values which are not understood
+   remain ignored as described in Section 3 of [RFC8392].
 
 1.1.  High level flow
 
@@ -486,7 +486,22 @@ Issuer                           Holder                         Verifier
    disclosures hashed in the SW-KBT are used by the Verifier to confirm
    the disclosed claims.
 
-5.  SD-CWT definition
+5.  Update to the CBOR Web Token Specification
+
+   The CBOR Web Token Specification (Section 1.1 of [RFC8392]), uses
+   strings, negative integers, and unsigned integers as map keys.  This
+   specification relaxes that requirement, by also allowing CBOR tagged
+   integers and text strings as map keys.
+
+   Note that holders presenting to a verifier that does not support this
+   specification would need to present a CWT without tagged map keys.
+
+   Tagged keys are not registered in the CBOR Web Token Claims IANA
+   registry.  Instead the tag provides additional information about the
+   tagged claim key and the corresponding (untagged) value.  Multiple
+   levels of tags in a key are not permitted.
+
+6.  SD-CWT definition
 
    SD-CWT is modeled after SD-JWT, with adjustments to align with
    conventions in CBOR and COSE.  An SD-CWT MUST include the protected
@@ -504,7 +519,7 @@ Issuer                           Holder                         Verifier
    Verifier with the hash cannot reconstruct the corresponding blinded
    claim without disclosure of the Salted Disclosed Claim.
 
-5.1.  Types of blinded claims
+6.1.  Types of blinded claims
 
    Salted Disclosed Claims for named claims are structured as a 128-bit
    salt, the name of the redacted element, and the disclosed value.  For
@@ -545,7 +560,7 @@ Issuer                           Holder                         Verifier
    blinded claim hash but have only a salt.  Decoy digests are discussed
    in *TODO iref*.
 
-6.  SD-CWT Issuance
+7.  SD-CWT Issuance
 
    How the Holder communicates to the Issuer to request a CWT or an SD-
    CWT is out-of-scope of this specification.  Likewise, how the Holder
@@ -563,7 +578,7 @@ Issuer                           Holder                         Verifier
    an sd_alg claim identifying the algorithm used to hash the Salted
    Disclosed Claims.
 
-6.1.  Issuer generation
+7.1.  Issuer generation
 
    The Issuer follows all the requirements of generating a valid CWT.
    The Issuer MUST implement COSE_Sign1 using an appropriate asymmetric
@@ -575,7 +590,7 @@ Issuer                           Holder                         Verifier
    client communicates a client-generated nonce (cnonce) when requesting
    the SD-CWT, the Issuer SHOULD include it in the payload.
 
-6.2.  Holder validation
+7.2.  Holder validation
 
    Upon receiving an SD-CWT from the Issuer with the Holder as the
    subject, the Holder verifies the following:
@@ -641,7 +656,7 @@ Issuer                           Holder                         Verifier
        * key => any
    }
 
-7.  SD-CWT Presentation
+8.  SD-CWT Presentation
 
    When a Holder presents an SD-CWT to a Verifier, it can disclose none,
    some, or all of its blinded claims.  If the Holder wishes to disclose
@@ -669,10 +684,10 @@ Issuer                           Holder                         Verifier
    header will include a Key Binding Token and contain none, some, or
    all of these Claims when sent from the Holder to the Verifier.
 
-7.1.  Creating a Key Binding Token
+8.1.  Creating a Key Binding Token
 
    Regardless if it discloses any claims, the Holder MUST include a
-   Holder key binding (SD_KBT) Section 7.1 in a sd_kbt claim in the
+   Holder key binding (SD_KBT) Section 8.1 in a sd_kbt claim in the
    unprotected header in every presentation of an SD-CWT by a Holder to
    a Verifier.  (The sd_kbt claim is absent when the Issuer is providing
    the SD-CWT to the Holder.)  An SD-KBT is itself a type of CWT.  The
@@ -738,7 +753,7 @@ Issuer                           Holder                         Verifier
 
    The cnonce is a bstr and MUST be treated as opaque to the Holder.
 
-8.  SD-CWT Validation
+9.  SD-CWT Validation
 
    The exact order of the following steps MAY be changed, as long as all
    checks are performed before deciding if an SD-CWT is valid.  First
@@ -782,11 +797,11 @@ Issuer                           Holder                         Verifier
    Claimset, as it might normally be applied to a validated CWT
    claimset.
 
-9.  Decoy Digests
+10.  Decoy Digests
 
    *TODO*
 
-10.  Credential Types
+11.  Credential Types
 
    This specification defines the CWT claim vct (for verifiable
    credential type).  The vct value MUST be a case-sensitive StringOrURI
@@ -801,11 +816,11 @@ Issuer                           Holder                         Verifier
    Profiles built on this specification are also encouraged to use more
    specific media types, as described in [RFC9596].
 
-11.  Examples
+12.  Examples
 
    *TODO* - Provide more examples
 
-11.1.  Minimal spanning example
+12.1.  Minimal spanning example
 
    The following example contains claims needed to demonstrate redaction
    of key-value pairs and array elements.
@@ -889,11 +904,11 @@ Issuer                           Holder                         Verifier
 
                           Figure 1: An EDN Example
 
-11.2.  Nested example
+12.2.  Nested example
 
    *TODO*
 
-12.  Implementation Status
+13.  Implementation Status
 
    Note to RFC Editor: Please remove this section as well as references
    to [BCP205] before AUTH48.
@@ -918,7 +933,7 @@ Issuer                           Holder                         Verifier
    It is up to the individual working groups to use this information as
    they see fit".
 
-12.1.  Transmute Prototype
+13.1.  Transmute Prototype
 
    Organization: Transmute Industries Inc
 
@@ -941,12 +956,12 @@ Issuer                           Holder                         Verifier
 
    Contact: Orie Steele (orie@transmute.industries)
 
-13.  Security Considerations
+14.  Security Considerations
 
    Security considerations from COSE {(RFC9052)} and CWT [RFC8392] apply
    to this specification.
 
-13.1.  Random Numbers
+14.1.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
    independently from the salts of other claims.  The salts MUST be
@@ -954,15 +969,15 @@ Issuer                           Holder                         Verifier
    Poor choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
-14.  IANA Considerations
+15.  IANA Considerations
 
-14.1.  COSE Header Parameters
+15.1.  COSE Header Parameters
 
    IANA is requested to add the following entries to the CWT claims
    registry (https://www.iana.org/assignments/cose/cose.xhtml#header-
    parameters).
 
-14.1.1.  sd_claims
+15.1.1.  sd_claims
 
    The following completed registration template per RFC8152 is
    provided:
@@ -981,7 +996,7 @@ Issuer                           Holder                         Verifier
 
    *  Reference: RFC XXXX
 
-14.1.2.  sd_kbt
+15.1.2.  sd_kbt
 
    The following completed registration template per RFC8152 is
    provided:
@@ -998,9 +1013,9 @@ Issuer                           Holder                         Verifier
 
    *  Reference: RFC XXXX
 
-14.2.  CBOR Tags
+15.2.  CBOR Tags
 
-14.2.1.  Redacted claim element tag
+15.2.1.  Redacted claim element tag
 
    The binary string inside the tag is a selective disclosure redacted
    claim element of an array.
@@ -1013,7 +1028,7 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): RFC XXXX
 
-14.2.2.  To be redacted tag
+15.2.2.  To be redacted tag
 
    The array claim element, or map key and value inside the "To be
    redacted" tag is intended to be redacted using selective disclosure.
@@ -1027,12 +1042,12 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): RFC XXXX
 
-14.3.  CBOR Web Token (CWT) Claims
+15.3.  CBOR Web Token (CWT) Claims
 
    IANA is requested to add the following entries to the CWT claims
    registry (https://www.iana.org/assignments/cwt/cwt.xhtml).
 
-14.3.1.  redacted_claim_keys
+15.3.1.  redacted_claim_keys
 
    The following completed registration template per RFC8392 is
    provided:
@@ -1051,7 +1066,7 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): RFC XXXX
 
-14.3.2.  sd_alg
+15.3.2.  sd_alg
 
    The following completed registration template per RFC8392 is
    provided:
@@ -1070,7 +1085,7 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): RFC XXXX
 
-14.3.3.  sd_hash
+15.3.3.  sd_hash
 
    The following completed registration template per RFC8392 is
    provided:
@@ -1089,7 +1104,7 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): RFC XXXX
 
-14.3.4.  vct
+15.3.4.  vct
 
    The following completed registration template per RFC8392 is
    provided:
@@ -1108,12 +1123,12 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): RFC XXXX
 
-14.4.  Media Types
+15.4.  Media Types
 
    This section requests the registration of new media types in
    https://www.iana.org/assignments/media-types/media-types.xhtml.
 
-14.4.1.  application/sd+cwt
+15.4.1.  application/sd+cwt
 
    IANA is requested to add the following entry to the media types
    registry in accordance with RFC6838, RFC4289, and RFC6657.
@@ -1162,7 +1177,7 @@ Issuer                           Holder                         Verifier
 
    *  Provisional registration?  No
 
-14.4.2.  application/kb+cwt
+15.4.2.  application/kb+cwt
 
    IANA is requested to add the following entry to the media types
    registry in accordance with RFC6838, RFC4289, and RFC6657.
@@ -1211,9 +1226,9 @@ Issuer                           Holder                         Verifier
 
    *  Provisional registration?  No
 
-15.  References
+16.  References
 
-15.1.  Normative References
+16.1.  Normative References
 
    [BCP205]   Best Current Practice 205,
               <https://www.rfc-editor.org/info/bcp205>.
@@ -1276,7 +1291,7 @@ Issuer                           Holder                         Verifier
               RFC 9596, DOI 10.17487/RFC9596, June 2024,
               <https://www.rfc-editor.org/rfc/rfc9596>.
 
-15.2.  Informative References
+16.2.  Informative References
 
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
