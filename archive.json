@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-17T00:48:08.813039+00:00",
+  "timestamp": "2024-11-19T00:47:50.093547+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -322,7 +322,7 @@
       "labels": [],
       "body": "Privacy considerations are currently missing from this draft, but could use some extensive documentation.\r\n\r\nBut most urgently, the draft should be clear about whether selective disclosure also reveals linkability across different verifiers, or not. What is revealed about the issuer is also a separate disclosure, as well as a potential source of linkability. It sounds like there might be some significant use cases where linkability and selective disclosure is desirable, though age verification might not be one like that.\r\n\r\nFor many use cases, particularly on the web, linkability across verifiers (or between colluding verifier and issuer) is a particular privacy concern and unlinkability is a desirable property. The draft should make it clear which properties are provided.",
       "createdAt": "2024-11-05T13:39:25Z",
-      "updatedAt": "2024-11-10T08:29:57Z",
+      "updatedAt": "2024-11-18T08:25:33Z",
       "closedAt": null,
       "comments": [
         {
@@ -331,6 +331,13 @@
           "body": "The privacy considerations for sd-cwt are very similar to that of sd-jwt, @npdoty do you think we should use a reference, or would you like us to propose alternative framing of these considerations?\n\nIf you have a chance to review the sd-jwt considerations, I welcome any comments on where we should add more or less text.\n\nHope to see you in person at a future IETF.",
           "createdAt": "2024-11-10T08:29:55Z",
           "updatedAt": "2024-11-10T08:29:55Z"
+        },
+        {
+          "author": "Denisthemalice",
+          "authorAssociation": "NONE",
+          "body": "I raised several issues during the last call from SD-JWT.\r\n\r\n(# 514) A section should be added to consider the case of a presentation of claims to Verifier that have been issued by different Issuers (https://github.com/oauth-wg/oauth-selective-disclosure-jwt/issues/514)\r\n\r\nI sent an update of this issue:\r\n(# 529) Update of Issue #514 (new section 9.12) for the support of Post Quantum cryptography \r\n(https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/529)\r\n\r\n(# 515) The term \"unlinkability\" is overloaded. For more clarity, the wording \"End-user intrackability\" should be used in addition\r\n(https://github.com/oauth-wg/oauth-selective-disclosure-jwt/issues/515)\r\n\r\n(# 516) A new section about \"End-User intrackability\" should be added\r\n(https://github.com/oauth-wg/oauth-selective-disclosure-jwt/issues/516)\r\n\r\nThese contributions can be used to fill-in the Privacy Considerations section.\r\n",
+          "createdAt": "2024-11-18T08:25:32Z",
+          "updatedAt": "2024-11-18T08:25:32Z"
         }
       ]
     }
@@ -2061,6 +2068,266 @@
           "body": "",
           "createdAt": "2024-10-17T17:05:35Z",
           "updatedAt": "2024-10-17T17:05:35Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "id": "PR_kwDOMm_Q2s6CSrPZ",
+      "title": "Use CBOR tag for redacted (array) claim elements",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/28",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Replace older redacted (array) claim element forms `{\"...\", h'1234abcd'}` and `{ / redacted_claim_element / 65555: h'1234abcd'}` with a CBOR tagged digest: `60(h'1234abcd')`\r\n- Register the CBOR tag to indicate a redacted claim element\r\n- Consistently use the names `redacted_claim_elements` and `redacted_claim_keys`\r\n- Replace 65556 with -65536 to be a shorter to represent, and possibly rarer number to encounter as a map key (note that this syntax may be replaced in a future PR)\r\n- Make the appropriate changes consistently in the examples and in the CDDL file\r\n- Register a different CBOR tag to indicate the intent to redact a claim (key, or element)\r\n- Fix the formatting of the IANA registration section",
+      "createdAt": "2024-11-18T19:35:20Z",
+      "updatedAt": "2024-11-18T22:18:22Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "8c1df4518a6e4d87ad2a026aeb5afcaa29bf2770",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "tagged-claim-elements",
+      "headRefOid": "8c9f916fe0baf13f60232db22527610a89a45b9d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6Rpgl6",
+          "commit": {
+            "abbreviatedOid": "bf4ab9a"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-18T19:57:52Z",
+          "updatedAt": "2024-11-18T19:57:52Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "this should probably make it clear that its requested assignment.",
+              "createdAt": "2024-11-18T19:57:52Z",
+              "updatedAt": "2024-11-18T19:57:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6RpiT3",
+          "commit": {
+            "abbreviatedOid": "bf4ab9a"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-18T20:00:24Z",
+          "updatedAt": "2024-11-18T20:00:25Z",
+          "comments": [
+            {
+              "originalPosition": 93,
+              "body": "```suggestion\r\n* Tag: TBD9 (requested assignment 60)\r\n```",
+              "createdAt": "2024-11-18T20:00:24Z",
+              "updatedAt": "2024-11-18T20:00:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6RpjYH",
+          "commit": {
+            "abbreviatedOid": "bf4ab9a"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-18T20:01:47Z",
+          "updatedAt": "2024-11-18T20:01:47Z",
+          "comments": [
+            {
+              "originalPosition": 102,
+              "body": "```suggestion\r\n* Tag: TBD10 (requested assignment 58)\r\n```",
+              "createdAt": "2024-11-18T20:01:47Z",
+              "updatedAt": "2024-11-18T20:01:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6RpkS3",
+          "commit": {
+            "abbreviatedOid": "bf4ab9a"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-18T20:02:39Z",
+          "updatedAt": "2024-11-18T20:02:39Z",
+          "comments": [
+            {
+              "originalPosition": 223,
+              "body": "We should make this the SPICE WG list.",
+              "createdAt": "2024-11-18T20:02:39Z",
+              "updatedAt": "2024-11-18T20:02:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6RpkrC",
+          "commit": {
+            "abbreviatedOid": "bf4ab9a"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-18T20:03:02Z",
+          "updatedAt": "2024-11-18T20:03:02Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Rpn3H",
+          "commit": {
+            "abbreviatedOid": "bf4ab9a"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-18T20:06:23Z",
+          "updatedAt": "2024-11-18T20:06:23Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "```suggestion\r\nWhen blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with a CBOR tag (requested tag number 60).\r\n```",
+              "createdAt": "2024-11-18T20:06:23Z",
+              "updatedAt": "2024-11-18T20:06:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6RpuW9",
+          "commit": {
+            "abbreviatedOid": "bf4ab9a"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-18T20:14:42Z",
+          "updatedAt": "2024-11-18T20:14:42Z",
+          "comments": [
+            {
+              "originalPosition": 223,
+              "body": "While I think that is generally a good idea, most RFCs (even standards track ones, and even recent ones such as RFC9431) are using a person's name and email address. Is there a document that says we should use WG mailing lists now?  If so, I am happy to change it.",
+              "createdAt": "2024-11-18T20:14:42Z",
+              "updatedAt": "2024-11-18T20:14:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Rp-c0",
+          "commit": {
+            "abbreviatedOid": "bf4ab9a"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-18T20:46:08Z",
+          "updatedAt": "2024-11-18T20:46:08Z",
+          "comments": [
+            {
+              "originalPosition": 223,
+              "body": "Created an [issue](https://github.com/ietf-wg-mediaman/6838bis/issues/9) on [draft-mediaman-6838bis](https://datatracker.ietf.org/doc/draft-mediaman-6838bis/) ",
+              "createdAt": "2024-11-18T20:46:08Z",
+              "updatedAt": "2024-11-18T20:46:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Rqh1C",
+          "commit": {
+            "abbreviatedOid": "8c9f916"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-18T22:16:18Z",
+          "updatedAt": "2024-11-18T22:16:19Z",
+          "comments": [
+            {
+              "originalPosition": 138,
+              "body": "For this stuff, I recommend something like this:\r\n\r\n```\r\nClaim Name:\r\n: redacted_claim_keys\r\n\r\nClaim Description:\r\n...\r\n\r\nSpecification Document(s):\r\n: RFC XXXX\r\n{: spacing=\"compact\"}\r\n```",
+              "createdAt": "2024-11-18T22:16:18Z",
+              "updatedAt": "2024-11-18T22:16:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6RqigC",
+          "commit": {
+            "abbreviatedOid": "8c9f916"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-18T22:18:22Z",
+          "updatedAt": "2024-11-18T22:18:22Z",
+          "comments": [
+            {
+              "originalPosition": 223,
+              "body": "Recent documents that I've gotten through publication look like this:\r\n\r\n```\r\n   Person and email address to contact for further information:\r\n      See Authors' Addresses section\r\n```\r\n\r\nSeparately, please see the source of RFC 9458 for a better media type registration template:  https://github.com/ietf-wg-ohai/oblivious-http/blob/main/draft-ietf-ohai-ohttp.md",
+              "createdAt": "2024-11-18T22:18:22Z",
+              "updatedAt": "2024-11-18T22:18:22Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "id": "PR_kwDOMm_Q2s6CTFvA",
+      "title": "Make redacted claim keys use a tagged CWT key and update CWT spec accordingly",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/29",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Add section Updating RFC8392 (CBOR Web Tokens)\r\n- TODO: Replace `/redacted_claim_keys/ -65536: [ <digest1>, <digest2> ]` with `59(0): [ <digest1>, <digest2> ]`\r\n\r\n",
+      "createdAt": "2024-11-18T20:30:56Z",
+      "updatedAt": "2024-11-18T21:09:12Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "8c1df4518a6e4d87ad2a026aeb5afcaa29bf2770",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "update8392",
+      "headRefOid": "e57375ec4745acc36b14709cec92ff3ea521cbdc",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6RqFAa",
+          "commit": {
+            "abbreviatedOid": "94294af"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-18T21:02:19Z",
+          "updatedAt": "2024-11-18T21:02:19Z",
           "comments": []
         }
       ]
