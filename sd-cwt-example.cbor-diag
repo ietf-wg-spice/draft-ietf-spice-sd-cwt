@@ -56,7 +56,7 @@
     / cnonce / 39 : h'12345678',
     / sd_hash / 11       : h'abcdef12',
     / sd_alg /  12       : -16, / SHA-256 /
-    / redacted_claim_keys / -65536 : [
+    / redacted_claim_keys / 59(0) : [
         h'abbdefef',  / redacted age_over_18 /
         h'132d75e7'  / redacted age_over_21 /
     ],
@@ -66,7 +66,7 @@
     ],
     "address": {
         "country" : "us",            / United States /
-        /redacted_claim_keys/ -65536 : [
+        /redacted_claim_keys/ 59(0) : [
             h'adb7060403da225b',  / redacted region /
             h'e04bdfc44d3d40bc'   / redacted post_code /
         ]
