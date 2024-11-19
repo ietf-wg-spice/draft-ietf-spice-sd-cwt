@@ -279,7 +279,7 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
       }
     },
     / sd_alg /  12       : -16, / SHA-256 /
-    / redacted_claim_keys / 65556 : [
+    / redacted_claim_keys / -65536 : [
         / redacted age_at_least_18 /
         h'7e6e350907d0ba3aa7ae114f8da5b360' +
         h'601c0bb7995cd40049b98e4f58fb6ec0',
@@ -290,15 +290,12 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
     / swversion / 271 : [
       "3.5.5",
       / redacted version "4.1.7" /
-      {
-        / redacted_claim_element / 65555:
-        h'a0f74264a8c97655c958aff3687f1390' +
-        h'ed0ab6f64cd78ba43c3fefee0de7b835'
-      }
+      60(h'a0f74264a8c97655c958aff3687f1390' +
+         h'ed0ab6f64cd78ba43c3fefee0de7b835')
     ],
     "address": {
         "country" : "us",            / United States /
-        / redacted_claim_keys / 65556 : [
+        / redacted_claim_keys / -65536 : [
             / redacted region /
             h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
             h'ed010ac9ae1c93403ec72572bb1e00e7',
@@ -419,12 +416,12 @@ decoy = [
 salted-array = [ +bstr .cbor salted ]
 ~~~
 
-When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_values` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
+When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 
-When blinding an individual item in an array, the value of the item is replaced with a CBOR map containing only the special key "...".
+When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with a CBOR tag (requested tag number 60).
 
 ~~~ cddl
-redacted_element = { "...": any }
+redacted_claim_element = #6.60( bstr .size 16 )
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `address` claim, and the entire `address` element can be separately blinded.
@@ -500,7 +497,7 @@ sd-payload = {
     ;
     ; sd-cwt new claims
       &(sd_alg: 12) ^ => int,            ; -16 for sha-256
-    ? &(redacted_keys: 65556) ^ => [ * bstr ],
+    ? &(redacted_keys: -65536) ^ => [ * bstr ],
     * key => any
 }
 ~~~
@@ -693,23 +690,43 @@ IANA is requested to add the following entries to the CWT claims registry (https
 
 The following completed registration template per RFC8152 is provided:
 
-Name: sd_claims
-Label: TBD9 (requested assignment 17)
-Value Type: bstr
-Value Registry: (empty)
-Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
-Reference: RFC XXXX
+* Name: sd_claims
+* Label: TBD9 (requested assignment 17)
+* Value Type: bstr
+* Value Registry: (empty)
+* Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
+* Reference: RFC XXXX
 
 ### sd_kbt
 
 The following completed registration template per RFC8152 is provided:
 
-Name: sd_kbt
-Label: TBD8 (requested assignment 18)
-Value Type: bstr
-Value Registry: (empty)
-Description: Key binding token for disclosed claims
-Reference: RFC XXXX
+* Name: sd_kbt
+* Label: TBD8 (requested assignment 18)
+* Value Type: bstr
+* Value Registry: (empty)
+* Description: Key binding token for disclosed claims
+* Reference: RFC XXXX
+
+## CBOR Tags
+
+### Redacted claim element tag
+
+The binary string inside the tag is a selective disclosure redacted claim element of an array.
+
+* Tag: TBD9 (requested assignment 60)
+* Data Item: byte string
+* Semantics: A selective disclosure redacted (array) claim element.
+* Specification Document(s): RFC XXXX
+
+### To be redacted tag
+
+The array claim element, or map key and value inside the "To be redacted" tag is intended to be redacted using selective disclosure.
+
+* Tag: TBD10 (requested assignment 58)
+* Data Item: (any)
+* Semantics: An array claim element, or map key and value intended to be redacted.
+* Specification Document(s): RFC XXXX
 
 ## CBOR Web Token (CWT) Claims
 
@@ -721,61 +738,49 @@ IANA is requested to add the following entries to the CWT claims registry (https
 
 The following completed registration template per RFC8392 is provided:
 
-Claim Name: redacted_claim_keys
-Claim Description: Redacted Claim Keys in a map.
-JWT Claim Name: _sd
-Claim Key: TBD5 (request assignment 65556)
-Claim Value Type(s): array of bstr
-Change Controller: IETF
-Specification Document(s): RFC XXXX
-
-### redacted_claim_element
-
-The following completed registration template per RFC8392 is provided:
-
-Claim Name: redacted_claim_element
-Claim Description: Redacted element of an array
-JWT Claim Name: ...
-Claim Key: TBD6 (request assignment 65555)
-Claim Value Type(s): array of bstr
-Change Controller: IETF
-Specification Document(s): RFC XXXX
+* Claim Name: redacted_claim_keys
+* Claim Description: Redacted Claim Keys in a map.
+* JWT Claim Name: _sd
+* Claim Key: TBD5 (request assignment -65536)
+* Claim Value Type(s): array of bstr
+* Change Controller: IETF
+* Specification Document(s): RFC XXXX
 
 ### sd_alg
 
 The following completed registration template per RFC8392 is provided:
 
-Claim Name: sd_alg
-Claim Description: Hash algorithm used for selective disclosure
-JWT Claim Name: _sd_alg
-Claim Key: TBD4 (request assignment 12)
-Claim Value Type(s): integer
-Change Controller: IETF
-Specification Document(s): RFC XXXX
+* Claim Name: sd_alg
+* Claim Description: Hash algorithm used for selective disclosure
+* JWT Claim Name: _sd_alg
+* Claim Key: TBD4 (request assignment 12)
+* Claim Value Type(s): integer
+* Change Controller: IETF
+* Specification Document(s): RFC XXXX
 
 ### sd_hash
 
 The following completed registration template per RFC8392 is provided:
 
-Claim Name: sd_hash
-Claim Description: Hash of encoded disclosed claims
-JWT Claim Name: sd_hash
-Claim Key: TBD3 (request assignment 11)
-Claim Value Type(s): bstr
-Change Controller: IETF
-Specification Document(s): RFC XXXX
+* Claim Name: sd_hash
+* Claim Description: Hash of encoded disclosed claims
+* JWT Claim Name: sd_hash
+* Claim Key: TBD3 (request assignment 11)
+* Claim Value Type(s): bstr
+* Change Controller: IETF
+* Specification Document(s): RFC XXXX
 
 ### vct
 
 The following completed registration template per RFC8392 is provided:
 
-Claim Name: vct
-Claim Description: Verifiable credential type
-JWT Claim Name: vct
-Claim Key: TBD7 (request assignment 15)
-Claim Value Type(s): bstr
-Change Controller: IETF
-Specification Document(s): RFC XXXX
+* Claim Name: vct
+* Claim Description: Verifiable credential type
+* JWT Claim Name: vct
+* Claim Key: TBD7 (request assignment 15)
+* Claim Value Type(s): bstr
+* Change Controller: IETF
+* Specification Document(s): RFC XXXX
 
 ## Media Types
 
@@ -799,9 +804,9 @@ The following completed registration template is provided:
 * Applications that use this media type: TBD
 * Fragment identifier considerations: n/a
 * Additional information:
-      Magic number(s): n/a
-      File extension(s): n/a
-      Macintosh file type code(s): n/a
+    - Magic number(s): n/a
+    - File extension(s): n/a
+    - Macintosh file type code(s): n/a
 * Person & email address to contact for further information:
   Michael Prorock, mprorock@mesur.io
 * Intended usage: COMMON
@@ -828,9 +833,9 @@ The following completed registration template is provided:
 * Applications that use this media type: TBD
 * Fragment identifier considerations: n/a
 * Additional information:
-      Magic number(s): n/a
-      File extension(s): n/a
-      Macintosh file type code(s): n/a
+     - Magic number(s): n/a
+     - File extension(s): n/a
+     - Macintosh file type code(s): n/a
 * Person & email address to contact for further information:
   Orie Steele, orie@transmute.industries
 * Intended usage: COMMON
@@ -860,9 +865,9 @@ THe COSE equivalent of `application/kb+jwt` is `application/kb+cwt`.
 
 ## Redaction Claims
 
-The COSE equivalent of `_sd` is TBD5 (requested assignment 65556).
+The COSE equivalent of `_sd` is TBD5 (requested assignment -65536).
 
-The COSE equivalent of `...` is TBD6 (requested assignment 65555).
+The COSE equivalent of `...` is a CBOR tag (requested assignment 60) of the digested salted claim.
 
 ## Issuance
 

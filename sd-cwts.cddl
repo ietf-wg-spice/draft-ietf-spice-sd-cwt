@@ -64,7 +64,7 @@ sd-payload = {
     ; sd-cwt new claims
       &(sd_hash: TBD3) ^ => bstr, 
       &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
-    ? &(redacted_keys: TBD5) ^ => [ * bstr ],
+    ? &(redacted_claim_keys: TBD5) ^ => [ * bstr ],
     * key => any   
 }
 
@@ -78,7 +78,7 @@ kbt-payload = {
     * key => any   
 }
 
-;redacted_element = { "...": bstr }
+;redacted_claim_element = #6.60( bstr .size 16 )
 salted = salted-claim / salted-element
 salted-claim = [
   bstr ;.size 16,     ; 128-bit salt
@@ -95,4 +95,4 @@ TBD1 = 17
 TBD2 = 18
 TBD3 = 11
 TBD4 = 12
-TBD5 = 13
+TBD5 = -65536
