@@ -1,76 +1,71 @@
-/ cose-sign1 / 18([
-  / protected / << {
-    / alg / 1  : -35, / ES384 /
-    / typ / 16 : "application/sd+cwt",
-    / kid / 4  : 'https://issuer.example/cwt-key3'
-  } >>,
-  / unprotected / {
-    / sd_claims / 17 : <<[  /these are the three disclosures/
-        <<[
-            /salt/   h'c93c7ff572c71e26',
-            /claim/  "age_over_18",
-            /value/  true
-        ]>>,
-        <<[
-            /salt/   h'399c641e2aa18c1e',
-            /claim/  "region",
-            /value/  "ca" /California/
-        ]>>,
-        <<[
-            /salt/   h'82501bb46c655f32',
-            /value/  "4.1.7"
-        ]>>
-    ]>>,
-    / sd_kbt    / 18 : << 18([
-      / protected / << {
-          / alg / 1 : -35 / ES384 /,
-          / typ / 16 : "application/kb+cwt"
-      } >>,
-      / unprotected / {},
-      / payload / << {
+/ cose-sign1 / 18( / sd_kbt / [
+    / protected / << {
+        / alg / 1 : -7 / ES256 /,
+        / typ / 16 : "application/kb+cwt"
+    } >>,
+    / unprotected / {},
+    / payload / << {
         / cnonce / 39    : h'e0a156bb3f',
         / aud     / 3    : "https://verifier.example",
         / iat     / 6    : 1783000000,
-        / sd_alg  / 12 : -16,  /SHA-256/ 
-        / sd_hash / 11 : h'c341bb4a5f3f'  /hash of sd_claims   /
-                                            /using hash in sd_alg/
-      } >>,
-      / signature / h'1237af2e678945'
-    ]) >>
-  },
-  / payload / << {
-    / iss / 1   : "https://issuer.example",
-    / sub / 2   : "https://device.example",
-    / aud / 3   : "https://verifier.example",
-    / exp / 4   : 1883000000,
-    / iat / 6   : 1683000000,
-    / cnf / 8   : {
-      / cose key / 1 : {
-        / alg: ES256 /  3: 35,
-        / kty: EC2   /  1: 2,
-        / crv: P-256 / -1: 1,
-        / x / -2: h'768ed88626',
-        / y / -3: h'6a48ccfd5d'
-      }
-    },
-    / cnonce / 39 : h'12345678',
-    / sd_hash / 11       : h'abcdef12',
-    / sd_alg /  12       : -16, / SHA-256 /
-    / redacted_claim_keys / 59(0) : [
-        h'abbdefef',  / redacted age_over_18 /
-        h'132d75e7'  / redacted age_over_21 /
-    ],
-    / swversion / 271 : [
-      "3.5.5",
-      60(h'45dd87af') /redacted version element/ }
-    ],
-    "address": {
-        "country" : "us",            / United States /
-        /redacted_claim_keys/ 59(0) : [
-            h'adb7060403da225b',  / redacted region /
-            h'e04bdfc44d3d40bc'   / redacted post_code /
-        ]
-    }
-  } >>,
-  / signature / h'3337af2e66959614'
-])
+        / issuer_sd_cwt / 11 : << 18([
+          / protected / << {
+            / alg /    1  : -35, / ES384 /
+            / typ /    16 : "application/sd+cwt",
+            / kid /    4  : 'https://issuer.example/cwt-key3'
+          } >>,
+          / unprotected / {
+            / sd_claims / 17 : <<[  /these are the three disclosures/
+                <<[
+                    /salt/   h'c93c7ff572c71e26',
+                    /claim/  "age_over_18",
+                    /value/  true
+                ]>>,
+                <<[
+                    /salt/   h'399c641e2aa18c1e',
+                    /claim/  "region",
+                    /value/  "ca" /California/
+                ]>>,
+                <<[
+                    /salt/   h'82501bb46c655f32',
+                    /value/  "4.1.7"
+                ]>>
+            ]>>,
+          },
+          / payload / << {
+            / iss / 1   : "https://issuer.example",
+            / sub / 2   : "https://device.example",
+            / aud / 3   : "https://verifier.example",
+            / exp / 4   : 1883000000,
+            / iat / 6   : 1683000000,
+            / cnf / 8   : {
+              / cose key / 1 : {
+                / alg: ES256 /  3: 35,
+                / kty: EC2   /  1: 2,
+                / crv: P-256 / -1: 1,
+                / x / -2: h'768ed88626',
+                / y / -3: h'6a48ccfd5d'
+              }
+            },
+            / sd_alg / 12 : -16,  / SHA256 /
+            / redacted_claim_keys / 59(0) : [
+                h'abbdefef',  / redacted age_over_18 /
+                h'132d75e7'  / redacted age_over_21 /
+            ],
+            / swversion / 271 : [
+              "3.5.5",
+              60(h'45dd87af') /redacted version element/
+            ],
+            "address": {
+                "country" : "us",            / United States /
+                /redacted_claim_keys/ 59(0) : [
+                    h'adb7060403da225b',  / redacted region /
+                    h'e04bdfc44d3d40bc'   / redacted post_code /
+                ]
+            }
+          } >>,                        / end of issuer_sd_cwt payload /
+          / signature / h'3337af2e66959614'
+        ])>>                           / end of issuer_sd-cwt /
+    } >>,                              / end of kbt payload /
+    / signature / h'1237af2e678945'
+])                                     / end of kbt /

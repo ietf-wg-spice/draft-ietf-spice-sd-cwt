@@ -1,15 +1,8 @@
-sd-cwt-types = sd-cwt-presentation / sd-cwt-issued / kbt-cwt
-
-sd-cwt-presentation = #6.18([
-   protected: bstr .cbor sd-protected,
-   unprotected-presentation,
-   payload: bstr .cbor sd-payload,
-   signature: bstr
-])
+sd-cwt-types = sd-cwt-issued / kbt-cwt
 
 sd-cwt-issued = #6.18([
    protected: bstr .cbor sd-protected,
-   unprotected-issued,
+   sd-unprotected,
    payload: bstr .cbor sd-payload,
    signature: bstr
 ])
@@ -23,25 +16,17 @@ kbt-cwt = #6.18([
 
 sd-protected = {
    &(typ: 16) ^ => "application/sd+cwt",
-   &(alg: 1) ^ => int, 
+   &(alg: 1) ^ => int,
    * key => any   
 }
 
 kbt-protected = {
    &(typ: 16)^ => "application/kb+cwt",
-   &(alg: 1)^ => int, 
+   &(alg: 1)^ => int,
    * key => any   
 }
 
-salted-array = [ +bstr .cbor salted ]
-
-unprotected-presentation = {
-   &(sd_kbt: TBD2) ^ => bstr .cbor kbt-cwt,
-   ? &(sd_claims: TBD1) ^ => bstr .cbor salted-array,
-   * key => any   
-}
-
-unprotected-issued = {
+sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => bstr .cbor salted-array,
    * key => any   
 }
@@ -53,17 +38,14 @@ kbt-unprotected = {
 sd-payload = {
     ; standard claims
       &(iss: 1) ^ => tstr, ; "https://issuer.example"
-      &(sub: 2) ^ => tstr, ; "https://device.example"
-      &(aud: 3) ^ => tstr, ; "https://verifier.example"
+    ? &(sub: 2) ^ => tstr, ; "https://device.example"
+    ? &(aud: 3) ^ => tstr, ; "https://verifier.example"
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
-      &(iat: 6) ^ => int,  ; 1683000000
+    ? &(iat: 6) ^ => int,  ; 1683000000
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
-    ? &(cnonce: 39) ^ => bstr,
     ;
-    ; sd-cwt new claims
-      &(sd_hash: TBD3) ^ => bstr, 
-      &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
+    &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
     ? &(redacted_claim_keys: TBD5) ^ => [ * bstr ],
     * key => any   
 }
@@ -73,21 +55,26 @@ kbt-payload = {
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
       &(iat: 6) ^ => int,  ; 1683000000
-      &(cnonce: 39) ^ => bstr,
-      &(sd_hash: TBD3) ^ => bstr,
+    ? &(cnonce: 39) ^ => bstr,
+      &(issuer_sd_cwt: TBD3) ^ => bstr .cbor sd-cwt-presentation,
     * key => any   
 }
 
 ;redacted_claim_element = #6.60( bstr .size 16 )
-salted = salted-claim / salted-element
+
+salted-array = [ +bstr .cbor salted ]
+salted = salted-claim / salted-element / decoy
 salted-claim = [
-  bstr ;.size 16,     ; 128-bit salt
+  bstr .size 16,     ; 128-bit salt
   (int / text),      ; claim name
   any                ; claim value
 ]
 salted-element = [
-  bstr ;.size 16,     ; 128-bit salt
+  bstr .size 16,     ; 128-bit salt
   any                ; claim value
+]
+decoy = [
+  bstr .size 16      ; 128-bit salt
 ]
 
 key = int / text
