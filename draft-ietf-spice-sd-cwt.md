@@ -435,25 +435,25 @@ redacted_claim_element = #6.60( bstr .size 16 )
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `address` claim, and the entire `address` element can be separately blinded.
-An example nested claim is shown in **TODO iref**.
+An example nested claim is shown in {{nesting}}.
 
 Finally, an issuer may create "decoy digests" which look like a blinded claim hash but have only a salt.
-Decoy digests are discussed in **TODO iref**.
+Decoy digests are discussed in {{decoys}}.
 
 
 # SD-CWT Issuance
 
 How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out-of-scope of this specification.
 Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter which is not discussed in this specification.
-This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of an SD-CWT communicated between a Holder and a Verifier in the next section.
+This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in {{sd-cwt-presentation}}.
 
-The payload MUST contain an `sd_alg` claim (from the COSE Algorithms registry) identifying the algorithm used to hash the Salted Disclosed Claims.
+The payload MUST contain an `sd_alg` claim identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 The unprotected header MUST contain an `sd_claims` section with a Salted Disclosed Claim for *every* blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
 The payload MUST also include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
 
 ## Issuer generation
 
-The Issuer follows all the requirements of generating a valid CWT as update by {{cwt-update}}.
+The Issuer follows all the requirements of generating a valid CWT as updated by {{cwt-update}}.
 The Issuer MUST implement COSE_Sign1 using an appropriate asymmetric signature algorithm / curve combination (for example ES256/P-256 or EdDSA/Ed25519)
 
 The Issuer MUST generate a unique cryptographically random salt with at least 128-bits of entropy for each Salted Disclosed Claim.
@@ -582,10 +582,12 @@ The `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
 
 The exact order of the following steps MAY be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
 First the Verifier must validate the SD-KBT as described in {{Section 7.2 of RFC8392}}.
-After validation, the SD-CWT MUST be extracted from the `issuer_sd_cwt`, and validated as described in {{Section 7.2 of RFC8392}}.
+After validation of the SD-KBT, the SD-CWT MUST be extracted from the `issuer_sd_cwt`, and validated as described in {{Section 7.2 of RFC8392}}.
+
 Next, the Verifier MUST extract and decode the disclosed claims from the `sd_claims` in the unprotected header of the SD-CWT.
 The decoded `sd_claims` are converted to an intermediate data structure called a Digest To Disclosed Claim Map which is used to transform the Presented Disclosed Claimset, into a Validated Disclosed Claimset.
 The Verifier MUST compute the hash of each Salted Disclosed Claim (`salted`), in order to match each disclosed value to each entry of the Presented Disclosed Claimset.
+
 One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map could be:
 
 ~~~ cddl-ish
@@ -598,6 +600,7 @@ The Verifier constructs an empty cbor map called the Validated Disclosed Claimse
 Next the Verifier performs a breadth first or depth first traversal of the Presented Disclosed Claimset, Validated Disclosed Claimset, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claimset when they appear in the Presented Disclosed Claimset.
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
 If there remain unused Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid, as if the signature had failed to verify.
+
 Otherwise the SD-CWT is considered valid, and the Validated Disclosed Claimset is now a CWT Claimset with no claims marked for redaction.
 Further validation logic can be applied to the Validated Disclosed Claimset, as it might normally be applied to a validated CWT claimset.
 
