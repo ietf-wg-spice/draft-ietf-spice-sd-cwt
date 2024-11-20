@@ -16,14 +16,13 @@ kbt-cwt = #6.18([
 
 sd-protected = {
    &(typ: 16) ^ => "application/sd+cwt",
-   &(alg: 1) ^ => int, 
-   &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
+   &(alg: 1) ^ => int,
    * key => any   
 }
 
 kbt-protected = {
    &(typ: 16)^ => "application/kb+cwt",
-   &(alg: 1)^ => int, 
+   &(alg: 1)^ => int,
    * key => any   
 }
 
@@ -39,13 +38,14 @@ kbt-unprotected = {
 sd-payload = {
     ; standard claims
       &(iss: 1) ^ => tstr, ; "https://issuer.example"
-    ?  &(sub: 2) ^ => tstr, ; "https://device.example"
-    ?  &(aud: 3) ^ => tstr, ; "https://verifier.example"
+    ? &(sub: 2) ^ => tstr, ; "https://device.example"
+    ? &(aud: 3) ^ => tstr, ; "https://verifier.example"
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
-    ?  &(iat: 6) ^ => int,  ; 1683000000
+    ? &(iat: 6) ^ => int,  ; 1683000000
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ;
+    &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
     ? &(redacted_claim_keys: TBD5) ^ => [ * bstr ],
     * key => any   
 }
@@ -56,7 +56,7 @@ kbt-payload = {
     ? &(nbf: 5) ^ => int,  ; 1683000000
       &(iat: 6) ^ => int,  ; 1683000000
     ? &(cnonce: 39) ^ => bstr,
-      &(issuer_sd_cwt: TBD3) ^ => bstr .cbor sd-cwt-presentation
+      &(issuer_sd_cwt: TBD3) ^ => bstr .cbor sd-cwt-presentation,
     * key => any   
 }
 
@@ -74,7 +74,7 @@ salted-element = [
   any                ; claim value
 ]
 decoy = [
-  bstr .size 16,     ; 128-bit salt
+  bstr .size 16      ; 128-bit salt
 ]
 
 key = int / text

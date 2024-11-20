@@ -8,12 +8,11 @@
         / cnonce / 39    : h'e0a156bb3f',
         / aud     / 3    : "https://verifier.example",
         / iat     / 6    : 1783000000,
-        / issuer_sd_cwt / 12 : << 18([
+        / issuer_sd_cwt / 11 : << 18([
           / protected / << {
             / alg /    1  : -35, / ES384 /
             / typ /    16 : "application/sd+cwt",
             / kid /    4  : 'https://issuer.example/cwt-key3'
-            / sd_alg / 17 : -16  / SHA256 /
           } >>,
           / unprotected / {
             / sd_claims / 17 : <<[  /these are the three disclosures/
@@ -48,6 +47,7 @@
                 / y / -3: h'6a48ccfd5d'
               }
             },
+            / sd_alg / 12 : -16,  / SHA256 /
             / redacted_claim_keys / -65536 : [
                 h'abbdefef',  / redacted age_over_18 /
                 h'132d75e7'  / redacted age_over_21 /
