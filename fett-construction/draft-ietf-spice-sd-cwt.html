@@ -1818,9 +1818,9 @@ redacted_claim_element = #6.60( bstr .size 16 )
 </pre><a href="#section-6.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-6">Blinded claims can be nested. For example, both individual keys in the <code>address</code> claim, and the entire <code>address</code> element can be separately blinded.
-An example nested claim is shown in <strong>TODO iref</strong>.<a href="#section-6.1-6" class="pilcrow">¶</a></p>
+An example nested claim is shown in <a href="#nesting" class="auto internal xref">Section 12.2</a>.<a href="#section-6.1-6" class="pilcrow">¶</a></p>
 <p id="section-6.1-7">Finally, an issuer may create "decoy digests" which look like a blinded claim hash but have only a salt.
-Decoy digests are discussed in <strong>TODO iref</strong>.<a href="#section-6.1-7" class="pilcrow">¶</a></p>
+Decoy digests are discussed in <a href="#decoys" class="auto internal xref">Section 10</a>.<a href="#section-6.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1832,8 +1832,8 @@ Decoy digests are discussed in <strong>TODO iref</strong>.<a href="#section-6.1-
       </h2>
 <p id="section-7-1">How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out-of-scope of this specification.
 Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter which is not discussed in this specification.
-This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of an SD-CWT communicated between a Holder and a Verifier in the next section.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">The payload <span class="bcp14">MUST</span> contain an <code>sd_alg</code> claim (from the COSE Algorithms registry) identifying the algorithm used to hash the Salted Disclosed Claims.
+This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in <a href="#sd-cwt-presentation" class="auto internal xref">Section 8</a>.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">The payload <span class="bcp14">MUST</span> contain an <code>sd_alg</code> claim identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 The unprotected header <span class="bcp14">MUST</span> contain an <code>sd_claims</code> section with a Salted Disclosed Claim for <em>every</em> blinded claim hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
 The payload <span class="bcp14">MUST</span> also include a key confirmation element (<code>cnf</code>) <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span> for the Holder's public key.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <div id="issuer-generation">
@@ -1841,7 +1841,7 @@ The payload <span class="bcp14">MUST</span> also include a key confirmation elem
         <h3 id="name-issuer-generation">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-issuer-generation" class="section-name selfRef">Issuer generation</a>
         </h3>
-<p id="section-7.1-1">The Issuer follows all the requirements of generating a valid CWT as update by <a href="#cwt-update" class="auto internal xref">Section 5</a>.
+<p id="section-7.1-1">The Issuer follows all the requirements of generating a valid CWT as updated by <a href="#cwt-update" class="auto internal xref">Section 5</a>.
 The Issuer <span class="bcp14">MUST</span> implement COSE_Sign1 using an appropriate asymmetric signature algorithm / curve combination (for example ES256/P-256 or EdDSA/Ed25519)<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">The Issuer <span class="bcp14">MUST</span> generate a unique cryptographically random salt with at least 128-bits of entropy for each Salted Disclosed Claim.
 If the client communicates a client-generated nonce (<code>cnonce</code>) when requesting the SD-CWT, the Issuer <span class="bcp14">SHOULD</span> include it in the payload.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
@@ -2008,24 +2008,24 @@ kbt-payload = {
       </h2>
 <p id="section-9-1">The exact order of the following steps <span class="bcp14">MAY</span> be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
 First the Verifier must validate the SD-KBT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
-After validation, the SD-CWT <span class="bcp14">MUST</span> be extracted from the <code>issuer_sd_cwt</code>, and validated as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
-Next, the Verifier <span class="bcp14">MUST</span> extract and decode the disclosed claims from the <code>sd_claims</code> in the unprotected header of the SD-CWT.
+After validation of the SD-KBT, the SD-CWT <span class="bcp14">MUST</span> be extracted from the <code>issuer_sd_cwt</code>, and validated as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">Next, the Verifier <span class="bcp14">MUST</span> extract and decode the disclosed claims from the <code>sd_claims</code> in the unprotected header of the SD-CWT.
 The decoded <code>sd_claims</code> are converted to an intermediate data structure called a Digest To Disclosed Claim Map which is used to transform the Presented Disclosed Claimset, into a Validated Disclosed Claimset.
-The Verifier <span class="bcp14">MUST</span> compute the hash of each Salted Disclosed Claim (<code>salted</code>), in order to match each disclosed value to each entry of the Presented Disclosed Claimset.
-One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map could be:<a href="#section-9-1" class="pilcrow">¶</a></p>
-<div class="lang-cddl-ish sourcecode" id="section-9-2">
+The Verifier <span class="bcp14">MUST</span> compute the hash of each Salted Disclosed Claim (<code>salted</code>), in order to match each disclosed value to each entry of the Presented Disclosed Claimset.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<p id="section-9-3">One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map could be:<a href="#section-9-3" class="pilcrow">¶</a></p>
+<div class="lang-cddl-ish sourcecode" id="section-9-4">
 <pre>
 {
   &amp;(digested-salted-disclosed-claim) =&gt; salted
 }
-</pre><a href="#section-9-2" class="pilcrow">¶</a>
+</pre><a href="#section-9-4" class="pilcrow">¶</a>
 </div>
-<p id="section-9-3">The Verifier constructs an empty cbor map called the Validated Disclosed Claimset, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claimset.
+<p id="section-9-5">The Verifier constructs an empty cbor map called the Validated Disclosed Claimset, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claimset.
 Next the Verifier performs a breadth first or depth first traversal of the Presented Disclosed Claimset, Validated Disclosed Claimset, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claimset when they appear in the Presented Disclosed Claimset.
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
-If there remain unused Digest To Disclosed Claim Map at the end of this procedure the SD-CWT <span class="bcp14">MUST</span> be considered invalid, as if the signature had failed to verify.
-Otherwise the SD-CWT is considered valid, and the Validated Disclosed Claimset is now a CWT Claimset with no claims marked for redaction.
-Further validation logic can be applied to the Validated Disclosed Claimset, as it might normally be applied to a validated CWT claimset.<a href="#section-9-3" class="pilcrow">¶</a></p>
+If there remain unused Digest To Disclosed Claim Map at the end of this procedure the SD-CWT <span class="bcp14">MUST</span> be considered invalid, as if the signature had failed to verify.<a href="#section-9-5" class="pilcrow">¶</a></p>
+<p id="section-9-6">Otherwise the SD-CWT is considered valid, and the Validated Disclosed Claimset is now a CWT Claimset with no claims marked for redaction.
+Further validation logic can be applied to the Validated Disclosed Claimset, as it might normally be applied to a validated CWT claimset.<a href="#section-9-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="decoys">
