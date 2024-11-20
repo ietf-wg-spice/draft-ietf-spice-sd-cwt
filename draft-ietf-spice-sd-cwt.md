@@ -202,30 +202,29 @@ Notation (EDN) {{!I-D.ietf-cbor-edn-literals}}. Note that some of the CWT claim 
         / y / -3: b64'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
       }
     },
-    / name /  170 : "Alice Smith",
-    / age_at_least_18 /  500 : true,
-    / age_at_least_21 /  501 : false,
-    / swversion / 271 : [
-      "3.5.5",
-      "4.1.7"
+    /most_recent_inspection_passed/ 500: true,
+    /inspector_license_number/ 501: "ABCD-123456",
+    /inspection_dates/ 502 : [
+        1549560720,   / 2019-02-07T17:32:00 /
+        1612498440,   / 2021-02-04T20:14:00 /
+        1674004740,   / 2023-01-17T17:19:00 /
     ],
-    / address /  187 : {
-        "country"   : "us",          / United States /
-        "region"    : "ca",          / California /
-        "locality"  : "San Francisco",
-        "postal_code" : "94188"
+    /inspection_location/ 503: {
+        "country": "us",            / United States /
+        "region": "ca",             / California /
+        "postal_code": "94188"
     }
 }
 ~~~
 
-The custom claims consist of the Holder's name (Alice Smith), that she is at least 18 years old but not yet 21, that her client supports software versions 3.5.5 and 4.1.7, and her address is in San Francisco.
+The custom claims deal with attributes of an inspection of the subject: the pass/fail result, the inspection location, the license number of the inspector, and a list of date when the subject was inspected.
 
 ## Holder gets an SD-CWT from the Issuer
 
 Alice would like to selectively disclose some of these (custom) claims to different verifiers.
-(For brevity, we will leave out the name and locality claims.) Note that some of the claims may not be selectively disclosable
-(Alice's country and her oldest supported software version in this example).
-First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as follows:
+Note that some of the claims may not be selectively disclosable.
+In our next example the pass/fail status of the inspection, the most recent inspection date, and the country of the inspection will be fixed claims (always present in the SD-CWT).
+After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-CWT as follows:
 
 ~~~ cbor-diag
 / cose-sign1 / 18([
@@ -239,13 +238,16 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
     <<[
         <<[
             /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-            /claim/  500,  / age_at_least_18 /
-            /value/  true
+            /claim/  501,  / inspector_license_number /
+            /value/  "ABCD-123456"
         ]>>,
         <<[
-            /salt/   h'd84c364fad31e0075213141ca7d1408f',
-            /claim/  501,  / age_at_least_21 /
-            /value/  false
+            /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
+            /value/  1549560720  / inspected 7-Feb-2019 /
+        ]>>,
+        <<[
+            /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
+            /value/  1612498440  / inspected 4-Feb-2021 /
         ]>>,
         <<[
             /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
@@ -256,10 +258,6 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
             /salt/   h'284538c4a1881fac49b2edc550c1913e',
             /claim/  "postal_code",
             /value/  "94188"
-        ]>>,
-        <<[
-            /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-            /value/  "4.1.7"
         ]>>
     ]>>
   },
@@ -279,21 +277,22 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
       }
     },
     / sd_alg /  12 : -16  / SHA256 /,
+    /most_recent_inspection_passed/ 500: true,
     / redacted_claim_keys / -65536 : [
-        / redacted age_at_least_18 /
+        / redacted inspector_license_number /
         h'7e6e350907d0ba3aa7ae114f8da5b360' +
-        h'601c0bb7995cd40049b98e4f58fb6ec0',
-        / redacted age_at_least_21 /
-        h'1e7275bcda9bc183079cd4515c5c0282' +
-        h'a2a0e9105b660933e2e68f9a3f40974b'
+        h'601c0bb7995cd40049b98e4f58fb6ec0'
     ],
-    / swversion / 271 : [
-      "3.5.5",
-      / redacted version "4.1.7" /
-      60(h'a0f74264a8c97655c958aff3687f1390' +
-         h'ed0ab6f64cd78ba43c3fefee0de7b835')
+    /inspection_dates/ 502 : [
+        / redacted inspection date 7-Feb-2019 /
+        60(h'a0f74264a8c97655c958aff3687f1390' +
+           h'ed0ab6f64cd78ba43c3fefee0de7b835')
+        / redacted inspection date 4-Feb-2021 /
+        60(h'1e7275bcda9bc183079cd4515c5c0282' +
+           h'a2a0e9105b660933e2e68f9a3f40974b')
+        1674004740,   / 2023-01-17T17:19:00 /
     ],
-    "address": {
+    / inspection_location / 503 : {
         "country" : "us",            / United States /
         / redacted_claim_keys / -65536 : [
             / redacted region /
@@ -310,19 +309,19 @@ First she requests an SD-CWT from her issuer. The issuer generates an SD-CWT as 
 ~~~
 
 Some of the claims are *redacted* in the payload. The corresponding *disclosure* is communicated in the unprotected header in the `sd_claims` key.
-For example, the `age_at_least_18` claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the claim name, and claim value.
+For example, the `inspector_license_number` claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the claim name, and claim value.
 
 ~~~ cbor-diag
 <<[
     /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-    /claim/  500,  / age_at_least_18 /
-    /value/  true
-]>>,
+    /claim/  501,  / inspector_license_number /
+    /value/  "ABCD-123456"
+]>>
 ~~~
 
 
 The SHA-256 hash (the hash algorithm identified in the `sd_alg` claim in the payload) of that bytes string is the Digested Salted Disclosed Claim (in hex).
-The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of `swversion`).
+The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of `inspection_dates`).
 
 ~~~
 7e6e350907d0ba3aa7ae114f8da5b360601c0bb7995cd40049b98e4f58fb6ec0
@@ -332,24 +331,24 @@ The digest value is included in the payload in a `redacted_claim_keys` field for
 
 When the Holder wants to send an SD-CWT and disclose none, some, or all of the redacted values, it makes a list of the values to disclose and puts them in `sd_claims` in the unprotected header.
 
-For example, Alice decides to disclosure to a verifier the `age_at_least_18` claim (true), the `region` claim (California), and the other element in the `swversion` array (4.1.7).
+For example, Alice decides to disclose to a verifier the `inspector_license_number` claim (ABCD-123456), the `region` claim (California), and the earliest date element in the `inspection_dates` array (7-Feb-2019).
 
 ~~~ cbor-diag
 / sd_claims / 17 : /just the disclosures chosen by the Holder/
 <<[
     <<[
         /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-        /claim/  500,  / age_at_least_18 /
-        /value/  true
+        /claim/  501,  / inspector_license_number /
+        /value/  "ABCD-123456"
+    ]>>,
+    <<[
+        /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
+        /value/  1549560720  / inspected 7-Feb-2019 /
     ]>>,
     <<[
         /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
         /claim/  "region",
         /value/  "ca" /California/
-    ]>>,
-    <<[
-        /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-        /value/  "4.1.7"
     ]>>
 ]>>
 ~~~
@@ -434,7 +433,7 @@ When blinding an individual item in an array, the value of the item is replaced 
 redacted_claim_element = #6.60( bstr .size 16 )
 ~~~
 
-Blinded claims can be nested. For example, both individual keys in the `address` claim, and the entire `address` element can be separately blinded.
+Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
 An example nested claim is shown in {{nesting}}.
 
 Finally, an issuer may create "decoy digests" which look like a blinded claim hash but have only a salt.

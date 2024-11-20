@@ -15,20 +15,20 @@
             / kid /    4  : 'https://issuer.example/cwt-key3'
           } >>,
           / unprotected / {
-            / sd_claims / 17 : <<[  /these are the three disclosures/
+            / sd_claims / 17 : <<[  /these are the disclosures/
                 <<[
-                    /salt/   h'c93c7ff572c71e26',
-                    /claim/  "age_over_18",
-                    /value/  true
+                    /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
+                    /claim/  501,  / inspector_license_number /
+                    /value/  "ABCD-123456"
                 ]>>,
                 <<[
-                    /salt/   h'399c641e2aa18c1e',
+                    /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
+                    /value/  1549560720  / inspected 7-Feb-2019 /
+                ]>>,
+                <<[
+                    /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
                     /claim/  "region",
                     /value/  "ca" /California/
-                ]>>,
-                <<[
-                    /salt/   h'82501bb46c655f32',
-                    /value/  "4.1.7"
                 ]>>
             ]>>,
           },
@@ -48,19 +48,30 @@
               }
             },
             / sd_alg / 12 : -16,  / SHA256 /
+            /most_recent_inspection_passed/ 500: true,
             / redacted_claim_keys / -65536 : [
-                h'abbdefef',  / redacted age_over_18 /
-                h'132d75e7'  / redacted age_over_21 /
+                / redacted inspector_license_number /
+                h'7e6e350907d0ba3aa7ae114f8da5b360' +
+                h'601c0bb7995cd40049b98e4f58fb6ec0'
             ],
-            / swversion / 271 : [
-              "3.5.5",
-              60(h'45dd87af') /redacted version element/
+            /inspection_dates/ 502 : [
+                / redacted inspection date 7-Feb-2019 /
+                60(h'a0f74264a8c97655c958aff3687f1390' +
+                   h'ed0ab6f64cd78ba43c3fefee0de7b835')
+                / redacted inspection date 4-Feb-2021 /
+                60(h'1e7275bcda9bc183079cd4515c5c0282' +
+                   h'a2a0e9105b660933e2e68f9a3f40974b')
+                1674004740,   / 2023-01-17T17:19:00 /
             ],
-            "address": {
+            / inspection_location / 503 : {
                 "country" : "us",            / United States /
-                /redacted_claim_keys/ -65536 : [
-                    h'adb7060403da225b',  / redacted region /
-                    h'e04bdfc44d3d40bc'   / redacted post_code /
+                / redacted_claim_keys / -65536 : [
+                    / redacted region /
+                    h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
+                    h'ed010ac9ae1c93403ec72572bb1e00e7',
+                    / redacted postal_code /
+                    h'0b616e522a05d8d134a834979710120d' +
+                    h'41ac1522b056d5f9509cf7e850047302'
                 ]
             }
           } >>,                        / end of issuer_sd_cwt payload /
