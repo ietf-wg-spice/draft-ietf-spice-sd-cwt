@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-19T00:47:50.093547+00:00",
+  "timestamp": "2024-11-21T00:44:22.462673+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -47,6 +47,11 @@
       "name": "wontfix",
       "description": "This will not be worked on",
       "color": "ffffff"
+    },
+    {
+      "name": "needs-list-review",
+      "description": "",
+      "color": "006b75"
     }
   ],
   "issues": [
@@ -302,13 +307,37 @@
       "state": "OPEN",
       "author": "mprorock",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "mprorock"
+      ],
       "labels": [],
       "body": "Identify a better example case that is not age verification over web, and update spec with that example accordingly",
       "createdAt": "2024-11-05T13:18:43Z",
-      "updatedAt": "2024-11-05T13:18:43Z",
+      "updatedAt": "2024-11-20T19:05:35Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@rohanmahy will something like this work for example?\r\n```\r\n/ cose-sign1 / 18([\r\n  / protected / << {\r\n    / alg / 1  : -35, / ES384 /\r\n    / typ / 16 : \"application/sd+cwt\",\r\n    / kid / 4  : 'https://issuer.example/cwk3.cbor'\r\n  } >>,\r\n  / unprotected / {\r\n    / sd_claims / 17 : / these are all the disclosures /\r\n    <<[\r\n        <<[\r\n            /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',\r\n            /claim/  \"inspection_result\",\r\n            /value/  true\r\n        ]>>,\r\n        <<[\r\n            /salt/   h'd84c364fad31e0075213141ca7d1408f',\r\n            /claim/  \"location\",\r\n            /value/  {\r\n                \"country\": \"us\", \r\n                \"region\": \"ca\", / California /\r\n                \"postal_code\": \"94188\"\r\n            }\r\n        ]>>,\r\n        <<[\r\n            /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',\r\n            /claim/  \"inspection_details\",\r\n            /value/  60(h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +\r\n                         h'ed010ac9ae1c93403ec72572bb1e00e7') / redacted /\r\n        ]>>\r\n    ]>>\r\n  },\r\n  / payload / << {\r\n    / iss / 1  : \"https://issuer.example\",\r\n    / sub / 2  : \"WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M\",\r\n    / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/\r\n    / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/\r\n    / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/\r\n    / cnf / 8  : {\r\n      / cose key / 1 : {\r\n        / alg: ES256 /  3: -7,\r\n        / kty: EC2   /  1: 2,\r\n        / crv: P-256 / -1: 1,\r\n        / x / -2: h'hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1Sei0',\r\n        / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'\r\n      }\r\n    },\r\n    / sd_alg /  12 : -16  / SHA256 /,\r\n    / redacted_claim_keys / -65536 : [\r\n        / redacted inspection_details /\r\n        h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +\r\n        h'ed010ac9ae1c93403ec72572bb1e00e7'\r\n    ],\r\n    \"inspection_result\": true,\r\n    \"location\": {\r\n        \"country\": \"us\",            / United States /\r\n        \"region\": \"ca\",             / California /\r\n        \"postal_code\": \"94188\"\r\n    }\r\n  } >>,\r\n  / signature / h'3337af2e66959614' /TODO: fix /\r\n])\r\n```",
+          "createdAt": "2024-11-20T17:01:04Z",
+          "updatedAt": "2024-11-20T17:01:04Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "how about these instead for the unredacted claims?\r\n\r\n```\r\n/most_recent_inspection_passed/ 500: true,\r\n/inspector_license_number/ 501: \"ABCD-123456\",\r\n/inspection_dates/ 502 : [\r\n  1549560720,   / 2019-02-07T17:32:00 /\r\n  1612498440,   / 2021-02-04T20:14:00 /\r\n  1674004740,   / 2023-01-17T17:19:00 /\r\n],\r\n/inspection_location/ 503: {\r\n        \"country\": \"us\",            / United States /\r\n        \"region\": \"ca\",             / California /\r\n        \"postal_code\": \"94188\"\r\n}\r\n```\r\n\r\nI'll leave most_recent_inspection_passed and the latest date as fixed claims in the example, and the rest of the claims can be disclosable.\r\n\r\n",
+          "createdAt": "2024-11-20T17:40:17Z",
+          "updatedAt": "2024-11-20T19:05:35Z"
+        },
+        {
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "body": "that totally works\r\n\r\n> how about these instead for the unredacted claims?\r\n> \r\n> /most_recent_inspection_passed/ 500: true, /inspector_license_number/ 501: \"ABCD-123456\", /inspection_dates/ 502 : [ 1549560720, / 2019-02-07T17:32:00 / 1612498440, / 2021-02-04T20:14:00 / 1674004740, / 2023-01-17T17:19:00 / ], /inspection_location/ 503: { \"country\": \"us\", / United States / \"region\": \"ca\", / California / \"postal_code\": \"94188\" }\r\n> \r\n> I'll leave most_recent_inspection_passed and the latest date as fixed claims in the example, and the rest of the claims can be disclosable.\r\n\r\n",
+          "createdAt": "2024-11-20T18:50:24Z",
+          "updatedAt": "2024-11-20T18:50:24Z"
+        }
+      ]
     },
     {
       "number": 27,
@@ -340,6 +369,22 @@
           "updatedAt": "2024-11-18T08:25:32Z"
         }
       ]
+    },
+    {
+      "number": 30,
+      "id": "I_kwDOMm_Q2s6fRy1P",
+      "title": "Update IANA Media Types registration template to use best current practices",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/30",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See the [issue](https://github.com/ietf-wg-mediaman/6838bis/issues/9) on [draft-mediaman-6838bis](https://datatracker.ietf.org/doc/draft-mediaman-6838bis/) \r\n\r\nAlso copying comments from @martinthomson here:\r\n>Recent documents that I've gotten through publication look like this:\r\n\r\n```\r\n   Person and email address to contact for further information:\r\n      See Authors' Addresses section\r\n```\r\n\r\n>Separately, please see the source of RFC 9458 for a better media type registration template:  https://github.com/ietf-wg-ohai/oblivious-http/blob/main/draft-ietf-ohai-ohttp.md",
+      "createdAt": "2024-11-19T13:44:01Z",
+      "updatedAt": "2024-11-19T13:45:13Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -2077,24 +2122,26 @@
       "id": "PR_kwDOMm_Q2s6CSrPZ",
       "title": "Use CBOR tag for redacted (array) claim elements",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/28",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- Replace older redacted (array) claim element forms `{\"...\", h'1234abcd'}` and `{ / redacted_claim_element / 65555: h'1234abcd'}` with a CBOR tagged digest: `60(h'1234abcd')`\r\n- Register the CBOR tag to indicate a redacted claim element\r\n- Consistently use the names `redacted_claim_elements` and `redacted_claim_keys`\r\n- Replace 65556 with -65536 to be a shorter to represent, and possibly rarer number to encounter as a map key (note that this syntax may be replaced in a future PR)\r\n- Make the appropriate changes consistently in the examples and in the CDDL file\r\n- Register a different CBOR tag to indicate the intent to redact a claim (key, or element)\r\n- Fix the formatting of the IANA registration section",
       "createdAt": "2024-11-18T19:35:20Z",
-      "updatedAt": "2024-11-18T22:18:22Z",
+      "updatedAt": "2024-11-19T14:05:57Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "8c1df4518a6e4d87ad2a026aeb5afcaa29bf2770",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "tagged-claim-elements",
       "headRefOid": "8c9f916fe0baf13f60232db22527610a89a45b9d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-11-19T14:05:57Z",
+      "mergedAt": "2024-11-19T14:05:57Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "fbc63a5e5c669f9ed02c69081b8dbaedef9a8358"
+      },
       "comments": [],
       "reviews": [
         {
@@ -2289,32 +2336,54 @@
               "updatedAt": "2024-11-18T22:18:22Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6RxJJf",
+          "commit": {
+            "abbreviatedOid": "8c9f916"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-19T14:05:29Z",
+          "updatedAt": "2024-11-19T14:05:29Z",
+          "comments": [
+            {
+              "originalPosition": 138,
+              "body": "Thanks. with compact and bold added, this is certainly better, but when we get to the Additional information: field with 3 subfields, that syntax just doesn't know how to handle it.  It is also way too verbose in the source. I'll stick with the bullet items for this document, but use the compact definition rendering (with bold) in future docs that don't have multiple indent levels.",
+              "createdAt": "2024-11-19T14:05:29Z",
+              "updatedAt": "2024-11-19T14:05:29Z"
+            }
+          ]
         }
       ]
     },
     {
       "number": 29,
       "id": "PR_kwDOMm_Q2s6CTFvA",
-      "title": "Make redacted claim keys use a tagged CWT key and update CWT spec accordingly",
+      "title": "Update CWT spec to allow tagged CWT claim keys",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/29",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "- Add section Updating RFC8392 (CBOR Web Tokens)\r\n- TODO: Replace `/redacted_claim_keys/ -65536: [ <digest1>, <digest2> ]` with `59(0): [ <digest1>, <digest2> ]`\r\n\r\n",
+      "body": "- Add section Updating RFC8392 (CBOR Web Tokens)\r\n\r\n",
       "createdAt": "2024-11-18T20:30:56Z",
-      "updatedAt": "2024-11-18T21:09:12Z",
+      "updatedAt": "2024-11-19T14:10:00Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "8c1df4518a6e4d87ad2a026aeb5afcaa29bf2770",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "update8392",
       "headRefOid": "e57375ec4745acc36b14709cec92ff3ea521cbdc",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-11-19T14:10:00Z",
+      "mergedAt": "2024-11-19T14:10:00Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "498c15b1a1bbfa1cdafbc61047e8b15ddec87e27"
+      },
       "comments": [],
       "reviews": [
         {
@@ -2331,6 +2400,223 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 31,
+      "id": "PR_kwDOMm_Q2s6CZmO_",
+      "title": "Make redacted_claim_keys use a tagged CWT key",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/31",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "needs-list-review"
+      ],
+      "body": "- Replace `/redacted_claim_keys/ -65536: [ <digest1>, <digest2> ]` with `59(0): [ <digest1>, <digest2> ]`",
+      "createdAt": "2024-11-19T14:39:23Z",
+      "updatedAt": "2024-11-20T18:23:24Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "51d16e5118397534ec9e9bac8bb167ca7e22d617",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "tagged-claim-keys",
+      "headRefOid": "add1888a4efa3095ebc8db67d5c6a4bde19892cb",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6RxvYZ",
+          "commit": {
+            "abbreviatedOid": "f4f8982"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-19T14:57:49Z",
+          "updatedAt": "2024-11-19T14:57:49Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6R9JKR",
+          "commit": {
+            "abbreviatedOid": "f4f8982"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-20T14:06:47Z",
+          "updatedAt": "2024-11-20T14:06:47Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6R9Tlk",
+          "commit": {
+            "abbreviatedOid": "f4f8982"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "holding this PR until we hear back from the list",
+          "createdAt": "2024-11-20T14:21:55Z",
+          "updatedAt": "2024-11-20T14:21:55Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "id": "PR_kwDOMm_Q2s6CdEtf",
+      "title": "I-D text changes, CDDL, and example use construction described by Daniel Fett",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/32",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Created a CDDL and example (in EDN) of the construction described by Daniel Fett, and made the draft consistent with that construction.\r\n\r\nthe KBT payload contains the a claim (called here issuer_sd_cwt) which is an embedded bstr of the entire Issuer SD-CWT. The unprotected header of the issued-cwt has zero or more disclosures.\r\n\r\nI also moved sd_alg into the issuer SD-CWT protected header.\r\n\r\nThis construction dramatically simplified the CDDL schema. The example is a bit harder to read, merely because the issuer SD-CWT is more deeply nested. Overall this construction is simpler and requires fewer new claims.",
+      "createdAt": "2024-11-19T23:44:00Z",
+      "updatedAt": "2024-11-20T18:17:02Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "498c15b1a1bbfa1cdafbc61047e8b15ddec87e27",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "fett-construction",
+      "headRefOid": "a0538bc1782e91e08f2193ce81f34dc625a0249d",
+      "closedAt": "2024-11-20T18:17:02Z",
+      "mergedAt": "2024-11-20T18:17:02Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "51d16e5118397534ec9e9bac8bb167ca7e22d617"
+      },
+      "comments": [
+        {
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Approved pending move of sd_alg",
+          "createdAt": "2024-11-20T14:23:45Z",
+          "updatedAt": "2024-11-20T14:23:45Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Moved sd_alg back to payload as requested.",
+          "createdAt": "2024-11-20T16:00:08Z",
+          "updatedAt": "2024-11-20T16:00:08Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6R8rDi",
+          "commit": {
+            "abbreviatedOid": "ce8e8e5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-20T13:20:35Z",
+          "updatedAt": "2024-11-20T13:20:35Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6R9MV7",
+          "commit": {
+            "abbreviatedOid": "ce8e8e5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-20T14:11:32Z",
+          "updatedAt": "2024-11-20T14:11:33Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "move back to payload",
+              "createdAt": "2024-11-20T14:11:33Z",
+              "updatedAt": "2024-11-20T14:11:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6R9UYJ",
+          "commit": {
+            "abbreviatedOid": "ce8e8e5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Need to move sd_alg back to payload, then we should merge this",
+          "createdAt": "2024-11-20T14:22:51Z",
+          "updatedAt": "2024-11-20T14:22:51Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6R9Uuw",
+          "commit": {
+            "abbreviatedOid": "ce8e8e5"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-20T14:23:24Z",
+          "updatedAt": "2024-11-20T14:23:24Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6R-X-n",
+          "commit": {
+            "abbreviatedOid": "ce8e8e5"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-20T15:55:02Z",
+          "updatedAt": "2024-11-20T15:55:02Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "Fixed",
+              "createdAt": "2024-11-20T15:55:02Z",
+              "updatedAt": "2024-11-20T15:55:03Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 33,
+      "id": "PR_kwDOMm_Q2s6CkzAU",
+      "title": "Update example to use a generic inspection",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/33",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "addresses issue #26 ",
+      "createdAt": "2024-11-20T19:46:42Z",
+      "updatedAt": "2024-11-20T19:46:42Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "51d16e5118397534ec9e9bac8bb167ca7e22d617",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "better-example",
+      "headRefOid": "25ee4ad959dfc211af658e478b5d0daaebadb5cf",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
