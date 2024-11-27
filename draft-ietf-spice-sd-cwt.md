@@ -178,6 +178,7 @@ Validated Disclosed Claims Set:
 : The CBOR map containing all mandatory to disclose claims signed by the issuer, all selectively disclosed claims presented by the holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
 
 
+
 # Overview of Selective Disclosure CWT
 
 ## A CWT without Selective Disclosure
@@ -276,9 +277,10 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
         / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
       }
     },
+
     / sd_alg /  12 : -16  / SHA256 /,
     /most_recent_inspection_passed/ 500: true,
-    / redacted_claim_keys / -65536 : [
+    / redacted_claim_keys / 59(0) : [
         / redacted inspector_license_number /
         h'7e6e350907d0ba3aa7ae114f8da5b360' +
         h'601c0bb7995cd40049b98e4f58fb6ec0'
@@ -294,7 +296,7 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
     ],
     / inspection_location / 503 : {
         "country" : "us",            / United States /
-        / redacted_claim_keys / -65536 : [
+        / redacted_claim_keys / 59(0) : [
             / redacted region /
             h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
             h'ed010ac9ae1c93403ec72572bb1e00e7',
@@ -426,6 +428,7 @@ salted-array = [ +bstr .cbor salted ]
 ~~~
 
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
+The `redacted_claim_keys` key is the integer 0 (which is reserved for top-level CWT claim keys), wrapped with a CBOR tag (requested tag number 59).
 
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with a CBOR tag (requested tag number 60).
 
@@ -506,8 +509,8 @@ sd-payload = {
     ? &(cnonce: 39) ^ => bstr,
     ;
     ; sd-cwt new claims
-    &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
-    ? &(redacted_claim_keys: TBD5) ^ => [ * bstr ],
+      &(sd_alg: 12) ^ => int,            ; -16 for sha-256
+    ? &(redacted_keys: #6.59(0)) ^ => [ * bstr ],
     * key => any
 }
 ~~~
@@ -705,6 +708,15 @@ The binary string inside the tag is a selective disclosure redacted claim elemen
 * Semantics: A selective disclosure redacted (array) claim element.
 * Specification Document(s): RFC XXXX
 
+### Redacted claim keys tag
+
+This tag encloses the integer claim key 0 (reserved as a CWT claim key). It indicates that the claim value is an array of redacted claim keys at the same level.
+
+* Tag: TBD5 (requested assignment 59)
+* Data Item: unsigned integer 0
+* Semantics: Tags the claim key 0. The value of the key is an array of selective disclosure redacted claim keys.
+* Specification Document(s): RFC XXXX
+
 ### To be redacted tag
 
 The array claim element, or map key and value inside the "To be redacted" tag is intended to be redacted using selective disclosure.
@@ -719,18 +731,6 @@ The array claim element, or map key and value inside the "To be redacted" tag is
 IANA is requested to add the following entries to the CWT claims registry (https://www.iana.org/assignments/cwt/cwt.xhtml).
 
 <!-- https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-12#name-json-web-token-claims-regis -->
-
-### redacted_claim_keys
-
-The following completed registration template per RFC8392 is provided:
-
-* Claim Name: redacted_claim_keys
-* Claim Description: Redacted Claim Keys in a map.
-* JWT Claim Name: _sd
-* Claim Key: TBD5 (request assignment -65536)
-* Claim Value Type(s): array of bstr
-* Change Controller: IETF
-* Specification Document(s): RFC XXXX
 
 ### sd_alg
 
@@ -851,7 +851,7 @@ THe COSE equivalent of `application/kb+jwt` is `application/kb+cwt`.
 
 ## Redaction Claims
 
-The COSE equivalent of `_sd` is TBD5 (requested assignment -65536).
+The COSE equivalent of `_sd` is a CBOR tag (requested assignment 59) of the claim key 0. The corresponding claim value is an array of the redacted claim keys.
 
 The COSE equivalent of `...` is a CBOR tag (requested assignment 60) of the digested salted claim.
 

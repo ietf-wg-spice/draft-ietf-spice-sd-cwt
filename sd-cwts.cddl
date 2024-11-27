@@ -82,4 +82,4 @@ TBD1 = 17
 TBD2 = 18
 TBD3 = 11
 TBD4 = 12
-TBD5 = -65536
+TBD5 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0

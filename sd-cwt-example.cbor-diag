@@ -49,7 +49,7 @@
             },
             / sd_alg / 12 : -16,  / SHA256 /
             /most_recent_inspection_passed/ 500: true,
-            / redacted_claim_keys / -65536 : [
+            / redacted_claim_keys / 59(0) : [
                 / redacted inspector_license_number /
                 h'7e6e350907d0ba3aa7ae114f8da5b360' +
                 h'601c0bb7995cd40049b98e4f58fb6ec0'
@@ -65,7 +65,7 @@
             ],
             / inspection_location / 503 : {
                 "country" : "us",            / United States /
-                / redacted_claim_keys / -65536 : [
+                / redacted_claim_keys / 59(0) : [
                     / redacted region /
                     h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
                     h'ed010ac9ae1c93403ec72572bb1e00e7',
