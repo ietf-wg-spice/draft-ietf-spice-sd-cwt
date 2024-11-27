@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 24 May 2025                                         H. Birkholz
+Expires: 31 May 2025                                         H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                        20 November 2024
+                                                        27 November 2024
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 May 2025.
+   This Internet-Draft will expire on 31 May 2025.
 
 Copyright Notice
 
@@ -104,12 +104,12 @@ Table of Contents
        15.1.1.  sd_claims
      15.2.  CBOR Tags
        15.2.1.  Redacted claim element tag
-       15.2.2.  To be redacted tag
+       15.2.2.  Redacted claim keys tag
+       15.2.3.  To be redacted tag
      15.3.  CBOR Web Token (CWT) Claims
-       15.3.1.  redacted_claim_keys
-       15.3.2.  sd_alg
-       15.3.3.  issuer_sd_cwt
-       15.3.4.  vct
+       15.3.1.  sd_alg
+       15.3.2.  issuer_sd_cwt
+       15.3.3.  vct
      15.4.  Media Types
        15.4.1.  application/sd+cwt
        15.4.2.  application/kb+cwt
@@ -370,9 +370,10 @@ Issuer                           Holder                         Verifier
            / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
          }
        },
+
        / sd_alg /  12 : -16  / SHA256 /,
        /most_recent_inspection_passed/ 500: true,
-       / redacted_claim_keys / -65536 : [
+       / redacted_claim_keys / 59(0) : [
            / redacted inspector_license_number /
            h'7e6e350907d0ba3aa7ae114f8da5b360' +
            h'601c0bb7995cd40049b98e4f58fb6ec0'
@@ -388,7 +389,7 @@ Issuer                           Holder                         Verifier
        ],
        / inspection_location / 503 : {
            "country" : "us",            / United States /
-           / redacted_claim_keys / -65536 : [
+           / redacted_claim_keys / 59(0) : [
                / redacted region /
                h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
                h'ed010ac9ae1c93403ec72572bb1e00e7',
@@ -544,7 +545,10 @@ Issuer                           Holder                         Verifier
 
    When a blinded claim is a key in a map, its blinded claim hash is
    added to a redacted_claim_keys array claim in the CWT payload that is
-   at the same level of hierarchy as the key being blinded.
+   at the same level of hierarchy as the key being blinded.  The
+   redacted_claim_keys key is the integer 0 (which is reserved for top-
+   level CWT claim keys), wrapped with a CBOR tag (requested tag number
+   59).
 
    When blinding an individual item in an array, the value of the item
    is replaced with the digested salted hash as a CBOR binary string,
@@ -654,8 +658,8 @@ Issuer                           Holder                         Verifier
        ? &(cnonce: 39) ^ => bstr,
        ;
        ; sd-cwt new claims
-       &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
-       ? &(redacted_claim_keys: TBD5) ^ => [ * bstr ],
+         &(sd_alg: 12) ^ => int,            ; -16 for sha-256
+       ? &(redacted_keys: #6.59(0)) ^ => [ * bstr ],
        * key => any
    }
 
@@ -865,7 +869,7 @@ Issuer                           Holder                         Verifier
              },
              / sd_alg / 12 : -16,  / SHA256 /
              /most_recent_inspection_passed/ 500: true,
-             / redacted_claim_keys / -65536 : [
+             / redacted_claim_keys / 59(0) : [
                  / redacted inspector_license_number /
                  h'7e6e350907d0ba3aa7ae114f8da5b360' +
                  h'601c0bb7995cd40049b98e4f58fb6ec0'
@@ -881,7 +885,7 @@ Issuer                           Holder                         Verifier
              ],
              / inspection_location / 503 : {
                  "country" : "us",            / United States /
-                 / redacted_claim_keys / -65536 : [
+                 / redacted_claim_keys / 59(0) : [
                      / redacted region /
                      h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
                      h'ed010ac9ae1c93403ec72572bb1e00e7',
@@ -1006,7 +1010,22 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): RFC XXXX
 
-15.2.2.  To be redacted tag
+15.2.2.  Redacted claim keys tag
+
+   This tag encloses the integer claim key 0 (reserved as a CWT claim
+   key).  It indicates that the claim value is an array of redacted
+   claim keys at the same level.
+
+   *  Tag: TBD5 (requested assignment 59)
+
+   *  Data Item: unsigned integer 0
+
+   *  Semantics: Tags the claim key 0.  The value of the key is an array
+      of selective disclosure redacted claim keys.
+
+   *  Specification Document(s): RFC XXXX
+
+15.2.3.  To be redacted tag
 
    The array claim element, or map key and value inside the "To be
    redacted" tag is intended to be redacted using selective disclosure.
@@ -1025,26 +1044,7 @@ Issuer                           Holder                         Verifier
    IANA is requested to add the following entries to the CWT claims
    registry (https://www.iana.org/assignments/cwt/cwt.xhtml).
 
-15.3.1.  redacted_claim_keys
-
-   The following completed registration template per RFC8392 is
-   provided:
-
-   *  Claim Name: redacted_claim_keys
-
-   *  Claim Description: Redacted Claim Keys in a map.
-
-   *  JWT Claim Name: _sd
-
-   *  Claim Key: TBD5 (request assignment -65536)
-
-   *  Claim Value Type(s): array of bstr
-
-   *  Change Controller: IETF
-
-   *  Specification Document(s): RFC XXXX
-
-15.3.2.  sd_alg
+15.3.1.  sd_alg
 
    The following completed registration template per RFC8392 is
    provided:
@@ -1063,7 +1063,7 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): RFC XXXX
 
-15.3.3.  issuer_sd_cwt
+15.3.2.  issuer_sd_cwt
 
    The following completed registration template per RFC8392 is
    provided:
@@ -1083,7 +1083,7 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): RFC XXXX
 
-15.3.4.  vct
+15.3.3.  vct
 
    The following completed registration template per RFC8392 is
    provided:
@@ -1379,7 +1379,7 @@ Appendix A.  Complete CDDL Schema
    TBD2 = 18
    TBD3 = 11
    TBD4 = 12
-   TBD5 = -65536
+   TBD5 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
 
               Figure 2: A complete CDDL description of SD-CWT
 
@@ -1396,7 +1396,9 @@ B.1.  Media Types
 
 B.2.  Redaction Claims
 
-   The COSE equivalent of _sd is TBD5 (requested assignment -65536).
+   The COSE equivalent of _sd is a CBOR tag (requested assignment 59) of
+   the claim key 0.  The corresponding claim value is an array of the
+   redacted claim keys.
 
    The COSE equivalent of ... is a CBOR tag (requested assignment 60) of
    the digested salted claim.
