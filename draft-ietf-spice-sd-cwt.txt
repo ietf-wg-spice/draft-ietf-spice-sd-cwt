@@ -1353,7 +1353,7 @@ Appendix A.  Complete CDDL Schema
        ? &(nbf: 5) ^ => int,  ; 1683000000
          &(iat: 6) ^ => int,  ; 1683000000
        ? &(cnonce: 39) ^ => bstr,
-         &(issuer_sd_cwt: TBD3) ^ => bstr .cbor sd-cwt-presentation,
+         &(issuer_sd_cwt: TBD3) ^ => bstr .cbor sd-cwt-issued,
        * key => any
    }
 
