@@ -278,8 +278,6 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
         / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
       }
     },
-
-    / sd_alg /  12 : -16  / SHA256 /,
     /most_recent_inspection_passed/ 500: true,
     / redacted_claim_keys / 59(0) : [
         / redacted inspector_license_number /
@@ -323,7 +321,7 @@ For example, the `inspector_license_number` claim is a Salted Disclosed Claim, c
 ~~~
 
 
-The SHA-256 hash (the hash algorithm identified in the `sd_alg` claim in the payload) of that bytes string is the Digested Salted Disclosed Claim (in hex).
+The SHA-256 hash (the hash algorithm identified in the `sd_alg` protected header field) of that bytes string is the Digested Salted Disclosed Claim (in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of `inspection_dates`).
 
 ~~~
