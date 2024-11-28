@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-26T00:44:49.805308+00:00",
+  "timestamp": "2024-11-28T00:45:25.692789+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2406,7 +2406,7 @@
       "id": "PR_kwDOMm_Q2s6CZmO_",
       "title": "Make redacted_claim_keys use a tagged CWT key",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/31",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -2415,18 +2415,35 @@
       ],
       "body": "- Replace `/redacted_claim_keys/ -65536: [ <digest1>, <digest2> ]` with `59(0): [ <digest1>, <digest2> ]`",
       "createdAt": "2024-11-19T14:39:23Z",
-      "updatedAt": "2024-11-20T18:23:24Z",
+      "updatedAt": "2024-11-27T14:08:05Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "51d16e5118397534ec9e9bac8bb167ca7e22d617",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "tagged-claim-keys",
       "headRefOid": "add1888a4efa3095ebc8db67d5c6a4bde19892cb",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2024-11-27T14:08:04Z",
+      "mergedAt": "2024-11-27T14:08:04Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "a0a848c3928a9bdb71b5b7ec9df77c82e3d2766d"
+      },
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "There is a proposal to use simple values instead of tags: https://mailarchive.ietf.org/arch/msg/spice/1qHebZZ1rxS7QvDao9ENYswbiU0/\r\n\r\nunfortunately it appears that simple values are not well supported in CBOR tooling, for at least the rust language.\r\n\r\nI suggest we proceed with the tag approach and upgrade to simple values if the tooling situation improves.\r\n\r\n",
+          "createdAt": "2024-11-27T13:31:48Z",
+          "updatedAt": "2024-11-27T13:31:48Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merging. If we see strong library support for a new simple type, we can introduce a very short PR to change it.",
+          "createdAt": "2024-11-27T14:08:00Z",
+          "updatedAt": "2024-11-27T14:08:00Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s6RxvYZ",
@@ -2465,6 +2482,19 @@
           "body": "holding this PR until we hear back from the list",
           "createdAt": "2024-11-20T14:21:55Z",
           "updatedAt": "2024-11-20T14:21:55Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6S7YUK",
+          "commit": {
+            "abbreviatedOid": "add1888"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-27T13:32:01Z",
+          "updatedAt": "2024-11-27T13:32:01Z",
           "comments": []
         }
       ]
@@ -2597,26 +2627,55 @@
       "id": "PR_kwDOMm_Q2s6CkzAU",
       "title": "Update example to use a generic inspection",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/33",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "addresses issue #26 ",
       "createdAt": "2024-11-20T19:46:42Z",
-      "updatedAt": "2024-11-20T19:46:42Z",
+      "updatedAt": "2024-11-27T14:12:58Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
-      "baseRefOid": "51d16e5118397534ec9e9bac8bb167ca7e22d617",
+      "baseRefOid": "a0a848c3928a9bdb71b5b7ec9df77c82e3d2766d",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "better-example",
-      "headRefOid": "25ee4ad959dfc211af658e478b5d0daaebadb5cf",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "6b26b14820bf709afcd2b903110be212c22dd3fb",
+      "closedAt": "2024-11-27T14:12:57Z",
+      "mergedAt": "2024-11-27T14:12:57Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "6800190e84bd723b603d48347bebc29077b0c4be"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6S7VmN",
+          "commit": {
+            "abbreviatedOid": "25ee4ad"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-27T13:27:21Z",
+          "updatedAt": "2024-11-27T13:27:21Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6S7qN2",
+          "commit": {
+            "abbreviatedOid": "25ee4ad"
+          },
+          "author": "mprorock",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-27T14:00:59Z",
+          "updatedAt": "2024-11-27T14:00:59Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
