@@ -17,12 +17,14 @@ kbt-cwt = #6.18([
 sd-protected = {
    &(typ: 16) ^ => "application/sd+cwt",
    &(alg: 1) ^ => int,
+   &(sd_alg: TBD2) ^= int,             ; -16 for sha-256
    * key => any   
 }
 
 kbt-protected = {
    &(typ: 16)^ => "application/kb+cwt",
    &(alg: 1)^ => int,
+   &(kcwt: 13) ^ => bstr .cbor sd-cwt-issued,
    * key => any   
 }
 
@@ -45,8 +47,7 @@ sd-payload = {
     ? &(iat: 6) ^ => int,  ; 1683000000
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ;
-    &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
-    ? &(redacted_claim_keys: TBD5) ^ => [ * bstr ],
+    ? &(redacted_claim_keys: TBD3) ^ => [ * bstr ],
     * key => any   
 }
 
@@ -56,11 +57,8 @@ kbt-payload = {
     ? &(nbf: 5) ^ => int,  ; 1683000000
       &(iat: 6) ^ => int,  ; 1683000000
     ? &(cnonce: 39) ^ => bstr,
-      &(issuer_sd_cwt: TBD3) ^ => bstr .cbor sd-cwt-issued,
     * key => any   
 }
-
-;redacted_claim_element = #6.60( bstr .size 16 )
 
 salted-array = [ +bstr .cbor salted ]
 salted = salted-claim / salted-element / decoy
@@ -80,6 +78,6 @@ decoy = [
 key = int / text
 TBD1 = 17
 TBD2 = 18
-TBD3 = 11
-TBD4 = 12
-TBD5 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
+;TBD3 = #6.58(any)      ; CBOR tag wrapping to-be-redacted keys or elements
+TBD4 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
+;TBD5 = #6.60( bstr ) ;redacted_claim_element
