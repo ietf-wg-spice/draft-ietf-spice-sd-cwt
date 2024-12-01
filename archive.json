@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-28T00:45:25.692789+00:00",
+  "timestamp": "2024-12-01T00:55:37.175093+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2676,6 +2676,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOMm_Q2s6DgeIw",
+      "title": "Move Issuer CWT from payload claim to the `kcwt` protected header field in the SD-KBT",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/34",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Move issuer CWT to kcwt protected header in SD-KBT.\r\n- Move sd_alg to protected header in SD-CWT. \r\n- Adjust IANA considerations (also sorted their order)\r\n- Adjust TBD numbers everywhere",
+      "createdAt": "2024-11-28T20:29:15Z",
+      "updatedAt": "2024-11-28T20:29:28Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "5f17b29f12010e074e962b72615b3cc405eca7a6",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "protected-kcwt",
+      "headRefOid": "41cd6ef2422c3b5f59c2428069851f4a24e4c184",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
