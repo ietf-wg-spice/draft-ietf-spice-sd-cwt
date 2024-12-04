@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 1 June 2025                                         H. Birkholz
+Expires: 7 June 2025                                         H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                        28 November 2024
+                                                         4 December 2024
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 June 2025.
+   This Internet-Draft will expire on 7 June 2025.
 
 Copyright Notice
 
@@ -460,16 +460,17 @@ Issuer                           Holder                         Verifier
    unprotected header), the Verifier target audience and optional
    nonces, and proof of possession of the Holder's private key.
 
-   The issued SD-CWT is placed in the kcwt protected header field
-   (defined in [RFC9528]).
+   The issued SD-CWT is placed in the kcwt (Confirmation Key CWT)
+   protected header field (defined in [RFC9528]).
 
    / sd_kbt    / 18 : << 18([
      / protected / << {
          / alg /  1 : -7 / ES256 /,
          / typ /  16 : "application/kb+cwt",
          / kcwt / 13 :
-           / *** SD-CWT from Issuer goes here /
-           /  with Holder's choice of disclosures  *** /
+           / *** SD-CWT from Issuer goes here       /
+           /  with Holder's choice of disclosures   /
+           /  in the SD-CWT unprotected header  *** /
            h'0123456789abcdef...0123'
      } >>,
      / unprotected / {},
@@ -1262,9 +1263,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Credentials (SD-JWT VC)", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-sd-jwt-vc-06, 13 November
+              Internet-Draft, draft-ietf-oauth-sd-jwt-vc-08, 3 December
               2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              oauth-sd-jwt-vc-06>.
+              oauth-sd-jwt-vc-08>.
 
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
@@ -1306,8 +1307,8 @@ sd-protected = {
 }
 
 kbt-protected = {
-   &(typ: 16)^ => "application/kb+cwt",
-   &(alg: 1)^ => int,
+   &(typ: 16) ^ => "application/kb+cwt",
+   &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => bstr .cbor sd-cwt-issued,
    * key => any
 }
