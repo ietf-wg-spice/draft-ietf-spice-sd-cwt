@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 31 May 2025                                         H. Birkholz
+Expires: 7 June 2025                                         H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                        27 November 2024
+                                                         4 December 2024
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 May 2025.
+   This Internet-Draft will expire on 7 June 2025.
 
 Copyright Notice
 
@@ -102,14 +102,13 @@ Table of Contents
    15. IANA Considerations
      15.1.  COSE Header Parameters
        15.1.1.  sd_claims
+       15.1.2.  sd_alg
      15.2.  CBOR Tags
-       15.2.1.  Redacted claim element tag
+       15.2.1.  To be redacted tag
        15.2.2.  Redacted claim keys tag
-       15.2.3.  To be redacted tag
+       15.2.3.  Redacted claim element tag
      15.3.  CBOR Web Token (CWT) Claims
-       15.3.1.  sd_alg
-       15.3.2.  issuer_sd_cwt
-       15.3.3.  vct
+       15.3.1.  vct
      15.4.  Media Types
        15.4.1.  application/sd+cwt
        15.4.2.  application/kb+cwt
@@ -323,9 +322,10 @@ Issuer                           Holder                         Verifier
 
    / cose-sign1 / 18([
      / protected / << {
-       / alg / 1  : -35, / ES384 /
-       / typ / 16 : "application/sd+cwt",
-       / kid / 4  : 'https://issuer.example/cwk3.cbor'
+       / alg /    1  : -35, / ES384 /
+       / typ /    16 : "application/sd+cwt",
+       / kid /    4  : 'https://issuer.example/cwk3.cbor',
+       / sd_alg / 18 : -16  / SHA256 /
      } >>,
      / unprotected / {
        / sd_claims / 17 : / these are all the disclosures /
@@ -370,8 +370,6 @@ Issuer                           Holder                         Verifier
            / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
          }
        },
-
-       / sd_alg /  12 : -16  / SHA256 /,
        /most_recent_inspection_passed/ 500: true,
        / redacted_claim_keys / 59(0) : [
            / redacted inspector_license_number /
@@ -414,12 +412,12 @@ Issuer                           Holder                         Verifier
        /value/  "ABCD-123456"
    ]>>
 
-   The SHA-256 hash (the hash algorithm identified in the sd_alg claim
-   in the payload) of that bytes string is the Digested Salted Disclosed
-   Claim (in hex).  The digest value is included in the payload in a
-   redacted_claim_keys field for a Redacted Claim Key (in this example),
-   or in a named array for a Redacted Claim Element (ex: for a redacted
-   claim element of inspection_dates).
+   The SHA-256 hash (the hash algorithm identified in the sd_alg
+   protected header field) of that bytes string is the Digested Salted
+   Disclosed Claim (in hex).  The digest value is included in the
+   payload in a redacted_claim_keys field for a Redacted Claim Key (in
+   this example), or in a named array for a Redacted Claim Element (ex:
+   for a redacted claim element of inspection_dates).
 
    7e6e350907d0ba3aa7ae114f8da5b360601c0bb7995cd40049b98e4f58fb6ec0
 
@@ -462,20 +460,24 @@ Issuer                           Holder                         Verifier
    unprotected header), the Verifier target audience and optional
    nonces, and proof of possession of the Holder's private key.
 
+   The issued SD-CWT is placed in the kcwt (Confirmation Key CWT)
+   protected header field (defined in [RFC9528]).
+
    / sd_kbt    / 18 : << 18([
      / protected / << {
-         / alg / 1 : -7 / ES256 /,
-         / typ / 16 : "application/kb+cwt"
+         / alg /  1 : -7 / ES256 /,
+         / typ /  16 : "application/kb+cwt",
+         / kcwt / 13 :
+           / *** SD-CWT from Issuer goes here       /
+           /  with Holder's choice of disclosures   /
+           /  in the SD-CWT unprotected header  *** /
+           h'0123456789abcdef...0123'
      } >>,
      / unprotected / {},
      / payload / << {
        / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
        / aud     / 3    : "https://verifier.example/app",
        / iat     / 6    : 1725283443, / 2024-09-02T06:24:03Z /
-       / issuer_sd_cwt / 11 :
-           / *** SD-CWT from Issuer goes here /
-           /  with Holder's choice of disclosures  *** /
-           h'0123456789abcdef...0123'
      } >>,
      / signature / h'1237af2e678945'  / TODO: fix /
    ]) >>
@@ -576,13 +578,14 @@ Issuer                           Holder                         Verifier
    Key Binding Token containing that SD-CWT communicated between a
    Holder and a Verifier in Section 8.
 
-   The payload MUST contain an sd_alg claim identifying the algorithm
-   (from the COSE Algorithms registry) used to hash the Salted Disclosed
-   Claims.  The unprotected header MUST contain an sd_claims section
-   with a Salted Disclosed Claim for _every_ blinded claim hash present
-   anywhere in the payload, and any decoys (see Section 10).  The
-   payload MUST also include a key confirmation element (cnf) [RFC8747]
-   for the Holder's public key.
+   The protected header MUST contain the sd_alg field identifying the
+   algorithm (from the COSE Algorithms registry) used to hash the Salted
+   Disclosed Claims.  The unprotected header MUST contain an sd_claims
+   section with a Salted Disclosed Claim for _every_ blinded claim hash
+   present anywhere in the payload, and any decoys (see Section 10).  If
+   there are no disclosures sd_claims is an empty array.  The payload
+   MUST also include a key confirmation element (cnf) [RFC8747] for the
+   Holder's public key.
 
 7.1.  Issuer generation
 
@@ -610,7 +613,8 @@ Issuer                           Holder                         Verifier
    *  a public key under the control of the Holder is present in the cnf
       claim;
 
-   *  the hash algorithm in the sd_alg claim is supported by the Holder;
+   *  the hash algorithm in the sd_alg protected header is supported by
+      the Holder;
 
    *  if a cnonce is present, it was provided by the Holder to this
       Issuer and is still "fresh";
@@ -638,11 +642,12 @@ Issuer                           Holder                         Verifier
    sd-protected = {
       &(typ: 16) ^ => "application/sd+cwt",
       &(alg: 1) ^ => int,
+      &(sd_alg: 18) ^= int,             ; -16 for sha-256
       * key => any
    }
 
    sd-unprotected = {
-      ? &(sd_claims: TBD1) ^ => bstr .cbor salted-array,
+      ? &(sd_claims: 17) ^ => bstr .cbor salted-array,
       * key => any
    }
 
@@ -657,8 +662,6 @@ Issuer                           Holder                         Verifier
          &(cnf: 8) ^ => { * key => any }, ; key confirmation
        ? &(cnonce: 39) ^ => bstr,
        ;
-       ; sd-cwt new claims
-         &(sd_alg: 12) ^ => int,            ; -16 for sha-256
        ? &(redacted_keys: #6.59(0)) ^ => [ * bstr ],
        * key => any
    }
@@ -689,10 +692,10 @@ Issuer                           Holder                         Verifier
    An SD-KBT is itself a type of CWT, signed using the private key
    corresponding to the key in the cnf claim in the presented SD-CWT.
    The SD-KBT contains the SD-CWT, including the Holder's choice of
-   presented disclosures, in the issuer_sd_cwt claim in the SD-KBT
-   payload.  The sub and iss of an SD-KBT are implied from the cnf claim
-   in the included SD-CWT.  The aud claim MUST be included and relevant
-   to the Verifier.  The protected header of the SD-KBT MUST include the
+   presented disclosures, in the kcwt protected header field in the SD-
+   KBT.  The sub and iss of an SD-KBT are implied from the cnf claim in
+   the included SD-CWT.  The aud claim MUST be included and relevant to
+   the Verifier.  The protected header of the SD-KBT MUST include the
    typ header parameter with the value application/sd-kbt.
 
    The SD-KBT provides the following assurances to the Verifier:
@@ -725,8 +728,9 @@ Issuer                           Holder                         Verifier
    ])
 
    kbt-protected = {
-      &(typ: 16)^ => "application/kb+cwt",
-      &(alg: 1)^ => int,
+      &(typ: 16) ^ => "application/kb+cwt",
+      &(alg: 1) ^ => int,
+      &(kcwt: 13) ^ => bstr .cbor sd-cwt-issued,
       * key => any
    }
 
@@ -740,7 +744,6 @@ Issuer                           Holder                         Verifier
        ? &(nbf: 5) ^ => int,  ; 1683000000
          &(iat: 6) ^ => int,  ; 1683000000
        ? &(cnonce: 39) ^ => bstr,
-         &(issuer_sd_cwt: TBD3) ^ => bstr .cbor sd-cwt-presentation
        * key => any
    }
 
@@ -750,15 +753,17 @@ Issuer                           Holder                         Verifier
 
    The exact order of the following steps MAY be changed, as long as all
    checks are performed before deciding if an SD-CWT is valid.  First
-   the Verifier must validate the SD-KBT as described in Section 7.2 of
-   [RFC8392].  After validation of the SD-KBT, the SD-CWT MUST be
-   extracted from the issuer_sd_cwt, and validated as described in
-   Section 7.2 of [RFC8392].
+   the Verifier must open the protected headers of the SD-KBT and find
+   the issuer SD-CWT present in the kcwt field.  Next the Verifier must
+   validate the SD-CWT as described in Section 7.2 of [RFC8392].  The
+   Verifier extract the confirmation key from the cnf claim in the SD-
+   CWT payload.  Using the confirmation key, the Verifier validates the
+   SD-KBT as described in Section 7.2 of [RFC8392].
 
-   Next, the Verifier MUST extract and decode the disclosed claims from
-   the sd_claims in the unprotected header of the SD-CWT.  The decoded
-   sd_claims are converted to an intermediate data structure called a
-   Digest To Disclosed Claim Map which is used to transform the
+   Finally, the Verifier MUST extract and decode the disclosed claims
+   from the sd_claims in the unprotected header of the SD-CWT.  The
+   decoded sd_claims are converted to an intermediate data structure
+   called a Digest To Disclosed Claim Map which is used to transform the
    Presented Disclosed Claimset, into a Validated Disclosed Claimset.
    The Verifier MUST compute the hash of each Salted Disclosed Claim
    (salted), in order to match each disclosed value to each entry of the
@@ -818,90 +823,90 @@ Issuer                           Holder                         Verifier
    The following example contains claims needed to demonstrate redaction
    of key-value pairs and array elements.
 
- / cose-sign1 / 18( / sd_kbt / [
-     / protected / << {
-         / alg / 1 : -7 / ES256 /,
-         / typ / 16 : "application/kb+cwt"
-     } >>,
-     / unprotected / {},
-     / payload / << {
-         / cnonce / 39    : h'e0a156bb3f',
-         / aud     / 3    : "https://verifier.example",
-         / iat     / 6    : 1783000000,
-         / issuer_sd_cwt / 11 : << 18([
-           / protected / << {
-             / alg /    1  : -35, / ES384 /
-             / typ /    16 : "application/sd+cwt",
-             / kid /    4  : 'https://issuer.example/cwt-key3'
-           } >>,
-           / unprotected / {
-             / sd_claims / 17 : <<[  /these are the disclosures/
-                 <<[
-                     /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-                     /claim/  501,  / inspector_license_number /
-                     /value/  "ABCD-123456"
-                 ]>>,
-                 <<[
-                     /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-                     /value/  1549560720  / inspected 7-Feb-2019 /
-                 ]>>,
-                 <<[
-                     /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
-                     /claim/  "region",
-                     /value/  "ca" /California/
-                 ]>>
-             ]>>,
-           },
-           / payload / << {
-             / iss / 1   : "https://issuer.example",
-             / sub / 2   : "https://device.example",
-             / aud / 3   : "https://verifier.example",
-             / exp / 4   : 1883000000,
-             / iat / 6   : 1683000000,
-             / cnf / 8   : {
-               / cose key / 1 : {
-                 / alg: ES256 /  3: 35,
-                 / kty: EC2   /  1: 2,
-                 / crv: P-256 / -1: 1,
-                 / x / -2: h'768ed88626',
-                 / y / -3: h'6a48ccfd5d'
-               }
+   / cose-sign1 / 18( / sd_kbt / [
+       / KBT protected / << {
+           / alg / 1         : -7 / ES256 /,
+           / typ / 16        : "application/kb+cwt",
+           / kcwt /        13: << 18([  / issuer SD-CWT /
+             / CWT protected / << {
+               / alg /    1  : -35, / ES384 /
+               / typ /    16 : "application/sd+cwt",
+               / kid /    4  : 'https://issuer.example/cwt-key3',
+               / sd_alg / 18 : -16  / SHA256 /
+             } >>,
+             / CWT unprotected / {
+               / sd_claims / 17 : <<[  /these are the disclosures/
+                   <<[
+                       /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
+                       /claim/  501,  / inspector_license_number /
+                       /value/  "ABCD-123456"
+                   ]>>,
+                   <<[
+                       /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
+                       /value/  1549560720  / inspected 7-Feb-2019 /
+                   ]>>,
+                   <<[
+                       /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
+                       /claim/  "region",
+                       /value/  "ca" /California/
+                   ]>>
+               ]>>,
              },
-             / sd_alg / 12 : -16,  / SHA256 /
-             /most_recent_inspection_passed/ 500: true,
-             / redacted_claim_keys / 59(0) : [
-                 / redacted inspector_license_number /
-                 h'7e6e350907d0ba3aa7ae114f8da5b360' +
-                 h'601c0bb7995cd40049b98e4f58fb6ec0'
-             ],
-             /inspection_dates/ 502 : [
-                 / redacted inspection date 7-Feb-2019 /
-                 60(h'a0f74264a8c97655c958aff3687f1390' +
-                    h'ed0ab6f64cd78ba43c3fefee0de7b835')
-                 / redacted inspection date 4-Feb-2021 /
-                 60(h'1e7275bcda9bc183079cd4515c5c0282' +
-                    h'a2a0e9105b660933e2e68f9a3f40974b')
-                 1674004740,   / 2023-01-17T17:19:00 /
-             ],
-             / inspection_location / 503 : {
-                 "country" : "us",            / United States /
-                 / redacted_claim_keys / 59(0) : [
-                     / redacted region /
-                     h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
-                     h'ed010ac9ae1c93403ec72572bb1e00e7',
-                     / redacted postal_code /
-                     h'0b616e522a05d8d134a834979710120d' +
-                     h'41ac1522b056d5f9509cf7e850047302'
-                 ]
-             }
-           } >>,                        / end of issuer_sd_cwt payload /
-           / signature / h'3337af2e66959614'
-         ])>>                           / end of issuer_sd-cwt /
-     } >>,                              / end of kbt payload /
-     / signature / h'1237af2e678945'
- ])                                     / end of kbt /
+             / CWT payload / << {
+               / iss / 1   : "https://issuer.example",
+               / sub / 2   : "https://device.example",
+               / aud / 3   : "https://verifier.example",
+               / exp / 4   : 1883000000,
+               / iat / 6   : 1683000000,
+               / cnf / 8   : {
+                 / cose key / 1 : {
+                   / alg: ES256 /  3: 35,
+                   / kty: EC2   /  1: 2,
+                   / crv: P-256 / -1: 1,
+                   / x / -2: h'768ed88626',
+                   / y / -3: h'6a48ccfd5d'
+                 }
+               },
+               /most_recent_inspection_passed/ 500: true,
+               / redacted_claim_keys / 59(0) : [
+                   / redacted inspector_license_number /
+                   h'7e6e350907d0ba3aa7ae114f8da5b360' +
+                   h'601c0bb7995cd40049b98e4f58fb6ec0'
+               ],
+               /inspection_dates/ 502 : [
+                   / redacted inspection date 7-Feb-2019 /
+                   60(h'a0f74264a8c97655c958aff3687f1390' +
+                      h'ed0ab6f64cd78ba43c3fefee0de7b835')
+                   / redacted inspection date 4-Feb-2021 /
+                   60(h'1e7275bcda9bc183079cd4515c5c0282' +
+                      h'a2a0e9105b660933e2e68f9a3f40974b')
+                   1674004740,   / 2023-01-17T17:19:00 /
+               ],
+               / inspection_location / 503 : {
+                   "country" : "us",            / United States /
+                   / redacted_claim_keys / 59(0) : [
+                       / redacted region /
+                       h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
+                       h'ed010ac9ae1c93403ec72572bb1e00e7',
+                       / redacted postal_code /
+                       h'0b616e522a05d8d134a834979710120d' +
+                       h'41ac1522b056d5f9509cf7e850047302'
+                   ]
+               }
+             } >>,                    / end of issuer_sd_cwt payload /
+             / CWT signature / h'3337af2e66959614'
+           ])>>,  / end of issuer SD-CWT /
+       }>>,     / end of KBT protected header
+       / KBT unprotected / {},
+       / KBT payload / << {
+           / cnonce / 39    : h'e0a156bb3f',
+           / aud     / 3    : "https://verifier.example",
+           / iat     / 6    : 1783000000
+       } >>,                              / end of kbt payload /
+       / KBT signature / h'1237af2e678945'
+   ])                                     / end of kbt /
 
-                        Figure 1: An EDN Example
+                          Figure 1: An EDN Example
 
 12.2.  Nested example
 
@@ -983,7 +988,7 @@ Issuer                           Holder                         Verifier
 
    *  Name: sd_claims
 
-   *  Label: TBD9 (requested assignment 17)
+   *  Label: TBD1 (requested assignment 17)
 
    *  Value Type: bstr
 
@@ -995,18 +1000,36 @@ Issuer                           Holder                         Verifier
 
    *  Reference: RFC XXXX
 
+15.1.2.  sd_alg
+
+   The following completed registration template per RFC8152 is
+   provided:
+
+   *  Name: sd_alg
+
+   *  Label: TBD2 (requested assignment 18)
+
+   *  Value Type: int
+
+   *  Value Registry: COSE Algorithms
+
+   *  Description: The hash algorithm used for redacting disclosures.
+
+   *  Reference: RFC XXXX
+
 15.2.  CBOR Tags
 
-15.2.1.  Redacted claim element tag
+15.2.1.  To be redacted tag
 
-   The binary string inside the tag is a selective disclosure redacted
-   claim element of an array.
+   The array claim element, or map key and value inside the "To be
+   redacted" tag is intended to be redacted using selective disclosure.
 
-   *  Tag: TBD9 (requested assignment 60)
+   *  Tag: TBD3 (requested assignment 58)
 
-   *  Data Item: byte string
+   *  Data Item: (any)
 
-   *  Semantics: A selective disclosure redacted (array) claim element.
+   *  Semantics: An array claim element, or map key and value intended
+      to be redacted.
 
    *  Specification Document(s): RFC XXXX
 
@@ -1016,7 +1039,7 @@ Issuer                           Holder                         Verifier
    key).  It indicates that the claim value is an array of redacted
    claim keys at the same level.
 
-   *  Tag: TBD5 (requested assignment 59)
+   *  Tag: TBD4 (requested assignment 59)
 
    *  Data Item: unsigned integer 0
 
@@ -1025,17 +1048,16 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): RFC XXXX
 
-15.2.3.  To be redacted tag
+15.2.3.  Redacted claim element tag
 
-   The array claim element, or map key and value inside the "To be
-   redacted" tag is intended to be redacted using selective disclosure.
+   The binary string inside the tag is a selective disclosure redacted
+   claim element of an array.
 
-   *  Tag: TBD10 (requested assignment 58)
+   *  Tag: TBD5 (requested assignment 60)
 
-   *  Data Item: (any)
+   *  Data Item: byte string
 
-   *  Semantics: An array claim element, or map key and value intended
-      to be redacted.
+   *  Semantics: A selective disclosure redacted (array) claim element.
 
    *  Specification Document(s): RFC XXXX
 
@@ -1044,46 +1066,7 @@ Issuer                           Holder                         Verifier
    IANA is requested to add the following entries to the CWT claims
    registry (https://www.iana.org/assignments/cwt/cwt.xhtml).
 
-15.3.1.  sd_alg
-
-   The following completed registration template per RFC8392 is
-   provided:
-
-   *  Claim Name: sd_alg
-
-   *  Claim Description: Hash algorithm used for selective disclosure
-
-   *  JWT Claim Name: _sd_alg
-
-   *  Claim Key: TBD4 (request assignment 12)
-
-   *  Claim Value Type(s): integer
-
-   *  Change Controller: IETF
-
-   *  Specification Document(s): RFC XXXX
-
-15.3.2.  issuer_sd_cwt
-
-   The following completed registration template per RFC8392 is
-   provided:
-
-   *  Claim Name: issuer_sd_cwt
-
-   *  Claim Description: The issuer-signed SD-CWT, including Hodler-
-      selected disclosures
-
-   *  JWT Claim Name: N/A
-
-   *  Claim Key: TBD3 (request assignment 11)
-
-   *  Claim Value Type(s): bstr
-
-   *  Change Controller: IETF
-
-   *  Specification Document(s): RFC XXXX
-
-15.3.3.  vct
+15.3.1.  vct
 
    The following completed registration template per RFC8392 is
    provided:
@@ -1094,7 +1077,7 @@ Issuer                           Holder                         Verifier
 
    *  JWT Claim Name: vct
 
-   *  Claim Key: TBD7 (request assignment 15)
+   *  Claim Key: TBD6 (request assignment 11)
 
    *  Claim Value Type(s): bstr
 
@@ -1265,6 +1248,11 @@ Issuer                           Holder                         Verifier
               Initial Algorithms", RFC 9053, DOI 10.17487/RFC9053,
               August 2022, <https://www.rfc-editor.org/rfc/rfc9053>.
 
+   [RFC9528]  Selander, G., Preuß Mattsson, J., and F. Palombini,
+              "Ephemeral Diffie-Hellman Over COSE (EDHOC)", RFC 9528,
+              DOI 10.17487/RFC9528, March 2024,
+              <https://www.rfc-editor.org/rfc/rfc9528>.
+
    [RFC9596]  Jones, M.B. and O. Steele, "CBOR Object Signing and
               Encryption (COSE) "typ" (type) Header Parameter",
               RFC 9596, DOI 10.17487/RFC9596, June 2024,
@@ -1275,9 +1263,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Credentials (SD-JWT VC)", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-sd-jwt-vc-06, 13 November
+              Internet-Draft, draft-ietf-oauth-sd-jwt-vc-08, 3 December
               2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              oauth-sd-jwt-vc-06>.
+              oauth-sd-jwt-vc-08>.
 
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
@@ -1295,93 +1283,91 @@ Issuer                           Holder                         Verifier
 
 Appendix A.  Complete CDDL Schema
 
-   sd-cwt-types = sd-cwt-issued / kbt-cwt
+sd-cwt-types = sd-cwt-issued / kbt-cwt
 
-   sd-cwt-issued = #6.18([
-      protected: bstr .cbor sd-protected,
-      sd-unprotected,
-      payload: bstr .cbor sd-payload,
-      signature: bstr
-   ])
+sd-cwt-issued = #6.18([
+   protected: bstr .cbor sd-protected,
+   sd-unprotected,
+   payload: bstr .cbor sd-payload,
+   signature: bstr
+])
 
-   kbt-cwt = #6.18([
-      protected: bstr .cbor kbt-protected,
-      kbt-unprotected,
-      payload: bstr .cbor kbt-payload,
-      signature: bstr
-   ])
+kbt-cwt = #6.18([
+   protected: bstr .cbor kbt-protected,
+   kbt-unprotected,
+   payload: bstr .cbor kbt-payload,
+   signature: bstr
+])
 
-   sd-protected = {
-      &(typ: 16) ^ => "application/sd+cwt",
-      &(alg: 1) ^ => int,
-      * key => any
-   }
+sd-protected = {
+   &(typ: 16) ^ => "application/sd+cwt",
+   &(alg: 1) ^ => int,
+   &(sd_alg: TBD2) ^= int,             ; -16 for sha-256
+   * key => any
+}
 
-   kbt-protected = {
-      &(typ: 16)^ => "application/kb+cwt",
-      &(alg: 1)^ => int,
-      * key => any
-   }
+kbt-protected = {
+   &(typ: 16) ^ => "application/kb+cwt",
+   &(alg: 1) ^ => int,
+   &(kcwt: 13) ^ => bstr .cbor sd-cwt-issued,
+   * key => any
+}
 
-   sd-unprotected = {
-      ? &(sd_claims: TBD1) ^ => bstr .cbor salted-array,
-      * key => any
-   }
+sd-unprotected = {
+   ? &(sd_claims: TBD1) ^ => bstr .cbor salted-array,
+   * key => any
+}
 
-   kbt-unprotected = {
-      * key => any
-   }
+kbt-unprotected = {
+   * key => any
+}
 
-   sd-payload = {
-       ; standard claims
-         &(iss: 1) ^ => tstr, ; "https://issuer.example"
-       ? &(sub: 2) ^ => tstr, ; "https://device.example"
-       ? &(aud: 3) ^ => tstr, ; "https://verifier.example"
-       ? &(exp: 4) ^ => int,  ; 1883000000
-       ? &(nbf: 5) ^ => int,  ; 1683000000
-       ? &(iat: 6) ^ => int,  ; 1683000000
-         &(cnf: 8) ^ => { * key => any }, ; key confirmation
-       ;
-       &(sd_alg: TBD4) ^ => int,            ; -16 for sha-256
-       ? &(redacted_claim_keys: TBD5) ^ => [ * bstr ],
-       * key => any
-   }
+sd-payload = {
+    ; standard claims
+      &(iss: 1) ^ => tstr, ; "https://issuer.example"
+    ? &(sub: 2) ^ => tstr, ; "https://device.example"
+    ? &(aud: 3) ^ => tstr, ; "https://verifier.example"
+    ? &(exp: 4) ^ => int,  ; 1883000000
+    ? &(nbf: 5) ^ => int,  ; 1683000000
+    ? &(iat: 6) ^ => int,  ; 1683000000
+      &(cnf: 8) ^ => { * key => any }, ; key confirmation
+    ;
+    ? &(redacted_claim_keys: TBD3) ^ => [ * bstr ],
+    * key => any
+}
 
-   kbt-payload = {
-         &(aud: 3) ^ => tstr, ; "https://verifier.example"
-       ? &(exp: 4) ^ => int,  ; 1883000000
-       ? &(nbf: 5) ^ => int,  ; 1683000000
-         &(iat: 6) ^ => int,  ; 1683000000
-       ? &(cnonce: 39) ^ => bstr,
-         &(issuer_sd_cwt: TBD3) ^ => bstr .cbor sd-cwt-issued,
-       * key => any
-   }
+kbt-payload = {
+      &(aud: 3) ^ => tstr, ; "https://verifier.example"
+    ? &(exp: 4) ^ => int,  ; 1883000000
+    ? &(nbf: 5) ^ => int,  ; 1683000000
+      &(iat: 6) ^ => int,  ; 1683000000
+    ? &(cnonce: 39) ^ => bstr,
+    * key => any
+}
 
-   ;redacted_claim_element = #6.60( bstr .size 16 )
+salted-array = [ +bstr .cbor salted ]
+salted = salted-claim / salted-element / decoy
+salted-claim = [
+  bstr .size 16,     ; 128-bit salt
+  (int / text),      ; claim name
+  any                ; claim value
+]
+salted-element = [
+  bstr .size 16,     ; 128-bit salt
+  any                ; claim value
+]
+decoy = [
+  bstr .size 16      ; 128-bit salt
+]
 
-   salted-array = [ +bstr .cbor salted ]
-   salted = salted-claim / salted-element / decoy
-   salted-claim = [
-     bstr .size 16,     ; 128-bit salt
-     (int / text),      ; claim name
-     any                ; claim value
-   ]
-   salted-element = [
-     bstr .size 16,     ; 128-bit salt
-     any                ; claim value
-   ]
-   decoy = [
-     bstr .size 16      ; 128-bit salt
-   ]
+key = int / text
+TBD1 = 17
+TBD2 = 18
+;TBD3 = #6.58(any)      ; CBOR tag wrapping to-be-redacted keys or elements
+TBD4 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
+;TBD5 = #6.60( bstr ) ;redacted_claim_element
 
-   key = int / text
-   TBD1 = 17
-   TBD2 = 18
-   TBD3 = 11
-   TBD4 = 12
-   TBD5 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
-
-              Figure 2: A complete CDDL description of SD-CWT
+           Figure 2: A complete CDDL description of SD-CWT
 
 Appendix B.  Comparison to SD-JWT
 

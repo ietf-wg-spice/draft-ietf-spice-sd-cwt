@@ -13,13 +13,13 @@
        This document describes a data minimization technique for use with CBOR Web Token (CWT).
 The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE). 
     " name="description">
-<meta content="xml2rfc 3.24.0" name="generator">
+<meta content="xml2rfc 3.25.0" name="generator">
 <meta content="cose" name="keyword">
 <meta content="cwt" name="keyword">
 <meta content="selective disclosure" name="keyword">
 <meta content="draft-ietf-spice-sd-cwt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.24.0
+  xml2rfc 3.25.0
     Python 3.12.7
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
@@ -1046,11 +1046,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SPICE SD-CWT</td>
-<td class="right">November 2024</td>
+<td class="right">December 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 31 May 2025</td>
+<td class="center">Expires 7 June 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfcRFC8392" class="eref">RFC8392</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-11-27" class="published">27 November 2024</time>
+<time datetime="2024-12-04" class="published">4 December 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-05-31">31 May 2025</time></dd>
+<dd class="expires"><time datetime="2025-06-07">7 June 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1134,7 +1134,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 31 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 June 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1263,19 +1263,22 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.1.2.1">
                     <p id="section-toc.1-1.15.2.1.2.1.1"><a href="#section-15.1.1" class="auto internal xref">15.1.1</a>.  <a href="#name-sd_claims" class="internal xref">sd_claims</a></p>
 </li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.1.2.2">
+                    <p id="section-toc.1-1.15.2.1.2.2.1"><a href="#section-15.1.2" class="auto internal xref">15.1.2</a>.  <a href="#name-sd_alg" class="internal xref">sd_alg</a></p>
+</li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.2">
                 <p id="section-toc.1-1.15.2.2.1"><a href="#section-15.2" class="auto internal xref">15.2</a>.  <a href="#name-cbor-tags" class="internal xref">CBOR Tags</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.2.2.1">
-                    <p id="section-toc.1-1.15.2.2.2.1.1"><a href="#section-15.2.1" class="auto internal xref">15.2.1</a>.  <a href="#name-redacted-claim-element-tag" class="internal xref">Redacted claim element tag</a></p>
+                    <p id="section-toc.1-1.15.2.2.2.1.1"><a href="#section-15.2.1" class="auto internal xref">15.2.1</a>.  <a href="#name-to-be-redacted-tag" class="internal xref">To be redacted tag</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.2.2.2">
                     <p id="section-toc.1-1.15.2.2.2.2.1"><a href="#section-15.2.2" class="auto internal xref">15.2.2</a>.  <a href="#name-redacted-claim-keys-tag" class="internal xref">Redacted claim keys tag</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.2.2.3">
-                    <p id="section-toc.1-1.15.2.2.2.3.1"><a href="#section-15.2.3" class="auto internal xref">15.2.3</a>.  <a href="#name-to-be-redacted-tag" class="internal xref">To be redacted tag</a></p>
+                    <p id="section-toc.1-1.15.2.2.2.3.1"><a href="#section-15.2.3" class="auto internal xref">15.2.3</a>.  <a href="#name-redacted-claim-element-tag" class="internal xref">Redacted claim element tag</a></p>
 </li>
                 </ul>
 </li>
@@ -1283,13 +1286,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
                 <p id="section-toc.1-1.15.2.3.1"><a href="#section-15.3" class="auto internal xref">15.3</a>.  <a href="#name-cbor-web-token-cwt-claims" class="internal xref">CBOR Web Token (CWT) Claims</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.3.2.1">
-                    <p id="section-toc.1-1.15.2.3.2.1.1"><a href="#section-15.3.1" class="auto internal xref">15.3.1</a>.  <a href="#name-sd_alg" class="internal xref">sd_alg</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.3.2.2">
-                    <p id="section-toc.1-1.15.2.3.2.2.1"><a href="#section-15.3.2" class="auto internal xref">15.3.2</a>.  <a href="#name-issuer_sd_cwt" class="internal xref">issuer_sd_cwt</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.3.2.3">
-                    <p id="section-toc.1-1.15.2.3.2.3.1"><a href="#section-15.3.3" class="auto internal xref">15.3.3</a>.  <a href="#name-vct" class="internal xref">vct</a></p>
+                    <p id="section-toc.1-1.15.2.3.2.1.1"><a href="#section-15.3.1" class="auto internal xref">15.3.1</a>.  <a href="#name-vct" class="internal xref">vct</a></p>
 </li>
                 </ul>
 </li>
@@ -1603,9 +1600,10 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
 <pre>
 / cose-sign1 / 18([
   / protected / &lt;&lt; {
-    / alg / 1  : -35, / ES384 /
-    / typ / 16 : "application/sd+cwt",
-    / kid / 4  : 'https://issuer.example/cwk3.cbor'
+    / alg /    1  : -35, / ES384 /
+    / typ /    16 : "application/sd+cwt",
+    / kid /    4  : 'https://issuer.example/cwk3.cbor',
+    / sd_alg / 18 : -16  / SHA256 /
   } &gt;&gt;,
   / unprotected / {
     / sd_claims / 17 : / these are all the disclosures /
@@ -1650,8 +1648,6 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
         / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
       }
     },
-
-    / sd_alg /  12 : -16  / SHA256 /,
     /most_recent_inspection_passed/ 500: true,
     / redacted_claim_keys / 59(0) : [
         / redacted inspector_license_number /
@@ -1694,7 +1690,7 @@ For example, the <code>inspector_license_number</code> claim is a Salted Disclos
 ]&gt;&gt;
 </pre><a href="#section-3.2-4" class="pilcrow">¶</a>
 </div>
-<p id="section-3.2-5">The SHA-256 hash (the hash algorithm identified in the <code>sd_alg</code> claim in the payload) of that bytes string is the Digested Salted Disclosed Claim (in hex).
+<p id="section-3.2-5">The SHA-256 hash (the hash algorithm identified in the <code>sd_alg</code> protected header field) of that bytes string is the Digested Salted Disclosed Claim (in hex).
 The digest value is included in the payload in a <code>redacted_claim_keys</code> field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of <code>inspection_dates</code>).<a href="#section-3.2-5" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-3.2-6">
 <pre>
@@ -1735,29 +1731,31 @@ The digest value is included in the payload in a <code>redacted_claim_keys</code
 </div>
 <p id="section-4-4">The Holder <span class="bcp14">MAY</span> fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the method described in <span>[<a href="#I-D.ietf-httpbis-unprompted-auth" class="cite xref">I-D.ietf-httpbis-unprompted-auth</a>]</span>.<a href="#section-4-4" class="pilcrow">¶</a></p>
 <p id="section-4-5">Finally, the Holder generates a Selective Disclosure Key Binding Token (SD-KBT) that ties together the SD-CWT generated by the Issuer (with the disclosures the Holder chose for the Verifier in its unprotected header), the Verifier target audience and optional nonces, and proof of possession of the Holder's private key.<a href="#section-4-5" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4-6">
+<p id="section-4-6">The issued SD-CWT is placed in the <code>kcwt</code> (Confirmation Key CWT) protected header field (defined in <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>).<a href="#section-4-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4-7">
 <pre>
 / sd_kbt    / 18 : &lt;&lt; 18([
   / protected / &lt;&lt; {
-      / alg / 1 : -7 / ES256 /,
-      / typ / 16 : "application/kb+cwt"
+      / alg /  1 : -7 / ES256 /,
+      / typ /  16 : "application/kb+cwt",
+      / kcwt / 13 :
+        / *** SD-CWT from Issuer goes here       /
+        /  with Holder's choice of disclosures   /
+        /  in the SD-CWT unprotected header  *** /
+        h'0123456789abcdef...0123'
   } &gt;&gt;,
   / unprotected / {},
   / payload / &lt;&lt; {
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
     / aud     / 3    : "https://verifier.example/app",
     / iat     / 6    : 1725283443, / 2024-09-02T06:24:03Z /
-    / issuer_sd_cwt / 11 :
-        / *** SD-CWT from Issuer goes here /
-        /  with Holder's choice of disclosures  *** /
-        h'0123456789abcdef...0123'
   } &gt;&gt;,
   / signature / h'1237af2e678945'  / TODO: fix /
 ]) &gt;&gt;
-</pre><a href="#section-4-6" class="pilcrow">¶</a>
+</pre><a href="#section-4-7" class="pilcrow">¶</a>
 </div>
-<p id="section-4-7">Together the digests in protected parts of the issued SD-CWT, and the disclosures hashed in unprotected header of the <code>issuer_sd_cwt</code> are used by the Verifier to confirm the disclosed claims.
-Since the unprotected header of the included SD-CWT is covered by the signature in the SW-KBT, the Verifier has assurance the Holder included the sent list of disclosures.<a href="#section-4-7" class="pilcrow">¶</a></p>
+<p id="section-4-8">Together the digests in protected parts of the issued SD-CWT, and the disclosures hashed in unprotected header of the <code>issuer_sd_cwt</code> are used by the Verifier to confirm the disclosed claims.
+Since the unprotected header of the included SD-CWT is covered by the signature in the SW-KBT, the Verifier has assurance the Holder included the sent list of disclosures.<a href="#section-4-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cwt-update">
@@ -1834,8 +1832,9 @@ Decoy digests are discussed in <a href="#decoys" class="auto internal xref">Sect
 <p id="section-7-1">How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out-of-scope of this specification.
 Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter which is not discussed in this specification.
 This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in <a href="#sd-cwt-presentation" class="auto internal xref">Section 8</a>.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">The payload <span class="bcp14">MUST</span> contain an <code>sd_alg</code> claim identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
+<p id="section-7-2">The protected header <span class="bcp14">MUST</span> contain the <code>sd_alg</code> field identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 The unprotected header <span class="bcp14">MUST</span> contain an <code>sd_claims</code> section with a Salted Disclosed Claim for <em>every</em> blinded claim hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
+If there are no disclosures <code>sd_claims</code> is an empty array.
 The payload <span class="bcp14">MUST</span> also include a key confirmation element (<code>cnf</code>) <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span> for the Holder's public key.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <div id="issuer-generation">
 <section id="section-7.1">
@@ -1869,7 +1868,7 @@ Holder verifies the following:<a href="#section-7.2-1" class="pilcrow">¶</a></p
             <p id="section-7.2-2.4.1">a public key under the control of the Holder is present in the <code>cnf</code> claim;<a href="#section-7.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-2.5">
-            <p id="section-7.2-2.5.1">the hash algorithm in the <code>sd_alg</code> claim is supported by the Holder;<a href="#section-7.2-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-2.5.1">the hash algorithm in the <code>sd_alg</code> protected header is supported by the Holder;<a href="#section-7.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-2.6">
             <p id="section-7.2-2.6.1">if a <code>cnonce</code> is present, it was provided by the Holder to this Issuer and is still "fresh";<a href="#section-7.2-2.6.1" class="pilcrow">¶</a></p>
@@ -1897,11 +1896,12 @@ sd-cwt-issued = #6.18([
 sd-protected = {
    &amp;(typ: 16) ^ =&gt; "application/sd+cwt",
    &amp;(alg: 1) ^ =&gt; int,
+   &amp;(sd_alg: 18) ^= int,             ; -16 for sha-256
    * key =&gt; any
 }
 
 sd-unprotected = {
-   ? &amp;(sd_claims: TBD1) ^ =&gt; bstr .cbor salted-array,
+   ? &amp;(sd_claims: 17) ^ =&gt; bstr .cbor salted-array,
    * key =&gt; any
 }
 
@@ -1916,8 +1916,6 @@ sd-payload = {
       &amp;(cnf: 8) ^ =&gt; { * key =&gt; any }, ; key confirmation
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     ;
-    ; sd-cwt new claims
-      &amp;(sd_alg: 12) ^ =&gt; int,            ; -16 for sha-256
     ? &amp;(redacted_keys: #6.59(0)) ^ =&gt; [ * bstr ],
     * key =&gt; any
 }
@@ -1945,7 +1943,7 @@ Finally, the SD-CWT used for presentation to a Verifier is included in a key bin
         </h3>
 <p id="section-8.1-1">Regardless if it discloses any claims, the Holder sends the Verifier a unique Holder key binding (SD-KBT) <a href="#kbt" class="auto internal xref">Section 8.1</a> for every presentation of an SD-CWT to a different Verifier.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.1-2">An SD-KBT is itself a type of CWT, signed using the private key corresponding to the key in the <code>cnf</code> claim in the presented SD-CWT.
-The SD-KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the <code>issuer_sd_cwt</code> claim in the SD-KBT payload.
+The SD-KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the <code>kcwt</code> protected header field in the SD-KBT.
 The <code>sub</code> and <code>iss</code> of an SD-KBT are implied from the <code>cnf</code> claim in the included SD-CWT.
 The <code>aud</code> claim <span class="bcp14">MUST</span> be included and relevant to the Verifier.
 The protected header of the SD-KBT <span class="bcp14">MUST</span> include the <code>typ</code> header parameter with the value <code>application/sd-kbt</code>.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
@@ -1977,8 +1975,9 @@ kbt-cwt = #6.18([
 ])
 
 kbt-protected = {
-   &amp;(typ: 16)^ =&gt; "application/kb+cwt",
-   &amp;(alg: 1)^ =&gt; int,
+   &amp;(typ: 16) ^ =&gt; "application/kb+cwt",
+   &amp;(alg: 1) ^ =&gt; int,
+   &amp;(kcwt: 13) ^ =&gt; bstr .cbor sd-cwt-issued,
    * key =&gt; any
 }
 
@@ -1992,7 +1991,6 @@ kbt-payload = {
     ? &amp;(nbf: 5) ^ =&gt; int,  ; 1683000000
       &amp;(iat: 6) ^ =&gt; int,  ; 1683000000
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
-      &amp;(issuer_sd_cwt: TBD3) ^ =&gt; bstr .cbor sd-cwt-presentation
     * key =&gt; any
 }
 </pre><a href="#section-8.1-7" class="pilcrow">¶</a>
@@ -2008,9 +2006,11 @@ kbt-payload = {
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-sd-kbt-and-sd-cwt-verifier-" class="section-name selfRef">SD-KBT and SD-CWT Verifier Validation</a>
       </h2>
 <p id="section-9-1">The exact order of the following steps <span class="bcp14">MAY</span> be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
-First the Verifier must validate the SD-KBT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
-After validation of the SD-KBT, the SD-CWT <span class="bcp14">MUST</span> be extracted from the <code>issuer_sd_cwt</code>, and validated as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-9-1" class="pilcrow">¶</a></p>
-<p id="section-9-2">Next, the Verifier <span class="bcp14">MUST</span> extract and decode the disclosed claims from the <code>sd_claims</code> in the unprotected header of the SD-CWT.
+First the Verifier must open the protected headers of the SD-KBT and find the issuer SD-CWT present in the <code>kcwt</code> field.
+Next the Verifier must validate the SD-CWT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
+The Verifier extract the confirmation key from the <code>cnf</code> claim in the SD-CWT payload.
+Using the confirmation key, the Verifier validates the SD-KBT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">Finally, the Verifier <span class="bcp14">MUST</span> extract and decode the disclosed claims from the <code>sd_claims</code> in the unprotected header of the SD-CWT.
 The decoded <code>sd_claims</code> are converted to an intermediate data structure called a Digest To Disclosed Claim Map which is used to transform the Presented Disclosed Claimset, into a Validated Disclosed Claimset.
 The Verifier <span class="bcp14">MUST</span> compute the hash of each Salted Disclosed Claim (<code>salted</code>), in order to match each disclosed value to each entry of the Presented Disclosed Claimset.<a href="#section-9-2" class="pilcrow">¶</a></p>
 <p id="section-9-3">One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map could be:<a href="#section-9-3" class="pilcrow">¶</a></p>
@@ -2064,22 +2064,17 @@ Further validation logic can be applied to the Validated Disclosed Claimset, as 
           <div class="alignLeft art-text artwork" id="section-12.1-2.1">
 <pre>
 / cose-sign1 / 18( / sd_kbt / [
-    / protected / &lt;&lt; {
-        / alg / 1 : -7 / ES256 /,
-        / typ / 16 : "application/kb+cwt"
-    } &gt;&gt;,
-    / unprotected / {},
-    / payload / &lt;&lt; {
-        / cnonce / 39    : h'e0a156bb3f',
-        / aud     / 3    : "https://verifier.example",
-        / iat     / 6    : 1783000000,
-        / issuer_sd_cwt / 11 : &lt;&lt; 18([
-          / protected / &lt;&lt; {
+    / KBT protected / &lt;&lt; {
+        / alg / 1         : -7 / ES256 /,
+        / typ / 16        : "application/kb+cwt",
+        / kcwt /        13: &lt;&lt; 18([  / issuer SD-CWT /
+          / CWT protected / &lt;&lt; {
             / alg /    1  : -35, / ES384 /
             / typ /    16 : "application/sd+cwt",
-            / kid /    4  : 'https://issuer.example/cwt-key3'
+            / kid /    4  : 'https://issuer.example/cwt-key3',
+            / sd_alg / 18 : -16  / SHA256 /
           } &gt;&gt;,
-          / unprotected / {
+          / CWT unprotected / {
             / sd_claims / 17 : &lt;&lt;[  /these are the disclosures/
                 &lt;&lt;[
                     /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
@@ -2097,7 +2092,7 @@ Further validation logic can be applied to the Validated Disclosed Claimset, as 
                 ]&gt;&gt;
             ]&gt;&gt;,
           },
-          / payload / &lt;&lt; {
+          / CWT payload / &lt;&lt; {
             / iss / 1   : "https://issuer.example",
             / sub / 2   : "https://device.example",
             / aud / 3   : "https://verifier.example",
@@ -2112,7 +2107,6 @@ Further validation logic can be applied to the Validated Disclosed Claimset, as 
                 / y / -3: h'6a48ccfd5d'
               }
             },
-            / sd_alg / 12 : -16,  / SHA256 /
             /most_recent_inspection_passed/ 500: true,
             / redacted_claim_keys / 59(0) : [
                 / redacted inspector_license_number /
@@ -2139,11 +2133,17 @@ Further validation logic can be applied to the Validated Disclosed Claimset, as 
                     h'41ac1522b056d5f9509cf7e850047302'
                 ]
             }
-          } &gt;&gt;,                        / end of issuer_sd_cwt payload /
-          / signature / h'3337af2e66959614'
-        ])&gt;&gt;                           / end of issuer_sd-cwt /
+          } &gt;&gt;,                    / end of issuer_sd_cwt payload /
+          / CWT signature / h'3337af2e66959614'
+        ])&gt;&gt;,  / end of issuer SD-CWT /
+    }&gt;&gt;,     / end of KBT protected header
+    / KBT unprotected / {},
+    / KBT payload / &lt;&lt; {
+        / cnonce / 39    : h'e0a156bb3f',
+        / aud     / 3    : "https://verifier.example",
+        / iat     / 6    : 1783000000
     } &gt;&gt;,                              / end of kbt payload /
-    / signature / h'1237af2e678945'
+    / KBT signature / h'1237af2e678945'
 ])                                     / end of kbt /
 </pre>
 </div>
@@ -2233,7 +2233,7 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
               <p id="section-15.1.1-2.1.1">Name: sd_claims<a href="#section-15.1.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.1.1-2.2">
-              <p id="section-15.1.1-2.2.1">Label: TBD9 (requested assignment 17)<a href="#section-15.1.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-15.1.1-2.2.1">Label: TBD1 (requested assignment 17)<a href="#section-15.1.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.1.1-2.3">
               <p id="section-15.1.1-2.3.1">Value Type: bstr<a href="#section-15.1.1-2.3.1" class="pilcrow">¶</a></p>
@@ -2250,6 +2250,34 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
           </ul>
 </section>
 </div>
+<div id="sdalg">
+<section id="section-15.1.2">
+          <h4 id="name-sd_alg">
+<a href="#section-15.1.2" class="section-number selfRef">15.1.2. </a><a href="#name-sd_alg" class="section-name selfRef">sd_alg</a>
+          </h4>
+<p id="section-15.1.2-1">The following completed registration template per RFC8152 is provided:<a href="#section-15.1.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-15.1.2-2.1">
+              <p id="section-15.1.2-2.1.1">Name: sd_alg<a href="#section-15.1.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-15.1.2-2.2">
+              <p id="section-15.1.2-2.2.1">Label: TBD2 (requested assignment 18)<a href="#section-15.1.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-15.1.2-2.3">
+              <p id="section-15.1.2-2.3.1">Value Type: int<a href="#section-15.1.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-15.1.2-2.4">
+              <p id="section-15.1.2-2.4.1">Value Registry: COSE Algorithms<a href="#section-15.1.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-15.1.2-2.5">
+              <p id="section-15.1.2-2.5.1">Description: The hash algorithm used for redacting disclosures.<a href="#section-15.1.2-2.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-15.1.2-2.6">
+              <p id="section-15.1.2-2.6.1">Reference: RFC XXXX<a href="#section-15.1.2-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="cbor-tags">
@@ -2257,21 +2285,21 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
         <h3 id="name-cbor-tags">
 <a href="#section-15.2" class="section-number selfRef">15.2. </a><a href="#name-cbor-tags" class="section-name selfRef">CBOR Tags</a>
         </h3>
-<div id="redacted-claim-element-tag">
+<div id="to-be-redacted-tag">
 <section id="section-15.2.1">
-          <h4 id="name-redacted-claim-element-tag">
-<a href="#section-15.2.1" class="section-number selfRef">15.2.1. </a><a href="#name-redacted-claim-element-tag" class="section-name selfRef">Redacted claim element tag</a>
+          <h4 id="name-to-be-redacted-tag">
+<a href="#section-15.2.1" class="section-number selfRef">15.2.1. </a><a href="#name-to-be-redacted-tag" class="section-name selfRef">To be redacted tag</a>
           </h4>
-<p id="section-15.2.1-1">The binary string inside the tag is a selective disclosure redacted claim element of an array.<a href="#section-15.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-15.2.1-1">The array claim element, or map key and value inside the "To be redacted" tag is intended to be redacted using selective disclosure.<a href="#section-15.2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.2.1-2.1">
-              <p id="section-15.2.1-2.1.1">Tag: TBD9 (requested assignment 60)<a href="#section-15.2.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-15.2.1-2.1.1">Tag: TBD3 (requested assignment 58)<a href="#section-15.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.2.1-2.2">
-              <p id="section-15.2.1-2.2.1">Data Item: byte string<a href="#section-15.2.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-15.2.1-2.2.1">Data Item: (any)<a href="#section-15.2.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.2.1-2.3">
-              <p id="section-15.2.1-2.3.1">Semantics: A selective disclosure redacted (array) claim element.<a href="#section-15.2.1-2.3.1" class="pilcrow">¶</a></p>
+              <p id="section-15.2.1-2.3.1">Semantics: An array claim element, or map key and value intended to be redacted.<a href="#section-15.2.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.2.1-2.4">
               <p id="section-15.2.1-2.4.1">Specification Document(s): RFC XXXX<a href="#section-15.2.1-2.4.1" class="pilcrow">¶</a></p>
@@ -2287,7 +2315,7 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
 <p id="section-15.2.2-1">This tag encloses the integer claim key 0 (reserved as a CWT claim key). It indicates that the claim value is an array of redacted claim keys at the same level.<a href="#section-15.2.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.2.2-2.1">
-              <p id="section-15.2.2-2.1.1">Tag: TBD5 (requested assignment 59)<a href="#section-15.2.2-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-15.2.2-2.1.1">Tag: TBD4 (requested assignment 59)<a href="#section-15.2.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.2.2-2.2">
               <p id="section-15.2.2-2.2.1">Data Item: unsigned integer 0<a href="#section-15.2.2-2.2.1" class="pilcrow">¶</a></p>
@@ -2301,21 +2329,21 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
           </ul>
 </section>
 </div>
-<div id="to-be-redacted-tag">
+<div id="redacted-claim-element-tag">
 <section id="section-15.2.3">
-          <h4 id="name-to-be-redacted-tag">
-<a href="#section-15.2.3" class="section-number selfRef">15.2.3. </a><a href="#name-to-be-redacted-tag" class="section-name selfRef">To be redacted tag</a>
+          <h4 id="name-redacted-claim-element-tag">
+<a href="#section-15.2.3" class="section-number selfRef">15.2.3. </a><a href="#name-redacted-claim-element-tag" class="section-name selfRef">Redacted claim element tag</a>
           </h4>
-<p id="section-15.2.3-1">The array claim element, or map key and value inside the "To be redacted" tag is intended to be redacted using selective disclosure.<a href="#section-15.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-15.2.3-1">The binary string inside the tag is a selective disclosure redacted claim element of an array.<a href="#section-15.2.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.2.3-2.1">
-              <p id="section-15.2.3-2.1.1">Tag: TBD10 (requested assignment 58)<a href="#section-15.2.3-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-15.2.3-2.1.1">Tag: TBD5 (requested assignment 60)<a href="#section-15.2.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.2.3-2.2">
-              <p id="section-15.2.3-2.2.1">Data Item: (any)<a href="#section-15.2.3-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-15.2.3-2.2.1">Data Item: byte string<a href="#section-15.2.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.2.3-2.3">
-              <p id="section-15.2.3-2.3.1">Semantics: An array claim element, or map key and value intended to be redacted.<a href="#section-15.2.3-2.3.1" class="pilcrow">¶</a></p>
+              <p id="section-15.2.3-2.3.1">Semantics: A selective disclosure redacted (array) claim element.<a href="#section-15.2.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.2.3-2.4">
               <p id="section-15.2.3-2.4.1">Specification Document(s): RFC XXXX<a href="#section-15.2.3-2.4.1" class="pilcrow">¶</a></p>
@@ -2331,95 +2359,33 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
 <a href="#section-15.3" class="section-number selfRef">15.3. </a><a href="#name-cbor-web-token-cwt-claims" class="section-name selfRef">CBOR Web Token (CWT) Claims</a>
         </h3>
 <p id="section-15.3-1">IANA is requested to add the following entries to the CWT claims registry (https://www.iana.org/assignments/cwt/cwt.xhtml).<a href="#section-15.3-1" class="pilcrow">¶</a></p>
-<div id="sdalg">
+<div id="vct">
 <section id="section-15.3.1">
-          <h4 id="name-sd_alg">
-<a href="#section-15.3.1" class="section-number selfRef">15.3.1. </a><a href="#name-sd_alg" class="section-name selfRef">sd_alg</a>
+          <h4 id="name-vct">
+<a href="#section-15.3.1" class="section-number selfRef">15.3.1. </a><a href="#name-vct" class="section-name selfRef">vct</a>
           </h4>
 <p id="section-15.3.1-1">The following completed registration template per RFC8392 is provided:<a href="#section-15.3.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.3.1-2.1">
-              <p id="section-15.3.1-2.1.1">Claim Name: sd_alg<a href="#section-15.3.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-15.3.1-2.1.1">Claim Name: vct<a href="#section-15.3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.3.1-2.2">
-              <p id="section-15.3.1-2.2.1">Claim Description: Hash algorithm used for selective disclosure<a href="#section-15.3.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-15.3.1-2.2.1">Claim Description: Verifiable credential type<a href="#section-15.3.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.3.1-2.3">
-              <p id="section-15.3.1-2.3.1">JWT Claim Name: _sd_alg<a href="#section-15.3.1-2.3.1" class="pilcrow">¶</a></p>
+              <p id="section-15.3.1-2.3.1">JWT Claim Name: vct<a href="#section-15.3.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.3.1-2.4">
-              <p id="section-15.3.1-2.4.1">Claim Key: TBD4 (request assignment 12)<a href="#section-15.3.1-2.4.1" class="pilcrow">¶</a></p>
+              <p id="section-15.3.1-2.4.1">Claim Key: TBD6 (request assignment 11)<a href="#section-15.3.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.3.1-2.5">
-              <p id="section-15.3.1-2.5.1">Claim Value Type(s): integer<a href="#section-15.3.1-2.5.1" class="pilcrow">¶</a></p>
+              <p id="section-15.3.1-2.5.1">Claim Value Type(s): bstr<a href="#section-15.3.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.3.1-2.6">
               <p id="section-15.3.1-2.6.1">Change Controller: IETF<a href="#section-15.3.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.3.1-2.7">
               <p id="section-15.3.1-2.7.1">Specification Document(s): RFC XXXX<a href="#section-15.3.1-2.7.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="issuersdcwt">
-<section id="section-15.3.2">
-          <h4 id="name-issuer_sd_cwt">
-<a href="#section-15.3.2" class="section-number selfRef">15.3.2. </a><a href="#name-issuer_sd_cwt" class="section-name selfRef">issuer_sd_cwt</a>
-          </h4>
-<p id="section-15.3.2-1">The following completed registration template per RFC8392 is provided:<a href="#section-15.3.2-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-15.3.2-2.1">
-              <p id="section-15.3.2-2.1.1">Claim Name: issuer_sd_cwt<a href="#section-15.3.2-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.2-2.2">
-              <p id="section-15.3.2-2.2.1">Claim Description: The issuer-signed SD-CWT, including Hodler-selected disclosures<a href="#section-15.3.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.2-2.3">
-              <p id="section-15.3.2-2.3.1">JWT Claim Name: N/A<a href="#section-15.3.2-2.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.2-2.4">
-              <p id="section-15.3.2-2.4.1">Claim Key: TBD3 (request assignment 11)<a href="#section-15.3.2-2.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.2-2.5">
-              <p id="section-15.3.2-2.5.1">Claim Value Type(s): bstr<a href="#section-15.3.2-2.5.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.2-2.6">
-              <p id="section-15.3.2-2.6.1">Change Controller: IETF<a href="#section-15.3.2-2.6.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.2-2.7">
-              <p id="section-15.3.2-2.7.1">Specification Document(s): RFC XXXX<a href="#section-15.3.2-2.7.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="vct">
-<section id="section-15.3.3">
-          <h4 id="name-vct">
-<a href="#section-15.3.3" class="section-number selfRef">15.3.3. </a><a href="#name-vct" class="section-name selfRef">vct</a>
-          </h4>
-<p id="section-15.3.3-1">The following completed registration template per RFC8392 is provided:<a href="#section-15.3.3-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-15.3.3-2.1">
-              <p id="section-15.3.3-2.1.1">Claim Name: vct<a href="#section-15.3.3-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.3-2.2">
-              <p id="section-15.3.3-2.2.1">Claim Description: Verifiable credential type<a href="#section-15.3.3-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.3-2.3">
-              <p id="section-15.3.3-2.3.1">JWT Claim Name: vct<a href="#section-15.3.3-2.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.3-2.4">
-              <p id="section-15.3.3-2.4.1">Claim Key: TBD7 (request assignment 15)<a href="#section-15.3.3-2.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.3-2.5">
-              <p id="section-15.3.3-2.5.1">Claim Value Type(s): bstr<a href="#section-15.3.3-2.5.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.3-2.6">
-              <p id="section-15.3.3-2.6.1">Change Controller: IETF<a href="#section-15.3.3-2.6.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-15.3.3-2.7">
-              <p id="section-15.3.3-2.7.1">Specification Document(s): RFC XXXX<a href="#section-15.3.3-2.7.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2645,6 +2611,10 @@ Orie Steele, orie@transmute.industries<a href="#section-15.4.2-3.12.1" class="pi
         <dd>
 <span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Initial Algorithms"</span>, <span class="seriesInfo">RFC 9053</span>, <span class="seriesInfo">DOI 10.17487/RFC9053</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9053">https://www.rfc-editor.org/rfc/rfc9053</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC9528">[RFC9528]</dt>
+        <dd>
+<span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Preuß Mattsson, J.</span>, and <span class="refAuthor">F. Palombini</span>, <span class="refTitle">"Ephemeral Diffie-Hellman Over COSE (EDHOC)"</span>, <span class="seriesInfo">RFC 9528</span>, <span class="seriesInfo">DOI 10.17487/RFC9528</span>, <time datetime="2024-03" class="refDate">March 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9528">https://www.rfc-editor.org/rfc/rfc9528</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC9596">[RFC9596]</dt>
       <dd>
 <span class="refAuthor">Jones, M.B.</span> and <span class="refAuthor">O. Steele</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE) "typ" (type) Header Parameter"</span>, <span class="seriesInfo">RFC 9596</span>, <span class="seriesInfo">DOI 10.17487/RFC9596</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9596">https://www.rfc-editor.org/rfc/rfc9596</a>&gt;</span>. </dd>
@@ -2660,7 +2630,7 @@ Orie Steele, orie@transmute.industries<a href="#section-15.4.2-3.12.1" class="pi
 <dl class="references">
 <dt id="I-D.draft-ietf-oauth-sd-jwt-vc">[I-D.draft-ietf-oauth-sd-jwt-vc]</dt>
         <dd>
-<span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-06</span>, <time datetime="2024-11-13" class="refDate">13 November 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-06">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-06</a>&gt;</span>. </dd>
+<span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-08</span>, <time datetime="2024-12-03" class="refDate">3 December 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-08">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-08</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-oauth-selective-disclosure-jwt">[I-D.draft-ietf-oauth-selective-disclosure-jwt]</dt>
         <dd>
@@ -2703,12 +2673,14 @@ kbt-cwt = #6.18([
 sd-protected = {
    &amp;(typ: 16) ^ =&gt; "application/sd+cwt",
    &amp;(alg: 1) ^ =&gt; int,
+   &amp;(sd_alg: TBD2) ^= int,             ; -16 for sha-256
    * key =&gt; any
 }
 
 kbt-protected = {
-   &amp;(typ: 16)^ =&gt; "application/kb+cwt",
-   &amp;(alg: 1)^ =&gt; int,
+   &amp;(typ: 16) ^ =&gt; "application/kb+cwt",
+   &amp;(alg: 1) ^ =&gt; int,
+   &amp;(kcwt: 13) ^ =&gt; bstr .cbor sd-cwt-issued,
    * key =&gt; any
 }
 
@@ -2731,8 +2703,7 @@ sd-payload = {
     ? &amp;(iat: 6) ^ =&gt; int,  ; 1683000000
       &amp;(cnf: 8) ^ =&gt; { * key =&gt; any }, ; key confirmation
     ;
-    &amp;(sd_alg: TBD4) ^ =&gt; int,            ; -16 for sha-256
-    ? &amp;(redacted_claim_keys: TBD5) ^ =&gt; [ * bstr ],
+    ? &amp;(redacted_claim_keys: TBD3) ^ =&gt; [ * bstr ],
     * key =&gt; any
 }
 
@@ -2742,11 +2713,8 @@ kbt-payload = {
     ? &amp;(nbf: 5) ^ =&gt; int,  ; 1683000000
       &amp;(iat: 6) ^ =&gt; int,  ; 1683000000
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
-      &amp;(issuer_sd_cwt: TBD3) ^ =&gt; bstr .cbor sd-cwt-issued,
     * key =&gt; any
 }
-
-;redacted_claim_element = #6.60( bstr .size 16 )
 
 salted-array = [ +bstr .cbor salted ]
 salted = salted-claim / salted-element / decoy
@@ -2766,9 +2734,9 @@ decoy = [
 key = int / text
 TBD1 = 17
 TBD2 = 18
-TBD3 = 11
-TBD4 = 12
-TBD5 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
+;TBD3 = #6.58(any)      ; CBOR tag wrapping to-be-redacted keys or elements
+TBD4 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
+;TBD5 = #6.60( bstr ) ;redacted_claim_element
 </pre>
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
