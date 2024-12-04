@@ -22,8 +22,8 @@ sd-protected = {
 }
 
 kbt-protected = {
-   &(typ: 16)^ => "application/kb+cwt",
-   &(alg: 1)^ => int,
+   &(typ: 16) ^ => "application/kb+cwt",
+   &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => bstr .cbor sd-cwt-issued,
    * key => any   
 }
