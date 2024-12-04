@@ -978,7 +978,31 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 
 # Document History
 
--00
+Note: RFC Editor, please remove this entire section on publication.
+
+## draft-ietf-spice-sd-cwt-02
+
+- KBT now includes the entire SD-CWT in the Confirmation Key CWT (`kcwt`) existing COSE protected header. Has algorithm now specified in new `sd_alg` COSE protected header. No more `sd_hash` claim. (PR #34, 32)
+- Introduced tags for redacted and to-be-redacted claim keys and elements. (PR#31, 28)
+- Updated example to be a generic inspection certificate. (PR#33)
+- Add section saying SD-CWT updates the CWT spec (RFC8392). (PR#29)
+
+## draft-ietf-spice-sd-cwt-01
+
+- Added Overview section
+- Rewrote the main normative section
+- Made redaacted_claim_keys use an unlikely to collide claim key integer
+- Make cnonce optional (it now says SHOULD)
+- Made most standard claims optional.
+- Consistently avoid use of bare term "key" - to make crypto keys and map keys clear
+- Make clear issued SD-CWT can contain zero or more redactions; presented SD-CWT can disclose zero, some, or all redacted claims.
+- Clarified use of sd_hash for issuer to holder case._
+- Lots of editorial cleanup
+- Added Rohan as an author and Brian Campbell to Acknowledgements
+- Updated implementation status section to be BCP205-compatible
+- Updated draft metadata
+
+## draft-ietf-spice-sd-cwt-00
 
 * Initial working group version based on draft-prorock-spice-cose-sd-cwt-01.
 
