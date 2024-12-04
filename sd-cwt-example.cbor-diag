@@ -1,20 +1,15 @@
 / cose-sign1 / 18( / sd_kbt / [
-    / protected / << {
-        / alg / 1 : -7 / ES256 /,
-        / typ / 16 : "application/kb+cwt"
-    } >>,
-    / unprotected / {},
-    / payload / << {
-        / cnonce / 39    : h'e0a156bb3f',
-        / aud     / 3    : "https://verifier.example",
-        / iat     / 6    : 1783000000,
-        / issuer_sd_cwt / 11 : << 18([
-          / protected / << {
+    / KBT protected / << {
+        / alg / 1         : -7 / ES256 /,
+        / typ / 16        : "application/kb+cwt",
+        / kcwt /        13: << 18([  / issuer SD-CWT /
+          / CWT protected / << {
             / alg /    1  : -35, / ES384 /
             / typ /    16 : "application/sd+cwt",
-            / kid /    4  : 'https://issuer.example/cwt-key3'
+            / kid /    4  : 'https://issuer.example/cwt-key3',
+            / sd_alg / 18 : -16  / SHA256 /
           } >>,
-          / unprotected / {
+          / CWT unprotected / {
             / sd_claims / 17 : <<[  /these are the disclosures/
                 <<[
                     /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
@@ -32,7 +27,7 @@
                 ]>>
             ]>>,
           },
-          / payload / << {
+          / CWT payload / << {
             / iss / 1   : "https://issuer.example",
             / sub / 2   : "https://device.example",
             / aud / 3   : "https://verifier.example",
@@ -47,7 +42,6 @@
                 / y / -3: h'6a48ccfd5d'
               }
             },
-            / sd_alg / 12 : -16,  / SHA256 /
             /most_recent_inspection_passed/ 500: true,
             / redacted_claim_keys / 59(0) : [
                 / redacted inspector_license_number /
@@ -74,9 +68,15 @@
                     h'41ac1522b056d5f9509cf7e850047302'
                 ]
             }
-          } >>,                        / end of issuer_sd_cwt payload /
-          / signature / h'3337af2e66959614'
-        ])>>                           / end of issuer_sd-cwt /
+          } >>,                    / end of issuer_sd_cwt payload /
+          / CWT signature / h'3337af2e66959614'
+        ])>>,  / end of issuer SD-CWT /
+    }>>,     / end of KBT protected header
+    / KBT unprotected / {},
+    / KBT payload / << {
+        / cnonce / 39    : h'e0a156bb3f',
+        / aud     / 3    : "https://verifier.example",
+        / iat     / 6    : 1783000000
     } >>,                              / end of kbt payload /
-    / signature / h'1237af2e678945'
+    / KBT signature / h'1237af2e678945'
 ])                                     / end of kbt /
