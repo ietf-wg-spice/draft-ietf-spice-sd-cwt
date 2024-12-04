@@ -1350,6 +1350,17 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20">
             <p id="section-toc.1-1.20.1"><a href="#appendix-D" class="auto internal xref">Appendix D</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20.2.1">
+                <p id="section-toc.1-1.20.2.1.1"><a href="#appendix-D.1" class="auto internal xref">D.1</a>.  <a href="#name-draft-ietf-spice-sd-cwt-02" class="internal xref">draft-ietf-spice-sd-cwt-02</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20.2.2">
+                <p id="section-toc.1-1.20.2.2.1"><a href="#appendix-D.2" class="auto internal xref">D.2</a>.  <a href="#name-draft-ietf-spice-sd-cwt-01" class="internal xref">draft-ietf-spice-sd-cwt-01</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20.2.3">
+                <p id="section-toc.1-1.20.2.3.1"><a href="#appendix-D.3" class="auto internal xref">D.3</a>.  <a href="#name-draft-ietf-spice-sd-cwt-00" class="internal xref">draft-ietf-spice-sd-cwt-00</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21">
             <p id="section-toc.1-1.21.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
@@ -2930,12 +2941,85 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
       <h2 id="name-document-history">
 <a href="#appendix-D" class="section-number selfRef">Appendix D. </a><a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-D-1">-00<a href="#appendix-D-1" class="pilcrow">¶</a></p>
+<p id="appendix-D-1">Note: RFC Editor, please remove this entire section on publication.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
+<div id="draft-ietf-spice-sd-cwt-02">
+<section id="appendix-D.1">
+        <h3 id="name-draft-ietf-spice-sd-cwt-02">
+<a href="#appendix-D.1" class="section-number selfRef">D.1. </a><a href="#name-draft-ietf-spice-sd-cwt-02" class="section-name selfRef">draft-ietf-spice-sd-cwt-02</a>
+        </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D-2.1">
-          <p id="appendix-D-2.1.1">Initial working group version based on draft-prorock-spice-cose-sd-cwt-01.<a href="#appendix-D-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.1-1.1">
+            <p id="appendix-D.1-1.1.1">KBT now includes the entire SD-CWT in the Confirmation Key CWT (<code>kcwt</code>) existing COSE protected header. Has algorithm now specified in new <code>sd_alg</code> COSE protected header. No more <code>sd_hash</code> claim. (PR #34, 32)<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
-      </ul>
+          <li class="normal" id="appendix-D.1-1.2">
+            <p id="appendix-D.1-1.2.1">Introduced tags for redacted and to-be-redacted claim keys and elements. (PR#31, 28)<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.3">
+            <p id="appendix-D.1-1.3.1">Updated example to be a generic inspection certificate. (PR#33)<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.4">
+            <p id="appendix-D.1-1.4.1">Add section saying SD-CWT updates the CWT spec (RFC8392). (PR#29)<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="draft-ietf-spice-sd-cwt-01">
+<section id="appendix-D.2">
+        <h3 id="name-draft-ietf-spice-sd-cwt-01">
+<a href="#appendix-D.2" class="section-number selfRef">D.2. </a><a href="#name-draft-ietf-spice-sd-cwt-01" class="section-name selfRef">draft-ietf-spice-sd-cwt-01</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-1.1">
+            <p id="appendix-D.2-1.1.1">Added Overview section<a href="#appendix-D.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.2">
+            <p id="appendix-D.2-1.2.1">Rewrote the main normative section<a href="#appendix-D.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.3">
+            <p id="appendix-D.2-1.3.1">Made redaacted_claim_keys use an unlikely to collide claim key integer<a href="#appendix-D.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.4">
+            <p id="appendix-D.2-1.4.1">Make cnonce optional (it now says <span class="bcp14">SHOULD</span>)<a href="#appendix-D.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.5">
+            <p id="appendix-D.2-1.5.1">Made most standard claims optional.<a href="#appendix-D.2-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.6">
+            <p id="appendix-D.2-1.6.1">Consistently avoid use of bare term "key" - to make crypto keys and map keys clear<a href="#appendix-D.2-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.7">
+            <p id="appendix-D.2-1.7.1">Make clear issued SD-CWT can contain zero or more redactions; presented SD-CWT can disclose zero, some, or all redacted claims.<a href="#appendix-D.2-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.8">
+            <p id="appendix-D.2-1.8.1">Clarified use of sd_hash for issuer to holder case._<a href="#appendix-D.2-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.9">
+            <p id="appendix-D.2-1.9.1">Lots of editorial cleanup<a href="#appendix-D.2-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.10">
+            <p id="appendix-D.2-1.10.1">Added Rohan as an author and Brian Campbell to Acknowledgements<a href="#appendix-D.2-1.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.11">
+            <p id="appendix-D.2-1.11.1">Updated implementation status section to be BCP205-compatible<a href="#appendix-D.2-1.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.12">
+            <p id="appendix-D.2-1.12.1">Updated draft metadata<a href="#appendix-D.2-1.12.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="draft-ietf-spice-sd-cwt-00">
+<section id="appendix-D.3">
+        <h3 id="name-draft-ietf-spice-sd-cwt-00">
+<a href="#appendix-D.3" class="section-number selfRef">D.3. </a><a href="#name-draft-ietf-spice-sd-cwt-00" class="section-name selfRef">draft-ietf-spice-sd-cwt-00</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-1.1">
+            <p id="appendix-D.3-1.1.1">Initial working group version based on draft-prorock-spice-cose-sd-cwt-01.<a href="#appendix-D.3-1.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="acknowledgments">
