@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-05T00:46:42.096501+00:00",
+  "timestamp": "2024-12-08T00:51:58.242963+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -486,7 +486,7 @@
       ],
       "body": "Privacy considerations are currently missing from this draft, but could use some extensive documentation.\r\n\r\nBut most urgently, the draft should be clear about whether selective disclosure also reveals linkability across different verifiers, or not. What is revealed about the issuer is also a separate disclosure, as well as a potential source of linkability. It sounds like there might be some significant use cases where linkability and selective disclosure is desirable, though age verification might not be one like that.\r\n\r\nFor many use cases, particularly on the web, linkability across verifiers (or between colluding verifier and issuer) is a particular privacy concern and unlinkability is a desirable property. The draft should make it clear which properties are provided.",
       "createdAt": "2024-11-05T13:39:25Z",
-      "updatedAt": "2024-12-04T14:42:59Z",
+      "updatedAt": "2024-12-05T08:03:47Z",
       "closedAt": null,
       "comments": [
         {
@@ -509,6 +509,20 @@
           "body": "I think we are ready to tackle this, I wonder if we should mirror the considerations from sd-jwt, or is there is some utility in presenting the considerations differently.",
           "createdAt": "2024-12-04T14:42:36Z",
           "updatedAt": "2024-12-04T14:42:36Z"
+        },
+        {
+          "author": "Denisthemalice",
+          "authorAssociation": "NONE",
+          "body": "I would answer slightly differently. Indications should be given about the fact that the revocation/ suspension mechanism can prevent to support the verifier-verifier unlinkability property, like the use of Token Status Lists. See a post on this topic: https://github.com/oauth-wg/draft-ietf-oauth-status-list/issues/207\r\n\r\n   ",
+          "createdAt": "2024-12-05T07:34:25Z",
+          "updatedAt": "2024-12-05T07:34:25Z"
+        },
+        {
+          "author": "Denisthemalice",
+          "authorAssociation": "NONE",
+          "body": "In  SD-JWT an issue 516 has  been raised but immediately closed preventing any discussion on it.\r\n It was proposing to add a new section called \"End-User intrackability\" \r\n(https://github.com/oauth-wg/oauth-selective-disclosure-jwt/issues/516)\r\n\r\nThis wording might be used but I recently found another possible wording \"Unobservability\".\r\n\r\nIt is present in a paper called \"Architecture Proposal for the German eIDAS Implementation\"\r\nhttps://gitlab.opencode.de/bmi/eudi-wallet/eidas-2.0-architekturkonzept/-/blob/main/architecture-proposal.md\r\n\r\nThe wording \"Unobservability\" is used in it . It is defined as follows:\r\n\r\n> \r\n> **Unobservability**\r\n> Unobservability refers to the property where an adversary cannot discern any useful information about a communication or transaction. This ensures that sensitive data, such as message content, sender or receiver identity, or any other relevant information, remains hidden from unauthorized parties. In this context, **neither Wallet Providers nor Issuers shall be able to track** where a user uses their credentials or learn details concerning the attributes provided.\r\n\r\nIt is important of not overloading the meaning of the word unlinkability, as it is currently the case in SD-JWT, and avoid the use of terms that are too long and not easily understandable :\r\n\r\n```\r\nIssuer/Verifier Unlinkability (Honest Verifier): \r\nIssuer/Verifier Unlinkability (Colluding/Compromised Verifier)\r\n```\r\n\r\n",
+          "createdAt": "2024-12-05T08:03:45Z",
+          "updatedAt": "2024-12-05T08:03:45Z"
         }
       ]
     },
