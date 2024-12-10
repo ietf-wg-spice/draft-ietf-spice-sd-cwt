@@ -281,8 +281,8 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
     /most_recent_inspection_passed/ 500: true,
     / redacted_claim_keys / 59(0) : [
         / redacted inspector_license_number /
-        h'7e6e350907d0ba3aa7ae114f8da5b360' +
-        h'601c0bb7995cd40049b98e4f58fb6ec0'
+        h'4af91954722d046376d6b54b62f09dca' +
+        h'ec4bb1da1ba65ae1fda540d2c768ef3b'
     ],
     /inspection_dates/ 502 : [
         / redacted inspection date 7-Feb-2019 /
@@ -319,14 +319,43 @@ For example, the `inspector_license_number` claim is a Salted Disclosed Claim, c
     /value/  "ABCD-123456"
 ]>>
 ~~~
+{: title="CBOR extended diagnostic notation representation of inspector_license_number disclosure"}
+
+
+This is represented in CBOR pretty printed formal as follows (end of line comments and spaces inserted for clarity):
+
+~~~ cbor-pretty
+58 21                                  # bytes(33)
+   83                                  # array(3)
+      50                               # bytes(16)
+         8D5C15FA86265D8FF77A0E92720CA837
+      19 01F5                          # unsigned(501)
+      6B                               # text(11)
+         414243442D313233343536        # "ABCD-123456"
+~~~
+{: title="CBOR encoding of inspector_license_number disclosure"}
 
 
 The SHA-256 hash (the hash algorithm identified in the `sd_alg` protected header field) of that bytes string is the Digested Salted Disclosed Claim (in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of `inspection_dates`).
 
 ~~~
-7e6e350907d0ba3aa7ae114f8da5b360601c0bb7995cd40049b98e4f58fb6ec0
+4af91954722d046376d6b54b62f09dcaec4bb1da1ba65ae1fda540d2c768ef3b
 ~~~
+{: title="SHA-256 hash of inspector_license_number disclosure"}
+
+Finally, since this redacted claim is a map key and value, the Digested Salted Disclosed Claim is placed in a `redacted_claim_keys` array in the SD-CWT payload at the same level of hierarchy as the original claim.
+Redacted claims which are array elements are handled slightly differently, as described in {{types-of-blinded-claims}}.
+
+~~~ cbor-diag
+  / redacted_claim_keys / 59(0) : [
+      / redacted inspector_license_number /
+      h'4af91954722d046376d6b54b62f09dca' +
+      h'ec4bb1da1ba65ae1fda540d2c768ef3b',
+      / ... next redacted claim at the same level would go here /
+  ],
+~~~
+{: title="redacted inspector_license_number claim in the issued CWT payload"}
 
 # Holder prepares an SD-CWT for a Verifier
 
@@ -987,6 +1016,7 @@ Note: RFC Editor, please remove this entire section on publication.
 
 ## draft-ietf-spice-sd-cwt-03
 
+- improve the walkthrough of computing a disclosure
 - clarify that duplicate map keys are not allowed, and how tagged keys are represented.
 
 ## draft-ietf-spice-sd-cwt-02
