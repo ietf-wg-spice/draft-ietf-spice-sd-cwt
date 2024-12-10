@@ -281,8 +281,8 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
     /most_recent_inspection_passed/ 500: true,
     / redacted_claim_keys / 59(0) : [
         / redacted inspector_license_number /
-        h'7e6e350907d0ba3aa7ae114f8da5b360' +
-        h'601c0bb7995cd40049b98e4f58fb6ec0'
+        h'4af91954722d046376d6b54b62f09dca' +
+        h'ec4bb1da1ba65ae1fda540d2c768ef3b'
     ],
     /inspection_dates/ 502 : [
         / redacted inspection date 7-Feb-2019 /
@@ -319,14 +319,43 @@ For example, the `inspector_license_number` claim is a Salted Disclosed Claim, c
     /value/  "ABCD-123456"
 ]>>
 ~~~
+{: title="CBOR extended diagnostic notation representation of inspector_license_number disclosure"}
+
+
+This is represented in CBOR pretty printed formal as follows (end of line comments and spaces inserted for clarity):
+
+~~~ cbor-pretty
+58 21                                  # bytes(33)
+   83                                  # array(3)
+      50                               # bytes(16)
+         8D5C15FA86265D8FF77A0E92720CA837
+      19 01F5                          # unsigned(501)
+      6B                               # text(11)
+         414243442D313233343536        # "ABCD-123456"
+~~~
+{: title="CBOR encoding of inspector_license_number disclosure"}
 
 
 The SHA-256 hash (the hash algorithm identified in the `sd_alg` protected header field) of that bytes string is the Digested Salted Disclosed Claim (in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of `inspection_dates`).
 
 ~~~
-7e6e350907d0ba3aa7ae114f8da5b360601c0bb7995cd40049b98e4f58fb6ec0
+4af91954722d046376d6b54b62f09dcaec4bb1da1ba65ae1fda540d2c768ef3b
 ~~~
+{: title="SHA-256 hash of inspector_license_number disclosure"}
+
+Finally, since this redacted claim is a map key and value, the Digested Salted Disclosed Claim is placed in a `redacted_claim_keys` array in the SD-CWT payload at the same level of hierarchy as the original claim.
+Redacted claims which are array elements are handled slightly differently, as described in {{types-of-blinded-claims}}.
+
+~~~ cbor-diag
+  / redacted_claim_keys / 59(0) : [
+      / redacted inspector_license_number /
+      h'4af91954722d046376d6b54b62f09dca' +
+      h'ec4bb1da1ba65ae1fda540d2c768ef3b',
+      / ... next redacted claim at the same level would go here /
+  ],
+~~~
+{: title="redacted inspector_license_number claim in the issued CWT payload"}
 
 # Holder prepares an SD-CWT for a Verifier
 
@@ -388,6 +417,11 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 
 The CBOR Web Token Specification (Section 1.1 of {{RFC8392}}), uses strings, negative integers, and unsigned integers as map keys.
 This specification relaxes that requirement, by also allowing CBOR tagged integers and text strings as map keys.
+CBOR maps used in a CWT cannot have duplicate keys.
+(An integer or string map key is distinct key from a tagged map key which wraps the corresponding integer or string value).
+
+>When sorted, map keys in CBOR are arranged in bytewise lexicographic order of the key's deterministic encodings (see Section 4.2.1 of {{RFC8949}}).
+>So an integer key of 3 is represented in hex as `03`, an integer key of -2 is represented in hex as `21`, and a tag of 60 wrapping a 3 is represented in hex as `D8 3C 03`
 
 Note that holders presenting to a verifier that does not support this specification would need to present a CWT without tagged map keys.
 
@@ -399,7 +433,7 @@ Multiple levels of tags in a key are not permitted.
 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with the value "application/sd-cwt" in the SD-CWT.
 
-An SD-CWT is a CWT containing the "blinded claim hash" of at least one blinded claim in the CWT payload.
+An SD-CWT is a CWT containing the "blinded claim hash" of zero or more blinded claim in the CWT payload.
 Optionally the salted claim values (and often claim names) for the corresponding Blinded Claim Hash are actually disclosed in the `sd_claims` claim in the unprotected header of the CWT (the disclosures).
 
 Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
@@ -453,8 +487,16 @@ This specification defines the format of an SD-CWT communicated between an Issue
 
 The protected header MUST contain the `sd_alg` field identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 The unprotected header MUST contain an `sd_claims` section with a Salted Disclosed Claim for *every* blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
-If there are no disclosures `sd_claims` is an empty array.
+If there are no disclosures, the `sd_claims` header is an empty array.
 The payload MUST also include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
+
+In an SD-CWT, either the subject `sub`/ 2 claim is present, or the redacted form of the subject is present.
+The issuer `iss` / 1 standard claim is MANDATORY.
+All other standard CWT claims (`aud`/ 3, `exp` / 4, `nbf` / 5, `iat` / 6, and `cti` / 7) are OPTIONAL.
+The `cnonce` / 39 claim is OPTIONAL.
+The `cnf` claim, the `cnonce` claim, and the standard claims other than the subject MUST NOT be redacted.
+Any other claims are OPTIONAL and MAY be redacted.
+
 
 ## Issuer generation
 
@@ -471,7 +513,7 @@ Holder verifies the following:
 
 - the issuer (`iss`) and subject (`sub`) are correct;
 - if an audience (`aud`) is present, it is acceptable;
-- the CWT is valid according to the `nbf` and `exp` claims;
+- the CWT is valid according to the `nbf` and `exp` claims, if present;
 - a public key under the control of the Holder is present in the `cnf` claim;
 - the hash algorithm in the `sd_alg` protected header is supported by the Holder;
 - if a `cnonce` is present, it was provided by the Holder to this Issuer and is still "fresh";
@@ -509,6 +551,7 @@ sd-payload = {
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
     ? &(iat: 6) ^ => int,  ; 1683000000
+    ? &(cti: 7) ^ => bstr,
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
     ;
@@ -579,7 +622,11 @@ kbt-payload = {
 }
 ~~~
 
+The SD-KBT payload MUST contain the audience (`aud`) and issued_at (`iat`) claims.
+It MUST NOT include the issuer (`iss`) or subject (`sub`) claims.
+It MAY include a `cnonce` claim.
 The `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
+All other claims are OPTIONAL in an SD-KBT.
 
 
 # SD-KBT and SD-CWT Verifier Validation
@@ -979,6 +1026,13 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 # Document History
 
 Note: RFC Editor, please remove this entire section on publication.
+
+## draft-ietf-spice-sd-cwt-03
+
+- clarify which claims are optional/mandatory
+- correct that an SD-CWT may have zero redacted claims
+- improve the walkthrough of computing a disclosure
+- clarify that duplicate map keys are not allowed, and how tagged keys are represented.
 
 ## draft-ietf-spice-sd-cwt-02
 
