@@ -433,7 +433,7 @@ Multiple levels of tags in a key are not permitted.
 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with the value "application/sd-cwt" in the SD-CWT.
 
-An SD-CWT is a CWT containing the "blinded claim hash" of at least one blinded claim in the CWT payload.
+An SD-CWT is a CWT containing the "blinded claim hash" of zero or more blinded claim in the CWT payload.
 Optionally the salted claim values (and often claim names) for the corresponding Blinded Claim Hash are actually disclosed in the `sd_claims` claim in the unprotected header of the CWT (the disclosures).
 
 Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
@@ -487,8 +487,16 @@ This specification defines the format of an SD-CWT communicated between an Issue
 
 The protected header MUST contain the `sd_alg` field identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 The unprotected header MUST contain an `sd_claims` section with a Salted Disclosed Claim for *every* blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
-If there are no disclosures `sd_claims` is an empty array.
+If there are no disclosures, the `sd_claims` header is an empty array.
 The payload MUST also include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
+
+In an SD-CWT, either the subject `sub`/ 2 claim is present, or the redacted form of the subject is present.
+The issuer `iss` / 1 standard claim is MANDATORY.
+All other standard CWT claims (`aud`/ 3, `exp` / 4, `nbf` / 5, `iat` / 6, and `cti` / 7) are OPTIONAL.
+The `cnonce` / 39 claim is OPTIONAL.
+The `cnf` claim, the `cnonce` claim, and the standard claims other than the subject MUST NOT be redacted.
+Any other claims are OPTIONAL and MAY be redacted.
+
 
 ## Issuer generation
 
@@ -505,7 +513,7 @@ Holder verifies the following:
 
 - the issuer (`iss`) and subject (`sub`) are correct;
 - if an audience (`aud`) is present, it is acceptable;
-- the CWT is valid according to the `nbf` and `exp` claims;
+- the CWT is valid according to the `nbf` and `exp` claims, if present;
 - a public key under the control of the Holder is present in the `cnf` claim;
 - the hash algorithm in the `sd_alg` protected header is supported by the Holder;
 - if a `cnonce` is present, it was provided by the Holder to this Issuer and is still "fresh";
@@ -543,6 +551,7 @@ sd-payload = {
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
     ? &(iat: 6) ^ => int,  ; 1683000000
+    ? &(cti: 7) ^ => bstr,
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
     ;
@@ -613,7 +622,11 @@ kbt-payload = {
 }
 ~~~
 
+The SD-KBT payload MUST contain the audience (`aud`) and issued_at (`iat`) claims.
+It MUST NOT include the issuer (`iss`) or subject (`sub`) claims.
+It MAY include a `cnonce` claim.
 The `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
+All other claims are OPTIONAL in an SD-KBT.
 
 
 # SD-KBT and SD-CWT Verifier Validation
@@ -1016,6 +1029,8 @@ Note: RFC Editor, please remove this entire section on publication.
 
 ## draft-ietf-spice-sd-cwt-03
 
+- clarify which claims are optional/mandatory
+- correct that an SD-CWT may have zero redacted claims
 - improve the walkthrough of computing a disclosure
 - clarify that duplicate map keys are not allowed, and how tagged keys are represented.
 
