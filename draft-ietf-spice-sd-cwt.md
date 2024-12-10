@@ -388,6 +388,11 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 
 The CBOR Web Token Specification (Section 1.1 of {{RFC8392}}), uses strings, negative integers, and unsigned integers as map keys.
 This specification relaxes that requirement, by also allowing CBOR tagged integers and text strings as map keys.
+CBOR maps used in a CWT cannot have duplicate keys.
+(An integer or string map key is distinct key from a tagged map key which wraps the corresponding integer or string value).
+
+>When sorted, map keys in CBOR are arranged in bytewise lexicographic order of the key's deterministic encodings (see Section 4.2.1 of {{RFC8949}}).
+>So an integer key of 3 is represented in hex as `03`, an integer key of -2 is represented in hex as `21`, and a tag of 60 wrapping a 3 is represented in hex as `D8 3C 03`
 
 Note that holders presenting to a verifier that does not support this specification would need to present a CWT without tagged map keys.
 
@@ -979,6 +984,10 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 # Document History
 
 Note: RFC Editor, please remove this entire section on publication.
+
+## draft-ietf-spice-sd-cwt-03
+
+- clarify that duplicate map keys are not allowed, and how tagged keys are represented.
 
 ## draft-ietf-spice-sd-cwt-02
 
