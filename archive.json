@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-10T00:48:04.052814+00:00",
+  "timestamp": "2024-12-12T00:46:34.955304+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -160,7 +160,7 @@
       "id": "I_kwDOMm_Q2s6WcXNp",
       "title": "Add History/Changes section",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/13",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -171,8 +171,8 @@
       ],
       "body": "",
       "createdAt": "2024-09-13T06:54:30Z",
-      "updatedAt": "2024-12-04T14:31:37Z",
-      "closedAt": null,
+      "updatedAt": "2024-12-10T17:55:59Z",
+      "closedAt": "2024-12-10T17:55:59Z",
       "comments": [
         {
           "author": "OR13",
@@ -180,6 +180,13 @@
           "body": "Lets do this before pushing -02",
           "createdAt": "2024-12-04T14:29:01Z",
           "updatedAt": "2024-12-04T14:29:01Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "done. closing.",
+          "createdAt": "2024-12-10T17:55:59Z",
+          "updatedAt": "2024-12-10T17:55:59Z"
         }
       ]
     },
@@ -376,15 +383,15 @@
       "id": "I_kwDOMm_Q2s6cXMEp",
       "title": "renaming \"sd_claims\"",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/24",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Currently, disclosed claims, represented in the CDDL by a `salted_array` have the same name (`sd_claims`) and the same key (`TBD1`), regardless if they are in the issued token or the presented one.\r\n\r\nFirst of all, in each case they carry different semantics: they are \"potentially disclosable\" in the `sd-cwt-issued` whereas they are actually \"actually disclosed\" in the `sd-cwt-presentation`. So I think they should have at least a different name. Since we're not using JSON we do not have to abbreviate our keys so I would go for a full name.\r\n\r\nThen, they both have structural differences. If we add Decoys as suggested in #11 , the `sd_claims` issued supports them whereas the presented one must not. I think it will help down the road help implementation of the spec easier by \"making illegal state unrepresentable\".\r\n\r\nI think it could look like this: \r\n```cddl\r\nsalted-issued = salted-claim / salted-element / decoy\r\nsalted-presentation = salted-claim / salted-element\r\n\r\nsalted-array-issued = [ +bstr .cbor salted-issued ]\r\nsalted-array-presentation = [ +bstr .cbor salted-presentation ]\r\n\r\nunprotected-issued = {\r\n   &(disclosures-issued: TBD_X) ^ => bstr .cbor salted-array-issued,\r\n}\r\n\r\nunprotected-presentation = {\r\n   ? &(disclosures-presentation: TBD_Y) ^ => bstr .cbor salted-array-presentation,\r\n}\r\n```\r\n\r\nWhat do you think ? I'll be happy to contribute to that in a PR.",
       "createdAt": "2024-10-30T08:57:15Z",
-      "updatedAt": "2024-12-04T14:39:49Z",
-      "closedAt": null,
+      "updatedAt": "2024-12-10T08:55:31Z",
+      "closedAt": "2024-12-10T08:55:30Z",
       "comments": [
         {
           "author": "OR13",
@@ -392,6 +399,13 @@
           "body": "Can we use \"mandatory to disclose\" and \"optional to disclose\" for the issuer cwt claims.\r\n\r\nand \"presented claims\" and \"optional to present claims\" for the presented kbt including the issuer signed cwt?",
           "createdAt": "2024-12-04T14:39:47Z",
           "updatedAt": "2024-12-04T14:39:47Z"
+        },
+        {
+          "author": "beltram",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Sorry for missing your reply. Actually this aged poorly wrt to the recent draft changes \ud83d\ude05 \r\n\r\nSince KBT now wraps the SD-CWT no need anymore for 2 different keys for the disclosures.\r\n\r\nAlso, regarding Decoys, I think that now that we have sunset `sd_hash` there's no reason for them to be present in the disclosures since the Holder does not have to verify their integrity ; that's [exactly what SD-JWT does](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-14#section-4.2.5-3).\r\nSo no need for 2 flavors of `salted-array` anymore.\r\n\r\nI'm not sure I get your comment right: that'd mean an issuer could mandate a holder to do a presentation of the claims in \"mandatory to disclose\" ? In that case why redacting those ?\r\nFeel free to reopen if I missed something \ud83d\ude04 ",
+          "createdAt": "2024-12-10T08:55:31Z",
+          "updatedAt": "2024-12-10T08:55:31Z"
         }
       ]
     },
@@ -2924,6 +2938,273 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 36,
+      "id": "PR_kwDOMm_Q2s6EwbUI",
+      "title": "Rohan's issues ready for PR",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/36",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses Issues:\r\n- #14 \r\n- #22 \r\n- #25 \r\n",
+      "createdAt": "2024-12-10T19:54:22Z",
+      "updatedAt": "2024-12-11T14:46:36Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "7e7756adb97503c05d6d36c41e0938e5e35a5aec",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "rohan/10-dec",
+      "headRefOid": "8d3c9fe4675768ca51f44cdb6ac073d9c236131a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6UoR2J",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-10T20:56:07Z",
+          "updatedAt": "2024-12-10T20:56:07Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "Is this true? wouldn't this yield:\r\n\r\n```\r\n\"_sd\": [],\r\n```\r\n\r\nwhich is a commitment to zero disclosures at this level of the map?",
+              "createdAt": "2024-12-10T20:56:07Z",
+              "updatedAt": "2024-12-10T20:56:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6UoSTI",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-10T20:57:12Z",
+          "updatedAt": "2024-12-10T20:57:12Z",
+          "comments": [
+            {
+              "originalPosition": 86,
+              "body": "I do not know if we need `iss` to be mandatory, especially if SD-CWT is signed with x5t /x5u, where the issue is represented using a cert.",
+              "createdAt": "2024-12-10T20:57:12Z",
+              "updatedAt": "2024-12-10T20:57:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6UoTVS",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-10T20:59:13Z",
+          "updatedAt": "2024-12-10T20:59:13Z",
+          "comments": [
+            {
+              "originalPosition": 121,
+              "body": "its weird that all other claims are optional, but iss and sub are MUST NOT.\r\n\r\nthe important part is the KBT is signed by key identified in cnf... other things the holder wants to sign are probably use case / protocol specific, and we may want to leave room for them.",
+              "createdAt": "2024-12-10T20:59:13Z",
+              "updatedAt": "2024-12-10T20:59:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6UoaGx",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-10T21:14:40Z",
+          "updatedAt": "2024-12-10T21:14:40Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "yes",
+              "createdAt": "2024-12-10T21:14:40Z",
+              "updatedAt": "2024-12-10T21:14:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Uoc7Y",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-10T21:21:15Z",
+          "updatedAt": "2024-12-10T21:21:15Z",
+          "comments": [
+            {
+              "originalPosition": 121,
+              "body": "The point is that the issuer and the subject are the party represented by the cnf (and possibly given an identifier in the sub) in the issued SD-CWT. I want to tell implementers that there is no value sending iss or sub in the KBT so they don't need to waste time writing code checking if they exist and then comparing them to whatever their canonical representation is of the the party in the cnf. Since sub is redactable in the CWT, the language to describe matching rules for iss and sub in the KBT would be super complicated and confusing. (All to manage a possibility that adds zero functionality).\r\n\r\nI think we owe it to the community to tell people NO in this case.",
+              "createdAt": "2024-12-10T21:21:15Z",
+              "updatedAt": "2024-12-10T21:21:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Uw17s",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-11T14:24:36Z",
+          "updatedAt": "2024-12-11T14:24:37Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "An SD-CWT does not need to have any disclosable claims present in its payload, or any arrays or maps inside the payload.\r\n\r\nWhen an SD-CWT has no disclosable claims, the redacted map key and redacted array element MUST NOT be present anywhere in the payload.",
+              "createdAt": "2024-12-11T14:24:37Z",
+              "updatedAt": "2024-12-11T14:24:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Uw2Lz",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-11T14:24:46Z",
+          "updatedAt": "2024-12-11T14:24:46Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "Move this maybe to a better spot?",
+              "createdAt": "2024-12-11T14:24:46Z",
+              "updatedAt": "2024-12-11T14:24:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Uw-E7",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-11T14:34:46Z",
+          "updatedAt": "2024-12-11T14:34:46Z",
+          "comments": [
+            {
+              "originalPosition": 86,
+              "body": "The issuer `iss` / 1 standard claim SHOULD be present, unless the protected header contains a certificate or certificate-like entity which fully identifies the issuer. ",
+              "createdAt": "2024-12-11T14:34:46Z",
+              "updatedAt": "2024-12-11T14:34:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6UxAko",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-11T14:38:18Z",
+          "updatedAt": "2024-12-11T14:38:18Z",
+          "comments": [
+            {
+              "originalPosition": 121,
+              "body": "The holder is the issuer of the key binding token.\r\n\r\nHowever, the iss and sub claims are optional in the key binding token.",
+              "createdAt": "2024-12-11T14:38:18Z",
+              "updatedAt": "2024-12-11T14:38:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6UxE4u",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-11T14:44:26Z",
+          "updatedAt": "2024-12-11T14:44:26Z",
+          "comments": [
+            {
+              "originalPosition": 121,
+              "body": "- put this somewhere:\r\n    \"The Holder is conceptually both the subject and the issuer of the Key Binding Token.\"\r\n\r\n- remove the MUST NOT\r\n\r\n- in verification section:\r\n      ignore iss or sub for validation purposes (if present). A profile may define additional semantics.\r\n\r\n- in security considerations\r\n     warn about attack of issuer or subject in KBT not matching each other or the subject in the SD-CWT (any self-assigned identifier)\r\n",
+              "createdAt": "2024-12-11T14:44:26Z",
+              "updatedAt": "2024-12-11T14:45:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6UxFnF",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-11T14:45:18Z",
+          "updatedAt": "2024-12-11T14:45:18Z",
+          "comments": [
+            {
+              "originalPosition": 121,
+              "body": "The Holder is conceptually ... the issuer and subject of the kbt",
+              "createdAt": "2024-12-11T14:45:18Z",
+              "updatedAt": "2024-12-11T14:45:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6UxGfO",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-11T14:46:35Z",
+          "updatedAt": "2024-12-11T14:46:36Z",
+          "comments": [
+            {
+              "originalPosition": 121,
+              "body": "The iss is issuer signed CWT is self asserted by the issuer. the iss and sub in KBT are self asserted by the holder.",
+              "createdAt": "2024-12-11T14:46:35Z",
+              "updatedAt": "2024-12-11T14:46:36Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
