@@ -491,7 +491,7 @@ If there are no disclosures, the `sd_claims` header is an empty array.
 The payload MUST also include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
 
 In an SD-CWT, either the subject `sub`/ 2 claim is present, or the redacted form of the subject is present.
-The issuer `iss` / 1 standard claim is MANDATORY.
+The issuer `iss` / 1 standard claim SHOULD be present, unless the protected header contains a certificate or certificate-like entity which fully identifies the issuer.
 All other standard CWT claims (`aud`/ 3, `exp` / 4, `nbf` / 5, `iat` / 6, and `cti` / 7) are OPTIONAL.
 The `cnonce` / 39 claim is OPTIONAL.
 The `cnf` claim, the `cnonce` claim, and the standard claims other than the subject MUST NOT be redacted.
