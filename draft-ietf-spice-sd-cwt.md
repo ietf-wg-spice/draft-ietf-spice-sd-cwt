@@ -433,8 +433,11 @@ Multiple levels of tags in a key are not permitted.
 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with the value "application/sd-cwt" in the SD-CWT.
 
-An SD-CWT is a CWT containing the "blinded claim hash" of zero or more blinded claim in the CWT payload.
-Optionally the salted claim values (and often claim names) for the corresponding Blinded Claim Hash are actually disclosed in the `sd_claims` claim in the unprotected header of the CWT (the disclosures).
+An SD-CWT is a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
+It is not required to contain any blinded claims.
+
+Optionally the salted claim values (and often claim names) for the corresponding Blinded Claim Hash are actually disclosed in the `sd_claims` field in the unprotected header of the CWT (the disclosures).
+If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` field in the unprotected header is an empty array.
 
 Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
 However a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.
