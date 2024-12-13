@@ -580,8 +580,13 @@ Regardless if it discloses any claims, the Holder sends the Verifier a unique Ho
 
 An SD-KBT is itself a type of CWT, signed using the private key corresponding to the key in the `cnf` claim in the presented SD-CWT.
 The SD-KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the `kcwt` protected header field in the SD-KBT.
-The `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT.
+
+The Holder is conceptually both the subject and the issuer of the Key Binding Token.
+Therefore the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and are ignored for validation purposes if they are present.
+(A profile may define additional semantics.)
+
 The `aud` claim MUST be included and relevant to the Verifier.
+The SD-KBT payload MUST contain the issued_at (`iat`) claims.
 The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/sd-kbt`.
 
 The SD-KBT provides the following assurances to the Verifier:
@@ -625,10 +630,8 @@ kbt-payload = {
 }
 ~~~
 
-The SD-KBT payload MUST contain the audience (`aud`) and issued_at (`iat`) claims.
-It MUST NOT include the issuer (`iss`) or subject (`sub`) claims.
-It MAY include a `cnonce` claim.
-The `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
+The SD-KBT payload MAY include a `cnonce` claim.
+If included, the `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
 All other claims are OPTIONAL in an SD-KBT.
 
 
@@ -733,6 +736,19 @@ Security considerations from COSE {(RFC9052)} and CWT {{RFC8392}} apply to this 
 
 Each salt used to protect disclosed claims MUST be generated independently from the salts of other claims. The salts MUST be generated from a source of entropy that is acceptable to the issuer.
 Poor choice of salts can lead to brute force attacks that can reveal redacted claims.
+
+## Binding the KBT and the CWT
+
+The issuer claim in the SD-CWT is self-asserted by the issuer.
+The subject claim of the SD-CWT is the Holder.
+Conceptually, the Holder is both the issuer and the subject of the SD-KBT, even if the issuer or subject claims are not present.
+If they are present, they are self-asserted by the Holder.
+All three are represented by the confirmation (public) key in the SD-CWT.
+
+As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT issuer and subject claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
+Extra care should be taken in case the SD-CWT subject claim is redacted.
+Likewise, Holders and Verifiers need to verify that the issuer claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.
+
 
 # IANA Considerations
 
