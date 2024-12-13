@@ -1256,6 +1256,9 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.1">
                 <p id="section-toc.1-1.14.2.1.1"><a href="#section-14.1" class="auto internal xref">14.1</a>.  <a href="#name-random-numbers" class="internal xref">Random Numbers</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2">
+                <p id="section-toc.1-1.14.2.2.1"><a href="#section-14.2" class="auto internal xref">14.2</a>.  <a href="#name-binding-the-kbt-and-the-cwt" class="internal xref">Binding the KBT and the CWT</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
@@ -1843,10 +1846,12 @@ Multiple levels of tags in a key are not permitted.<a href="#section-5-4" class=
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-sd-cwt-definition" class="section-name selfRef">SD-CWT definition</a>
       </h2>
 <p id="section-6-1">SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE. An SD-CWT <span class="bcp14">MUST</span> include the protected header parameter <code>typ</code> <span>[<a href="#RFC9596" class="cite xref">RFC9596</a>]</span> with the value "application/sd-cwt" in the SD-CWT.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">An SD-CWT is a CWT containing the "blinded claim hash" of zero or more blinded claim in the CWT payload.
-Optionally the salted claim values (and often claim names) for the corresponding Blinded Claim Hash are actually disclosed in the <code>sd_claims</code> claim in the unprotected header of the CWT (the disclosures).<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
-However a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-2">An SD-CWT is a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
+It is not required to contain any blinded claims.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">Optionally the salted claim values (and often claim names) for the corresponding Blinded Claim Hash are actually disclosed in the <code>sd_claims</code> field in the unprotected header of the CWT (the disclosures).
+If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the <code>sd_claims</code> field in the unprotected header is an empty array.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
+However a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <div id="types-of-blinded-claims">
 <section id="section-6.1">
         <h3 id="name-types-of-blinded-claims">
@@ -2016,29 +2021,32 @@ Finally, the SD-CWT used for presentation to a Verifier is included in a key bin
         </h3>
 <p id="section-8.1-1">Regardless if it discloses any claims, the Holder sends the Verifier a unique Holder key binding (SD-KBT) <a href="#kbt" class="auto internal xref">Section 8.1</a> for every presentation of an SD-CWT to a different Verifier.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.1-2">An SD-KBT is itself a type of CWT, signed using the private key corresponding to the key in the <code>cnf</code> claim in the presented SD-CWT.
-The SD-KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the <code>kcwt</code> protected header field in the SD-KBT.
-The <code>sub</code> and <code>iss</code> of an SD-KBT are implied from the <code>cnf</code> claim in the included SD-CWT.
-The <code>aud</code> claim <span class="bcp14">MUST</span> be included and relevant to the Verifier.
-The protected header of the SD-KBT <span class="bcp14">MUST</span> include the <code>typ</code> header parameter with the value <code>application/sd-kbt</code>.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
-<p id="section-8.1-3">The SD-KBT provides the following assurances to the Verifier:<a href="#section-8.1-3" class="pilcrow">¶</a></p>
+The SD-KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the <code>kcwt</code> protected header field in the SD-KBT.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+<p id="section-8.1-3">The Holder is conceptually both the subject and the issuer of the Key Binding Token.
+Therefore the <code>sub</code> and <code>iss</code> of an SD-KBT are implied from the <code>cnf</code> claim in the included SD-CWT, and are ignored for validation purposes if they are present.
+(A profile may define additional semantics.)<a href="#section-8.1-3" class="pilcrow">¶</a></p>
+<p id="section-8.1-4">The <code>aud</code> claim <span class="bcp14">MUST</span> be included and relevant to the Verifier.
+The SD-KBT payload <span class="bcp14">MUST</span> contain the issued_at (<code>iat</code>) claims.
+The protected header of the SD-KBT <span class="bcp14">MUST</span> include the <code>typ</code> header parameter with the value <code>application/sd-kbt</code>.<a href="#section-8.1-4" class="pilcrow">¶</a></p>
+<p id="section-8.1-5">The SD-KBT provides the following assurances to the Verifier:<a href="#section-8.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.1-4.1">
-            <p id="section-8.1-4.1.1">the Holder of the SD-CWT controls the confirmation method chosen by the Issuer;<a href="#section-8.1-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8.1-6.1">
+            <p id="section-8.1-6.1.1">the Holder of the SD-CWT controls the confirmation method chosen by the Issuer;<a href="#section-8.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-4.2">
-            <p id="section-8.1-4.2.1">the Holder's disclosures have not been tampered with since confirmation occurred;<a href="#section-8.1-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-6.2">
+            <p id="section-8.1-6.2.1">the Holder's disclosures have not been tampered with since confirmation occurred;<a href="#section-8.1-6.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-4.3">
-            <p id="section-8.1-4.3.1">the Holder intended to address the SD-CWT to the Verifier specified in the audience (<code>aud</code>) claim;<a href="#section-8.1-4.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-6.3">
+            <p id="section-8.1-6.3.1">the Holder intended to address the SD-CWT to the Verifier specified in the audience (<code>aud</code>) claim;<a href="#section-8.1-6.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-4.4">
-            <p id="section-8.1-4.4.1">the Holder's disclosure is linked to the creation time (<code>iat</code>) of the key binding.<a href="#section-8.1-4.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-6.4">
+            <p id="section-8.1-6.4.1">the Holder's disclosure is linked to the creation time (<code>iat</code>) of the key binding.<a href="#section-8.1-6.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-8.1-5">The SD-KBT prevents an attacker from copying and pasting disclosures, or from adding or removing disclosures without detection.
-Confirmation is established according to RFC 8747, using the <code>cnf</code> claim in the payload of the SD-CWT.<a href="#section-8.1-5" class="pilcrow">¶</a></p>
-<p id="section-8.1-6">The Holder signs the SD-KBT using the key specified in the <code>cnf</code> claim in the SD-CWT. This proves possession of the Holder's private key.<a href="#section-8.1-6" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-8.1-7">
+<p id="section-8.1-7">The SD-KBT prevents an attacker from copying and pasting disclosures, or from adding or removing disclosures without detection.
+Confirmation is established according to RFC 8747, using the <code>cnf</code> claim in the payload of the SD-CWT.<a href="#section-8.1-7" class="pilcrow">¶</a></p>
+<p id="section-8.1-8">The Holder signs the SD-KBT using the key specified in the <code>cnf</code> claim in the SD-CWT. This proves possession of the Holder's private key.<a href="#section-8.1-8" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-8.1-9">
 <pre>
 kbt-cwt = #6.18([
    protected: bstr .cbor kbt-protected,
@@ -2066,13 +2074,11 @@ kbt-payload = {
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     * key =&gt; any
 }
-</pre><a href="#section-8.1-7" class="pilcrow">¶</a>
+</pre><a href="#section-8.1-9" class="pilcrow">¶</a>
 </div>
-<p id="section-8.1-8">The SD-KBT payload <span class="bcp14">MUST</span> contain the audience (<code>aud</code>) and issued_at (<code>iat</code>) claims.
-It <span class="bcp14">MUST NOT</span> include the issuer (<code>iss</code>) or subject (<code>sub</code>) claims.
-It <span class="bcp14">MAY</span> include a <code>cnonce</code> claim.
-The <code>cnonce</code> is a <code>bstr</code> and <span class="bcp14">MUST</span> be treated as opaque to the Holder.
-All other claims are <span class="bcp14">OPTIONAL</span> in an SD-KBT.<a href="#section-8.1-8" class="pilcrow">¶</a></p>
+<p id="section-8.1-10">The SD-KBT payload <span class="bcp14">MAY</span> include a <code>cnonce</code> claim.
+If included, the <code>cnonce</code> is a <code>bstr</code> and <span class="bcp14">MUST</span> be treated as opaque to the Holder.
+All other claims are <span class="bcp14">OPTIONAL</span> in an SD-KBT.<a href="#section-8.1-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2284,6 +2290,21 @@ It is up to the individual working groups to use this information as they see fi
         </h3>
 <p id="section-14.1-1">Each salt used to protect disclosed claims <span class="bcp14">MUST</span> be generated independently from the salts of other claims. The salts <span class="bcp14">MUST</span> be generated from a source of entropy that is acceptable to the issuer.
 Poor choice of salts can lead to brute force attacks that can reveal redacted claims.<a href="#section-14.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="binding-the-kbt-and-the-cwt">
+<section id="section-14.2">
+        <h3 id="name-binding-the-kbt-and-the-cwt">
+<a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-binding-the-kbt-and-the-cwt" class="section-name selfRef">Binding the KBT and the CWT</a>
+        </h3>
+<p id="section-14.2-1">The issuer claim in the SD-CWT is self-asserted by the issuer.
+The subject claim of the SD-CWT is the Holder.
+Conceptually, the Holder is both the issuer and the subject of the SD-KBT, even if the issuer or subject claims are not present.
+If they are present, they are self-asserted by the Holder.
+All three are represented by the confirmation (public) key in the SD-CWT.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.2-2">As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT issuer and subject claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
+Extra care should be taken in case the SD-CWT subject claim is redacted.
+Likewise, Holders and Verifiers need to verify that the issuer claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.<a href="#section-14.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
