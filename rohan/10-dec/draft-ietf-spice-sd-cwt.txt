@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 13 June 2025                                        H. Birkholz
+Expires: 16 June 2025                                        H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                        10 December 2024
+                                                        13 December 2024
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 June 2025.
+   This Internet-Draft will expire on 16 June 2025.
 
 Copyright Notice
 
@@ -637,11 +637,13 @@ Issuer                           Holder                         Verifier
 
    In an SD-CWT, either the subject sub/ 2 claim is present, or the
    redacted form of the subject is present.  The issuer iss / 1 standard
-   claim is MANDATORY.  All other standard CWT claims (aud/ 3, exp / 4,
-   nbf / 5, iat / 6, and cti / 7) are OPTIONAL.  The cnonce / 39 claim
-   is OPTIONAL.  The cnf claim, the cnonce claim, and the standard
-   claims other than the subject MUST NOT be redacted.  Any other claims
-   are OPTIONAL and MAY be redacted.
+   claim SHOULD be present, unless the protected header contains a
+   certificate or certificate-like entity which fully identifies the
+   issuer.  All other standard CWT claims (aud/ 3, exp / 4, nbf / 5, iat
+   / 6, and cti / 7) are OPTIONAL.  The cnonce / 39 claim is OPTIONAL.
+   The cnf claim, the cnonce claim, and the standard claims other than
+   the subject MUST NOT be redacted.  Any other claims are OPTIONAL and
+   MAY be redacted.
 
 7.1.  Issuer generation
 
