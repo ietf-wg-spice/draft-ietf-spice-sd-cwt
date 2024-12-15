@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-12T00:46:34.955304+00:00",
+  "timestamp": "2024-12-15T00:52:00.587983+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -555,6 +555,22 @@
       "body": "See the [issue](https://github.com/ietf-wg-mediaman/6838bis/issues/9) on [draft-mediaman-6838bis](https://datatracker.ietf.org/doc/draft-mediaman-6838bis/) \r\n\r\nAlso copying comments from @martinthomson here:\r\n>Recent documents that I've gotten through publication look like this:\r\n\r\n```\r\n   Person and email address to contact for further information:\r\n      See Authors' Addresses section\r\n```\r\n\r\n>Separately, please see the source of RFC 9458 for a better media type registration template:  https://github.com/ietf-wg-ohai/oblivious-http/blob/main/draft-ietf-ohai-ohttp.md",
       "createdAt": "2024-11-19T13:44:01Z",
       "updatedAt": "2024-12-04T14:44:10Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 37,
+      "id": "I_kwDOMm_Q2s6jQQ4c",
+      "title": "Register application/sd-cwt+cwt and application/sd-kbt+cwt in CoAP Content Formats registry?",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/37",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The COSE `typ` header can specify either a text string media format, or a uint16 from the [CoAP Content Formats Registry](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats). Do we want to pre-emptively register SD-CWT and SD-KBT media types in the IETF Review range (256-9999) [1] so they can be referred to in COSE by integer?\r\n\r\n[1] see Table 10 in [RFC7252, Section 12.3](https://www.rfc-editor.org/rfc/rfc7252.html#section-12.3)",
+      "createdAt": "2024-12-13T18:18:45Z",
+      "updatedAt": "2024-12-13T18:18:45Z",
       "closedAt": null,
       "comments": []
     }
@@ -2951,13 +2967,13 @@
       "labels": [],
       "body": "Addresses Issues:\r\n- #14 \r\n- #22 \r\n- #25 \r\n",
       "createdAt": "2024-12-10T19:54:22Z",
-      "updatedAt": "2024-12-11T14:46:36Z",
+      "updatedAt": "2024-12-13T16:20:45Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7e7756adb97503c05d6d36c41e0938e5e35a5aec",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "rohan/10-dec",
-      "headRefOid": "8d3c9fe4675768ca51f44cdb6ac073d9c236131a",
+      "headRefOid": "233a4fb04eac5352eb2b9cf59f9f8ff6e224e860",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -3201,6 +3217,66 @@
               "body": "The iss is issuer signed CWT is self asserted by the issuer. the iss and sub in KBT are self asserted by the holder.",
               "createdAt": "2024-12-11T14:46:35Z",
               "updatedAt": "2024-12-11T14:46:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6VKhuP",
+          "commit": {
+            "abbreviatedOid": "bdf2d5d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-13T15:30:58Z",
+          "updatedAt": "2024-12-13T15:30:58Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "@OR13 @mprorock @henkbirkholz\r\nI just want to make sure that we still want the extra bstr encoding of each disclosure: \r\n`<<[salt, key, value]>>` vs `[salt, key, value]`. I don't have a strong objection, but I don't see the value in the extra encoding/decoding step (or the extra 2 or 3 bytes). The bstr encoding doesn't prevent the inside value from being non-deterministically encoded, for example. That canonicalization needs to happen when encoding the disclosure array anyway.\r\n\r\nWe should be able to justify in text why we add double CBOR encoding anywhere.",
+              "createdAt": "2024-12-13T15:30:58Z",
+              "updatedAt": "2024-12-13T15:34:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6VK59t",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-13T16:19:36Z",
+          "updatedAt": "2024-12-13T16:19:36Z",
+          "comments": [
+            {
+              "originalPosition": 121,
+              "body": "I just pushed https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/36/commits/233a4fb04eac5352eb2b9cf59f9f8ff6e224e860 which I addresses all these concerns. I would appreciate a look @OR13 at the language in the security considerations section.",
+              "createdAt": "2024-12-13T16:19:36Z",
+              "updatedAt": "2024-12-13T16:19:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6VK6ew",
+          "commit": {
+            "abbreviatedOid": "8d3c9fe"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-13T16:20:45Z",
+          "updatedAt": "2024-12-13T16:20:45Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "I didn't move this, but I think it is much nicer now as of https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/36/commits/b7eb6904a8e71320a7a2d15b944a5c0670c9bdb8",
+              "createdAt": "2024-12-13T16:20:45Z",
+              "updatedAt": "2024-12-13T16:20:46Z"
             }
           ]
         }
