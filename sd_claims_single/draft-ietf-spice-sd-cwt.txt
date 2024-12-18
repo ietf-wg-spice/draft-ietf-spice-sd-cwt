@@ -99,6 +99,7 @@ Table of Contents
      13.1.  Transmute Prototype
    14. Security Considerations
      14.1.  Random Numbers
+     14.2.  Binding the KBT and the CWT
    15. IANA Considerations
      15.1.  COSE Header Parameters
        15.1.1.  sd_claims
@@ -376,8 +377,8 @@ Issuer                           Holder                         Verifier
        /most_recent_inspection_passed/ 500: true,
        / redacted_claim_keys / 59(0) : [
            / redacted inspector_license_number /
-           h'7e6e350907d0ba3aa7ae114f8da5b360' +
-           h'601c0bb7995cd40049b98e4f58fb6ec0'
+           h'4af91954722d046376d6b54b62f09dca' +
+           h'ec4bb1da1ba65ae1fda540d2c768ef3b'
        ],
        /inspection_dates/ 502 : [
            / redacted inspection date 7-Feb-2019 /
@@ -415,6 +416,22 @@ Issuer                           Holder                         Verifier
        /value/  "ABCD-123456"
    ]>>
 
+       Figure 1: CBOR extended diagnostic notation representation of
+                    inspector_license_number disclosure
+
+   This is represented in CBOR pretty printed formal as follows (end of
+   line comments and spaces inserted for clarity):
+
+   58 21                                  # bytes(33)
+      83                                  # array(3)
+         50                               # bytes(16)
+            8D5C15FA86265D8FF77A0E92720CA837
+         19 01F5                          # unsigned(501)
+         6B                               # text(11)
+            414243442D313233343536        # "ABCD-123456"
+
+       Figure 2: CBOR encoding of inspector_license_number disclosure
+
    The SHA-256 hash (the hash algorithm identified in the sd_alg
    protected header field) of that bytes string is the Digested Salted
    Disclosed Claim (in hex).  The digest value is included in the
@@ -422,7 +439,25 @@ Issuer                           Holder                         Verifier
    this example), or in a named array for a Redacted Claim Element (ex:
    for a redacted claim element of inspection_dates).
 
-   7e6e350907d0ba3aa7ae114f8da5b360601c0bb7995cd40049b98e4f58fb6ec0
+   4af91954722d046376d6b54b62f09dcaec4bb1da1ba65ae1fda540d2c768ef3b
+
+       Figure 3: SHA-256 hash of inspector_license_number disclosure
+
+   Finally, since this redacted claim is a map key and value, the
+   Digested Salted Disclosed Claim is placed in a redacted_claim_keys
+   array in the SD-CWT payload at the same level of hierarchy as the
+   original claim.  Redacted claims which are array elements are handled
+   slightly differently, as described in Section 6.1.
+
+     / redacted_claim_keys / 59(0) : [
+         / redacted inspector_license_number /
+         h'4af91954722d046376d6b54b62f09dca' +
+         h'ec4bb1da1ba65ae1fda540d2c768ef3b',
+         / ... next redacted claim at the same level would go here /
+     ],
+
+      Figure 4: redacted inspector_license_number claim in the issued
+                                CWT payload
 
 4.  Holder prepares an SD-CWT for a Verifier
 
@@ -497,7 +532,17 @@ Issuer                           Holder                         Verifier
    The CBOR Web Token Specification (Section 1.1 of [RFC8392]), uses
    strings, negative integers, and unsigned integers as map keys.  This
    specification relaxes that requirement, by also allowing CBOR tagged
-   integers and text strings as map keys.
+   integers and text strings as map keys.  CBOR maps used in a CWT
+   cannot have duplicate keys.  (An integer or string map key is
+   distinct key from a tagged map key which wraps the corresponding
+   integer or string value).
+
+      When sorted, map keys in CBOR are arranged in bytewise
+      lexicographic order of the key's deterministic encodings (see
+      Section 4.2.1 of [RFC8949]).  So an integer key of 3 is
+      represented in hex as 03, an integer key of -2 is represented in
+      hex as 21, and a tag of 60 wrapping a 3 is represented in hex as
+      D8 3C 03
 
    Note that holders presenting to a verifier that does not support this
    specification would need to present a CWT without tagged map keys.
@@ -514,11 +559,17 @@ Issuer                           Holder                         Verifier
    header parameter typ [RFC9596] with the value "application/sd-cwt" in
    the SD-CWT.
 
-   An SD-CWT is a CWT containing the "blinded claim hash" of at least
-   one blinded claim in the CWT payload.  Optionally the salted claim
-   values (and often claim names) for the corresponding Blinded Claim
-   Hash are actually disclosed in the sd_claims claim in the unprotected
-   header of the CWT (the disclosures).
+   An SD-CWT is a CWT that can contain blinded claims (each expressed as
+   a Blinded Claim Hash) in the CWT payload, at the root level or in any
+   arrays or maps inside that payload.  It is not required to contain
+   any blinded claims.
+
+   Optionally the salted claim values (and often claim names) for the
+   corresponding Blinded Claim Hash are actually disclosed in the
+   sd_claims field in the unprotected header of the CWT (the
+   disclosures).  If there are no disclosures (and when no Blinded
+   Claims Hash is present in the payload) the sd_claims field in the
+   unprotected header is an empty array.
 
    Any party with a Salted Disclosed Claim can generate its hash, find
    that hash in the CWT payload, and unblind the content.  However a
@@ -586,9 +637,19 @@ Issuer                           Holder                         Verifier
    Disclosed Claims.  The unprotected header MUST contain an sd_claims
    section with a Salted Disclosed Claim for _every_ blinded claim hash
    present anywhere in the payload, and any decoys (see Section 10).  If
-   there are no disclosures sd_claims is an empty array.  The payload
-   MUST also include a key confirmation element (cnf) [RFC8747] for the
-   Holder's public key.
+   there are no disclosures, the sd_claims header is an empty array.
+   The payload MUST also include a key confirmation element (cnf)
+   [RFC8747] for the Holder's public key.
+
+   In an SD-CWT, either the subject sub/ 2 claim is present, or the
+   redacted form of the subject is present.  The issuer iss / 1 standard
+   claim SHOULD be present, unless the protected header contains a
+   certificate or certificate-like entity which fully identifies the
+   issuer.  All other standard CWT claims (aud/ 3, exp / 4, nbf / 5, iat
+   / 6, and cti / 7) are OPTIONAL.  The cnonce / 39 claim is OPTIONAL.
+   The cnf claim, the cnonce claim, and the standard claims other than
+   the subject MUST NOT be redacted.  Any other claims are OPTIONAL and
+   MAY be redacted.
 
 7.1.  Issuer generation
 
@@ -611,7 +672,7 @@ Issuer                           Holder                         Verifier
 
    *  if an audience (aud) is present, it is acceptable;
 
-   *  the CWT is valid according to the nbf and exp claims;
+   *  the CWT is valid according to the nbf and exp claims, if present;
 
    *  a public key under the control of the Holder is present in the cnf
       claim;
@@ -662,6 +723,7 @@ Issuer                           Holder                         Verifier
        ? &(exp: 4) ^ => int,  ; 1883000000
        ? &(nbf: 5) ^ => int,  ; 1683000000
        ? &(iat: 6) ^ => int,  ; 1683000000
+       ? &(cti: 7) ^ => bstr,
          &(cnf: 8) ^ => { * key => any }, ; key confirmation
        ? &(cnonce: 39) ^ => bstr,
        ;
@@ -696,10 +758,18 @@ Issuer                           Holder                         Verifier
    corresponding to the key in the cnf claim in the presented SD-CWT.
    The SD-KBT contains the SD-CWT, including the Holder's choice of
    presented disclosures, in the kcwt protected header field in the SD-
-   KBT.  The sub and iss of an SD-KBT are implied from the cnf claim in
-   the included SD-CWT.  The aud claim MUST be included and relevant to
-   the Verifier.  The protected header of the SD-KBT MUST include the
-   typ header parameter with the value application/sd-kbt.
+   KBT.
+
+   The Holder is conceptually both the subject and the issuer of the Key
+   Binding Token.  Therefore the sub and iss of an SD-KBT are implied
+   from the cnf claim in the included SD-CWT, and are ignored for
+   validation purposes if they are present.  (A profile may define
+   additional semantics.)
+
+   The aud claim MUST be included and relevant to the Verifier.  The SD-
+   KBT payload MUST contain the issued_at (iat) claims.  The protected
+   header of the SD-KBT MUST include the typ header parameter with the
+   value application/sd-kbt.
 
    The SD-KBT provides the following assurances to the Verifier:
 
@@ -750,7 +820,9 @@ Issuer                           Holder                         Verifier
        * key => any
    }
 
-   The cnonce is a bstr and MUST be treated as opaque to the Holder.
+   The SD-KBT payload MAY include a cnonce claim.  If included, the
+   cnonce is a bstr and MUST be treated as opaque to the Holder.  All
+   other claims are OPTIONAL in an SD-KBT.
 
 9.  SD-KBT and SD-CWT Verifier Validation
 
@@ -909,7 +981,7 @@ Issuer                           Holder                         Verifier
        / KBT signature / h'1237af2e678945'
    ])                                     / end of kbt /
 
-                          Figure 1: An EDN Example
+                          Figure 5: An EDN Example
 
 12.2.  Nested example
 
@@ -975,6 +1047,32 @@ Issuer                           Holder                         Verifier
    generated from a source of entropy that is acceptable to the issuer.
    Poor choice of salts can lead to brute force attacks that can reveal
    redacted claims.
+
+14.2.  Binding the KBT and the CWT
+
+   The issuer claim in the SD-CWT is self-asserted by the issuer.
+
+   Because confirmation is mandatory, the subject claim of an SD-CWT,
+   when present, is always related directly to the confirmation claim.
+   There might be many subject claims and many confirmation keys that
+   identify the same entity or that are controlled by the same entity,
+   while the identifiers and keys are distinct values.  Reusing an
+   identifier or key enables traceability, but MUST be evaluated in
+   terms of the confidential and privacy constraints associated with the
+   credential type.  Conceptually, the Holder is both the issuer and the
+   subject of the SD-KBT, even if the issuer or subject claims are not
+   present.  If they are present, they are self-asserted by the Holder.
+   All three are represented by the confirmation (public) key in the SD-
+   CWT.
+
+   As with any self-assigned identifiers, Verifiers need to take care to
+   verify that the SD-KBT issuer and subject claims match the subject in
+   the SD-KBT, and are a valid representation of the Holder and
+   correspond to the Holder's confirmation key.  Extra care should be
+   taken in case the SD-CWT subject claim is redacted.  Likewise,
+   Holders and Verifiers need to verify that the issuer claim of the SD-
+   CWT corresponds to the Issuer and the key described in the protected
+   header of the SD-CWT.
 
 15.  IANA Considerations
 
@@ -1333,7 +1431,9 @@ sd-payload = {
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
     ? &(iat: 6) ^ => int,  ; 1683000000
+    ? &(cti: 7) ^ => bstr,
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
+    ? &(cnonce: 39) ^ => bstr,
     ;
     ? &(redacted_claim_keys: TBD3) ^ => [ * bstr ],
     * key => any
@@ -1370,7 +1470,7 @@ TBD2 = 18
 TBD4 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
 ;TBD5 = #6.60( bstr ) ;redacted_claim_element
 
-           Figure 2: A complete CDDL description of SD-CWT
+           Figure 6: A complete CDDL description of SD-CWT
 
 Appendix B.  Comparison to SD-JWT
 
@@ -1510,11 +1610,14 @@ D.1.  draft-ietf-spice-sd-cwt-03
    *  remove bstr encoding from sd_claims array (but not the individual
       disclosures)
 
-   *  improve the example on computing a disclosure
+   *  clarify which claims are optional/mandatory
 
-   *  clarify optional vs. mandatory claims
+   *  correct that an SD-CWT may have zero redacted claims
 
-   *  clarify that claimsets cannot contain duplicate map keys
+   *  improve the walkthrough of computing a disclosure
+
+   *  clarify that duplicate map keys are not allowed, and how tagged
+      keys are represented.
 
 D.2.  draft-ietf-spice-sd-cwt-02
 
