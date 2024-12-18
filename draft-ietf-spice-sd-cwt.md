@@ -740,7 +740,10 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
 ## Binding the KBT and the CWT
 
 The issuer claim in the SD-CWT is self-asserted by the issuer.
-The subject claim of the SD-CWT is the Holder.
+
+Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.
+There might be many subject claims and many confirmation keys that identify the same entity or that are controlled by the same entity, while the identifiers and keys are distinct values.
+Reusing an identifier or key enables traceability, but MUST be evaluated in terms of the confidential and privacy constraints associated with the credential type.
 Conceptually, the Holder is both the issuer and the subject of the SD-KBT, even if the issuer or subject claims are not present.
 If they are present, they are self-asserted by the Holder.
 All three are represented by the confirmation (public) key in the SD-CWT.
