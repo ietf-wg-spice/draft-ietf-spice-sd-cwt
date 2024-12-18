@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 16 June 2025                                        H. Birkholz
+Expires: 21 June 2025                                        H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                        13 December 2024
+                                                        18 December 2024
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 June 2025.
+   This Internet-Draft will expire on 21 June 2025.
 
 Copyright Notice
 
@@ -1051,12 +1051,20 @@ Issuer                           Holder                         Verifier
 
 14.2.  Binding the KBT and the CWT
 
-   The issuer claim in the SD-CWT is self-asserted by the issuer.  The
-   subject claim of the SD-CWT is the Holder.  Conceptually, the Holder
-   is both the issuer and the subject of the SD-KBT, even if the issuer
-   or subject claims are not present.  If they are present, they are
-   self-asserted by the Holder.  All three are represented by the
-   confirmation (public) key in the SD-CWT.
+   The issuer claim in the SD-CWT is self-asserted by the issuer.
+
+   Because confirmation is mandatory, the subject claim of an SD-CWT,
+   when present, is always related directly to the confirmation claim.
+   There might be many subject claims and many confirmation keys that
+   identify the same entity or that are controlled by the same entity,
+   while the identifiers and keys are distinct values.  Reusing an
+   identifier or key enables traceability, but MUST be evaluated in
+   terms of the confidential and privacy constraints associated with the
+   credential type.  Conceptually, the Holder is both the issuer and the
+   subject of the SD-KBT, even if the issuer or subject claims are not
+   present.  If they are present, they are self-asserted by the Holder.
+   All three are represented by the confirmation (public) key in the SD-
+   CWT.
 
    As with any self-assigned identifiers, Verifiers need to take care to
    verify that the SD-KBT issuer and subject claims match the subject in

@@ -20,15 +20,15 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
 <meta content="draft-ietf-spice-sd-cwt-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.25.0
-    Python 3.12.7
+    Python 3.12.8
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.4
     lxml 5.3.0
     platformdirs 4.3.6
-    pycountry 22.3.5
-    PyYAML 6.0.1
+    pycountry 24.6.1
+    PyYAML 6.0.2
     requests 2.32.3
     setuptools 70.3.0
     wcwidth 0.2.13
@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 16 June 2025</td>
+<td class="center">Expires 21 June 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfcRFC8392" class="eref">RFC8392</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-12-13" class="published">13 December 2024</time>
+<time datetime="2024-12-18" class="published">18 December 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-06-16">16 June 2025</time></dd>
+<dd class="expires"><time datetime="2025-06-21">21 June 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1138,7 +1138,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 June 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 June 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2297,14 +2297,16 @@ Poor choice of salts can lead to brute force attacks that can reveal redacted cl
         <h3 id="name-binding-the-kbt-and-the-cwt">
 <a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-binding-the-kbt-and-the-cwt" class="section-name selfRef">Binding the KBT and the CWT</a>
         </h3>
-<p id="section-14.2-1">The issuer claim in the SD-CWT is self-asserted by the issuer.
-The subject claim of the SD-CWT is the Holder.
+<p id="section-14.2-1">The issuer claim in the SD-CWT is self-asserted by the issuer.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.2-2">Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.
+There might be many subject claims and many confirmation keys that identify the same entity or that are controlled by the same entity, while the identifiers and keys are distinct values.
+Reusing an identifier or key enables traceability, but <span class="bcp14">MUST</span> be evaluated in terms of the confidential and privacy constraints associated with the credential type.
 Conceptually, the Holder is both the issuer and the subject of the SD-KBT, even if the issuer or subject claims are not present.
 If they are present, they are self-asserted by the Holder.
-All three are represented by the confirmation (public) key in the SD-CWT.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
-<p id="section-14.2-2">As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT issuer and subject claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
+All three are represented by the confirmation (public) key in the SD-CWT.<a href="#section-14.2-2" class="pilcrow">¶</a></p>
+<p id="section-14.2-3">As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT issuer and subject claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
 Extra care should be taken in case the SD-CWT subject claim is redacted.
-Likewise, Holders and Verifiers need to verify that the issuer claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.<a href="#section-14.2-2" class="pilcrow">¶</a></p>
+Likewise, Holders and Verifiers need to verify that the issuer claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.<a href="#section-14.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
