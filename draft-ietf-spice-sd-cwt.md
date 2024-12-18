@@ -431,7 +431,7 @@ Multiple levels of tags in a key are not permitted.
 
 # SD-CWT definition
 
-SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with the value "application/sd-cwt" in the SD-CWT.
+SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with either a text value "application/sd-cwt" or an uint value of "C-F-TBD" in the SD-CWT.
 
 An SD-CWT is a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
 It is not required to contain any blinded claims.
@@ -535,7 +535,7 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd+cwt",
+   &(typ: 16) ^ => "application/sd+cwt" / uint, ; TODO: IANA request
    &(alg: 1) ^ => int,
    &(sd_alg: 18) ^= int,             ; -16 for sha-256
    * key => any
