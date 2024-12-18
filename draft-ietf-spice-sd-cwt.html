@@ -1627,8 +1627,7 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
     / sd_alg / 18 : -16  / SHA256 /
   } &gt;&gt;,
   / unprotected / {
-    / sd_claims / 17 : / these are all the disclosures /
-    &lt;&lt;[
+    / sd_claims / 17 : [ / these are all the disclosures /
         &lt;&lt;[
             /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
             /claim/  501,  / inspector_license_number /
@@ -1652,7 +1651,7 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
             /claim/  "postal_code",
             /value/  "94188"
         ]&gt;&gt;
-    ]&gt;&gt;
+    ]
   },
   / payload / &lt;&lt; {
     / iss / 1  : "https://issuer.example",
@@ -1772,7 +1771,7 @@ Redacted claims which are array elements are handled slightly differently, as de
 <div class="lang-cbor-diag sourcecode" id="section-4-3">
 <pre>
 / sd_claims / 17 : /just the disclosures chosen by the Holder/
-&lt;&lt;[
+[
     &lt;&lt;[
         /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
         /claim/  501,  / inspector_license_number /
@@ -1787,7 +1786,7 @@ Redacted claims which are array elements are handled slightly differently, as de
         /claim/  "region",
         /value/  "ca" /California/
     ]&gt;&gt;
-]&gt;&gt;
+]
 </pre><a href="#section-4-3" class="pilcrow">¶</a>
 </div>
 <p id="section-4-4">The Holder <span class="bcp14">MAY</span> fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the method described in <span>[<a href="#I-D.ietf-httpbis-unprompted-auth" class="cite xref">I-D.ietf-httpbis-unprompted-auth</a>]</span>.<a href="#section-4-4" class="pilcrow">¶</a></p>
@@ -1978,7 +1977,7 @@ sd-protected = {
 }
 
 sd-unprotected = {
-   ? &amp;(sd_claims: 17) ^ =&gt; bstr .cbor salted-array,
+   ? &amp;(sd_claims: 17) ^ =&gt; salted-array,
    * key =&gt; any
 }
 
@@ -2158,7 +2157,7 @@ Further validation logic can be applied to the Validated Disclosed Claimset, as 
             / sd_alg / 18 : -16  / SHA256 /
           } &gt;&gt;,
           / CWT unprotected / {
-            / sd_claims / 17 : &lt;&lt;[  /these are the disclosures/
+            / sd_claims / 17 : [  /these are the disclosures/
                 &lt;&lt;[
                     /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
                     /claim/  501,  / inspector_license_number /
@@ -2173,7 +2172,7 @@ Further validation logic can be applied to the Validated Disclosed Claimset, as 
                     /claim/  "region",
                     /value/  "ca" /California/
                 ]&gt;&gt;
-            ]&gt;&gt;,
+            ],
           },
           / CWT payload / &lt;&lt; {
             / iss / 1   : "https://issuer.example",
@@ -2785,7 +2784,7 @@ kbt-protected = {
 }
 
 sd-unprotected = {
-   ? &amp;(sd_claims: TBD1) ^ =&gt; bstr .cbor salted-array,
+   ? &amp;(sd_claims: TBD1) ^ =&gt; salted-array,
    * key =&gt; any
 }
 
@@ -3040,16 +3039,19 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-D.1-1.1">
-            <p id="appendix-D.1-1.1.1">clarify which claims are optional/mandatory<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.1.1">remove bstr encoding from sd_claims array (but not the individual disclosures)<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.2">
-            <p id="appendix-D.1-1.2.1">correct that an SD-CWT may have zero redacted claims<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.2.1">clarify which claims are optional/mandatory<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.3">
-            <p id="appendix-D.1-1.3.1">improve the walkthrough of computing a disclosure<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.3.1">correct that an SD-CWT may have zero redacted claims<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.4">
-            <p id="appendix-D.1-1.4.1">clarify that duplicate map keys are not allowed, and how tagged keys are represented.<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.4.1">improve the walkthrough of computing a disclosure<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.5">
+            <p id="appendix-D.1-1.5.1">clarify that duplicate map keys are not allowed, and how tagged keys are represented.<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
