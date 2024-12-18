@@ -236,8 +236,7 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
     / sd_alg / 18 : -16  / SHA256 /
   } >>,
   / unprotected / {
-    / sd_claims / 17 : / these are all the disclosures /
-    <<[
+    / sd_claims / 17 : [ / these are all the disclosures /
         <<[
             /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
             /claim/  501,  / inspector_license_number /
@@ -261,7 +260,7 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
             /claim/  "postal_code",
             /value/  "94188"
         ]>>
-    ]>>
+    ]
   },
   / payload / << {
     / iss / 1  : "https://issuer.example",
@@ -336,7 +335,7 @@ For example, Alice decides to disclose to a verifier the `inspector_license_numb
 
 ~~~ cbor-diag
 / sd_claims / 17 : /just the disclosures chosen by the Holder/
-<<[
+[
     <<[
         /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
         /claim/  501,  / inspector_license_number /
@@ -351,7 +350,7 @@ For example, Alice decides to disclose to a verifier the `inspector_license_numb
         /claim/  "region",
         /value/  "ca" /California/
     ]>>
-]>>
+]
 ~~~
 
 The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the method described in {{?I-D.ietf-httpbis-unprompted-auth}}.
@@ -497,7 +496,7 @@ sd-protected = {
 }
 
 sd-unprotected = {
-   ? &(sd_claims: 17) ^ => bstr .cbor salted-array,
+   ? &(sd_claims: 17) ^ => salted-array,
    * key => any
 }
 
@@ -979,6 +978,13 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 # Document History
 
 Note: RFC Editor, please remove this entire section on publication.
+
+## draft-ietf-spice-sd-cwt-03
+
+- remove bstr encoding from sd_claims array (but not the individual disclosures)
+- improve the example on computing a disclosure
+- clarify optional vs. mandatory claims
+- clarify that claimsets cannot contain duplicate map keys
 
 ## draft-ietf-spice-sd-cwt-02
 
