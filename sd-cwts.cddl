@@ -45,7 +45,9 @@ sd-payload = {
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
     ? &(iat: 6) ^ => int,  ; 1683000000
+    ? &(cti: 7) ^ => bstr,
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
+    ? &(cnonce: 39) ^ => bstr,
     ;
     ? &(redacted_claim_keys: TBD3) ^ => [ * bstr ],
     * key => any   
