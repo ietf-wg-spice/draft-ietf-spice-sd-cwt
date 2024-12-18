@@ -745,14 +745,15 @@ Security considerations from COSE {(RFC9052)} and CWT {{RFC8392}} apply to this 
 Verification of an SD-CWT requires that the verifier have access to a verification key (public key) that is associated with the issuer.
 Compromise of the issuer's signing key enables an attacker to forge credentials for any subject associated with the issuer.
 Certificate transparency as described in {{-CT}}, or key transparency as described in {{-KT}} can enable the observation of missued certificates or fraudulent bindings between verification keys and issuer identifiers.
-Issuer's choose which claims to include an SD-CWT, and whether they are mandatory to disclose including self asserted claims such as "iss".
+Issuer's choose which claims to include in an SD-CWT, and whether they are mandatory to disclose, including self asserted claims such as "iss".
 All mandatory to disclose data elements are visible to the verifier as part of verification, some of these elements reveal information about the issuer, such as key or certificate thumbprints, supported digital signature algorithms, or operational windows which can be inferred from analysis of timestamps.
 
 ## Traceability
 
 Presentations of the same SD-CWT to multiple verifiers can be correlated by matching on the signature component of the COSE_Sign1.
 Signature based linkability can be mitigated by leveraging batch issuance of single use tokens, for a credential management complexity cost.
-Any claim value with succiently low anonymity set can be used track the subject, for example, a high precision issuance time might match the issuance of only a few credentials for a given issuer, and as such any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
+Any claim value with sufficiently low anonymity set can be used track the subject.
+For example, a high precision issuance time might match the issuance of only a few credentials for a given issuer, and as such any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
 
 ## Credential Types
 
