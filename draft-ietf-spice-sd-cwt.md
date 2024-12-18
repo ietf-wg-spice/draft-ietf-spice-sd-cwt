@@ -60,6 +60,15 @@ normative:
 informative:
   I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
+  RFC9162: CT
+  I-D.draft-ietf-keytrans-protocol: KT
+  t-Closeness:
+    target: https://ieeexplore.ieee.org/document/4221659
+    title: "t-Closeness: Privacy Beyond k-Anonymity and l-Diversity"
+    date: 2007-06-04
+
+
+
 ---
 
 --- abstract
@@ -730,6 +739,51 @@ Contact: Orie Steele (orie@transmute.industries)
 # Security Considerations
 
 Security considerations from COSE {(RFC9052)} and CWT {{RFC8392}} apply to this specification.
+
+## Transparency
+
+Verification of an SD-CWT requires that the verifier have access to a verification key (public key) that is associated with the issuer.
+Compromise of the issuer's signing key enables an attacker to forge credentials for any subject associated with the issuer.
+Certificate transparency as described in {{-CT}}, or key transparency as described in {{-KT}} can enable the observation of missued certificates or fraudulent bindings between verification keys and issuer identifiers.
+Issuer's choose which claims to include an SD-CWT, and whether they are mandatory to disclose including self asserted claims such as "iss".
+All mandatory to disclose data elements are visible to the verifier as part of verification, some of these elements reveal information about the issuer, such as key or certificate thumbprints, supported digital signature algorithms, or operational windows which can be inferred from analysis of timestamps.
+
+## Traceability
+
+Presentations of the same SD-CWT to multiple verifiers can be correlated by matching on the signature component of the COSE_Sign1.
+Signature based linkability can be mitigated by leveraging batch issuance of single use tokens, for a credential management complexity cost.
+Any claim value with succiently low anonymity set can be used track the subject, for example, a high precision issuance time might match the issuance of only a few credentials for a given issuer, and as such any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
+
+## Credential Types
+
+The mandatory and optional to disclose data elements in an SD-CWT are credential type specific.
+Several distinct credential types might be applicable to a given use case.
+Issuer's MUST perform a privacy and confidentiality assessment regarding each credential type they intend to issue prior to issuance.
+
+## Threat Model
+
+Each use case will have a unique threat model which MUST be considered before the applicability of SD-CWT based credential types can be determined.
+This section provides a non exahustive list of topics to be consider when developing a threat model for applying SD-CWT to a given use case.
+
+Has there been a t-closeness, k-anonymity and l-diverity assessment (see {{t-Closeness}}) assuming compromise of the one or more issuers, verifiers or holders, for all relevant credential types?
+
+How many issuers exist for the credential type?
+Is the size of the set of issuers growing or shrinking over time?
+For a given credential type, will subjects be able to hold instances of the same credential type from multiple issuers, or just a single issuer?
+Does the credential type require or offer the ability to disclose a globally unique identifier?
+Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject.
+Does the credential type contain PII, or other sensitive information which might have value in a market.
+
+How many verifiers exist for the credential type?
+Is the size of the set of verifiers growing or shrinking over time?
+Are the verifiers a superset, subset, or disjoint set of the issuers or subjects?
+Are there any legally required reporting or disclosure requirements associated with the verifiers?
+Is there reason to believe that a verifier's historic data will be aggregated and analyzed?
+Assuming multiple verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
+
+How many subjects exist for the credential type?
+Is the size of the set of subjects growing or shrinking over time?
+Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of a specific device or subscribers to a given service.
 
 ## Random Numbers
 
