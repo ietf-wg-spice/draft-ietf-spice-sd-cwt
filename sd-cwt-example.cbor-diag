@@ -10,7 +10,7 @@
             / sd_alg / 18 : -16  / SHA256 /
           } >>,
           / CWT unprotected / {
-            / sd_claims / 17 : <<[  /these are the disclosures/
+            / sd_claims / 17 : [  /these are the disclosures/
                 <<[
                     /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
                     /claim/  501,  / inspector_license_number /
@@ -25,7 +25,7 @@
                     /claim/  "region",
                     /value/  "ca" /California/
                 ]>>
-            ]>>,
+            ],
           },
           / CWT payload / << {
             / iss / 1   : "https://issuer.example",
