@@ -744,7 +744,7 @@ Security considerations from COSE {(RFC9052)} and CWT {{RFC8392}} apply to this 
 
 Verification of an SD-CWT requires that the verifier have access to a verification key (public key) that is associated with the issuer.
 Compromise of the issuer's signing key enables an attacker to forge credentials for any subject associated with the issuer.
-Certificate transparency as described in {{-CT}}, or key transparency as described in {{-KT}} can enable the observation of missued certificates or fraudulent bindings between verification keys and issuer identifiers.
+Certificate transparency as described in {{-CT}}, or key transparency as described in {{-KT}} can enable the observation of incorrectly issued certificates or fraudulent bindings between verification keys and issuer identifiers.
 Issuer's choose which claims to include in an SD-CWT, and whether they are mandatory to disclose, including self asserted claims such as "iss".
 All mandatory to disclose data elements are visible to the verifier as part of verification, some of these elements reveal information about the issuer, such as key or certificate thumbprints, supported digital signature algorithms, or operational windows which can be inferred from analysis of timestamps.
 
