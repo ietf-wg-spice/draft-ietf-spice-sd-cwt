@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 21 June 2025                                        H. Birkholz
+Expires: 22 June 2025                                        H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                        18 December 2024
+                                                        19 December 2024
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 June 2025.
+   This Internet-Draft will expire on 22 June 2025.
 
 Copyright Notice
 
@@ -1052,10 +1052,10 @@ Issuer                           Holder                         Verifier
    credentials for any subject associated with the issuer.  Certificate
    transparency as described in [RFC9162], or key transparency as
    described in [I-D.draft-ietf-keytrans-protocol] can enable the
-   observation of missued certificates or fraudulent bindings between
-   verification keys and issuer identifiers.  Issuer's choose which
-   claims to include in an SD-CWT, and whether they are mandatory to
-   disclose, including self asserted claims such as "iss".  All
+   observation of incorrectly issued certificates or fraudulent bindings
+   between verification keys and issuer identifiers.  Issuer's choose
+   which claims to include in an SD-CWT, and whether they are mandatory
+   to disclose, including self asserted claims such as "iss".  All
    mandatory to disclose data elements are visible to the verifier as
    part of verification, some of these elements reveal information about
    the issuer, such as key or certificate thumbprints, supported digital
