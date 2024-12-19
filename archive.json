@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-17T00:46:44.566893+00:00",
+  "timestamp": "2024-12-19T00:45:02.289013+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -195,7 +195,7 @@
       "id": "I_kwDOMm_Q2s6WuDG5",
       "title": "Optional vs. mandatory claims?",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/14",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -206,8 +206,8 @@
       ],
       "body": "The standard claims (iss, sub, iat, exp, nbf, etc.) in CBOR Web Token largely reference the semantics of the corresponding claims in JSON Web Token, which makes all the claims optional. Which of the standard claims do we want to make mandatory or optional?\r\n\r\n## Summary of standard claims in SD-CWT and SD-KBT\r\n\r\n### issuer (iss / 1)\r\nThis is currently mandatory in the SD-CWT and optional in the SD-KBT.\r\n\r\n### subject (sub / 2)\r\nCurrently mandatory in the SD-CWT and optional in the SD-KBT. \r\n\r\n### audience (aud / 3)\r\nCurrently optional in the SD-CWT and mandatory in the SD-KBT. Use of an SD-CWT with no audience, or a different/less specific audience than the SD-KBT, is a requirement for use inside MLS credentials.\r\n\r\n### expiration (exp / 4)\r\nThis is currently optional in the SD-CWT, but I think it should be mandatory in both.\r\n\r\n### not-before (nbf / 5)\r\nCurrent optional in both.\r\n\r\n### issued-at (iat / 6)\r\nCurrently mandatory in both. I think this is fine, but we could potentially relax this to require either iat or cti\r\n\r\n### cwt token id (cti / 7)\r\nCurrently optional. See comment above.  \r\n\r\n### key confirmation (cnf / 8)\r\nMandatory in SD-CWT. Not present in SD-KBT.\r\n\r\n### client nonce (cnonce / 39)\r\nCurrently mandatory in SD-KBT and optional in SD-CWT.\r\n\r\n### disclosures-hash (sd_hash / TBD3)\r\nCurrently mandatory in both. Recommend removing from SD-CWT as discussed in issue #10\r\n\r\n### disclosures hash algorithm (sd_alg / TBD4)\r\nMandatory in SD-CWT. Not present in SD-KBT.\r\n\r\n## Proposed changes\r\n - Add expiration (exp / 4) as mandatory in SD-CWT\r\n - Remove sd_hash from SD-CWT as discussed in #10 \r\n\r\n",
       "createdAt": "2024-09-16T14:31:52Z",
-      "updatedAt": "2024-12-04T14:31:28Z",
-      "closedAt": null,
+      "updatedAt": "2024-12-18T14:20:10Z",
+      "closedAt": "2024-12-18T14:20:10Z",
       "comments": [
         {
           "author": "OR13",
@@ -222,6 +222,13 @@
           "body": "Add (optional) cti to the CDDL. \r\ncnonce in KBT is a SHOULD not a MUST\r\nRefactored all the claims defined in this document.",
           "createdAt": "2024-12-04T14:31:26Z",
           "updatedAt": "2024-12-04T14:31:26Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed",
+          "createdAt": "2024-12-18T14:20:10Z",
+          "updatedAt": "2024-12-18T14:20:10Z"
         }
       ]
     },
@@ -320,7 +327,7 @@
       "id": "I_kwDOMm_Q2s6bMcTE",
       "title": "Example of computing a disclosure",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/22",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -331,8 +338,8 @@
       ],
       "body": "Per comment on this list: https://mailarchive.ietf.org/arch/msg/spice/2zCXJoEK2vjiU--Y1s1GFqVu6A8/\r\n\r\nIt would be nice to show a simple example inline here.",
       "createdAt": "2024-10-21T21:44:49Z",
-      "updatedAt": "2024-12-04T14:35:40Z",
-      "closedAt": null,
+      "updatedAt": "2024-12-18T14:20:50Z",
+      "closedAt": "2024-12-18T14:20:50Z",
       "comments": [
         {
           "author": "OR13",
@@ -347,6 +354,13 @@
           "body": "Partially done, but example could be more explicit.",
           "createdAt": "2024-12-04T14:35:35Z",
           "updatedAt": "2024-12-04T14:35:35Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed",
+          "createdAt": "2024-12-18T14:20:50Z",
+          "updatedAt": "2024-12-18T14:20:50Z"
         }
       ]
     },
@@ -366,7 +380,7 @@
       ],
       "body": "An issuer could exploit map key ordering to signal information regarding redaction.\r\nProbably using a high precision datetime is an easier path to this, but it is worth documenting as a privacy consideration, and perhaps we should recommend CDE",
       "createdAt": "2024-10-23T13:50:55Z",
-      "updatedAt": "2024-12-04T14:37:01Z",
+      "updatedAt": "2024-12-18T20:07:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -375,6 +389,13 @@
           "body": "Add map key key ordering and fingerprinting in claim values to privacy considerations... and ping nick doty for any other considerations we can port from sd-jwt / iso mdoc",
           "createdAt": "2024-12-04T14:37:01Z",
           "updatedAt": "2024-12-04T14:37:01Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "PR is up here: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/42",
+          "createdAt": "2024-12-18T20:07:36Z",
+          "updatedAt": "2024-12-18T20:07:36Z"
         }
       ]
     },
@@ -414,7 +435,7 @@
       "id": "I_kwDOMm_Q2s6caI9s",
       "title": "Clarify that SD Claimset can or cannot contain duplicate map keys",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/25",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -425,8 +446,8 @@
       ],
       "body": "",
       "createdAt": "2024-10-30T13:24:16Z",
-      "updatedAt": "2024-12-04T14:41:39Z",
-      "closedAt": null,
+      "updatedAt": "2024-12-18T14:21:08Z",
+      "closedAt": "2024-12-18T14:21:08Z",
       "comments": [
         {
           "author": "OR13",
@@ -434,6 +455,13 @@
           "body": "It cannot, as discussed at the mic at ietf 121.\r\n\r\nLets put one line in the document that says \"maps cannot have duplicate keys, and a reminder that tagged keys are considered distinct from their untagged cousins\"",
           "createdAt": "2024-12-04T14:41:32Z",
           "updatedAt": "2024-12-04T14:41:32Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed",
+          "createdAt": "2024-12-18T14:21:08Z",
+          "updatedAt": "2024-12-18T14:21:08Z"
         }
       ]
     },
@@ -500,7 +528,7 @@
       ],
       "body": "Privacy considerations are currently missing from this draft, but could use some extensive documentation.\r\n\r\nBut most urgently, the draft should be clear about whether selective disclosure also reveals linkability across different verifiers, or not. What is revealed about the issuer is also a separate disclosure, as well as a potential source of linkability. It sounds like there might be some significant use cases where linkability and selective disclosure is desirable, though age verification might not be one like that.\r\n\r\nFor many use cases, particularly on the web, linkability across verifiers (or between colluding verifier and issuer) is a particular privacy concern and unlinkability is a desirable property. The draft should make it clear which properties are provided.",
       "createdAt": "2024-11-05T13:39:25Z",
-      "updatedAt": "2024-12-05T08:03:47Z",
+      "updatedAt": "2024-12-18T20:07:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -537,6 +565,13 @@
           "body": "In  SD-JWT an issue 516 has  been raised but immediately closed preventing any discussion on it.\r\n It was proposing to add a new section called \"End-User intrackability\" \r\n(https://github.com/oauth-wg/oauth-selective-disclosure-jwt/issues/516)\r\n\r\nThis wording might be used but I recently found another possible wording \"Unobservability\".\r\n\r\nIt is present in a paper called \"Architecture Proposal for the German eIDAS Implementation\"\r\nhttps://gitlab.opencode.de/bmi/eudi-wallet/eidas-2.0-architekturkonzept/-/blob/main/architecture-proposal.md\r\n\r\nThe wording \"Unobservability\" is used in it . It is defined as follows:\r\n\r\n> \r\n> **Unobservability**\r\n> Unobservability refers to the property where an adversary cannot discern any useful information about a communication or transaction. This ensures that sensitive data, such as message content, sender or receiver identity, or any other relevant information, remains hidden from unauthorized parties. In this context, **neither Wallet Providers nor Issuers shall be able to track** where a user uses their credentials or learn details concerning the attributes provided.\r\n\r\nIt is important of not overloading the meaning of the word unlinkability, as it is currently the case in SD-JWT, and avoid the use of terms that are too long and not easily understandable :\r\n\r\n```\r\nIssuer/Verifier Unlinkability (Honest Verifier): \r\nIssuer/Verifier Unlinkability (Colluding/Compromised Verifier)\r\n```\r\n\r\n",
           "createdAt": "2024-12-05T08:03:45Z",
           "updatedAt": "2024-12-05T08:03:45Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "PR is up here: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/42",
+          "createdAt": "2024-12-18T20:07:23Z",
+          "updatedAt": "2024-12-18T20:07:23Z"
         }
       ]
     },
@@ -548,13 +583,15 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
         "blocked"
       ],
       "body": "See the [issue](https://github.com/ietf-wg-mediaman/6838bis/issues/9) on [draft-mediaman-6838bis](https://datatracker.ietf.org/doc/draft-mediaman-6838bis/) \r\n\r\nAlso copying comments from @martinthomson here:\r\n>Recent documents that I've gotten through publication look like this:\r\n\r\n```\r\n   Person and email address to contact for further information:\r\n      See Authors' Addresses section\r\n```\r\n\r\n>Separately, please see the source of RFC 9458 for a better media type registration template:  https://github.com/ietf-wg-ohai/oblivious-http/blob/main/draft-ietf-ohai-ohttp.md",
       "createdAt": "2024-11-19T13:44:01Z",
-      "updatedAt": "2024-12-04T14:44:10Z",
+      "updatedAt": "2024-12-18T15:05:56Z",
       "closedAt": null,
       "comments": []
     },
@@ -566,13 +603,76 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "henkbirkholz"
+      ],
       "labels": [],
       "body": "The COSE `typ` header can specify either a text string media format, or a uint16 from the [CoAP Content Formats Registry](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats). Do we want to pre-emptively register SD-CWT and SD-KBT media types in the IETF Review range (256-9999) [1] so they can be referred to in COSE by integer?\r\n\r\n[1] see Table 10 in [RFC7252, Section 12.3](https://www.rfc-editor.org/rfc/rfc7252.html#section-12.3)",
       "createdAt": "2024-12-13T18:18:45Z",
-      "updatedAt": "2024-12-13T18:18:45Z",
+      "updatedAt": "2024-12-18T15:05:47Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 38,
+      "id": "I_kwDOMm_Q2s6jx3EK",
+      "title": "No def/reg of c-f and corresponding typ usage",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/38",
+      "state": "OPEN",
+      "author": "henkbirkholz",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "henkbirkholz"
+      ],
+      "labels": [],
+      "body": "Mainly in Section 6 and in Section 15",
+      "createdAt": "2024-12-18T13:00:36Z",
+      "updatedAt": "2024-12-18T14:22:33Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "need to remove the MUST use typ, and allow use of uint CF, to resolve this",
+          "createdAt": "2024-12-18T14:21:14Z",
+          "updatedAt": "2024-12-18T14:21:14Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@henkbirkholz close this one in the same PR: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/37",
+          "createdAt": "2024-12-18T14:22:32Z",
+          "updatedAt": "2024-12-18T14:22:32Z"
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "id": "I_kwDOMm_Q2s6jym1_",
+      "title": "Remove outer cbor bstr encoding of sd_claims",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/40",
+      "state": "CLOSED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
+      "body": "sd_claims = [ ] instead of <<[ ]>>",
+      "createdAt": "2024-12-18T14:19:49Z",
+      "updatedAt": "2024-12-18T15:05:17Z",
+      "closedAt": "2024-12-18T15:05:17Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed in #41 ",
+          "createdAt": "2024-12-18T15:05:17Z",
+          "updatedAt": "2024-12-18T15:05:17Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -2960,24 +3060,26 @@
       "id": "PR_kwDOMm_Q2s6EwbUI",
       "title": "Rohan's issues ready for PR",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/36",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses Issues:\r\n- #14 \r\n- #22 \r\n- #25 \r\n",
       "createdAt": "2024-12-10T19:54:22Z",
-      "updatedAt": "2024-12-13T16:20:45Z",
+      "updatedAt": "2024-12-18T14:18:19Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7e7756adb97503c05d6d36c41e0938e5e35a5aec",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "rohan/10-dec",
-      "headRefOid": "233a4fb04eac5352eb2b9cf59f9f8ff6e224e860",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "3f881b7286e75a5ec7f3877d11fe854f82e6b94f",
+      "closedAt": "2024-12-18T14:18:19Z",
+      "mergedAt": "2024-12-18T14:18:19Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "83aadd03eb24891a26e9119c805df3119d9de844"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3279,8 +3381,244 @@
               "updatedAt": "2024-12-13T16:20:46Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6VuFBt",
+          "commit": {
+            "abbreviatedOid": "233a4fb"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-18T13:46:28Z",
+          "updatedAt": "2024-12-18T13:46:28Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "Yeah, I could be convinced on this.\r\n\r\nMy reasoning is similar to the feeling of processing COSE headers.\r\n\r\nI decode a cose-sign1, and the protected header is ready to use as bytes, for example as aead aad.\r\n\r\nThen if / when I need parameters inside I decode the protected header.\r\n\r\nIn our case, we need to compute hashes on these disclosures right away, so if they decode as arrays, then will need to be re-encoded to produce the hashes.\r\n\r\nWe maybe don't need the outer encoding now that we don't had sd_hash in kbt... so instead of:\r\n\r\n```\r\n/ sd_claims / 17 : /just the disclosures chosen by the Holder/\r\n<<[\r\n    <<[\r\n        /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',\r\n        /claim/  501,  / inspector_license_number /\r\n        /value/  \"ABCD-123456\"\r\n    ]>>,\r\n    <<[\r\n        /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',\r\n        /value/  1549560720  / inspected 7-Feb-2019 /\r\n    ]>>,\r\n    <<[\r\n        /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',\r\n        /claim/  \"region\",\r\n        /value/  \"ca\" /California/\r\n    ]>>\r\n]>>\r\n```\r\n\r\nWe would have:\r\n\r\n```\r\n/ sd_claims / 17 : / just the disclosures chosen by the Holder /\r\n[\r\n    <<[\r\n        /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',\r\n        /claim/  501,  / inspector_license_number /\r\n        /value/  \"ABCD-123456\"\r\n    ]>>,\r\n    <<[\r\n        /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',\r\n        /value/  1549560720  / inspected 7-Feb-2019 /\r\n    ]>>,\r\n    <<[\r\n        /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',\r\n        /claim/  \"region\",\r\n        /value/  \"ca\" /California/\r\n    ]>>\r\n]\r\n```\r\n\r\nI do think the first step of processing should be:\r\n\r\nsd_claims .map sd_hash_alg\r\nreduce decode sd_claim, so you end with the disclosures by hash value map, and are ready to begin processing the verified payload.\r\n",
+              "createdAt": "2024-12-18T13:46:28Z",
+              "updatedAt": "2024-12-18T13:48:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6VuKn8",
+          "commit": {
+            "abbreviatedOid": "233a4fb"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-18T13:55:32Z",
+          "updatedAt": "2024-12-18T13:55:33Z",
+          "comments": [
+            {
+              "originalPosition": 151,
+              "body": "This is actually unique to SD-CWT because key binding is mandatory.\r\nWe should probably say much more about this.\r\n\r\nPerhaps:\r\n\r\nBecause confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.\r\n\r\nThere might be many subject claims and many confirmation keys that identify the same entity or that are controlled by the same entity, while the identifiers and keys are distinct values.\r\n\r\nReusing an identifier or key enables traceability, but MUST be evaluated in terms of the confidential and privacy constraints associated with the credential type.",
+              "createdAt": "2024-12-18T13:55:33Z",
+              "updatedAt": "2024-12-18T13:55:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6VuLji",
+          "commit": {
+            "abbreviatedOid": "233a4fb"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-18T13:56:49Z",
+          "updatedAt": "2024-12-18T13:56:49Z",
+          "comments": [
+            {
+              "originalPosition": 156,
+              "body": "These are a good start, but we should probably tighten this a bit further.\r\nI don't have enough caffeine to help yet.",
+              "createdAt": "2024-12-18T13:56:49Z",
+              "updatedAt": "2024-12-18T13:56:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6VuLxT",
+          "commit": {
+            "abbreviatedOid": "233a4fb"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-12-18T13:57:02Z",
+          "updatedAt": "2024-12-18T13:57:02Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6VuXTt",
+          "commit": {
+            "abbreviatedOid": "233a4fb"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-18T14:11:53Z",
+          "updatedAt": "2024-12-18T14:11:53Z",
+          "comments": [
+            {
+              "originalPosition": 151,
+              "body": "```suggestion\r\nBecause confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.\r\n\r\nThere might be many subject claims and many confirmation keys that identify the same entity or that are controlled by the same entity, while the identifiers and keys are distinct values.\r\n\r\nReusing an identifier or key enables traceability, but MUST be evaluated in terms of the confidential and privacy constraints associated with the credential type.\r\n```",
+              "createdAt": "2024-12-18T14:11:53Z",
+              "updatedAt": "2024-12-18T14:11:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6VuYs-",
+          "commit": {
+            "abbreviatedOid": "233a4fb"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-18T14:13:58Z",
+          "updatedAt": "2024-12-18T14:13:58Z",
+          "comments": [
+            {
+              "originalPosition": 151,
+              "body": "```suggestion\r\n\r\nBecause confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.\r\nThere might be many subject claims and many confirmation keys that identify the same entity or that are controlled by the same entity, while the identifiers and keys are distinct values.\r\nReusing an identifier or key enables traceability, but MUST be evaluated in terms of the confidential and privacy constraints associated with the credential type.\r\n```",
+              "createdAt": "2024-12-18T14:13:58Z",
+              "updatedAt": "2024-12-18T14:13:59Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 39,
+      "id": "PR_kwDOMm_Q2s6FpWpk",
+      "title": "adding uint to typ usage desc and placeholder in cddl",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/39",
+      "state": "OPEN",
+      "author": "henkbirkholz",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "fixes #38 ",
+      "createdAt": "2024-12-18T13:06:21Z",
+      "updatedAt": "2024-12-18T13:40:40Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "7e7756adb97503c05d6d36c41e0938e5e35a5aec",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "typ-param-usage",
+      "headRefOid": "df455935bf1459aeb2ba88cdeffbbade095b976c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "still needs IANA req for c-f for completness",
+          "createdAt": "2024-12-18T13:06:57Z",
+          "updatedAt": "2024-12-18T13:06:57Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6VuBln",
+          "commit": {
+            "abbreviatedOid": "df45593"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-18T13:40:40Z",
+          "updatedAt": "2024-12-18T13:40:40Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "You should add the IANA request in the PR, so we don't need to merge a TODO into the draft.",
+              "createdAt": "2024-12-18T13:40:40Z",
+              "updatedAt": "2024-12-18T13:40:40Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 41,
+      "id": "PR_kwDOMm_Q2s6FqVMw",
+      "title": "remove outer cbor bstr encoding of sd_claims",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/41",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-12-18T14:59:51Z",
+      "updatedAt": "2024-12-18T15:04:47Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "83aadd03eb24891a26e9119c805df3119d9de844",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "sd_claims_single",
+      "headRefOid": "1bb6e48035b5af391a5c70ea525c453bf65ce086",
+      "closedAt": "2024-12-18T15:04:47Z",
+      "mergedAt": "2024-12-18T15:04:47Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "a1f54670dd40d23eaa73add4795697e1a40269e8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6Vu29x",
+          "commit": {
+            "abbreviatedOid": "7ff4d96"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-12-18T15:00:24Z",
+          "updatedAt": "2024-12-18T15:00:24Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 42,
+      "id": "PR_kwDOMm_Q2s6FsZva",
+      "title": "Add some initial text regarding security considerations",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/42",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses:\r\n\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/27\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/23",
+      "createdAt": "2024-12-18T20:00:54Z",
+      "updatedAt": "2024-12-18T20:04:47Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "a1f54670dd40d23eaa73add4795697e1a40269e8",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "security-considerations",
+      "headRefOid": "4c3f879ddec3939cd3625a1102b40ad2377fb202",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
