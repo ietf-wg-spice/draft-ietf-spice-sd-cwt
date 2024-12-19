@@ -759,7 +759,7 @@ For example, a high precision issuance time might match the issuance of only a f
 
 The mandatory and optional to disclose data elements in an SD-CWT are credential type specific.
 Several distinct credential types might be applicable to a given use case.
-Issuer's MUST perform a privacy and confidentiality assessment regarding each credential type they intend to issue prior to issuance.
+Issuers MUST perform a privacy and confidentiality assessment regarding each credential type they intend to issue prior to issuance.
 
 ## Threat Model
 
