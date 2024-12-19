@@ -773,7 +773,7 @@ Is the size of the set of issuers growing or shrinking over time?
 For a given credential type, will subjects be able to hold instances of the same credential type from multiple issuers, or just a single issuer?
 Does the credential type require or offer the ability to disclose a globally unique identifier?
 Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject.
-Does the credential type contain PII, or other sensitive information which might have value in a market.
+Does the credential type contain Personally Identifiable Information (PII), or other sensitive information which might have value in a market.
 
 How many verifiers exist for the credential type?
 Is the size of the set of verifiers growing or shrinking over time?
