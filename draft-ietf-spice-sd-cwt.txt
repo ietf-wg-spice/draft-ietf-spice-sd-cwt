@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 21 June 2025                                        H. Birkholz
+Expires: 22 June 2025                                        H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                        18 December 2024
+                                                        19 December 2024
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 June 2025.
+   This Internet-Draft will expire on 22 June 2025.
 
 Copyright Notice
 
@@ -98,8 +98,12 @@ Table of Contents
    13. Implementation Status
      13.1.  Transmute Prototype
    14. Security Considerations
-     14.1.  Random Numbers
-     14.2.  Binding the KBT and the CWT
+     14.1.  Transparency
+     14.2.  Traceability
+     14.3.  Credential Types
+     14.4.  Threat Model
+     14.5.  Random Numbers
+     14.6.  Binding the KBT and the CWT
    15. IANA Considerations
      15.1.  COSE Header Parameters
        15.1.1.  sd_claims
@@ -1040,7 +1044,86 @@ Issuer                           Holder                         Verifier
    Security considerations from COSE {(RFC9052)} and CWT [RFC8392] apply
    to this specification.
 
-14.1.  Random Numbers
+14.1.  Transparency
+
+   Verification of an SD-CWT requires that the verifier have access to a
+   verification key (public key) that is associated with the issuer.
+   Compromise of the issuer's signing key enables an attacker to forge
+   credentials for any subject associated with the issuer.  Certificate
+   transparency as described in [RFC9162], or key transparency as
+   described in [I-D.draft-ietf-keytrans-protocol] can enable the
+   observation of incorrectly issued certificates or fraudulent bindings
+   between verification keys and issuer identifiers.  Issuers choose
+   which claims to include in an SD-CWT, and whether they are mandatory
+   to disclose, including self asserted claims such as "iss".  All
+   mandatory to disclose data elements are visible to the verifier as
+   part of verification, some of these elements reveal information about
+   the issuer, such as key or certificate thumbprints, supported digital
+   signature algorithms, or operational windows which can be inferred
+   from analysis of timestamps.
+
+14.2.  Traceability
+
+   Presentations of the same SD-CWT to multiple verifiers can be
+   correlated by matching on the signature component of the COSE_Sign1.
+   Signature based linkability can be mitigated by leveraging batch
+   issuance of single use tokens, for a credential management complexity
+   cost.  Any claim value with sufficiently low "anonymity set" can be
+   used track the subject.  For example, a high precision issuance time
+   might match the issuance of only a few credentials for a given
+   issuer, and as such any presentation of a credential issued at that
+   time can be determined to be associated with the set of credentials
+   issued at that time, for those subjects.
+
+14.3.  Credential Types
+
+   The mandatory and optional to disclose data elements in an SD-CWT are
+   credential type specific.  Several distinct credential types might be
+   applicable to a given use case.  Issuers MUST perform a privacy and
+   confidentiality assessment regarding each credential type they intend
+   to issue prior to issuance.
+
+14.4.  Threat Model
+
+   Each use case will have a unique threat model which MUST be
+   considered before the applicability of SD-CWT based credential types
+   can be determined.  This section provides a non exahustive list of
+   topics to be consider when developing a threat model for applying SD-
+   CWT to a given use case.
+
+   Has there been a t-closeness, k-anonymity and l-diverity assessment
+   (see [t-Closeness]) assuming compromise of the one or more issuers,
+   verifiers or holders, for all relevant credential types?
+
+   How many issuers exist for the credential type?  Is the size of the
+   set of issuers growing or shrinking over time?  For a given
+   credential type, will subjects be able to hold instances of the same
+   credential type from multiple issuers, or just a single issuer?  Does
+   the credential type require or offer the ability to disclose a
+   globally unique identifier?  Does the credential type require high
+   precision time or other claims that have sufficient entropy such that
+   they can serve as a unique fingerprint for a specific subject.  Does
+   the credential type contain Personally Identifiable Information
+   (PII), or other sensitive information which might have value in a
+   market.
+
+   How many verifiers exist for the credential type?  Is the size of the
+   set of verifiers growing or shrinking over time?  Are the verifiers a
+   superset, subset, or disjoint set of the issuers or subjects?  Are
+   there any legally required reporting or disclosure requirements
+   associated with the verifiers?  Is there reason to believe that a
+   verifier's historic data will be aggregated and analyzed?  Assuming
+   multiple verifiers are simultaneously compromised, what knowledge
+   regarding subjects can be inferred from analyzing the resulting
+   dataset?
+
+   How many subjects exist for the credential type?  Is the size of the
+   set of subjects growing or shrinking over time?  Does the credential
+   type require specific hardware, or algorithms that limit the set of
+   possible subjects to owners of a specific device or subscribers to a
+   given service.
+
+14.5.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
    independently from the salts of other claims.  The salts MUST be
@@ -1048,7 +1131,7 @@ Issuer                           Holder                         Verifier
    Poor choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
-14.2.  Binding the KBT and the CWT
+14.6.  Binding the KBT and the CWT
 
    The issuer claim in the SD-CWT is self-asserted by the issuer.
 
@@ -1361,6 +1444,13 @@ Issuer                           Holder                         Verifier
 
 16.2.  Informative References
 
+   [I-D.draft-ietf-keytrans-protocol]
+              McMillion, B. and F. Linker, "Key Transparency Protocol",
+              Work in Progress, Internet-Draft, draft-ietf-keytrans-
+              protocol-00, 10 December 2024,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-
+              keytrans-protocol-00>.
+
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Credentials (SD-JWT VC)", Work in Progress,
@@ -1381,6 +1471,15 @@ Issuer                           Holder                         Verifier
               Draft, draft-ietf-httpbis-unprompted-auth-12, 19 September
               2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
               httpbis-unprompted-auth-12>.
+
+   [RFC9162]  Laurie, B., Messeri, E., and R. Stradling, "Certificate
+              Transparency Version 2.0", RFC 9162, DOI 10.17487/RFC9162,
+              December 2021, <https://www.rfc-editor.org/rfc/rfc9162>.
+
+   [t-Closeness]
+              "t-Closeness: Privacy Beyond k-Anonymity and l-Diversity",
+              4 June 2007,
+              <https://ieeexplore.ieee.org/document/4221659>.
 
 Appendix A.  Complete CDDL Schema
 
