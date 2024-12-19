@@ -1053,7 +1053,7 @@ Issuer                           Holder                         Verifier
    transparency as described in [RFC9162], or key transparency as
    described in [I-D.draft-ietf-keytrans-protocol] can enable the
    observation of incorrectly issued certificates or fraudulent bindings
-   between verification keys and issuer identifiers.  Issuer's choose
+   between verification keys and issuer identifiers.  Issuers choose
    which claims to include in an SD-CWT, and whether they are mandatory
    to disclose, including self asserted claims such as "iss".  All
    mandatory to disclose data elements are visible to the verifier as
