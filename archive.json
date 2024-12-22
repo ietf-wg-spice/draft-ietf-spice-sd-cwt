@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-19T00:45:02.289013+00:00",
+  "timestamp": "2024-12-22T00:46:45.558819+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3599,26 +3599,199 @@
       "id": "PR_kwDOMm_Q2s6FsZva",
       "title": "Add some initial text regarding security considerations",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/42",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses:\r\n\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/27\r\n- https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/23",
       "createdAt": "2024-12-18T20:00:54Z",
-      "updatedAt": "2024-12-18T20:04:47Z",
+      "updatedAt": "2024-12-19T18:33:56Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "a1f54670dd40d23eaa73add4795697e1a40269e8",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "security-considerations",
-      "headRefOid": "4c3f879ddec3939cd3625a1102b40ad2377fb202",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "da73f241a5034de30e368caa6ad4c7049e9b9a65",
+      "closedAt": "2024-12-19T18:33:56Z",
+      "mergedAt": "2024-12-19T18:33:56Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "9178c9516d93fb3c8c0fa52f29b5c8d2d10ec729"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6Vx8Zs",
+          "commit": {
+            "abbreviatedOid": "4c3f879"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-12-18T21:27:47Z",
+          "updatedAt": "2024-12-19T04:28:21Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\nIssuers choose which claims to include in an SD-CWT, and whether they are mandatory to disclose, including self asserted claims such as \"iss\".\r\n```",
+              "createdAt": "2024-12-18T21:27:47Z",
+              "updatedAt": "2024-12-19T04:28:21Z"
+            },
+            {
+              "originalPosition": 24,
+              "body": "when you wrote \"missued\" did you mean:\r\nissued?\r\nmisissued?\r\nsomething else?\r\n\r\nIf misissued, I would use \"incorrectly issued\"",
+              "createdAt": "2024-12-18T21:27:53Z",
+              "updatedAt": "2024-12-19T04:28:21Z"
+            },
+            {
+              "originalPosition": 32,
+              "body": "unclear what the word \"set\" means here. Is it a verb, or is it a noun \"low anonymity set\"? Either way there is probably a clearer way to say this.",
+              "createdAt": "2024-12-19T04:21:04Z",
+              "updatedAt": "2024-12-19T04:28:21Z"
+            },
+            {
+              "originalPosition": 39,
+              "body": "```suggestion\r\nIssuers MUST perform a privacy and confidentiality assessment regarding each credential type they intend to issue prior to issuance.\r\n```",
+              "createdAt": "2024-12-19T04:21:48Z",
+              "updatedAt": "2024-12-19T04:28:21Z"
+            },
+            {
+              "originalPosition": 46,
+              "body": "Maybe worth paraphrasing these concepts in a couple of paragraphs? (I'm ok if this is a separate issue and is added later as another PR).",
+              "createdAt": "2024-12-19T04:23:17Z",
+              "updatedAt": "2024-12-19T04:28:21Z"
+            },
+            {
+              "originalPosition": 53,
+              "body": "```suggestion\r\nDoes the credential type contain Personally Identifiable Information (PII), or other sensitive information which might have value in a market.\r\n```",
+              "createdAt": "2024-12-19T04:24:36Z",
+              "updatedAt": "2024-12-19T04:28:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6V0ccG",
+          "commit": {
+            "abbreviatedOid": "4c3f879"
+          },
+          "author": "Denisthemalice",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-19T07:31:25Z",
+          "updatedAt": "2024-12-19T07:31:25Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "Line 762 is incorrect. \r\n\r\nIssuers cannot do this. They should only do this for the credential types that are mandatory to be disclosed. \r\n\r\nChange into:\r\n\r\n> For each credential type that will be mandatorily diclosed, prior to issuance, Issuers MUST perform a privacy and confidentiality assessment.",
+              "createdAt": "2024-12-19T07:31:25Z",
+              "updatedAt": "2024-12-19T07:31:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6V4072",
+          "commit": {
+            "abbreviatedOid": "4c3f879"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-19T13:33:35Z",
+          "updatedAt": "2024-12-19T13:33:35Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "@Denisthemalice I think you are confusing \"credential type\" (a profile with guidance about specific claims), and a claim. \r\n\r\nCredential types aren't disclosed, claims are.",
+              "createdAt": "2024-12-19T13:33:35Z",
+              "updatedAt": "2024-12-19T13:33:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6V8yKw",
+          "commit": {
+            "abbreviatedOid": "4c3f879"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-19T17:37:59Z",
+          "updatedAt": "2024-12-19T17:37:59Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "I would be open to that.\r\nI was hoping to get some help from Nick Doty on how to frame this topic.",
+              "createdAt": "2024-12-19T17:37:59Z",
+              "updatedAt": "2024-12-19T17:37:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6V8zxc",
+          "commit": {
+            "abbreviatedOid": "4c3f879"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-19T17:39:40Z",
+          "updatedAt": "2024-12-19T17:39:41Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "```suggestion\r\nCertificate transparency as described in {{-CT}}, or key transparency as described in {{-KT}} can enable the observation of incorrectly issued certificates or fraudulent bindings between verification keys and issuer identifiers.\r\n```",
+              "createdAt": "2024-12-19T17:39:40Z",
+              "updatedAt": "2024-12-19T17:39:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6V80iB",
+          "commit": {
+            "abbreviatedOid": "0e0648d"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-19T17:40:22Z",
+          "updatedAt": "2024-12-19T17:40:22Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "```suggestion\r\nAny claim value with sufficiently low \"anonymity set\" can be used track the subject.\r\n```",
+              "createdAt": "2024-12-19T17:40:22Z",
+              "updatedAt": "2024-12-19T17:40:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6V809T",
+          "commit": {
+            "abbreviatedOid": "0e0648d"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-19T17:40:44Z",
+          "updatedAt": "2024-12-19T17:40:44Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "probably this is best addressed by writing some paragraphs about t-closeness",
+              "createdAt": "2024-12-19T17:40:44Z",
+              "updatedAt": "2024-12-19T17:40:44Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
