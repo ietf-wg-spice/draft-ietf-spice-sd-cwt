@@ -492,7 +492,7 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd+cwt" / uint, ; TODO: IANA request
+   &(typ: 16) ^ => "application/sd+cwt" / TBD1,
    &(alg: 1) ^ => int,
    &(sd_alg: 18) ^= int,             ; -16 for sha-256
    * key => any
