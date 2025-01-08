@@ -60,7 +60,9 @@ normative:
 informative:
   I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
----
+
+entity:
+  SELF: "RFCthis"
 
 --- abstract
 
@@ -127,7 +129,7 @@ However the following guidance is generally recommended, regardless of protocol 
 
 {::boilerplate bcp14-tagged}
 
-This document uses terms from CWT {{RFC8392}}, and COSE {{!RFC9052}}
+This document uses terms from CWT {{RFC8392}}, and COSE {{RFC9052}}
 {{!RFC9053}}.
 
 The terms Claim Name, Claim Key and Claim Value are defined in {{RFC8392}}.
@@ -823,6 +825,19 @@ The following completed registration template is provided:
 * Change controller: IETF
 * Provisional registration?  No
 
+## Content-Formats
+
+[^rfced] Please replace "{{&SELF}}" with the RFC number assigned to this document.
+
+[^rfced] IANA is requested to register the following Content-Format numbers in the "CoAP Content-Formats" registry, within the "Constrained RESTful Environments (CoRE) Parameters" registry group {{!IANA.core-parameters}}:
+
+| Content-Type | Content Coding | ID | Reference |
+| application/sd+cwt | - | TBD1 | {{&SELF}} |
+| application/kb+cwt | - | TBD2 | {{&SELF}} |
+{: align="left" title="New CoAP Content Formats"}
+
+If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
+
 --- back
 
 # Complete CDDL Schema {#cddl}
@@ -1013,3 +1028,5 @@ The authors would like to thank those that have worked on similar items for
 providing selective disclosure mechanisms in JSON, especially:
 Brent Zundel, Roy Williams, Tobias Looker, Kristina Yasuda, Daniel Fett,
 Brian Campbell, Oliver Terbu, and Michael Jones.
+
+[^rfced]: RFC Editor:
