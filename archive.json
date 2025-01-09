@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-07T00:43:13.049085+00:00",
+  "timestamp": "2025-01-09T00:42:58.115489+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -517,7 +517,7 @@
       "id": "I_kwDOMm_Q2s6dFn_4",
       "title": "privacy considerations should include linkability or unlinkability, and the associated use cases",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/27",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "npdoty",
       "authorAssociation": "NONE",
       "assignees": [
@@ -528,8 +528,8 @@
       ],
       "body": "Privacy considerations are currently missing from this draft, but could use some extensive documentation.\r\n\r\nBut most urgently, the draft should be clear about whether selective disclosure also reveals linkability across different verifiers, or not. What is revealed about the issuer is also a separate disclosure, as well as a potential source of linkability. It sounds like there might be some significant use cases where linkability and selective disclosure is desirable, though age verification might not be one like that.\r\n\r\nFor many use cases, particularly on the web, linkability across verifiers (or between colluding verifier and issuer) is a particular privacy concern and unlinkability is a desirable property. The draft should make it clear which properties are provided.",
       "createdAt": "2024-11-05T13:39:25Z",
-      "updatedAt": "2024-12-18T20:07:24Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-08T14:24:40Z",
+      "closedAt": "2025-01-08T14:24:40Z",
       "comments": [
         {
           "author": "OR13",
@@ -572,6 +572,13 @@
           "body": "PR is up here: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/42",
           "createdAt": "2024-12-18T20:07:23Z",
           "updatedAt": "2024-12-18T20:07:23Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussed on the call, the PR has been merged for some time, we want to close this, and open more specific issues for any future work.",
+          "createdAt": "2025-01-08T14:24:40Z",
+          "updatedAt": "2025-01-08T14:24:40Z"
         }
       ]
     },
@@ -586,12 +593,10 @@
       "assignees": [
         "rohanmahy"
       ],
-      "labels": [
-        "blocked"
-      ],
+      "labels": [],
       "body": "See the [issue](https://github.com/ietf-wg-mediaman/6838bis/issues/9) on [draft-mediaman-6838bis](https://datatracker.ietf.org/doc/draft-mediaman-6838bis/) \r\n\r\nAlso copying comments from @martinthomson here:\r\n>Recent documents that I've gotten through publication look like this:\r\n\r\n```\r\n   Person and email address to contact for further information:\r\n      See Authors' Addresses section\r\n```\r\n\r\n>Separately, please see the source of RFC 9458 for a better media type registration template:  https://github.com/ietf-wg-ohai/oblivious-http/blob/main/draft-ietf-ohai-ohttp.md",
       "createdAt": "2024-11-19T13:44:01Z",
-      "updatedAt": "2024-12-26T19:42:14Z",
+      "updatedAt": "2025-01-08T14:23:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -600,6 +605,13 @@
           "body": "Reminder to ping @mnot after the holidays",
           "createdAt": "2024-12-26T19:42:13Z",
           "updatedAt": "2024-12-26T19:42:13Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Lets just put the working group as the registrant, including the wg mailing list, and ship this.",
+          "createdAt": "2025-01-08T14:23:01Z",
+          "updatedAt": "2025-01-08T14:23:01Z"
         }
       ]
     },
@@ -617,9 +629,17 @@
       "labels": [],
       "body": "The COSE `typ` header can specify either a text string media format, or a uint16 from the [CoAP Content Formats Registry](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats). Do we want to pre-emptively register SD-CWT and SD-KBT media types in the IETF Review range (256-9999) [1] so they can be referred to in COSE by integer?\r\n\r\n[1] see Table 10 in [RFC7252, Section 12.3](https://www.rfc-editor.org/rfc/rfc7252.html#section-12.3)",
       "createdAt": "2024-12-13T18:18:45Z",
-      "updatedAt": "2024-12-18T15:05:47Z",
+      "updatedAt": "2025-01-08T14:16:55Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussed on our call, work in progress.",
+          "createdAt": "2025-01-08T14:16:53Z",
+          "updatedAt": "2025-01-08T14:16:53Z"
+        }
+      ]
     },
     {
       "number": 38,
@@ -3517,13 +3537,13 @@
       "labels": [],
       "body": "fixes #38 ",
       "createdAt": "2024-12-18T13:06:21Z",
-      "updatedAt": "2024-12-18T13:40:40Z",
+      "updatedAt": "2025-01-08T14:54:51Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7e7756adb97503c05d6d36c41e0938e5e35a5aec",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "typ-param-usage",
-      "headRefOid": "df455935bf1459aeb2ba88cdeffbbade095b976c",
+      "headRefOid": "6eccea0748c9fb8c0c6940d1fd2e337cf7c58b91",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -3555,6 +3575,26 @@
               "body": "You should add the IANA request in the PR, so we don't need to merge a TODO into the draft.",
               "createdAt": "2024-12-18T13:40:40Z",
               "updatedAt": "2024-12-18T13:40:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6XPTBj",
+          "commit": {
+            "abbreviatedOid": "efddf61"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-08T14:54:42Z",
+          "updatedAt": "2025-01-08T14:54:42Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "```suggestion\r\n   &(typ: 16) ^ => \"application/sd+cwt\" / TBD1,\r\n```",
+              "createdAt": "2025-01-08T14:54:42Z",
+              "updatedAt": "2025-01-08T14:54:42Z"
             }
           ]
         }
