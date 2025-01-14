@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-12T00:47:51.333908+00:00",
+  "timestamp": "2025-01-14T00:41:03.766573+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3537,13 +3537,13 @@
       "labels": [],
       "body": "fixes #38 ",
       "createdAt": "2024-12-18T13:06:21Z",
-      "updatedAt": "2025-01-10T22:57:03Z",
+      "updatedAt": "2025-01-13T12:26:41Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
-      "baseRefOid": "7e7756adb97503c05d6d36c41e0938e5e35a5aec",
+      "baseRefOid": "9178c9516d93fb3c8c0fa52f29b5c8d2d10ec729",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "typ-param-usage",
-      "headRefOid": "6eccea0748c9fb8c0c6940d1fd2e337cf7c58b91",
+      "headRefOid": "2d8da454081aca977794798d7199db2ded81102a",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
