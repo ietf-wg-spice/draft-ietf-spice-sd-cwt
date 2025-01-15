@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 22 June 2025                                        H. Birkholz
+Expires: 19 July 2025                                        H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                        19 December 2024
+                                                         15 January 2025
 
 
                               SPICE SD-CWT
@@ -56,11 +56,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 June 2025.
+   This Internet-Draft will expire on 19 July 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -117,6 +117,7 @@ Table of Contents
      15.4.  Media Types
        15.4.1.  application/sd+cwt
        15.4.2.  application/kb+cwt
+     15.5.  Content-Formats
    16. References
      16.1.  Normative References
      16.2.  Informative References
@@ -560,8 +561,8 @@ Issuer                           Holder                         Verifier
 
    SD-CWT is modeled after SD-JWT, with adjustments to align with
    conventions in CBOR and COSE.  An SD-CWT MUST include the protected
-   header parameter typ [RFC9596] with the value "application/sd-cwt" in
-   the SD-CWT.
+   header parameter typ [RFC9596] with either a text value "application/
+   sd-cwt" or an uint value of "C-F-TBD" in the SD-CWT.
 
    An SD-CWT is a CWT that can contain blinded claims (each expressed as
    a Blinded Claim Hash) in the CWT payload, at the root level or in any
@@ -708,7 +709,7 @@ Issuer                           Holder                         Verifier
    ])
 
    sd-protected = {
-      &(typ: 16) ^ => "application/sd+cwt",
+      &(typ: 16) ^ => "application/sd+cwt" / TBD1,
       &(alg: 1) ^ => int,
       &(sd_alg: 18) ^= int,             ; -16 for sha-256
       * key => any
@@ -1372,6 +1373,30 @@ Issuer                           Holder                         Verifier
 
    *  Provisional registration?  No
 
+15.5.  Content-Formats
+
+
+   // RFC Editor: Please replace "RFCthis" with the RFC number assigned
+   to this document.
+
+
+   // RFC Editor: IANA is requested to register the following Content-
+   Format numbers in the "CoAP Content-Formats" registry, within the
+   "Constrained RESTful Environments (CoRE) Parameters" registry group
+   [IANA.core-parameters]:
+
+   +====================+================+======+===========+
+   | Content-Type       | Content Coding | ID   | Reference |
+   +====================+================+======+===========+
+   | application/sd+cwt | -              | TBD1 | RFCthis   |
+   +--------------------+----------------+------+-----------+
+   | application/kb+cwt | -              | TBD2 | RFCthis   |
+   +--------------------+----------------+------+-----------+
+
+               Table 1: New CoAP Content Formats
+
+   If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
+
 16.  References
 
 16.1.  Normative References
@@ -1388,9 +1413,14 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "CBOR Extended Diagnostic Notation (EDN)",
               Work in Progress, Internet-Draft, draft-ietf-cbor-edn-
-              literals-14, 9 December 2024,
+              literals-16, 8 January 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              edn-literals-14>.
+              edn-literals-16>.
+
+   [IANA.core-parameters]
+              IANA, "Constrained RESTful Environments (CoRE)
+              Parameters",
+              <https://www.iana.org/assignments/core-parameters>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
