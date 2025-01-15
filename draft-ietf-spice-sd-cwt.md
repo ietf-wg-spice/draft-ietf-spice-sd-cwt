@@ -67,9 +67,8 @@ informative:
     title: "t-Closeness: Privacy Beyond k-Anonymity and l-Diversity"
     date: 2007-06-04
 
-
-
----
+entity:
+  SELF: "RFCthis"
 
 --- abstract
 
@@ -136,7 +135,7 @@ However the following guidance is generally recommended, regardless of protocol 
 
 {::boilerplate bcp14-tagged}
 
-This document uses terms from CWT {{RFC8392}}, and COSE {{!RFC9052}}
+This document uses terms from CWT {{RFC8392}}, and COSE {{RFC9052}}
 {{!RFC9053}}.
 
 The terms Claim Name, Claim Key and Claim Value are defined in {{RFC8392}}.
@@ -439,7 +438,7 @@ Multiple levels of tags in a key are not permitted.
 
 # SD-CWT definition
 
-SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with the value "application/sd-cwt" in the SD-CWT.
+SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with either a text value "application/sd-cwt" or an uint value of "C-F-TBD" in the SD-CWT.
 
 An SD-CWT is a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
 It is not required to contain any blinded claims.
@@ -543,7 +542,7 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd+cwt",
+   &(typ: 16) ^ => "application/sd+cwt" / TBD1,
    &(alg: 1) ^ => int,
    &(sd_alg: 18) ^= int,             ; -16 for sha-256
    * key => any
@@ -946,6 +945,19 @@ The following completed registration template is provided:
 * Change controller: IETF
 * Provisional registration?  No
 
+## Content-Formats
+
+[^rfced] Please replace "{{&SELF}}" with the RFC number assigned to this document.
+
+[^rfced] IANA is requested to register the following Content-Format numbers in the "CoAP Content-Formats" registry, within the "Constrained RESTful Environments (CoRE) Parameters" registry group {{!IANA.core-parameters}}:
+
+| Content-Type | Content Coding | ID | Reference |
+| application/sd+cwt | - | TBD1 | {{&SELF}} |
+| application/kb+cwt | - | TBD2 | {{&SELF}} |
+{: align="left" title="New CoAP Content Formats"}
+
+If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
+
 --- back
 
 # Complete CDDL Schema {#cddl}
@@ -1144,3 +1156,5 @@ The authors would like to thank those that have worked on similar items for
 providing selective disclosure mechanisms in JSON, especially:
 Brent Zundel, Roy Williams, Tobias Looker, Kristina Yasuda, Daniel Fett,
 Brian Campbell, Oliver Terbu, and Michael Jones.
+
+[^rfced]: RFC Editor:
