@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-14T00:41:03.766573+00:00",
+  "timestamp": "2025-01-16T00:41:35.415296+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -380,7 +380,7 @@
       ],
       "body": "An issuer could exploit map key ordering to signal information regarding redaction.\r\nProbably using a high precision datetime is an easier path to this, but it is worth documenting as a privacy consideration, and perhaps we should recommend CDE",
       "createdAt": "2024-10-23T13:50:55Z",
-      "updatedAt": "2024-12-18T20:07:37Z",
+      "updatedAt": "2025-01-15T14:28:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -396,6 +396,13 @@
           "body": "PR is up here: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/42",
           "createdAt": "2024-12-18T20:07:36Z",
           "updatedAt": "2024-12-18T20:07:36Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Informative reference to ALDR in body, and comments in security considerations",
+          "createdAt": "2025-01-15T14:28:50Z",
+          "updatedAt": "2025-01-15T14:28:50Z"
         }
       ]
     },
@@ -646,7 +653,7 @@
       "id": "I_kwDOMm_Q2s6jx3EK",
       "title": "No def/reg of c-f and corresponding typ usage",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/38",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "henkbirkholz",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -655,8 +662,8 @@
       "labels": [],
       "body": "Mainly in Section 6 and in Section 15",
       "createdAt": "2024-12-18T13:00:36Z",
-      "updatedAt": "2024-12-18T14:22:33Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-15T14:04:31Z",
+      "closedAt": "2025-01-15T14:04:31Z",
       "comments": [
         {
           "author": "OR13",
@@ -3530,24 +3537,26 @@
       "id": "PR_kwDOMm_Q2s6FpWpk",
       "title": "adding uint to typ usage desc and placeholder in cddl",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/39",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "henkbirkholz",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "fixes #38 ",
       "createdAt": "2024-12-18T13:06:21Z",
-      "updatedAt": "2025-01-13T12:26:41Z",
+      "updatedAt": "2025-01-15T15:05:06Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "9178c9516d93fb3c8c0fa52f29b5c8d2d10ec729",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "typ-param-usage",
       "headRefOid": "2d8da454081aca977794798d7199db2ded81102a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-01-15T14:04:30Z",
+      "mergedAt": "2025-01-15T14:04:30Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "f0510909cea3c4623521c6b71a659fc5433065f3"
+      },
       "comments": [
         {
           "author": "henkbirkholz",
@@ -3616,6 +3625,19 @@
           "body": "",
           "createdAt": "2025-01-10T22:56:48Z",
           "updatedAt": "2025-01-10T22:56:48Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6YKU6R",
+          "commit": {
+            "abbreviatedOid": "2d8da45"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-15T14:04:12Z",
+          "updatedAt": "2025-01-15T14:04:12Z",
           "comments": []
         }
       ]
@@ -3860,6 +3882,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 43,
+      "id": "PR_kwDOMm_Q2s6H4xcd",
+      "title": "Attempt to add text addressing CDE",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/43",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This pull requests comments on the use of CDE in the security considerations section.\r\n\r\nThis PR addresses: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/23",
+      "createdAt": "2025-01-15T18:12:16Z",
+      "updatedAt": "2025-01-15T18:22:35Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "f0510909cea3c4623521c6b71a659fc5433065f3",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "address-23-cde-and-aldr",
+      "headRefOid": "016a4908e8d961c3f32c9995613442ff01eff806",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
