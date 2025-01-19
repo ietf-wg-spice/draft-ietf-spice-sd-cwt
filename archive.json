@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-16T00:41:35.415296+00:00",
+  "timestamp": "2025-01-19T00:45:01.253224+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3895,7 +3895,7 @@
       "labels": [],
       "body": "This pull requests comments on the use of CDE in the security considerations section.\r\n\r\nThis PR addresses: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/23",
       "createdAt": "2025-01-15T18:12:16Z",
-      "updatedAt": "2025-01-15T18:22:35Z",
+      "updatedAt": "2025-01-16T18:41:17Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "f0510909cea3c4623521c6b71a659fc5433065f3",
@@ -3907,7 +3907,28 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6YZ_8i",
+          "commit": {
+            "abbreviatedOid": "016a490"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-16T18:41:17Z",
+          "updatedAt": "2025-01-16T18:41:17Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "COSE has rules for the bstrs used, but not the contents inside the encoded bstr!\r\n\r\n```suggestion\r\n{{Section 9 of !RFC9052}} already requires the top-level structure of CWTs to be in a simple deterministic encoding.\r\nIt is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT claimset, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements before the payload is bstr encoded. {{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding Profile (CDE). The construction of such profiles has a significant impact on the privacy properties of a credential type.\r\n```",
+              "createdAt": "2025-01-16T18:41:17Z",
+              "updatedAt": "2025-01-17T10:33:18Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
