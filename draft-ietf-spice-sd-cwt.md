@@ -60,6 +60,7 @@ normative:
 informative:
   I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
+  I-D.draft-ietf-cbor-cde: CDE
   RFC9162: CT
   I-D.draft-ietf-keytrans-protocol: KT
   t-Closeness:
@@ -436,6 +437,11 @@ Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
 Instead the tag provides additional information about the tagged claim key and the corresponding (untagged) value.
 Multiple levels of tags in a key are not permitted.
 
+Variability in serialization requirements impacts privacy.
+
+See the security considerations section for more details on the privacy impact of serialization and profiling.
+
+
 # SD-CWT definition
 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR and COSE. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with either a text value "application/sd-cwt" or an uint value of "C-F-TBD" in the SD-CWT.
@@ -759,6 +765,10 @@ For example, a high precision issuance time might match the issuance of only a f
 The mandatory and optional to disclose data elements in an SD-CWT are credential type specific.
 Several distinct credential types might be applicable to a given use case.
 Issuers MUST perform a privacy and confidentiality assessment regarding each credential type they intend to issue prior to issuance.
+
+## Determinism & Augmentation
+
+It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements. {{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE). The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
 ## Threat Model
 
