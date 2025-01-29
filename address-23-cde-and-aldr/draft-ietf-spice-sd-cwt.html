@@ -1263,7 +1263,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
                 <p id="section-toc.1-1.14.2.3.1"><a href="#section-14.3" class="auto internal xref">14.3</a>.  <a href="#name-credential-types-2" class="internal xref">Credential Types</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.4">
-                <p id="section-toc.1-1.14.2.4.1"><a href="#section-14.4" class="auto internal xref">14.4</a>.  <a href="#name-determinism-profiles" class="internal xref">Determinism &amp; Profiles</a></p>
+                <p id="section-toc.1-1.14.2.4.1"><a href="#section-14.4" class="auto internal xref">14.4</a>.  <a href="#name-determinism-augmentation" class="internal xref">Determinism &amp; Augmentation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.5">
                 <p id="section-toc.1-1.14.2.5.1"><a href="#section-14.5" class="auto internal xref">14.5</a>.  <a href="#name-threat-model" class="internal xref">Threat Model</a></p>
@@ -2335,10 +2335,10 @@ Several distinct credential types might be applicable to a given use case.
 Issuers <span class="bcp14">MUST</span> perform a privacy and confidentiality assessment regarding each credential type they intend to issue prior to issuance.<a href="#section-14.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="determinism-profiles">
+<div id="determinism-augmentation">
 <section id="section-14.4">
-        <h3 id="name-determinism-profiles">
-<a href="#section-14.4" class="section-number selfRef">14.4. </a><a href="#name-determinism-profiles" class="section-name selfRef">Determinism &amp; Profiles</a>
+        <h3 id="name-determinism-augmentation">
+<a href="#section-14.4" class="section-number selfRef">14.4. </a><a href="#name-determinism-augmentation" class="section-name selfRef">Determinism &amp; Augmentation</a>
         </h3>
 <p id="section-14.4-1">It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements. <span>[<a href="#I-D.draft-ietf-cbor-cde" class="cite xref">I-D.draft-ietf-cbor-cde</a>]</span> provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding Profile (CDE). The construction of such profiles has a significant impact on the privacy properties of a credential type.<a href="#section-14.4-1" class="pilcrow">¶</a></p>
 </section>
