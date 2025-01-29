@@ -768,7 +768,7 @@ Issuers MUST perform a privacy and confidentiality assessment regarding each cre
 
 ## Determinism & Augmentation
 
-It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements. {{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding Profile (CDE). The construction of such profiles has a significant impact on the privacy properties of a credential type.
+It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements. {{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE). The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
 ## Threat Model
 
