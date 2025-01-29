@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 19 July 2025                                        H. Birkholz
+Expires: 2 August 2025                                       H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                         15 January 2025
+                                                         29 January 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 July 2025.
+   This Internet-Draft will expire on 2 August 2025.
 
 Copyright Notice
 
@@ -101,9 +101,10 @@ Table of Contents
      14.1.  Transparency
      14.2.  Traceability
      14.3.  Credential Types
-     14.4.  Threat Model
-     14.5.  Random Numbers
-     14.6.  Binding the KBT and the CWT
+     14.4.  Determinism & Augmentation
+     14.5.  Threat Model
+     14.6.  Random Numbers
+     14.7.  Binding the KBT and the CWT
    15. IANA Considerations
      15.1.  COSE Header Parameters
        15.1.1.  sd_claims
@@ -556,6 +557,11 @@ Issuer                           Holder                         Verifier
    registry.  Instead the tag provides additional information about the
    tagged claim key and the corresponding (untagged) value.  Multiple
    levels of tags in a key are not permitted.
+
+   Variability in serialization requirements impacts privacy.
+
+   See the security considerations section for more details on the
+   privacy impact of serialization and profiling.
 
 6.  SD-CWT definition
 
@@ -1084,7 +1090,19 @@ Issuer                           Holder                         Verifier
    confidentiality assessment regarding each credential type they intend
    to issue prior to issuance.
 
-14.4.  Threat Model
+14.4.  Determinism & Augmentation
+
+   It is possible to encode additional information through the choices
+   made during the serialization stage of producing an SD-CWT, for
+   example, by adjusting the order of CBOR map keys, or by choosing
+   different numeric encodings for certain data elements.
+   [I-D.draft-ietf-cbor-cde] provides guidance for constructing
+   application profiles that constrain serialization optionality beyond
+   CBOR Common Deterministic Encoding rulesets (CDE).  The construction
+   of such profiles has a significant impact on the privacy properties
+   of a credential type.
+
+14.5.  Threat Model
 
    Each use case will have a unique threat model which MUST be
    considered before the applicability of SD-CWT based credential types
@@ -1124,7 +1142,7 @@ Issuer                           Holder                         Verifier
    possible subjects to owners of a specific device or subscribers to a
    given service.
 
-14.5.  Random Numbers
+14.6.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
    independently from the salts of other claims.  The salts MUST be
@@ -1132,7 +1150,7 @@ Issuer                           Holder                         Verifier
    Poor choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
-14.6.  Binding the KBT and the CWT
+14.7.  Binding the KBT and the CWT
 
    The issuer claim in the SD-CWT is self-asserted by the issuer.
 
@@ -1474,6 +1492,12 @@ Issuer                           Holder                         Verifier
 
 16.2.  Informative References
 
+   [I-D.draft-ietf-cbor-cde]
+              Bormann, C., "CBOR Common Deterministic Encoding (CDE)",
+              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-07,
+              21 January 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-cde-07>.
+
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",
               Work in Progress, Internet-Draft, draft-ietf-keytrans-
@@ -1491,9 +1515,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-14, 15
-              November 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-selective-disclosure-jwt-14>.
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-15, 16
+              January 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-oauth-selective-disclosure-jwt-15>.
 
    [I-D.ietf-httpbis-unprompted-auth]
               Schinazi, D., Oliver, D., and J. Hoyland, "The Concealed
