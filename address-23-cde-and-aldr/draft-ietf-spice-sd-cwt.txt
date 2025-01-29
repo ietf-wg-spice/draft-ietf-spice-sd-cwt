@@ -1098,7 +1098,7 @@ Issuer                           Holder                         Verifier
    different numeric encodings for certain data elements.
    [I-D.draft-ietf-cbor-cde] provides guidance for constructing
    application profiles that constrain serialization optionality beyond
-   CBOR Common Deterministic Encoding Profile (CDE).  The construction
+   CBOR Common Deterministic Encoding rulesets (CDE).  The construction
    of such profiles has a significant impact on the privacy properties
    of a credential type.
 
