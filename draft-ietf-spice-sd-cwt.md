@@ -1134,6 +1134,13 @@ Note: RFC Editor, please remove this entire section on publication.
 - correct that an SD-CWT may have zero redacted claims
 - improve the walkthrough of computing a disclosure
 - clarify that duplicate map keys are not allowed, and how tagged keys are represented.
+- added security considerations section (#42) and text about privacy and linkability risks (#43)
+- register SD-CWT and SD-KBT as content formats in CoAP registry (#39)
+- updated media types registrations to have more useful contacts ($44)
+- add description of decoy digests **TODO**
+- add nested examples **TODO**
+- regenerate all examples with correct signatures **TODO**
+- provide test vectors **TODO**
 
 ## draft-ietf-spice-sd-cwt-02
 
