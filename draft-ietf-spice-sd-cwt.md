@@ -909,10 +909,11 @@ The following completed registration template is provided:
     - File extension(s): n/a
     - Macintosh file type code(s): n/a
 * Person & email address to contact for further information:
-  Michael Prorock, mprorock@mesur.io
+    SPICE WG mailing list (spice@ietf.org) or
+    IETF Security Area (saag@ietf.org)
 * Intended usage: COMMON
 * Restrictions on usage: none
-* Author: Michael Prorock, mprorock@mesur.io
+* Author: See Author's Addresses section
 * Change controller: IETF
 * Provisional registration?  No
 
@@ -938,10 +939,11 @@ The following completed registration template is provided:
      - File extension(s): n/a
      - Macintosh file type code(s): n/a
 * Person & email address to contact for further information:
-  Orie Steele, orie@transmute.industries
+    SPICE WG mailing list (spice@ietf.org) or
+    IETF Security Area (saag@ietf.org)
 * Intended usage: COMMON
 * Restrictions on usage: none
-* Author: Orie Steele, orie@transmute.industries
+* Author: See Author's Addresses section
 * Change controller: IETF
 * Provisional registration?  No
 
