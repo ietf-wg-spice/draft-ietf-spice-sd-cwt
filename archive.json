@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-28T00:41:56.384522+00:00",
+  "timestamp": "2025-01-30T00:41:00.837306+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -119,7 +119,7 @@
       "labels": [],
       "body": "do we want to support decoy digests like SD-JWT does?\r\n\r\nIf so, I left a simple hook to do so in PR #9 ",
       "createdAt": "2024-09-06T11:41:52Z",
-      "updatedAt": "2024-12-04T14:28:26Z",
+      "updatedAt": "2025-01-29T14:44:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -128,6 +128,13 @@
           "body": "We discussed waiting to add these to the document until close to the end.",
           "createdAt": "2024-12-04T14:27:58Z",
           "updatedAt": "2024-12-04T14:27:58Z"
+        },
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "yes",
+          "createdAt": "2025-01-29T14:44:08Z",
+          "updatedAt": "2025-01-29T14:44:08Z"
         }
       ]
     },
@@ -369,7 +376,7 @@
       "id": "I_kwDOMm_Q2s6bfZ82",
       "title": "CDE CWT Claimsets",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/23",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -380,8 +387,8 @@
       ],
       "body": "An issuer could exploit map key ordering to signal information regarding redaction.\r\nProbably using a high precision datetime is an easier path to this, but it is worth documenting as a privacy consideration, and perhaps we should recommend CDE",
       "createdAt": "2024-10-23T13:50:55Z",
-      "updatedAt": "2025-01-15T14:28:52Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-29T14:28:30Z",
+      "closedAt": "2025-01-29T14:28:30Z",
       "comments": [
         {
           "author": "OR13",
@@ -594,7 +601,7 @@
       "id": "I_kwDOMm_Q2s6fRy1P",
       "title": "Update IANA Media Types registration template to use best current practices",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/30",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -603,8 +610,8 @@
       "labels": [],
       "body": "See the [issue](https://github.com/ietf-wg-mediaman/6838bis/issues/9) on [draft-mediaman-6838bis](https://datatracker.ietf.org/doc/draft-mediaman-6838bis/) \r\n\r\nAlso copying comments from @martinthomson here:\r\n>Recent documents that I've gotten through publication look like this:\r\n\r\n```\r\n   Person and email address to contact for further information:\r\n      See Authors' Addresses section\r\n```\r\n\r\n>Separately, please see the source of RFC 9458 for a better media type registration template:  https://github.com/ietf-wg-ohai/oblivious-http/blob/main/draft-ietf-ohai-ohttp.md",
       "createdAt": "2024-11-19T13:44:01Z",
-      "updatedAt": "2025-01-08T14:23:24Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-29T14:35:22Z",
+      "closedAt": "2025-01-29T14:35:21Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -619,6 +626,13 @@
           "body": "Lets just put the working group as the registrant, including the wg mailing list, and ship this.",
           "createdAt": "2025-01-08T14:23:01Z",
           "updatedAt": "2025-01-08T14:23:01Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed in #44 ",
+          "createdAt": "2025-01-29T14:35:21Z",
+          "updatedAt": "2025-01-29T14:35:21Z"
         }
       ]
     },
@@ -627,7 +641,7 @@
       "id": "I_kwDOMm_Q2s6jQQ4c",
       "title": "Register application/sd-cwt+cwt and application/sd-kbt+cwt in CoAP Content Formats registry?",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/37",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -636,8 +650,8 @@
       "labels": [],
       "body": "The COSE `typ` header can specify either a text string media format, or a uint16 from the [CoAP Content Formats Registry](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats). Do we want to pre-emptively register SD-CWT and SD-KBT media types in the IETF Review range (256-9999) [1] so they can be referred to in COSE by integer?\r\n\r\n[1] see Table 10 in [RFC7252, Section 12.3](https://www.rfc-editor.org/rfc/rfc7252.html#section-12.3)",
       "createdAt": "2024-12-13T18:18:45Z",
-      "updatedAt": "2025-01-08T14:16:55Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-29T14:37:25Z",
+      "closedAt": "2025-01-29T14:37:23Z",
       "comments": [
         {
           "author": "OR13",
@@ -645,6 +659,13 @@
           "body": "Discussed on our call, work in progress.",
           "createdAt": "2025-01-08T14:16:53Z",
           "updatedAt": "2025-01-08T14:16:53Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed in PR #38 ",
+          "createdAt": "2025-01-29T14:37:23Z",
+          "updatedAt": "2025-01-29T14:37:23Z"
         }
       ]
     },
@@ -708,6 +729,22 @@
           "updatedAt": "2024-12-18T15:05:17Z"
         }
       ]
+    },
+    {
+      "number": 45,
+      "id": "I_kwDOMm_Q2s6n_pTW",
+      "title": "consider adding new unprotected header for encrypted disclosures",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/45",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "some uses of SD-CWT involve verifiers which have internal structure. Encrypted disclosures allow more fine-grained disclosure inside a single presentation.",
+      "createdAt": "2025-01-29T15:04:30Z",
+      "updatedAt": "2025-01-29T15:04:30Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -3888,24 +3925,26 @@
       "id": "PR_kwDOMm_Q2s6H4xcd",
       "title": "Attempt to add text addressing CDE",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/43",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This pull requests comments on the use of CDE in the security considerations section.\r\n\r\nThis PR addresses: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/23",
       "createdAt": "2025-01-15T18:12:16Z",
-      "updatedAt": "2025-01-16T18:41:17Z",
+      "updatedAt": "2025-01-29T14:44:36Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "f0510909cea3c4623521c6b71a659fc5433065f3",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "address-23-cde-and-aldr",
-      "headRefOid": "016a4908e8d961c3f32c9995613442ff01eff806",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "5a895d1225960a278b8e1fab1be344dbbaff8a9c",
+      "closedAt": "2025-01-29T14:28:21Z",
+      "mergedAt": "2025-01-29T14:28:21Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "c9cb0ce3c9ef500fb5ddf9304ecfefb06b5b6a44"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3927,6 +3966,162 @@
               "updatedAt": "2025-01-17T10:33:18Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Z2ZIp",
+          "commit": {
+            "abbreviatedOid": "016a490"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-29T14:12:44Z",
+          "updatedAt": "2025-01-29T14:12:44Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "decided to not take this, section 9 refers to how to produce the signature",
+              "createdAt": "2025-01-29T14:12:44Z",
+              "updatedAt": "2025-01-29T14:12:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Z2jkD",
+          "commit": {
+            "abbreviatedOid": "016a490"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-29T14:22:00Z",
+          "updatedAt": "2025-01-29T14:22:01Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "```suggestion\r\nIt is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements. {{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding Profile (CDE). The construction of such profiles has a significant impact on the privacy properties of a credential type.\r\n```",
+              "createdAt": "2025-01-29T14:22:01Z",
+              "updatedAt": "2025-01-29T14:22:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Z2mrR",
+          "commit": {
+            "abbreviatedOid": "4eb7133"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-29T14:26:32Z",
+          "updatedAt": "2025-01-29T14:26:33Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "```suggestion\r\nIt is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements. {{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE). The construction of such profiles has a significant impact on the privacy properties of a credential type.\r\n```",
+              "createdAt": "2025-01-29T14:26:32Z",
+              "updatedAt": "2025-01-29T14:27:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Z2mz3",
+          "commit": {
+            "abbreviatedOid": "4eb7133"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-29T14:26:44Z",
+          "updatedAt": "2025-01-29T14:26:44Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "```suggestion\r\n## Determinism & Augmentation\r\n```",
+              "createdAt": "2025-01-29T14:26:44Z",
+              "updatedAt": "2025-01-29T14:26:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Z2oUl",
+          "commit": {
+            "abbreviatedOid": "016a490"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-29T14:28:41Z",
+          "updatedAt": "2025-01-29T14:28:41Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 44,
+      "id": "PR_kwDOMm_Q2s6JXwTc",
+      "title": "fix IANA media types registrations",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/44",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-01-29T14:30:01Z",
+      "updatedAt": "2025-01-29T14:44:31Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c9cb0ce3c9ef500fb5ddf9304ecfefb06b5b6a44",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "iana",
+      "headRefOid": "ee387ec03709a94ad3c4545b0c06e0b890cab45a",
+      "closedAt": "2025-01-29T14:34:50Z",
+      "mergedAt": "2025-01-29T14:34:50Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "713730a1bf9477ba0e4116f6e7f48372be78a2d2"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Relates to issue #9 ",
+          "createdAt": "2025-01-29T14:31:26Z",
+          "updatedAt": "2025-01-29T14:31:26Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6Z2rGf",
+          "commit": {
+            "abbreviatedOid": "ee387ec"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-29T14:32:45Z",
+          "updatedAt": "2025-01-29T14:32:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6Z2scy",
+          "commit": {
+            "abbreviatedOid": "ee387ec"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-29T14:34:40Z",
+          "updatedAt": "2025-01-29T14:34:40Z",
+          "comments": []
         }
       ]
     }
