@@ -1,8 +1,8 @@
 / cose-sign1 / 18( / sd_kbt / [
     / KBT protected / << {
-        / alg / 1         : -7 / ES256 /,
+        / alg / 1         : -7, / ES256 /
         / typ / 16        : "application/kb+cwt",
-        / kcwt /        13: << 18([  / issuer SD-CWT /
+        / kcwt /        13:  18([  / issuer SD-CWT /
           / CWT protected / << {
             / alg /    1  : -35, / ES384 /
             / typ /    16 : "application/sd+cwt",
@@ -70,7 +70,7 @@
             }
           } >>,                    / end of issuer_sd_cwt payload /
           / CWT signature / h'3337af2e66959614'
-        ])>>,  / end of issuer SD-CWT /
+        ])     / end of issuer SD-CWT /
     }>>,     / end of KBT protected header
     / KBT unprotected / {},
     / KBT payload / << {
