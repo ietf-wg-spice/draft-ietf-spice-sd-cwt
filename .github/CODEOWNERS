@@ -1,3 +1,3 @@
-# Automatically generated CODEOWNERS
-# Regenerate with `make update-codeowners`
-draft-ietf-spice-sd-cwt.md mprorock@mesur.io orie@or13.io @henkbirkholz @rohanmahy 
+# **Manually** generated CODEOWNERS
+# Please do NOT run `make update-codeowners` or you will bork this
+draft-ietf-spice-sd-cwt.md @mprorock @OR13 @henkbirkholz @rohanmahy 
