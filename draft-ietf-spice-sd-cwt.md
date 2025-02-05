@@ -401,12 +401,11 @@ The issued SD-CWT is placed in the `kcwt` (Confirmation Key CWT) protected heade
 / kcwt / 13 :  18([
   / protected / << {
     / alg /  1 : -7 / ES256 /,
-    / typ /  16 : "application/kb+cwt",
-    / kcwt / 13 :
+    / typ /  16 : "application/kb+cwt",q
+    / kcwt / 13 : ...
       / *** SD-CWT from Issuer goes here       /
       /  with Holder's choice of disclosures   /
       /  in the SD-CWT unprotected header  *** /
-      h'0123456789abcdef...0123'
   } >>,
   / unprotected / {},
   / payload / << {
@@ -1013,9 +1012,61 @@ The validation process for SD-CWT is similar to SD-JWT, however, JSON Objects ar
 
 ## Subject / Holder
 
-Holder key pair in JWK format
+Holder COSE key pair in EDN format
+
+~~~ cbor-diag
+{
+  /kty/  1 : 2, /EC/
+  /alg/  3 : -7, /ES256/
+  /crv/ -1 : 1, /P-256/
+  /x/   -2 : h'8554eb275dcd6fbd1c7ac641aa2c90d9
+               2022fd0d3024b5af18c7cc61ad527a2d',
+  /y/   -3 : h'4dc7ae2c677e96d0cc82597655ce92d5
+               503f54293d87875d1e79ce4770194343',
+  /d/   -4 : h'5759a86e59bb3b002dde467da4b52f3d
+               06e6c2cd439456cf0485b9b864294ce5'
+}
+~~~
+
+The fields necessary for the COSE Key Thumbprint {{!RFC9679}}
+in EDN format:
+
+~~~ cbor-diag
+{
+  /kty/  1 : 2, /EC/
+  /crv/ -1 : 1, /P-256/
+  /x/   -2 : h'8554eb275dcd6fbd1c7ac641aa2c90d9
+               2022fd0d3024b5af18c7cc61ad527a2d',
+  /y/   -3 : h'4dc7ae2c677e96d0cc82597655ce92d5
+               503f54293d87875d1e79ce4770194343',
+}
+~~~
+
+The same map in CBOR pretty printing
+
+~~~ cbor-pretty
+A4                                      # map(4)
+   01                                   # unsigned(1)
+   02                                   # unsigned(2)
+   20                                   # negative(0)
+   01                                   # unsigned(1)
+   21                                   # negative(1)
+   58 20                                # bytes(32)
+      8554EB275DCD6FBD1C7AC641AA2C90D92022FD0D3024B5AF18C7CC61AD527A2D
+   22                                   # negative(2)
+   58 20                                # bytes(32)
+      4DC7AE2C677E96D0CC82597655CE92D5503F54293D87875D1E79CE4770194343
+~~~
+
+The COSE thumbprint (in hexadecimal)--SHA256 hash of the thumbprint fields:
 
 ~~~
+8343d73cdfcb81f2c7cd11a5f317be8eb34e4807ec8c9ceb282495cffdf037e0
+~~~
+
+Holder key pair in JWK format
+
+~~~ json
 {
   "kty": "EC",
   "alg": "ES256",
@@ -1029,7 +1080,7 @@ Holder key pair in JWK format
 
 Input to Holder public JWK thumbprint (ignore line breaks)
 
-~~~
+~~~ json
 {"crv":"P-256","kty":"EC","x":"hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1S
 ei0","y":"TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M"}
 ~~~
@@ -1055,7 +1106,7 @@ JLWvGMfMYa1Sei1Nx64sZ36W0MyCWXZVzpLVUD9UKT2Hh10eec5HcBlDQw==
 -----END PUBLIC KEY-----
 ~~~
 
-Hodler private key in PEM format
+Holder private key in PEM format
 
 ~~~
 -----BEGIN PRIVATE KEY-----
@@ -1066,6 +1117,61 @@ ta8Yx8xhrVJ6LU3HrixnfpbQzIJZdlXOktVQP1QpPYeHXR55zkdwGUND
 ~~~
 
 ## Issuer
+
+Issuer COSE key pair in Extended Diagnostic Notation (EDN)
+
+~~~ cbor-diag
+{
+  /kty/  1 : 2, /EC/
+  /kid/  2 : "https://issuer.example/cwk3.cbor",
+  /alg/  3 : -35, /ES384/
+  /crv/ -1 : 2, /P-384/
+  /x/   -2 : h'c31798b0c7885fa3528fbf877e5b4c3a6dc67a5a5dc6b307
+               b728c3725926f2abe5fb4964cd91e3948a5493f6ebb6cbbf',
+  /y/   -3 : h'8f6c7ec761691cad374c4daa9387453f18058ece58eb0a8e
+               84a055a31fb7f9214b27509522c159e764f8711e11609554',
+  /d/   -4 : h'71c54d2221937ea612db1221f0d3ddf771c9381c4e3be41d
+               5aa0a89d685f09cfef74c4bbf104783fd57e87ab227d074c'
+}
+~~~
+
+The fields necessary for the COSE Key Thumbprint {{!RFC9679}}
+in EDN format:
+
+~~~ cbor-diag
+{
+  /kty/  1 : 2, /EC/
+  /crv/ -1 : 2, /P-384/
+  /x/   -2 : h'c31798b0c7885fa3528fbf877e5b4c3a6dc67a5a5dc6b307
+               b728c3725926f2abe5fb4964cd91e3948a5493f6ebb6cbbf',
+  /y/   -3 : h'8f6c7ec761691cad374c4daa9387453f18058ece58eb0a8e
+               84a055a31fb7f9214b27509522c159e764f8711e11609554'
+}
+~~~
+
+The same map in CBOR pretty printing
+
+~~~ cbor-pretty
+A4                                      # map(5)
+   01                                   # unsigned(1)
+   02                                   # unsigned(2)
+   20                                   # negative(0)
+   02                                   # unsigned(2)
+   21                                   # negative(1)
+   58 30                                # bytes(48)
+      C31798B0C7885FA3528FBF877E5B4C3A6DC67A5A5DC6B307
+      B728C3725926F2ABE5FB4964CD91E3948A5493F6EBB6CBBF
+   22                                   # negative(2)
+   58 30                                # bytes(48)
+      8F6C7EC761691CAD374C4DAA9387453F18058ECE58EB0A8E
+      84A055A31FB7F9214B27509522C159E764F8711E11609554
+~~~
+
+The COSE thumbprint (in hexadecimal)--SHA256 hash of the thumbprint fields:
+
+~~~
+554550a611c9807b3462cfec4a690a1119bc43b571da1219782133f5fd6dbcb0
+~~~
 
 Issuer key pair in JWK format
 
