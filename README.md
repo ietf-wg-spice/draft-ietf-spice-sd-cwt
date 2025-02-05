@@ -1,6 +1,6 @@
 # SPICE SD-CWT
 
-This is the working area for the IETF [SPICE Working Group](https://datatracker.ietf.org/wg/spice/documents/) Internet-Draft, "SPICE SD-CWT".
+This is the working area for the IETF [SPICE Working Group](https://datatracker.ietf.org/group/spice/documents/) Internet-Draft, "SPICE SD-CWT".
 
 * [Editor's Copy](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/#go.draft-ietf-spice-sd-cwt.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-spice-sd-cwt)
@@ -27,3 +27,4 @@ $ make
 
 Command line usage requires that you have the necessary software installed.  See
 [the instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/SETUP.md).
+
