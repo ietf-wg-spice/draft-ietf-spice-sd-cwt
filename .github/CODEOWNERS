@@ -1,3 +1,3 @@
 # Automatically generated CODEOWNERS
 # Regenerate with `make update-codeowners`
-draft-ietf-spice-sd-cwt.md mprorock@mesur.io orie@or13.io henk.birkholz@ietf.contact rohan.ietf@gmail.com
+draft-ietf-spice-sd-cwt.md mprorock@mesur.io orie@or13.io @henkbirkholz @rohanmahy 
