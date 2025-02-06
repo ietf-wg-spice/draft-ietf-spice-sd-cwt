@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T00:41:00.837306+00:00",
+  "timestamp": "2025-02-06T00:42:39.292277+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4122,6 +4122,308 @@
           "createdAt": "2025-01-29T14:34:40Z",
           "updatedAt": "2025-01-29T14:34:40Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 46,
+      "id": "PR_kwDOMm_Q2s6KJch2",
+      "title": "Fix kcwt encoding; Add COSE Key thumbrints",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/46",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Fix the kcwt format (it needs to be a CoseMessage (tagged or untagged), not a bstr encoding of one.\r\n- Add COSE thumbprints for the holder and issuer to the examples in back\r\n\r\nThe \"Automatic update\" commits are from running `make update-files` (needed since GitHub deprecated v3 of their API)",
+      "createdAt": "2025-02-05T14:15:19Z",
+      "updatedAt": "2025-02-05T14:47:38Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "713730a1bf9477ba0e4116f6e7f48372be78a2d2",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "cose-thumb",
+      "headRefOid": "6af833fc7d54e2e76470e835689965673a27d662",
+      "closedAt": "2025-02-05T14:40:55Z",
+      "mergedAt": "2025-02-05T14:40:55Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "8da9424f47286e9c24dd29b18c1c442309372304"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6auvA7",
+          "commit": {
+            "abbreviatedOid": "8e5e67e"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:25:07Z",
+          "updatedAt": "2025-02-05T14:25:08Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\ndraft-ietf-spice-sd-cwt.md mprorock@mesur.io orie@or13.io henk.birkholz@ietf.contact rohan.ietf@gmail.com\r\n```",
+              "createdAt": "2025-02-05T14:25:07Z",
+              "updatedAt": "2025-02-05T14:25:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6auwSJ",
+          "commit": {
+            "abbreviatedOid": "8e5e67e"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:26:53Z",
+          "updatedAt": "2025-02-05T14:26:54Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "was this line auto-generated? Formally \"wg\" is more correct than \"group\" (as a BoF can be a group but is not a WG, group is a superset of wg, I think).\r\n\r\nThis is a nit! It was just highlighted in the diff.",
+              "createdAt": "2025-02-05T14:26:54Z",
+              "updatedAt": "2025-02-05T14:26:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6auxdd",
+          "commit": {
+            "abbreviatedOid": "ef8ecf7"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:28:31Z",
+          "updatedAt": "2025-02-05T14:28:32Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\ndraft-ietf-spice-sd-cwt.md mprorock@mesur.io orie@or13.io @henkbirkholz @rohanmahy \r\n```",
+              "createdAt": "2025-02-05T14:28:32Z",
+              "updatedAt": "2025-02-05T14:28:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6auyjw",
+          "commit": {
+            "abbreviatedOid": "8e5e67e"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:30:04Z",
+          "updatedAt": "2025-02-05T14:30:05Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Feel free to contact Martin Thomson. This is all boilerplate stuff that was autoupdated",
+              "createdAt": "2025-02-05T14:30:04Z",
+              "updatedAt": "2025-02-05T14:30:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6auy7R",
+          "commit": {
+            "abbreviatedOid": "8e5e67e"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:30:34Z",
+          "updatedAt": "2025-02-05T14:30:35Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "yes, 13",
+              "createdAt": "2025-02-05T14:30:35Z",
+              "updatedAt": "2025-02-05T14:30:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6auzM6",
+          "commit": {
+            "abbreviatedOid": "8e5e67e"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:30:58Z",
+          "updatedAt": "2025-02-05T14:30:58Z",
+          "comments": [
+            {
+              "originalPosition": 109,
+              "body": "heh",
+              "createdAt": "2025-02-05T14:30:58Z",
+              "updatedAt": "2025-02-05T14:30:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6auz58",
+          "commit": {
+            "abbreviatedOid": "7f33d77"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:31:56Z",
+          "updatedAt": "2025-02-05T14:31:57Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "this is now a mix?",
+              "createdAt": "2025-02-05T14:31:56Z",
+              "updatedAt": "2025-02-05T14:31:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6au0N2",
+          "commit": {
+            "abbreviatedOid": "7f33d77"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:32:23Z",
+          "updatedAt": "2025-02-05T14:32:24Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "ah. I am not arguing with MT on a nit... ack!",
+              "createdAt": "2025-02-05T14:32:23Z",
+              "updatedAt": "2025-02-05T14:32:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6au1EO",
+          "commit": {
+            "abbreviatedOid": "7f33d77"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:33:29Z",
+          "updatedAt": "2025-02-05T14:33:30Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Feel free to change orie and mike, but I just wanted to get it to stop complaining, and only later discovered that @{githubid} is valid",
+              "createdAt": "2025-02-05T14:33:29Z",
+              "updatedAt": "2025-02-05T14:33:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6au2rn",
+          "commit": {
+            "abbreviatedOid": "7f33d77"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:35:46Z",
+          "updatedAt": "2025-02-05T14:35:47Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "looks like a COSE_Messages now",
+              "createdAt": "2025-02-05T14:35:46Z",
+              "updatedAt": "2025-02-05T14:35:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6au3cV",
+          "commit": {
+            "abbreviatedOid": "7f33d77"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:36:51Z",
+          "updatedAt": "2025-02-05T14:36:51Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "That's what is supposed to be according to the IANA registration. **Not** a bstr encoded COSE_Message",
+              "createdAt": "2025-02-05T14:36:51Z",
+              "updatedAt": "2025-02-05T14:36:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6au4L4",
+          "commit": {
+            "abbreviatedOid": "7f33d77"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-02-05T14:37:49Z",
+          "updatedAt": "2025-02-05T14:37:49Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6au4xk",
+          "commit": {
+            "abbreviatedOid": "7f33d77"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:38:39Z",
+          "updatedAt": "2025-02-05T14:38:39Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "if it was complaining beforehand, this is the way",
+              "createdAt": "2025-02-05T14:38:39Z",
+              "updatedAt": "2025-02-05T14:38:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6au53F",
+          "commit": {
+            "abbreviatedOid": "7f33d77"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-05T14:40:08Z",
+          "updatedAt": "2025-02-05T14:40:08Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "ok,`@mproprock` and `@OR13` would make it consistent. Will fix",
+              "createdAt": "2025-02-05T14:40:08Z",
+              "updatedAt": "2025-02-05T14:40:08Z"
+            }
+          ]
         }
       ]
     }
