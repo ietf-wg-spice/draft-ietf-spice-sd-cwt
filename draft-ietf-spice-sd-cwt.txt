@@ -987,7 +987,7 @@ Issuer                           Holder                         Verifier
              } >>,                    / end of issuer_sd_cwt payload /
              / CWT signature / h'3337af2e66959614'
            ])     / end of issuer SD-CWT /
-       }>>,     / end of KBT protected header
+       }>>,     / end of KBT protected header /
        / KBT unprotected / {},
        / KBT payload / << {
            / cnonce / 39    : h'e0a156bb3f',
