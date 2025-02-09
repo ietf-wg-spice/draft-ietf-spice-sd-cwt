@@ -199,6 +199,18 @@ def cnf_from_key(cosekey):
     return {8: {1: cosekey_dict}}
 
 
+def sign(phdr, uhdr, payload, key):
+    # unlike pycose Sign1Message, the payload is not bstr encoded yet
+    from pycose.messages import Sign1Message
+    cwt_object = pycose.messages.sign1message.Sign1Message(
+      phdr=phdr,
+      uhdr=uhdr,
+      payload=cbor.dumps(payload),
+      key=key
+    )
+    return cwt_object.encode()
+
+
 if __name__ == "__main__":
     print("Generating examples for SD-CWT draft.")
     from pycose.keys import CoseKey
@@ -210,7 +222,6 @@ if __name__ == "__main__":
     to_be_redacted_payload = {
       1   : "https://issuer.example",
       2   : "mimi://example.com/d/asljc9sihSJI/08823ab2",
-      12  : -16,
       500 : True,
       cbor2.CBORTag(58,501) : "ABCD-123456",
       502 : [
@@ -228,7 +239,6 @@ if __name__ == "__main__":
     tbr_nested_payload = {
       1   : "https://issuer.example",
       2   : "mimi://example.com/d/asljc9sihSJI/08823ab2",
-      12  : -16,
       500 : True,
       cbor2.CBORTag(58,501) : "ABCD-123456",
       502 : [
@@ -273,81 +283,87 @@ if __name__ == "__main__":
     issuer_priv_key = CoseKey.from_pem_private_key(issuer_priv_pem)
     holder_priv_key = CoseKey.from_pem_private_key(holder_priv_pem)
     
+    # create common claims
+    holder_cnf = cnf_from_key(holder_priv_key)
+    cwt_time_claims = make_time_claims(3600*24, CWT_IAT) # one day expiration
+    
     # redact payload for primary example
     (payload, disclosures) = redact_map(to_be_redacted_payload, 1)
     
-    # generate pretty printed disclosures for draft
+    # generate/save pretty-printed disclosures from primary example
+    decoded_disclosures = parse_disclosures(disclosures)
+    TBC
     
+    # make issued CWT for primary example
+    payload |= holder_cnf | cwt_time_claims
     
+    cwt_full_unprotected = {}
+    cwt_full_unprotected[SD_CLAIMS] = disclosures
+    
+    cwt_protected = {
+      1 : -35,                                 # alg = ES384
+      4 : b'https://issuer.example/cwt-key3',  # kid
+      16: "application/sd+cwt"                 # typ
+      18: -16,                                 # sd_alg = SHA256
+    }
+    issuer_cwt = sign(cwt_protected,
+                       cwt_full_unprotected,
+                       payload,
+                       issuer_priv_key)
+    with open('issuer_cwt.cbor', 'wb') as file:
+        file.write(issuer_cwt)
+    
+    # make KBT for primary example
+    holder_unprotected = {
+      SD_CLAIMS: [
+        disclosures[0],
+        disclosures[1],
+        disclosures[3]
+      ]}
+    presentation_cwt = sign(cwt_protected,
+                       holder_unprotected,
+                       payload,
+                       issuer_priv_key)
+    # TODO: check the signatures for issuer_cwt and presentation_cwt are equal
+    
+    kbt_protected = {
+        1  : -7,                        # alg = ES256
+        16 : "application/kb+cwt",      # typ
+        13 : presentation_cwt           # kcwt
+    }
+    
+    kbt_payload = {
+        3: "https://verifier.example",  # aud
+        6: KBT_IAT                      # iat
+    }
+    
+    kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
+    with open('kbt.cbor', 'wb') as file:
+        file.write(kbt)
+    
+    # save files related to primary example
+    TBC
     
     # redact payload for nested example
-(payload, disclosures) = redact_map(tbr_nested_payload, 1)
-print(payload)
-print(disclosures)
-
-
-
-
-
-
-holder_cnf = cnf_from_key(holder_priv_key)
-
-
-time_claims = make_time_claims(3600*24, CWT_IAT) # one day expiration
-payload |= holder_cnf | time_claims
-
-cwt_full_unprotected = {}
-cwt_full_unprotected[SD_CLAIMS] = disclosures
-
-cwt_protected = {
-  1 : -35,                                 # alg = ES384
-  18: -16,                                 # sd_alg = SHA256
-  4 : b'https://issuer.example/cwt-key3',  # kid
-  18: "application/sd+cwt"                 # typ
-}
-
-from pycose.messages import Sign1Message
-from cbor2 import dumps
-
-cwt_object = pycose.messages.sign1message.Sign1Message(
-  phdr=cwt_protected,
-  uhdr=cwt_full_unprotected,
-  payload=dumps(payload),
-  key=issuer_priv_key
-)
-issuer_cwt = cwt_object.encode()
-
-import binascii
-print(binascii.hexlify(issuer_cwt))
-
-holder_unprotected = {
-  SD_CLAIMS: [
-    disclosures[0],
-    disclosures[1],
-    disclosures[3]
-  ]}
-cwt_object.uhdr = holder_unprotected
-presentation_cwt = cwt_object.encode()
-print(binascii.hexlify(presentation_cwt))
-
-
-
-kbt_protected = {
-    1  : -7,                        # alg = ES256
-    16 : "application/kb+cwt",      # typ
-    13 : presentation_cwt           # kcwt
-}
-
-import time
-kbt_payload = {
-    3: "https://verifier.example",  # aud
-    6: int(time.time())             # iat
-}
-
-kbt = Sign1Message(
-  phdr=kbt_protected,
-  payload=dumps(kbt_payload),
-  key=holder_priv_key
-).encode()
-
-print(binascii.hexlify(kbt))
+    (payload, disclosures) = redact_map(tbr_nested_payload, 1)
+    
+    # generate/save pretty-printed disclosures from nested example
+    payload |= holder_cnf | cwt_time_claims
+    
+    # which disclosures to include?
+    nested_unprotected = {
+      SD_CLAIMS: [
+        disclosures[0]
+      ]
+    }
+    nested_cwt = sign(cwt_protected,
+                      nested_unprotected,
+                      payload,
+                      issuer_priv_key)
+    kbt_protected[13] = nested_cwt
+    nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
+    with open('nested_kbt.cbor', 'wb') as file:
+        file.write(nested_kbt)
+    
+    # save files related to nested example
+    TBC
