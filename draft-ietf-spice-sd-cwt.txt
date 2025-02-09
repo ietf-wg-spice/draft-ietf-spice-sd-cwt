@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 9 August 2025                                       H. Birkholz
+Expires: 13 August 2025                                      H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                         5 February 2025
+                                                         9 February 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 August 2025.
+   This Internet-Draft will expire on 13 August 2025.
 
 Copyright Notice
 
@@ -295,11 +295,13 @@ Issuer                           Holder                         Verifier
        / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
        / cnf / 8  : {
          / cose key / 1 : {
-           / alg: ES256 /  3: -7,
-           / kty: EC2   /  1: 2,
-           / crv: P-256 / -1: 1,
-           / x / -2: b64'hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1Sei0',
-           / y / -3: b64'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
+           / kty /  1: 2,  / EC2   /
+           / alg /  3: 35, / ES256 /
+           / crv / -1: 1,  / P-256 /
+           / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                         2022fd0d3024b5af18c7cc61ad527a2d',
+           / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                         503f54293d87875d1e79ce4770194343'
          }
        },
        /most_recent_inspection_passed/ 500: true,
@@ -373,11 +375,13 @@ Issuer                           Holder                         Verifier
        / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
        / cnf / 8  : {
          / cose key / 1 : {
-           / alg: ES256 /  3: -7,
-           / kty: EC2   /  1: 2,
-           / crv: P-256 / -1: 1,
-           / x / -2: h'hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1Sei0',
-           / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
+           / kty /  1: 2,  / EC2   /
+           / alg /  3: 35, / ES256 /
+           / crv / -1: 1,  / P-256 /
+           / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                         2022fd0d3024b5af18c7cc61ad527a2d',
+           / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                         503f54293d87875d1e79ce4770194343'
          }
        },
        /most_recent_inspection_passed/ 500: true,
@@ -910,9 +914,9 @@ Issuer                           Holder                         Verifier
 
    / cose-sign1 / 18( / sd_kbt / [
        / KBT protected / << {
-           / alg / 1         : -7, / ES256 /
-           / typ / 16        : "application/kb+cwt",
-           / kcwt /        13:  18([  / issuer SD-CWT /
+           / alg /    1:  -7, / ES256 /
+           / typ /   16:  "application/kb+cwt",
+           / kcwt /  13:  18([  / issuer SD-CWT /
              / CWT protected / << {
                / alg /    1  : -35, / ES384 /
                / typ /    16 : "application/sd+cwt",
@@ -945,11 +949,13 @@ Issuer                           Holder                         Verifier
                / iat / 6   : 1683000000,
                / cnf / 8   : {
                  / cose key / 1 : {
-                   / alg: ES256 /  3: 35,
-                   / kty: EC2   /  1: 2,
-                   / crv: P-256 / -1: 1,
-                   / x / -2: h'768ed88626',
-                   / y / -3: h'6a48ccfd5d'
+                   / kty /  1: 2,  / EC2   /
+                   / alg /  3: 35, / ES256 /
+                   / crv / -1: 1,  / P-256 /
+                   / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                                 2022fd0d3024b5af18c7cc61ad527a2d',
+                   / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                                 503f54293d87875d1e79ce4770194343'
                  }
                },
                /most_recent_inspection_passed/ 500: true,
@@ -1698,7 +1704,7 @@ C.1.  Subject / Holder
      /x/   -2 : h'8554eb275dcd6fbd1c7ac641aa2c90d9
                   2022fd0d3024b5af18c7cc61ad527a2d',
      /y/   -3 : h'4dc7ae2c677e96d0cc82597655ce92d5
-                  503f54293d87875d1e79ce4770194343',
+                  503f54293d87875d1e79ce4770194343'
    }
 
    The same map in CBOR pretty printing
