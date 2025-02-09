@@ -1,8 +1,8 @@
 / cose-sign1 / 18( / sd_kbt / [
     / KBT protected / << {
-        / alg / 1         : -7, / ES256 /
-        / typ / 16        : "application/kb+cwt",
-        / kcwt /        13:  18([  / issuer SD-CWT /
+        / alg /    1:  -7, / ES256 /
+        / typ /   16:  "application/kb+cwt",
+        / kcwt /  13:  18([  / issuer SD-CWT /
           / CWT protected / << {
             / alg /    1  : -35, / ES384 /
             / typ /    16 : "application/sd+cwt",
@@ -35,11 +35,13 @@
             / iat / 6   : 1683000000,
             / cnf / 8   : {
               / cose key / 1 : {
-                / alg: ES256 /  3: 35,
-                / kty: EC2   /  1: 2,
-                / crv: P-256 / -1: 1,
-                / x / -2: h'768ed88626',
-                / y / -3: h'6a48ccfd5d'
+                / kty /  1: 2,  / EC2   /
+                / alg /  3: 35, / ES256 /
+                / crv / -1: 1,  / P-256 /
+                / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                              2022fd0d3024b5af18c7cc61ad527a2d',
+                / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                              503f54293d87875d1e79ce4770194343'
               }
             },
             /most_recent_inspection_passed/ 500: true,
