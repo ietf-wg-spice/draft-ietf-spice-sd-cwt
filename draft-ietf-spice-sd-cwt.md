@@ -205,11 +205,13 @@ Notation (EDN) {{!I-D.ietf-cbor-edn-literals}}. Note that some of the CWT claim 
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
     / cnf / 8  : {
       / cose key / 1 : {
-        / alg: ES256 /  3: -7,
-        / kty: EC2   /  1: 2,
-        / crv: P-256 / -1: 1,
-        / x / -2: b64'hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1Sei0',
-        / y / -3: b64'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
+        / kty /  1: 2,  / EC2   /
+        / alg /  3: 35, / ES256 /
+        / crv / -1: 1,  / P-256 /
+        / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                      2022fd0d3024b5af18c7cc61ad527a2d',
+        / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                      503f54293d87875d1e79ce4770194343'
       }
     },
     /most_recent_inspection_passed/ 500: true,
@@ -279,11 +281,13 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
     / cnf / 8  : {
       / cose key / 1 : {
-        / alg: ES256 /  3: -7,
-        / kty: EC2   /  1: 2,
-        / crv: P-256 / -1: 1,
-        / x / -2: h'hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1Sei0',
-        / y / -3: h'TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M'
+        / kty /  1: 2,  / EC2   /
+        / alg /  3: 35, / ES256 /
+        / crv / -1: 1,  / P-256 /
+        / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                      2022fd0d3024b5af18c7cc61ad527a2d',
+        / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                      503f54293d87875d1e79ce4770194343'
       }
     },
     /most_recent_inspection_passed/ 500: true,
@@ -1038,7 +1042,7 @@ in EDN format:
   /x/   -2 : h'8554eb275dcd6fbd1c7ac641aa2c90d9
                2022fd0d3024b5af18c7cc61ad527a2d',
   /y/   -3 : h'4dc7ae2c677e96d0cc82597655ce92d5
-               503f54293d87875d1e79ce4770194343',
+               503f54293d87875d1e79ce4770194343'
 }
 ~~~
 
