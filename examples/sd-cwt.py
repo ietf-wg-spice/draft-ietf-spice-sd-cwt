@@ -64,7 +64,8 @@ def parse_disclosures(disclosures):
     return new_array
 
 
-def redact_map(map, level):
+# TBC add decoy digests
+def redact_map(map, level=1, num_decoys=0):
     REDACTED_KEYS_ARRAY = cbor2.CBORSimpleValue(59)
     # REDACTED_KEYS_ARRAY = cbor2.CBORTag(59, 0)
     # REDACTED_KEYS_ARRAY = -65536
@@ -106,6 +107,7 @@ def redact_map(map, level):
         else:
             newmap[key] = value
     
+    # add num_decoys here
     return (newmap, disclosures)
 
 
@@ -202,13 +204,29 @@ def cnf_from_key(cosekey):
 def sign(phdr, uhdr, payload, key):
     # unlike pycose Sign1Message, the payload is not bstr encoded yet
     from pycose.messages import Sign1Message
-    cwt_object = pycose.messages.sign1message.Sign1Message(
+    cwt_object = Sign1Message(
       phdr=phdr,
       uhdr=uhdr,
-      payload=cbor.dumps(payload),
+      payload=cbor2.dumps(payload),
       key=key
     )
     return cwt_object.encode()
+
+
+def print_one_disclosure(disclosure, file=None):
+    print('        <<[', file=file)
+    print("            /salt/   h'{}',", file=file)
+    #            /claim/  501,  / inspector_license_number /
+    #            /value/  "ABCD-123456"
+    print('        ]>>', file=file)
+
+
+def print_decoded_disclosures(disclosures, file=None):
+    print('    / sd_claims / 17 : [ / these are all the disclosures /',
+          file=file)
+    for d in disclosures:
+        print_one_disclosure(d, file=file)
+    print('    ]', file=file)
 
 
 if __name__ == "__main__":
@@ -221,7 +239,7 @@ if __name__ == "__main__":
     
     to_be_redacted_payload = {
       1   : "https://issuer.example",
-      2   : "mimi://example.com/d/asljc9sihSJI/08823ab2",
+      2   : "https://device.example",
       500 : True,
       cbor2.CBORTag(58,501) : "ABCD-123456",
       502 : [
@@ -238,7 +256,7 @@ if __name__ == "__main__":
     
     tbr_nested_payload = {
       1   : "https://issuer.example",
-      2   : "mimi://example.com/d/asljc9sihSJI/08823ab2",
+      2   : "https://device.example",
       500 : True,
       cbor2.CBORTag(58,501) : "ABCD-123456",
       502 : [
@@ -255,11 +273,6 @@ if __name__ == "__main__":
             cbor2.CBORTag(58, 2): "two",
             cbor2.CBORTag(58, 3): "three"
         },
-        cbor2.CBORTag(58, 7): [
-            "A", 
-            cbor2.CBORTag(58, "B"), 
-            cbor2.CBORTag(58, "C")
-        ]
       }
     }
     
@@ -268,18 +281,6 @@ if __name__ == "__main__":
         issuer_priv_pem = file.read()
     with open('holder_privkey.pem', 'r') as file:
         holder_priv_pem = file.read()
-    #issuer_priv_pem = '''-----BEGIN PRIVATE KEY-----
-    #MIG2AgEAMBAGByqGSM49AgEGBSuBBAAiBIGeMIGbAgEBBDBxxU0iIZN+phLbEiHw
-    #0933cck4HE475B1aoKidaF8Jz+90xLvxBHg/1X6HqyJ9B0yhZANiAATDF5iwx4hf
-    #o1KPv4d+W0w6bcZ6Wl3Gswe3KMNyWSbyq+X7SWTNkeOUilST9uu2y7+PbH7HYWkc
-    #rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
-    #-----END PRIVATE KEY-----'''
-    
-    #holder_priv_pem = '''-----BEGIN PRIVATE KEY-----
-    #MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgV1moblm7OwAt3kZ9
-    #pLUvPQbmws1DlFbPBIW5uGQpTOWhRANCAASFVOsnXc1vvRx6xkGqLJDZICL9DTAk
-    #ta8Yx8xhrVJ6LU3HrixnfpbQzIJZdlXOktVQP1QpPYeHXR55zkdwGUND
-    #-----END PRIVATE KEY-----'''
     issuer_priv_key = CoseKey.from_pem_private_key(issuer_priv_pem)
     holder_priv_key = CoseKey.from_pem_private_key(holder_priv_pem)
     
@@ -288,11 +289,29 @@ if __name__ == "__main__":
     cwt_time_claims = make_time_claims(3600*24, CWT_IAT) # one day expiration
     
     # redact payload for primary example
-    (payload, disclosures) = redact_map(to_be_redacted_payload, 1)
+    (payload, disclosures) = redact_map(to_be_redacted_payload)
     
     # generate/save pretty-printed disclosures from primary example
     decoded_disclosures = parse_disclosures(disclosures)
-    TBC
+    #with open('disclosures.edn', 'w') as file:
+        #print_decoded_disclosures(decoded_disclosures, file=file)
+    
+    # write first disclosure becoming blinded claim
+    #with open('first-disclosure.edn', 'w') as file:
+        #print_one_disclosure(decoded_disclosures[0], file=file)
+    #first_bstr = cbor2.dumps(decoded_disclosures[0])
+    #with open('first-disclosure.cbor', 'wb') as file:
+        #file.write(first_bstr)
+    #first_redacted = bytes2hex(first_bstr)
+    #with open('first-blinded-hash.txt', 'w') as file:
+        #file.write(first_redacted)
+    #with open('first-redacted.edn', 'w') as file:
+        #print(f'''  / redacted_claim_keys / 59(0) : [
+#      / redacted inspector_license_number /
+#      h'{first_redacted[0:32]}
+#        {first_redacted[32:64]}',
+#      / ... next redacted claim at the same level would go here /
+#  ],''', file=file)
     
     # make issued CWT for primary example
     payload |= holder_cnf | cwt_time_claims
@@ -303,7 +322,7 @@ if __name__ == "__main__":
     cwt_protected = {
       1 : -35,                                 # alg = ES384
       4 : b'https://issuer.example/cwt-key3',  # kid
-      16: "application/sd+cwt"                 # typ
+      16: "application/sd+cwt",                # typ
       18: -16,                                 # sd_alg = SHA256
     }
     issuer_cwt = sign(cwt_protected,
@@ -324,7 +343,8 @@ if __name__ == "__main__":
                        holder_unprotected,
                        payload,
                        issuer_priv_key)
-    # TODO: check the signatures for issuer_cwt and presentation_cwt are equal
+    if issuer_cwt[-96:] != presentation_cwt[-96:]:
+        print("oops the issuer signatures don't match ")
     
     kbt_protected = {
         1  : -7,                        # alg = ES256
@@ -340,9 +360,6 @@ if __name__ == "__main__":
     kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
     with open('kbt.cbor', 'wb') as file:
         file.write(kbt)
-    
-    # save files related to primary example
-    TBC
     
     # redact payload for nested example
     (payload, disclosures) = redact_map(tbr_nested_payload, 1)
@@ -364,6 +381,4 @@ if __name__ == "__main__":
     nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
     with open('nested_kbt.cbor', 'wb') as file:
         file.write(nested_kbt)
-    
-    # save files related to nested example
-    TBC
+
