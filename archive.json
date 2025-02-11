@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-09T00:45:12.770688+00:00",
+  "timestamp": "2025-02-11T00:42:36.036510+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4422,6 +4422,149 @@
               "body": "ok,`@mproprock` and `@OR13` would make it consistent. Will fix",
               "createdAt": "2025-02-05T14:40:08Z",
               "updatedAt": "2025-02-05T14:40:08Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 47,
+      "id": "PR_kwDOMm_Q2s6Kjw46",
+      "title": "fix the x and y components of the cnf key",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/47",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- fix the x and y components of the cnf key\r\n- make edn comments and spacing consistent",
+      "createdAt": "2025-02-09T16:56:45Z",
+      "updatedAt": "2025-02-09T16:57:45Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "8da9424f47286e9c24dd29b18c1c442309372304",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "fix-cnf",
+      "headRefOid": "c67609987465c04821c53d48e3a0c65ca0af17d3",
+      "closedAt": "2025-02-09T16:57:44Z",
+      "mergedAt": "2025-02-09T16:57:44Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "c75764e742bd31e382ed2afcd0d00287002af683"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As this is a minor fix, merging without reviewers",
+          "createdAt": "2025-02-09T16:57:39Z",
+          "updatedAt": "2025-02-09T16:57:39Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 48,
+      "id": "PR_kwDOMm_Q2s6KlzEo",
+      "title": "Automatically build most of the examples in the draft",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/48",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Work In Progress\r\n\r\nAutomatically build as many of the examples in the draft as possible as well as CBOR files corresponding to examples.\r\n\r\n- [ ] generate CBOR files for examples\r\n- [ ] make EDN files from templates\r\n- [ ] make example disclosures and snippet for walkthrough in Section \r\n- [ ] verify EDN files match the CBOR\r\n- [ ] verify CBOR files are valid according to CDDL\r\n- [ ] include nested claims\r\n- [ ] include decoy digest",
+      "createdAt": "2025-02-10T05:59:52Z",
+      "updatedAt": "2025-02-10T16:09:39Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "f4861c2c3854e61eda45bfd1aee846a1e5f4c899",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "autobuild",
+      "headRefOid": "78b1cc106483232a8383fe57d0aeb2f777d0279a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6bUOxq",
+          "commit": {
+            "abbreviatedOid": "78b1cc1"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-10T13:33:57Z",
+          "updatedAt": "2025-02-10T13:33:57Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "why imports inside function, and not at top?",
+              "createdAt": "2025-02-10T13:33:57Z",
+              "updatedAt": "2025-02-10T13:33:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6bUPzQ",
+          "commit": {
+            "abbreviatedOid": "78b1cc1"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-10T13:35:40Z",
+          "updatedAt": "2025-02-10T13:35:41Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "do we really need double encoding?",
+              "createdAt": "2025-02-10T13:35:40Z",
+              "updatedAt": "2025-02-10T13:35:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6bWj74",
+          "commit": {
+            "abbreviatedOid": "78b1cc1"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-10T16:06:41Z",
+          "updatedAt": "2025-02-10T16:06:41Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "That's what is in the spec now. each disclosure is a `bstr .cbor salted` The first encoding turns the python array or tuple data structure into a CBOR array (A3 etc.) called `salted` in the CDDL. The second makes it an embedded bstr.",
+              "createdAt": "2025-02-10T16:06:41Z",
+              "updatedAt": "2025-02-10T16:06:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6bWm1_",
+          "commit": {
+            "abbreviatedOid": "78b1cc1"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-10T16:09:38Z",
+          "updatedAt": "2025-02-10T16:09:39Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "This isn't performance critical, so sticking the imports in the functions makes it a bit clearer to the reader of the code. I could go either way on this.",
+              "createdAt": "2025-02-10T16:09:38Z",
+              "updatedAt": "2025-02-10T16:09:39Z"
             }
           ]
         }
