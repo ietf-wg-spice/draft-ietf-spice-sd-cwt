@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-11T00:42:36.036510+00:00",
+  "timestamp": "2025-02-13T00:42:54.280714+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -743,6 +743,38 @@
       "body": "some uses of SD-CWT involve verifiers which have internal structure. Encrypted disclosures allow more fine-grained disclosure inside a single presentation.",
       "createdAt": "2025-01-29T15:04:30Z",
       "updatedAt": "2025-01-29T15:04:30Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 49,
+      "id": "I_kwDOMm_Q2s6pxvlP",
+      "title": "Eliminate bstr encoding of disclosure array elements",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/49",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Originally discussed in:\n\nhttps://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/48#discussion_r1952744696",
+      "createdAt": "2025-02-12T14:20:45Z",
+      "updatedAt": "2025-02-12T14:20:45Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 50,
+      "id": "I_kwDOMm_Q2s6py--3",
+      "title": "Should nested disclosures be always listed shallowest first?",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/50",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-02-12T16:08:11Z",
+      "updatedAt": "2025-02-12T16:08:11Z",
       "closedAt": null,
       "comments": []
     }
@@ -4475,7 +4507,7 @@
       "labels": [],
       "body": "Work In Progress\r\n\r\nAutomatically build as many of the examples in the draft as possible as well as CBOR files corresponding to examples.\r\n\r\n- [ ] generate CBOR files for examples\r\n- [ ] make EDN files from templates\r\n- [ ] make example disclosures and snippet for walkthrough in Section \r\n- [ ] verify EDN files match the CBOR\r\n- [ ] verify CBOR files are valid according to CDDL\r\n- [ ] include nested claims\r\n- [ ] include decoy digest",
       "createdAt": "2025-02-10T05:59:52Z",
-      "updatedAt": "2025-02-10T16:09:39Z",
+      "updatedAt": "2025-02-12T14:20:51Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "f4861c2c3854e61eda45bfd1aee846a1e5f4c899",
@@ -4565,6 +4597,66 @@
               "body": "This isn't performance critical, so sticking the imports in the functions makes it a bit clearer to the reader of the code. I could go either way on this.",
               "createdAt": "2025-02-10T16:09:38Z",
               "updatedAt": "2025-02-10T16:09:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6bsUKi",
+          "commit": {
+            "abbreviatedOid": "78b1cc1"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-12T14:19:28Z",
+          "updatedAt": "2025-02-12T14:19:29Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "```suggestion\r\n    return cbor2.dumps(disclosure_array)\r\n```",
+              "createdAt": "2025-02-12T14:19:28Z",
+              "updatedAt": "2025-02-12T14:19:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6bsUXw",
+          "commit": {
+            "abbreviatedOid": "78b1cc1"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-12T14:19:43Z",
+          "updatedAt": "2025-02-12T14:19:43Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "We need to update other parts of the spec as well",
+              "createdAt": "2025-02-12T14:19:43Z",
+              "updatedAt": "2025-02-12T14:19:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6bsVPI",
+          "commit": {
+            "abbreviatedOid": "78b1cc1"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-12T14:20:51Z",
+          "updatedAt": "2025-02-12T14:20:51Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/49",
+              "createdAt": "2025-02-12T14:20:51Z",
+              "updatedAt": "2025-02-12T14:20:51Z"
             }
           ]
         }
