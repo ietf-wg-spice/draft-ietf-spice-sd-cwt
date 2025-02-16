@@ -6,7 +6,7 @@ SD_CLAIMS = 17
 
 def bytes2hex(bytes):
     import binascii
-    return binascii.hexlify(bytes)
+    return binascii.hexlify(bytes).decode("utf-8")
 
 def hex2bytes(string):
     return bytes.fromhex(string)
@@ -60,7 +60,7 @@ def parse_disclosures(disclosures):
     import cbor2
     new_array = []
     for bstr in disclosures:
-        new_array += cbor2.loads(bstr)
+        new_array.append(cbor2.loads(bstr))
     return new_array
 
 
@@ -213,19 +213,44 @@ def sign(phdr, uhdr, payload, key):
     return cwt_object.encode()
 
 
-def print_one_disclosure(disclosure, file=None):
+def print_one_disclosure(disclosure, file=None, comment=None):
+    def val(value):
+        # get pretty printing to work correctly for unnested values 
+        if isinstance(value, str):
+            return '"' + value + '"'
+        elif isinstance(value, bytes):
+            return "h'" + bytes2hex(value) + "'"
+        elif isinstance(value, bool):
+            return "true" if value is True else "false"
+        else:
+            return value
+
+    if len(disclosure) == 0 or len(disclosure) > 3:
+        raise Exception("Too many/few elements in disclosure")
+    cmt = ""
+    if comment != None:
+        cmt = "   / " + comment + " /"
     print('        <<[', file=file)
-    print("            /salt/   h'{}',", file=file)
-    #            /claim/  501,  / inspector_license_number /
-    #            /value/  "ABCD-123456"
+    print(f"            /salt/   h'{bytes2hex(disclosure[0])}',", file=file)
+    if len(disclosure) == 3:
+        print(f"            /claim/  {val(disclosure[1])},{cmt}", file=file)
+        print(f"            /value/  {val(disclosure[2])}", file=file)
+    elif len(disclosure) == 2:
+        print(f"            /value/  {val(disclosure[1])}{cmt}", file=file)
     print('        ]>>', file=file)
 
 
-def print_decoded_disclosures(disclosures, file=None):
+def print_decoded_disclosures(disclosures, file=None, comments=[]):
     print('    / sd_claims / 17 : [ / these are all the disclosures /',
           file=file)
+    i = 0
     for d in disclosures:
-        print_one_disclosure(d, file=file)
+        cmt = None
+        if i < len(comments):
+            cmt = comments[i]
+        disc_array = cbor2.loads(d)
+        print_one_disclosure(disc_array, file=file, comment=cmt)
+        i += 1
     print('    ]', file=file)
 
 
@@ -292,26 +317,35 @@ if __name__ == "__main__":
     (payload, disclosures) = redact_map(to_be_redacted_payload)
     
     # generate/save pretty-printed disclosures from primary example
+    example_comments=[
+        "inspector_license_number",
+        "inspected 7-Feb-2019",
+        "inspected 4-Feb-2021",
+        "California"
+    ]
     decoded_disclosures = parse_disclosures(disclosures)
-    #with open('disclosures.edn', 'w') as file:
-        #print_decoded_disclosures(decoded_disclosures, file=file)
+    with open('disclosures.edn', 'w') as file:
+        print_decoded_disclosures(decoded_disclosures, file=file,
+            comments=example_comments)
     
     # write first disclosure becoming blinded claim
-    #with open('first-disclosure.edn', 'w') as file:
-        #print_one_disclosure(decoded_disclosures[0], file=file)
-    #first_bstr = cbor2.dumps(decoded_disclosures[0])
-    #with open('first-disclosure.cbor', 'wb') as file:
-        #file.write(first_bstr)
-    #first_redacted = bytes2hex(first_bstr)
-    #with open('first-blinded-hash.txt', 'w') as file:
-        #file.write(first_redacted)
-    #with open('first-redacted.edn', 'w') as file:
-        #print(f'''  / redacted_claim_keys / 59(0) : [
-#      / redacted inspector_license_number /
-#      h'{first_redacted[0:32]}
-#        {first_redacted[32:64]}',
-#      / ... next redacted claim at the same level would go here /
-#  ],''', file=file)
+    first_disc_array = cbor2.loads(decoded_disclosures[0])
+    with open('first-disclosure.edn', 'w') as file:
+        print_one_disclosure(first_disc_array, file=file,
+            comment=example_comments[0])
+    first_bstr = decoded_disclosures[0]
+    with open('first-disclosure.cbor', 'wb') as file:
+        file.write(first_bstr)
+    first_redacted = bytes2hex(sha256(first_bstr))
+    with open('first-blinded-hash.txt', 'w') as file:
+        file.write(first_redacted)
+    with open('first-redacted.edn', 'w') as file:
+        print ("  / redacted_claim_keys / 59(0) : [", file=file)
+        print( "      / redacted inspector_license_number /", file=file)
+        print(f"      h'{first_redacted[0:32]}", file=file)
+        print(f"        {first_redacted[32:64]}',", file=file)
+        print("      / ... next redacted claim at the same level would go here /", file=file)
+        print("  ],", file=file)
     
     # make issued CWT for primary example
     payload |= holder_cnf | cwt_time_claims
@@ -331,6 +365,11 @@ if __name__ == "__main__":
                        issuer_priv_key)
     with open('issuer_cwt.cbor', 'wb') as file:
         file.write(issuer_cwt)
+    
+    # write issuer CWT EDN from template
+    
+    
+    
     
     # make KBT for primary example
     holder_unprotected = {
@@ -363,6 +402,8 @@ if __name__ == "__main__":
     
     # redact payload for nested example
     (payload, disclosures) = redact_map(tbr_nested_payload, 1)
+    
+    # generate issued nested example?
     
     # generate/save pretty-printed disclosures from nested example
     payload |= holder_cnf | cwt_time_claims
