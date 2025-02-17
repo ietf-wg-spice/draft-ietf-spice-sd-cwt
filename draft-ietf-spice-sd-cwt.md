@@ -247,11 +247,7 @@ Some of the claims are *redacted* in the payload. The corresponding *disclosure*
 For example, the `inspector_license_number` claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the claim name, and claim value.
 
 ~~~ cbor-diag
-<<[
-    /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-    /claim/  501,  / inspector_license_number /
-    /value/  "ABCD-123456"
-]>>
+{::include examples/first-disclosure.edn}
 ~~~
 {: title="CBOR extended diagnostic notation representation of inspector_license_number disclosure"}
 
@@ -259,13 +255,7 @@ For example, the `inspector_license_number` claim is a Salted Disclosed Claim, c
 This is represented in CBOR pretty printed formal as follows (end of line comments and spaces inserted for clarity):
 
 ~~~ cbor-pretty
-58 21                                  # bytes(33)
-   83                                  # array(3)
-      50                               # bytes(16)
-         8D5C15FA86265D8FF77A0E92720CA837
-      19 01F5                          # unsigned(501)
-      6B                               # text(11)
-         414243442D313233343536        # "ABCD-123456"
+{::include examples/first-disclosure.pretty}
 ~~~
 {: title="CBOR encoding of inspector_license_number disclosure"}
 
@@ -274,7 +264,7 @@ The SHA-256 hash (the hash algorithm identified in the `sd_alg` protected header
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of `inspection_dates`).
 
 ~~~
-4af91954722d046376d6b54b62f09dcaec4bb1da1ba65ae1fda540d2c768ef3b
+{::include examples/first-blinded-hash.txt}
 ~~~
 {: title="SHA-256 hash of inspector_license_number disclosure"}
 
@@ -282,12 +272,7 @@ Finally, since this redacted claim is a map key and value, the Digested Salted D
 Redacted claims which are array elements are handled slightly differently, as described in {{types-of-blinded-claims}}.
 
 ~~~ cbor-diag
-  / redacted_claim_keys / 59(0) : [
-      / redacted inspector_license_number /
-      h'4af91954722d046376d6b54b62f09dca' +
-      h'ec4bb1da1ba65ae1fda540d2c768ef3b',
-      / ... next redacted claim at the same level would go here /
-  ],
+{::include examples/first-redacted.edn}
 ~~~
 {: title="redacted inspector_license_number claim in the issued CWT payload"}
 
@@ -615,8 +600,6 @@ Profiles built on this specification are also encouraged to use more specific me
 
 
 # Examples
-
-**TODO** - Provide more examples
 
 ## Minimal spanning example
 
