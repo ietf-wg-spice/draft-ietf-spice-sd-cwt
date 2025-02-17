@@ -4,6 +4,10 @@ primary = $(edn)  first-blinded-hash.txt
 keys = ../holder_privkey.pem ../issuer_privkey.pem
 generated = $(cbor) $(edn) first-blinded-hash.txt
 
+help:
+	echo 'To rebuild the examples, run:'
+	echo '    python3 sd-cwt.py && make first-disclosure.pretty'
+
 all: $(primary)
 
 $(primary): sd-cwt.py first-disclosure.pretty $(keys)

@@ -1,0 +1,6 @@
+83                                     # array(3)
+   50                                  # bytes(16)
+      18d27ca1148990c3c999ed914a1b73c6 # 16-byte salt
+   19 01f5                             # unsigned(501)
+   6b                                  # text(11)
+      414243442d313233343536           # "ABCD-123456"
