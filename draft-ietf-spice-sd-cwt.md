@@ -292,24 +292,8 @@ Finally, the Holder generates a Selective Disclosure Key Binding Token (SD-KBT) 
 
 The issued SD-CWT is placed in the `kcwt` (Confirmation Key CWT) protected header field (defined in {{!RFC9528}}).
 
-~~~
-/ kcwt / 13 :  18([
-  / protected / << {
-    / alg /  1 : -7 / ES256 /,
-    / typ /  16 : "application/kb+cwt",q
-    / kcwt / 13 : ...
-      / *** SD-CWT from Issuer goes here       /
-      /  with Holder's choice of disclosures   /
-      /  in the SD-CWT unprotected header  *** /
-  } >>,
-  / unprotected / {},
-  / payload / << {
-    / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
-    / aud     / 3    : "https://verifier.example/app",
-    / iat     / 6    : 1725283443, / 2024-09-02T06:24:03Z /
-  } >>,
-  / signature / h'1237af2e678945'  / TODO: fix /
-])
+~~~ cbor-diag
+{::include examples/elided-kbt.edn}
 ~~~
 
 Together the digests in protected parts of the issued SD-CWT, and the disclosures hashed in unprotected header of the `issuer_sd_cwt` are used by the Verifier to confirm the disclosed claims.

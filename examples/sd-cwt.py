@@ -578,7 +578,16 @@ if __name__ == "__main__":
         basic_presented_edn, iat=KBT_IAT, sig=kbt[-64:])
     with open('kbt.edn', 'w') as file:
         file.write(basic_kbt_edn)
-
+    
+    elision_message = ' '*15 + '''...
+       /  *** SD-CWT from Issuer goes here      /
+       /  with Holder's choice of disclosures   /
+       /  in the SD-CWT unprotected header  *** /'''
+    elided_kbt_edn = generate_basic_holder_kbt_edn(
+        elision_message , iat=KBT_IAT, sig=kbt[-64:])
+    write_to_file(elided_kbt_edn, 'elided-kbt.edn')
+    
+    
     # **** TODO: finish nested example
     
     tbr_nested_payload = {
