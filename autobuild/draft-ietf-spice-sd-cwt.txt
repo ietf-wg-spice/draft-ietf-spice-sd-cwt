@@ -289,14 +289,13 @@ Issuer                           Holder                         Verifier
 
    {
        / iss / 1  : "https://issuer.example",
-       / sub / 2  : "WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M",
+       / sub / 2  : "https://device.example",
        / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
        / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
        / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
        / cnf / 8  : {
          / cose key / 1 : {
            / kty /  1: 2,  / EC2   /
-           / alg /  3: 35, / ES256 /
            / crv / -1: 1,  / P-256 /
            / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
                          2022fd0d3024b5af18c7cc61ad527a2d',
@@ -333,50 +332,49 @@ Issuer                           Holder                         Verifier
    CWT).  After the Holder requests an SD-CWT from the issuer, the
    issuer generates an SD-CWT as follows:
 
-   / cose-sign1 / 18([
-     / protected / << {
+   / cose-sign1 / 18([  / issuer SD-CWT /
+     / CWT protected / << {
        / alg /    1  : -35, / ES384 /
        / typ /    16 : "application/sd+cwt",
-       / kid /    4  : 'https://issuer.example/cwk3.cbor',
+       / kid /    4  : 'https://issuer.example/cwt-key3',
        / sd_alg / 18 : -16  / SHA256 /
      } >>,
-     / unprotected / {
+     / CWT unprotected / {
        / sd_claims / 17 : [ / these are all the disclosures /
            <<[
-               /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-               /claim/  501,  / inspector_license_number /
+               /salt/   h'2008c50a62d9b59813318abd06df8a89',
+               /claim/  501,   / inspector_license_number /
                /value/  "ABCD-123456"
            ]>>,
            <<[
-               /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-               /value/  1549560720  / inspected 7-Feb-2019 /
+               /salt/   h'7afa9ed5103ecca7357c628f549a3581',
+               /value/  1549560720   / inspected 7-Feb-2019 /
            ]>>,
            <<[
-               /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-               /value/  1612498440  / inspected 4-Feb-2021 /
+               /salt/   h'033b375a7bc327497148458b3447cc46',
+               /value/  1612560720   / inspected 4-Feb-2021 /
            ]>>,
            <<[
-               /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
-               /claim/  "region",
-               /value/  "ca" /California/
+               /salt/   h'ef016cb1438d09d8b48ceee1709e2072',
+               /claim/  "region",   / region=California /
+               /value/  "ca"
            ]>>,
            <<[
-               /salt/   h'284538c4a1881fac49b2edc550c1913e',
+               /salt/   h'92753ef207fed9a767d75aec16ac0d18',
                /claim/  "postal_code",
                /value/  "94188"
-           ]>>
+           ]>>,
        ]
-     },
-     / payload / << {
-       / iss / 1  : "https://issuer.example",
-       / sub / 2  : "WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M",
-       / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
-       / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
-       / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
-       / cnf / 8  : {
+     }
+     / CWT payload / << {
+       / iss / 1   : "https://issuer.example",
+       / sub / 2   : "https://device.example",
+       / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
+       / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
+       / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
+       / cnf / 8   : {
          / cose key / 1 : {
            / kty /  1: 2,  / EC2   /
-           / alg /  3: 35, / ES256 /
            / crv / -1: 1,  / P-256 /
            / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
                          2022fd0d3024b5af18c7cc61ad527a2d',
@@ -387,32 +385,39 @@ Issuer                           Holder                         Verifier
        /most_recent_inspection_passed/ 500: true,
        / redacted_claim_keys / 59(0) : [
            / redacted inspector_license_number /
-           h'4af91954722d046376d6b54b62f09dca' +
-           h'ec4bb1da1ba65ae1fda540d2c768ef3b'
+           h'7d493be2eb59b6b9bbb81da46a72fc25
+             074481a7bfd8b2b2d8ce5a0d31ef2108'
        ],
        /inspection_dates/ 502 : [
            / redacted inspection date 7-Feb-2019 /
-           60(h'a0f74264a8c97655c958aff3687f1390' +
-              h'ed0ab6f64cd78ba43c3fefee0de7b835')
+           60(h'6db57c149ae619140db846203f67e3ed
+                f42f2cd8ac71feaab4684296077f1dc1'),
            / redacted inspection date 4-Feb-2021 /
-           60(h'1e7275bcda9bc183079cd4515c5c0282' +
-              h'a2a0e9105b660933e2e68f9a3f40974b')
+           60(h'e08fe0d7fcdaaa7cc6d0640405d2d952
+                7f01af8d0cd9da190ea7f85197b0b0f0'),
            1674004740,   / 2023-01-17T17:19:00 /
        ],
        / inspection_location / 503 : {
            "country" : "us",            / United States /
            / redacted_claim_keys / 59(0) : [
                / redacted region /
-               h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
-               h'ed010ac9ae1c93403ec72572bb1e00e7',
+               h'da8fb0da7f25d2e431e29acc3996a418
+                 17c39b7b0fc0d6c0603df29a3d548a0b'
                / redacted postal_code /
-               h'0b616e522a05d8d134a834979710120d' +
-               h'41ac1522b056d5f9509cf7e850047302'
-           ]
+               h'a4c4f26f027f12f40f77e3800fff0cf0
+                 d6a9c0a282c3c0f6a2ba4a08c293bc05'
+         ]
        }
      } >>,
-     / signature / h'3337af2e66959614' /TODO: fix /
+     / CWT signature / h'14d9566069bd96fd0d20ce37ad9b7bfb
+                         5d0e8e36dc665ffffa80b3dcbf76f66a
+                         a28adff482c3ffa660b30c4115fba350
+                         e30108fe2436388a9bd280893570e416
+                         3935146abee5e11248ce71c8b7f7e634
+                         cdb8feeccfb6439e2131ba03c1f0f65e'
    ])
+
+                Figure 1: Issued SD-CWT with all disclosures
 
    Some of the claims are _redacted_ in the payload.  The corresponding
    _disclosure_ is communicated in the unprotected header in the
@@ -420,27 +425,26 @@ Issuer                           Holder                         Verifier
    Salted Disclosed Claim, consisting of a per-disclosure random salt,
    the claim name, and claim value.
 
-   <<[
-       /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-       /claim/  501,  / inspector_license_number /
-       /value/  "ABCD-123456"
-   ]>>
+           <<[
+               /salt/   h'2008c50a62d9b59813318abd06df8a89',
+               /claim/  501,   / inspector_license_number /
+               /value/  "ABCD-123456"
+           ]>>,
 
-       Figure 1: CBOR extended diagnostic notation representation of
+       Figure 2: CBOR extended diagnostic notation representation of
                     inspector_license_number disclosure
 
    This is represented in CBOR pretty printed formal as follows (end of
    line comments and spaces inserted for clarity):
 
-   58 21                                  # bytes(33)
-      83                                  # array(3)
-         50                               # bytes(16)
-            8D5C15FA86265D8FF77A0E92720CA837
-         19 01F5                          # unsigned(501)
-         6B                               # text(11)
-            414243442D313233343536        # "ABCD-123456"
+   83                                     # array(3)
+      50                                  # bytes(16)
+         18d27ca1148990c3c999ed914a1b73c6 # 16-byte salt
+      19 01f5                             # unsigned(501)
+      6b                                  # text(11)
+         414243442d313233343536           # "ABCD-123456"
 
-       Figure 2: CBOR encoding of inspector_license_number disclosure
+       Figure 3: CBOR encoding of inspector_license_number disclosure
 
    The SHA-256 hash (the hash algorithm identified in the sd_alg
    protected header field) of that bytes string is the Digested Salted
@@ -449,9 +453,9 @@ Issuer                           Holder                         Verifier
    this example), or in a named array for a Redacted Claim Element (ex:
    for a redacted claim element of inspection_dates).
 
-   4af91954722d046376d6b54b62f09dcaec4bb1da1ba65ae1fda540d2c768ef3b
+   a6e9c2ef4e46ea49d6b2d664fdff610eec3815069579e08e8969d74aef701c37
 
-       Figure 3: SHA-256 hash of inspector_license_number disclosure
+       Figure 4: SHA-256 hash of inspector_license_number disclosure
 
    Finally, since this redacted claim is a map key and value, the
    Digested Salted Disclosed Claim is placed in a redacted_claim_keys
@@ -461,12 +465,11 @@ Issuer                           Holder                         Verifier
 
      / redacted_claim_keys / 59(0) : [
          / redacted inspector_license_number /
-         h'4af91954722d046376d6b54b62f09dca' +
-         h'ec4bb1da1ba65ae1fda540d2c768ef3b',
-         / ... next redacted claim at the same level would go here /
-     ],
+         h'a6e9c2ef4e46ea49d6b2d664fdff610e
+           ec3815069579e08e8969d74aef701c37',
+         / ... next redacted claim at the same level would go here /  ],
 
-      Figure 4: redacted inspector_license_number claim in the issued
+      Figure 5: redacted inspector_license_number claim in the issued
                                 CWT payload
 
 4.  Holder prepares an SD-CWT for a Verifier
@@ -480,23 +483,22 @@ Issuer                           Holder                         Verifier
    (California), and the earliest date element in the inspection_dates
    array (7-Feb-2019).
 
-   / sd_claims / 17 : /just the disclosures chosen by the Holder/
-   [
-       <<[
-           /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-           /claim/  501,  / inspector_license_number /
-           /value/  "ABCD-123456"
-       ]>>,
-       <<[
-           /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-           /value/  1549560720  / inspected 7-Feb-2019 /
-       ]>>,
-       <<[
-           /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
-           /claim/  "region",
-           /value/  "ca" /California/
-       ]>>
-   ]
+       / sd_claims / 17 : [ / these are the disclosures /
+           <<[
+               /salt/   h'2008c50a62d9b59813318abd06df8a89',
+               /claim/  501,   / inspector_license_number /
+               /value/  "ABCD-123456"
+           ]>>,
+           <<[
+               /salt/   h'7afa9ed5103ecca7357c628f549a3581',
+               /value/  1549560720   / inspected 7-Feb-2019 /
+           ]>>,
+           <<[
+               /salt/   h'ef016cb1438d09d8b48ceee1709e2072',
+               /claim/  "region",   / region=California /
+               /value/  "ca"
+           ]>>,
+       ]
 
    The Holder MAY fetch a nonce from the Verifier to prevent replay, or
    obtain a nonce acceptable to the verifier through a process similar
@@ -511,23 +513,27 @@ Issuer                           Holder                         Verifier
    The issued SD-CWT is placed in the kcwt (Confirmation Key CWT)
    protected header field (defined in [RFC9528]).
 
-   / kcwt / 13 :  18([
-     / protected / << {
-       / alg /  1 : -7 / ES256 /,
-       / typ /  16 : "application/kb+cwt",q
-       / kcwt / 13 : ...
-         / *** SD-CWT from Issuer goes here       /
-         /  with Holder's choice of disclosures   /
-         /  in the SD-CWT unprotected header  *** /
-     } >>,
-     / unprotected / {},
-     / payload / << {
+   / cose-sign1 / 18( / sd_kbt / [
+     / KBT protected / << {
+       / alg /    1:  -7, / ES256 /
+       / typ /   16:  "application/kb+cwt",
+       / kcwt /  13:  ...
+              /  *** SD-CWT from Issuer goes here      /
+              /  with Holder's choice of disclosures   /
+              /  in the SD-CWT unprotected header  *** /
+        / end of issuer SD-CWT /
+     } >>,     / end of KBT protected header /
+     / KBT unprotected / {},
+     / KBT payload / << {
        / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
-       / aud     / 3    : "https://verifier.example/app",
-       / iat     / 6    : 1725283443, / 2024-09-02T06:24:03Z /
-     } >>,
-     / signature / h'1237af2e678945'  / TODO: fix /
-   ])
+       / aud    /  3    : "https://verifier.example/app",
+       / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
+     } >>,      / end of KBT payload /
+     / KBT signature / h'db30ece366b9493155d2d80305c0e54b
+                         4457dda88cb6fc2de7e5756780590055
+                         147af721344c4e5b59c03c7b1eec8621
+                         c2a0647fb033d2e70a48063d37a96ab7'
+   ])   / end of kbt /
 
    Together the digests in protected parts of the issued SD-CWT, and the
    disclosures hashed in unprotected header of the issuer_sd_cwt are
@@ -905,99 +911,105 @@ Issuer                           Holder                         Verifier
 
 12.  Examples
 
-   *TODO* - Provide more examples
-
 12.1.  Minimal spanning example
 
    The following example contains claims needed to demonstrate redaction
    of key-value pairs and array elements.
 
    / cose-sign1 / 18( / sd_kbt / [
-       / KBT protected / << {
-           / alg /    1:  -7, / ES256 /
-           / typ /   16:  "application/kb+cwt",
-           / kcwt /  13:  18([  / issuer SD-CWT /
-             / CWT protected / << {
-               / alg /    1  : -35, / ES384 /
-               / typ /    16 : "application/sd+cwt",
-               / kid /    4  : 'https://issuer.example/cwt-key3',
-               / sd_alg / 18 : -16  / SHA256 /
-             } >>,
-             / CWT unprotected / {
-               / sd_claims / 17 : [  /these are the disclosures/
-                   <<[
-                       /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-                       /claim/  501,  / inspector_license_number /
-                       /value/  "ABCD-123456"
-                   ]>>,
-                   <<[
-                       /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-                       /value/  1549560720  / inspected 7-Feb-2019 /
-                   ]>>,
-                   <<[
-                       /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
-                       /claim/  "region",
-                       /value/  "ca" /California/
-                   ]>>
-               ],
-             },
-             / CWT payload / << {
-               / iss / 1   : "https://issuer.example",
-               / sub / 2   : "https://device.example",
-               / aud / 3   : "https://verifier.example",
-               / exp / 4   : 1883000000,
-               / iat / 6   : 1683000000,
-               / cnf / 8   : {
-                 / cose key / 1 : {
-                   / kty /  1: 2,  / EC2   /
-                   / alg /  3: 35, / ES256 /
-                   / crv / -1: 1,  / P-256 /
-                   / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
-                                 2022fd0d3024b5af18c7cc61ad527a2d',
-                   / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
-                                 503f54293d87875d1e79ce4770194343'
-                 }
-               },
-               /most_recent_inspection_passed/ 500: true,
+     / KBT protected / << {
+       / alg /    1:  -7, / ES256 /
+       / typ /   16:  "application/kb+cwt",
+       / kcwt /  13:  18([  / issuer SD-CWT /
+         / CWT protected / << {
+           / alg /    1  : -35, / ES384 /
+           / typ /    16 : "application/sd+cwt",
+           / kid /    4  : 'https://issuer.example/cwt-key3',
+           / sd_alg / 18 : -16  / SHA256 /
+         } >>,
+         / CWT unprotected / {
+           / sd_claims / 17 : [ / these are the disclosures /
+               <<[
+                   /salt/   h'2008c50a62d9b59813318abd06df8a89',
+                   /claim/  501,   / inspector_license_number /
+                   /value/  "ABCD-123456"
+               ]>>,
+               <<[
+                   /salt/   h'7afa9ed5103ecca7357c628f549a3581',
+                   /value/  1549560720   / inspected 7-Feb-2019 /
+               ]>>,
+               <<[
+                   /salt/   h'ef016cb1438d09d8b48ceee1709e2072',
+                   /claim/  "region",   / region=California /
+                   /value/  "ca"
+               ]>>,
+           ]
+         }
+         / CWT payload / << {
+           / iss / 1   : "https://issuer.example",
+           / sub / 2   : "https://device.example",
+           / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
+           / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
+           / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
+           / cnf / 8   : {
+             / cose key / 1 : {
+               / kty /  1: 2,  / EC2   /
+               / crv / -1: 1,  / P-256 /
+               / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                             2022fd0d3024b5af18c7cc61ad527a2d',
+               / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                             503f54293d87875d1e79ce4770194343'
+             }
+           },
+           /most_recent_inspection_passed/ 500: true,
+           / redacted_claim_keys / 59(0) : [
+               / redacted inspector_license_number /
+               h'7d493be2eb59b6b9bbb81da46a72fc25
+                 074481a7bfd8b2b2d8ce5a0d31ef2108'
+           ],
+           /inspection_dates/ 502 : [
+               / redacted inspection date 7-Feb-2019 /
+               60(h'6db57c149ae619140db846203f67e3ed
+                    f42f2cd8ac71feaab4684296077f1dc1'),
+               / redacted inspection date 4-Feb-2021 /
+               60(h'e08fe0d7fcdaaa7cc6d0640405d2d952
+                    7f01af8d0cd9da190ea7f85197b0b0f0'),
+               1674004740,   / 2023-01-17T17:19:00 /
+           ],
+           / inspection_location / 503 : {
+               "country" : "us",            / United States /
                / redacted_claim_keys / 59(0) : [
-                   / redacted inspector_license_number /
-                   h'7e6e350907d0ba3aa7ae114f8da5b360' +
-                   h'601c0bb7995cd40049b98e4f58fb6ec0'
-               ],
-               /inspection_dates/ 502 : [
-                   / redacted inspection date 7-Feb-2019 /
-                   60(h'a0f74264a8c97655c958aff3687f1390' +
-                      h'ed0ab6f64cd78ba43c3fefee0de7b835')
-                   / redacted inspection date 4-Feb-2021 /
-                   60(h'1e7275bcda9bc183079cd4515c5c0282' +
-                      h'a2a0e9105b660933e2e68f9a3f40974b')
-                   1674004740,   / 2023-01-17T17:19:00 /
-               ],
-               / inspection_location / 503 : {
-                   "country" : "us",            / United States /
-                   / redacted_claim_keys / 59(0) : [
-                       / redacted region /
-                       h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
-                       h'ed010ac9ae1c93403ec72572bb1e00e7',
-                       / redacted postal_code /
-                       h'0b616e522a05d8d134a834979710120d' +
-                       h'41ac1522b056d5f9509cf7e850047302'
-                   ]
-               }
-             } >>,                    / end of issuer_sd_cwt payload /
-             / CWT signature / h'3337af2e66959614'
-           ])     / end of issuer SD-CWT /
-       }>>,     / end of KBT protected header /
-       / KBT unprotected / {},
-       / KBT payload / << {
-           / cnonce / 39    : h'e0a156bb3f',
-           / aud     / 3    : "https://verifier.example",
-           / iat     / 6    : 1783000000
-       } >>,                              / end of kbt payload /
-       / KBT signature / h'1237af2e678945'
-   ])                                     / end of kbt /
+                   / redacted region /
+                   h'da8fb0da7f25d2e431e29acc3996a418
+                     17c39b7b0fc0d6c0603df29a3d548a0b'
+                   / redacted postal_code /
+                   h'a4c4f26f027f12f40f77e3800fff0cf0
+                     d6a9c0a282c3c0f6a2ba4a08c293bc05'
+             ]
+           }
+         } >>,
+         / CWT signature / h'14d9566069bd96fd0d20ce37ad9b7bfb
+                             5d0e8e36dc665ffffa80b3dcbf76f66a
+                             a28adff482c3ffa660b30c4115fba350
+                             e30108fe2436388a9bd280893570e416
+                             3935146abee5e11248ce71c8b7f7e634
+                             cdb8feeccfb6439e2131ba03c1f0f65e'
+       ])
+        / end of issuer SD-CWT /
+     } >>,     / end of KBT protected header /
+     / KBT unprotected / {},
+     / KBT payload / << {
+       / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
+       / aud    /  3    : "https://verifier.example/app",
+       / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
+     } >>,      / end of KBT payload /
+     / KBT signature / h'db30ece366b9493155d2d80305c0e54b
+                         4457dda88cb6fc2de7e5756780590055
+                         147af721344c4e5b59c03c7b1eec8621
+                         c2a0647fb033d2e70a48063d37a96ab7'
+   ])   / end of kbt /
 
-                          Figure 5: An EDN Example
+                          Figure 6: An EDN Example
 
 12.2.  Nested example
 
@@ -1549,93 +1561,93 @@ Issuer                           Holder                         Verifier
 
 Appendix A.  Complete CDDL Schema
 
-sd-cwt-types = sd-cwt-issued / kbt-cwt
+   sd-cwt-types = sd-cwt-issued / kbt-cwt
 
-sd-cwt-issued = #6.18([
-   protected: bstr .cbor sd-protected,
-   sd-unprotected,
-   payload: bstr .cbor sd-payload,
-   signature: bstr
-])
+   sd-cwt-issued = #6.18([
+      protected: bstr .cbor sd-protected,
+      sd-unprotected,
+      payload: bstr .cbor sd-payload,
+      signature: bstr
+   ])
 
-kbt-cwt = #6.18([
-   protected: bstr .cbor kbt-protected,
-   kbt-unprotected,
-   payload: bstr .cbor kbt-payload,
-   signature: bstr
-])
+   kbt-cwt = #6.18([
+      protected: bstr .cbor kbt-protected,
+      kbt-unprotected,
+      payload: bstr .cbor kbt-payload,
+      signature: bstr
+   ])
 
-sd-protected = {
-   &(typ: 16) ^ => "application/sd+cwt",
-   &(alg: 1) ^ => int,
-   &(sd_alg: TBD2) ^= int,             ; -16 for sha-256
-   * key => any
-}
+   sd-protected = {
+      &(typ: 16) ^ => "application/sd+cwt",
+      &(alg: 1) ^ => int,
+      &(sd_alg: TBD2) ^= int,             ; -16 for sha-256
+      * key => any
+   }
 
-kbt-protected = {
-   &(typ: 16) ^ => "application/kb+cwt",
-   &(alg: 1) ^ => int,
-   &(kcwt: 13) ^ => sd-cwt-issued,
-   * key => any
-}
+   kbt-protected = {
+      &(typ: 16) ^ => "application/kb+cwt",
+      &(alg: 1) ^ => int,
+      &(kcwt: 13) ^ => sd-cwt-issued,
+      * key => any
+   }
 
-sd-unprotected = {
-   ? &(sd_claims: TBD1) ^ => salted-array,
-   * key => any
-}
+   sd-unprotected = {
+      ? &(sd_claims: TBD1) ^ => salted-array,
+      * key => any
+   }
 
-kbt-unprotected = {
-   * key => any
-}
+   kbt-unprotected = {
+      * key => any
+   }
 
-sd-payload = {
-    ; standard claims
-      &(iss: 1) ^ => tstr, ; "https://issuer.example"
-    ? &(sub: 2) ^ => tstr, ; "https://device.example"
-    ? &(aud: 3) ^ => tstr, ; "https://verifier.example"
-    ? &(exp: 4) ^ => int,  ; 1883000000
-    ? &(nbf: 5) ^ => int,  ; 1683000000
-    ? &(iat: 6) ^ => int,  ; 1683000000
-    ? &(cti: 7) ^ => bstr,
-      &(cnf: 8) ^ => { * key => any }, ; key confirmation
-    ? &(cnonce: 39) ^ => bstr,
-    ;
-    ? &(redacted_claim_keys: TBD3) ^ => [ * bstr ],
-    * key => any
-}
+   sd-payload = {
+       ; standard claims
+         &(iss: 1) ^ => tstr, ; "https://issuer.example"
+       ? &(sub: 2) ^ => tstr, ; "https://device.example"
+       ? &(aud: 3) ^ => tstr, ; "https://verifier.example"
+       ? &(exp: 4) ^ => int,  ; 1883000000
+       ? &(nbf: 5) ^ => int,  ; 1683000000
+       ? &(iat: 6) ^ => int,  ; 1683000000
+       ? &(cti: 7) ^ => bstr,
+         &(cnf: 8) ^ => { * key => any }, ; key confirmation
+       ? &(cnonce: 39) ^ => bstr,
+       ;
+       ? &(redacted_claim_keys: TBD3) ^ => [ * bstr ],
+       * key => any
+   }
 
-kbt-payload = {
-      &(aud: 3) ^ => tstr, ; "https://verifier.example"
-    ? &(exp: 4) ^ => int,  ; 1883000000
-    ? &(nbf: 5) ^ => int,  ; 1683000000
-      &(iat: 6) ^ => int,  ; 1683000000
-    ? &(cnonce: 39) ^ => bstr,
-    * key => any
-}
+   kbt-payload = {
+         &(aud: 3) ^ => tstr, ; "https://verifier.example"
+       ? &(exp: 4) ^ => int,  ; 1883000000
+       ? &(nbf: 5) ^ => int,  ; 1683000000
+         &(iat: 6) ^ => int,  ; 1683000000
+       ? &(cnonce: 39) ^ => bstr,
+       * key => any
+   }
 
-salted-array = [ +bstr .cbor salted ]
-salted = salted-claim / salted-element / decoy
-salted-claim = [
-  bstr .size 16,     ; 128-bit salt
-  (int / text),      ; claim name
-  any                ; claim value
-]
-salted-element = [
-  bstr .size 16,     ; 128-bit salt
-  any                ; claim value
-]
-decoy = [
-  bstr .size 16      ; 128-bit salt
-]
+   salted-array = [ +bstr .cbor salted ]
+   salted = salted-claim / salted-element / decoy
+   salted-claim = [
+     bstr .size 16,     ; 128-bit salt
+     (int / text),      ; claim name
+     any                ; claim value
+   ]
+   salted-element = [
+     bstr .size 16,     ; 128-bit salt
+     any                ; claim value
+   ]
+   decoy = [
+     bstr .size 16      ; 128-bit salt
+   ]
 
-key = int / text
-TBD1 = 17
-TBD2 = 18
-;TBD3 = #6.58(any)      ; CBOR tag wrapping to-be-redacted keys or elements
-TBD4 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
-;TBD5 = #6.60( bstr ) ;redacted_claim_element
+   key = int / text
+   TBD1 = 17
+   TBD2 = 18
+   ;TBD3 = #6.58(any)      ; CBOR tag wrapping to-be-redacted keys or elements
+   TBD4 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
+   ;TBD5 = #6.60( bstr ) ;redacted_claim_element
 
-           Figure 6: A complete CDDL description of SD-CWT
+              Figure 7: A complete CDDL description of SD-CWT
 
 Appendix B.  Comparison to SD-JWT
 
@@ -1884,13 +1896,16 @@ D.1.  draft-ietf-spice-sd-cwt-03
       (#39)
 
    *  updated media types registrations to have more useful contacts
-      ($44)
+      (#44)
+
+   *  build most of the values (signatures/salts/hashes/dates) in the
+      examples automatically using a script that implements SD-CWT
+
+   *  regenerate all examples with correct signatures
 
    *  add description of decoy digests *TODO*
 
    *  add nested examples *TODO*
-
-   *  regenerate all examples with correct signatures *TODO*
 
    *  provide test vectors *TODO*
 
