@@ -327,8 +327,8 @@ def edn_one_disclosure(disclosure, comment=None):
     return edn
 
 
-def edn_decoded_disclosures(disclosures, comments=[]):
-    edn = '    / sd_claims / 17 : [ / these are all the disclosures /\n'
+def edn_decoded_disclosures(disclosures, comments=[], all=False):
+    edn = f'    / sd_claims / 17 : [ / these are {"all " if all else ""}the disclosures /\n'
     i = 0
     for d in disclosures:
         cmt = None
@@ -406,7 +406,7 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
 def generate_basic_holder_kbt_edn(issuer_cwt, iat, sig):
     cwt = indent(issuer_cwt, 4) # indent 4 spaces
     # trim the / cose-sign1 / and extra indent from first line
-    cwt = cwt[18:]
+    cwt = cwt[19:]
     #print(cwt)
     return f'''/ cose-sign1 / 18( / sd_kbt / [
   / KBT protected / << {{
@@ -477,16 +477,14 @@ if __name__ == "__main__":
     ]
     decoded_disclosures = parse_disclosures(disclosures)
     edn_disclosures = edn_decoded_disclosures(decoded_disclosures, 
-                                      comments=example_comments)
+                            comments=example_comments, all=True)
     redacted = redacted_hashes_from_disclosures(disclosures)
-    with open('disclosures.edn', 'w') as file:
-        print(edn_disclosures, file=file)
     
     # write first disclosure becoming blinded claim
     first_disc_array = cbor2.loads(decoded_disclosures[0])
     with open('first-disclosure.edn', 'w') as file:
         print(edn_one_disclosure(first_disc_array, comment=example_comments[0]),
-            file=file)
+            file=file, end='')
     first_bstr = decoded_disclosures[0]
     with open('first-disclosure.cbor', 'wb') as file:
         file.write(first_bstr)
@@ -498,7 +496,7 @@ if __name__ == "__main__":
         print( "      / redacted inspector_license_number /", file=file)
         print(f"      h'{first_redacted[0:32]}", file=file)
         print(f"        {first_redacted[32:64]}',", file=file)
-        print( "      / ... next redacted claim at the same level would go here /", file=file)
+        print( "      / ... next redacted claim at the same level would go here /", file=file, end='')
         print( "  ],", file=file)
     
     # make issued CWT for primary example
@@ -545,7 +543,8 @@ if __name__ == "__main__":
 
     edn_disclosures = edn_decoded_disclosures(
         presented_disclosures, comments=presented_comments)
-    #redacted = redacted_hashes_from_disclosures(presented_disclosures)
+    write_to_file(edn_disclosures, 'chosen-disclosures.edn')
+    
     basic_presented_edn = generate_basic_issuer_cwt_edn(edn_disclosures, 
         exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
         thumb_fields=holder_thumb_edn,

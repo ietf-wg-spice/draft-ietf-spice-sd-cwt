@@ -283,23 +283,7 @@ When the Holder wants to send an SD-CWT and disclose none, some, or all of the r
 For example, Alice decides to disclose to a verifier the `inspector_license_number` claim (ABCD-123456), the `region` claim (California), and the earliest date element in the `inspection_dates` array (7-Feb-2019).
 
 ~~~ cbor-diag
-/ sd_claims / 17 : /just the disclosures chosen by the Holder/
-[
-    <<[
-        /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-        /claim/  501,  / inspector_license_number /
-        /value/  "ABCD-123456"
-    ]>>,
-    <<[
-        /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-        /value/  1549560720  / inspected 7-Feb-2019 /
-    ]>>,
-    <<[
-        /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
-        /claim/  "region",
-        /value/  "ca" /California/
-    ]>>
-]
+{::include examples/chosen-disclosures.edn}
 ~~~
 
 The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the method described in {{?I-D.ietf-httpbis-unprompted-auth}}.
