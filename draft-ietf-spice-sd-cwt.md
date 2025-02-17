@@ -622,9 +622,9 @@ Profiles built on this specification are also encouraged to use more specific me
 
 The following example contains claims needed to demonstrate redaction of key-value pairs and array elements.
 
-~~~~~~~~~~
-{::include ./sd-cwt-example.cbor-diag}
-~~~~~~~~~~
+~~~ cbor-diag
+{::include examples/kbt.edn}
+~~~
 {: #example-edn title="An EDN Example"}
 
 
