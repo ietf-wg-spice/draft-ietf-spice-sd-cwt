@@ -4,6 +4,8 @@ import cbor2
 TO_BE_REDACTED_TAG = 58
 SD_CLAIMS = 17
 
+# ****** Generically useful functions
+
 def bytes2hex(bytes):
     import binascii
     return binascii.hexlify(bytes).decode("utf-8")
@@ -33,6 +35,45 @@ def write_to_file(value, filename):
     with open(filename, mode) as f:
         f.write(value)
 
+def pretty_hex(hex_str, indent=0):
+    # takes a string of hex digits and returns an h'' EDN string
+    # with at most 32 hex digits per line/row, indented `indent` spaces 
+    l = len(hex_str)
+    if l % 2 == 1:
+        raise Exception("Odd number of hex digits")
+    if l == 0:
+        return "h''"
+    # zero-indexed last row of hex chars
+    last_row = (l - 1) // 32
+    pretty = "h'"
+    for row in range(last_row + 1):
+        start = row*32
+        if row != last_row:
+            pretty += hex_str[start:start+32] + '\n' + ' '*(indent+2)
+        else:
+            pretty += hex_str[start:] + "'"
+    return pretty
+
+def iso_date(secs_since_epoch):
+    import datetime
+    t = datetime.datetime.fromtimestamp(secs_since_epoch, datetime.UTC)
+    return t.isoformat() + 'Z'
+
+def indent(string, num_spaces=4):
+    # take a multi-line string and add `num_spaces` spaces (if positive)
+    # TBC: or remove (if negative)
+    new_string = ""
+    if num_spaces > 0:
+        for line in string.splitlines():
+            new_string += (' '*num_spaces + line + '\n')
+        return new_string
+    #elif spaces < 0:
+        # trimming not yet supported
+    else:
+        return string
+
+
+# ****** Functions specific to SD-CWTs
 
 def make_time_claims(expiration, now=None, leeway=300):
     # all values should be in seconds
@@ -308,44 +349,7 @@ def redacted_hashes_from_disclosures(disclosures):
     return redacted
 
 
-def pretty_hex(hex_str, indent=0):
-    # takes a string of hex digits and returns an h'' EDN string
-    # with at most 32 hex digits per line/row, indented `indent` spaces 
-    l = len(hex_str)
-    if l % 2 == 1:
-        raise Exception("Odd number of hex digits")
-    if l == 0:
-        return "h''"
-    # zero-indexed last row of hex chars
-    last_row = (l - 1) // 32
-    pretty = "h'"
-    for row in range(last_row + 1):
-        start = row*32
-        if row != last_row:
-            pretty += hex_str[start:start+32] + '\n' + ' '*(indent+2)
-        else:
-            pretty += hex_str[start:] + "'"
-    return pretty
-
-def iso_date(secs_since_epoch):
-    import datetime
-    t = datetime.datetime.fromtimestamp(secs_since_epoch, datetime.UTC)
-    return t.isoformat() + 'Z'
-
-
-def indent(string, spaces=4):
-    # take a multi-line string and add `spaces` spaces (if positive)
-    # TBC: or remove (if negative)
-    new_string = ""
-    if spaces > 0:
-        for line in string.splitlines():
-            new_string += (' '*spaces + line + '\n')
-        return new_string
-    #elif spaces < 0:
-        # trimming not yet supported
-    else:
-        return string
-
+# ****** Functions to generate the *examples* in the SD-CWT draft
 
 # TODO: eventually put all under build_draft_examples
 #def build_draft_examples():
@@ -371,8 +375,7 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
     / iat / 6   : {iat},  /{iso_date(iat)}/
     / cnf / 8   : {{
       / cose key / 1 : {{
-{thumb_fields}
-      }}
+{thumb_fields}      }}
     }},
     /most_recent_inspection_passed/ 500: true,
     / redacted_claim_keys / 59(0) : [
@@ -450,43 +453,6 @@ if __name__ == "__main__":
       }
     }
     
-    tbr_nested_payload = {
-      1   : "https://issuer.example",
-      2   : "https://device.example",
-      cbor2.CBORTag(58,504) : [    # inspection history log
-          cbor2.CBORTag(58, {
-              500 : True,
-              502 : 1549560720,
-              cbor2.CBORTag(58,501) : "ABCD-101777",
-              cbor2.CBORTag(58, 503) : {
-                  1: "us",
-                  cbor2.CBORTag(58, 2): "ca",
-                  cbor2.CBORTag(58, 3): "94188",
-              }
-          }),
-          cbor2.CBORTag(58, {
-              500 : True,
-              502 : 1612560720,
-              cbor2.CBORTag(58,501) : "EFGH-789012",
-              cbor2.CBORTag(58, 503) : {
-                  1: "us",
-                  cbor2.CBORTag(58, 2): "nv",
-                  cbor2.CBORTag(58, 3): "89155",
-              }
-          }),
-          {
-              500 : True,
-              502 : 17183928,
-              cbor2.CBORTag(58,501) : "ABCD-123456",
-              cbor2.CBORTag(58, 503) : {
-                  1: "us",
-                  cbor2.CBORTag(58, 2): "ca",
-                  cbor2.CBORTag(58, 3): "94188",
-              }
-          },
-      ]
-    }
-    
     # load keys from files
     with open('issuer_privkey.pem', 'r') as file:
         issuer_priv_pem = file.read()
@@ -499,8 +465,6 @@ if __name__ == "__main__":
     (holder_cnf, holder_thumb_edn) = cnf_from_key(holder_priv_key)
     cwt_time_claims = make_time_claims(3600*24, CWT_IAT) # one day expiration
     
-
-
     # redact payload for primary example
     (payload, disclosures) = redact_map(to_be_redacted_payload)
     
@@ -616,7 +580,44 @@ if __name__ == "__main__":
     with open('kbt.edn', 'w') as file:
         file.write(basic_kbt_edn)
 
-
+    # **** TODO: finish nested example
+    
+    tbr_nested_payload = {
+      1   : "https://issuer.example",
+      2   : "https://device.example",
+      cbor2.CBORTag(58,504) : [    # inspection history log
+          cbor2.CBORTag(58, {
+              500 : True,
+              502 : 1549560720,
+              cbor2.CBORTag(58,501) : "ABCD-101777",
+              cbor2.CBORTag(58, 503) : {
+                  1: "us",
+                  cbor2.CBORTag(58, 2): "ca",
+                  cbor2.CBORTag(58, 3): "94188",
+              }
+          }),
+          cbor2.CBORTag(58, {
+              500 : True,
+              502 : 1612560720,
+              cbor2.CBORTag(58,501) : "EFGH-789012",
+              cbor2.CBORTag(58, 503) : {
+                  1: "us",
+                  cbor2.CBORTag(58, 2): "nv",
+                  cbor2.CBORTag(58, 3): "89155",
+              }
+          }),
+          {
+              500 : True,
+              502 : 17183928,
+              cbor2.CBORTag(58,501) : "ABCD-123456",
+              cbor2.CBORTag(58, 503) : {
+                  1: "us",
+                  cbor2.CBORTag(58, 2): "ca",
+                  cbor2.CBORTag(58, 3): "94188",
+              }
+          },
+      ]
+    }
     
     # redact payload for nested example
     #(payload, disclosures) = redact_map(tbr_nested_payload, 1)
