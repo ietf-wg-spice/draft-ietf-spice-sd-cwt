@@ -23,7 +23,18 @@ def sha256(bytes):
     import hashlib
     return hashlib.sha256(bytes).digest()
 
-def make_time_claims(expiration, leeway=300, now=None):
+def write_to_file(value, filename):
+    if isinstance(value, bytes):
+        mode = 'wb'
+    elif isinstance(value, str):
+        mode = 'w'
+    else:
+        raise Exception("Can only write a bytes or str")
+    with open(filename, mode) as f:
+        f.write(value)
+
+
+def make_time_claims(expiration, now=None, leeway=300):
     # all values should be in seconds
     if now is None:
         import time
@@ -47,7 +58,7 @@ def make_disclosure(salt=None, key=None, value=None):
             disclosure_array = [salt, value]
     else:
         if value is None:
-            raise Exception("Value must be specified is a key is present")
+            raise Exception("Value must be specified if a key is present")
         else:
             # map claim
             disclosure_array = [salt, key, value]
@@ -108,9 +119,18 @@ def redact_map(map, level=1, num_decoys=0):
             newmap[key] = value
     
     # add num_decoys here
+    #for i in range(num_decoys):
+    #    disclosure = make_disclosure()
+    #    disclosures.append(disclosure)
+    #    redacted = sha256(cbor2.dumps(disclosure))
+    #    if REDACTED_KEYS_ARRAY not in newmap:
+    #        newmap[REDACTED_KEYS_ARRAY] = []
+    #    newmap[REDACTED_KEYS_ARRAY].append(redacted)
+    
     return (newmap, disclosures)
 
 
+# TBC add decoy digests
 def redact_array(array, level):
     if type(array) is not list:
         raise Exception("Called redact_array on an object other than a list")
@@ -150,6 +170,9 @@ def redact_array(array, level):
 
 
 def cnf_from_key(cosekey):
+    # return/generate a confirmation key object AND
+    # its EDN thumbprint representation
+    # from the corresponding cosekey
     # cnf is 8
         # cose key is 1
             # alg is 3
@@ -171,34 +194,56 @@ def cnf_from_key(cosekey):
     from pycose.keys import EC2Key, CoseKey, OKPKey
     import pycose.keys.curves
     cosekey_dict = {}
+    edn = ""
+    crv = ""
+    alg = ""
     if type(cosekey) is pycose.keys.okp.OKPKey:
         cosekey_dict[1] = 1    # kty = OKP
         #cosekey_dict[3] = -8   # alg = EdDSA
         cosekey_dict[-2] = cosekey.x
         if cosekey.crv is pycose.keys.curves.Ed25519:
             cosekey_dict[-1] = 6
+            crv = "Ed25519"
         elif cosekey.crv is pycose.keys.curves.Ed448:
             cosekey_dict[-1] = 7
+            crv = "Ed448"
         else:
             raise Exception("Unknown curve")
+        #        / alg /  3: -8, / EdDSA /
+        edn = f'''        / kty /  1: 1,  / OKP   /
+        / crv / -1: {cosekey_dict[-1]},  / {crv} /
+        / x /   -2: {pretty_hex(bytes2hex(cosekey_dict[-2]), 20)}
+'''
     elif type(cosekey) is pycose.keys.ec2.EC2Key:
         cosekey_dict[1] = 2    # kty = EC2
         cosekey_dict[-2] = cosekey.x
         cosekey_dict[-3] = cosekey.y
         if cosekey.crv is pycose.keys.curves.P256:
             cosekey_dict[-1] = 1
+            crv = "P-256"
             #cosekey_dict[3] = -7
+            alg = "ES256"
         elif cosekey.crv is pycose.keys.curves.P384:
             cosekey_dict[-1] = 2
+            crv = "P-284"
             #cosekey_dict[3] = -35
+            alg = "ES384"
         elif cosekey.crv is pycose.keys.curves.P521:
             cosekey_dict[-1] = 3
+            crv = "P-521"
             #cosekey_dict[3] = -36
+            alg = "ES512"
         else:
             raise Exception("Unknown curve")
+        #        / alg /  3: {cosekey_dict[3]}, / {alg} /
+        edn = f'''        / kty /  1: 2,  / EC2   /
+        / crv / -1: {cosekey_dict[-1]},  / {crv} /
+        / x /   -2: {pretty_hex(bytes2hex(cosekey_dict[-2]), 20)},
+        / y /   -3: {pretty_hex(bytes2hex(cosekey_dict[-3]), 20)}
+'''
     else:
         raise Exception("Unsupported key type")
-    return {8: {1: cosekey_dict}}
+    return ( {8: {1: cosekey_dict}}, edn )
 
 
 def sign(phdr, uhdr, payload, key):
@@ -213,7 +258,7 @@ def sign(phdr, uhdr, payload, key):
     return cwt_object.encode()
 
 
-def print_one_disclosure(disclosure, file=None, comment=None):
+def edn_one_disclosure(disclosure, comment=None):
     def val(value):
         # get pretty printing to work correctly for unnested values 
         if isinstance(value, str):
@@ -230,28 +275,154 @@ def print_one_disclosure(disclosure, file=None, comment=None):
     cmt = ""
     if comment != None:
         cmt = "   / " + comment + " /"
-    print('        <<[', file=file)
-    print(f"            /salt/   h'{bytes2hex(disclosure[0])}',", file=file)
+    edn = '        <<[\n'
+    edn += f"            /salt/   h'{bytes2hex(disclosure[0])}',\n"
     if len(disclosure) == 3:
-        print(f"            /claim/  {val(disclosure[1])},{cmt}", file=file)
-        print(f"            /value/  {val(disclosure[2])}", file=file)
+        edn += f"            /claim/  {val(disclosure[1])},{cmt}\n"
+        edn += f"            /value/  {val(disclosure[2])}\n"
     elif len(disclosure) == 2:
-        print(f"            /value/  {val(disclosure[1])}{cmt}", file=file)
-    print('        ]>>', file=file)
+        edn += f"            /value/  {val(disclosure[1])}{cmt}\n"
+    edn += '        ]>>,\n'
+    return edn
 
 
-def print_decoded_disclosures(disclosures, file=None, comments=[]):
-    print('    / sd_claims / 17 : [ / these are all the disclosures /',
-          file=file)
+def edn_decoded_disclosures(disclosures, comments=[]):
+    edn = '    / sd_claims / 17 : [ / these are all the disclosures /\n'
     i = 0
     for d in disclosures:
         cmt = None
         if i < len(comments):
             cmt = comments[i]
         disc_array = cbor2.loads(d)
-        print_one_disclosure(disc_array, file=file, comment=cmt)
+        edn += edn_one_disclosure(disc_array, comment=cmt)
         i += 1
-    print('    ]', file=file)
+    edn += '    ]\n'
+    return edn
+
+
+def redacted_hashes_from_disclosures(disclosures):
+    # an array of the redacted SHA hex strings in same order as the disclosures
+    redacted = []
+    for d in disclosures:
+        redacted.append(bytes2hex(sha256(cbor2.dumps(d))))
+    return redacted
+
+
+def pretty_hex(hex_str, indent=0):
+    # takes a string of hex digits and returns an h'' EDN string
+    # with at most 32 hex digits per line/row, indented `indent` spaces 
+    l = len(hex_str)
+    if l % 2 == 1:
+        raise Exception("Odd number of hex digits")
+    if l == 0:
+        return "h''"
+    # zero-indexed last row of hex chars
+    last_row = (l - 1) // 32
+    pretty = "h'"
+    for row in range(last_row + 1):
+        start = row*32
+        if row != last_row:
+            pretty += hex_str[start:start+32] + '\n' + ' '*(indent+2)
+        else:
+            pretty += hex_str[start:] + "'"
+    return pretty
+
+def iso_date(secs_since_epoch):
+    import datetime
+    t = datetime.datetime.fromtimestamp(secs_since_epoch, datetime.UTC)
+    return t.isoformat() + 'Z'
+
+
+def indent(string, spaces=4):
+    # take a multi-line string and add `spaces` spaces (if positive)
+    # TBC: or remove (if negative)
+    new_string = ""
+    if spaces > 0:
+        for line in string.splitlines():
+            new_string += (' '*spaces + line + '\n')
+        return new_string
+    #elif spaces < 0:
+        # trimming not yet supported
+    else:
+        return string
+
+
+# TODO: eventually put all under build_draft_examples
+#def build_draft_examples():
+def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
+                                  thumb_fields, redacted, sig):
+    # use this function twice to generate two versions of this EDN:
+    #   - one for holder with all disclosures,
+    #   - one for verifier with holder-selected disclosures
+    return f'''/ cose-sign1 / 18([  / issuer SD-CWT /
+  / CWT protected / << {{
+    / alg /    1  : -35, / ES384 /
+    / typ /    16 : "application/sd+cwt",
+    / kid /    4  : 'https://issuer.example/cwt-key3',
+    / sd_alg / 18 : -16  / SHA256 /
+  }} >>,
+  / CWT unprotected / {{
+{edn_disclosures}  }}
+  / CWT payload / << {{
+    / iss / 1   : "https://issuer.example",
+    / sub / 2   : "https://device.example",
+    / exp / 4   : {exp},  /{iso_date(exp)}/
+    / nbf / 5   : {nbf},  /{iso_date(nbf)}/
+    / iat / 6   : {iat},  /{iso_date(iat)}/
+    / cnf / 8   : {{
+      / cose key / 1 : {{
+{thumb_fields}
+      }}
+    }},
+    /most_recent_inspection_passed/ 500: true,
+    / redacted_claim_keys / 59(0) : [
+        / redacted inspector_license_number /
+        {pretty_hex(redacted[0], 8)}
+    ],
+    /inspection_dates/ 502 : [
+        / redacted inspection date 7-Feb-2019 /
+        60({pretty_hex(redacted[1], 11)}),
+        / redacted inspection date 4-Feb-2021 /
+        60({pretty_hex(redacted[2], 11)}),
+        1674004740,   / 2023-01-17T17:19:00 /
+    ],
+    / inspection_location / 503 : {{
+        "country" : "us",            / United States /
+        / redacted_claim_keys / 59(0) : [
+            / redacted region /
+            {pretty_hex(redacted[3], 12)}
+            / redacted postal_code /
+            {pretty_hex(redacted[4], 12)}
+      ]
+    }}
+  }} >>,
+  / CWT signature / {pretty_hex(bytes2hex(sig), 20)}
+])'''
+
+
+def generate_basic_holder_kbt_edn(issuer_cwt, iat, sig):
+    cwt = indent(issuer_cwt, 4) # indent 4 spaces
+    # trim the / cose-sign1 / and extra indent from first line
+    cwt = cwt[18:]
+    #print(cwt)
+    return f'''/ cose-sign1 / 18( / sd_kbt / [
+  / KBT protected / << {{
+    / alg /    1:  -7, / ES256 /
+    / typ /   16:  "application/kb+cwt",
+    / kcwt /  13:  {cwt}     / end of issuer SD-CWT /
+  }} >>,     / end of KBT protected header /
+  / KBT unprotected / {{}},
+  / KBT payload / << {{
+    / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
+    / aud    /  3    : "https://verifier.example/app",
+    / iat    /  6    : {iat}, / {iso_date(iat)} /
+  }} >>,      / end of KBT payload /
+  / KBT signature / {pretty_hex(bytes2hex(sig), 20)}
+])   / end of kbt /'''
+
+
+#def make_basic_example():
+#    from pycose.keys import CoseKey
 
 
 if __name__ == "__main__":
@@ -273,32 +444,47 @@ if __name__ == "__main__":
         17183928
       ],
       503 : {
-        1: "us",
-        cbor2.CBORTag(58, 2): "ca",
-        cbor2.CBORTag(58, 3): "94188"
+        "country": "us",
+        cbor2.CBORTag(58, "region"): "ca",
+        cbor2.CBORTag(58, "postal_code"): "94188"
       }
     }
     
     tbr_nested_payload = {
       1   : "https://issuer.example",
       2   : "https://device.example",
-      500 : True,
-      cbor2.CBORTag(58,501) : "ABCD-123456",
-      502 : [
-        cbor2.CBORTag(58, 1549560720),
-        cbor2.CBORTag(58, 1612560720),
-        17183928
-      ],
-      cbor2.CBORTag(58, 503) : {
-        1: "us",
-        cbor2.CBORTag(58, 2): "ca",
-        cbor2.CBORTag(58, 3): "94188",
-        cbor2.CBORTag(58, 6): {
-            1: "one",
-            cbor2.CBORTag(58, 2): "two",
-            cbor2.CBORTag(58, 3): "three"
-        },
-      }
+      cbor2.CBORTag(58,504) : [    # inspection history log
+          cbor2.CBORTag(58, {
+              500 : True,
+              502 : 1549560720,
+              cbor2.CBORTag(58,501) : "ABCD-101777",
+              cbor2.CBORTag(58, 503) : {
+                  1: "us",
+                  cbor2.CBORTag(58, 2): "ca",
+                  cbor2.CBORTag(58, 3): "94188",
+              }
+          }),
+          cbor2.CBORTag(58, {
+              500 : True,
+              502 : 1612560720,
+              cbor2.CBORTag(58,501) : "EFGH-789012",
+              cbor2.CBORTag(58, 503) : {
+                  1: "us",
+                  cbor2.CBORTag(58, 2): "nv",
+                  cbor2.CBORTag(58, 3): "89155",
+              }
+          }),
+          {
+              500 : True,
+              502 : 17183928,
+              cbor2.CBORTag(58,501) : "ABCD-123456",
+              cbor2.CBORTag(58, 503) : {
+                  1: "us",
+                  cbor2.CBORTag(58, 2): "ca",
+                  cbor2.CBORTag(58, 3): "94188",
+              }
+          },
+      ]
     }
     
     # load keys from files
@@ -310,9 +496,11 @@ if __name__ == "__main__":
     holder_priv_key = CoseKey.from_pem_private_key(holder_priv_pem)
     
     # create common claims
-    holder_cnf = cnf_from_key(holder_priv_key)
+    (holder_cnf, holder_thumb_edn) = cnf_from_key(holder_priv_key)
     cwt_time_claims = make_time_claims(3600*24, CWT_IAT) # one day expiration
     
+
+
     # redact payload for primary example
     (payload, disclosures) = redact_map(to_be_redacted_payload)
     
@@ -321,18 +509,20 @@ if __name__ == "__main__":
         "inspector_license_number",
         "inspected 7-Feb-2019",
         "inspected 4-Feb-2021",
-        "California"
+        "region=California"
     ]
     decoded_disclosures = parse_disclosures(disclosures)
+    edn_disclosures = edn_decoded_disclosures(decoded_disclosures, 
+                                      comments=example_comments)
+    redacted = redacted_hashes_from_disclosures(disclosures)
     with open('disclosures.edn', 'w') as file:
-        print_decoded_disclosures(decoded_disclosures, file=file,
-            comments=example_comments)
+        print(edn_disclosures, file=file)
     
     # write first disclosure becoming blinded claim
     first_disc_array = cbor2.loads(decoded_disclosures[0])
     with open('first-disclosure.edn', 'w') as file:
-        print_one_disclosure(first_disc_array, file=file,
-            comment=example_comments[0])
+        print(edn_one_disclosure(first_disc_array, comment=example_comments[0]),
+            file=file)
     first_bstr = decoded_disclosures[0]
     with open('first-disclosure.cbor', 'wb') as file:
         file.write(first_bstr)
@@ -340,12 +530,12 @@ if __name__ == "__main__":
     with open('first-blinded-hash.txt', 'w') as file:
         file.write(first_redacted)
     with open('first-redacted.edn', 'w') as file:
-        print ("  / redacted_claim_keys / 59(0) : [", file=file)
+        print( "  / redacted_claim_keys / 59(0) : [", file=file)
         print( "      / redacted inspector_license_number /", file=file)
         print(f"      h'{first_redacted[0:32]}", file=file)
         print(f"        {first_redacted[32:64]}',", file=file)
-        print("      / ... next redacted claim at the same level would go here /", file=file)
-        print("  ],", file=file)
+        print( "      / ... next redacted claim at the same level would go here /", file=file)
+        print( "  ],", file=file)
     
     # make issued CWT for primary example
     payload |= holder_cnf | cwt_time_claims
@@ -355,7 +545,7 @@ if __name__ == "__main__":
     
     cwt_protected = {
       1 : -35,                                 # alg = ES384
-      4 : b'https://issuer.example/cwt-key3',  # kid
+      4 : b'https://issuer.example/cose-key3', # kid
       16: "application/sd+cwt",                # typ
       18: -16,                                 # sd_alg = SHA256
     }
@@ -368,16 +558,37 @@ if __name__ == "__main__":
     
     # write issuer CWT EDN from template
     
-    
-    
+    basic_issued_edn = generate_basic_issuer_cwt_edn(edn_disclosures, 
+        exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
+        thumb_fields=holder_thumb_edn,
+        redacted=redacted,
+        sig=issuer_cwt[-96:])
+    with open('issuer_cwt.edn', 'w') as file:
+        file.write(basic_issued_edn)
+
     
     # make KBT for primary example
-    holder_unprotected = {
-      SD_CLAIMS: [
-        disclosures[0],
-        disclosures[1],
-        disclosures[3]
-      ]}
+    presented_disclosures = [
+        decoded_disclosures[0],
+        decoded_disclosures[1],
+        decoded_disclosures[3]
+    ]
+    presented_comments=[
+        example_comments[0],
+        example_comments[1],
+        example_comments[3]
+    ]
+
+    edn_disclosures = edn_decoded_disclosures(
+        presented_disclosures, comments=presented_comments)
+    #redacted = redacted_hashes_from_disclosures(presented_disclosures)
+    basic_presented_edn = generate_basic_issuer_cwt_edn(edn_disclosures, 
+        exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
+        thumb_fields=holder_thumb_edn,
+        redacted=redacted,
+        sig=issuer_cwt[-96:])
+    
+    holder_unprotected = {SD_CLAIMS: presented_disclosures}
     presentation_cwt = sign(cwt_protected,
                        holder_unprotected,
                        payload,
@@ -400,26 +611,33 @@ if __name__ == "__main__":
     with open('kbt.cbor', 'wb') as file:
         file.write(kbt)
     
+    basic_kbt_edn = generate_basic_holder_kbt_edn(
+        basic_presented_edn, iat=KBT_IAT, sig=kbt[-64:])
+    with open('kbt.edn', 'w') as file:
+        file.write(basic_kbt_edn)
+
+
+    
     # redact payload for nested example
-    (payload, disclosures) = redact_map(tbr_nested_payload, 1)
+    #(payload, disclosures) = redact_map(tbr_nested_payload, 1)
     
     # generate issued nested example?
     
     # generate/save pretty-printed disclosures from nested example
-    payload |= holder_cnf | cwt_time_claims
+    #payload |= holder_cnf | cwt_time_claims
     
     # which disclosures to include?
-    nested_unprotected = {
-      SD_CLAIMS: [
-        disclosures[0]
-      ]
-    }
-    nested_cwt = sign(cwt_protected,
-                      nested_unprotected,
-                      payload,
-                      issuer_priv_key)
-    kbt_protected[13] = nested_cwt
-    nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
-    with open('nested_kbt.cbor', 'wb') as file:
-        file.write(nested_kbt)
+    #nested_unprotected = {
+    #  SD_CLAIMS: [
+    #    disclosures[0]
+    #  ]
+    #}
+    #nested_cwt = sign(cwt_protected,
+    #                  nested_unprotected,
+    #                  payload,
+    #                  issuer_priv_key)
+    #kbt_protected[13] = nested_cwt
+    #nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
+    #with open('nested_kbt.cbor', 'wb') as file:
+    #    file.write(nested_kbt)
 
