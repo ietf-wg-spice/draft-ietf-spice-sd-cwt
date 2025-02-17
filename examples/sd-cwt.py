@@ -454,9 +454,9 @@ if __name__ == "__main__":
     }
     
     # load keys from files
-    with open('issuer_privkey.pem', 'r') as file:
+    with open('../issuer_privkey.pem', 'r') as file:
         issuer_priv_pem = file.read()
-    with open('holder_privkey.pem', 'r') as file:
+    with open('../holder_privkey.pem', 'r') as file:
         holder_priv_pem = file.read()
     issuer_priv_key = CoseKey.from_pem_private_key(issuer_priv_pem)
     holder_priv_key = CoseKey.from_pem_private_key(holder_priv_pem)
