@@ -21,3 +21,4 @@ draft-ietf-spice-sd-cwt.xml
 package-lock.json
 report.xml
 !requirements.txt
+**/.DS_Store

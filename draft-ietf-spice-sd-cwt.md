@@ -199,14 +199,13 @@ Notation (EDN) {{!I-D.ietf-cbor-edn-literals}}. Note that some of the CWT claim 
 ~~~ cbor-diag
 {
     / iss / 1  : "https://issuer.example",
-    / sub / 2  : "WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M",
+    / sub / 2  : "https://device.example",
     / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
     / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
     / cnf / 8  : {
       / cose key / 1 : {
         / kty /  1: 2,  / EC2   /
-        / alg /  3: 35, / ES256 /
         / crv / -1: 1,  / P-256 /
         / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
                       2022fd0d3024b5af18c7cc61ad527a2d',
@@ -239,97 +238,16 @@ In our next example the pass/fail status of the inspection, the most recent insp
 After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-CWT as follows:
 
 ~~~ cbor-diag
-/ cose-sign1 / 18([
-  / protected / << {
-    / alg /    1  : -35, / ES384 /
-    / typ /    16 : "application/sd+cwt",
-    / kid /    4  : 'https://issuer.example/cwk3.cbor',
-    / sd_alg / 18 : -16  / SHA256 /
-  } >>,
-  / unprotected / {
-    / sd_claims / 17 : [ / these are all the disclosures /
-        <<[
-            /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-            /claim/  501,  / inspector_license_number /
-            /value/  "ABCD-123456"
-        ]>>,
-        <<[
-            /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-            /value/  1549560720  / inspected 7-Feb-2019 /
-        ]>>,
-        <<[
-            /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-            /value/  1612498440  / inspected 4-Feb-2021 /
-        ]>>,
-        <<[
-            /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
-            /claim/  "region",
-            /value/  "ca" /California/
-        ]>>,
-        <<[
-            /salt/   h'284538c4a1881fac49b2edc550c1913e',
-            /claim/  "postal_code",
-            /value/  "94188"
-        ]>>
-    ]
-  },
-  / payload / << {
-    / iss / 1  : "https://issuer.example",
-    / sub / 2  : "WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M",
-    / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
-    / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
-    / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
-    / cnf / 8  : {
-      / cose key / 1 : {
-        / kty /  1: 2,  / EC2   /
-        / alg /  3: 35, / ES256 /
-        / crv / -1: 1,  / P-256 /
-        / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
-                      2022fd0d3024b5af18c7cc61ad527a2d',
-        / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
-                      503f54293d87875d1e79ce4770194343'
-      }
-    },
-    /most_recent_inspection_passed/ 500: true,
-    / redacted_claim_keys / 59(0) : [
-        / redacted inspector_license_number /
-        h'4af91954722d046376d6b54b62f09dca' +
-        h'ec4bb1da1ba65ae1fda540d2c768ef3b'
-    ],
-    /inspection_dates/ 502 : [
-        / redacted inspection date 7-Feb-2019 /
-        60(h'a0f74264a8c97655c958aff3687f1390' +
-           h'ed0ab6f64cd78ba43c3fefee0de7b835')
-        / redacted inspection date 4-Feb-2021 /
-        60(h'1e7275bcda9bc183079cd4515c5c0282' +
-           h'a2a0e9105b660933e2e68f9a3f40974b')
-        1674004740,   / 2023-01-17T17:19:00 /
-    ],
-    / inspection_location / 503 : {
-        "country" : "us",            / United States /
-        / redacted_claim_keys / 59(0) : [
-            / redacted region /
-            h'c47e3b047c1cd6d9d1e1e01514bc2ec9' +
-            h'ed010ac9ae1c93403ec72572bb1e00e7',
-            / redacted postal_code /
-            h'0b616e522a05d8d134a834979710120d' +
-            h'41ac1522b056d5f9509cf7e850047302'
-        ]
-    }
-  } >>,
-  / signature / h'3337af2e66959614' /TODO: fix /
-])
+{::include examples/issuer_cwt.edn}
 ~~~
+{: #basic-issuer-cwt title="Issued SD-CWT with all disclosures"}
+
 
 Some of the claims are *redacted* in the payload. The corresponding *disclosure* is communicated in the unprotected header in the `sd_claims` key.
 For example, the `inspector_license_number` claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the claim name, and claim value.
 
 ~~~ cbor-diag
-<<[
-    /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-    /claim/  501,  / inspector_license_number /
-    /value/  "ABCD-123456"
-]>>
+{::include examples/first-disclosure.edn}
 ~~~
 {: title="CBOR extended diagnostic notation representation of inspector_license_number disclosure"}
 
@@ -337,13 +255,7 @@ For example, the `inspector_license_number` claim is a Salted Disclosed Claim, c
 This is represented in CBOR pretty printed formal as follows (end of line comments and spaces inserted for clarity):
 
 ~~~ cbor-pretty
-58 21                                  # bytes(33)
-   83                                  # array(3)
-      50                               # bytes(16)
-         8D5C15FA86265D8FF77A0E92720CA837
-      19 01F5                          # unsigned(501)
-      6B                               # text(11)
-         414243442D313233343536        # "ABCD-123456"
+{::include examples/first-disclosure.pretty}
 ~~~
 {: title="CBOR encoding of inspector_license_number disclosure"}
 
@@ -352,7 +264,7 @@ The SHA-256 hash (the hash algorithm identified in the `sd_alg` protected header
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of `inspection_dates`).
 
 ~~~
-4af91954722d046376d6b54b62f09dcaec4bb1da1ba65ae1fda540d2c768ef3b
+{::include examples/first-blinded-hash.txt}
 ~~~
 {: title="SHA-256 hash of inspector_license_number disclosure"}
 
@@ -360,12 +272,7 @@ Finally, since this redacted claim is a map key and value, the Digested Salted D
 Redacted claims which are array elements are handled slightly differently, as described in {{types-of-blinded-claims}}.
 
 ~~~ cbor-diag
-  / redacted_claim_keys / 59(0) : [
-      / redacted inspector_license_number /
-      h'4af91954722d046376d6b54b62f09dca' +
-      h'ec4bb1da1ba65ae1fda540d2c768ef3b',
-      / ... next redacted claim at the same level would go here /
-  ],
+{::include examples/first-redacted.edn}
 ~~~
 {: title="redacted inspector_license_number claim in the issued CWT payload"}
 
@@ -376,23 +283,7 @@ When the Holder wants to send an SD-CWT and disclose none, some, or all of the r
 For example, Alice decides to disclose to a verifier the `inspector_license_number` claim (ABCD-123456), the `region` claim (California), and the earliest date element in the `inspection_dates` array (7-Feb-2019).
 
 ~~~ cbor-diag
-/ sd_claims / 17 : /just the disclosures chosen by the Holder/
-[
-    <<[
-        /salt/   h'8d5c15fa86265d8ff77a0e92720ca837',
-        /claim/  501,  / inspector_license_number /
-        /value/  "ABCD-123456"
-    ]>>,
-    <<[
-        /salt/   h'86c84b9c3614ba27073c7e5a475a2a13',
-        /value/  1549560720  / inspected 7-Feb-2019 /
-    ]>>,
-    <<[
-        /salt/   h'30eef86edeaa197df7bd3d17dd89cd87',
-        /claim/  "region",
-        /value/  "ca" /California/
-    ]>>
-]
+{::include examples/chosen-disclosures.edn}
 ~~~
 
 The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the verifier through a process similar to the method described in {{?I-D.ietf-httpbis-unprompted-auth}}.
@@ -401,24 +292,8 @@ Finally, the Holder generates a Selective Disclosure Key Binding Token (SD-KBT) 
 
 The issued SD-CWT is placed in the `kcwt` (Confirmation Key CWT) protected header field (defined in {{!RFC9528}}).
 
-~~~
-/ kcwt / 13 :  18([
-  / protected / << {
-    / alg /  1 : -7 / ES256 /,
-    / typ /  16 : "application/kb+cwt",q
-    / kcwt / 13 : ...
-      / *** SD-CWT from Issuer goes here       /
-      /  with Holder's choice of disclosures   /
-      /  in the SD-CWT unprotected header  *** /
-  } >>,
-  / unprotected / {},
-  / payload / << {
-    / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
-    / aud     / 3    : "https://verifier.example/app",
-    / iat     / 6    : 1725283443, / 2024-09-02T06:24:03Z /
-  } >>,
-  / signature / h'1237af2e678945'  / TODO: fix /
-])
+~~~ cbor-diag
+{::include examples/elided-kbt.edn}
 ~~~
 
 Together the digests in protected parts of the issued SD-CWT, and the disclosures hashed in unprotected header of the `issuer_sd_cwt` are used by the Verifier to confirm the disclosed claims.
@@ -694,15 +569,13 @@ Profiles built on this specification are also encouraged to use more specific me
 
 # Examples
 
-**TODO** - Provide more examples
-
 ## Minimal spanning example
 
 The following example contains claims needed to demonstrate redaction of key-value pairs and array elements.
 
-~~~~~~~~~~
-{::include ./sd-cwt-example.cbor-diag}
-~~~~~~~~~~
+~~~ cbor-diag
+{::include examples/kbt.edn}
+~~~
 {: #example-edn title="An EDN Example"}
 
 
@@ -977,7 +850,7 @@ If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
 
 # Complete CDDL Schema {#cddl}
 
-~~~~~~~~~~
+~~~~~~~~~~ cddl
 {::include ./sd-cwts.cddl}
 ~~~~~~~~~~
 {: #cddl-schema title="A complete CDDL description of SD-CWT"}
@@ -1246,10 +1119,11 @@ Note: RFC Editor, please remove this entire section on publication.
 - clarify that duplicate map keys are not allowed, and how tagged keys are represented.
 - added security considerations section (#42) and text about privacy and linkability risks (#43)
 - register SD-CWT and SD-KBT as content formats in CoAP registry (#39)
-- updated media types registrations to have more useful contacts ($44)
+- updated media types registrations to have more useful contacts (#44)
+- build most of the values (signatures/salts/hashes/dates) in the examples automatically using a script that implements SD-CWT
+- regenerate all examples with correct signatures
 - add description of decoy digests **TODO**
 - add nested examples **TODO**
-- regenerate all examples with correct signatures **TODO**
 - provide test vectors **TODO**
 
 ## draft-ietf-spice-sd-cwt-02

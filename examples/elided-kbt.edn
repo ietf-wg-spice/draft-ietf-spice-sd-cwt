@@ -1,0 +1,21 @@
+/ cose-sign1 / 18( / sd_kbt / [
+  / KBT protected / << {
+    / alg /    1:  -7, / ES256 /
+    / typ /   16:  "application/kb+cwt",
+    / kcwt /  13:  ...
+           /  *** SD-CWT from Issuer goes here      /
+           /  with Holder's choice of disclosures   /
+           /  in the SD-CWT unprotected header  *** /
+     / end of issuer SD-CWT /
+  } >>,     / end of KBT protected header /
+  / KBT unprotected / {},
+  / KBT payload / << {
+    / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
+    / aud    /  3    : "https://verifier.example/app",
+    / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
+  } >>,      / end of KBT payload /
+  / KBT signature / h'db30ece366b9493155d2d80305c0e54b
+                      4457dda88cb6fc2de7e5756780590055
+                      147af721344c4e5b59c03c7b1eec8621
+                      c2a0647fb033d2e70a48063d37a96ab7'
+])   / end of kbt /
