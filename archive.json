@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-16T00:47:01.680575+00:00",
+  "timestamp": "2025-02-18T00:42:35.151722+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4505,20 +4505,28 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Work In Progress\r\n\r\nAutomatically build as many of the examples in the draft as possible as well as CBOR files corresponding to examples.\r\n\r\n- [ ] generate CBOR files for examples\r\n- [ ] make EDN files from templates\r\n- [ ] make example disclosures and snippet for walkthrough in Section \r\n- [ ] verify EDN files match the CBOR\r\n- [ ] verify CBOR files are valid according to CDDL\r\n- [ ] include nested claims\r\n- [ ] include decoy digest",
+      "body": "Work In Progress\r\n\r\nAutomatically build as many of the examples in the draft as possible as well as CBOR files corresponding to examples.\r\n\r\n- [x] generate CBOR files for examples\r\n- [x] make EDN files from templates\r\n- [x] make example disclosures and snippet for walkthrough in Section \r\n- [ ] verify EDN files match the CBOR\r\n- [ ] verify CBOR files are valid according to CDDL\r\n- [ ] include nested claims\r\n- [ ] include decoy digest",
       "createdAt": "2025-02-10T05:59:52Z",
-      "updatedAt": "2025-02-12T14:20:51Z",
+      "updatedAt": "2025-02-17T19:34:08Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "f4861c2c3854e61eda45bfd1aee846a1e5f4c899",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "autobuild",
-      "headRefOid": "78b1cc106483232a8383fe57d0aeb2f777d0279a",
+      "headRefOid": "fc399d4e66b16f9d0cfdf5544d58d1502cd197d8",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The draft now builds with real examples.\r\nI'm going to propose postponing the remaining 4 TODOs each into a separate PR and get this reviewed.\r\n\r\n",
+          "createdAt": "2025-02-17T19:34:05Z",
+          "updatedAt": "2025-02-17T19:34:05Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s6bUOxq",
