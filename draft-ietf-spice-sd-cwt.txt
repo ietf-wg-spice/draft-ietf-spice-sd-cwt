@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 22 August 2025                                      H. Birkholz
+Expires: 23 August 2025                                      H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                        18 February 2025
+                                                        19 February 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 August 2025.
+   This Internet-Draft will expire on 23 August 2025.
 
 Copyright Notice
 
@@ -823,7 +823,7 @@ Issuer                           Holder                         Verifier
    kbt-protected = {
       &(typ: 16) ^ => "application/kb+cwt",
       &(alg: 1) ^ => int,
-      &(kcwt: 13) ^ => bstr .cbor sd-cwt-issued,
+      &(kcwt: 13) ^ => sd-cwt-issued,
       * key => any
    }
 
