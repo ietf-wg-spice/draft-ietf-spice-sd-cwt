@@ -503,7 +503,7 @@ kbt-cwt = #6.18([
 kbt-protected = {
    &(typ: 16) ^ => "application/kb+cwt",
    &(alg: 1) ^ => int,
-   &(kcwt: 13) ^ => bstr .cbor sd-cwt-issued,
+   &(kcwt: 13) ^ => sd-cwt-issued,
    * key => any
 }
 
