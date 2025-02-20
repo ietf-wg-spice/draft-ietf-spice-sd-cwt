@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-18T00:42:35.151722+00:00",
+  "timestamp": "2025-02-20T00:43:13.634946+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -119,7 +119,7 @@
       "labels": [],
       "body": "do we want to support decoy digests like SD-JWT does?\r\n\r\nIf so, I left a simple hook to do so in PR #9 ",
       "createdAt": "2024-09-06T11:41:52Z",
-      "updatedAt": "2025-01-29T14:44:10Z",
+      "updatedAt": "2025-02-18T21:25:11Z",
       "closedAt": null,
       "comments": [
         {
@@ -135,6 +135,13 @@
           "body": "yes",
           "createdAt": "2025-01-29T14:44:08Z",
           "updatedAt": "2025-01-29T14:44:08Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This should now be relatively straightforward to add to the draft now that the script is generating the examples.",
+          "createdAt": "2025-02-18T21:25:09Z",
+          "updatedAt": "2025-02-18T21:25:09Z"
         }
       ]
     },
@@ -754,13 +761,25 @@
       "state": "OPEN",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "needs-list-review"
+      ],
       "body": "Originally discussed in:\n\nhttps://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/48#discussion_r1952744696",
       "createdAt": "2025-02-12T14:20:45Z",
-      "updatedAt": "2025-02-12T14:20:45Z",
+      "updatedAt": "2025-02-19T14:25:55Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "On the other hand, all COSE things that are hashed are bstr encoded (protected headers and payload). What is in the draft now is bstr encoded over the thing that gets hashed (the encoded disclosure array)",
+          "createdAt": "2025-02-19T14:25:54Z",
+          "updatedAt": "2025-02-19T14:25:54Z"
+        }
+      ]
     },
     {
       "number": 50,
@@ -777,6 +796,92 @@
       "updatedAt": "2025-02-12T16:08:11Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 51,
+      "id": "I_kwDOMm_Q2s6qa6MO",
+      "title": "Finish the nested example",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/51",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
+      "body": "",
+      "createdAt": "2025-02-18T02:33:35Z",
+      "updatedAt": "2025-02-18T02:36:10Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 52,
+      "id": "I_kwDOMm_Q2s6qa6Ww",
+      "title": "Verify EDN files in the draft match the example generated CBOR",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/52",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
+      "body": "in the examples Makefile, run diag2cbor on the full EDN examples and byte compare against the generated CBOR.",
+      "createdAt": "2025-02-18T02:34:17Z",
+      "updatedAt": "2025-02-19T14:27:49Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 53,
+      "id": "I_kwDOMm_Q2s6qa6eY",
+      "title": "Verify generated CBOR files are valid according to CDDL",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/53",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
+      "body": "in the Makefile, validate each of the CBOR files against the CDDL.",
+      "createdAt": "2025-02-18T02:34:46Z",
+      "updatedAt": "2025-02-19T14:30:16Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 54,
+      "id": "I_kwDOMm_Q2s6qczmt",
+      "title": "Canonical ordering of Salted fields",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/54",
+      "state": "OPEN",
+      "author": "beltram",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [
+        "needs-list-review"
+      ],
+      "body": "When parsing `salted` (`salted = salted-claim / salted-element / decoy`) in some languages, one might not have the length of the `salted-array`. It can cause the deserialization to be less efficient because the second element is either a claim key or a claim value depending if `salted` is a `salted-claim` or a `salted-element` (CDDL below for reference).\n\n```cddl\nsalted-claim = [\n  bstr .size 16,     ; 128-bit salt\n  (int / text),      ; claim name\n  any                ; claim value\n]\nsalted-element = [\n  bstr .size 16,     ; 128-bit salt\n  any                ; claim value\n]\n```\n\nIn some languages, like in Rust, the main parsing library (serde) does only [provide an iterator](https://docs.rs/serde/latest/serde/de/trait.SeqAccess.html#method.next_element) when deserializing arrays. It also does not provide an infallible [size hint](https://docs.rs/serde/latest/serde/de/trait.SeqAccess.html#method.size_hint) of the array. Hence, implementers, have to add some performance overhead in their parser to deal with that case.\n\nThe recommendation would be to have a canonical order of these fields, so that the second element is always a claim value, i.e.\n```diff\nsalted-claim = [\n  bstr .size 16,     ; 128-bit salt\n+  any                ; claim value\n  (int / text),      ; claim name\n-  any                ; claim value\n]\n```\n\nThe current implementation roughly looks like this in Rust. You have to deserialize the second element twice: first to an intermediate `Value`, then, depending on the array size, to either a claim name or value.\n\n```rust\nimpl<'de, T> serde::Deserialize<'de> for Salted<T> {\n    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {\n        struct SaltedVisitor<T>(core::marker::PhantomData<T>);\n\n        impl<'de, T> serde::de::Visitor<'de> for SaltedVisitor<T> {\n            type Value = Salted<T>;\n\n            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {\n                write!(formatter, \"a salted disclosure\")\n            }\n\n            fn visit_seq<A: serde::de::SeqAccess<'de>>(self, mut seq: A) -> Result<Self::Value, A::Error> {\n                use serde::de::Error as _;\n\n                let salt = seq.next_element::<Salt>()??;\n                let second: Option<Value> = seq.next_element::<Value>()?;\n                let third: Option<T> = seq.next_element::<T>()?;\n\n                Ok(match (salt, second, third) {\n                    (salt, None, None) => Salted::Decoy(Decoy { salt: (salt,) }),\n                    (salt, Some(value), None) => {\n                        let value = value.deserialized()?; // <-- overhead\n                        Salted::Element(SaltedElement { salt, value })\n                    },\n                    (salt, Some(name), Some(value)) => {\n                        let name = name.deserialized()?; // <-- overhead\n                        Salted::Claim(SaltedClaim { salt, value, name })\n                    },\n                    _ => return Err(A::Error::custom(\"Invalid disclosure\")),\n                })\n            }\n        }\n\n        deserializer.deserialize_seq(SaltedVisitor(Default::default()))\n    }\n}\n```",
+      "createdAt": "2025-02-18T08:22:14Z",
+      "updatedAt": "2025-02-19T14:31:15Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Seems worth doing",
+          "createdAt": "2025-02-19T14:31:14Z",
+          "updatedAt": "2025-02-19T14:31:14Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -4500,24 +4605,26 @@
       "id": "PR_kwDOMm_Q2s6KlzEo",
       "title": "Automatically build most of the examples in the draft",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/48",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Work In Progress\r\n\r\nAutomatically build as many of the examples in the draft as possible as well as CBOR files corresponding to examples.\r\n\r\n- [x] generate CBOR files for examples\r\n- [x] make EDN files from templates\r\n- [x] make example disclosures and snippet for walkthrough in Section \r\n- [ ] verify EDN files match the CBOR\r\n- [ ] verify CBOR files are valid according to CDDL\r\n- [ ] include nested claims\r\n- [ ] include decoy digest",
       "createdAt": "2025-02-10T05:59:52Z",
-      "updatedAt": "2025-02-17T19:34:08Z",
+      "updatedAt": "2025-02-18T02:29:15Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "f4861c2c3854e61eda45bfd1aee846a1e5f4c899",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "autobuild",
       "headRefOid": "fc399d4e66b16f9d0cfdf5544d58d1502cd197d8",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-02-18T02:29:15Z",
+      "mergedAt": "2025-02-18T02:29:15Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "5363b439e841f4cf5fc3d3931f37d7e916d35af9"
+      },
       "comments": [
         {
           "author": "rohanmahy",
@@ -4667,6 +4774,61 @@
               "updatedAt": "2025-02-12T14:20:51Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6cTKXz",
+          "commit": {
+            "abbreviatedOid": "fc399d4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-02-18T02:07:57Z",
+          "updatedAt": "2025-02-18T02:07:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 55,
+      "id": "PR_kwDOMm_Q2s6Lwlm9",
+      "title": "make CDDL snippet in draft consistent with sd-cwts.cddl",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/55",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-02-19T14:23:10Z",
+      "updatedAt": "2025-02-19T14:41:25Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "5363b439e841f4cf5fc3d3931f37d7e916d35af9",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "rohanmahy-patch-1",
+      "headRefOid": "1f6eb045fccf57ca8d9fccb8ee68e3fd9a2b87cb",
+      "closedAt": "2025-02-19T14:41:25Z",
+      "mergedAt": "2025-02-19T14:41:25Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "132a10b3f986bf186e8e1442243857ab4468f7a7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6clMb4",
+          "commit": {
+            "abbreviatedOid": "1f6eb04"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-02-19T14:28:19Z",
+          "updatedAt": "2025-02-19T14:28:19Z",
+          "comments": []
         }
       ]
     }
