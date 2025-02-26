@@ -62,7 +62,7 @@ kbt-payload = {
     * key => any   
 }
 
-salted-array = [ +bstr .cbor salted ]
+salted-array = [ +salted ]
 salted = salted-claim / salted-element / decoy
 salted-claim = [
   bstr .size 16,     ; 128-bit salt

@@ -103,8 +103,7 @@ def make_disclosure(salt=None, key=None, value=None):
         else:
             # map claim
             disclosure_array = [salt, key, value]
-    # double encode to add bstr type and bstr length
-    return cbor2.dumps(cbor2.dumps(disclosure_array))
+    return cbor2.dumps(disclosure_array)
 
 
 def parse_disclosures(disclosures):
@@ -316,14 +315,14 @@ def edn_one_disclosure(disclosure, comment=None):
     cmt = ""
     if comment != None:
         cmt = "   / " + comment + " /"
-    edn = '        <<[\n'
+    edn = '        [\n'
     edn += f"            /salt/   h'{bytes2hex(disclosure[0])}',\n"
     if len(disclosure) == 3:
         edn += f"            /claim/  {val(disclosure[1])},{cmt}\n"
         edn += f"            /value/  {val(disclosure[2])}\n"
     elif len(disclosure) == 2:
         edn += f"            /value/  {val(disclosure[1])}{cmt}\n"
-    edn += '        ]>>,\n'
+    edn += '        ],\n'
     return edn
 
 

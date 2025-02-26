@@ -354,7 +354,7 @@ decoy = [
 ]
 
 ; a collection of Salted Disclosed Claims
-salted-array = [ +bstr .cbor salted ]
+salted-array = [ +salted ]
 ~~~
 
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
