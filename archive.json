@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-25T00:44:45.200727+00:00",
+  "timestamp": "2025-02-27T00:43:54.668989+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -882,6 +882,22 @@
           "updatedAt": "2025-02-19T14:31:14Z"
         }
       ]
+    },
+    {
+      "number": 56,
+      "id": "I_kwDOMm_Q2s6rukPV",
+      "title": "Support thumbprint as confirmation method \"ckt\"",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/56",
+      "state": "OPEN",
+      "author": "beltram",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "When a Holder and a Verifier share signature keys in an out-of-band way, it could be interesting for them to use CoseKey Thumprint [RFC 9676](https://datatracker.ietf.org/doc/html/rfc9679) in the confirmation method (as specified [here](https://datatracker.ietf.org/doc/html/rfc9679#section-5.6)) to further reduce the size of the SD-KBT presented, which this draft is all about.\n\nWe should mention the possibility of using this Confirmation Method in [SD-CWT Issuance](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-sd-cwt-issuance) and advise about the usage in \"Security Considerations\".",
+      "createdAt": "2025-02-26T10:43:18Z",
+      "updatedAt": "2025-02-26T10:43:18Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -4828,6 +4844,61 @@
           "body": "",
           "createdAt": "2025-02-19T14:28:19Z",
           "updatedAt": "2025-02-19T14:28:19Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 57,
+      "id": "PR_kwDOMm_Q2s6MpeCf",
+      "title": "removing double encoding WIP",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/57",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR is for discussion purposes.\r\n\r\nThe COSE protected headers and COSE payload are bstr encoded because they are used as inputs to a the signature function.\r\nThe disclosures are currently bstr encoded because they are used as inputs to the blinded hashes.\r\n\r\nThe WG could choose to stay with bstr encoding for consistency with COSE (any input to a crypto algorithm is bstr encoded), or we could eliminate one step of encoding. YMMV.",
+      "createdAt": "2025-02-26T13:50:23Z",
+      "updatedAt": "2025-02-26T18:58:58Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "132a10b3f986bf186e8e1442243857ab4468f7a7",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "single-encode",
+      "headRefOid": "4976f562d6a13d868278e2dfbc975225d25e2f35",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We should send some comment about this to the list.",
+          "createdAt": "2025-02-26T18:58:38Z",
+          "updatedAt": "2025-02-26T18:58:38Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "And add a note about it to the history so we can cover the recap at 122",
+          "createdAt": "2025-02-26T18:58:56Z",
+          "updatedAt": "2025-02-26T18:58:56Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6dsCBk",
+          "commit": {
+            "abbreviatedOid": "4976f56"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-02-26T18:58:06Z",
+          "updatedAt": "2025-02-26T18:58:06Z",
           "comments": []
         }
       ]
