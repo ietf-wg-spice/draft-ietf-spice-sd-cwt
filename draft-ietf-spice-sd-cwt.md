@@ -581,7 +581,6 @@ Taking the first example disclosure from above:
 ~~~
 
 The corresponding bstr is encrypted with an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} such as AEAD_AES_128_GCM, using the salt as the nonce.
-In the example below the key in hex is '1eb2d67081ee9950fb3a14c6e8896203'.
 The `salt`, the algorithm used (`alg`), and the resulting `ciphertext` and `mac` are put in an array.
 The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotected header field array.
 
@@ -598,6 +597,8 @@ The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotecte
     ...
 ]
 ~~~
+
+> In the example above the key in hex is '1eb2d67081ee9950fb3a14c6e8896203'.
 
 The receiver of an encrypted disclosure locates the appropriate key by looking up the unique salt.
 Details of key management are left to the specific protocols which make use of encrypted disclosures.
