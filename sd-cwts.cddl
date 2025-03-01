@@ -81,13 +81,13 @@ decoy = [
 encrypted-array = [ +bstr .cbor encrypted ]
 encrypted = [
   bstr .size 16,     ; 128-bit salt
-  COSE_Alg,          ; a COSE Algorithm which provides encryption
-  bstr               ; the ciphertext output of a bstr-encoded-salted
-                     ; which has a matching salt
+  uint16,            ; IANA AEAD Algorithm number
+  bstr,              ; the ciphertext output of a bstr-encoded-salted
+                     ;   with a matching salt
+  bstr               ; the corresponding MAC
 ]
 ;bstr-encoded-salted = bstr .cbor salted
 
-COSE_Alg = int / tstr
 key = int / text
 TBD1 = 17
 TBD2 = 18
