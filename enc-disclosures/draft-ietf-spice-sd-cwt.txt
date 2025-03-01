@@ -573,20 +573,23 @@ Issuer                           Holder                         Verifier
        /value/  "ABCD-123456"
    ]>>
 
-   The corresponding bstr is encrypted with either a COSE content
-   encryption algorithm (for example AES256CGM) as defined in Section 4
-   of [RFC9053], or a "content key distribution method" algorithm (for
-   example ECDH-ES+HKDF-256) as defined in Section 6 of [RFC9053], using
-   the salt as the context.  The resulting salt, the algorithm used
-   (alg), and the resulting ciphertext are put in an array.  The bstr
-   encoding of the array is placed in the sd_encrypted_claims
+   The corresponding bstr is encrypted with an IANA registered
+   Authenticated Encryption with Additional Data (AEAD) algorithm
+   [RFC5116] such as AEAD_AES_128_GCM, using the salt as the nonce.  In
+   the example below the key in hex is
+   '1eb2d67081ee9950fb3a14c6e8896203'.  The salt, the algorithm used
+   (alg), and the resulting ciphertext and mac are put in an array.  The
+   bstr encoding of the array is placed in the sd_encrypted_claims
    unprotected header field array.
 
    / sd_encrypted_claims / 19 : [ / encrypted disclosures /
        <<[
-           /salt/       h'2008c50a62d9b59813318abd06df8a89',
-           /alg/        3, / AES256GCM /
-           /ciphertext/ h''
+           /salt/        h'2008c50a62d9b59813318abd06df8a89',
+           /alg/         1, / AEAD_AES_128_GCM /
+           /ciphertext/  h'b8cf6ed5905b6b0d9c1e7f274ecee4cb
+                            ac8f5ad4dac6ba88e7673e70bafa87b5
+                            9a61c7',
+           /mac/         h'4ea90eef6b3d05d632e6f19b49aa9de5'
        ]>>,
        ...
    ]
@@ -601,13 +604,12 @@ Issuer                           Holder                         Verifier
    encrypted-array = [ +bstr .cbor encrypted ]
    encrypted = [
      bstr .size 16,     ; 128-bit salt
-     COSE_Alg,          ; a COSE Algorithm which provides encryption
-     bstr               ; the ciphertext output of a bstr-encoded-salted
-                        ; which has a matching salt
+     uint16,            ; IANA AEAD Algorithm number
+     bstr,              ; the ciphertext output of a bstr-encoded-salted
+                        ;   with a matching salt
+     bstr               ; the corresponding MAC
    ]
    ;bstr-encoded-salted = bstr .cbor salted
-
-   COSE_Alg = int / tstr
 
 5.  Update to the CBOR Web Token Specification
 
@@ -1550,6 +1552,10 @@ Issuer                           Holder                         Verifier
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+   [RFC5116]  McGrew, D., "An Interface and Algorithms for Authenticated
+              Encryption", RFC 5116, DOI 10.17487/RFC5116, January 2008,
+              <https://www.rfc-editor.org/rfc/rfc5116>.
+
    [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
               2015, <https://www.rfc-editor.org/rfc/rfc7515>.
@@ -1625,9 +1631,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-16, 27
-              February 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-selective-disclosure-jwt-16>.
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-17, 1
+              March 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-selective-disclosure-jwt-17>.
 
    [I-D.ietf-httpbis-unprompted-auth]
               Schinazi, D., Oliver, D., and J. Hoyland, "The Concealed
@@ -1743,13 +1749,13 @@ Appendix A.  Complete CDDL Schema
    encrypted-array = [ +bstr .cbor encrypted ]
    encrypted = [
      bstr .size 16,     ; 128-bit salt
-     COSE_Alg,          ; a COSE Algorithm which provides encryption
-     bstr               ; the ciphertext output of a bstr-encoded-salted
-                        ; which has a matching salt
+     uint16,            ; IANA AEAD Algorithm number
+     bstr,              ; the ciphertext output of a bstr-encoded-salted
+                        ;   with a matching salt
+     bstr               ; the corresponding MAC
    ]
    ;bstr-encoded-salted = bstr .cbor salted
 
-   COSE_Alg = int / tstr
    key = int / text
    TBD1 = 17
    TBD2 = 18
