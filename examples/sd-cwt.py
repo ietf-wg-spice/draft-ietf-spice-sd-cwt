@@ -4,6 +4,9 @@ import cbor2
 TO_BE_REDACTED_TAG = 58
 SD_CLAIMS = 17
 
+def hex2bytes(string):
+    return bytes.fromhex(string)
+
 # pre-used salts so the values can stay the same when the data is the same
 # hashes the rest of the disclosure (minus the salt) as the dict key
 salts = {
@@ -33,9 +36,6 @@ salts = {
 def bytes2hex(bytes):
     import binascii
     return binascii.hexlify(bytes).decode("utf-8")
-
-def hex2bytes(string):
-    return bytes.fromhex(string)
 
 def new_redacted_entry_tag(value):
     REDACTED_ENTRY_TAG = 59
