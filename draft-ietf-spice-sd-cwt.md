@@ -600,7 +600,10 @@ The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotecte
 
 > In the example above the key in hex is '1eb2d67081ee9950fb3a14c6e8896203'.
 
+The blinded claim hash is still over the unencrypted disclosure.
 The receiver of an encrypted disclosure locates the appropriate key by looking up the unique salt.
+If the verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it where in the `sd_claims` unprotected header in the SD-CWT.
+
 Details of key management are left to the specific protocols which make use of encrypted disclosures.
 
 The CDDL for encrypted disclosures is described below.
