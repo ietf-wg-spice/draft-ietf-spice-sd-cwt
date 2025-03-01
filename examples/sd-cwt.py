@@ -72,7 +72,31 @@ salts = {
 
     # nested disclosure 11
     hex2bytes('e8053bef82eb7beec078a5af997d1b9d83c89d0209cea84901a6fa4f6f3dd64e'):
-    hex2bytes('b492ab1cfb415a31821138648c7a559a')
+    hex2bytes('b492ab1cfb415a31821138648c7a559a'),
+
+    # A
+    hex2bytes('0870fb80316bb20c95c7150814ffb747b09cd2944ce20888f135c98d9a4e8c3c'):
+    hex2bytes('591eb2081b05be2dcbb6f8459cc0fe51'),
+
+    # B
+    hex2bytes('c76675e719488855257e4f083dfb069ad2e8e0e367777329a5067c0c97619a39'):
+    hex2bytes('e70e23e77176fa59beb0b2559943a079'),
+
+    # C
+    hex2bytes('f3243e018b967baa332dd79489e23d33821f15fac52582d8dba3dc4fd30fe0db'):
+    hex2bytes('cbbf1cd3d1a5da83e1d92c08d566a481'),
+
+    # D
+    hex2bytes('8155d253658325854728a0a90b4eb9fec8d09d486fed92ff0146829509e43e2b'):
+    hex2bytes('d7abeb9016448caeb018b5bdbaee17de'),
+
+    # E
+    hex2bytes('76bfbc495fe772c1517e6e82949db90bb370e67349ed9c790098022a880117e2'):
+    hex2bytes('b52272341715f2a0b476e33e55ce7501'),
+
+    # F
+    hex2bytes('378e5117da83fcc15c480479b4e0851b4f6a6db433104393b3562b49418eec7c'):
+    hex2bytes('e3aa33644123fdbf819ad534653f4aaa')
 }
 
 # ****** Generically useful functions
@@ -669,7 +693,7 @@ if __name__ == "__main__":
     write_to_file(elided_kbt_edn, 'elided-kbt.edn')
     
     
-    # **** TODO: finish nested example
+    # ***** Nested example
     
     tbr_nested_payload = {
       1   : "https://issuer.example",
@@ -678,11 +702,11 @@ if __name__ == "__main__":
           cbor2.CBORTag(58, {
               500 : True,
               502 : 1549560720,
-              cbor2.CBORTag(58,501) : "ABCD-101777",
+              cbor2.CBORTag(58,501) : "DCBA-101777",
               cbor2.CBORTag(58, 503) : {
                   1: "us",
-                  cbor2.CBORTag(58, 2): "ca",
-                  cbor2.CBORTag(58, 3): "94188",
+                  cbor2.CBORTag(58, 2): "co",
+                  cbor2.CBORTag(58, 3): "80302",
               }
           }),
           cbor2.CBORTag(58, {
@@ -713,7 +737,7 @@ if __name__ == "__main__":
     
     # generate issued nested example?
     
-    # generate/save pretty-printed disclosures from nested example
+    # make nested-cwt
     payload |= holder_cnf | cwt_time_claims
     
     # which disclosures to include?
@@ -722,20 +746,105 @@ if __name__ == "__main__":
         print(f'''
 {disc_array}
 ''')
-    #print(disclosures)
-    #nested_unprotected = {
-    #  SD_CLAIMS: [
-    #    disclosures[0]
-    #  ]
-    #}
-    #nested_cwt = sign(cwt_protected,
-    #                  nested_unprotected,
-    #                  payload,
-    #                  issuer_priv_key)
-    #kbt_protected[13] = nested_cwt
-    #nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
-    #with open('nested_kbt.cbor', 'wb') as file:
-    #    file.write(nested_kbt)
+
+    full_nested_unprotected = {
+      SD_CLAIMS: disclosures
+    }
+    issuer_nested_cwt = sign(cwt_protected,
+                      full_nested_unprotected,
+                      payload,
+                      issuer_priv_key)
+    write_to_file(issuer_nested_cwt, "issuer_nested_cwt.cbor")
+    
+    nested_unprotected = {
+      SD_CLAIMS: [
+#        disclosures[15],
+        disclosures[14],
+        disclosures[10],
+        disclosures[13],
+        disclosures[11],
+        disclosures[0],
+        disclosures[4]
+      ]
+    }
+    nested_cwt = sign(cwt_protected,
+                      nested_unprotected,
+                      payload,
+                      issuer_priv_key)
+    write_to_file(nested_cwt, "nested_cwt.cbor")
+    
+    kbt_protected[13] = nested_cwt
+    nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
+    write_to_file(nested_kbt, "nested_kbt.cbor")
+
+    # generate/save pretty-printed disclosures from nested example
+    example_comments=[
+        "inspector_license_number",
+        "region=Colorado",
+        "postcode=80302",
+        "Denver location",
+        "inspection 7-Feb-2019",
+        "inspector_license_number",
+        "region=Nevada",
+        "postcode=89155",
+        "Las Vegas location",
+        "inspection 4-Feb-2021",
+        "inspector_license_number",
+        "region=California",
+        "postcode=94188",
+        "San Francisco location",
+        "inspection 17-Jan-2023"
+        # "Entire inspection history"
+    ]
+    decoded_disclosures = parse_disclosures(disclosures)
+    edn_disclosures = edn_decoded_disclosures(decoded_disclosures, 
+                            comments=example_comments, all=True)
+
+    # generate nested issuer EDN
+    redacted = redacted_hashes_from_disclosures(disclosures)
+    nested_issued_edn = generate_basic_issuer_cwt_edn(edn_disclosures, 
+        exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
+        thumb_fields=holder_thumb_edn,
+        redacted=redacted,
+        sig=issuer_cwt[-96:])
+    write_to_file(nested_issued_edn, "nested_cwt.edn")
+
+    presented_disclosures = [
+#        decoded_disclosures[15],
+        decoded_disclosures[14],
+        decoded_disclosures[10],
+        decoded_disclosures[13],
+        decoded_disclosures[11],
+        decoded_disclosures[0],
+        decoded_disclosures[4]
+    ]
+    presented_comments = [
+#        example_comments[15],
+        example_comments[14],
+        example_comments[10],
+        example_comments[13],
+        example_comments[11],
+        example_comments[0],
+        example_comments[4],
+    ]
+    edn_disclosures = edn_decoded_disclosures(
+        presented_disclosures, comments=presented_comments)
+    write_to_file(edn_disclosures, 'chosen-nested-disclosures.edn')
+
+    nested_presented_edn = generate_basic_issuer_cwt_edn(edn_disclosures, 
+        exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
+        thumb_fields=holder_thumb_edn,
+        redacted=redacted,
+        sig=issuer_cwt[-96:])
+    holder_unprotected = {SD_CLAIMS: presented_disclosures}
+    nested_presentation_cwt = sign(cwt_protected,
+                       holder_unprotected,
+                       payload,
+                       issuer_priv_key)
+
+    nested_kbt_edn = generate_basic_holder_kbt_edn(
+        nested_presented_edn, iat=KBT_IAT, sig=nested_kbt[-64:])
+    write_to_file(nested_kbt_edn, 'nested_kbt.edn')
 
 #    for s in salts:
 #        print(f'''*** Hash: {bytes2hex(s)}
