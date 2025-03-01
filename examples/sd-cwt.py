@@ -28,7 +28,51 @@ salts = {
 
     # fifth disclosure
     hex2bytes('fd0d674ae67041df0ef0a1e81dda7fb5462dc7ce88c2d47c051bb73b8a7fc51b'):
-    hex2bytes('37c23d4ec4db0806601e6b6dc6670df9')
+    hex2bytes('37c23d4ec4db0806601e6b6dc6670df9'),
+
+    # nested disclosure 1
+    hex2bytes('f6b0f3f2a36a4e51799cfa1a0b496c45294f155817407889345b8197827e7d4e'):
+    hex2bytes('ff220dbc9b033e5086f6d382e0760ddf'),
+
+    # nested disclosure 2
+    hex2bytes('f489a265621aa70a006e75b0579156ab5ad4893119b8a055f68bba27e19aca48'):
+    hex2bytes('52da9de5dc61b33775f9348b991d3d78'),
+
+    # nested disclosure 3
+    hex2bytes('92407c932a1254b3137f3e38ff5e9be22f5ecdb54a598d788e25f74169ad8289'):
+    hex2bytes('a965de35aa599d603fe1b7aa89490eb0'),
+
+    # nested disclosure 4
+    hex2bytes('f4f090d4ecc12ac2d96763259487ff9b93823bd6d966805d77290efc07c5058c'):
+    hex2bytes('7d2505257e7850b70295a87b3c8748e5'),
+
+    # nested disclosure 5
+    hex2bytes('90d525ff80cfbf7e2cece7bd57ca41e14a929c112cf4213de4950e2ee5993bae'):
+    hex2bytes('78b8a19cc53f1ed43f5e2751398d2704'),
+
+    # nested disclosure 6
+    hex2bytes('301837e17b8ac94bb78eea2cfb660d5329d1d5205a8da67cd9aea487a2b54066'):
+    hex2bytes('9a3bc899090435650b377199450c1fa1'),
+
+    # nested disclosure 7
+    hex2bytes('0b3ee5a4a933e652d26de80b4aa1873cdf6ddb958b1ec871faf0750db7295291'):
+    hex2bytes('5e852d2eef59c0ebeab8c08fca252cc5'),
+
+    # nested disclosure 8
+    hex2bytes('0a8c5194f17353cee813bf5379f6f6f6e4906a0a428d63c3241e28a696b7c7f3'):
+    hex2bytes('3dd46bd7dea09c9ee7dfe4e0d510129b'),
+
+    # nested disclosure 9
+    hex2bytes('a044cd2cbeb18e28b7c99c8dc9cf26014060a346a0de6be458eeafbdfed5c86b'):
+    hex2bytes('a1658ffb2a45e2684ac664bcce00c92c'),
+
+    # nested disclosure 10
+    hex2bytes('252cccd551b4b71043dfe750f51709cecca0f7dad01700cb774bf951340d7ba3'):
+    hex2bytes('2715ebca1d42af16a6d4560dc231c448'),
+
+    # nested disclosure 11
+    hex2bytes('e8053bef82eb7beec078a5af997d1b9d83c89d0209cea84901a6fa4f6f3dd64e'):
+    hex2bytes('b492ab1cfb415a31821138648c7a559a')
 }
 
 # ****** Generically useful functions
@@ -112,6 +156,7 @@ def make_time_claims(expiration, now=None, leeway=300):
 
 
 def find_salt(key=None, value=None, decoy_level=0, decoy_num=0):
+    # find an existing salt or generate one if not in "salts" dict
     salt_index = None
     if decoy_level == 0:
         salt_index = sha256(cbor2.dumps([key, value]))
@@ -119,7 +164,7 @@ def find_salt(key=None, value=None, decoy_level=0, decoy_num=0):
         salt_index = sha256(cbor2.dumps([decoy_level, decoy_num]))
     if salt_index not in salts:
         salts[salt_index] = new_salt()
-        print(f'Added new salt {salts[salt_index]} for {salt_index}')
+        print(f'Added new salt {bytes2hex(salts[salt_index])} for {bytes2hex(salt_index)}')
     return salts[salt_index]
 
 
@@ -664,14 +709,20 @@ if __name__ == "__main__":
     }
     
     # redact payload for nested example
-    #(payload, disclosures) = redact_map(tbr_nested_payload, 1)
+    (payload, disclosures) = redact_map(tbr_nested_payload, 1)
     
     # generate issued nested example?
     
     # generate/save pretty-printed disclosures from nested example
-    #payload |= holder_cnf | cwt_time_claims
+    payload |= holder_cnf | cwt_time_claims
     
     # which disclosures to include?
+    for d in disclosures:
+        disc_array = cbor2.loads(cbor2.loads(d))
+        print(f'''
+{disc_array}
+''')
+    #print(disclosures)
     #nested_unprotected = {
     #  SD_CLAIMS: [
     #    disclosures[0]
@@ -686,12 +737,12 @@ if __name__ == "__main__":
     #with open('nested_kbt.cbor', 'wb') as file:
     #    file.write(nested_kbt)
 
-    for s in salts:
-        print(f'''*** Hash: {bytes2hex(s)}
-Salt: {bytes2hex(salts[s])}
-
-''')
-
-    print('\n')
-    print(salts)
+#    for s in salts:
+#        print(f'''*** Hash: {bytes2hex(s)}
+#Salt: {bytes2hex(salts[s])}
+#
+#''')
+#
+#    print('\n')
+#    print(salts)
 
