@@ -4,6 +4,30 @@ import cbor2
 TO_BE_REDACTED_TAG = 58
 SD_CLAIMS = 17
 
+# pre-used salts so the values can stay the same when the data is the same
+# hashes the rest of the disclosure (minus the salt) as the dict key
+salts = {
+    # first disclosure
+    hex2bytes('47abe6e8bfe75077c60b7941cec72a900773c75075b8229a36a550b78bd1d8cc'):
+    hex2bytes('bae611067bb823486797da1ebbb52f83'),
+
+    # second disclosures
+    hex2bytes('03b4b1f0584e3bd8e3de9c15eea95b415403989627fb0a1e22d7ebda5e20ea5e'):
+    hex2bytes('8de86a012b3043ae6e4457b9e1aaab80'),
+
+    # third disclosure
+    hex2bytes('96505eb290a053098c50f1690fff48b551e9e1cad32c7f387afcc460474de805'):
+    hex2bytes('7af7084b50badeb57d49ea34627c7a52'),
+
+    # fourth disclosure
+    hex2bytes('a4498ed1fc2e628b563428a8cbd28c164c51b0f26ed6dcc8b072cf3baf25653b'):
+    hex2bytes('ec615c3035d5a4ff2f5ae29ded683c8e'),
+
+    # fifth disclosure
+    hex2bytes('fd0d674ae67041df0ef0a1e81dda7fb5462dc7ce88c2d47c051bb73b8a7fc51b'):
+    hex2bytes('37c23d4ec4db0806601e6b6dc6670df9')
+}
+
 # ****** Generically useful functions
 
 def bytes2hex(bytes):
@@ -87,9 +111,21 @@ def make_time_claims(expiration, now=None, leeway=300):
     return newdict
 
 
+def find_salt(key=None, value=None, decoy_level=0, decoy_num=0):
+    salt_index = None
+    if decoy_level == 0:
+        salt_index = sha256(cbor2.dumps([key, value]))
+    else:
+        salt_index = sha256(cbor2.dumps([decoy_level, decoy_num]))
+    if salt_index not in salts:
+        salts[salt_index] = new_salt()
+        print(f'Added new salt {salts[salt_index]} for {salt_index}')
+    return salts[salt_index]
+
+
 def make_disclosure(salt=None, key=None, value=None):
     if salt is None:
-        salt = new_salt()
+        salt = find_salt(key=key, value=value)
     if key is None:
         if value is None:
             # decoy digest
@@ -134,7 +170,7 @@ def redact_map(map, level=1, num_decoys=0):
         value = map[key]
         if type(key) is cbor2.CBORTag and key.tag == TO_BE_REDACTED_TAG:
             if type(value) is list:
-                (n, d) = redact_array(value, level+1)
+                (n, d) = redact_array(value, level+1) #num_decoys=num_decoys//2)
                 disclosures += d
                 disclosure = make_disclosure(key=key.value, value=n)
             elif type(value) is dict:
@@ -153,7 +189,7 @@ def redact_map(map, level=1, num_decoys=0):
             newmap[key] = n
             disclosures += d
         elif type(value) is dict:
-            (n, d) = redact_map(value, level+1)
+            (n, d) = redact_map(value, level+1)  # , num_decoys=num_decoys//2)
             newmap[key] = n
             disclosures += d
         else:
@@ -184,7 +220,7 @@ def redact_array(array, level):
     for entry in array:
         if type(entry) is cbor2.CBORTag and entry.tag == TO_BE_REDACTED_TAG:
             if type(entry.value) is list:
-                (n, d) = redact_array(entry.value, level+1)
+                (n, d) = redact_array(entry.value, level+1) #num_decoys//2
                 disclosures += d
                 disclosure = make_disclosure(value=n)
             elif type(entry.value) is dict:
@@ -201,7 +237,7 @@ def redact_array(array, level):
             newarray.append(n)
             disclosures += d
         elif type(entry) is dict:
-            (n, d) = redact_map(entry, level+1)
+            (n, d) = redact_map(entry, level+1) #, num_decoys=num_decoys//2)
             newarray.append(n)
             disclosures += d
         else:
@@ -649,4 +685,13 @@ if __name__ == "__main__":
     #nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
     #with open('nested_kbt.cbor', 'wb') as file:
     #    file.write(nested_kbt)
+
+    for s in salts:
+        print(f'''*** Hash: {bytes2hex(s)}
+Salt: {bytes2hex(salts[s])}
+
+''')
+
+    print('\n')
+    print(salts)
 
