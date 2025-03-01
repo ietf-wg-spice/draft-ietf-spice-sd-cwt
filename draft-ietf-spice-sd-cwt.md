@@ -1197,6 +1197,7 @@ Note: RFC Editor, please remove this entire section on publication.
 - regenerate all examples with correct signatures
 - add description of decoy digests **TODO**
 - add nested examples **TODO**
+- add optional encrypted disclosures
 - provide test vectors **TODO**
 
 ## draft-ietf-spice-sd-cwt-02
