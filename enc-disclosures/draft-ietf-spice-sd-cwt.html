@@ -2211,10 +2211,12 @@ The bstr encoding of the array is placed in the <code>sd_encrypted_claims</code>
           <p id="section-11-8.1.1">In the example above the key in hex is '1eb2d67081ee9950fb3a14c6e8896203'.<a href="#section-11-8.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-11-9">The receiver of an encrypted disclosure locates the appropriate key by looking up the unique salt.
-Details of key management are left to the specific protocols which make use of encrypted disclosures.<a href="#section-11-9" class="pilcrow">¶</a></p>
-<p id="section-11-10">The CDDL for encrypted disclosures is described below.<a href="#section-11-10" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-11-11">
+<p id="section-11-9">The blinded claim hash is still over the unencrypted disclosure.
+The receiver of an encrypted disclosure locates the appropriate key by looking up the unique salt.
+If the verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it where in the <code>sd_claims</code> unprotected header in the SD-CWT.<a href="#section-11-9" class="pilcrow">¶</a></p>
+<p id="section-11-10">Details of key management are left to the specific protocols which make use of encrypted disclosures.<a href="#section-11-10" class="pilcrow">¶</a></p>
+<p id="section-11-11">The CDDL for encrypted disclosures is described below.<a href="#section-11-11" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-11-12">
 <pre>
 encrypted-array = [ +bstr .cbor encrypted ]
 encrypted = [
@@ -2225,7 +2227,7 @@ encrypted = [
   bstr               ; the corresponding MAC
 ]
 ;bstr-encoded-salted = bstr .cbor salted
-</pre><a href="#section-11-11" class="pilcrow">¶</a>
+</pre><a href="#section-11-12" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -3487,7 +3489,10 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
             <p id="appendix-D.1-1.12.1">add nested examples <strong>TODO</strong><a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.13">
-            <p id="appendix-D.1-1.13.1">provide test vectors <strong>TODO</strong><a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.13.1">add optional encrypted disclosures<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.14">
+            <p id="appendix-D.1-1.14.1">provide test vectors <strong>TODO</strong><a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
