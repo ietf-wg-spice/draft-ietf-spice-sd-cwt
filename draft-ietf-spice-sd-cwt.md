@@ -299,6 +299,62 @@ The issued SD-CWT is placed in the `kcwt` (Confirmation Key CWT) protected heade
 Together the digests in protected parts of the issued SD-CWT, and the disclosures hashed in unprotected header of the `issuer_sd_cwt` are used by the Verifier to confirm the disclosed claims.
 Since the unprotected header of the included SD-CWT is covered by the signature in the SW-KBT, the Verifier has assurance the Holder included the sent list of disclosures.
 
+## Encrypted Disclosures
+
+Some uses of SD-CWT involve verifiers which have internal structure.
+In these cases, encrypted disclosures allow more fine-grained disclosure inside a single presentation.
+
+> In the Remote Attestation Procedures (RATS) architecture {{?RFC9334}}, an SD-CWT is a RATS conceptual message that represents evidence.
+> Different evidence claims could be processed by different attesters within the same Verifier.
+> For example, one SD-KBT could include an SD-CWT with one set of claims about the workload, and one set of claims about the platform.
+> It would be desirable to have each RATS appraiser see a different subset of disclosures in the SD-CWT / SD-KBT.
+
+> In the Messaging Layer Security (MLS) protocol {{?RFC9420}}, an SD-CWT credential {{?I-D.mahy-mls-sd-cwt-credential}} could present one subset of its disclosures to the MLS Distribution Service, and a different subset of those disclosures to the other members of the MLS group.
+
+Taking the first example disclosure from above:
+
+~~~ cbor-diag
+<<[
+    /salt/   h'2008c50a62d9b59813318abd06df8a89',
+    /claim/  501,   / inspector_license_number /
+    /value/  "ABCD-123456"
+]>>
+~~~
+
+The corresponding bstr is encrypted with either a COSE content encryption algorithm (for example AES256CGM) as defined in {{Section 4 of !RFC9053}}, or a "content key distribution method" algorithm (for example ECDH-ES+HKDF-256) as defined in {{Section 6 of !RFC9053}}, using the salt as the context.
+The resulting `salt`, the algorithm used (`alg`), and the resulting `ciphertext` are put in an array.
+The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotected header field array.
+
+~~~ cbor-diag
+/ sd_encrypted_claims / 19 : [ / encrypted disclosures /
+    <<[
+        /salt/       h'2008c50a62d9b59813318abd06df8a89',
+        /alg/        3, / AES256GCM /
+        /ciphertext/ h''
+    ]>>,
+    ...
+]
+}~~~
+
+The receiver of an encrypted disclosure locates the appropriate key by looking up the unique salt.
+Details of key management are left to the specific protocols which make use of encrypted disclosures.
+
+The CDDL for encrypted disclosures is described below.
+
+~~~ cddl
+encrypted-array = [ +bstr .cbor encrypted ]
+encrypted = [
+  bstr .size 16,     ; 128-bit salt
+  COSE_Alg,          ; a COSE Algorithm which provides encryption
+  bstr               ; the ciphertext output of a bstr-encoded-salted
+                     ; which has a matching salt
+]
+;bstr-encoded-salted = bstr .cbor salted
+
+COSE_Alg = int / tstr
+~~~
+
+
 # Update to the CBOR Web Token Specification {#cwt-update}
 
 The CBOR Web Token Specification (Section 1.1 of {{RFC8392}}), uses strings, negative integers, and unsigned integers as map keys.
@@ -720,6 +776,16 @@ The following completed registration template per RFC8152 is provided:
 * Description: The hash algorithm used for redacting disclosures.
 * Reference: RFC XXXX
 
+### sd_encrypted_claims
+
+The following completed registration template per RFC8152 is provided:
+
+* Name: sd_encrypted claims
+* Label: TBD6 (requested assignment 19)
+* Value Type: bstr
+* Value Registry: (empty)
+* Description: A list of encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
+* Reference: RFC XXXX
 
 
 ## CBOR Tags
