@@ -299,65 +299,6 @@ The issued SD-CWT is placed in the `kcwt` (Confirmation Key CWT) protected heade
 Together the digests in protected parts of the issued SD-CWT, and the disclosures hashed in unprotected header of the `issuer_sd_cwt` are used by the Verifier to confirm the disclosed claims.
 Since the unprotected header of the included SD-CWT is covered by the signature in the SW-KBT, the Verifier has assurance the Holder included the sent list of disclosures.
 
-## Encrypted Disclosures
-
-Some uses of SD-CWT involve verifiers which have internal structure.
-In these cases, encrypted disclosures allow more fine-grained disclosure inside a single presentation.
-
-> In the Remote Attestation Procedures (RATS) architecture {{?RFC9334}}, an SD-CWT is a RATS conceptual message that represents evidence.
-> Different evidence claims could be processed by different attesters within the same Verifier.
-> For example, one SD-KBT could include an SD-CWT with one set of claims about the workload, and one set of claims about the platform.
-> It would be desirable to have each RATS appraiser see a different subset of disclosures in the SD-CWT / SD-KBT.
-
-> In the Messaging Layer Security (MLS) protocol {{?RFC9420}}, an SD-CWT credential {{?I-D.mahy-mls-sd-cwt-credential}} could present one subset of its disclosures to the MLS Distribution Service, and a different subset of those disclosures to the other members of the MLS group.
-
-Taking the first example disclosure from above:
-
-~~~ cbor-diag
-<<[
-    /salt/   h'2008c50a62d9b59813318abd06df8a89',
-    /claim/  501,   / inspector_license_number /
-    /value/  "ABCD-123456"
-]>>
-~~~
-
-The corresponding bstr is encrypted with an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} such as AEAD_AES_128_GCM, using the salt as the nonce.
-In the example below the key in hex is '1eb2d67081ee9950fb3a14c6e8896203'.
-The `salt`, the algorithm used (`alg`), and the resulting `ciphertext` and `mac` are put in an array.
-The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotected header field array.
-
-~~~ cbor-diag
-/ sd_encrypted_claims / 19 : [ / encrypted disclosures /
-    <<[
-        /salt/        h'2008c50a62d9b59813318abd06df8a89',
-        /alg/         1, / AEAD_AES_128_GCM /
-        /ciphertext/  h'b8cf6ed5905b6b0d9c1e7f274ecee4cb
-                         ac8f5ad4dac6ba88e7673e70bafa87b5
-                         9a61c7',
-        /mac/         h'4ea90eef6b3d05d632e6f19b49aa9de5'
-    ]>>,
-    ...
-]
-}~~~
-
-The receiver of an encrypted disclosure locates the appropriate key by looking up the unique salt.
-Details of key management are left to the specific protocols which make use of encrypted disclosures.
-
-The CDDL for encrypted disclosures is described below.
-
-~~~ cddl
-encrypted-array = [ +bstr .cbor encrypted ]
-encrypted = [
-  bstr .size 16,     ; 128-bit salt
-  uint16,            ; IANA AEAD Algorithm number
-  bstr,              ; the ciphertext output of a bstr-encoded-salted
-                     ;   with a matching salt
-  bstr               ; the corresponding MAC
-]
-;bstr-encoded-salted = bstr .cbor salted
-~~~
-
-
 # Update to the CBOR Web Token Specification {#cwt-update}
 
 The CBOR Web Token Specification (Section 1.1 of {{RFC8392}}), uses strings, negative integers, and unsigned integers as map keys.
@@ -616,6 +557,65 @@ Further validation logic can be applied to the Validated Disclosed Claimset, as 
 # Decoy Digests {#decoys}
 
 **TODO**
+
+# Encrypted Disclosures
+
+Some uses of SD-CWT involve verifiers which have internal structure.
+In these cases, encrypted disclosures allow more fine-grained disclosure inside a single presentation.
+
+> In the Remote Attestation Procedures (RATS) architecture {{?RFC9334}}, an SD-CWT is a RATS conceptual message that represents evidence.
+> Different evidence claims could be processed by different attesters within the same Verifier.
+> For example, one SD-KBT could include an SD-CWT with one set of claims about the workload, and one set of claims about the platform.
+> It would be desirable to have each RATS appraiser see a different subset of disclosures in the SD-CWT / SD-KBT.
+
+> In the Messaging Layer Security (MLS) protocol {{?RFC9420}}, an SD-CWT credential {{?I-D.mahy-mls-sd-cwt-credential}} could present one subset of its disclosures to the MLS Distribution Service, and a different subset of those disclosures to the other members of the MLS group.
+
+Taking the first example disclosure from above:
+
+~~~ cbor-diag
+<<[
+    /salt/   h'2008c50a62d9b59813318abd06df8a89',
+    /claim/  501,   / inspector_license_number /
+    /value/  "ABCD-123456"
+]>>
+~~~
+
+The corresponding bstr is encrypted with an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} such as AEAD_AES_128_GCM, using the salt as the nonce.
+In the example below the key in hex is '1eb2d67081ee9950fb3a14c6e8896203'.
+The `salt`, the algorithm used (`alg`), and the resulting `ciphertext` and `mac` are put in an array.
+The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotected header field array.
+
+~~~ cbor-diag
+/ sd_encrypted_claims / 19 : [ / encrypted disclosures /
+    <<[
+        /salt/        h'2008c50a62d9b59813318abd06df8a89',
+        /alg/         1, / AEAD_AES_128_GCM /
+        /ciphertext/  h'b8cf6ed5905b6b0d9c1e7f274ecee4cb
+                         ac8f5ad4dac6ba88e7673e70bafa87b5
+                         9a61c7',
+        /mac/         h'4ea90eef6b3d05d632e6f19b49aa9de5'
+    ]>>,
+    ...
+]
+~~~
+
+The receiver of an encrypted disclosure locates the appropriate key by looking up the unique salt.
+Details of key management are left to the specific protocols which make use of encrypted disclosures.
+
+The CDDL for encrypted disclosures is described below.
+
+~~~ cddl
+encrypted-array = [ +bstr .cbor encrypted ]
+encrypted = [
+  bstr .size 16,     ; 128-bit salt
+  uint16,            ; IANA AEAD Algorithm number
+  bstr,              ; the ciphertext output of a bstr-encoded-salted
+                     ;   with a matching salt
+  bstr               ; the corresponding MAC
+]
+;bstr-encoded-salted = bstr .cbor salted
+~~~
+
 
 # Credential Types
 
