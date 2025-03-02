@@ -1072,7 +1072,7 @@ Issuer                           Holder                         Verifier
    last disclosure unblinds the inspector_license_number for that
    record.
 
-   Clients start unblinding claims for which they have blinded claim
+   Verifiers start unblinding claims for which they have blinded claim
    hashes.  They continue descending until there are no blinded claim
    hashes at any level of the hierarchy for which they have a
    corresponding disclosure.
@@ -1142,7 +1142,8 @@ Issuer                           Holder                         Verifier
    ]
 
    After applying the disclosures of the nested structure above, the
-   payload visible to the verifier would look like the following:
+   disclosed claim set visible to the verifier would look like the
+   following:
 
    {
        / iss / 1  : "https://issuer.example",

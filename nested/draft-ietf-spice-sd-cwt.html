@@ -2333,7 +2333,7 @@ The next disclosure unblinds the inspector_license_number, and the next
 disclosure unblinds the inspection location record, but the region and postcode claims inside the location record are also individually blinded.
 The fourth disclosure unblinds the inspection region.<a href="#section-12.2-3" class="pilcrow">¶</a></p>
 <p id="section-12.2-4">The fifth disclosure unblinds the earliest inspection record, and the last disclosure unblinds the inspector_license_number for that record.<a href="#section-12.2-4" class="pilcrow">¶</a></p>
-<p id="section-12.2-5">Clients start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.<a href="#section-12.2-5" class="pilcrow">¶</a></p>
+<p id="section-12.2-5">Verifiers start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.<a href="#section-12.2-5" class="pilcrow">¶</a></p>
 <div class="breakable lang-cbor-diag sourcecode" id="section-12.2-6">
 <pre>
 / sd_claims / 17 : [ / these are the disclosures /
@@ -2401,7 +2401,7 @@ The fourth disclosure unblinds the inspection region.<a href="#section-12.2-3" c
 ]
 </pre><a href="#section-12.2-6" class="pilcrow">¶</a>
 </div>
-<p id="section-12.2-7">After applying the disclosures of the nested structure above, the payload visible to the verifier would look like the following:<a href="#section-12.2-7" class="pilcrow">¶</a></p>
+<p id="section-12.2-7">After applying the disclosures of the nested structure above, the disclosed claim set visible to the verifier would look like the following:<a href="#section-12.2-7" class="pilcrow">¶</a></p>
 <div class="lang-cbor-diag sourcecode" id="section-12.2-8">
 <pre>
 {
