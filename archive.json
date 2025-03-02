@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-27T00:43:54.668989+00:00",
+  "timestamp": "2025-03-02T00:47:29.671780+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -62,6 +62,11 @@
       "name": "blocked",
       "description": "",
       "color": "152DEE"
+    },
+    {
+      "name": "has-PR",
+      "description": "",
+      "color": "D18C07"
     }
   ],
   "issues": [
@@ -746,12 +751,22 @@
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-PR"
+      ],
       "body": "some uses of SD-CWT involve verifiers which have internal structure. Encrypted disclosures allow more fine-grained disclosure inside a single presentation.",
       "createdAt": "2025-01-29T15:04:30Z",
-      "updatedAt": "2025-01-29T15:04:30Z",
+      "updatedAt": "2025-03-01T01:36:25Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In the RATS model, an SD-CWT is a RATS conceptual message that represents evidence. Different evidence claims could be processed by different attesters within the same Verifier.\n- one set of claims about the workload; \n- one set about the platform\n\nIt would be desirable to have each appraiser see a different subset of disclosures in the SD-CWT / SD-KBT\n\nIn the MLS Protocol, an SD-CWT credential could present one subset of its disclosures to the MLS Distribution Service, and a different subset of those disclosures to the other members of the MLS group.\n\n\n",
+          "createdAt": "2025-02-28T21:17:35Z",
+          "updatedAt": "2025-02-28T21:18:04Z"
+        }
+      ]
     },
     {
       "number": 49,
@@ -769,7 +784,7 @@
       ],
       "body": "Originally discussed in:\n\nhttps://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/48#discussion_r1952744696",
       "createdAt": "2025-02-12T14:20:45Z",
-      "updatedAt": "2025-02-19T14:25:55Z",
+      "updatedAt": "2025-03-01T15:51:43Z",
       "closedAt": null,
       "comments": [
         {
@@ -778,6 +793,13 @@
           "body": "On the other hand, all COSE things that are hashed are bstr encoded (protected headers and payload). What is in the draft now is bstr encoded over the thing that gets hashed (the encoded disclosure array)",
           "createdAt": "2025-02-19T14:25:54Z",
           "updatedAt": "2025-02-19T14:25:54Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Summarizing the list discussion so far, two people (Anders and Christopher Allen) who described themselves as COSE \"dissidents\" would like COSE to include more deterministic encoding (which would likely obviate the need for bstr encoding of disclosure arrays), however such a move would be outside the scope of what we are doing in SD-CWT.\n\nA number of others spoke in support of keeping the bstr encoding.\n\nI suggest closing this issue and the corresponding PR ",
+          "createdAt": "2025-03-01T15:51:41Z",
+          "updatedAt": "2025-03-01T15:51:41Z"
         }
       ]
     },
@@ -2112,7 +2134,7 @@
       "labels": [],
       "body": "Hi,\r\n\r\nthis fixes a small inconsistency in the draft since it is stated at the beginning of the draft that `To protect against replay attacks, the verifier SHOULD provide a nonce, and reject requests that do not include an acceptable an nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer`.\r\n\r\nThere are two options here: either turn the claim optional or have the Holder use a fixed nonce in case he did not get one from the Verifier. I prefer the former. \r\n\r\nThoughts ?",
       "createdAt": "2024-09-30T08:56:17Z",
-      "updatedAt": "2024-10-13T19:04:34Z",
+      "updatedAt": "2025-02-28T12:10:16Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "96aef2f4539ad61784b445357330aa225fd3b1f3",
@@ -4592,7 +4614,7 @@
       "labels": [],
       "body": "- fix the x and y components of the cnf key\r\n- make edn comments and spacing consistent",
       "createdAt": "2025-02-09T16:56:45Z",
-      "updatedAt": "2025-02-09T16:57:45Z",
+      "updatedAt": "2025-03-01T15:54:47Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "8da9424f47286e9c24dd29b18c1c442309372304",
@@ -4628,7 +4650,7 @@
       "labels": [],
       "body": "Work In Progress\r\n\r\nAutomatically build as many of the examples in the draft as possible as well as CBOR files corresponding to examples.\r\n\r\n- [x] generate CBOR files for examples\r\n- [x] make EDN files from templates\r\n- [x] make example disclosures and snippet for walkthrough in Section \r\n- [ ] verify EDN files match the CBOR\r\n- [ ] verify CBOR files are valid according to CDDL\r\n- [ ] include nested claims\r\n- [ ] include decoy digest",
       "createdAt": "2025-02-10T05:59:52Z",
-      "updatedAt": "2025-02-18T02:29:15Z",
+      "updatedAt": "2025-03-01T15:54:48Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "f4861c2c3854e61eda45bfd1aee846a1e5f4c899",
@@ -4818,7 +4840,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-02-19T14:23:10Z",
-      "updatedAt": "2025-02-19T14:41:25Z",
+      "updatedAt": "2025-03-01T15:54:49Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5363b439e841f4cf5fc3d3931f37d7e916d35af9",
@@ -4902,6 +4924,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 58,
+      "id": "PR_kwDOMm_Q2s6NAO5g",
+      "title": "Add encrypted disclosures",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/58",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Attempts to address #45 ",
+      "createdAt": "2025-03-01T01:31:16Z",
+      "updatedAt": "2025-03-01T12:46:08Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "132a10b3f986bf186e8e1442243857ab4468f7a7",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "enc-disclosures",
+      "headRefOid": "8ae87972df53ed4b54b63742072404f172298ba4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
