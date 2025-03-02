@@ -8,25 +8,25 @@
   / CWT unprotected / {
     / sd_claims / 17 : [ / these are all the disclosures /
         <<[
-            /salt/   h'2008c50a62d9b59813318abd06df8a89',
+            /salt/   h'bae611067bb823486797da1ebbb52f83',
             /claim/  501,   / inspector_license_number /
             /value/  "ABCD-123456"
         ]>>,
         <<[
-            /salt/   h'7afa9ed5103ecca7357c628f549a3581',
+            /salt/   h'8de86a012b3043ae6e4457b9e1aaab80',
             /value/  1549560720   / inspected 7-Feb-2019 /
         ]>>,
         <<[
-            /salt/   h'033b375a7bc327497148458b3447cc46',
+            /salt/   h'7af7084b50badeb57d49ea34627c7a52',
             /value/  1612560720   / inspected 4-Feb-2021 /
         ]>>,
         <<[
-            /salt/   h'ef016cb1438d09d8b48ceee1709e2072',
+            /salt/   h'ec615c3035d5a4ff2f5ae29ded683c8e',
             /claim/  "region",   / region=California /
             /value/  "ca"
         ]>>,
         <<[
-            /salt/   h'92753ef207fed9a767d75aec16ac0d18',
+            /salt/   h'37c23d4ec4db0806601e6b6dc6670df9',
             /claim/  "postal_code",
             /value/  "94188"
         ]>>,
@@ -51,34 +51,34 @@
     /most_recent_inspection_passed/ 500: true,
     / redacted_claim_keys / 59(0) : [
         / redacted inspector_license_number /
-        h'7d493be2eb59b6b9bbb81da46a72fc25
-          074481a7bfd8b2b2d8ce5a0d31ef2108'
+        h'0ad0f76dcb7fd812ca64c3ada3f543be
+          96d0e351e1e576fbab5cb659b49e599e'
     ],
     /inspection_dates/ 502 : [
         / redacted inspection date 7-Feb-2019 /
-        60(h'6db57c149ae619140db846203f67e3ed
-             f42f2cd8ac71feaab4684296077f1dc1'),
+        60(h'f468b68dd7432030d7f33a8783acb3a4
+             d6afc215bbc184dce8831c64b539f335'),
         / redacted inspection date 4-Feb-2021 /
-        60(h'e08fe0d7fcdaaa7cc6d0640405d2d952
-             7f01af8d0cd9da190ea7f85197b0b0f0'),
+        60(h'0839dcbdd9ed55c8aac3e573ccf59c81
+             0fa8d9f6ec551cb9737621faf3584e1f'),
         1674004740,   / 2023-01-17T17:19:00 /
     ],
     / inspection_location / 503 : {
         "country" : "us",            / United States /
         / redacted_claim_keys / 59(0) : [
             / redacted region /
-            h'da8fb0da7f25d2e431e29acc3996a418
-              17c39b7b0fc0d6c0603df29a3d548a0b'
+            h'dff0cb7a6ff555544554c527d5e32eed
+              ee6a9d80a1dae2e0ac611796674ce281'
             / redacted postal_code /
-            h'a4c4f26f027f12f40f77e3800fff0cf0
-              d6a9c0a282c3c0f6a2ba4a08c293bc05'
+            h'5f5e6bfc2de598c80df58ff84090125a
+              f8bb1ada795a37e5cfcf8f480e445755'
       ]
     }
   } >>,
-  / CWT signature / h'14d9566069bd96fd0d20ce37ad9b7bfb
-                      5d0e8e36dc665ffffa80b3dcbf76f66a
-                      a28adff482c3ffa660b30c4115fba350
-                      e30108fe2436388a9bd280893570e416
-                      3935146abee5e11248ce71c8b7f7e634
-                      cdb8feeccfb6439e2131ba03c1f0f65e'
+  / CWT signature / h'd6b1f5143a3f6b2e54a1ea29ed98e9ed
+                      7abb2927b34ba100fe91ed493d66062b
+                      d71716eed6b209b9d6c6861a6886ad47
+                      5716220bcb3a0276a205002c3f6d3e86
+                      a52d3e990f869bd38c5a476f73ee3319
+                      64dee2cb51321b7bf2e64e62811a9b22'
 ])

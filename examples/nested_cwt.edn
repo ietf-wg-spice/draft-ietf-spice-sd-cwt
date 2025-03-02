@@ -1,0 +1,219 @@
+/ cose-sign1 / 18([  / issuer SD-CWT /
+  / CWT protected / << {
+    / alg /    1  : -35, / ES384 /
+    / typ /    16 : "application/sd+cwt",
+    / kid /    4  : 'https://issuer.example/cwt-key3',
+    / sd_alg / 18 : -16  / SHA256 /
+  } >>,
+  / CWT unprotected / {
+    / sd_claims / 17 : [ / these are all the disclosures /
+        <<[
+            /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+            /claim/  501
+,   / inspector_license_number /
+            /value/  "DCBA-101777"
+
+        ]>>,
+        <<[
+            /salt/   h'e70e23e77176fa59beb0b2559943a079',
+            /claim/  2
+,   / region=Colorado /
+            /value/  "co"
+
+        ]>>,
+        <<[
+            /salt/   h'cbbf1cd3d1a5da83e1d92c08d566a481',
+            /claim/  3
+,   / postcode=80302 /
+            /value/  "80302"
+
+        ]>>,
+        <<[
+            /salt/   h'd7abeb9016448caeb018b5bdbaee17de',
+            /claim/  503
+,   / Denver location /
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'dabb695d3c6b186b52ea370e47b85a88
+                             6ca289707992119b200d4d6ecf8ec786',
+                         h'4e329cfd342e01675d5f4b89567a3296
+                             1875fc507e9a937c7ada3c1830135a0a'
+                     ]
+                     }
+
+        ]>>,
+        <<[
+            /salt/   h'b52272341715f2a0b476e33e55ce7501',
+            /value/  {
+                         500: True,
+                         502: 1549560720,
+                         simple(59): [
+                         h'cd88763edb2485b8109613546051f606
+                             e6b822456da1bf09f604b886e1def45a',
+                         h'0a45eb75de44741bea78dc48b1898d40
+                             09601dbf567279f3042a24cee9fdcab5'
+                     ]
+                     }
+   / inspection 7-Feb-2019 /
+        ]>>,
+        <<[
+            /salt/   h'9a3bc899090435650b377199450c1fa1',
+            /claim/  501
+,   / inspector_license_number /
+            /value/  "EFGH-789012"
+
+        ]>>,
+        <<[
+            /salt/   h'5e852d2eef59c0ebeab8c08fca252cc5',
+            /claim/  2
+,   / region=Nevada /
+            /value/  "nv"
+
+        ]>>,
+        <<[
+            /salt/   h'3dd46bd7dea09c9ee7dfe4e0d510129b',
+            /claim/  3
+,   / postcode=89155 /
+            /value/  "89155"
+
+        ]>>,
+        <<[
+            /salt/   h'a1658ffb2a45e2684ac664bcce00c92c',
+            /claim/  503
+,   / Las Vegas location /
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'c4521d87c26da1e8e49fc46c419a0a0f
+                             156495d1284af94fe5c96ae178f8257c',
+                         h'474ab75e86961b7448bbccb17854410e
+                             77023c4468ec99d217f41c728e260ffb'
+                     ]
+                     }
+
+        ]>>,
+        <<[
+            /salt/   h'2715ebca1d42af16a6d4560dc231c448',
+            /value/  {
+                         500: True,
+                         502: 1612560720,
+                         simple(59): [
+                         h'ac974e1dc81640126739cf11bc388293
+                             d08660ff4a9d5c6e148e2a52edfa0472',
+                         h'5316964b057162081855e694469f0987
+                             b98f7b5fff4372f4d32402634839e29b'
+                     ]
+                     }
+   / inspection 4-Feb-2021 /
+        ]>>,
+        <<[
+            /salt/   h'bae611067bb823486797da1ebbb52f83',
+            /claim/  501
+,   / inspector_license_number /
+            /value/  "ABCD-123456"
+
+        ]>>,
+        <<[
+            /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+            /claim/  2
+,   / region=California /
+            /value/  "ca"
+
+        ]>>,
+        <<[
+            /salt/   h'a965de35aa599d603fe1b7aa89490eb0',
+            /claim/  3
+,   / postcode=94188 /
+            /value/  "94188"
+
+        ]>>,
+        <<[
+            /salt/   h'7d2505257e7850b70295a87b3c8748e5',
+            /claim/  503
+,   / San Francisco location /
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'de03a7a0b4359511a7dc0edd8f4ebc00
+                             b5783d8a0d36e715679e23c703011d16',
+                         h'5a98ac2381cb59dee7a43daa073eab48
+                             9773e2830a0b9c4e1efd55737dbb1c06'
+                     ]
+                     }
+
+        ]>>,
+        <<[
+            /salt/   h'e3aa33644123fdbf819ad534653f4aaa',
+            /claim/  504
+,   / inspection 17-Jan-2023 /
+            /value/  [
+                         59(h'2893a00665f1ca2cfeb7456e1eeb8eba
+                         f21d5c12a73d9fbcb8902822f3ecb635'),
+                         59(h'92c0262b0ed6891c6e46d6fca5554caf
+                         79bd8d05c74dbb06a25c9edd304c6e22'),
+                         {
+                             500: True,
+                             502: 17183928,
+                             simple(59): [
+                         h'0ad0f76dcb7fd812ca64c3ada3f543be
+                             96d0e351e1e576fbab5cb659b49e599e',
+                         h'f34c3ea2292d02b92bde25e68e94acd7
+                             f1e011fd6eea6c490f841f09a7a01a48'
+                     ]
+                         }
+                     ]
+
+        ]>>,
+    ]
+  }
+  / CWT payload / << {
+    / iss / 1   : "https://issuer.example",
+    / sub / 2   : "https://device.example",
+    / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
+    / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
+    / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
+    / cnf / 8   : {
+      / cose key / 1 : {
+        / kty /  1: 2,  / EC2   /
+        / crv / -1: 1,  / P-256 /
+        / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                      2022fd0d3024b5af18c7cc61ad527a2d',
+        / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                      503f54293d87875d1e79ce4770194343'
+      }
+    },
+    /most_recent_inspection_passed/ 500: true,
+    / redacted_claim_keys / 59(0) : [
+        / redacted inspector_license_number /
+        h'cd88763edb2485b8109613546051f606
+          e6b822456da1bf09f604b886e1def45a'
+    ],
+    /inspection_dates/ 502 : [
+        / redacted inspection date 7-Feb-2019 /
+        60(h'dabb695d3c6b186b52ea370e47b85a88
+             6ca289707992119b200d4d6ecf8ec786'),
+        / redacted inspection date 4-Feb-2021 /
+        60(h'4e329cfd342e01675d5f4b89567a3296
+             1875fc507e9a937c7ada3c1830135a0a'),
+        1674004740,   / 2023-01-17T17:19:00 /
+    ],
+    / inspection_location / 503 : {
+        "country" : "us",            / United States /
+        / redacted_claim_keys / 59(0) : [
+            / redacted region /
+            h'0a45eb75de44741bea78dc48b1898d40
+              09601dbf567279f3042a24cee9fdcab5'
+            / redacted postal_code /
+            h'2893a00665f1ca2cfeb7456e1eeb8eba
+              f21d5c12a73d9fbcb8902822f3ecb635'
+      ]
+    }
+  } >>,
+  / CWT signature / h'd6b1f5143a3f6b2e54a1ea29ed98e9ed
+                      7abb2927b34ba100fe91ed493d66062b
+                      d71716eed6b209b9d6c6861a6886ad47
+                      5716220bcb3a0276a205002c3f6d3e86
+                      a52d3e990f869bd38c5a476f73ee3319
+                      64dee2cb51321b7bf2e64e62811a9b22'
+])

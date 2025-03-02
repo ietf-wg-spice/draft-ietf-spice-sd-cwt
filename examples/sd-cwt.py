@@ -4,14 +4,106 @@ import cbor2
 TO_BE_REDACTED_TAG = 58
 SD_CLAIMS = 17
 
+def hex2bytes(string):
+    return bytes.fromhex(string)
+
+# pre-used salts so the values can stay the same when the data is the same
+# hashes the rest of the disclosure (minus the salt) as the dict key
+salts = {
+    # first disclosure
+    hex2bytes('47abe6e8bfe75077c60b7941cec72a900773c75075b8229a36a550b78bd1d8cc'):
+    hex2bytes('bae611067bb823486797da1ebbb52f83'),
+
+    # second disclosures
+    hex2bytes('03b4b1f0584e3bd8e3de9c15eea95b415403989627fb0a1e22d7ebda5e20ea5e'):
+    hex2bytes('8de86a012b3043ae6e4457b9e1aaab80'),
+
+    # third disclosure
+    hex2bytes('96505eb290a053098c50f1690fff48b551e9e1cad32c7f387afcc460474de805'):
+    hex2bytes('7af7084b50badeb57d49ea34627c7a52'),
+
+    # fourth disclosure
+    hex2bytes('a4498ed1fc2e628b563428a8cbd28c164c51b0f26ed6dcc8b072cf3baf25653b'):
+    hex2bytes('ec615c3035d5a4ff2f5ae29ded683c8e'),
+
+    # fifth disclosure
+    hex2bytes('fd0d674ae67041df0ef0a1e81dda7fb5462dc7ce88c2d47c051bb73b8a7fc51b'):
+    hex2bytes('37c23d4ec4db0806601e6b6dc6670df9'),
+
+    # nested disclosure 1
+    hex2bytes('f6b0f3f2a36a4e51799cfa1a0b496c45294f155817407889345b8197827e7d4e'):
+    hex2bytes('ff220dbc9b033e5086f6d382e0760ddf'),
+
+    # nested disclosure 2
+    hex2bytes('f489a265621aa70a006e75b0579156ab5ad4893119b8a055f68bba27e19aca48'):
+    hex2bytes('52da9de5dc61b33775f9348b991d3d78'),
+
+    # nested disclosure 3
+    hex2bytes('92407c932a1254b3137f3e38ff5e9be22f5ecdb54a598d788e25f74169ad8289'):
+    hex2bytes('a965de35aa599d603fe1b7aa89490eb0'),
+
+    # nested disclosure 4
+    hex2bytes('f4f090d4ecc12ac2d96763259487ff9b93823bd6d966805d77290efc07c5058c'):
+    hex2bytes('7d2505257e7850b70295a87b3c8748e5'),
+
+    # nested disclosure 5
+    hex2bytes('90d525ff80cfbf7e2cece7bd57ca41e14a929c112cf4213de4950e2ee5993bae'):
+    hex2bytes('78b8a19cc53f1ed43f5e2751398d2704'),
+
+    # nested disclosure 6
+    hex2bytes('301837e17b8ac94bb78eea2cfb660d5329d1d5205a8da67cd9aea487a2b54066'):
+    hex2bytes('9a3bc899090435650b377199450c1fa1'),
+
+    # nested disclosure 7
+    hex2bytes('0b3ee5a4a933e652d26de80b4aa1873cdf6ddb958b1ec871faf0750db7295291'):
+    hex2bytes('5e852d2eef59c0ebeab8c08fca252cc5'),
+
+    # nested disclosure 8
+    hex2bytes('0a8c5194f17353cee813bf5379f6f6f6e4906a0a428d63c3241e28a696b7c7f3'):
+    hex2bytes('3dd46bd7dea09c9ee7dfe4e0d510129b'),
+
+    # nested disclosure 9
+    hex2bytes('a044cd2cbeb18e28b7c99c8dc9cf26014060a346a0de6be458eeafbdfed5c86b'):
+    hex2bytes('a1658ffb2a45e2684ac664bcce00c92c'),
+
+    # nested disclosure 10
+    hex2bytes('252cccd551b4b71043dfe750f51709cecca0f7dad01700cb774bf951340d7ba3'):
+    hex2bytes('2715ebca1d42af16a6d4560dc231c448'),
+
+    # nested disclosure 11
+    hex2bytes('e8053bef82eb7beec078a5af997d1b9d83c89d0209cea84901a6fa4f6f3dd64e'):
+    hex2bytes('b492ab1cfb415a31821138648c7a559a'),
+
+    # A
+    hex2bytes('0870fb80316bb20c95c7150814ffb747b09cd2944ce20888f135c98d9a4e8c3c'):
+    hex2bytes('591eb2081b05be2dcbb6f8459cc0fe51'),
+
+    # B
+    hex2bytes('c76675e719488855257e4f083dfb069ad2e8e0e367777329a5067c0c97619a39'):
+    hex2bytes('e70e23e77176fa59beb0b2559943a079'),
+
+    # C
+    hex2bytes('f3243e018b967baa332dd79489e23d33821f15fac52582d8dba3dc4fd30fe0db'):
+    hex2bytes('cbbf1cd3d1a5da83e1d92c08d566a481'),
+
+    # D
+    hex2bytes('8155d253658325854728a0a90b4eb9fec8d09d486fed92ff0146829509e43e2b'):
+    hex2bytes('d7abeb9016448caeb018b5bdbaee17de'),
+
+    # E
+    hex2bytes('76bfbc495fe772c1517e6e82949db90bb370e67349ed9c790098022a880117e2'):
+    hex2bytes('b52272341715f2a0b476e33e55ce7501'),
+
+    # F
+    hex2bytes('378e5117da83fcc15c480479b4e0851b4f6a6db433104393b3562b49418eec7c'):
+    hex2bytes('e3aa33644123fdbf819ad534653f4aaa')
+}
+
 # ****** Generically useful functions
 
 def bytes2hex(bytes):
     import binascii
     return binascii.hexlify(bytes).decode("utf-8")
-
-def hex2bytes(string):
-    return bytes.fromhex(string)
 
 def new_redacted_entry_tag(value):
     REDACTED_ENTRY_TAG = 59
@@ -35,6 +127,19 @@ def write_to_file(value, filename):
     with open(filename, mode) as f:
         f.write(value)
 
+def indent(string, num_spaces=4):
+    # take a multi-line string and add `num_spaces` spaces (if positive)
+    # TBC: or remove (if negative)
+    new_string = ""
+    if num_spaces > 0:
+        for line in string.splitlines():
+            new_string += (' '*num_spaces + line + '\n')
+        return new_string
+    #elif spaces < 0:
+        # trimming not yet supported
+    else:
+        return string
+
 def pretty_hex(hex_str, indent=0):
     # takes a string of hex digits and returns an h'' EDN string
     # with at most 32 hex digits per line/row, indented `indent` spaces 
@@ -54,23 +159,71 @@ def pretty_hex(hex_str, indent=0):
             pretty += hex_str[start:] + "'"
     return pretty
 
+def pretty_by_type(thing, indent=0, newline=True):
+  def pretty(string, indent, ending):
+    return ' '*indent + string + ending
+
+  if newline:
+    ending = '\n'
+  else:
+    ending = ''
+  match thing:
+    case int():
+      return pretty(f'{thing}', indent, ending)
+    case float():
+      return pretty(f'{thing}', indent, ending)
+    case str():
+      return pretty(f'"{thing}"', indent, ending)
+    case bytes():
+      return pretty(pretty_hex(bytes2hex(thing), indent+2),
+                    indent, ending)
+    case bool():
+      if thing == True:
+        return pretty("true", indent, ending)
+      else:
+        return pretty("false", indent, ending)
+    case None:
+        return pretty("null", indent, ending)
+    case list():
+      p = pretty('[', indent, '\n')
+      c = 0
+      for i in thing:
+        c += 1
+        p += pretty_by_type(i, indent=indent+4, newline=False)
+        if c != len(thing):
+            p += ',\n'
+        else:
+            p += '\n'
+      p += pretty(']', indent, ending)
+      return p
+    case dict():
+      p = pretty('{', indent, '\n')
+      c = 0
+      for i in thing:
+        c += 1
+        p += pretty_by_type(i, indent=indent+4, newline=False)
+        p += ': '
+        p += pretty_by_type(thing[i], newline=False)
+        if c != len(thing):
+            p += ',\n'
+        else:
+            p += '\n'
+      p += pretty('}', indent, ending)
+      return p
+    case _:
+      if thing.__class__ == cbor2.CBORSimpleValue:
+        return pretty(f'simple({thing.value})', indent, ending)
+      elif thing.__class__ == cbor2.CBORTag:
+        p = pretty(f'{thing.tag}', indent, ending)
+        p += '('
+        p += pretty_by_type(thing.value, newline=False)
+        p += ')' + ending
+        return p
+
 def iso_date(secs_since_epoch):
     import datetime
     t = datetime.datetime.fromtimestamp(secs_since_epoch, datetime.UTC)
     return t.isoformat() + 'Z'
-
-def indent(string, num_spaces=4):
-    # take a multi-line string and add `num_spaces` spaces (if positive)
-    # TBC: or remove (if negative)
-    new_string = ""
-    if num_spaces > 0:
-        for line in string.splitlines():
-            new_string += (' '*num_spaces + line + '\n')
-        return new_string
-    #elif spaces < 0:
-        # trimming not yet supported
-    else:
-        return string
 
 
 # ****** Functions specific to SD-CWTs
@@ -87,9 +240,22 @@ def make_time_claims(expiration, now=None, leeway=300):
     return newdict
 
 
+def find_salt(key=None, value=None, decoy_level=0, decoy_num=0):
+    # find an existing salt or generate one if not in "salts" dict
+    salt_index = None
+    if decoy_level == 0:
+        salt_index = sha256(cbor2.dumps([key, value]))
+    else:
+        salt_index = sha256(cbor2.dumps([decoy_level, decoy_num]))
+    if salt_index not in salts:
+        salts[salt_index] = new_salt()
+        print(f'Added new salt {bytes2hex(salts[salt_index])} for {bytes2hex(salt_index)}')
+    return salts[salt_index]
+
+
 def make_disclosure(salt=None, key=None, value=None):
     if salt is None:
-        salt = new_salt()
+        salt = find_salt(key=key, value=value)
     if key is None:
         if value is None:
             # decoy digest
@@ -134,7 +300,7 @@ def redact_map(map, level=1, num_decoys=0):
         value = map[key]
         if type(key) is cbor2.CBORTag and key.tag == TO_BE_REDACTED_TAG:
             if type(value) is list:
-                (n, d) = redact_array(value, level+1)
+                (n, d) = redact_array(value, level+1) #num_decoys=num_decoys//2)
                 disclosures += d
                 disclosure = make_disclosure(key=key.value, value=n)
             elif type(value) is dict:
@@ -153,7 +319,7 @@ def redact_map(map, level=1, num_decoys=0):
             newmap[key] = n
             disclosures += d
         elif type(value) is dict:
-            (n, d) = redact_map(value, level+1)
+            (n, d) = redact_map(value, level+1)  # , num_decoys=num_decoys//2)
             newmap[key] = n
             disclosures += d
         else:
@@ -184,7 +350,7 @@ def redact_array(array, level):
     for entry in array:
         if type(entry) is cbor2.CBORTag and entry.tag == TO_BE_REDACTED_TAG:
             if type(entry.value) is list:
-                (n, d) = redact_array(entry.value, level+1)
+                (n, d) = redact_array(entry.value, level+1) #num_decoys//2
                 disclosures += d
                 disclosure = make_disclosure(value=n)
             elif type(entry.value) is dict:
@@ -201,7 +367,7 @@ def redact_array(array, level):
             newarray.append(n)
             disclosures += d
         elif type(entry) is dict:
-            (n, d) = redact_map(entry, level+1)
+            (n, d) = redact_map(entry, level+1) #, num_decoys=num_decoys//2)
             newarray.append(n)
             disclosures += d
         else:
@@ -302,14 +468,16 @@ def sign(phdr, uhdr, payload, key):
 def edn_one_disclosure(disclosure, comment=None):
     def val(value):
         # get pretty printing to work correctly for unnested values 
-        if isinstance(value, str):
-            return '"' + value + '"'
-        elif isinstance(value, bytes):
-            return "h'" + bytes2hex(value) + "'"
-        elif isinstance(value, bool):
-            return "true" if value is True else "false"
-        else:
-            return value
+        #if isinstance(value, str):
+        #    return '"' + value + '"'
+        #elif isinstance(value, bytes):
+        #    return "h'" + bytes2hex(value) + "'"
+        #elif isinstance(value, bool):
+        #    return "true" if value is True else "false"
+        #elif
+        #else:
+        #    return value
+        return indent(pretty_by_type(value, newline=False), num_spaces=21)[21:]
 
     if len(disclosure) == 0 or len(disclosure) > 3:
         raise Exception("Too many/few elements in disclosure")
@@ -588,7 +756,7 @@ if __name__ == "__main__":
     write_to_file(elided_kbt_edn, 'elided-kbt.edn')
     
     
-    # **** TODO: finish nested example
+    # ***** Nested example
     
     tbr_nested_payload = {
       1   : "https://issuer.example",
@@ -597,11 +765,11 @@ if __name__ == "__main__":
           cbor2.CBORTag(58, {
               500 : True,
               502 : 1549560720,
-              cbor2.CBORTag(58,501) : "ABCD-101777",
+              cbor2.CBORTag(58,501) : "DCBA-101777",
               cbor2.CBORTag(58, 503) : {
                   1: "us",
-                  cbor2.CBORTag(58, 2): "ca",
-                  cbor2.CBORTag(58, 3): "94188",
+                  cbor2.CBORTag(58, 2): "co",
+                  cbor2.CBORTag(58, 3): "80302",
               }
           }),
           cbor2.CBORTag(58, {
@@ -628,25 +796,125 @@ if __name__ == "__main__":
     }
     
     # redact payload for nested example
-    #(payload, disclosures) = redact_map(tbr_nested_payload, 1)
+    (payload, disclosures) = redact_map(tbr_nested_payload, 1)
     
     # generate issued nested example?
     
-    # generate/save pretty-printed disclosures from nested example
-    #payload |= holder_cnf | cwt_time_claims
+    # make nested-cwt
+    payload |= holder_cnf | cwt_time_claims
     
     # which disclosures to include?
-    #nested_unprotected = {
-    #  SD_CLAIMS: [
-    #    disclosures[0]
-    #  ]
-    #}
-    #nested_cwt = sign(cwt_protected,
-    #                  nested_unprotected,
-    #                  payload,
-    #                  issuer_priv_key)
-    #kbt_protected[13] = nested_cwt
-    #nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
-    #with open('nested_kbt.cbor', 'wb') as file:
-    #    file.write(nested_kbt)
+    for d in disclosures:
+        disc_array = cbor2.loads(cbor2.loads(d))
+        print(f'''
+{disc_array}
+''')
+
+    full_nested_unprotected = {
+      SD_CLAIMS: disclosures
+    }
+    issuer_nested_cwt = sign(cwt_protected,
+                      full_nested_unprotected,
+                      payload,
+                      issuer_priv_key)
+    write_to_file(issuer_nested_cwt, "issuer_nested_cwt.cbor")
+    
+    nested_unprotected = {
+      SD_CLAIMS: [
+#        disclosures[15],
+        disclosures[14],
+        disclosures[10],
+        disclosures[13],
+        disclosures[11],
+        disclosures[0],
+        disclosures[4]
+      ]
+    }
+    nested_cwt = sign(cwt_protected,
+                      nested_unprotected,
+                      payload,
+                      issuer_priv_key)
+    write_to_file(nested_cwt, "nested_cwt.cbor")
+    
+    kbt_protected[13] = nested_cwt
+    nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
+    write_to_file(nested_kbt, "nested_kbt.cbor")
+
+    # generate/save pretty-printed disclosures from nested example
+    example_comments=[
+        "inspector_license_number",
+        "region=Colorado",
+        "postcode=80302",
+        "Denver location",
+        "inspection 7-Feb-2019",
+        "inspector_license_number",
+        "region=Nevada",
+        "postcode=89155",
+        "Las Vegas location",
+        "inspection 4-Feb-2021",
+        "inspector_license_number",
+        "region=California",
+        "postcode=94188",
+        "San Francisco location",
+        "inspection 17-Jan-2023"
+        # "Entire inspection history"
+    ]
+    decoded_disclosures = parse_disclosures(disclosures)
+    edn_disclosures = edn_decoded_disclosures(decoded_disclosures, 
+                            comments=example_comments, all=True)
+
+    # generate nested issuer EDN
+    redacted = redacted_hashes_from_disclosures(disclosures)
+    nested_issued_edn = generate_basic_issuer_cwt_edn(edn_disclosures, 
+        exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
+        thumb_fields=holder_thumb_edn,
+        redacted=redacted,
+        sig=issuer_cwt[-96:])
+    write_to_file(nested_issued_edn, "nested_cwt.edn")
+
+    presented_disclosures = [
+#        decoded_disclosures[15],
+        decoded_disclosures[14],
+        decoded_disclosures[10],
+        decoded_disclosures[13],
+        decoded_disclosures[11],
+        decoded_disclosures[0],
+        decoded_disclosures[4]
+    ]
+    presented_comments = [
+#        example_comments[15],
+        example_comments[14],
+        example_comments[10],
+        example_comments[13],
+        example_comments[11],
+        example_comments[0],
+        example_comments[4],
+    ]
+    edn_disclosures = edn_decoded_disclosures(
+        presented_disclosures, comments=presented_comments)
+    write_to_file(edn_disclosures, 'chosen-nested-disclosures.edn')
+
+    nested_presented_edn = generate_basic_issuer_cwt_edn(edn_disclosures, 
+        exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
+        thumb_fields=holder_thumb_edn,
+        redacted=redacted,
+        sig=issuer_cwt[-96:])
+    holder_unprotected = {SD_CLAIMS: presented_disclosures}
+    nested_presentation_cwt = sign(cwt_protected,
+                       holder_unprotected,
+                       payload,
+                       issuer_priv_key)
+
+    nested_kbt_edn = generate_basic_holder_kbt_edn(
+        nested_presented_edn, iat=KBT_IAT, sig=nested_kbt[-64:])
+    write_to_file(nested_kbt_edn, 'nested_kbt.edn')
+
+#    for s in salts:
+#        print(f'''*** Hash: {bytes2hex(s)}
+#Salt: {bytes2hex(salts[s])}
+#
+#''')
+#
+#    print('\n')
+#    print(salts)
 
