@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 23 August 2025                                      H. Birkholz
+Expires: 3 September 2025                                    H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                        19 February 2025
+                                                            2 March 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 August 2025.
+   This Internet-Draft will expire on 3 September 2025.
 
 Copyright Notice
 
@@ -342,25 +342,25 @@ Issuer                           Holder                         Verifier
      / CWT unprotected / {
        / sd_claims / 17 : [ / these are all the disclosures /
            <<[
-               /salt/   h'2008c50a62d9b59813318abd06df8a89',
+               /salt/   h'bae611067bb823486797da1ebbb52f83',
                /claim/  501,   / inspector_license_number /
                /value/  "ABCD-123456"
            ]>>,
            <<[
-               /salt/   h'7afa9ed5103ecca7357c628f549a3581',
+               /salt/   h'8de86a012b3043ae6e4457b9e1aaab80',
                /value/  1549560720   / inspected 7-Feb-2019 /
            ]>>,
            <<[
-               /salt/   h'033b375a7bc327497148458b3447cc46',
+               /salt/   h'7af7084b50badeb57d49ea34627c7a52',
                /value/  1612560720   / inspected 4-Feb-2021 /
            ]>>,
            <<[
-               /salt/   h'ef016cb1438d09d8b48ceee1709e2072',
+               /salt/   h'ec615c3035d5a4ff2f5ae29ded683c8e',
                /claim/  "region",   / region=California /
                /value/  "ca"
            ]>>,
            <<[
-               /salt/   h'92753ef207fed9a767d75aec16ac0d18',
+               /salt/   h'37c23d4ec4db0806601e6b6dc6670df9',
                /claim/  "postal_code",
                /value/  "94188"
            ]>>,
@@ -385,36 +385,36 @@ Issuer                           Holder                         Verifier
        /most_recent_inspection_passed/ 500: true,
        / redacted_claim_keys / 59(0) : [
            / redacted inspector_license_number /
-           h'7d493be2eb59b6b9bbb81da46a72fc25
-             074481a7bfd8b2b2d8ce5a0d31ef2108'
+           h'0ad0f76dcb7fd812ca64c3ada3f543be
+             96d0e351e1e576fbab5cb659b49e599e'
        ],
        /inspection_dates/ 502 : [
            / redacted inspection date 7-Feb-2019 /
-           60(h'6db57c149ae619140db846203f67e3ed
-                f42f2cd8ac71feaab4684296077f1dc1'),
+           60(h'f468b68dd7432030d7f33a8783acb3a4
+                d6afc215bbc184dce8831c64b539f335'),
            / redacted inspection date 4-Feb-2021 /
-           60(h'e08fe0d7fcdaaa7cc6d0640405d2d952
-                7f01af8d0cd9da190ea7f85197b0b0f0'),
+           60(h'0839dcbdd9ed55c8aac3e573ccf59c81
+                0fa8d9f6ec551cb9737621faf3584e1f'),
            1674004740,   / 2023-01-17T17:19:00 /
        ],
        / inspection_location / 503 : {
            "country" : "us",            / United States /
            / redacted_claim_keys / 59(0) : [
                / redacted region /
-               h'da8fb0da7f25d2e431e29acc3996a418
-                 17c39b7b0fc0d6c0603df29a3d548a0b'
+               h'dff0cb7a6ff555544554c527d5e32eed
+                 ee6a9d80a1dae2e0ac611796674ce281'
                / redacted postal_code /
-               h'a4c4f26f027f12f40f77e3800fff0cf0
-                 d6a9c0a282c3c0f6a2ba4a08c293bc05'
+               h'5f5e6bfc2de598c80df58ff84090125a
+                 f8bb1ada795a37e5cfcf8f480e445755'
          ]
        }
      } >>,
-     / CWT signature / h'14d9566069bd96fd0d20ce37ad9b7bfb
-                         5d0e8e36dc665ffffa80b3dcbf76f66a
-                         a28adff482c3ffa660b30c4115fba350
-                         e30108fe2436388a9bd280893570e416
-                         3935146abee5e11248ce71c8b7f7e634
-                         cdb8feeccfb6439e2131ba03c1f0f65e'
+     / CWT signature / h'd6b1f5143a3f6b2e54a1ea29ed98e9ed
+                         7abb2927b34ba100fe91ed493d66062b
+                         d71716eed6b209b9d6c6861a6886ad47
+                         5716220bcb3a0276a205002c3f6d3e86
+                         a52d3e990f869bd38c5a476f73ee3319
+                         64dee2cb51321b7bf2e64e62811a9b22'
    ])
 
                 Figure 1: Issued SD-CWT with all disclosures
@@ -426,7 +426,7 @@ Issuer                           Holder                         Verifier
    the claim name, and claim value.
 
            <<[
-               /salt/   h'2008c50a62d9b59813318abd06df8a89',
+               /salt/   h'bae611067bb823486797da1ebbb52f83',
                /claim/  501,   / inspector_license_number /
                /value/  "ABCD-123456"
            ]>>,
@@ -453,7 +453,7 @@ Issuer                           Holder                         Verifier
    this example), or in a named array for a Redacted Claim Element (ex:
    for a redacted claim element of inspection_dates).
 
-   a6e9c2ef4e46ea49d6b2d664fdff610eec3815069579e08e8969d74aef701c37
+   e7d2ca13738de42ebfe3d72af06756314940ac1b129e5ecf0ed08af379ae98f8
 
        Figure 4: SHA-256 hash of inspector_license_number disclosure
 
@@ -465,8 +465,8 @@ Issuer                           Holder                         Verifier
 
      / redacted_claim_keys / 59(0) : [
          / redacted inspector_license_number /
-         h'a6e9c2ef4e46ea49d6b2d664fdff610e
-           ec3815069579e08e8969d74aef701c37',
+         h'e7d2ca13738de42ebfe3d72af0675631
+           4940ac1b129e5ecf0ed08af379ae98f8',
          / ... next redacted claim at the same level would go here /  ],
 
       Figure 5: redacted inspector_license_number claim in the issued
@@ -485,16 +485,16 @@ Issuer                           Holder                         Verifier
 
        / sd_claims / 17 : [ / these are the disclosures /
            <<[
-               /salt/   h'2008c50a62d9b59813318abd06df8a89',
+               /salt/   h'bae611067bb823486797da1ebbb52f83',
                /claim/  501,   / inspector_license_number /
                /value/  "ABCD-123456"
            ]>>,
            <<[
-               /salt/   h'7afa9ed5103ecca7357c628f549a3581',
+               /salt/   h'8de86a012b3043ae6e4457b9e1aaab80',
                /value/  1549560720   / inspected 7-Feb-2019 /
            ]>>,
            <<[
-               /salt/   h'ef016cb1438d09d8b48ceee1709e2072',
+               /salt/   h'ec615c3035d5a4ff2f5ae29ded683c8e',
                /claim/  "region",   / region=California /
                /value/  "ca"
            ]>>,
@@ -529,10 +529,10 @@ Issuer                           Holder                         Verifier
        / aud    /  3    : "https://verifier.example/app",
        / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
      } >>,      / end of KBT payload /
-     / KBT signature / h'db30ece366b9493155d2d80305c0e54b
-                         4457dda88cb6fc2de7e5756780590055
-                         147af721344c4e5b59c03c7b1eec8621
-                         c2a0647fb033d2e70a48063d37a96ab7'
+     / KBT signature / h'feb37bac837b25d3510962ac706297cd
+                         2ef1ace1b47a382e911124c9a4c32287
+                         280f48931c2988d71b297d57dd9d392f
+                         5792d8f87a95166c5ea5110a81c1bfc7'
    ])   / end of kbt /
 
    Together the digests in protected parts of the issued SD-CWT, and the
@@ -930,16 +930,16 @@ Issuer                           Holder                         Verifier
          / CWT unprotected / {
            / sd_claims / 17 : [ / these are the disclosures /
                <<[
-                   /salt/   h'2008c50a62d9b59813318abd06df8a89',
+                   /salt/   h'bae611067bb823486797da1ebbb52f83',
                    /claim/  501,   / inspector_license_number /
                    /value/  "ABCD-123456"
                ]>>,
                <<[
-                   /salt/   h'7afa9ed5103ecca7357c628f549a3581',
+                   /salt/   h'8de86a012b3043ae6e4457b9e1aaab80',
                    /value/  1549560720   / inspected 7-Feb-2019 /
                ]>>,
                <<[
-                   /salt/   h'ef016cb1438d09d8b48ceee1709e2072',
+                   /salt/   h'ec615c3035d5a4ff2f5ae29ded683c8e',
                    /claim/  "region",   / region=California /
                    /value/  "ca"
                ]>>,
@@ -964,36 +964,36 @@ Issuer                           Holder                         Verifier
            /most_recent_inspection_passed/ 500: true,
            / redacted_claim_keys / 59(0) : [
                / redacted inspector_license_number /
-               h'7d493be2eb59b6b9bbb81da46a72fc25
-                 074481a7bfd8b2b2d8ce5a0d31ef2108'
+               h'0ad0f76dcb7fd812ca64c3ada3f543be
+                 96d0e351e1e576fbab5cb659b49e599e'
            ],
            /inspection_dates/ 502 : [
                / redacted inspection date 7-Feb-2019 /
-               60(h'6db57c149ae619140db846203f67e3ed
-                    f42f2cd8ac71feaab4684296077f1dc1'),
+               60(h'f468b68dd7432030d7f33a8783acb3a4
+                    d6afc215bbc184dce8831c64b539f335'),
                / redacted inspection date 4-Feb-2021 /
-               60(h'e08fe0d7fcdaaa7cc6d0640405d2d952
-                    7f01af8d0cd9da190ea7f85197b0b0f0'),
+               60(h'0839dcbdd9ed55c8aac3e573ccf59c81
+                    0fa8d9f6ec551cb9737621faf3584e1f'),
                1674004740,   / 2023-01-17T17:19:00 /
            ],
            / inspection_location / 503 : {
                "country" : "us",            / United States /
                / redacted_claim_keys / 59(0) : [
                    / redacted region /
-                   h'da8fb0da7f25d2e431e29acc3996a418
-                     17c39b7b0fc0d6c0603df29a3d548a0b'
+                   h'dff0cb7a6ff555544554c527d5e32eed
+                     ee6a9d80a1dae2e0ac611796674ce281'
                    / redacted postal_code /
-                   h'a4c4f26f027f12f40f77e3800fff0cf0
-                     d6a9c0a282c3c0f6a2ba4a08c293bc05'
+                   h'5f5e6bfc2de598c80df58ff84090125a
+                     f8bb1ada795a37e5cfcf8f480e445755'
              ]
            }
          } >>,
-         / CWT signature / h'14d9566069bd96fd0d20ce37ad9b7bfb
-                             5d0e8e36dc665ffffa80b3dcbf76f66a
-                             a28adff482c3ffa660b30c4115fba350
-                             e30108fe2436388a9bd280893570e416
-                             3935146abee5e11248ce71c8b7f7e634
-                             cdb8feeccfb6439e2131ba03c1f0f65e'
+         / CWT signature / h'd6b1f5143a3f6b2e54a1ea29ed98e9ed
+                             7abb2927b34ba100fe91ed493d66062b
+                             d71716eed6b209b9d6c6861a6886ad47
+                             5716220bcb3a0276a205002c3f6d3e86
+                             a52d3e990f869bd38c5a476f73ee3319
+                             64dee2cb51321b7bf2e64e62811a9b22'
        ])
         / end of issuer SD-CWT /
      } >>,     / end of KBT protected header /
@@ -1003,17 +1003,175 @@ Issuer                           Holder                         Verifier
        / aud    /  3    : "https://verifier.example/app",
        / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
      } >>,      / end of KBT payload /
-     / KBT signature / h'db30ece366b9493155d2d80305c0e54b
-                         4457dda88cb6fc2de7e5756780590055
-                         147af721344c4e5b59c03c7b1eec8621
-                         c2a0647fb033d2e70a48063d37a96ab7'
+     / KBT signature / h'feb37bac837b25d3510962ac706297cd
+                         2ef1ace1b47a382e911124c9a4c32287
+                         280f48931c2988d71b297d57dd9d392f
+                         5792d8f87a95166c5ea5110a81c1bfc7'
    ])   / end of kbt /
 
                           Figure 6: An EDN Example
 
 12.2.  Nested example
 
-   *TODO*
+   Instead of the structure from the previous example, imagine the
+   payload contains an inspection history log with the following
+   structure.  It could be blinded at multiple levels of the claim set
+   hierarchy.
+
+   {
+       / iss / 1  : "https://issuer.example",
+       / sub / 2  : "https://device.example",
+       / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
+       / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
+       / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
+       / cnf / 8  : { ... },
+       504: [                      / inspection history log /
+           {
+               500: True,          / inspection passed /
+               502: 1549560720,    / 2019-02-07T17:32:00 /
+               501: "DCBA-101777", / inspector license /
+               503: {
+                   1: "us",        / United States /
+                   2: "co",        / region=Colorado /
+                   3: "80302"      / postcode /
+               }
+           },
+           {
+               500: True,          / inspection passed /
+               502: 1612560720,    / 2021-02-04T20:14:00 /
+               501: "EFGH-789012", / inspector license /
+               503: {
+                   1: "us",        / United States /
+                   2: "nv",        / region=Nevada /
+                   3: "89155"      / postcode /
+               }
+           },
+           {
+               500: True,          / inspection passed /
+               502: 17183928,      / 2023-01-17T17:19:00 /
+               501: "ABCD-123456", / inspector license /
+               503: {
+                   1: "us",        / United States /
+                   2: "ca",        / region=California /
+                   3: "94188"      / postcode /
+               }
+           },
+       ]
+   }
+
+   For example, looking at the nested disclosures below, the first
+   disclosure unblinds the entire January 2023 inspection record.
+   However, when the record is disclosed, the inspector license number
+   and inspection location are redacted inside the record.  The next
+   disclosure unblinds the inspector_license_number, and the next
+   disclosure unblinds the inspection location record, but the region
+   and postcode claims inside the location record are also individually
+   blinded.  The fourth disclosure unblinds the inspection region.
+
+   The fifth disclosure unblinds the earliest inspection record, and the
+   last disclosure unblinds the inspector_license_number for that
+   record.
+
+   Verifiers start unblinding claims for which they have blinded claim
+   hashes.  They continue descending until there are no blinded claim
+   hashes at any level of the hierarchy for which they have a
+   corresponding disclosure.
+
+   / sd_claims / 17 : [ / these are the disclosures /
+       <<[
+           /salt/   h'e3aa33644123fdbf819ad534653f4aaa',
+           /claim/  504,   / inspection 17-Jan-2023 /
+           /value/  [
+                        59(h'2893a00665f1ca2cfeb7456e1eeb8eba
+                             f21d5c12a73d9fbcb8902822f3ecb635'),
+                        59(h'92c0262b0ed6891c6e46d6fca5554caf
+                             79bd8d05c74dbb06a25c9edd304c6e22'),
+                        {
+                            500: True,
+                            502: 17183928,
+                            simple(59): [
+                              h'0ad0f76dcb7fd812ca64c3ada3f543be
+                                 96d0e351e1e576fbab5cb659b49e599e',
+                              h'f34c3ea2292d02b92bde25e68e94acd7
+                                f1e011fd6eea6c490f841f09a7a01a48'
+                            ]
+                        }
+                    ]
+       ]>>,
+       <<[
+           /salt/   h'bae611067bb823486797da1ebbb52f83',
+           /claim/  501,   / inspector_license_number /
+           /value/  "ABCD-123456"
+       ]>>,
+       <<[
+           /salt/   h'7d2505257e7850b70295a87b3c8748e5',
+           /claim/  503,   / San Francisco location /
+           /value/  {
+                        1: "us",
+                        simple(59): [
+                          h'de03a7a0b4359511a7dc0edd8f4ebc00
+                            b5783d8a0d36e715679e23c703011d16',
+                          h'5a98ac2381cb59dee7a43daa073eab48
+                            9773e2830a0b9c4e1efd55737dbb1c06'
+                        ]
+                    }
+       ]>>,
+       <<[
+           /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+           /claim/  2,   / region=California /
+           /value/  "ca"
+       ]>>,
+       <<[
+           /salt/   h'b52272341715f2a0b476e33e55ce7501',
+           /value/  {
+                        500: True,
+                        502: 1549560720,
+                        simple(59): [
+                          h'cd88763edb2485b8109613546051f606
+                            e6b822456da1bf09f604b886e1def45a',
+                          h'0a45eb75de44741bea78dc48b1898d40
+                            09601dbf567279f3042a24cee9fdcab5'
+                        ]
+                    }   / inspection 7-Feb-2019 /
+       ]>>,
+       <<[
+           /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+           /claim/  501,   / inspector_license_number /
+           /value/  "DCBA-101777"
+       ]>>
+   ]
+
+   After applying the disclosures of the nested structure above, the
+   disclosed claim set visible to the verifier would look like the
+   following:
+
+   {
+       / iss / 1  : "https://issuer.example",
+       / sub / 2  : "https://device.example",
+       / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
+       / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
+       / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
+       / cnf / 8  : { ... },
+       504: [                      / inspection history log /
+           {
+               500: True,          / inspection passed /
+               502: 1549560720,    / 2019-02-07T17:32:00 /
+               501: "DCBA-101777", / inspector license /
+               503: {
+                   1: "us"         / United States /
+               }
+           },
+           {
+               500: True,          / inspection passed /
+               502: 17183928,      / 2023-01-17T17:19:00 /
+               501: "ABCD-123456", / inspector license /
+               503: {
+                   1: "us",        / United States /
+                   2: "ca"         / region=California /
+               }
+           },
+       ]
+   }
 
 13.  Implementation Status
 
@@ -1539,9 +1697,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-15, 16
-              January 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-selective-disclosure-jwt-15>.
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-17, 1
+              March 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-selective-disclosure-jwt-17>.
 
    [I-D.ietf-httpbis-unprompted-auth]
               Schinazi, D., Oliver, D., and J. Hoyland, "The Concealed
@@ -1752,8 +1910,8 @@ C.1.  Subject / Holder
 
    Input to Holder public JWK thumbprint (ignore line breaks)
 
-   {"crv":"P-256","kty":"EC","x":"hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1S
-   ei0","y":"TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M"}
+ {"crv":"P-256","kty":"EC","x":"hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1S
+ ei0","y":"TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M"}
 
    SHA-256 of the Holder public JWK input string (in hex)
 
@@ -1903,9 +2061,9 @@ D.1.  draft-ietf-spice-sd-cwt-03
 
    *  regenerate all examples with correct signatures
 
-   *  add description of decoy digests *TODO*
+   *  add nested example
 
-   *  add nested examples *TODO*
+   *  add description of decoy digests *TODO*
 
    *  provide test vectors *TODO*
 
