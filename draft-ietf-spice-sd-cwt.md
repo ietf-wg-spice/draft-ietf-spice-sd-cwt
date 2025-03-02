@@ -634,7 +634,7 @@ The fourth disclosure unblinds the inspection region.
 
 The fifth disclosure unblinds the earliest inspection record, and the last disclosure unblinds the inspector_license_number for that record.
 
-Clients start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.
+Verifiers start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.
 
 ~~~ cbor-diag
 / sd_claims / 17 : [ / these are the disclosures /
@@ -702,7 +702,7 @@ Clients start unblinding claims for which they have blinded claim hashes. They c
 ]
 ~~~
 
-After applying the disclosures of the nested structure above, the payload visible to the verifier would look like the following:
+After applying the disclosures of the nested structure above, the disclosed claim set visible to the verifier would look like the following:
 
 ~~~ cbor-diag
 {
