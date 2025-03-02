@@ -626,7 +626,7 @@ Instead of the structure from the previous example, imagine the payload contains
 }
 ~~~
 
-For example, looking at the nested disclosures below, the first disclosure redacts the entire January 2023 inspection record.
+For example, looking at the nested disclosures below, the first disclosure unblinds the entire January 2023 inspection record.
 However, when the record is disclosed, the inspector license number and inspection location are redacted inside the record.
 The next disclosure unblinds the inspector_license_number, and the next
 disclosure unblinds the inspection location record, but the region and postcode claims inside the location record are also individually blinded.
@@ -702,7 +702,7 @@ Clients start unblinding claims for which they have blinded claim hashes. They c
 ]
 ~~~
 
-After applying the nested disclosures, the payload visible to the verifier would look like the following:
+After applying the disclosures of the nested structure above, the payload visible to the verifier would look like the following:
 
 ~~~ cbor-diag
 {
@@ -1094,7 +1094,7 @@ The COSE thumbprint (in hexadecimal)--SHA256 hash of the thumbprint fields:
 
 Holder key pair in JWK format
 
-~~~ json
+~~~
 {
   "kty": "EC",
   "alg": "ES256",
@@ -1108,7 +1108,7 @@ Holder key pair in JWK format
 
 Input to Holder public JWK thumbprint (ignore line breaks)
 
-~~~ json
+~~~
 {"crv":"P-256","kty":"EC","x":"hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1S
 ei0","y":"TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M"}
 ~~~
@@ -1273,8 +1273,8 @@ Note: RFC Editor, please remove this entire section on publication.
 - updated media types registrations to have more useful contacts (#44)
 - build most of the values (signatures/salts/hashes/dates) in the examples automatically using a script that implements SD-CWT
 - regenerate all examples with correct signatures
+- add nested example
 - add description of decoy digests **TODO**
-- add nested examples **TODO**
 - provide test vectors **TODO**
 
 ## draft-ietf-spice-sd-cwt-02
