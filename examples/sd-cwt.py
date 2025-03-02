@@ -127,6 +127,19 @@ def write_to_file(value, filename):
     with open(filename, mode) as f:
         f.write(value)
 
+def indent(string, num_spaces=4):
+    # take a multi-line string and add `num_spaces` spaces (if positive)
+    # TBC: or remove (if negative)
+    new_string = ""
+    if num_spaces > 0:
+        for line in string.splitlines():
+            new_string += (' '*num_spaces + line + '\n')
+        return new_string
+    #elif spaces < 0:
+        # trimming not yet supported
+    else:
+        return string
+
 def pretty_hex(hex_str, indent=0):
     # takes a string of hex digits and returns an h'' EDN string
     # with at most 32 hex digits per line/row, indented `indent` spaces 
@@ -146,23 +159,71 @@ def pretty_hex(hex_str, indent=0):
             pretty += hex_str[start:] + "'"
     return pretty
 
+def pretty_by_type(thing, indent=0, newline=True):
+  def pretty(string, indent, ending):
+    return ' '*indent + string + ending
+
+  if newline:
+    ending = '\n'
+  else:
+    ending = ''
+  match thing:
+    case int():
+      return pretty(f'{thing}', indent, ending)
+    case float():
+      return pretty(f'{thing}', indent, ending)
+    case str():
+      return pretty(f'"{thing}"', indent, ending)
+    case bytes():
+      return pretty(pretty_hex(bytes2hex(thing), indent+2),
+                    indent, ending)
+    case bool():
+      if thing == True:
+        return pretty("true", indent, ending)
+      else:
+        return pretty("false", indent, ending)
+    case None:
+        return pretty("null", indent, ending)
+    case list():
+      p = pretty('[', indent, '\n')
+      c = 0
+      for i in thing:
+        c += 1
+        p += pretty_by_type(i, indent=indent+4, newline=False)
+        if c != len(thing):
+            p += ',\n'
+        else:
+            p += '\n'
+      p += pretty(']', indent, ending)
+      return p
+    case dict():
+      p = pretty('{', indent, '\n')
+      c = 0
+      for i in thing:
+        c += 1
+        p += pretty_by_type(i, indent=indent+4, newline=False)
+        p += ': '
+        p += pretty_by_type(thing[i], newline=False)
+        if c != len(thing):
+            p += ',\n'
+        else:
+            p += '\n'
+      p += pretty('}', indent, ending)
+      return p
+    case _:
+      if thing.__class__ == cbor2.CBORSimpleValue:
+        return pretty(f'simple({thing.value})', indent, ending)
+      elif thing.__class__ == cbor2.CBORTag:
+        p = pretty(f'{thing.tag}', indent, ending)
+        p += '('
+        p += pretty_by_type(thing.value, newline=False)
+        p += ')' + ending
+        return p
+
 def iso_date(secs_since_epoch):
     import datetime
     t = datetime.datetime.fromtimestamp(secs_since_epoch, datetime.UTC)
     return t.isoformat() + 'Z'
-
-def indent(string, num_spaces=4):
-    # take a multi-line string and add `num_spaces` spaces (if positive)
-    # TBC: or remove (if negative)
-    new_string = ""
-    if num_spaces > 0:
-        for line in string.splitlines():
-            new_string += (' '*num_spaces + line + '\n')
-        return new_string
-    #elif spaces < 0:
-        # trimming not yet supported
-    else:
-        return string
 
 
 # ****** Functions specific to SD-CWTs
@@ -407,14 +468,16 @@ def sign(phdr, uhdr, payload, key):
 def edn_one_disclosure(disclosure, comment=None):
     def val(value):
         # get pretty printing to work correctly for unnested values 
-        if isinstance(value, str):
-            return '"' + value + '"'
-        elif isinstance(value, bytes):
-            return "h'" + bytes2hex(value) + "'"
-        elif isinstance(value, bool):
-            return "true" if value is True else "false"
-        else:
-            return value
+        #if isinstance(value, str):
+        #    return '"' + value + '"'
+        #elif isinstance(value, bytes):
+        #    return "h'" + bytes2hex(value) + "'"
+        #elif isinstance(value, bool):
+        #    return "true" if value is True else "false"
+        #elif
+        #else:
+        #    return value
+        return indent(pretty_by_type(value, newline=False), num_spaces=21)[21:]
 
     if len(disclosure) == 0 or len(disclosure) > 3:
         raise Exception("Too many/few elements in disclosure")
