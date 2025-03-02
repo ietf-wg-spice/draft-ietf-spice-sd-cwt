@@ -581,7 +581,158 @@ The following example contains claims needed to demonstrate redaction of key-val
 
 ## Nested example {#nesting}
 
-**TODO**
+Instead of the structure from the previous example, imagine the payload contains an inspection history log with the following structure. It could be blinded at multiple levels of the claim set hierarchy.
+
+~~~ cbor-diag
+{
+    / iss / 1  : "https://issuer.example",
+    / sub / 2  : "https://device.example",
+    / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
+    / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
+    / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
+    / cnf / 8  : { ... },
+    504: [                      / inspection history log /
+        {
+            500: True,          / inspection passed /
+            502: 1549560720,    / 2019-02-07T17:32:00 /
+            501: "DCBA-101777", / inspector license /
+            503: {
+                1: "us",        / United States /
+                2: "co",        / region=Colorado /
+                3: "80302"      / postcode /
+            }
+        },
+        {
+            500: True,          / inspection passed /
+            502: 1612560720,    / 2021-02-04T20:14:00 /
+            501: "EFGH-789012", / inspector license /
+            503: {
+                1: "us",        / United States /
+                2: "nv",        / region=Nevada /
+                3: "89155"      / postcode /
+            }
+        },
+        {
+            500: True,          / inspection passed /
+            502: 17183928,      / 2023-01-17T17:19:00 /
+            501: "ABCD-123456", / inspector license /
+            503: {
+                1: "us",        / United States /
+                2: "ca",        / region=California /
+                3: "94188"      / postcode /
+            }
+        },
+    ]
+}
+~~~
+
+For example, looking at the nested disclosures below, the first disclosure unblinds the entire January 2023 inspection record.
+However, when the record is disclosed, the inspector license number and inspection location are redacted inside the record.
+The next disclosure unblinds the inspector_license_number, and the next
+disclosure unblinds the inspection location record, but the region and postcode claims inside the location record are also individually blinded.
+The fourth disclosure unblinds the inspection region.
+
+The fifth disclosure unblinds the earliest inspection record, and the last disclosure unblinds the inspector_license_number for that record.
+
+Verifiers start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.
+
+~~~ cbor-diag
+/ sd_claims / 17 : [ / these are the disclosures /
+    <<[
+        /salt/   h'e3aa33644123fdbf819ad534653f4aaa',
+        /claim/  504,   / inspection 17-Jan-2023 /
+        /value/  [
+                     59(h'2893a00665f1ca2cfeb7456e1eeb8eba
+                          f21d5c12a73d9fbcb8902822f3ecb635'),
+                     59(h'92c0262b0ed6891c6e46d6fca5554caf
+                          79bd8d05c74dbb06a25c9edd304c6e22'),
+                     {
+                         500: True,
+                         502: 17183928,
+                         simple(59): [
+                           h'0ad0f76dcb7fd812ca64c3ada3f543be
+                              96d0e351e1e576fbab5cb659b49e599e',
+                           h'f34c3ea2292d02b92bde25e68e94acd7
+                             f1e011fd6eea6c490f841f09a7a01a48'
+                         ]
+                     }
+                 ]
+    ]>>,
+    <<[
+        /salt/   h'bae611067bb823486797da1ebbb52f83',
+        /claim/  501,   / inspector_license_number /
+        /value/  "ABCD-123456"
+    ]>>,
+    <<[
+        /salt/   h'7d2505257e7850b70295a87b3c8748e5',
+        /claim/  503,   / San Francisco location /
+        /value/  {
+                     1: "us",
+                     simple(59): [
+                       h'de03a7a0b4359511a7dc0edd8f4ebc00
+                         b5783d8a0d36e715679e23c703011d16',
+                       h'5a98ac2381cb59dee7a43daa073eab48
+                         9773e2830a0b9c4e1efd55737dbb1c06'
+                     ]
+                 }
+    ]>>,
+    <<[
+        /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+        /claim/  2,   / region=California /
+        /value/  "ca"
+    ]>>,
+    <<[
+        /salt/   h'b52272341715f2a0b476e33e55ce7501',
+        /value/  {
+                     500: True,
+                     502: 1549560720,
+                     simple(59): [
+                       h'cd88763edb2485b8109613546051f606
+                         e6b822456da1bf09f604b886e1def45a',
+                       h'0a45eb75de44741bea78dc48b1898d40
+                         09601dbf567279f3042a24cee9fdcab5'
+                     ]
+                 }   / inspection 7-Feb-2019 /
+    ]>>,
+    <<[
+        /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+        /claim/  501,   / inspector_license_number /
+        /value/  "DCBA-101777"
+    ]>>
+]
+~~~
+
+After applying the disclosures of the nested structure above, the disclosed claim set visible to the verifier would look like the following:
+
+~~~ cbor-diag
+{
+    / iss / 1  : "https://issuer.example",
+    / sub / 2  : "https://device.example",
+    / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
+    / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
+    / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
+    / cnf / 8  : { ... },
+    504: [                      / inspection history log /
+        {
+            500: True,          / inspection passed /
+            502: 1549560720,    / 2019-02-07T17:32:00 /
+            501: "DCBA-101777", / inspector license /
+            503: {
+                1: "us"         / United States /
+            }
+        },
+        {
+            500: True,          / inspection passed /
+            502: 17183928,      / 2023-01-17T17:19:00 /
+            501: "ABCD-123456", / inspector license /
+            503: {
+                1: "us",        / United States /
+                2: "ca"         / region=California /
+            }
+        },
+    ]
+}
+~~~
 
 
 # Implementation Status
@@ -943,7 +1094,7 @@ The COSE thumbprint (in hexadecimal)--SHA256 hash of the thumbprint fields:
 
 Holder key pair in JWK format
 
-~~~ json
+~~~
 {
   "kty": "EC",
   "alg": "ES256",
@@ -957,7 +1108,7 @@ Holder key pair in JWK format
 
 Input to Holder public JWK thumbprint (ignore line breaks)
 
-~~~ json
+~~~
 {"crv":"P-256","kty":"EC","x":"hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1S
 ei0","y":"TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M"}
 ~~~
@@ -1122,8 +1273,8 @@ Note: RFC Editor, please remove this entire section on publication.
 - updated media types registrations to have more useful contacts (#44)
 - build most of the values (signatures/salts/hashes/dates) in the examples automatically using a script that implements SD-CWT
 - regenerate all examples with correct signatures
+- add nested example
 - add description of decoy digests **TODO**
-- add nested examples **TODO**
 - provide test vectors **TODO**
 
 ## draft-ietf-spice-sd-cwt-02
