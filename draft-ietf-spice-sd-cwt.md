@@ -582,7 +582,9 @@ Taking the first example disclosure from above:
 
 The corresponding bstr is encrypted with an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} such as AEAD_AES_128_GCM, using the salt as the nonce.
 The `salt`, the algorithm used (`alg`), and the resulting `ciphertext` and `mac` are put in an array.
-The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotected header field array.
+The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotected header field array of the SD-CWT.
+The entire SD-CWT is included in the protected header of the SD-KBT, which integrity protects both encrypted and regular disclosures alike.
+Neither encrypted nor regular disclosures can appear in the unprotected header of a SD-KBT.
 
 ~~~ cbor-diag
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /
@@ -619,6 +621,10 @@ encrypted = [
 ]
 ;bstr-encoded-salted = bstr .cbor salted
 ~~~
+
+> **TODO**: consider moving the AEAD algorithm for all encrypted disclosures into a new protected header field.
+
+> Note: because the algorithm is in a registry which contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.
 
 
 # Credential Types
