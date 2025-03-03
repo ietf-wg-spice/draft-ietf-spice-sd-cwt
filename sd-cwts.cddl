@@ -30,6 +30,7 @@ kbt-protected = {
 
 sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => salted-array,
+   ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array
    * key => any   
 }
 
@@ -77,9 +78,20 @@ decoy = [
   bstr .size 16      ; 128-bit salt
 ]
 
+encrypted-array = [ +bstr .cbor encrypted ]
+encrypted = [
+  bstr .size 16,     ; 128-bit salt
+  uint16,            ; IANA AEAD Algorithm number
+  bstr,              ; the ciphertext output of a bstr-encoded-salted
+                     ;   with a matching salt
+  bstr               ; the corresponding MAC
+]
+;bstr-encoded-salted = bstr .cbor salted
+
 key = int / text
 TBD1 = 17
 TBD2 = 18
 ;TBD3 = #6.58(any)      ; CBOR tag wrapping to-be-redacted keys or elements
 TBD4 = #6.59(0)  ; CBOR tag 59 wrapping reserved integer claim key 0
 ;TBD5 = #6.60( bstr ) ;redacted_claim_element
+TBD6 = 19
