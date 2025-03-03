@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 3 September 2025                                    H. Birkholz
+Expires: 4 September 2025                                    H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                            2 March 2025
+                                                            3 March 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2025.
+   This Internet-Draft will expire on 4 September 2025.
 
 Copyright Notice
 
@@ -930,7 +930,11 @@ Issuer                           Holder                         Verifier
    [RFC5116] such as AEAD_AES_128_GCM, using the salt as the nonce.  The
    salt, the algorithm used (alg), and the resulting ciphertext and mac
    are put in an array.  The bstr encoding of the array is placed in the
-   sd_encrypted_claims unprotected header field array.
+   sd_encrypted_claims unprotected header field array of the SD-CWT.
+   The entire SD-CWT is included in the protected header of the SD-KBT,
+   which integrity protects both encrypted and regular disclosures
+   alike.  Neither encrypted nor regular disclosures can appear in the
+   unprotected header of a SD-KBT.
 
    / sd_encrypted_claims / 19 : [ / encrypted disclosures /
        <<[
@@ -968,6 +972,13 @@ Issuer                           Holder                         Verifier
      bstr               ; the corresponding MAC
    ]
    ;bstr-encoded-salted = bstr .cbor salted
+
+      *TODO*: consider moving the AEAD algorithm for all encrypted
+      disclosures into a new protected header field.
+
+      Note: because the algorithm is in a registry which contains only
+      AEAD algorithms, an attacker cannot replace the algorithm or the
+      message, without a decryption verification failure.
 
 12.  Credential Types
 
@@ -1807,7 +1818,11 @@ Issuer                           Holder                         Verifier
               httpbis-unprompted-auth-12>.
 
    [I-D.mahy-mls-sd-cwt-credential]
-              "*** BROKEN REFERENCE ***".
+              Mahy, R., "Messaging Layer Security credentials using
+              Selective Disclosure CBOR Web Tokens", Work in Progress,
+              Internet-Draft, draft-mahy-mls-sd-cwt-credential-00, 2
+              March 2025, <https://datatracker.ietf.org/doc/html/draft-
+              mahy-mls-sd-cwt-credential-00>.
 
    [RFC9162]  Laurie, B., Messeri, E., and R. Stradling, "Certificate
               Transparency Version 2.0", RFC 9162, DOI 10.17487/RFC9162,
