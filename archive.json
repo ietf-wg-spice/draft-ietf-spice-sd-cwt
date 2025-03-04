@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-02T00:47:29.671780+00:00",
+  "timestamp": "2025-03-04T00:44:37.097191+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -747,7 +747,7 @@
       "id": "I_kwDOMm_Q2s6n_pTW",
       "title": "consider adding new unprotected header for encrypted disclosures",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/45",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -756,8 +756,8 @@
       ],
       "body": "some uses of SD-CWT involve verifiers which have internal structure. Encrypted disclosures allow more fine-grained disclosure inside a single presentation.",
       "createdAt": "2025-01-29T15:04:30Z",
-      "updatedAt": "2025-03-01T01:36:25Z",
-      "closedAt": null,
+      "updatedAt": "2025-03-03T02:39:31Z",
+      "closedAt": "2025-03-03T02:39:30Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -765,6 +765,13 @@
           "body": "In the RATS model, an SD-CWT is a RATS conceptual message that represents evidence. Different evidence claims could be processed by different attesters within the same Verifier.\n- one set of claims about the workload; \n- one set about the platform\n\nIt would be desirable to have each appraiser see a different subset of disclosures in the SD-CWT / SD-KBT\n\nIn the MLS Protocol, an SD-CWT credential could present one subset of its disclosures to the MLS Distribution Service, and a different subset of those disclosures to the other members of the MLS group.\n\n\n",
           "createdAt": "2025-02-28T21:17:35Z",
           "updatedAt": "2025-02-28T21:18:04Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "implemented in #58. Closing.",
+          "createdAt": "2025-03-03T02:39:30Z",
+          "updatedAt": "2025-03-03T02:39:30Z"
         }
       ]
     },
@@ -815,16 +822,24 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-02-12T16:08:11Z",
-      "updatedAt": "2025-02-12T16:08:11Z",
+      "updatedAt": "2025-03-02T07:20:33Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "While a presenter could do this, any implementation relying on this property would probably be pretty brittle. I think this a place where Postel's law is wise.\nIn addition, the burden on the presenter of analyzing this as disclosures are added, seems like a pain and a source of bugs.",
+          "createdAt": "2025-03-02T07:20:32Z",
+          "updatedAt": "2025-03-02T07:20:32Z"
+        }
+      ]
     },
     {
       "number": 51,
       "id": "I_kwDOMm_Q2s6qa6MO",
       "title": "Finish the nested example",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/51",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -835,9 +850,17 @@
       ],
       "body": "",
       "createdAt": "2025-02-18T02:33:35Z",
-      "updatedAt": "2025-02-18T02:36:10Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-03-03T02:38:42Z",
+      "closedAt": "2025-03-03T02:38:41Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "With the merge of PR #59 I'm going to call this done. We can add specific improvements as new issues.",
+          "createdAt": "2025-03-03T02:38:41Z",
+          "updatedAt": "2025-03-03T02:38:41Z"
+        }
+      ]
     },
     {
       "number": 52,
@@ -4875,21 +4898,21 @@
       "id": "PR_kwDOMm_Q2s6MpeCf",
       "title": "removing double encoding WIP",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/57",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This PR is for discussion purposes.\r\n\r\nThe COSE protected headers and COSE payload are bstr encoded because they are used as inputs to a the signature function.\r\nThe disclosures are currently bstr encoded because they are used as inputs to the blinded hashes.\r\n\r\nThe WG could choose to stay with bstr encoding for consistency with COSE (any input to a crypto algorithm is bstr encoded), or we could eliminate one step of encoding. YMMV.",
       "createdAt": "2025-02-26T13:50:23Z",
-      "updatedAt": "2025-02-26T18:58:58Z",
+      "updatedAt": "2025-03-03T02:14:14Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "132a10b3f986bf186e8e1442243857ab4468f7a7",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "single-encode",
       "headRefOid": "4976f562d6a13d868278e2dfbc975225d25e2f35",
-      "closedAt": null,
+      "closedAt": "2025-03-03T02:14:14Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -4907,6 +4930,13 @@
           "body": "And add a note about it to the history so we can cover the recap at 122",
           "createdAt": "2025-02-26T18:58:56Z",
           "updatedAt": "2025-02-26T18:58:56Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "There were some compelling arguments on the list not to make this change, based on COSE / CWT we have today. The two who spoke on the list in favor of the direction of this PR seemed to be interested in a larger change to COSE to signal support for (or even mandate) more deterministic encoding. This seems to be well outside the scope of this draft. Therefore, closing the PR",
+          "createdAt": "2025-03-03T02:14:14Z",
+          "updatedAt": "2025-03-03T02:14:14Z"
         }
       ],
       "reviews": [
@@ -4930,26 +4960,335 @@
       "id": "PR_kwDOMm_Q2s6NAO5g",
       "title": "Add encrypted disclosures",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/58",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Attempts to address #45 ",
       "createdAt": "2025-03-01T01:31:16Z",
-      "updatedAt": "2025-03-01T12:46:08Z",
+      "updatedAt": "2025-03-03T02:37:50Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "95ae054b91d5492c81013db3dfc02cdc00810309",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "enc-disclosures",
+      "headRefOid": "a5be5435b4e8086402e4a8dc1530c8a603eec36a",
+      "closedAt": "2025-03-03T02:37:50Z",
+      "mergedAt": "2025-03-03T02:37:50Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "7936440afe9a3b3ad23c45334fa2b3790dbbaea9"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6eFfdx",
+          "commit": {
+            "abbreviatedOid": "8ae8797"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Im ok merging, given we will need to adjust this language a bunch before publication",
+          "createdAt": "2025-03-01T04:45:57Z",
+          "updatedAt": "2025-03-02T15:20:46Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Since the algorithm is not protected, an attacker can change it.\n\nI wonder if kbt protected header should include the algorithm.",
+              "createdAt": "2025-03-01T04:45:57Z",
+              "updatedAt": "2025-03-02T15:20:47Z"
+            },
+            {
+              "originalPosition": 50,
+              "body": "This alg gets repeated for each cipher text?\n\nI might move it out, so that there is just one ahead for all encrypted claims.",
+              "createdAt": "2025-03-01T04:46:36Z",
+              "updatedAt": "2025-03-02T15:20:47Z"
+            },
+            {
+              "originalPosition": 63,
+              "body": "```suggestion\r\nencrypted-array = [ \r\n  uint16, ; IANA AEAD Algorithm number\r\n  [ +bstr .cbor encrypted ]\r\n]\r\nencrypted = [\r\n  bstr .size 16,     ; 128-bit salt\r\n  bstr,              ; the ciphertext output of a bstr-encoded-salted\r\n                     ;   with a matching salt\r\n  bstr               ; the corresponding MAC\r\n]\r\n;bstr-encoded-salted = bstr .cbor salted\r\n```",
+              "createdAt": "2025-03-02T15:12:31Z",
+              "updatedAt": "2025-03-02T15:20:47Z"
+            },
+            {
+              "originalPosition": 63,
+              "body": "Smaller, and safer... prevents switching between different algorithms for every other disclosure.",
+              "createdAt": "2025-03-02T15:14:14Z",
+              "updatedAt": "2025-03-02T15:20:47Z"
+            },
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\r\n\r\nEncrypted disclosures MUST be placed in the protected header of the key binding token.\r\nEncrypted disclosures found in unprotected headers, MUST be ignored.\r\n```",
+              "createdAt": "2025-03-02T15:20:09Z",
+              "updatedAt": "2025-03-02T15:20:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eHegl",
+          "commit": {
+            "abbreviatedOid": "a4ff794"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-02T15:58:04Z",
+          "updatedAt": "2025-03-02T15:58:04Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Since it has to be an AEAD algorithm, the CWT Verifier has to AEAD `verify()` the MAC, which won't work if someone tampered with the alg, ciphertext, or mac.",
+              "createdAt": "2025-03-02T15:58:04Z",
+              "updatedAt": "2025-03-02T15:58:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eHenm",
+          "commit": {
+            "abbreviatedOid": "a4ff794"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-02T16:00:46Z",
+          "updatedAt": "2025-03-02T16:00:46Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "I think of the alg here as part of the triple: alg, ciphertext, mac. While I don't see a use case for encrypting some with AES128GCM and some with AES256GCM, moving these two bytes out might make it harder for the Verifier to hand this off to a small library to handle for it.",
+              "createdAt": "2025-03-02T16:00:46Z",
+              "updatedAt": "2025-03-02T16:00:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eHex_",
+          "commit": {
+            "abbreviatedOid": "8ae8797"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-02T16:04:01Z",
+          "updatedAt": "2025-03-02T16:04:01Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "Why would the encrypted disclosures be any different than the regular disclosures?\r\n\r\nIf the encrypted disclosures are in the unprotected header of the CWT, which is inside the KCWT claim in the protected header of the KBT, we're all good right?",
+              "createdAt": "2025-03-02T16:04:01Z",
+              "updatedAt": "2025-03-02T16:04:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eHe-R",
+          "commit": {
+            "abbreviatedOid": "8ae8797"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-02T16:07:57Z",
+          "updatedAt": "2025-03-02T16:07:57Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "The examples are generated already and I am running out of time before the deadline. Unless I hear otherwise, I'll leave as is, but create a new issue, and put an inline:\r\n\r\n> **TODO**: consider moving the AEAD algorithm for all encrypted disclosures into a new protected header field.",
+              "createdAt": "2025-03-02T16:07:57Z",
+              "updatedAt": "2025-03-02T16:07:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eIKx5",
+          "commit": {
+            "abbreviatedOid": "bcba8a3"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-03T02:26:40Z",
+          "updatedAt": "2025-03-03T02:26:40Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "```suggestion\r\nThe bstr encoding of the array is placed in the `sd_encrypted_claims` unprotected header field array of the SD-CWT.\r\nThe entire SD-CWT is included in the protected header of the SD-KBT, which integrity protects both encrypted and regular disclosures alike.\r\nNeither encrypted nor regular disclosures can appear in the unprotected header of a SD-KBT.\r\n\r\n```",
+              "createdAt": "2025-03-03T02:26:40Z",
+              "updatedAt": "2025-03-03T02:34:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eIK7I",
+          "commit": {
+            "abbreviatedOid": "bcba8a3"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-03T02:27:29Z",
+          "updatedAt": "2025-03-03T02:27:29Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "```suggestion\r\n\r\n> **TODO**: consider moving the AEAD algorithm for all encrypted disclosures into a new protected header field.\r\n\r\n> Note: because the algorithm is in a registry which contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.\r\n\r\n```",
+              "createdAt": "2025-03-03T02:27:29Z",
+              "updatedAt": "2025-03-03T02:32:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eIMQl",
+          "commit": {
+            "abbreviatedOid": "bcba8a3"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-03T02:35:14Z",
+          "updatedAt": "2025-03-03T02:35:15Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "put some text with a similar spirit in line 587",
+              "createdAt": "2025-03-03T02:35:14Z",
+              "updatedAt": "2025-03-03T02:35:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eIMtZ",
+          "commit": {
+            "abbreviatedOid": "a4ff794"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-03T02:37:45Z",
+          "updatedAt": "2025-03-03T02:37:45Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "left a comment about this in the document. For us to discuss on the list/in Bangkok.",
+              "createdAt": "2025-03-03T02:37:45Z",
+              "updatedAt": "2025-03-03T02:37:45Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 59,
+      "id": "PR_kwDOMm_Q2s6NDkCA",
+      "title": "Add example with nested disclosures",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/59",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses #51 \r\n\r\nThe script generated the EDN and CBOR for the nested example, but I still had to adjust some whitespace manually. \r\n\r\nThis could be improved later, but this is good enough to incorporate IMO.",
+      "createdAt": "2025-03-02T07:14:42Z",
+      "updatedAt": "2025-03-02T16:05:12Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "132a10b3f986bf186e8e1442243857ab4468f7a7",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
-      "headRefName": "enc-disclosures",
-      "headRefOid": "8ae87972df53ed4b54b63742072404f172298ba4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefName": "nested",
+      "headRefOid": "e0c3391aa88ed337d0ec2e8f4e71677b346f61d7",
+      "closedAt": "2025-03-02T16:05:12Z",
+      "mergedAt": "2025-03-02T16:05:12Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "95ae054b91d5492c81013db3dfc02cdc00810309"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6eHb22",
+          "commit": {
+            "abbreviatedOid": "679ae04"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-02T15:06:47Z",
+          "updatedAt": "2025-03-02T15:06:47Z",
+          "comments": [
+            {
+              "originalPosition": 58,
+              "body": "```suggestion\r\nVerifiers start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.\r\n```",
+              "createdAt": "2025-03-02T15:06:47Z",
+              "updatedAt": "2025-03-02T15:06:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eHb7E",
+          "commit": {
+            "abbreviatedOid": "679ae04"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-02T15:07:58Z",
+          "updatedAt": "2025-03-02T15:07:58Z",
+          "comments": [
+            {
+              "originalPosition": 126,
+              "body": "```suggestion\r\nAfter applying the disclosures of the nested structure above, the disclosed claim set visible to the verifier would look like the following:\r\n```",
+              "createdAt": "2025-03-02T15:07:58Z",
+              "updatedAt": "2025-03-02T15:07:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eHb9y",
+          "commit": {
+            "abbreviatedOid": "679ae04"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-02T15:08:48Z",
+          "updatedAt": "2025-03-02T15:08:48Z",
+          "comments": [
+            {
+              "originalPosition": 126,
+              "body": "I think we want to preserve that \"payload\" is what is actually signed... not the transformed / validated data structure (which is the disclosed claim set)",
+              "createdAt": "2025-03-02T15:08:48Z",
+              "updatedAt": "2025-03-02T15:08:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6eHcAw",
+          "commit": {
+            "abbreviatedOid": "679ae04"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-02T15:09:06Z",
+          "updatedAt": "2025-03-02T15:09:06Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
