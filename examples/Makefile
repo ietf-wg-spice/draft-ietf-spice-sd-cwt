@@ -1,4 +1,4 @@
-cbor = issuer_cwt.cbor kbt.cbor first-disclosure.cbor #nested_kbt.cbor
+cbor = issuer_cwt.cbor kbt.cbor first-disclosure.cbor nested_kbt.cbor
 edn  = issuer_cwt.edn  kbt.edn  first-disclosure.edn first-redacted.edn chosen-disclosures.edn
 primary = $(edn)  first-blinded-hash.txt
 keys = ../holder_privkey.pem ../issuer_privkey.pem
