@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 4 September 2025                                    H. Birkholz
+Expires: 6 September 2025                                    H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                            3 March 2025
+                                                            5 March 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 September 2025.
+   This Internet-Draft will expire on 6 September 2025.
 
 Copyright Notice
 
@@ -1864,7 +1864,7 @@ Appendix A.  Complete CDDL Schema
    sd-protected = {
       &(typ: 16) ^ => "application/sd+cwt",
       &(alg: 1) ^ => int,
-      &(sd_alg: TBD2) ^= int,             ; -16 for sha-256
+      &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
       * key => any
    }
 
@@ -1897,7 +1897,7 @@ Appendix A.  Complete CDDL Schema
          &(cnf: 8) ^ => { * key => any }, ; key confirmation
        ? &(cnonce: 39) ^ => bstr,
        ;
-       ? &(redacted_claim_keys: TBD3) ^ => [ * bstr ],
+       ? &(redacted_claim_keys: TBD4) ^ => [ * bstr ],
        * key => any
    }
 
@@ -1928,7 +1928,7 @@ Appendix A.  Complete CDDL Schema
    encrypted-array = [ +bstr .cbor encrypted ]
    encrypted = [
      bstr .size 16,     ; 128-bit salt
-     uint16,            ; IANA AEAD Algorithm number
+     int .size 2,       ; IANA AEAD Algorithm number
      bstr,              ; the ciphertext output of a bstr-encoded-salted
                         ;   with a matching salt
      bstr               ; the corresponding MAC
