@@ -21,7 +21,7 @@
                              59(h'92c0262b0ed6891c6e46d6fca5554caf
                              79bd8d05c74dbb06a25c9edd304c6e22'),
                              {
-                                 500: True,
+                                 500: true,
                                  502: 17183928,
                                  simple(59): [
                              h'0ad0f76dcb7fd812ca64c3ada3f543be
@@ -72,7 +72,7 @@
             <<[
                 /salt/   h'b52272341715f2a0b476e33e55ce7501',
                 /value/  {
-                             500: True,
+                             500: true,
                              502: 1549560720,
                              simple(59): [
                              h'cd88763edb2485b8109613546051f606

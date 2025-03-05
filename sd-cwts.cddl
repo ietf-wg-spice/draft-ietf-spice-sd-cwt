@@ -17,7 +17,7 @@ kbt-cwt = #6.18([
 sd-protected = {
    &(typ: 16) ^ => "application/sd+cwt",
    &(alg: 1) ^ => int,
-   &(sd_alg: TBD2) ^= int,             ; -16 for sha-256
+   &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
    * key => any   
 }
 
@@ -50,7 +50,7 @@ sd-payload = {
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
     ;
-    ? &(redacted_claim_keys: TBD3) ^ => [ * bstr ],
+    ? &(redacted_claim_keys: TBD4) ^ => [ * bstr ],
     * key => any   
 }
 
@@ -81,7 +81,7 @@ decoy = [
 encrypted-array = [ +bstr .cbor encrypted ]
 encrypted = [
   bstr .size 16,     ; 128-bit salt
-  uint16,            ; IANA AEAD Algorithm number
+  int .size 2,       ; IANA AEAD Algorithm number
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
   bstr               ; the corresponding MAC
