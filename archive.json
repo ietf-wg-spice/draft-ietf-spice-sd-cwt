@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-04T00:44:37.097191+00:00",
+  "timestamp": "2025-03-06T00:44:29.672945+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -121,10 +121,12 @@
       "assignees": [
         "rohanmahy"
       ],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "do we want to support decoy digests like SD-JWT does?\r\n\r\nIf so, I left a simple hook to do so in PR #9 ",
       "createdAt": "2024-09-06T11:41:52Z",
-      "updatedAt": "2025-02-18T21:25:11Z",
+      "updatedAt": "2025-03-05T14:19:16Z",
       "closedAt": null,
       "comments": [
         {
@@ -147,6 +149,13 @@
           "body": "This should now be relatively straightforward to add to the draft now that the script is generating the examples.",
           "createdAt": "2025-02-18T21:25:09Z",
           "updatedAt": "2025-02-18T21:25:09Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Some partial implementation in script already",
+          "createdAt": "2025-03-05T14:19:15Z",
+          "updatedAt": "2025-03-05T14:19:15Z"
         }
       ]
     },
@@ -780,7 +789,7 @@
       "id": "I_kwDOMm_Q2s6pxvlP",
       "title": "Eliminate bstr encoding of disclosure array elements",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/49",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -791,8 +800,8 @@
       ],
       "body": "Originally discussed in:\n\nhttps://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/48#discussion_r1952744696",
       "createdAt": "2025-02-12T14:20:45Z",
-      "updatedAt": "2025-03-01T15:51:43Z",
-      "closedAt": null,
+      "updatedAt": "2025-03-05T14:24:03Z",
+      "closedAt": "2025-03-05T14:24:02Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -807,6 +816,20 @@
           "body": "Summarizing the list discussion so far, two people (Anders and Christopher Allen) who described themselves as COSE \"dissidents\" would like COSE to include more deterministic encoding (which would likely obviate the need for bstr encoding of disclosure arrays), however such a move would be outside the scope of what we are doing in SD-CWT.\n\nA number of others spoke in support of keeping the bstr encoding.\n\nI suggest closing this issue and the corresponding PR ",
           "createdAt": "2025-03-01T15:51:41Z",
           "updatedAt": "2025-03-01T15:51:41Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "Since we have a meeting coming up, do you want to use that time to discuss this there?",
+          "createdAt": "2025-03-05T13:09:35Z",
+          "updatedAt": "2025-03-05T13:09:35Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We're planning to keep as is, we'll mention we closed this in the meeting.",
+          "createdAt": "2025-03-05T14:24:02Z",
+          "updatedAt": "2025-03-05T14:24:02Z"
         }
       ]
     },
@@ -819,10 +842,12 @@
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
-      "body": "",
+      "labels": [
+        "ready-for-pr"
+      ],
+      "body": "Comment on the impact of ordering of nested disclosures on timing",
       "createdAt": "2025-02-12T16:08:11Z",
-      "updatedAt": "2025-03-02T07:20:33Z",
+      "updatedAt": "2025-03-05T14:18:18Z",
       "closedAt": null,
       "comments": [
         {
@@ -831,6 +856,20 @@
           "body": "While a presenter could do this, any implementation relying on this property would probably be pretty brittle. I think this a place where Postel's law is wise.\nIn addition, the burden on the presenter of analyzing this as disclosures are added, seems like a pain and a source of bugs.",
           "createdAt": "2025-03-02T07:20:32Z",
           "updatedAt": "2025-03-02T07:20:32Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We should comment that disclosure order impacts time to \"verified disclosed payload\"... and its optional to order disclosures in a way that is fast.",
+          "createdAt": "2025-03-05T14:14:09Z",
+          "updatedAt": "2025-03-05T14:14:09Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Holder can know the performance impact of changing the order.\n\nThe order could be sorted or randomized, or optimized for performance.\n\nHolder determines the order when making presentations.\n\nNo major issue with encrypted disclosures.",
+          "createdAt": "2025-03-05T14:18:04Z",
+          "updatedAt": "2025-03-05T14:18:04Z"
         }
       ]
     },
@@ -912,11 +951,12 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [
-        "needs-list-review"
+        "needs-list-review",
+        "ready-for-pr"
       ],
       "body": "When parsing `salted` (`salted = salted-claim / salted-element / decoy`) in some languages, one might not have the length of the `salted-array`. It can cause the deserialization to be less efficient because the second element is either a claim key or a claim value depending if `salted` is a `salted-claim` or a `salted-element` (CDDL below for reference).\n\n```cddl\nsalted-claim = [\n  bstr .size 16,     ; 128-bit salt\n  (int / text),      ; claim name\n  any                ; claim value\n]\nsalted-element = [\n  bstr .size 16,     ; 128-bit salt\n  any                ; claim value\n]\n```\n\nIn some languages, like in Rust, the main parsing library (serde) does only [provide an iterator](https://docs.rs/serde/latest/serde/de/trait.SeqAccess.html#method.next_element) when deserializing arrays. It also does not provide an infallible [size hint](https://docs.rs/serde/latest/serde/de/trait.SeqAccess.html#method.size_hint) of the array. Hence, implementers, have to add some performance overhead in their parser to deal with that case.\n\nThe recommendation would be to have a canonical order of these fields, so that the second element is always a claim value, i.e.\n```diff\nsalted-claim = [\n  bstr .size 16,     ; 128-bit salt\n+  any                ; claim value\n  (int / text),      ; claim name\n-  any                ; claim value\n]\n```\n\nThe current implementation roughly looks like this in Rust. You have to deserialize the second element twice: first to an intermediate `Value`, then, depending on the array size, to either a claim name or value.\n\n```rust\nimpl<'de, T> serde::Deserialize<'de> for Salted<T> {\n    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {\n        struct SaltedVisitor<T>(core::marker::PhantomData<T>);\n\n        impl<'de, T> serde::de::Visitor<'de> for SaltedVisitor<T> {\n            type Value = Salted<T>;\n\n            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {\n                write!(formatter, \"a salted disclosure\")\n            }\n\n            fn visit_seq<A: serde::de::SeqAccess<'de>>(self, mut seq: A) -> Result<Self::Value, A::Error> {\n                use serde::de::Error as _;\n\n                let salt = seq.next_element::<Salt>()??;\n                let second: Option<Value> = seq.next_element::<Value>()?;\n                let third: Option<T> = seq.next_element::<T>()?;\n\n                Ok(match (salt, second, third) {\n                    (salt, None, None) => Salted::Decoy(Decoy { salt: (salt,) }),\n                    (salt, Some(value), None) => {\n                        let value = value.deserialized()?; // <-- overhead\n                        Salted::Element(SaltedElement { salt, value })\n                    },\n                    (salt, Some(name), Some(value)) => {\n                        let name = name.deserialized()?; // <-- overhead\n                        Salted::Claim(SaltedClaim { salt, value, name })\n                    },\n                    _ => return Err(A::Error::custom(\"Invalid disclosure\")),\n                })\n            }\n        }\n\n        deserializer.deserialize_seq(SaltedVisitor(Default::default()))\n    }\n}\n```",
       "createdAt": "2025-02-18T08:22:14Z",
-      "updatedAt": "2025-02-19T14:31:15Z",
+      "updatedAt": "2025-03-05T14:10:15Z",
       "closedAt": null,
       "comments": [
         {
@@ -937,12 +977,22 @@
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "When a Holder and a Verifier share signature keys in an out-of-band way, it could be interesting for them to use CoseKey Thumprint [RFC 9676](https://datatracker.ietf.org/doc/html/rfc9679) in the confirmation method (as specified [here](https://datatracker.ietf.org/doc/html/rfc9679#section-5.6)) to further reduce the size of the SD-KBT presented, which this draft is all about.\n\nWe should mention the possibility of using this Confirmation Method in [SD-CWT Issuance](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-sd-cwt-issuance) and advise about the usage in \"Security Considerations\".",
       "createdAt": "2025-02-26T10:43:18Z",
-      "updatedAt": "2025-02-26T10:43:18Z",
+      "updatedAt": "2025-03-05T14:09:25Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Where we say cnf... say we can use ckt:\n\n```\n / cnf / 8   : {\n      / cose key / 1 : {\n        / kty /  1: 2,  / EC2   /\n        / crv / -1: 1,  / P-256 /\n        / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9\n                      2022fd0d3024b5af18c7cc61ad527a2d',\n        / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5\n                      503f54293d87875d1e79ce4770194343'\n      }\n    },\n```\n\n```\n{\n       /iss/ 1 : \"coaps://as.example.com\",\n       /aud/ 3 : \"coaps://resource.example.org\",\n       /exp/ 4 : 1361398824,\n       /cnf/ 8 : {\n         /ckt/ 5 : h'496bd8afadf307e5b08c64b0421bf9dc\n                     01528a344a43bda88fadd1669da253ec'\n        }\n      }\n```\n\nfrom https://datatracker.ietf.org/doc/rfc9679/",
+          "createdAt": "2025-03-05T14:08:45Z",
+          "updatedAt": "2025-03-05T14:09:25Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -5286,6 +5336,48 @@
           "body": "",
           "createdAt": "2025-03-02T15:09:06Z",
           "updatedAt": "2025-03-02T15:09:06Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 60,
+      "id": "PR_kwDOMm_Q2s6Nca3h",
+      "title": "Fix errors introduced when adding nested examples",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/60",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- make Makefile validate the nested example\r\n- s/True/true/g in nested EDN examples\r\n- fix minor bugs introduced in CDDL",
+      "createdAt": "2025-03-05T09:26:46Z",
+      "updatedAt": "2025-03-05T14:18:13Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "3c0ccc2eace7599f94f1aa6bf54f1bb08051eb0e",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "fix-nested",
+      "headRefOid": "57962ef493edeac3aad3dc322fce5c3a0a12ee9f",
+      "closedAt": "2025-03-05T14:18:13Z",
+      "mergedAt": "2025-03-05T14:18:13Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "ba64c6036fee39ffe128d2d8099bba5d43f443bb"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6enyXS",
+          "commit": {
+            "abbreviatedOid": "57962ef"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-05T14:06:04Z",
+          "updatedAt": "2025-03-05T14:06:04Z",
           "comments": []
         }
       ]
