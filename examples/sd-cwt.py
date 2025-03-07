@@ -169,26 +169,23 @@ def pretty_by_type(thing, indent=0, newline=True):
     ending = '\n'
   else:
     ending = ''
+  if type(thing) is bool:
+    if thing == True:
+      return pretty("true", indent, ending)
+    else:
+      return pretty("false", indent, ending)
+  if thing is None:
+    return pretty("null"), indent, ending
   match thing:
     case int():
       return pretty(f'{thing}', indent, ending)
     case float():
       return pretty(f'{thing}', indent, ending)
     case str():
-      if thing == "True":
-          print("&&& got a True string &&&")
       return pretty(f'"{thing}"', indent, ending)
     case bytes():
       return pretty(pretty_hex(bytes2hex(thing), indent+2),
                     indent, ending)
-    case bool():
-      if thing == True:
-        print("*** got a true value ***")
-        return pretty("true", indent, ending)
-      else:
-        return pretty("false", indent, ending)
-    case None:
-        return pretty("null", indent, ending)
     case list():
       p = pretty('[', indent, '\n')
       c = 0
@@ -224,6 +221,7 @@ def pretty_by_type(thing, indent=0, newline=True):
         p += pretty_by_type(thing.value, newline=False)
         p += ')' + ending
         return p
+
 
 def iso_date(secs_since_epoch):
     import datetime
@@ -492,6 +490,9 @@ def edn_one_disclosure(disclosure, comment=None):
     edn = '        <<[\n'
     edn += f"            /salt/   h'{bytes2hex(disclosure[0])}',\n"
     if len(disclosure) == 3:
+        if disclosure[1] == 500:
+            print(disclosure[2])
+            print(type(disclosure[2]))
         edn += f"            /claim/  {val(disclosure[1])},{cmt}\n"
         edn += f"            /value/  {val(disclosure[2])}\n"
     elif len(disclosure) == 2:
