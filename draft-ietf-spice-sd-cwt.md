@@ -574,7 +574,7 @@ Taking the first example disclosure from above:
 
 ~~~ cbor-diag
 <<[
-    /salt/   h'2008c50a62d9b59813318abd06df8a89',
+    /salt/   h'bae611067bb823486797da1ebbb52f83',
     /claim/  501,   / inspector_license_number /
     /value/  "ABCD-123456"
 ]>>
@@ -589,18 +589,18 @@ Neither encrypted nor regular disclosures can appear in the unprotected header o
 ~~~ cbor-diag
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /
     <<[
-        /salt/        h'2008c50a62d9b59813318abd06df8a89',
-        /alg/         1, / AEAD_AES_128_GCM /
-        /ciphertext/  h'b8cf6ed5905b6b0d9c1e7f274ecee4cb
-                         ac8f5ad4dac6ba88e7673e70bafa87b5
-                         9a61c7',
-        /mac/         h'4ea90eef6b3d05d632e6f19b49aa9de5'
+        / salt /       h'bae611067bb823486797da1ebbb52f83',
+        / alg /        1, / AEAD_AES_128_GCM /
+        / ciphertext / h'634ae7a62782fbdb978ab2d03ca6a9f0
+                         0f123903f8ab59461fbd8ac3d86ef787
+                         ba9b90',
+        / mac /        h'8ce37110fc882bbf99c5f39e4adba636'
     ]>>,
     ...
 ]
 ~~~
 
-> In the example above the key in hex is '1eb2d67081ee9950fb3a14c6e8896203'.
+> In the example above the key in hex is 'b4fb68a58af8e20e4db2146a934b2d4f'.
 
 The blinded claim hash is still over the unencrypted disclosure.
 The receiver of an encrypted disclosure locates the appropriate key by looking up the unique salt.

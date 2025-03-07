@@ -49,7 +49,7 @@ def decrypt_disclosure(key, salt, ciphertext, mac):
     return bytes(out)
 
 key = new_salt()
-salt = hex2bytes('2008c50a62d9b59813318abd06df8a89')
+salt = hex2bytes('bae611067bb823486797da1ebbb52f83')
 salted_array = [salt, 501, "ABCD-123456"]
 plaintext = cbor2.dumps(cbor2.dumps(salted_array))
 (ciphertext, mac) = encrypt_disclosure(key, salt, plaintext)
