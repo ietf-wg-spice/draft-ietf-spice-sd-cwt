@@ -130,11 +130,13 @@ def write_to_file(value, filename):
 def indent(string, num_spaces=4):
     # take a multi-line string and add `num_spaces` spaces (if positive)
     # TBC: or remove (if negative)
+    if type(string) != str or len(string) == 0:
+        return ''
     new_string = ""
     if num_spaces > 0:
         for line in string.splitlines():
             new_string += (' '*num_spaces + line + '\n')
-        return new_string
+        return new_string[:-1]  #trim final \n
     #elif spaces < 0:
         # trimming not yet supported
     else:
@@ -173,12 +175,15 @@ def pretty_by_type(thing, indent=0, newline=True):
     case float():
       return pretty(f'{thing}', indent, ending)
     case str():
+      if thing == "True":
+          print("&&& got a True string &&&")
       return pretty(f'"{thing}"', indent, ending)
     case bytes():
       return pretty(pretty_hex(bytes2hex(thing), indent+2),
                     indent, ending)
     case bool():
       if thing == True:
+        print("*** got a true value ***")
         return pretty("true", indent, ending)
       else:
         return pretty("false", indent, ending)
@@ -546,7 +551,7 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
 {thumb_fields}      }}
     }},
     /most_recent_inspection_passed/ 500: true,
-    / redacted_claim_keys / 59(0) : [
+    / redacted_claim_keys / simple(59) : [
         / redacted inspector_license_number /
         {pretty_hex(redacted[0], 8)}
     ],
@@ -559,7 +564,7 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
     ],
     / inspection_location / 503 : {{
         "country" : "us",            / United States /
-        / redacted_claim_keys / 59(0) : [
+        / redacted_claim_keys / simple(59) : [
             / redacted region /
             {pretty_hex(redacted[3], 12)}
             / redacted postal_code /
@@ -580,7 +585,7 @@ def generate_basic_holder_kbt_edn(issuer_cwt, iat, sig):
   / KBT protected / << {{
     / alg /    1:  -7, / ES256 /
     / typ /   16:  "application/kb+cwt",
-    / kcwt /  13:  {cwt}     / end of issuer SD-CWT /
+    / kcwt /  13:  {cwt}\n     / end of issuer SD-CWT /
   }} >>,     / end of KBT protected header /
   / KBT unprotected / {{}},
   / KBT payload / << {{
@@ -660,7 +665,7 @@ if __name__ == "__main__":
     with open('first-blinded-hash.txt', 'w') as file:
         file.write(first_redacted)
     with open('first-redacted.edn', 'w') as file:
-        print( "  / redacted_claim_keys / 59(0) : [", file=file)
+        print( "  / redacted_claim_keys / simple(59) : [", file=file)
         print( "      / redacted inspector_license_number /", file=file)
         print(f"      h'{first_redacted[0:32]}", file=file)
         print(f"        {first_redacted[32:64]}',", file=file)
