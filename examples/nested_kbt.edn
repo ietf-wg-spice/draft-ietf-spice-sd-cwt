@@ -13,8 +13,7 @@
         / sd_claims / 17 : [ / these are the disclosures /
             <<[
                 /salt/   h'e3aa33644123fdbf819ad534653f4aaa',
-                /claim/  504
-    ,   / inspection 17-Jan-2023 /
+                /claim/  504,   / inspection 17-Jan-2023 /
                 /value/  [
                              59(h'2893a00665f1ca2cfeb7456e1eeb8eba
                              f21d5c12a73d9fbcb8902822f3ecb635'),
@@ -31,19 +30,15 @@
                          ]
                              }
                          ]
-    
             ]>>,
             <<[
                 /salt/   h'bae611067bb823486797da1ebbb52f83',
-                /claim/  501
-    ,   / inspector_license_number /
+                /claim/  501,   / inspector_license_number /
                 /value/  "ABCD-123456"
-    
             ]>>,
             <<[
                 /salt/   h'7d2505257e7850b70295a87b3c8748e5',
-                /claim/  503
-    ,   / San Francisco location /
+                /claim/  503,   / San Francisco location /
                 /value/  {
                              1: "us",
                              simple(59): [
@@ -53,21 +48,16 @@
                                  9773e2830a0b9c4e1efd55737dbb1c06'
                          ]
                          }
-    
             ]>>,
             <<[
                 /salt/   h'52da9de5dc61b33775f9348b991d3d78',
-                /claim/  2
-    ,   / region=California /
+                /claim/  2,   / region=California /
                 /value/  "ca"
-    
             ]>>,
             <<[
                 /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
-                /claim/  501
-    ,   / inspector_license_number /
+                /claim/  501,   / inspector_license_number /
                 /value/  "DCBA-101777"
-    
             ]>>,
             <<[
                 /salt/   h'b52272341715f2a0b476e33e55ce7501',
@@ -80,8 +70,7 @@
                              h'0a45eb75de44741bea78dc48b1898d40
                                  09601dbf567279f3042a24cee9fdcab5'
                          ]
-                         }
-       / inspection 7-Feb-2019 /
+                         }   / inspection 7-Feb-2019 /
             ]>>,
         ]
       }
@@ -102,7 +91,7 @@
           }
         },
         /most_recent_inspection_passed/ 500: true,
-        / redacted_claim_keys / 59(0) : [
+        / redacted_claim_keys / simple(59) : [
             / redacted inspector_license_number /
             h'cd88763edb2485b8109613546051f606
               e6b822456da1bf09f604b886e1def45a'
@@ -118,7 +107,7 @@
         ],
         / inspection_location / 503 : {
             "country" : "us",            / United States /
-            / redacted_claim_keys / 59(0) : [
+            / redacted_claim_keys / simple(59) : [
                 / redacted region /
                 h'0a45eb75de44741bea78dc48b1898d40
                   09601dbf567279f3042a24cee9fdcab5'
