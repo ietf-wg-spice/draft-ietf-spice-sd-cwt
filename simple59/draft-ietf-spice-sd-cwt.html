@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 8 September 2025</td>
+<td class="center">Expires 9 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfcRFC8392" class="eref">RFC8392</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-07" class="published">7 March 2025</time>
+<time datetime="2025-03-08" class="published">8 March 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-08">8 September 2025</time></dd>
+<dd class="expires"><time datetime="2025-09-09">9 September 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1138,7 +1138,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1700,7 +1700,7 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
       }
     },
     /most_recent_inspection_passed/ 500: true,
-    / redacted_claim_keys / 59(0) : [
+    / redacted_claim_keys / simple(59) : [
         / redacted inspector_license_number /
         h'0ad0f76dcb7fd812ca64c3ada3f543be
           96d0e351e1e576fbab5cb659b49e599e'
@@ -1716,7 +1716,7 @@ After the Holder requests an SD-CWT from the issuer, the issuer generates an SD-
     ],
     / inspection_location / 503 : {
         "country" : "us",            / United States /
-        / redacted_claim_keys / 59(0) : [
+        / redacted_claim_keys / simple(59) : [
             / redacted region /
             h'dff0cb7a6ff555544554c527d5e32eed
               ee6a9d80a1dae2e0ac611796674ce281'
@@ -1760,7 +1760,7 @@ For example, the <code>inspector_license_number</code> claim is a Salted Disclos
 <pre>
 83                                     # array(3)
    50                                  # bytes(16)
-      18d27ca1148990c3c999ed914a1b73c6 # 16-byte salt
+      bae611067bb823486797da1ebbb52f83 # 16-byte salt
    19 01f5                             # unsigned(501)
    6b                                  # text(11)
       414243442d313233343536           # "ABCD-123456"
@@ -1785,7 +1785,7 @@ Redacted claims which are array elements are handled slightly differently, as de
 <span id="name-redacted-inspector_license_"></span><figure id="figure-5">
           <div class="lang-cbor-diag sourcecode" id="section-3.2-10.1">
 <pre>
-  / redacted_claim_keys / 59(0) : [
+  / redacted_claim_keys / simple(59) : [
       / redacted inspector_license_number /
       h'e7d2ca13738de42ebfe3d72af0675631
         4940ac1b129e5ecf0ed08af379ae98f8',
@@ -2185,7 +2185,7 @@ It would be desirable to have each RATS appraiser see a different subset of disc
 <div class="lang-cbor-diag sourcecode" id="section-11-5">
 <pre>
 &lt;&lt;[
-    /salt/   h'2008c50a62d9b59813318abd06df8a89',
+    /salt/   h'bae611067bb823486797da1ebbb52f83',
     /claim/  501,   / inspector_license_number /
     /value/  "ABCD-123456"
 ]&gt;&gt;
@@ -2200,12 +2200,12 @@ Neither encrypted nor regular disclosures can appear in the unprotected header o
 <pre>
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /
     &lt;&lt;[
-        /salt/        h'2008c50a62d9b59813318abd06df8a89',
-        /alg/         1, / AEAD_AES_128_GCM /
-        /ciphertext/  h'b8cf6ed5905b6b0d9c1e7f274ecee4cb
-                         ac8f5ad4dac6ba88e7673e70bafa87b5
-                         9a61c7',
-        /mac/         h'4ea90eef6b3d05d632e6f19b49aa9de5'
+        / salt /       h'bae611067bb823486797da1ebbb52f83',
+        / alg /        1, / AEAD_AES_128_GCM /
+        / ciphertext / h'634ae7a62782fbdb978ab2d03ca6a9f0
+                         0f123903f8ab59461fbd8ac3d86ef787
+                         ba9b90',
+        / mac /        h'8ce37110fc882bbf99c5f39e4adba636'
     ]&gt;&gt;,
     ...
 ]
@@ -2213,7 +2213,7 @@ Neither encrypted nor regular disclosures can appear in the unprotected header o
 </div>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-11-8.1">
-          <p id="section-11-8.1.1">In the example above the key in hex is '1eb2d67081ee9950fb3a14c6e8896203'.<a href="#section-11-8.1.1" class="pilcrow">¶</a></p>
+          <p id="section-11-8.1.1">In the example above the key in hex is 'b4fb68a58af8e20e4db2146a934b2d4f'.<a href="#section-11-8.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-11-9">The blinded claim hash is still over the unencrypted disclosure.
@@ -2317,7 +2317,7 @@ encrypted = [
           }
         },
         /most_recent_inspection_passed/ 500: true,
-        / redacted_claim_keys / 59(0) : [
+        / redacted_claim_keys / simple(59) : [
             / redacted inspector_license_number /
             h'0ad0f76dcb7fd812ca64c3ada3f543be
               96d0e351e1e576fbab5cb659b49e599e'
@@ -2333,7 +2333,7 @@ encrypted = [
         ],
         / inspection_location / 503 : {
             "country" : "us",            / United States /
-            / redacted_claim_keys / 59(0) : [
+            / redacted_claim_keys / simple(59) : [
                 / redacted region /
                 h'dff0cb7a6ff555544554c527d5e32eed
                   ee6a9d80a1dae2e0ac611796674ce281'

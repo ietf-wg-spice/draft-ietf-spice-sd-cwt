@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 8 September 2025                                    H. Birkholz
+Expires: 9 September 2025                                    H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                            7 March 2025
+                                                            8 March 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 September 2025.
+   This Internet-Draft will expire on 9 September 2025.
 
 Copyright Notice
 
@@ -386,7 +386,7 @@ Issuer                           Holder                         Verifier
          }
        },
        /most_recent_inspection_passed/ 500: true,
-       / redacted_claim_keys / 59(0) : [
+       / redacted_claim_keys / simple(59) : [
            / redacted inspector_license_number /
            h'0ad0f76dcb7fd812ca64c3ada3f543be
              96d0e351e1e576fbab5cb659b49e599e'
@@ -402,7 +402,7 @@ Issuer                           Holder                         Verifier
        ],
        / inspection_location / 503 : {
            "country" : "us",            / United States /
-           / redacted_claim_keys / 59(0) : [
+           / redacted_claim_keys / simple(59) : [
                / redacted region /
                h'dff0cb7a6ff555544554c527d5e32eed
                  ee6a9d80a1dae2e0ac611796674ce281'
@@ -442,7 +442,7 @@ Issuer                           Holder                         Verifier
 
    83                                     # array(3)
       50                                  # bytes(16)
-         18d27ca1148990c3c999ed914a1b73c6 # 16-byte salt
+         bae611067bb823486797da1ebbb52f83 # 16-byte salt
       19 01f5                             # unsigned(501)
       6b                                  # text(11)
          414243442d313233343536           # "ABCD-123456"
@@ -466,7 +466,7 @@ Issuer                           Holder                         Verifier
    original claim.  Redacted claims which are array elements are handled
    slightly differently, as described in Section 6.1.
 
-     / redacted_claim_keys / 59(0) : [
+     / redacted_claim_keys / simple(59) : [
          / redacted inspector_license_number /
          h'e7d2ca13738de42ebfe3d72af0675631
            4940ac1b129e5ecf0ed08af379ae98f8',
@@ -922,7 +922,7 @@ Issuer                           Holder                         Verifier
    Taking the first example disclosure from above:
 
    <<[
-       /salt/   h'2008c50a62d9b59813318abd06df8a89',
+       /salt/   h'bae611067bb823486797da1ebbb52f83',
        /claim/  501,   / inspector_license_number /
        /value/  "ABCD-123456"
    ]>>
@@ -940,18 +940,18 @@ Issuer                           Holder                         Verifier
 
    / sd_encrypted_claims / 19 : [ / encrypted disclosures /
        <<[
-           /salt/        h'2008c50a62d9b59813318abd06df8a89',
-           /alg/         1, / AEAD_AES_128_GCM /
-           /ciphertext/  h'b8cf6ed5905b6b0d9c1e7f274ecee4cb
-                            ac8f5ad4dac6ba88e7673e70bafa87b5
-                            9a61c7',
-           /mac/         h'4ea90eef6b3d05d632e6f19b49aa9de5'
+           / salt /       h'bae611067bb823486797da1ebbb52f83',
+           / alg /        1, / AEAD_AES_128_GCM /
+           / ciphertext / h'634ae7a62782fbdb978ab2d03ca6a9f0
+                            0f123903f8ab59461fbd8ac3d86ef787
+                            ba9b90',
+           / mac /        h'8ce37110fc882bbf99c5f39e4adba636'
        ]>>,
        ...
    ]
 
       In the example above the key in hex is
-      '1eb2d67081ee9950fb3a14c6e8896203'.
+      'b4fb68a58af8e20e4db2146a934b2d4f'.
 
    The blinded claim hash is still over the unencrypted disclosure.  The
    receiver of an encrypted disclosure locates the appropriate key by
@@ -1050,7 +1050,7 @@ Issuer                           Holder                         Verifier
              }
            },
            /most_recent_inspection_passed/ 500: true,
-           / redacted_claim_keys / 59(0) : [
+           / redacted_claim_keys / simple(59) : [
                / redacted inspector_license_number /
                h'0ad0f76dcb7fd812ca64c3ada3f543be
                  96d0e351e1e576fbab5cb659b49e599e'
@@ -1066,7 +1066,7 @@ Issuer                           Holder                         Verifier
            ],
            / inspection_location / 503 : {
                "country" : "us",            / United States /
-               / redacted_claim_keys / 59(0) : [
+               / redacted_claim_keys / simple(59) : [
                    / redacted region /
                    h'dff0cb7a6ff555544554c527d5e32eed
                      ee6a9d80a1dae2e0ac611796674ce281'
