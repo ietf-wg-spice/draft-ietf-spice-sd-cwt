@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-06T00:44:29.672945+00:00",
+  "timestamp": "2025-03-09T00:39:15.722506+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4955,7 +4955,7 @@
       "labels": [],
       "body": "This PR is for discussion purposes.\r\n\r\nThe COSE protected headers and COSE payload are bstr encoded because they are used as inputs to a the signature function.\r\nThe disclosures are currently bstr encoded because they are used as inputs to the blinded hashes.\r\n\r\nThe WG could choose to stay with bstr encoding for consistency with COSE (any input to a crypto algorithm is bstr encoded), or we could eliminate one step of encoding. YMMV.",
       "createdAt": "2025-02-26T13:50:23Z",
-      "updatedAt": "2025-03-03T02:14:14Z",
+      "updatedAt": "2025-03-07T09:12:38Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "132a10b3f986bf186e8e1442243857ab4468f7a7",
@@ -5017,7 +5017,7 @@
       "labels": [],
       "body": "Attempts to address #45 ",
       "createdAt": "2025-03-01T01:31:16Z",
-      "updatedAt": "2025-03-03T02:37:50Z",
+      "updatedAt": "2025-03-07T09:12:41Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "95ae054b91d5492c81013db3dfc02cdc00810309",
@@ -5250,7 +5250,7 @@
       "labels": [],
       "body": "Addresses #51 \r\n\r\nThe script generated the EDN and CBOR for the nested example, but I still had to adjust some whitespace manually. \r\n\r\nThis could be improved later, but this is good enough to incorporate IMO.",
       "createdAt": "2025-03-02T07:14:42Z",
-      "updatedAt": "2025-03-02T16:05:12Z",
+      "updatedAt": "2025-03-07T09:12:40Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "132a10b3f986bf186e8e1442243857ab4468f7a7",
@@ -5352,7 +5352,7 @@
       "labels": [],
       "body": "- make Makefile validate the nested example\r\n- s/True/true/g in nested EDN examples\r\n- fix minor bugs introduced in CDDL",
       "createdAt": "2025-03-05T09:26:46Z",
-      "updatedAt": "2025-03-05T14:18:13Z",
+      "updatedAt": "2025-03-07T09:12:41Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "3c0ccc2eace7599f94f1aa6bf54f1bb08051eb0e",
@@ -5381,6 +5381,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 61,
+      "id": "PR_kwDOMm_Q2s6N3EKT",
+      "title": "Use simple type 59 for redacted key claims",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/61",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- replace 59(0) with simple(59) in the draft and CDDL\r\n- fix the EDN examples to match\r\n- fix a bug with display of booleans in EDN\r\n- update first-disclosure.pretty to be consistent with first-disclosure.cbor\r\n- update encrypted example to use correct salt",
+      "createdAt": "2025-03-08T06:35:03Z",
+      "updatedAt": "2025-03-08T06:35:04Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "ba64c6036fee39ffe128d2d8099bba5d43f443bb",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "simple59",
+      "headRefOid": "548d112580684ebe8a015936bc68fb66f48b9e25",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
