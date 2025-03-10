@@ -96,8 +96,15 @@ salts = {
 
     # F
     hex2bytes('378e5117da83fcc15c480479b4e0851b4f6a6db433104393b3562b49418eec7c'):
-    hex2bytes('e3aa33644123fdbf819ad534653f4aaa')
+    hex2bytes('e3aa33644123fdbf819ad534653f4aaa'),
+
+    # G
+
+    hex2bytes('7955612dcba5d69d79643dec1a62a3c83b1d05727e45701107e7d7a5ea2503ed'):
+    hex2bytes('d2be8cc99c185ef10e3f91a61d2d9bf9')
 }
+
+
 
 # ****** Generically useful functions
 
@@ -184,7 +191,7 @@ def pretty_by_type(thing, indent=0, newline=True):
     case str():
       return pretty(f'"{thing}"', indent, ending)
     case bytes():
-      return pretty(pretty_hex(bytes2hex(thing), indent+2),
+      return pretty(pretty_hex(bytes2hex(thing), indent),
                     indent, ending)
     case list():
       p = pretty('[', indent, '\n')
@@ -767,7 +774,7 @@ if __name__ == "__main__":
     tbr_nested_payload = {
       1   : "https://issuer.example",
       2   : "https://device.example",
-      cbor2.CBORTag(58,504) : [    # inspection history log
+      504 : [    # inspection history log
           cbor2.CBORTag(58, {
               500 : True,
               502 : 1549560720,
@@ -788,7 +795,7 @@ if __name__ == "__main__":
                   cbor2.CBORTag(58, 3): "89155",
               }
           }),
-          {
+          cbor2.CBORTag(58, {
               500 : True,
               502 : 17183928,
               cbor2.CBORTag(58,501) : "ABCD-123456",
@@ -797,7 +804,7 @@ if __name__ == "__main__":
                   cbor2.CBORTag(58, 2): "ca",
                   cbor2.CBORTag(58, 3): "94188",
               }
-          },
+          }),
       ]
     }
     
@@ -827,13 +834,12 @@ if __name__ == "__main__":
     
     nested_unprotected = {
       SD_CLAIMS: [
-#        disclosures[15],
         disclosures[14],
         disclosures[10],
         disclosures[13],
         disclosures[11],
-        disclosures[0],
-        disclosures[4]
+        disclosures[4],
+        disclosures[0]
       ]
     }
     nested_cwt = sign(cwt_protected,
@@ -848,22 +854,21 @@ if __name__ == "__main__":
 
     # generate/save pretty-printed disclosures from nested example
     example_comments=[
-        "inspector_license_number",
-        "region=Colorado",
-        "postcode=80302",
-        "Denver location",
-        "inspection 7-Feb-2019",
-        "inspector_license_number",
-        "region=Nevada",
-        "postcode=89155",
-        "Las Vegas location",
-        "inspection 4-Feb-2021",
-        "inspector_license_number",
-        "region=California",
-        "postcode=94188",
-        "San Francisco location",
-        "inspection 17-Jan-2023"
-        # "Entire inspection history"
+        "inspector_license_number",  # 0
+        "region=Colorado",           # 1
+        "postcode=80302",            # 2
+        "Denver location",           # 3
+        "inspection 7-Feb-2019",     # 4
+        "inspector_license_number",  # 5
+        "region=Nevada",             # 6
+        "postcode=89155",            # 7
+        "Las Vegas location",        # 8
+        "inspection 4-Feb-2021",     # 9
+        "inspector_license_number",  # 10
+        "region=California",         # 11
+        "postcode=94188",            # 12
+        "San Francisco location",    # 13
+        "inspection 17-Jan-2023"     # 14
     ]
     decoded_disclosures = parse_disclosures(disclosures)
     edn_disclosures = edn_decoded_disclosures(decoded_disclosures, 
@@ -879,22 +884,20 @@ if __name__ == "__main__":
     write_to_file(nested_issued_edn, "nested_cwt.edn")
 
     presented_disclosures = [
-#        decoded_disclosures[15],
         decoded_disclosures[14],
         decoded_disclosures[10],
         decoded_disclosures[13],
         decoded_disclosures[11],
-        decoded_disclosures[0],
-        decoded_disclosures[4]
+        decoded_disclosures[4],
+        decoded_disclosures[0]
     ]
     presented_comments = [
-#        example_comments[15],
         example_comments[14],
         example_comments[10],
         example_comments[13],
         example_comments[11],
-        example_comments[0],
         example_comments[4],
+        example_comments[0],
     ]
     edn_disclosures = edn_decoded_disclosures(
         presented_disclosures, comments=presented_comments)

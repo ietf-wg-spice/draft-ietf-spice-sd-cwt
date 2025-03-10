@@ -29,9 +29,9 @@
                          1: "us",
                          simple(59): [
                          h'dabb695d3c6b186b52ea370e47b85a88
-                             6ca289707992119b200d4d6ecf8ec786',
+                           6ca289707992119b200d4d6ecf8ec786',
                          h'4e329cfd342e01675d5f4b89567a3296
-                             1875fc507e9a937c7ada3c1830135a0a'
+                           1875fc507e9a937c7ada3c1830135a0a'
                      ]
                      }
         ]>>,
@@ -42,9 +42,9 @@
                          502: 1549560720,
                          simple(59): [
                          h'cd88763edb2485b8109613546051f606
-                             e6b822456da1bf09f604b886e1def45a',
+                           e6b822456da1bf09f604b886e1def45a',
                          h'0a45eb75de44741bea78dc48b1898d40
-                             09601dbf567279f3042a24cee9fdcab5'
+                           09601dbf567279f3042a24cee9fdcab5'
                      ]
                      }   / inspection 7-Feb-2019 /
         ]>>,
@@ -70,9 +70,9 @@
                          1: "us",
                          simple(59): [
                          h'c4521d87c26da1e8e49fc46c419a0a0f
-                             156495d1284af94fe5c96ae178f8257c',
+                           156495d1284af94fe5c96ae178f8257c',
                          h'474ab75e86961b7448bbccb17854410e
-                             77023c4468ec99d217f41c728e260ffb'
+                           77023c4468ec99d217f41c728e260ffb'
                      ]
                      }
         ]>>,
@@ -83,9 +83,9 @@
                          502: 1612560720,
                          simple(59): [
                          h'ac974e1dc81640126739cf11bc388293
-                             d08660ff4a9d5c6e148e2a52edfa0472',
+                           d08660ff4a9d5c6e148e2a52edfa0472',
                          h'5316964b057162081855e694469f0987
-                             b98f7b5fff4372f4d32402634839e29b'
+                           b98f7b5fff4372f4d32402634839e29b'
                      ]
                      }   / inspection 4-Feb-2021 /
         ]>>,
@@ -111,31 +111,24 @@
                          1: "us",
                          simple(59): [
                          h'de03a7a0b4359511a7dc0edd8f4ebc00
-                             b5783d8a0d36e715679e23c703011d16',
+                           b5783d8a0d36e715679e23c703011d16',
                          h'5a98ac2381cb59dee7a43daa073eab48
-                             9773e2830a0b9c4e1efd55737dbb1c06'
+                           9773e2830a0b9c4e1efd55737dbb1c06'
                      ]
                      }
         ]>>,
         <<[
-            /salt/   h'e3aa33644123fdbf819ad534653f4aaa',
-            /claim/  504,   / inspection 17-Jan-2023 /
-            /value/  [
-                         59(h'2893a00665f1ca2cfeb7456e1eeb8eba
-                         f21d5c12a73d9fbcb8902822f3ecb635'),
-                         59(h'92c0262b0ed6891c6e46d6fca5554caf
-                         79bd8d05c74dbb06a25c9edd304c6e22'),
-                         {
-                             500: true,
-                             502: 17183928,
-                             simple(59): [
+            /salt/   h'd2be8cc99c185ef10e3f91a61d2d9bf9',
+            /value/  {
+                         500: true,
+                         502: 17183928,
+                         simple(59): [
                          h'0ad0f76dcb7fd812ca64c3ada3f543be
-                             96d0e351e1e576fbab5cb659b49e599e',
+                           96d0e351e1e576fbab5cb659b49e599e',
                          h'f34c3ea2292d02b92bde25e68e94acd7
-                             f1e011fd6eea6c490f841f09a7a01a48'
+                           f1e011fd6eea6c490f841f09a7a01a48'
                      ]
-                         }
-                     ]
+                     }   / inspection 17-Jan-2023 /
         ]>>,
     ]
   }
