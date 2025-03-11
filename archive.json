@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-09T00:39:15.722506+00:00",
+  "timestamp": "2025-03-11T00:45:00.578187+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -67,6 +67,11 @@
       "name": "has-PR",
       "description": "",
       "color": "D18C07"
+    },
+    {
+      "name": "pending-close",
+      "description": null,
+      "color": "aaaaaa"
     }
   ],
   "issues": [
@@ -993,6 +998,26 @@
           "updatedAt": "2025-03-05T14:09:25Z"
         }
       ]
+    },
+    {
+      "number": 62,
+      "id": "I_kwDOMm_Q2s6tS84U",
+      "title": "Carten's CDDL for disclosure ordering",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/62",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "OR13"
+      ],
+      "labels": [
+        "pending-close"
+      ],
+      "body": "https://mailarchive.ietf.org/arch/msg/spice/R-EArZJDNsnDjmL4W96xlyQSM-k/\n\nI think we captured this already, but tracking here, so I can archive the email in my inbox : )",
+      "createdAt": "2025-03-10T14:18:00Z",
+      "updatedAt": "2025-03-10T14:18:19Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -5394,13 +5419,13 @@
       "labels": [],
       "body": "- replace 59(0) with simple(59) in the draft and CDDL\r\n- fix the EDN examples to match\r\n- fix a bug with display of booleans in EDN\r\n- update first-disclosure.pretty to be consistent with first-disclosure.cbor\r\n- update encrypted example to use correct salt",
       "createdAt": "2025-03-08T06:35:03Z",
-      "updatedAt": "2025-03-08T06:35:04Z",
+      "updatedAt": "2025-03-10T10:27:31Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "ba64c6036fee39ffe128d2d8099bba5d43f443bb",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "simple59",
-      "headRefOid": "548d112580684ebe8a015936bc68fb66f48b9e25",
+      "headRefOid": "fd7ee800c1c8a264b02c864057bb9e834cdd38e0",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
