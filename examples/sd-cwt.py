@@ -96,8 +96,15 @@ salts = {
 
     # F
     hex2bytes('378e5117da83fcc15c480479b4e0851b4f6a6db433104393b3562b49418eec7c'):
-    hex2bytes('e3aa33644123fdbf819ad534653f4aaa')
+    hex2bytes('e3aa33644123fdbf819ad534653f4aaa'),
+
+    # G
+
+    hex2bytes('7955612dcba5d69d79643dec1a62a3c83b1d05727e45701107e7d7a5ea2503ed'):
+    hex2bytes('d2be8cc99c185ef10e3f91a61d2d9bf9')
 }
+
+
 
 # ****** Generically useful functions
 
@@ -130,11 +137,13 @@ def write_to_file(value, filename):
 def indent(string, num_spaces=4):
     # take a multi-line string and add `num_spaces` spaces (if positive)
     # TBC: or remove (if negative)
+    if type(string) != str or len(string) == 0:
+        return ''
     new_string = ""
     if num_spaces > 0:
         for line in string.splitlines():
             new_string += (' '*num_spaces + line + '\n')
-        return new_string
+        return new_string[:-1]  #trim final \n
     #elif spaces < 0:
         # trimming not yet supported
     else:
@@ -167,6 +176,13 @@ def pretty_by_type(thing, indent=0, newline=True):
     ending = '\n'
   else:
     ending = ''
+  if type(thing) is bool:
+    if thing == True:
+      return pretty("true", indent, ending)
+    else:
+      return pretty("false", indent, ending)
+  if thing is None:
+    return pretty("null"), indent, ending
   match thing:
     case int():
       return pretty(f'{thing}', indent, ending)
@@ -175,15 +191,8 @@ def pretty_by_type(thing, indent=0, newline=True):
     case str():
       return pretty(f'"{thing}"', indent, ending)
     case bytes():
-      return pretty(pretty_hex(bytes2hex(thing), indent+2),
+      return pretty(pretty_hex(bytes2hex(thing), indent),
                     indent, ending)
-    case bool():
-      if thing == True:
-        return pretty("true", indent, ending)
-      else:
-        return pretty("false", indent, ending)
-    case None:
-        return pretty("null", indent, ending)
     case list():
       p = pretty('[', indent, '\n')
       c = 0
@@ -219,6 +228,7 @@ def pretty_by_type(thing, indent=0, newline=True):
         p += pretty_by_type(thing.value, newline=False)
         p += ')' + ending
         return p
+
 
 def iso_date(secs_since_epoch):
     import datetime
@@ -487,6 +497,9 @@ def edn_one_disclosure(disclosure, comment=None):
     edn = '        <<[\n'
     edn += f"            /salt/   h'{bytes2hex(disclosure[0])}',\n"
     if len(disclosure) == 3:
+        if disclosure[1] == 500:
+            print(disclosure[2])
+            print(type(disclosure[2]))
         edn += f"            /claim/  {val(disclosure[1])},{cmt}\n"
         edn += f"            /value/  {val(disclosure[2])}\n"
     elif len(disclosure) == 2:
@@ -546,7 +559,7 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
 {thumb_fields}      }}
     }},
     /most_recent_inspection_passed/ 500: true,
-    / redacted_claim_keys / 59(0) : [
+    / redacted_claim_keys / simple(59) : [
         / redacted inspector_license_number /
         {pretty_hex(redacted[0], 8)}
     ],
@@ -559,7 +572,7 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
     ],
     / inspection_location / 503 : {{
         "country" : "us",            / United States /
-        / redacted_claim_keys / 59(0) : [
+        / redacted_claim_keys / simple(59) : [
             / redacted region /
             {pretty_hex(redacted[3], 12)}
             / redacted postal_code /
@@ -580,7 +593,7 @@ def generate_basic_holder_kbt_edn(issuer_cwt, iat, sig):
   / KBT protected / << {{
     / alg /    1:  -7, / ES256 /
     / typ /   16:  "application/kb+cwt",
-    / kcwt /  13:  {cwt}     / end of issuer SD-CWT /
+    / kcwt /  13:  {cwt}\n     / end of issuer SD-CWT /
   }} >>,     / end of KBT protected header /
   / KBT unprotected / {{}},
   / KBT payload / << {{
@@ -660,7 +673,7 @@ if __name__ == "__main__":
     with open('first-blinded-hash.txt', 'w') as file:
         file.write(first_redacted)
     with open('first-redacted.edn', 'w') as file:
-        print( "  / redacted_claim_keys / 59(0) : [", file=file)
+        print( "  / redacted_claim_keys / simple(59) : [", file=file)
         print( "      / redacted inspector_license_number /", file=file)
         print(f"      h'{first_redacted[0:32]}", file=file)
         print(f"        {first_redacted[32:64]}',", file=file)
@@ -761,7 +774,7 @@ if __name__ == "__main__":
     tbr_nested_payload = {
       1   : "https://issuer.example",
       2   : "https://device.example",
-      cbor2.CBORTag(58,504) : [    # inspection history log
+      504 : [    # inspection history log
           cbor2.CBORTag(58, {
               500 : True,
               502 : 1549560720,
@@ -782,7 +795,7 @@ if __name__ == "__main__":
                   cbor2.CBORTag(58, 3): "89155",
               }
           }),
-          {
+          cbor2.CBORTag(58, {
               500 : True,
               502 : 17183928,
               cbor2.CBORTag(58,501) : "ABCD-123456",
@@ -791,7 +804,7 @@ if __name__ == "__main__":
                   cbor2.CBORTag(58, 2): "ca",
                   cbor2.CBORTag(58, 3): "94188",
               }
-          },
+          }),
       ]
     }
     
@@ -821,13 +834,12 @@ if __name__ == "__main__":
     
     nested_unprotected = {
       SD_CLAIMS: [
-#        disclosures[15],
         disclosures[14],
         disclosures[10],
         disclosures[13],
         disclosures[11],
-        disclosures[0],
-        disclosures[4]
+        disclosures[4],
+        disclosures[0]
       ]
     }
     nested_cwt = sign(cwt_protected,
@@ -842,22 +854,21 @@ if __name__ == "__main__":
 
     # generate/save pretty-printed disclosures from nested example
     example_comments=[
-        "inspector_license_number",
-        "region=Colorado",
-        "postcode=80302",
-        "Denver location",
-        "inspection 7-Feb-2019",
-        "inspector_license_number",
-        "region=Nevada",
-        "postcode=89155",
-        "Las Vegas location",
-        "inspection 4-Feb-2021",
-        "inspector_license_number",
-        "region=California",
-        "postcode=94188",
-        "San Francisco location",
-        "inspection 17-Jan-2023"
-        # "Entire inspection history"
+        "inspector_license_number",  # 0
+        "region=Colorado",           # 1
+        "postcode=80302",            # 2
+        "Denver location",           # 3
+        "inspection 7-Feb-2019",     # 4
+        "inspector_license_number",  # 5
+        "region=Nevada",             # 6
+        "postcode=89155",            # 7
+        "Las Vegas location",        # 8
+        "inspection 4-Feb-2021",     # 9
+        "inspector_license_number",  # 10
+        "region=California",         # 11
+        "postcode=94188",            # 12
+        "San Francisco location",    # 13
+        "inspection 17-Jan-2023"     # 14
     ]
     decoded_disclosures = parse_disclosures(disclosures)
     edn_disclosures = edn_decoded_disclosures(decoded_disclosures, 
@@ -873,22 +884,20 @@ if __name__ == "__main__":
     write_to_file(nested_issued_edn, "nested_cwt.edn")
 
     presented_disclosures = [
-#        decoded_disclosures[15],
         decoded_disclosures[14],
         decoded_disclosures[10],
         decoded_disclosures[13],
         decoded_disclosures[11],
-        decoded_disclosures[0],
-        decoded_disclosures[4]
+        decoded_disclosures[4],
+        decoded_disclosures[0]
     ]
     presented_comments = [
-#        example_comments[15],
         example_comments[14],
         example_comments[10],
         example_comments[13],
         example_comments[11],
-        example_comments[0],
         example_comments[4],
+        example_comments[0],
     ]
     edn_disclosures = edn_decoded_disclosures(
         presented_disclosures, comments=presented_comments)

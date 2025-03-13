@@ -302,14 +302,14 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 # Update to the CBOR Web Token Specification {#cwt-update}
 
 The CBOR Web Token Specification (Section 1.1 of {{RFC8392}}), uses strings, negative integers, and unsigned integers as map keys.
-This specification relaxes that requirement, by also allowing CBOR tagged integers and text strings as map keys.
+This specification relaxes that requirement, by also allowing the CBOR simple value registered in this document in {{simple59}}, and CBOR tagged integers and text strings as map keys.
 CBOR maps used in a CWT cannot have duplicate keys.
 (An integer or string map key is distinct key from a tagged map key which wraps the corresponding integer or string value).
 
 >When sorted, map keys in CBOR are arranged in bytewise lexicographic order of the key's deterministic encodings (see Section 4.2.1 of {{RFC8949}}).
 >So an integer key of 3 is represented in hex as `03`, an integer key of -2 is represented in hex as `21`, and a tag of 60 wrapping a 3 is represented in hex as `D8 3C 03`
 
-Note that holders presenting to a verifier that does not support this specification would need to present a CWT without tagged map keys.
+Note that holders presenting to a verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
 
 Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
 Instead the tag provides additional information about the tagged claim key and the corresponding (untagged) value.
@@ -358,7 +358,7 @@ salted-array = [ +bstr .cbor salted ]
 ~~~
 
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
-The `redacted_claim_keys` key is the integer 0 (which is reserved for top-level CWT claim keys), wrapped with a CBOR tag (requested tag number 59).
+The `redacted_claim_keys` key is a CBOR simple type registered for that purpose (with the requested value of 59).
 
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with a CBOR tag (requested tag number 60).
 
@@ -449,7 +449,7 @@ sd-payload = {
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
     ;
-    ? &(redacted_keys: #6.59(0)) ^ => [ * bstr ],
+    ? &(redacted_keys: #7.59) ^ => [ * bstr ],
     * key => any
 }
 ~~~
@@ -574,7 +574,7 @@ Taking the first example disclosure from above:
 
 ~~~ cbor-diag
 <<[
-    /salt/   h'2008c50a62d9b59813318abd06df8a89',
+    /salt/   h'bae611067bb823486797da1ebbb52f83',
     /claim/  501,   / inspector_license_number /
     /value/  "ABCD-123456"
 ]>>
@@ -589,18 +589,18 @@ Neither encrypted nor regular disclosures can appear in the unprotected header o
 ~~~ cbor-diag
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /
     <<[
-        /salt/        h'2008c50a62d9b59813318abd06df8a89',
-        /alg/         1, / AEAD_AES_128_GCM /
-        /ciphertext/  h'b8cf6ed5905b6b0d9c1e7f274ecee4cb
-                         ac8f5ad4dac6ba88e7673e70bafa87b5
-                         9a61c7',
-        /mac/         h'4ea90eef6b3d05d632e6f19b49aa9de5'
+        / salt /       h'bae611067bb823486797da1ebbb52f83',
+        / alg /        1, / AEAD_AES_128_GCM /
+        / ciphertext / h'634ae7a62782fbdb978ab2d03ca6a9f0
+                         0f123903f8ab59461fbd8ac3d86ef787
+                         ba9b90',
+        / mac /        h'8ce37110fc882bbf99c5f39e4adba636'
     ]>>,
     ...
 ]
 ~~~
 
-> In the example above the key in hex is '1eb2d67081ee9950fb3a14c6e8896203'.
+> In the example above the key in hex is 'b4fb68a58af8e20e4db2146a934b2d4f'.
 
 The blinded claim hash is still over the unencrypted disclosure.
 The receiver of an encrypted disclosure locates the appropriate key by looking up the unique salt.
@@ -968,6 +968,13 @@ The following completed registration template per RFC8152 is provided:
 * Description: A list of encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: RFC XXXX
 
+## CBOR Simple Values {#simple59}
+
+This document requests the assignment of the simple value described below.
+
+* Value: TBD4 (requested assignment 59)
+* Semantics: This value as a map key indicates that the claim value is an array of redacted claim keys at the same level as the map key.
+* Specification Document(s): RFC XXXX
 
 ## CBOR Tags
 
@@ -978,15 +985,6 @@ The array claim element, or map key and value inside the "To be redacted" tag is
 * Tag: TBD3 (requested assignment 58)
 * Data Item: (any)
 * Semantics: An array claim element, or map key and value intended to be redacted.
-* Specification Document(s): RFC XXXX
-
-### Redacted claim keys tag
-
-This tag encloses the integer claim key 0 (reserved as a CWT claim key). It indicates that the claim value is an array of redacted claim keys at the same level.
-
-* Tag: TBD4 (requested assignment 59)
-* Data Item: unsigned integer 0
-* Semantics: Tags the claim key 0. The value of the key is an array of selective disclosure redacted claim keys.
 * Specification Document(s): RFC XXXX
 
 ### Redacted claim element tag
@@ -1357,6 +1355,12 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 
 Note: RFC Editor, please remove this entire section on publication.
 
+## draft-ietf-spice-sd-cwt-04
+
+- use CBOR simple value 59 for the redacted_key_claims
+- add description of decoy digests **TODO**
+- provide test vectors **TODO**
+
 ## draft-ietf-spice-sd-cwt-03
 
 - remove bstr encoding from sd_claims array (but not the individual disclosures)
@@ -1371,8 +1375,6 @@ Note: RFC Editor, please remove this entire section on publication.
 - regenerate all examples with correct signatures
 - add nested example
 - add optional encrypted disclosures
-- add description of decoy digests **TODO**
-- provide test vectors **TODO**
 
 ## draft-ietf-spice-sd-cwt-02
 

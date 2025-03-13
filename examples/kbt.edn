@@ -44,7 +44,7 @@
           }
         },
         /most_recent_inspection_passed/ 500: true,
-        / redacted_claim_keys / 59(0) : [
+        / redacted_claim_keys / simple(59) : [
             / redacted inspector_license_number /
             h'0ad0f76dcb7fd812ca64c3ada3f543be
               96d0e351e1e576fbab5cb659b49e599e'
@@ -60,7 +60,7 @@
         ],
         / inspection_location / 503 : {
             "country" : "us",            / United States /
-            / redacted_claim_keys / 59(0) : [
+            / redacted_claim_keys / simple(59) : [
                 / redacted region /
                 h'dff0cb7a6ff555544554c527d5e32eed
                   ee6a9d80a1dae2e0ac611796674ce281'
