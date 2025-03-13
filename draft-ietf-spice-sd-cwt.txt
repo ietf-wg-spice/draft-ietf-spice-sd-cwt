@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 6 September 2025                                    H. Birkholz
+Expires: 14 September 2025                                   H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                            5 March 2025
+                                                           13 March 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 September 2025.
+   This Internet-Draft will expire on 14 September 2025.
 
 Copyright Notice
 
@@ -98,6 +98,7 @@ Table of Contents
      13.2.  Nested example
    14. Implementation Status
      14.1.  Transmute Prototype
+     14.2.  Rust Prototype
    15. Security Considerations
      15.1.  Transparency
      15.2.  Traceability
@@ -1306,6 +1307,29 @@ Issuer                           Holder                         Verifier
    code works as proof of concept, but is not yet production ready.
 
    Contact: Orie Steele (orie@transmute.industries)
+
+14.2.  Rust Prototype
+
+   Organization: SimpleLogin
+
+   Name: github.com/beltram/esdicawt (https://github.com/beltram/
+   esdicawt)
+
+   Description: An open source Rust implementation of this draft in
+   Rust.
+
+   Maturity: Prototype
+
+   Coverage: The current version is close to the spec with the exception
+   of redacted_claim_keys using a CBOR SimpleValue as label instead of a
+   tagged key.  Not all the verifications have been implemented yet.
+
+   License: Apache-2.0
+
+   Implementation Experience: No interop testing has been done yet.  The
+   code works as proof of concept, but is not yet production ready.
+
+   Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
 
 15.  Security Considerations
 
