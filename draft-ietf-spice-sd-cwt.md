@@ -836,6 +836,23 @@ Implementation Experience: No interop testing has been done yet. The code works 
 
 Contact: Orie Steele (orie@transmute.industries)
 
+## Rust Prototype
+
+Organization: SimpleLogin
+
+Name: [github.com/beltram/esdicawt](https://github.com/beltram/esdicawt)
+
+Description: An open source Rust implementation of this draft in Rust.
+
+Maturity: Prototype
+
+Coverage: The current version is close to the spec with the exception of `redacted_claim_keys` using a CBOR SimpleValue as label instead of a tagged key. Not all the verifications have been implemented yet.
+
+License: Apache-2.0
+
+Implementation Experience: No interop testing has been done yet. The code works as proof of concept, but is not yet production ready.
+
+Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
 
 # Security Considerations
 
