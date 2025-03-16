@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-13T00:45:00.069215+00:00",
+  "timestamp": "2025-03-16T00:50:00.144678+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -5412,26 +5412,84 @@
       "id": "PR_kwDOMm_Q2s6N3EKT",
       "title": "Use simple type 59 for redacted key claims",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/61",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- replace 59(0) with simple(59) in the draft and CDDL\r\n- fix the EDN examples to match\r\n- fix a bug with display of booleans in EDN\r\n- update first-disclosure.pretty to be consistent with first-disclosure.cbor\r\n- update encrypted example to use correct salt",
       "createdAt": "2025-03-08T06:35:03Z",
-      "updatedAt": "2025-03-10T10:27:31Z",
+      "updatedAt": "2025-03-13T13:50:19Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "ba64c6036fee39ffe128d2d8099bba5d43f443bb",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "simple59",
       "headRefOid": "fd7ee800c1c8a264b02c864057bb9e834cdd38e0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-03-13T13:50:18Z",
+      "mergedAt": "2025-03-13T13:50:18Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "49985186f2298613d8104a7c3844b55f2351f413"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6f1Egi",
+          "commit": {
+            "abbreviatedOid": "fd7ee80"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-13T11:14:31Z",
+          "updatedAt": "2025-03-13T11:14:31Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 63,
+      "id": "PR_kwDOMm_Q2s6OfVpj",
+      "title": "add esdicawt to implementations",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/63",
+      "state": "MERGED",
+      "author": "beltram",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-03-13T10:55:58Z",
+      "updatedAt": "2025-03-13T10:59:14Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "ba64c6036fee39ffe128d2d8099bba5d43f443bb",
+      "headRepository": "beltram/draft-ietf-spice-sd-cwt",
+      "headRefName": "esdicawt-impl",
+      "headRefOid": "ee4bc1d8b92519e5d7b6dad1585a1cdf395b7668",
+      "closedAt": "2025-03-13T10:59:13Z",
+      "mergedAt": "2025-03-13T10:59:13Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "9ec020982103b2a6924251f893139e376f5263de"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6f03UW",
+          "commit": {
+            "abbreviatedOid": "ee4bc1d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-13T10:58:19Z",
+          "updatedAt": "2025-03-13T10:58:19Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
