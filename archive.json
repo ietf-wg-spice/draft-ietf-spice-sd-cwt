@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-18T00:44:50.456100+00:00",
+  "timestamp": "2025-03-20T00:44:36.062425+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1016,6 +1016,54 @@
       "body": "https://mailarchive.ietf.org/arch/msg/spice/R-EArZJDNsnDjmL4W96xlyQSM-k/\n\nI think we captured this already, but tracking here, so I can archive the email in my inbox : )",
       "createdAt": "2025-03-10T14:18:00Z",
       "updatedAt": "2025-03-10T14:18:19Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 65,
+      "id": "I_kwDOMm_Q2s6ugHwY",
+      "title": "strings vs. text strings",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/65",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The text is sometimes using \"strings\" when it means \"text strings\" only.\n(Editorial: The other strings are called \"byte strings\".)",
+      "createdAt": "2025-03-18T08:51:14Z",
+      "updatedAt": "2025-03-18T08:51:14Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 66,
+      "id": "I_kwDOMm_Q2s6ugKxN",
+      "title": "Encrypted COSE disclosures",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/66",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Could these be an encrypted COSE object: https://datatracker.ietf.org/doc/html/rfc8152#section-5 ?",
+      "createdAt": "2025-03-18T08:55:18Z",
+      "updatedAt": "2025-03-18T08:55:18Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 67,
+      "id": "I_kwDOMm_Q2s6ugNFW",
+      "title": "Document hidden channels",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/67",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Salt can carry extra information.  The ordering of items can carry information.  Do we have any other examples?  Can these all be documented so that people understand what covert channels might exist past the holder?",
+      "createdAt": "2025-03-18T08:58:22Z",
+      "updatedAt": "2025-03-18T08:58:22Z",
       "closedAt": null,
       "comments": []
     }
@@ -5490,6 +5538,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 64,
+      "id": "PR_kwDOMm_Q2s6PB-Fk",
+      "title": "Make encrypted disclosures not leak the disclosure nonce",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/64",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Use a separate nonce (not the salt) for encryption\r\n- find the key using the mac (instead of the salt)\r\n- put the AEAD algorithm in a new protected header or use default",
+      "createdAt": "2025-03-18T04:11:54Z",
+      "updatedAt": "2025-03-18T04:11:55Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "49985186f2298613d8104a7c3844b55f2351f413",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "fix-encrypted",
+      "headRefOid": "512546ccdd34426a89071c35001a6fadd4f95bd2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
