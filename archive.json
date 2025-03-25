@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-23T00:50:23.145813+00:00",
+  "timestamp": "2025-03-25T00:46:27.033933+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1031,9 +1031,31 @@
       "labels": [],
       "body": "The text is sometimes using \"strings\" when it means \"text strings\" only.\n(Editorial: The other strings are called \"byte strings\".)",
       "createdAt": "2025-03-18T08:51:14Z",
-      "updatedAt": "2025-03-18T08:51:14Z",
+      "updatedAt": "2025-03-24T06:54:06Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "That's unfortunate.  Every other context I'm aware of uses different terminology for the chunk of bytes: byte sequences, byte arrays, etc...  Why is it that CBOR is special?",
+          "createdAt": "2025-03-24T04:44:28Z",
+          "updatedAt": "2025-03-24T04:44:28Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "NONE",
+          "body": "To answer the \"why\" question:\nCBOR was inspired by MessagePack, which at the time had a strong background in dynamically typed languages.  Byte strings are usually called byte strings in these, having developed out of a history where strings were originally strings of bytes, with an interpretation as text (ASCII-only or coded multibyte) vs. binary data slapped on top at the point of usage (i.e., not typed at all).  \nJust as in the confusion between JSON's text strings and JSON texts [sic], we had to be careful to distinguish the application data type byte string from the sequences of bytes that make up the encoded CBOR form (which can in turn be carried in byte strings, creating embedded CBOR).\n(Later, CBOR grew \"CBOR sequences\", which are unwrapped arrays...)\n\nFor better or worse, we have been rather consistent in this usage (and we also have been using \"strings\" as a shorthand name for the union type of byte strings and text strings), so it is now quite confusing to use different terminology in the context of CBOR.\n",
+          "createdAt": "2025-03-24T06:46:34Z",
+          "updatedAt": "2025-03-24T06:47:16Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "NONE",
+          "body": "A nice reflection of the pain the separation of text and byte strings caused in Python:\n\nhttps://stackoverflow.com/questions/6224052/what-is-the-difference-between-a-string-and-a-byte-string\n\nI have observed that explicitly calling out the text strings as text strings can reduce this confusion.",
+          "createdAt": "2025-03-24T06:54:05Z",
+          "updatedAt": "2025-03-24T06:54:05Z"
+        }
+      ]
     },
     {
       "number": 66,
