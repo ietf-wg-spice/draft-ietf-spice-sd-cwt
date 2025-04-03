@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 14 September 2025                                   H. Birkholz
+Expires: 5 October 2025                                      H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                           13 March 2025
+                                                            3 April 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 September 2025.
+   This Internet-Draft will expire on 5 October 2025.
 
 Copyright Notice
 
@@ -731,7 +731,7 @@ Issuer                           Holder                         Verifier
    sd-protected = {
       &(typ: 16) ^ => "application/sd+cwt" / TBD1,
       &(alg: 1) ^ => int,
-      &(sd_alg: 18) ^= int,             ; -16 for sha-256
+      &(sd_alg: 18) ^ => int,             ; -16 for sha-256
       * key => any
    }
 
@@ -1335,7 +1335,7 @@ Issuer                           Holder                         Verifier
 
 15.  Security Considerations
 
-   Security considerations from COSE {(RFC9052)} and CWT [RFC8392] apply
+   Security considerations from COSE [RFC9052] and CWT [RFC8392] apply
    to this specification.
 
 15.1.  Transparency
@@ -1809,9 +1809,9 @@ Issuer                           Holder                         Verifier
 
    [I-D.draft-ietf-cbor-cde]
               Bormann, C., "CBOR Common Deterministic Encoding (CDE)",
-              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-08,
-              10 February 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-cbor-cde-08>.
+              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-10,
+              1 April 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-cde-10>.
 
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",

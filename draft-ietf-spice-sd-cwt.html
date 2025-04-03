@@ -13,20 +13,20 @@
        This document describes a data minimization technique for use with CBOR Web Token (CWT).
 The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE). 
     " name="description">
-<meta content="xml2rfc 3.28.0" name="generator">
+<meta content="xml2rfc 3.28.1" name="generator">
 <meta content="cose" name="keyword">
 <meta content="cwt" name="keyword">
 <meta content="selective disclosure" name="keyword">
 <meta content="draft-ietf-spice-sd-cwt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.0
+  xml2rfc 3.28.1
     Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.5
+    Jinja2 3.1.6
     lxml 5.3.0
-    platformdirs 4.3.6
+    platformdirs 4.3.7
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.3
@@ -1050,11 +1050,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SPICE SD-CWT</td>
-<td class="right">March 2025</td>
+<td class="right">April 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 14 September 2025</td>
+<td class="center">Expires 5 October 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfcRFC8392" class="eref">RFC8392</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-13" class="published">13 March 2025</time>
+<time datetime="2025-04-03" class="published">3 April 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-14">14 September 2025</time></dd>
+<dd class="expires"><time datetime="2025-10-05">5 October 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1138,7 +1138,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2017,7 +2017,7 @@ sd-cwt-issued = #6.18([
 sd-protected = {
    &amp;(typ: 16) ^ =&gt; "application/sd+cwt" / TBD1,
    &amp;(alg: 1) ^ =&gt; int,
-   &amp;(sd_alg: 18) ^= int,             ; -16 for sha-256
+   &amp;(sd_alg: 18) ^ =&gt; int,             ; -16 for sha-256
    * key =&gt; any
 }
 
@@ -2585,7 +2585,7 @@ It is up to the individual working groups to use this information as they see fi
       <h2 id="name-security-considerations">
 <a href="#section-15" class="section-number selfRef">15. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-15-1">Security considerations from COSE {(RFC9052)} and CWT <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span> apply to this specification.<a href="#section-15-1" class="pilcrow">¶</a></p>
+<p id="section-15-1">Security considerations from COSE <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> and CWT <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span> apply to this specification.<a href="#section-15-1" class="pilcrow">¶</a></p>
 <div id="transparency">
 <section id="section-15.1">
         <h3 id="name-transparency">
@@ -3176,7 +3176,7 @@ of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>
 <dl class="references">
 <dt id="I-D.draft-ietf-cbor-cde">[I-D.draft-ietf-cbor-cde]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Common Deterministic Encoding (CDE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-cde-08</span>, <time datetime="2025-02-10" class="refDate">10 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-08">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-08</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Common Deterministic Encoding (CDE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-cde-10</span>, <time datetime="2025-04-01" class="refDate">1 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-10">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-10</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-keytrans-protocol">[I-D.draft-ietf-keytrans-protocol]</dt>
         <dd>
