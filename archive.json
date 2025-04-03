@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-01T00:53:48.669320+00:00",
+  "timestamp": "2025-04-03T00:45:56.987138+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1031,7 +1031,7 @@
       "labels": [],
       "body": "The text is sometimes using \"strings\" when it means \"text strings\" only.\n(Editorial: The other strings are called \"byte strings\".)",
       "createdAt": "2025-03-18T08:51:14Z",
-      "updatedAt": "2025-03-24T06:54:06Z",
+      "updatedAt": "2025-04-02T14:08:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -1054,6 +1054,13 @@
           "body": "A nice reflection of the pain the separation of text and byte strings caused in Python:\n\nhttps://stackoverflow.com/questions/6224052/what-is-the-difference-between-a-string-and-a-byte-string\n\nI have observed that explicitly calling out the text strings as text strings can reduce this confusion.",
           "createdAt": "2025-03-24T06:54:05Z",
           "updatedAt": "2025-03-24T06:54:05Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The solution to this issue is to add the word \"text\" in front of any strings that do not yet have the word \"byte\" in front of them? (and make sure that all instances are correctly applied) ?",
+          "createdAt": "2025-04-02T14:08:09Z",
+          "updatedAt": "2025-04-02T14:08:09Z"
         }
       ]
     },
@@ -1065,13 +1072,25 @@
       "state": "OPEN",
       "author": "martinthomson",
       "authorAssociation": "NONE",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "Could these be an encrypted COSE object: https://datatracker.ietf.org/doc/html/rfc8152#section-5 ?",
       "createdAt": "2025-03-18T08:55:18Z",
-      "updatedAt": "2025-03-18T08:55:18Z",
+      "updatedAt": "2025-04-02T13:46:37Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think the intention is to support multiple encryption mechanisms, we should list a few to make it clear, its not limited to COSE.\n\nPerhaps, JWE, COSE_Encrypt, MLS, is enough\n\nWIP here: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/64",
+          "createdAt": "2025-04-02T13:46:05Z",
+          "updatedAt": "2025-04-02T13:46:36Z"
+        }
+      ]
     },
     {
       "number": 67,
@@ -1081,13 +1100,78 @@
       "state": "OPEN",
       "author": "martinthomson",
       "authorAssociation": "NONE",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "OR13"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "Salt can carry extra information.  The ordering of items can carry information.  Do we have any other examples?  Can these all be documented so that people understand what covert channels might exist past the holder?",
       "createdAt": "2025-03-18T08:58:22Z",
-      "updatedAt": "2025-03-18T08:58:22Z",
+      "updatedAt": "2025-04-02T13:44:42Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Each salt used to protect disclosed claims MUST be generated independently from the salts of other claims. The salts MUST be generated from a source of entropy that is acceptable to the issuer. Poor choice of salts can lead to brute force attacks that can reveal redacted claims.\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-03#section-15.6\n\nHowever, if you put cipher texts in the salt position, covert messages are possible, perhaps we can add another sentence here.",
+          "createdAt": "2025-04-02T13:43:42Z",
+          "updatedAt": "2025-04-02T13:43:42Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Misusing the salt compromises security assumptions, and can lead to accidental disclosure or covert channels.",
+          "createdAt": "2025-04-02T13:44:41Z",
+          "updatedAt": "2025-04-02T13:44:41Z"
+        }
+      ]
+    },
+    {
+      "number": 68,
+      "id": "I_kwDOMm_Q2s6w0K2p",
+      "title": "RATS terminology mapping",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/68",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "henkbirkholz"
+      ],
+      "labels": [],
+      "body": "We get questions about how RATS is related to trusting wallets/ holders and relying parties / verifiers.\n\nEvidence and Endorsements, how are they related to credentials and presentations with SD.\n\nProposal to add a section to security considerations.",
+      "createdAt": "2025-04-02T13:52:15Z",
+      "updatedAt": "2025-04-02T13:52:39Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 69,
+      "id": "I_kwDOMm_Q2s6w0Pdq",
+      "title": "Security Considerations: Controlling Trust Lists",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/69",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "henkbirkholz"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
+      "body": "Controlling trusted wallets / trusted verifiers impact how credentials and presentations can be used.\n\nManagement of lists can become political.",
+      "createdAt": "2025-04-02T13:58:55Z",
+      "updatedAt": "2025-04-02T17:32:47Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "this should also elaborate on Private Information Retrieval, so that a Wallet can check for updated control list while retaining unobservability",
+          "createdAt": "2025-04-02T17:32:46Z",
+          "updatedAt": "2025-04-02T17:32:46Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -5573,7 +5657,7 @@
       "labels": [],
       "body": "- Use a separate nonce (not the salt) for encryption\r\n- find the key using the mac (instead of the salt)\r\n- put the AEAD algorithm in a new protected header or use default",
       "createdAt": "2025-03-18T04:11:54Z",
-      "updatedAt": "2025-03-18T04:11:55Z",
+      "updatedAt": "2025-04-02T13:29:58Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "49985186f2298613d8104a7c3844b55f2351f413",
@@ -5585,7 +5669,108 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6jGDhl",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-02T13:25:09Z",
+          "updatedAt": "2025-04-02T13:25:09Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "yes?",
+              "createdAt": "2025-04-02T13:25:09Z",
+              "updatedAt": "2025-04-02T13:25:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6jGEpB",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-02T13:26:37Z",
+          "updatedAt": "2025-04-02T13:26:38Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "following which procedure? I assume COSE, but 5116 is of course COSE agnostic/unaware.",
+              "createdAt": "2025-04-02T13:26:38Z",
+              "updatedAt": "2025-04-02T13:26:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6jGGbr",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-02T13:28:54Z",
+          "updatedAt": "2025-04-02T13:28:55Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "First mentioning of sd_aead. Some context than later in ianaconsec that says \"The AEAD algorithm used for encrypting disclosures.\" could be sprinkled in here or earlier.",
+              "createdAt": "2025-04-02T13:28:54Z",
+              "updatedAt": "2025-04-02T13:28:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6jGGzj",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-02T13:29:25Z",
+          "updatedAt": "2025-04-02T13:29:26Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "what is the agent in action here?",
+              "createdAt": "2025-04-02T13:29:25Z",
+              "updatedAt": "2025-04-02T13:29:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6jGHO2",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-02T13:29:58Z",
+          "updatedAt": "2025-04-02T13:29:58Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "This sounds like a normative statement, right?",
+              "createdAt": "2025-04-02T13:29:58Z",
+              "updatedAt": "2025-04-02T13:29:58Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
