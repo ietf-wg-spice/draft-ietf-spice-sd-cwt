@@ -428,7 +428,7 @@ sd-cwt-issued = #6.18([
 sd-protected = {
    &(typ: 16) ^ => "application/sd+cwt" / TBD1,
    &(alg: 1) ^ => int,
-   &(sd_alg: 18) ^= int,             ; -16 for sha-256
+   &(sd_alg: 18) ^ => int,             ; -16 for sha-256
    * key => any
 }
 
@@ -856,7 +856,7 @@ Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
 
 # Security Considerations
 
-Security considerations from COSE {(RFC9052)} and CWT {{RFC8392}} apply to this specification.
+Security considerations from COSE {{RFC9052}} and CWT {{RFC8392}} apply to this specification.
 
 ## Transparency
 
