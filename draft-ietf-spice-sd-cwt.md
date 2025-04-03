@@ -856,7 +856,7 @@ Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
 
 # Security Considerations
 
-Security considerations from COSE {(RFC9052)} and CWT {{RFC8392}} apply to this specification.
+Security considerations from COSE {{RFC9052}} and CWT {{RFC8392}} apply to this specification.
 
 ## Transparency
 
