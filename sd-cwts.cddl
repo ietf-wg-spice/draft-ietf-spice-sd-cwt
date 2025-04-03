@@ -18,6 +18,7 @@ sd-protected = {
    &(typ: 16) ^ => "application/sd+cwt",
    &(alg: 1) ^ => int,
    &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
+   ? &(sd_aead: TBD7) ^ => uint .size 2
    * key => any   
 }
 
@@ -80,8 +81,7 @@ decoy = [
 
 encrypted-array = [ +bstr .cbor encrypted ]
 encrypted = [
-  bstr .size 16,     ; 128-bit salt
-  int .size 2,       ; IANA AEAD Algorithm number
+  bstr .size 16,     ; 128-bit nonce
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
   bstr               ; the corresponding MAC
@@ -92,6 +92,7 @@ key = int / text
 TBD1 = 17
 TBD2 = 18
 TBD6 = 19
+TBD7 = 20
 ;TBD3 = #6.58(any)    ; CBOR tag wrapping to-be-redacted keys or elements
 TBD4 = #7.59          ; CBOR simple value 59
 ;TBD5 = #6.60( bstr ) ; redacted_claim_element

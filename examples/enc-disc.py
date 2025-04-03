@@ -54,13 +54,13 @@ salted_array = [salt, 501, "ABCD-123456"]
 plaintext = cbor2.dumps(cbor2.dumps(salted_array))
 (ciphertext, mac) = encrypt_disclosure(key, salt, plaintext)
 
-encrypted_array = [salt, 1, ciphertext, mac]
+nonce = hex2bytes('95d0040fe650e5baf51c907c31be15dc')
+encrypted_array = [nonce, ciphertext, mac]
 enc_disclosure = cbor2.dumps(cbor2.dumps(encrypted_array))
 print(f'''key = {pretty_hex(bytes2hex(key), 6)}
 
 encrypted_array = [
-    / salt /       {pretty_hex(bytes2hex(salt), 19)},
-    / alg /        1,
+    / nonce /      {pretty_hex(bytes2hex(nonce), 19)},
     / ciphertext / {pretty_hex(bytes2hex(ciphertext), 19)},
     / mac /        {pretty_hex(bytes2hex(mac), 19)}
 ]
