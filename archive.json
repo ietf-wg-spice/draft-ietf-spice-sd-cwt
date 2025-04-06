@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-03T00:45:56.987138+00:00",
+  "timestamp": "2025-04-06T00:50:55.644872+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -5769,6 +5769,56 @@
               "updatedAt": "2025-04-02T13:29:58Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 70,
+      "id": "PR_kwDOMm_Q2s6RQHQJ",
+      "title": "CDDL nit",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/70",
+      "state": "MERGED",
+      "author": "cabo",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-03T12:36:16Z",
+      "updatedAt": "2025-04-03T14:00:27Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "49985186f2298613d8104a7c3844b55f2351f413",
+      "headRepository": "cabo/draft-ietf-spice-sd-cwt",
+      "headRefName": "patch-1",
+      "headRefOid": "272473c253376d44f637f16d0f0096c4a686612c",
+      "closedAt": "2025-04-03T12:45:24Z",
+      "mergedAt": "2025-04-03T12:45:24Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "e2db3949490eb3b7243e52accdc8397dc4ec5094"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "thanks @cabo . this was already fixed in my local copy, but I forgot to git add the CDDL",
+          "createdAt": "2025-04-03T14:00:25Z",
+          "updatedAt": "2025-04-03T14:00:25Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6jTMwZ",
+          "commit": {
+            "abbreviatedOid": "272473c"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-03T12:45:06Z",
+          "updatedAt": "2025-04-03T12:45:06Z",
+          "comments": []
         }
       ]
     }
