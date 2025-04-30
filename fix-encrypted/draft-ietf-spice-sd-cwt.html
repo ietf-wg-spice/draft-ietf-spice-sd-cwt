@@ -13,20 +13,20 @@
        This document describes a data minimization technique for use with CBOR Web Token (CWT).
 The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE). 
     " name="description">
-<meta content="xml2rfc 3.28.0" name="generator">
+<meta content="xml2rfc 3.28.1" name="generator">
 <meta content="cose" name="keyword">
 <meta content="cwt" name="keyword">
 <meta content="selective disclosure" name="keyword">
 <meta content="draft-ietf-spice-sd-cwt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.0
-    Python 3.12.9
+  xml2rfc 3.28.1
+    Python 3.12.10
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.0
-    platformdirs 4.3.6
+    platformdirs 4.3.7
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.3
@@ -1050,11 +1050,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SPICE SD-CWT</td>
-<td class="right">March 2025</td>
+<td class="right">April 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 19 September 2025</td>
+<td class="center">Expires 1 November 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfcRFC8392" class="eref">RFC8392</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-18" class="published">18 March 2025</time>
+<time datetime="2025-04-30" class="published">30 April 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-19">19 September 2025</time></dd>
+<dd class="expires"><time datetime="2025-11-01">1 November 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1138,7 +1138,7 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1389,19 +1389,22 @@ The approach is based on Selective Disclosure JSON Web Token (SD-JWT), with chan
             <p id="section-toc.1-1.21.1"><a href="#appendix-D" class="auto internal xref">Appendix D</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.1">
-                <p id="section-toc.1-1.21.2.1.1"><a href="#appendix-D.1" class="auto internal xref">D.1</a>.  <a href="#name-draft-ietf-spice-sd-cwt-04" class="internal xref">draft-ietf-spice-sd-cwt-04</a></p>
+                <p id="section-toc.1-1.21.2.1.1"><a href="#appendix-D.1" class="auto internal xref">D.1</a>.  <a href="#name-draft-ietf-spice-sd-cwt-05" class="internal xref">draft-ietf-spice-sd-cwt-05</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.2">
-                <p id="section-toc.1-1.21.2.2.1"><a href="#appendix-D.2" class="auto internal xref">D.2</a>.  <a href="#name-draft-ietf-spice-sd-cwt-03" class="internal xref">draft-ietf-spice-sd-cwt-03</a></p>
+                <p id="section-toc.1-1.21.2.2.1"><a href="#appendix-D.2" class="auto internal xref">D.2</a>.  <a href="#name-draft-ietf-spice-sd-cwt-04" class="internal xref">draft-ietf-spice-sd-cwt-04</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.3">
-                <p id="section-toc.1-1.21.2.3.1"><a href="#appendix-D.3" class="auto internal xref">D.3</a>.  <a href="#name-draft-ietf-spice-sd-cwt-02" class="internal xref">draft-ietf-spice-sd-cwt-02</a></p>
+                <p id="section-toc.1-1.21.2.3.1"><a href="#appendix-D.3" class="auto internal xref">D.3</a>.  <a href="#name-draft-ietf-spice-sd-cwt-03" class="internal xref">draft-ietf-spice-sd-cwt-03</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.4">
-                <p id="section-toc.1-1.21.2.4.1"><a href="#appendix-D.4" class="auto internal xref">D.4</a>.  <a href="#name-draft-ietf-spice-sd-cwt-01" class="internal xref">draft-ietf-spice-sd-cwt-01</a></p>
+                <p id="section-toc.1-1.21.2.4.1"><a href="#appendix-D.4" class="auto internal xref">D.4</a>.  <a href="#name-draft-ietf-spice-sd-cwt-02" class="internal xref">draft-ietf-spice-sd-cwt-02</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.5">
-                <p id="section-toc.1-1.21.2.5.1"><a href="#appendix-D.5" class="auto internal xref">D.5</a>.  <a href="#name-draft-ietf-spice-sd-cwt-00" class="internal xref">draft-ietf-spice-sd-cwt-00</a></p>
+                <p id="section-toc.1-1.21.2.5.1"><a href="#appendix-D.5" class="auto internal xref">D.5</a>.  <a href="#name-draft-ietf-spice-sd-cwt-01" class="internal xref">draft-ietf-spice-sd-cwt-01</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.6">
+                <p id="section-toc.1-1.21.2.6.1"><a href="#appendix-D.6" class="auto internal xref">D.6</a>.  <a href="#name-draft-ietf-spice-sd-cwt-00" class="internal xref">draft-ietf-spice-sd-cwt-00</a></p>
 </li>
             </ul>
 </li>
@@ -2187,7 +2190,10 @@ It would be desirable to have each RATS appraiser see a different subset of disc
           <p id="section-11-3.1.1">In the Messaging Layer Security (MLS) protocol <span>[<a href="#RFC9420" class="cite xref">RFC9420</a>]</span>, an SD-CWT credential <span>[<a href="#I-D.mahy-mls-sd-cwt-credential" class="cite xref">I-D.mahy-mls-sd-cwt-credential</a>]</span> could present one subset of its disclosures to the MLS Distribution Service, and a different subset of those disclosures to the other members of the MLS group.<a href="#section-11-3.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-11-4">Taking the first example disclosure from above:<a href="#section-11-4" class="pilcrow">¶</a></p>
+<p id="section-11-4">This document defines two new COSE Header Parameters.
+If present in the protected headers, the first header parameter (<code>sd_aead</code>) specifies an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span>.
+The second header parameter (<code>sd_encrypted_claims</code>) contains a list of AEAD encrypted disclosures.
+Taking the first example disclosure from above:<a href="#section-11-4" class="pilcrow">¶</a></p>
 <div class="lang-cbor-diag sourcecode" id="section-11-5">
 <pre>
 &lt;&lt;[
@@ -2197,14 +2203,18 @@ It would be desirable to have each RATS appraiser see a different subset of disc
 ]&gt;&gt;
 </pre><a href="#section-11-5" class="pilcrow">¶</a>
 </div>
-<p id="section-11-6">This document defines a new<a href="#section-11-6" class="pilcrow">¶</a></p>
-<p id="section-11-7">The corresponding bstr is encrypted with an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span>.
+<p id="section-11-6">The corresponding bstr is encrypted with an AEAD algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span>.
 If present, the algorithm of the <code>sd_aead</code> protected header field is used, or AEAD_AES_128_GCM if no algorithm was specified. The bstr is encrypted with a unique, random 16-octet nonce.
 The nonce (<code>nonce</code>), and the resulting <code>ciphertext</code> and <code>mac</code> are put in an array.
-The bstr encoding of the array is placed in the <code>sd_encrypted_claims</code> unprotected header field array of the SD-CWT.
-The entire SD-CWT is included in the protected header of the SD-KBT, which integrity protects both encrypted and regular disclosures alike.
-Neither encrypted nor regular disclosures can appear in the unprotected header of an SD-KBT.<a href="#section-11-7" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-11-8">
+The bstr encoding of the array is placed in the <code>sd_encrypted_claims</code> unprotected header field array of the SD-CWT.<a href="#section-11-6" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-11-7.1">
+          <p id="section-11-7.1.1">The encryption mechanism in <em>this</em> section uses AEAD directly instead of COSE encryption, because AEAD is more broadly applicable to some of the other protocols in which encrypted disclosures might be used.<a href="#section-11-7.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-11-8">The entire SD-CWT is included in the protected header of the SD-KBT, which integrity protects both encrypted and regular disclosures alike.
+Neither encrypted nor regular disclosures <span class="bcp14">MAY</span> appear in the unprotected header of an SD-KBT.<a href="#section-11-8" class="pilcrow">¶</a></p>
+<div class="lang-cbor-diag sourcecode" id="section-11-9">
 <pre>
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /
     &lt;&lt;[
@@ -2216,19 +2226,19 @@ Neither encrypted nor regular disclosures can appear in the unprotected header o
     ]&gt;&gt;,
     ...
 ]
-</pre><a href="#section-11-8" class="pilcrow">¶</a>
+</pre><a href="#section-11-9" class="pilcrow">¶</a>
 </div>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-11-9.1">
-          <p id="section-11-9.1.1">In the example above the key in hex is <code>a061c27a3273721e210d031863ad81b6</code>.<a href="#section-11-9.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-11-10.1">
+          <p id="section-11-10.1.1">In the example above the key in hex is <code>a061c27a3273721e210d031863ad81b6</code>.<a href="#section-11-10.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-11-10">The blinded claim hash is still over the unencrypted disclosure.
+<p id="section-11-11">The blinded claim hash is still over the unencrypted disclosure.
 The receiver of an encrypted disclosure, locates the appropriate key by looking up the mac.
-If the verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it where in the <code>sd_claims</code> unprotected header in the SD-CWT.<a href="#section-11-10" class="pilcrow">¶</a></p>
-<p id="section-11-11">Details of key management are left to the specific protocols which make use of encrypted disclosures.<a href="#section-11-11" class="pilcrow">¶</a></p>
-<p id="section-11-12">The CDDL for encrypted disclosures is described below.<a href="#section-11-12" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-11-13">
+If the verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it where in the <code>sd_claims</code> unprotected header in the SD-CWT.<a href="#section-11-11" class="pilcrow">¶</a></p>
+<p id="section-11-12">Details of key management are left to the specific protocols which make use of encrypted disclosures.<a href="#section-11-12" class="pilcrow">¶</a></p>
+<p id="section-11-13">The CDDL for encrypted disclosures is described below.<a href="#section-11-13" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-11-14">
 <pre>
 encrypted-array = [ +bstr .cbor encrypted ]
 encrypted = [
@@ -2238,11 +2248,11 @@ encrypted = [
   bstr               ; the corresponding MAC
 ]
 ;bstr-encoded-salted = bstr .cbor salted
-</pre><a href="#section-11-13" class="pilcrow">¶</a>
+</pre><a href="#section-11-14" class="pilcrow">¶</a>
 </div>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-11-14.1">
-          <p id="section-11-14.1.1">Note: because the algorithm is in a registry which contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.<a href="#section-11-14.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-11-15.1">
+          <p id="section-11-15.1.1">Note: because the algorithm is in a registry which contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.<a href="#section-11-15.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
@@ -3202,7 +3212,7 @@ of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>
 <dl class="references">
 <dt id="I-D.draft-ietf-cbor-cde">[I-D.draft-ietf-cbor-cde]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Common Deterministic Encoding (CDE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-cde-08</span>, <time datetime="2025-02-10" class="refDate">10 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-08">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-08</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Common Deterministic Encoding (CDE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-cde-10</span>, <time datetime="2025-04-01" class="refDate">1 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-10">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-10</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-keytrans-protocol">[I-D.draft-ietf-keytrans-protocol]</dt>
         <dd>
@@ -3214,7 +3224,7 @@ of RFC XXXX, and <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-oauth-selective-disclosure-jwt">[I-D.draft-ietf-oauth-selective-disclosure-jwt]</dt>
         <dd>
-<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-17</span>, <time datetime="2025-03-01" class="refDate">1 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-17">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-17</a>&gt;</span>. </dd>
+<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-18</span>, <time datetime="2025-04-28" class="refDate">28 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-18">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-18</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-httpbis-unprompted-auth">[I-D.ietf-httpbis-unprompted-auth]</dt>
         <dd>
@@ -3653,143 +3663,155 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 <a href="#appendix-D" class="section-number selfRef">Appendix D. </a><a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
 <p id="appendix-D-1">Note: RFC Editor, please remove this entire section on publication.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
-<div id="draft-ietf-spice-sd-cwt-04">
+<div id="draft-ietf-spice-sd-cwt-05">
 <section id="appendix-D.1">
-        <h3 id="name-draft-ietf-spice-sd-cwt-04">
-<a href="#appendix-D.1" class="section-number selfRef">D.1. </a><a href="#name-draft-ietf-spice-sd-cwt-04" class="section-name selfRef">draft-ietf-spice-sd-cwt-04</a>
+        <h3 id="name-draft-ietf-spice-sd-cwt-05">
+<a href="#appendix-D.1" class="section-number selfRef">D.1. </a><a href="#name-draft-ietf-spice-sd-cwt-05" class="section-name selfRef">draft-ietf-spice-sd-cwt-05</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-D.1-1.1">
-            <p id="appendix-D.1-1.1.1">use CBOR simple value 59 for the redacted_key_claims<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.1.1">add encrypted disclosures<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.2">
-            <p id="appendix-D.1-1.2.1">add description of decoy digests <strong>TODO</strong><a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
+        </ul>
+</section>
+</div>
+<div id="draft-ietf-spice-sd-cwt-04">
+<section id="appendix-D.2">
+        <h3 id="name-draft-ietf-spice-sd-cwt-04">
+<a href="#appendix-D.2" class="section-number selfRef">D.2. </a><a href="#name-draft-ietf-spice-sd-cwt-04" class="section-name selfRef">draft-ietf-spice-sd-cwt-04</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-1.1">
+            <p id="appendix-D.2-1.1.1">use CBOR simple value 59 for the redacted_key_claims<a href="#appendix-D.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.3">
-            <p id="appendix-D.1-1.3.1">provide test vectors <strong>TODO</strong><a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.2">
+            <p id="appendix-D.2-1.2.1">add description of decoy digests <strong>TODO</strong><a href="#appendix-D.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.3">
+            <p id="appendix-D.2-1.3.1">provide test vectors <strong>TODO</strong><a href="#appendix-D.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-ietf-spice-sd-cwt-03">
-<section id="appendix-D.2">
+<section id="appendix-D.3">
         <h3 id="name-draft-ietf-spice-sd-cwt-03">
-<a href="#appendix-D.2" class="section-number selfRef">D.2. </a><a href="#name-draft-ietf-spice-sd-cwt-03" class="section-name selfRef">draft-ietf-spice-sd-cwt-03</a>
+<a href="#appendix-D.3" class="section-number selfRef">D.3. </a><a href="#name-draft-ietf-spice-sd-cwt-03" class="section-name selfRef">draft-ietf-spice-sd-cwt-03</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.2-1.1">
-            <p id="appendix-D.2-1.1.1">remove bstr encoding from sd_claims array (but not the individual disclosures)<a href="#appendix-D.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.3-1.1">
+            <p id="appendix-D.3-1.1.1">remove bstr encoding from sd_claims array (but not the individual disclosures)<a href="#appendix-D.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.2">
-            <p id="appendix-D.2-1.2.1">clarify which claims are optional/mandatory<a href="#appendix-D.2-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.2">
+            <p id="appendix-D.3-1.2.1">clarify which claims are optional/mandatory<a href="#appendix-D.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.3">
-            <p id="appendix-D.2-1.3.1">correct that an SD-CWT may have zero redacted claims<a href="#appendix-D.2-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.3">
+            <p id="appendix-D.3-1.3.1">correct that an SD-CWT may have zero redacted claims<a href="#appendix-D.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.4">
-            <p id="appendix-D.2-1.4.1">improve the walkthrough of computing a disclosure<a href="#appendix-D.2-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.4">
+            <p id="appendix-D.3-1.4.1">improve the walkthrough of computing a disclosure<a href="#appendix-D.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.5">
-            <p id="appendix-D.2-1.5.1">clarify that duplicate map keys are not allowed, and how tagged keys are represented.<a href="#appendix-D.2-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.5">
+            <p id="appendix-D.3-1.5.1">clarify that duplicate map keys are not allowed, and how tagged keys are represented.<a href="#appendix-D.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.6">
-            <p id="appendix-D.2-1.6.1">added security considerations section (#42) and text about privacy and linkability risks (#43)<a href="#appendix-D.2-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.6">
+            <p id="appendix-D.3-1.6.1">added security considerations section (#42) and text about privacy and linkability risks (#43)<a href="#appendix-D.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.7">
-            <p id="appendix-D.2-1.7.1">register SD-CWT and SD-KBT as content formats in CoAP registry (#39)<a href="#appendix-D.2-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.7">
+            <p id="appendix-D.3-1.7.1">register SD-CWT and SD-KBT as content formats in CoAP registry (#39)<a href="#appendix-D.3-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.8">
-            <p id="appendix-D.2-1.8.1">updated media types registrations to have more useful contacts (#44)<a href="#appendix-D.2-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.8">
+            <p id="appendix-D.3-1.8.1">updated media types registrations to have more useful contacts (#44)<a href="#appendix-D.3-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.9">
-            <p id="appendix-D.2-1.9.1">build most of the values (signatures/salts/hashes/dates) in the examples automatically using a script that implements SD-CWT<a href="#appendix-D.2-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.9">
+            <p id="appendix-D.3-1.9.1">build most of the values (signatures/salts/hashes/dates) in the examples automatically using a script that implements SD-CWT<a href="#appendix-D.3-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.10">
-            <p id="appendix-D.2-1.10.1">regenerate all examples with correct signatures<a href="#appendix-D.2-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.10">
+            <p id="appendix-D.3-1.10.1">regenerate all examples with correct signatures<a href="#appendix-D.3-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.11">
-            <p id="appendix-D.2-1.11.1">add nested example<a href="#appendix-D.2-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.11">
+            <p id="appendix-D.3-1.11.1">add nested example<a href="#appendix-D.3-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.12">
-            <p id="appendix-D.2-1.12.1">add optional encrypted disclosures<a href="#appendix-D.2-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.12">
+            <p id="appendix-D.3-1.12.1">add optional encrypted disclosures<a href="#appendix-D.3-1.12.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-ietf-spice-sd-cwt-02">
-<section id="appendix-D.3">
+<section id="appendix-D.4">
         <h3 id="name-draft-ietf-spice-sd-cwt-02">
-<a href="#appendix-D.3" class="section-number selfRef">D.3. </a><a href="#name-draft-ietf-spice-sd-cwt-02" class="section-name selfRef">draft-ietf-spice-sd-cwt-02</a>
+<a href="#appendix-D.4" class="section-number selfRef">D.4. </a><a href="#name-draft-ietf-spice-sd-cwt-02" class="section-name selfRef">draft-ietf-spice-sd-cwt-02</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.3-1.1">
-            <p id="appendix-D.3-1.1.1">KBT now includes the entire SD-CWT in the Confirmation Key CWT (<code>kcwt</code>) existing COSE protected header. Has algorithm now specified in new <code>sd_alg</code> COSE protected header. No more <code>sd_hash</code> claim. (PR #34, 32)<a href="#appendix-D.3-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.4-1.1">
+            <p id="appendix-D.4-1.1.1">KBT now includes the entire SD-CWT in the Confirmation Key CWT (<code>kcwt</code>) existing COSE protected header. Has algorithm now specified in new <code>sd_alg</code> COSE protected header. No more <code>sd_hash</code> claim. (PR #34, 32)<a href="#appendix-D.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.3-1.2">
-            <p id="appendix-D.3-1.2.1">Introduced tags for redacted and to-be-redacted claim keys and elements. (PR#31, 28)<a href="#appendix-D.3-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.4-1.2">
+            <p id="appendix-D.4-1.2.1">Introduced tags for redacted and to-be-redacted claim keys and elements. (PR#31, 28)<a href="#appendix-D.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.3-1.3">
-            <p id="appendix-D.3-1.3.1">Updated example to be a generic inspection certificate. (PR#33)<a href="#appendix-D.3-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.4-1.3">
+            <p id="appendix-D.4-1.3.1">Updated example to be a generic inspection certificate. (PR#33)<a href="#appendix-D.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.3-1.4">
-            <p id="appendix-D.3-1.4.1">Add section saying SD-CWT updates the CWT spec (RFC8392). (PR#29)<a href="#appendix-D.3-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.4-1.4">
+            <p id="appendix-D.4-1.4.1">Add section saying SD-CWT updates the CWT spec (RFC8392). (PR#29)<a href="#appendix-D.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-ietf-spice-sd-cwt-01">
-<section id="appendix-D.4">
+<section id="appendix-D.5">
         <h3 id="name-draft-ietf-spice-sd-cwt-01">
-<a href="#appendix-D.4" class="section-number selfRef">D.4. </a><a href="#name-draft-ietf-spice-sd-cwt-01" class="section-name selfRef">draft-ietf-spice-sd-cwt-01</a>
+<a href="#appendix-D.5" class="section-number selfRef">D.5. </a><a href="#name-draft-ietf-spice-sd-cwt-01" class="section-name selfRef">draft-ietf-spice-sd-cwt-01</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.4-1.1">
-            <p id="appendix-D.4-1.1.1">Added Overview section<a href="#appendix-D.4-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.5-1.1">
+            <p id="appendix-D.5-1.1.1">Added Overview section<a href="#appendix-D.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.2">
-            <p id="appendix-D.4-1.2.1">Rewrote the main normative section<a href="#appendix-D.4-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.2">
+            <p id="appendix-D.5-1.2.1">Rewrote the main normative section<a href="#appendix-D.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.3">
-            <p id="appendix-D.4-1.3.1">Made redaacted_claim_keys use an unlikely to collide claim key integer<a href="#appendix-D.4-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.3">
+            <p id="appendix-D.5-1.3.1">Made redaacted_claim_keys use an unlikely to collide claim key integer<a href="#appendix-D.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.4">
-            <p id="appendix-D.4-1.4.1">Make cnonce optional (it now says <span class="bcp14">SHOULD</span>)<a href="#appendix-D.4-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.4">
+            <p id="appendix-D.5-1.4.1">Make cnonce optional (it now says <span class="bcp14">SHOULD</span>)<a href="#appendix-D.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.5">
-            <p id="appendix-D.4-1.5.1">Made most standard claims optional.<a href="#appendix-D.4-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.5">
+            <p id="appendix-D.5-1.5.1">Made most standard claims optional.<a href="#appendix-D.5-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.6">
-            <p id="appendix-D.4-1.6.1">Consistently avoid use of bare term "key" - to make crypto keys and map keys clear<a href="#appendix-D.4-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.6">
+            <p id="appendix-D.5-1.6.1">Consistently avoid use of bare term "key" - to make crypto keys and map keys clear<a href="#appendix-D.5-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.7">
-            <p id="appendix-D.4-1.7.1">Make clear issued SD-CWT can contain zero or more redactions; presented SD-CWT can disclose zero, some, or all redacted claims.<a href="#appendix-D.4-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.7">
+            <p id="appendix-D.5-1.7.1">Make clear issued SD-CWT can contain zero or more redactions; presented SD-CWT can disclose zero, some, or all redacted claims.<a href="#appendix-D.5-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.8">
-            <p id="appendix-D.4-1.8.1">Clarified use of sd_hash for issuer to holder case._<a href="#appendix-D.4-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.8">
+            <p id="appendix-D.5-1.8.1">Clarified use of sd_hash for issuer to holder case._<a href="#appendix-D.5-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.9">
-            <p id="appendix-D.4-1.9.1">Lots of editorial cleanup<a href="#appendix-D.4-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.9">
+            <p id="appendix-D.5-1.9.1">Lots of editorial cleanup<a href="#appendix-D.5-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.10">
-            <p id="appendix-D.4-1.10.1">Added Rohan as an author and Brian Campbell to Acknowledgements<a href="#appendix-D.4-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.10">
+            <p id="appendix-D.5-1.10.1">Added Rohan as an author and Brian Campbell to Acknowledgements<a href="#appendix-D.5-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.11">
-            <p id="appendix-D.4-1.11.1">Updated implementation status section to be BCP205-compatible<a href="#appendix-D.4-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.11">
+            <p id="appendix-D.5-1.11.1">Updated implementation status section to be BCP205-compatible<a href="#appendix-D.5-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.12">
-            <p id="appendix-D.4-1.12.1">Updated draft metadata<a href="#appendix-D.4-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.12">
+            <p id="appendix-D.5-1.12.1">Updated draft metadata<a href="#appendix-D.5-1.12.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-ietf-spice-sd-cwt-00">
-<section id="appendix-D.5">
+<section id="appendix-D.6">
         <h3 id="name-draft-ietf-spice-sd-cwt-00">
-<a href="#appendix-D.5" class="section-number selfRef">D.5. </a><a href="#name-draft-ietf-spice-sd-cwt-00" class="section-name selfRef">draft-ietf-spice-sd-cwt-00</a>
+<a href="#appendix-D.6" class="section-number selfRef">D.6. </a><a href="#name-draft-ietf-spice-sd-cwt-00" class="section-name selfRef">draft-ietf-spice-sd-cwt-00</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.5-1.1">
-            <p id="appendix-D.5-1.1.1">Initial working group version based on draft-prorock-spice-cose-sd-cwt-01.<a href="#appendix-D.5-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.6-1.1">
+            <p id="appendix-D.6-1.1.1">Initial working group version based on draft-prorock-spice-cose-sd-cwt-01.<a href="#appendix-D.6-1.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

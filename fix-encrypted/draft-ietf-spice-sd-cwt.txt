@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 19 September 2025                                   H. Birkholz
+Expires: 1 November 2025                                     H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                           18 March 2025
+                                                           30 April 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 September 2025.
+   This Internet-Draft will expire on 1 November 2025.
 
 Copyright Notice
 
@@ -137,11 +137,12 @@ Table of Contents
      C.1.  Subject / Holder
      C.2.  Issuer
    Appendix D.  Document History
-     D.1.  draft-ietf-spice-sd-cwt-04
-     D.2.  draft-ietf-spice-sd-cwt-03
-     D.3.  draft-ietf-spice-sd-cwt-02
-     D.4.  draft-ietf-spice-sd-cwt-01
-     D.5.  draft-ietf-spice-sd-cwt-00
+     D.1.  draft-ietf-spice-sd-cwt-05
+     D.2.  draft-ietf-spice-sd-cwt-04
+     D.3.  draft-ietf-spice-sd-cwt-03
+     D.4.  draft-ietf-spice-sd-cwt-02
+     D.5.  draft-ietf-spice-sd-cwt-01
+     D.6.  draft-ietf-spice-sd-cwt-00
    Acknowledgments
    Authors' Addresses
 
@@ -921,6 +922,11 @@ Issuer                           Holder                         Verifier
       different subset of those disclosures to the other members of the
       MLS group.
 
+   This document defines two new COSE Header Parameters.  If present in
+   the protected headers, the first header parameter (sd_aead) specifies
+   an IANA registered Authenticated Encryption with Additional Data
+   (AEAD) algorithm [RFC5116].  The second header parameter
+   (sd_encrypted_claims) contains a list of AEAD encrypted disclosures.
    Taking the first example disclosure from above:
 
    <<[
@@ -929,19 +935,22 @@ Issuer                           Holder                         Verifier
        /value/  "ABCD-123456"
    ]>>
 
-   This document defines a new
+   The corresponding bstr is encrypted with an AEAD algorithm [RFC5116].
+   If present, the algorithm of the sd_aead protected header field is
+   used, or AEAD_AES_128_GCM if no algorithm was specified.  The bstr is
+   encrypted with a unique, random 16-octet nonce.  The nonce (nonce),
+   and the resulting ciphertext and mac are put in an array.  The bstr
+   encoding of the array is placed in the sd_encrypted_claims
+   unprotected header field array of the SD-CWT.
 
-   The corresponding bstr is encrypted with an IANA registered
-   Authenticated Encryption with Additional Data (AEAD) algorithm
-   [RFC5116].  If present, the algorithm of the sd_aead protected header
-   field is used, or AEAD_AES_128_GCM if no algorithm was specified.
-   The bstr is encrypted with a unique, random 16-octet nonce.  The
-   nonce (nonce), and the resulting ciphertext and mac are put in an
-   array.  The bstr encoding of the array is placed in the
-   sd_encrypted_claims unprotected header field array of the SD-CWT.
+      The encryption mechanism in _this_ section uses AEAD directly
+      instead of COSE encryption, because AEAD is more broadly
+      applicable to some of the other protocols in which encrypted
+      disclosures might be used.
+
    The entire SD-CWT is included in the protected header of the SD-KBT,
    which integrity protects both encrypted and regular disclosures
-   alike.  Neither encrypted nor regular disclosures can appear in the
+   alike.  Neither encrypted nor regular disclosures MAY appear in the
    unprotected header of an SD-KBT.
 
    / sd_encrypted_claims / 19 : [ / encrypted disclosures /
@@ -1825,9 +1834,9 @@ Issuer                           Holder                         Verifier
 
    [I-D.draft-ietf-cbor-cde]
               Bormann, C., "CBOR Common Deterministic Encoding (CDE)",
-              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-08,
-              10 February 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-cbor-cde-08>.
+              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-10,
+              1 April 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-cde-10>.
 
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",
@@ -1846,9 +1855,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-17, 1
-              March 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-selective-disclosure-jwt-17>.
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-18, 28
+              April 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-selective-disclosure-jwt-18>.
 
    [I-D.ietf-httpbis-unprompted-auth]
               Schinazi, D., Oliver, D., and J. Hoyland, "The Concealed
@@ -2212,7 +2221,11 @@ Appendix D.  Document History
 
    Note: RFC Editor, please remove this entire section on publication.
 
-D.1.  draft-ietf-spice-sd-cwt-04
+D.1.  draft-ietf-spice-sd-cwt-05
+
+   *  add encrypted disclosures
+
+D.2.  draft-ietf-spice-sd-cwt-04
 
    *  use CBOR simple value 59 for the redacted_key_claims
 
@@ -2220,7 +2233,7 @@ D.1.  draft-ietf-spice-sd-cwt-04
 
    *  provide test vectors *TODO*
 
-D.2.  draft-ietf-spice-sd-cwt-03
+D.3.  draft-ietf-spice-sd-cwt-03
 
    *  remove bstr encoding from sd_claims array (but not the individual
       disclosures)
@@ -2252,7 +2265,7 @@ D.2.  draft-ietf-spice-sd-cwt-03
 
    *  add optional encrypted disclosures
 
-D.3.  draft-ietf-spice-sd-cwt-02
+D.4.  draft-ietf-spice-sd-cwt-02
 
    *  KBT now includes the entire SD-CWT in the Confirmation Key CWT
       (kcwt) existing COSE protected header.  Has algorithm now
@@ -2266,7 +2279,7 @@ D.3.  draft-ietf-spice-sd-cwt-02
 
    *  Add section saying SD-CWT updates the CWT spec (RFC8392).  (PR#29)
 
-D.4.  draft-ietf-spice-sd-cwt-01
+D.5.  draft-ietf-spice-sd-cwt-01
 
    *  Added Overview section
 
@@ -2295,7 +2308,7 @@ D.4.  draft-ietf-spice-sd-cwt-01
 
    *  Updated draft metadata
 
-D.5.  draft-ietf-spice-sd-cwt-00
+D.6.  draft-ietf-spice-sd-cwt-00
 
    *  Initial working group version based on draft-prorock-spice-cose-
       sd-cwt-01.
