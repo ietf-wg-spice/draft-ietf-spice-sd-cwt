@@ -591,7 +591,7 @@ The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotecte
 > The encryption mechanism in *this* section uses AEAD directly instead of COSE encryption, because AEAD is more broadly applicable to some of the other protocols in which encrypted disclosures might be used.
 
 The entire SD-CWT is included in the protected header of the SD-KBT, which integrity protects both encrypted and regular disclosures alike.
-Neither encrypted nor regular disclosures MAY appear in the unprotected header of an SD-KBT.
+As with regular disclosures, encrypted disclosures MUST NOT appear in the unprotected header of an SD-KBT.
 
 ~~~ cbor-diag
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /
