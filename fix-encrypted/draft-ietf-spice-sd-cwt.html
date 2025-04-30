@@ -2213,7 +2213,7 @@ The bstr encoding of the array is placed in the <code>sd_encrypted_claims</code>
 </li>
       </ul>
 <p id="section-11-8">The entire SD-CWT is included in the protected header of the SD-KBT, which integrity protects both encrypted and regular disclosures alike.
-Neither encrypted nor regular disclosures <span class="bcp14">MAY</span> appear in the unprotected header of an SD-KBT.<a href="#section-11-8" class="pilcrow">¶</a></p>
+As with regular disclosures, encrypted disclosures <span class="bcp14">MUST NOT</span> appear in the unprotected header of an SD-KBT.<a href="#section-11-8" class="pilcrow">¶</a></p>
 <div class="lang-cbor-diag sourcecode" id="section-11-9">
 <pre>
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /

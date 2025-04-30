@@ -950,8 +950,8 @@ Issuer                           Holder                         Verifier
 
    The entire SD-CWT is included in the protected header of the SD-KBT,
    which integrity protects both encrypted and regular disclosures
-   alike.  Neither encrypted nor regular disclosures MAY appear in the
-   unprotected header of an SD-KBT.
+   alike.  As with regular disclosures, encrypted disclosures MUST NOT
+   appear in the unprotected header of an SD-KBT.
 
    / sd_encrypted_claims / 19 : [ / encrypted disclosures /
        <<[
