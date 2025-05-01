@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-17T00:47:08.668849+00:00",
+  "timestamp": "2025-05-01T00:54:54.499869+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -5714,18 +5714,26 @@
       "labels": [],
       "body": "- Use a separate nonce (not the salt) for encryption\r\n- find the key using the mac (instead of the salt)\r\n- put the AEAD algorithm in a new protected header or use default",
       "createdAt": "2025-03-18T04:11:54Z",
-      "updatedAt": "2025-04-02T13:29:58Z",
+      "updatedAt": "2025-04-30T13:40:34Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "49985186f2298613d8104a7c3844b55f2351f413",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "fix-encrypted",
-      "headRefOid": "512546ccdd34426a89071c35001a6fadd4f95bd2",
+      "headRefOid": "a91659ea1d7ebc7b5eccc9e120c385e850999269",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@henkbirkholz please have a look and see if I addressed all your comments, and either resolve or clarify these last two.",
+          "createdAt": "2025-04-30T13:40:33Z",
+          "updatedAt": "2025-04-30T13:40:33Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s6jGDhl",
@@ -5824,6 +5832,106 @@
               "body": "This sounds like a normative statement, right?",
               "createdAt": "2025-04-02T13:29:58Z",
               "updatedAt": "2025-04-02T13:29:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6nT-pU",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-30T13:19:47Z",
+          "updatedAt": "2025-04-30T13:19:47Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": ".. a new COSE Header Parameter.  FIXED",
+              "createdAt": "2025-04-30T13:19:47Z",
+              "updatedAt": "2025-04-30T13:19:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6nT_T0",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-30T13:20:40Z",
+          "updatedAt": "2025-04-30T13:20:40Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "RFC5116. I added a comment that explained why **this** section is just AEAD instead of COSE Encrypt.  I hope that is sufficient",
+              "createdAt": "2025-04-30T13:20:40Z",
+              "updatedAt": "2025-04-30T13:20:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6nUJl-",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-30T13:33:56Z",
+          "updatedAt": "2025-04-30T13:33:57Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "Wrote a one-sentence description of sd_aead earlier and made the rest of the text cleaner.",
+              "createdAt": "2025-04-30T13:33:57Z",
+              "updatedAt": "2025-04-30T13:33:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6nUKHF",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-30T13:34:22Z",
+          "updatedAt": "2025-04-30T13:34:22Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "I didn't understand your comment",
+              "createdAt": "2025-04-30T13:34:22Z",
+              "updatedAt": "2025-04-30T13:34:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6nUOyo",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-30T13:37:59Z",
+          "updatedAt": "2025-04-30T13:37:59Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "upgraded to \"As with regular disclosures, encrypted disclosures MUST NOT appear in the unprotected header of an SD-KBT\"",
+              "createdAt": "2025-04-30T13:37:59Z",
+              "updatedAt": "2025-04-30T13:37:59Z"
             }
           ]
         }
