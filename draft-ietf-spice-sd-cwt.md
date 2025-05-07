@@ -363,7 +363,8 @@ The `redacted_claim_keys` key is a CBOR simple type registered for that purpose 
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with a CBOR tag (requested tag number 60).
 
 ~~~ cddl
-redacted_claim_element = #6.<TBD5>( bstr .size 16 )
+; redacted_claim_element = #6.<TBD5>( bstr .size 16 ) -- RFC 9682
+redacted_claim_element = #6.60( bstr .size 16 )
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
