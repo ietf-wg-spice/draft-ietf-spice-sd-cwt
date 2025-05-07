@@ -570,6 +570,9 @@ In these cases, encrypted disclosures allow more fine-grained disclosure inside 
 
 > In the Messaging Layer Security (MLS) protocol {{?RFC9420}}, an SD-CWT credential {{?I-D.mahy-mls-sd-cwt-credential}} could present one subset of its disclosures to the MLS Distribution Service, and a different subset of those disclosures to the other members of the MLS group.
 
+This document defines two new COSE Header Parameters.
+If present in the protected headers, the first header parameter (`sd_aead`) specifies an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}}.
+The second header parameter (`sd_encrypted_claims`) contains a list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:
 
 ~~~ cbor-diag
@@ -580,30 +583,33 @@ Taking the first example disclosure from above:
 ]>>
 ~~~
 
-The corresponding bstr is encrypted with an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} such as AEAD_AES_128_GCM, using the salt as the nonce.
-The `salt`, the algorithm used (`alg`), and the resulting `ciphertext` and `mac` are put in an array.
+The corresponding bstr is encrypted with an AEAD algorithm {{!RFC5116}}.
+If present, the algorithm of the `sd_aead` protected header field is used, or AEAD_AES_128_GCM if no algorithm was specified. The bstr is encrypted with a unique, random 16-octet nonce.
+The nonce (`nonce`), and the resulting `ciphertext` and `mac` are put in an array.
 The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotected header field array of the SD-CWT.
+
+> The encryption mechanism in *this* section uses AEAD directly instead of COSE encryption, because AEAD is more broadly applicable to some of the other protocols in which encrypted disclosures might be used.
+
 The entire SD-CWT is included in the protected header of the SD-KBT, which integrity protects both encrypted and regular disclosures alike.
-Neither encrypted nor regular disclosures can appear in the unprotected header of a SD-KBT.
+As with regular disclosures, encrypted disclosures MUST NOT appear in the unprotected header of an SD-KBT.
 
 ~~~ cbor-diag
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /
     <<[
-        / salt /       h'bae611067bb823486797da1ebbb52f83',
-        / alg /        1, / AEAD_AES_128_GCM /
-        / ciphertext / h'634ae7a62782fbdb978ab2d03ca6a9f0
-                         0f123903f8ab59461fbd8ac3d86ef787
-                         ba9b90',
-        / mac /        h'8ce37110fc882bbf99c5f39e4adba636'
+        / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
+        / ciphertext / h'208cda279ca86444681503830469b705
+                         89654084156c9e65ca02f9ac40cd62b5
+                         a2470d',
+        / mac /        h'1c6e732977453ab2cacbfd578bd238c0'
     ]>>,
     ...
 ]
 ~~~
 
-> In the example above the key in hex is 'b4fb68a58af8e20e4db2146a934b2d4f'.
+> In the example above the key in hex is `a061c27a3273721e210d031863ad81b6`.
 
 The blinded claim hash is still over the unencrypted disclosure.
-The receiver of an encrypted disclosure locates the appropriate key by looking up the unique salt.
+The receiver of an encrypted disclosure, locates the appropriate key by looking up the mac.
 If the verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it where in the `sd_claims` unprotected header in the SD-CWT.
 
 Details of key management are left to the specific protocols which make use of encrypted disclosures.
@@ -613,16 +619,13 @@ The CDDL for encrypted disclosures is described below.
 ~~~ cddl
 encrypted-array = [ +bstr .cbor encrypted ]
 encrypted = [
-  bstr .size 16,     ; 128-bit salt
-  uint16,            ; IANA AEAD Algorithm number
+  bstr .size 16,     ; 128-bit nonce
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
   bstr               ; the corresponding MAC
 ]
 ;bstr-encoded-salted = bstr .cbor salted
 ~~~
-
-> **TODO**: consider moving the AEAD algorithm for all encrypted disclosures into a new protected header field.
 
 > Note: because the algorithm is in a registry which contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.
 
@@ -953,7 +956,7 @@ The following completed registration template per RFC8152 is provided:
 * Name: sd_alg
 * Label: TBD2 (requested assignment 18)
 * Value Type: int
-* Value Registry: COSE Algorithms
+* Value Registry: IANA COSE Algorithms
 * Description: The hash algorithm used for redacting disclosures.
 * Reference: RFC XXXX
 
@@ -967,6 +970,18 @@ The following completed registration template per RFC8152 is provided:
 * Value Registry: (empty)
 * Description: A list of encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: RFC XXXX
+
+### sd_aead
+
+The following completed registration template per RFC8152 is provided:
+
+* Name: sd_aead
+* Label: TBD7 (requested assignment 20)
+* Value Type: int
+* Value Registry: IANA AEAD Algorithm number
+* Description: The AEAD algorithm used for encrypting disclosures.
+* Reference: RFC XXXX
+
 
 ## CBOR Simple Values {#simple59}
 
@@ -1354,6 +1369,10 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 # Document History
 
 Note: RFC Editor, please remove this entire section on publication.
+
+## draft-ietf-spice-sd-cwt-05
+
+- add encrypted disclosures
 
 ## draft-ietf-spice-sd-cwt-04
 
