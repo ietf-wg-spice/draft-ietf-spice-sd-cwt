@@ -260,7 +260,7 @@ This is represented in CBOR pretty printed formal as follows (end of line commen
 {: title="CBOR encoding of inspector_license_number disclosure"}
 
 
-The SHA-256 hash (the hash algorithm identified in the `sd_alg` protected header field) of that bytes string is the Digested Salted Disclosed Claim (in hex).
+The SHA-256 hash (the hash algorithm identified in the `sd_alg` protected header field) of that byte string is the Digested Salted Disclosed Claim (in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of `inspection_dates`).
 
 ~~~
@@ -301,10 +301,10 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 
 # Update to the CBOR Web Token Specification {#cwt-update}
 
-The CBOR Web Token Specification (Section 1.1 of {{RFC8392}}), uses strings, negative integers, and unsigned integers as map keys.
+The CBOR Web Token Specification (Section 1.1 of {{RFC8392}}), uses text strings, negative integers, and unsigned integers as map keys.
 This specification relaxes that requirement, by also allowing the CBOR simple value registered in this document in {{simple59}}, and CBOR tagged integers and text strings as map keys.
 CBOR maps used in a CWT cannot have duplicate keys.
-(An integer or string map key is distinct key from a tagged map key which wraps the corresponding integer or string value).
+(An integer or text string map key is a distinct key from a tagged map key which wraps the corresponding integer or text string value).
 
 >When sorted, map keys in CBOR are arranged in bytewise lexicographic order of the key's deterministic encodings (see Section 4.2.1 of {{RFC8949}}).
 >So an integer key of 3 is represented in hex as `03`, an integer key of -2 is represented in hex as `21`, and a tag of 60 wrapping a 3 is represented in hex as `D8 3C 03`
@@ -360,7 +360,7 @@ salted-array = [ +bstr .cbor salted ]
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 The `redacted_claim_keys` key is a CBOR simple type registered for that purpose (with the requested value of 59).
 
-When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with a CBOR tag (requested tag number 60).
+When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with a CBOR tag (requested tag number 60).
 
 ~~~ cddl
 redacted_claim_element = #6.60( bstr .size 16 )
@@ -989,7 +989,7 @@ The array claim element, or map key and value inside the "To be redacted" tag is
 
 ### Redacted claim element tag
 
-The binary string inside the tag is a selective disclosure redacted claim element of an array.
+The byte string inside the tag is a selective disclosure redacted claim element of an array.
 
 * Tag: TBD5 (requested assignment 60)
 * Data Item: byte string
