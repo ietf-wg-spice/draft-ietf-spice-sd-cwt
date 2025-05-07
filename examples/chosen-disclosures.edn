@@ -1,8 +1,8 @@
     / sd_claims / 17 : [ / these are the disclosures /
         <<[
             /salt/   h'bae611067bb823486797da1ebbb52f83',
-            /claim/  501,   / inspector_license_number /
-            /value/  "ABCD-123456"
+            /value/  "ABCD-123456",
+            /claim/  501   / inspector_license_number /
         ]>>,
         <<[
             /salt/   h'8de86a012b3043ae6e4457b9e1aaab80',
@@ -10,7 +10,7 @@
         ]>>,
         <<[
             /salt/   h'ec615c3035d5a4ff2f5ae29ded683c8e',
-            /claim/  "region",   / region=California /
-            /value/  "ca"
+            /value/  "ca",
+            /claim/  "region"   / region=California /
         ]>>,
     ]

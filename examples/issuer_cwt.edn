@@ -9,8 +9,8 @@
     / sd_claims / 17 : [ / these are all the disclosures /
         <<[
             /salt/   h'bae611067bb823486797da1ebbb52f83',
-            /claim/  501,   / inspector_license_number /
-            /value/  "ABCD-123456"
+            /value/  "ABCD-123456",
+            /claim/  501   / inspector_license_number /
         ]>>,
         <<[
             /salt/   h'8de86a012b3043ae6e4457b9e1aaab80',
@@ -22,13 +22,13 @@
         ]>>,
         <<[
             /salt/   h'ec615c3035d5a4ff2f5ae29ded683c8e',
-            /claim/  "region",   / region=California /
-            /value/  "ca"
+            /value/  "ca",
+            /claim/  "region"   / region=California /
         ]>>,
         <<[
             /salt/   h'37c23d4ec4db0806601e6b6dc6670df9',
-            /claim/  "postal_code",
-            /value/  "94188"
+            /value/  "94188",
+            /claim/  "postal_code"
         ]>>,
     ]
   }
@@ -51,8 +51,8 @@
     /most_recent_inspection_passed/ 500: true,
     / redacted_claim_keys / simple(59) : [
         / redacted inspector_license_number /
-        h'0ad0f76dcb7fd812ca64c3ada3f543be
-          96d0e351e1e576fbab5cb659b49e599e'
+        h'3fc9748e00684e6442641e58ea965468
+          085024da253ed46b507ae56d4c204434'
     ],
     /inspection_dates/ 502 : [
         / redacted inspection date 7-Feb-2019 /
@@ -67,18 +67,18 @@
         "country" : "us",            / United States /
         / redacted_claim_keys / simple(59) : [
             / redacted region /
-            h'dff0cb7a6ff555544554c527d5e32eed
-              ee6a9d80a1dae2e0ac611796674ce281'
+            h'2ff24f519a1bdfc66292263de2415a36
+              6b9a4302d2a9f36b9791f8eab1867513'
             / redacted postal_code /
-            h'5f5e6bfc2de598c80df58ff84090125a
-              f8bb1ada795a37e5cfcf8f480e445755'
+            h'f907645d118184af56331cb07b7b8c31
+              826ac7d18d051bcec37a3a8afb8581c3'
       ]
     }
   } >>,
-  / CWT signature / h'd6b1f5143a3f6b2e54a1ea29ed98e9ed
-                      7abb2927b34ba100fe91ed493d66062b
-                      d71716eed6b209b9d6c6861a6886ad47
-                      5716220bcb3a0276a205002c3f6d3e86
-                      a52d3e990f869bd38c5a476f73ee3319
-                      64dee2cb51321b7bf2e64e62811a9b22'
+  / CWT signature / h'9280a520b8686183bf72cd07c714e603
+                      ff0975b357975a1391de51a248d554e1
+                      b93d0d101edb6bf11a4a98aa9714d823
+                      c84d1d6c438e5d733a4f67c16e1ff030
+                      ae3f4b1c546ecc9e9add168da97e32e1
+                      c5b8de5b873c9572ecb9f219399c5a9f'
 ])

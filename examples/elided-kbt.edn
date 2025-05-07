@@ -14,8 +14,8 @@
     / aud    /  3    : "https://verifier.example/app",
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
   } >>,      / end of KBT payload /
-  / KBT signature / h'feb37bac837b25d3510962ac706297cd
-                      2ef1ace1b47a382e911124c9a4c32287
-                      280f48931c2988d71b297d57dd9d392f
-                      5792d8f87a95166c5ea5110a81c1bfc7'
+  / KBT signature / h'18889767bd8f2faf18dc6a99571724d7
+                      b1051ff1c1b694d3bb2e304891b3b8bd
+                      a36b133e9ab920fe8a8a45b7d41deba0
+                      44c226f87d8b663c5f049d445594aec5'
 ])   / end of kbt /
