@@ -335,15 +335,15 @@ However a Verifier with the hash cannot reconstruct the corresponding blinded cl
 
 ## Types of blinded claims
 
-Salted Disclosed Claims for named claims are structured as a 128-bit salt, the name of the redacted element, and the disclosed value.
+Salted Disclosed Claims for named claims are structured as a 128-bit salt, the disclosed value, and the name of the redacted element.
 For Salted Disclosed Claims of items in an array, the name is omitted.
 
 ~~~ cddl
 salted = salted-claim / salted-element / decoy
 salted-claim = [
   bstr .size 16,     ; 128-bit salt
-  (int / text),      ; claim name
-  any                ; claim value
+  any,               ; claim value
+  (int / text)       ; claim name
 ]
 salted-element = [
   bstr .size 16,     ; 128-bit salt
@@ -576,11 +576,7 @@ The second header parameter (`sd_encrypted_claims`) contains a list of AEAD encr
 Taking the first example disclosure from above:
 
 ~~~ cbor-diag
-<<[
-    /salt/   h'bae611067bb823486797da1ebbb52f83',
-    /claim/  501,   / inspector_license_number /
-    /value/  "ABCD-123456"
-]>>
+{::include examples/first-disclosure.edn}
 ~~~
 
 The corresponding bstr is encrypted with an AEAD algorithm {{!RFC5116}}.
@@ -596,11 +592,11 @@ As with regular disclosures, encrypted disclosures MUST NOT appear in the unprot
 ~~~ cbor-diag
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /
     <<[
-        / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
-        / ciphertext / h'208cda279ca86444681503830469b705
-                         89654084156c9e65ca02f9ac40cd62b5
-                         a2470d',
-        / mac /        h'1c6e732977453ab2cacbfd578bd238c0'
+      / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
+      / ciphertext / h'2e9a9570254916fd81db30a4126381c4
+                       dc8221a2d95e85a7191747e12f68b2fd
+                       9cfae5',
+      / mac /        h'799147ab37efe19d2b14ff330bfff08b'
     ]>>,
     ...
 ]
@@ -711,66 +707,72 @@ Verifiers start unblinding claims for which they have blinded claim hashes. They
 ~~~ cbor-diag
 / sd_claims / 17 : [ / these are the disclosures /
     <<[
-        /salt/   h'e3aa33644123fdbf819ad534653f4aaa',
-        /claim/  504,   / inspection 17-Jan-2023 /
-        /value/  [
-                     59(h'2893a00665f1ca2cfeb7456e1eeb8eba
-                          f21d5c12a73d9fbcb8902822f3ecb635'),
-                     59(h'92c0262b0ed6891c6e46d6fca5554caf
-                          79bd8d05c74dbb06a25c9edd304c6e22'),
-                     {
-                         500: True,
-                         502: 17183928,
-                         simple(59): [
-                           h'0ad0f76dcb7fd812ca64c3ada3f543be
-                              96d0e351e1e576fbab5cb659b49e599e',
-                           h'f34c3ea2292d02b92bde25e68e94acd7
-                             f1e011fd6eea6c490f841f09a7a01a48'
-                         ]
-                     }
-                 ]
+        /salt/   h'2e9a833949c163ce845813c258a8f13c',
+        /value/  {
+                     500: true,
+                     502: 17183928,
+                     simple(59): [
+                       h'3fc9748e00684e6442641e58ea965468
+                         085024da253ed46b507ae56d4c204434',
+                       h'a5124745703ea9023bf92a2028ba4547
+                         b830ce9705161eaad56729cab8e1d807'
+                     ]
+                 }   / inspection 17-Jan-2023 /
     ]>>,
     <<[
         /salt/   h'bae611067bb823486797da1ebbb52f83',
-        /claim/  501,   / inspector_license_number /
-        /value/  "ABCD-123456"
+        /value/  "ABCD-123456",
+        /claim/  501   / inspector_license_number /
     ]>>,
     <<[
-        /salt/   h'7d2505257e7850b70295a87b3c8748e5',
-        /claim/  503,   / San Francisco location /
+        /salt/   h'd5c7494eb16a8ff11fba507cbc7c816b',
         /value/  {
                      1: "us",
                      simple(59): [
-                       h'de03a7a0b4359511a7dc0edd8f4ebc00
-                         b5783d8a0d36e715679e23c703011d16',
-                       h'5a98ac2381cb59dee7a43daa073eab48
-                         9773e2830a0b9c4e1efd55737dbb1c06'
+                       h'3bf93977377099c66997303ddbce67b4
+                         ca7ee95d2c8cf2b8b45f451362493460',
+                       h'231e125d192de099e91bc59e2ae914f0
+                         c891cbc3329b7fea70a3aa636c87a0a4'
                      ]
-                 }
+                 },
+        /claim/  503   / San Francisco location /
     ]>>,
     <<[
         /salt/   h'52da9de5dc61b33775f9348b991d3d78',
-        /claim/  2,   / region=California /
-        /value/  "ca"
+        /value/  "ca",
+        /claim/  2   / region=California /
     ]>>,
     <<[
-        /salt/   h'b52272341715f2a0b476e33e55ce7501',
+        /salt/   h'9adcf14141f8607a44a130a4b341e162',
         /value/  {
-                     500: True,
+                     500: true,
                      502: 1549560720,
                      simple(59): [
-                       h'cd88763edb2485b8109613546051f606
-                         e6b822456da1bf09f604b886e1def45a',
-                       h'0a45eb75de44741bea78dc48b1898d40
-                         09601dbf567279f3042a24cee9fdcab5'
+                       h'94d61c995d4fa25ad4d3cc4752f6ffaf
+                         9e67f7f0b4836c8252a9ad23c20499f5',
+                       h'4ff0ecad5f767923582febd69714f3f8
+                         0cb00f58390a0825bc402febfa3548bf'
                      ]
                  }   / inspection 7-Feb-2019 /
     ]>>,
     <<[
         /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
-        /claim/  501,   / inspector_license_number /
-        /value/  "DCBA-101777"
-    ]>>
+        /value/  "DCBA-101777",
+        /claim/  501   / inspector_license_number /
+    ]>>,
+    <<[
+        /salt/   h'95b006410a1b6908997eed7d2a10f958',
+        /value/  {
+                     1: "us",
+                     simple(59): [
+                       h'2bc86e391ec9b663de195ae9680bf614
+                         21666bc9073b1ebaf80c77be3adb379f',
+                       h'e11c93b44fb150a73212edec5bde46d3
+                         d7db23d0d43bfd6a465f82ee8cf72503'
+                     ]
+                 },
+        /claim/  503   / Denver location /
+    ]>>,
 ]
 ~~~
 
@@ -1130,6 +1132,11 @@ THe COSE equivalent of `application/kb+jwt` is `application/kb+cwt`.
 The COSE equivalent of `_sd` is a CBOR tag (requested assignment 59) of the claim key 0. The corresponding claim value is an array of the redacted claim keys.
 
 The COSE equivalent of `...` is a CBOR tag (requested assignment 60) of the digested salted claim.
+
+In SD-CWT, the order of the fields in a disclosure is salt, value, key.
+In SD-JWT the order of fields in a disclosure is salt, key, value.
+This choice insures that the second element in the CBOR array is always the value, which makes parsing faster and more efficient in strongly-typed programming languages.
+
 
 ## Issuance
 

@@ -278,7 +278,7 @@ def make_disclosure(salt=None, key=None, value=None):
             raise Exception("Value must be specified if a key is present")
         else:
             # map claim
-            disclosure_array = [salt, key, value]
+            disclosure_array = [salt, value, key]
     # double encode to add bstr type and bstr length
     return cbor2.dumps(cbor2.dumps(disclosure_array))
 
@@ -497,11 +497,11 @@ def edn_one_disclosure(disclosure, comment=None):
     edn = '        <<[\n'
     edn += f"            /salt/   h'{bytes2hex(disclosure[0])}',\n"
     if len(disclosure) == 3:
-        if disclosure[1] == 500:
-            print(disclosure[2])
-            print(type(disclosure[2]))
-        edn += f"            /claim/  {val(disclosure[1])},{cmt}\n"
-        edn += f"            /value/  {val(disclosure[2])}\n"
+        if disclosure[2] == 500:
+            print(disclosure[1])
+            print(type(disclosure[1]))
+        edn += f"            /value/  {val(disclosure[1])},\n"
+        edn += f"            /claim/  {val(disclosure[2])}{cmt}\n"
     elif len(disclosure) == 2:
         edn += f"            /value/  {val(disclosure[1])}{cmt}\n"
     edn += '        ]>>,\n'
@@ -839,7 +839,8 @@ if __name__ == "__main__":
         disclosures[13],
         disclosures[11],
         disclosures[4],
-        disclosures[0]
+        disclosures[0],
+        disclosures[3]
       ]
     }
     nested_cwt = sign(cwt_protected,
@@ -889,7 +890,8 @@ if __name__ == "__main__":
         decoded_disclosures[13],
         decoded_disclosures[11],
         decoded_disclosures[4],
-        decoded_disclosures[0]
+        decoded_disclosures[0],
+        decoded_disclosures[3]
     ]
     presented_comments = [
         example_comments[14],
@@ -898,6 +900,7 @@ if __name__ == "__main__":
         example_comments[11],
         example_comments[4],
         example_comments[0],
+        example_comments[3]
     ]
     edn_disclosures = edn_decoded_disclosures(
         presented_disclosures, comments=presented_comments)

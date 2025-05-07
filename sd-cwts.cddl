@@ -68,8 +68,8 @@ salted-array = [ +bstr .cbor salted ]
 salted = salted-claim / salted-element / decoy
 salted-claim = [
   bstr .size 16,     ; 128-bit salt
-  (int / text),      ; claim name
-  any                ; claim value
+  any,               ; claim value
+  (int / text)       ; claim name
 ]
 salted-element = [
   bstr .size 16,     ; 128-bit salt
