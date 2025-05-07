@@ -129,7 +129,7 @@ The parameters necessary to support these processes can be obtained using transp
 However the following guidance is generally recommended, regardless of protocol or transport.
 
 1. The issuer SHOULD confirm the holder controls all confirmation material before issuing credentials using the `cnf` claim.
-2. To protect against replay attacks, the verifier SHOULD provide a nonce, and reject requests that do not include an acceptable an nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.
+2. To protect against replay attacks, the verifier SHOULD provide a nonce, and reject requests that do not include an acceptable nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.
 
 
 # Terminology
@@ -460,10 +460,10 @@ sd-payload = {
 When a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
 If the Holder wishes to disclose any claims, it includes that subset of its Salted Disclosed Claims in the `sd_claims` claim of the unprotected header.
 
-An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder choses the subset of disclosures included in the `sd_claims` claim.
+An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder chooses the subset of disclosures included in the `sd_claims` claim.
 Since the unprotected header is not included in the signature, it will contain all the Salted Disclosed Claims when sent from the Issuer to the Holder.
 When sent from the Holder to the Verifier, the unprotected header will contain none, some, or all of these Claims.
-Finally, the SD-CWT used for presentation to a Verifier is included in a key binding token, as discsused in the next section.
+Finally, the SD-CWT used for presentation to a Verifier is included in a key binding token, as discussed in the next section.
 
 ## Creating a Key Binding Token {#kbt}
 
@@ -889,7 +889,7 @@ It is possible to encode additional information through the choices made during 
 ## Threat Model
 
 Each use case will have a unique threat model which MUST be considered before the applicability of SD-CWT based credential types can be determined.
-This section provides a non exahustive list of topics to be consider when developing a threat model for applying SD-CWT to a given use case.
+This section provides a non exhaustive list of topics to be considered when developing a threat model for applying SD-CWT to a given use case.
 
 Has there been a t-closeness, k-anonymity and l-diverity assessment (see {{t-Closeness}}) assuming compromise of the one or more issuers, verifiers or holders, for all relevant credential types?
 
