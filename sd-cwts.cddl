@@ -15,35 +15,35 @@ kbt-cwt = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd+cwt",
+   &(typ: 16) ^ => TBD-SD / "application/sd+cwt",
    &(alg: 1) ^ => int,
    &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
    ? &(sd_aead: TBD7) ^ => uint .size 2
-   * key => any   
+   * key => any
 }
 
 kbt-protected = {
-   &(typ: 16) ^ => "application/kb+cwt",
+   &(typ: 16) ^ => TBD-KB / "application/kb+cwt",
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
-   * key => any   
+   * key => any
 }
 
 sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => salted-array,
-   ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array
-   * key => any   
+   ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
+   * key => any
 }
 
 kbt-unprotected = {
-   * key => any   
+   * key => any
 }
 
 sd-payload = {
     ; standard claims
       &(iss: 1) ^ => tstr, ; "https://issuer.example"
     ? &(sub: 2) ^ => tstr, ; "https://device.example"
-    ? &(aud: 3) ^ => tstr, ; "https://verifier.example"
+    ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
     ? &(iat: 6) ^ => int,  ; 1683000000
@@ -52,16 +52,16 @@ sd-payload = {
     ? &(cnonce: 39) ^ => bstr,
     ;
     ? &(redacted_claim_keys: TBD4) ^ => [ * bstr ],
-    * key => any   
+    * key => any
 }
 
 kbt-payload = {
-      &(aud: 3) ^ => tstr, ; "https://verifier.example"
+      &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
       &(iat: 6) ^ => int,  ; 1683000000
     ? &(cnonce: 39) ^ => bstr,
-    * key => any   
+    * key => any
 }
 
 salted-array = [ +bstr .cbor salted ]
@@ -93,6 +93,8 @@ TBD1 = 17
 TBD2 = 18
 TBD6 = 19
 TBD7 = 20
-;TBD3 = #6.58(any)    ; CBOR tag wrapping to-be-redacted keys or elements
+TBD3 = 58; #6.<TBD3>(any) tag wrapping to-be-redacted keys or elements
 TBD4 = #7.59          ; CBOR simple value 59
-;TBD5 = #6.60( bstr ) ; redacted_claim_element
+TBD5 = 60; #6.<TBD5>(bstr) redacted_claim_element
+TBD-SD = 298          ; content-format for application/sd+cwt
+TBD-KB = 299          ; content-format for application/kb+cwt

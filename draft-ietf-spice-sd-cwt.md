@@ -350,7 +350,7 @@ salted-element = [
   any                ; claim value
 ]
 decoy = [
-  bstr .size 16,     ; 128-bit salt
+  bstr .size 16      ; 128-bit salt
 ]
 
 ; a collection of Salted Disclosed Claims
@@ -363,7 +363,7 @@ The `redacted_claim_keys` key is a CBOR simple type registered for that purpose 
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with a CBOR tag (requested tag number 60).
 
 ~~~ cddl
-redacted_claim_element = #6.60( bstr .size 16 )
+redacted_claim_element = #6.<TBD5>( bstr .size 16 )
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
@@ -426,14 +426,16 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd+cwt" / TBD1,
+   &(typ: 16) ^ => TBD-SD / "application/sd+cwt",
    &(alg: 1) ^ => int,
-   &(sd_alg: 18) ^ => int,             ; -16 for sha-256
+   &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
+   ? &(sd_aead: TBD7) ^ => uint .size 2
    * key => any
 }
 
 sd-unprotected = {
-   ? &(sd_claims: 17) ^ => salted-array,
+   ? &(sd_claims: TBD1) ^ => salted-array,
+   ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
    * key => any
 }
 
@@ -449,7 +451,7 @@ sd-payload = {
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
     ;
-    ? &(redacted_keys: #7.59) ^ => [ * bstr ],
+    ? &(redacted_claim_keys: TBD4) ^ => [ * bstr ],
     * key => any
 }
 ~~~
@@ -501,7 +503,7 @@ kbt-cwt = #6.18([
 ])
 
 kbt-protected = {
-   &(typ: 16) ^ => "application/kb+cwt",
+   &(typ: 16) ^ => TBD-KB / "application/kb+cwt",
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
    * key => any
@@ -512,7 +514,7 @@ kbt-unprotected = {
 }
 
 kbt-payload = {
-      &(aud: 3) ^ => tstr, ; "https://verifier.example"
+      &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
       &(iat: 6) ^ => int,  ; 1683000000
@@ -1100,11 +1102,11 @@ The following completed registration template is provided:
 [^rfced] IANA is requested to register the following Content-Format numbers in the "CoAP Content-Formats" registry, within the "Constrained RESTful Environments (CoRE) Parameters" registry group {{!IANA.core-parameters}}:
 
 | Content-Type | Content Coding | ID | Reference |
-| application/sd+cwt | - | TBD1 | {{&SELF}} |
-| application/kb+cwt | - | TBD2 | {{&SELF}} |
+| application/sd+cwt | - | TBD-SD | {{&SELF}} |
+| application/kb+cwt | - | TBD-KB | {{&SELF}} |
 {: align="left" title="New CoAP Content Formats"}
 
-If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
+If possible, TBD-SD and TBD-KB should be assigned in the 256..9999 range.
 
 --- back
 
