@@ -1778,7 +1778,7 @@ For example, the <code>inspector_license_number</code> claim is a Salted Disclos
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-cbor-encoding-of-inspector_" class="selfRef">CBOR encoding of inspector_license_number disclosure</a>
           </figcaption></figure>
-<p id="section-3.2-7">The SHA-256 hash (the hash algorithm identified in the <code>sd_alg</code> protected header field) of that bytes string is the Digested Salted Disclosed Claim (in hex).
+<p id="section-3.2-7">The SHA-256 hash (the hash algorithm identified in the <code>sd_alg</code> protected header field) of that byte string is the Digested Salted Disclosed Claim (in hex).
 The digest value is included in the payload in a <code>redacted_claim_keys</code> field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (ex: for a redacted claim element of <code>inspection_dates</code>).<a href="#section-3.2-7" class="pilcrow">¶</a></p>
 <span id="name-sha-256-hash-of-inspector_l"></span><figure id="figure-4">
           <div class="alignLeft art-text artwork" id="section-3.2-8.1">
@@ -1872,10 +1872,10 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
       <h2 id="name-update-to-the-cbor-web-toke">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-update-to-the-cbor-web-toke" class="section-name selfRef">Update to the CBOR Web Token Specification</a>
       </h2>
-<p id="section-5-1">The CBOR Web Token Specification (Section 1.1 of <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>), uses strings, negative integers, and unsigned integers as map keys.
+<p id="section-5-1">The CBOR Web Token Specification (Section 1.1 of <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>), uses text strings, negative integers, and unsigned integers as map keys.
 This specification relaxes that requirement, by also allowing the CBOR simple value registered in this document in <a href="#simple59" class="auto internal xref">Section 16.2</a>, and CBOR tagged integers and text strings as map keys.
 CBOR maps used in a CWT cannot have duplicate keys.
-(An integer or string map key is distinct key from a tagged map key which wraps the corresponding integer or string value).<a href="#section-5-1" class="pilcrow">¶</a></p>
+(An integer or text string map key is a distinct key from a tagged map key which wraps the corresponding integer or text string value).<a href="#section-5-1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-5-2.1">
           <p id="section-5-2.1.1">When sorted, map keys in CBOR are arranged in bytewise lexicographic order of the key's deterministic encodings (see Section 4.2.1 of <span>[<a href="#RFC8949" class="cite xref">RFC8949</a>]</span>).
@@ -1931,7 +1931,7 @@ salted-array = [ +bstr .cbor salted ]
 </div>
 <p id="section-6.1-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 The <code>redacted_claim_keys</code> key is a CBOR simple type registered for that purpose (with the requested value of 59).<a href="#section-6.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR binary string, wrapped with a CBOR tag (requested tag number 60).<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with a CBOR tag (requested tag number 60).<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-6.1-5">
 <pre>
 redacted_claim_element = #6.60( bstr .size 16 )
@@ -2864,7 +2864,7 @@ Likewise, Holders and Verifiers need to verify that the issuer claim of the SD-C
           <h4 id="name-redacted-claim-element-tag">
 <a href="#section-16.3.2" class="section-number selfRef">16.3.2. </a><a href="#name-redacted-claim-element-tag" class="section-name selfRef">Redacted claim element tag</a>
           </h4>
-<p id="section-16.3.2-1">The binary string inside the tag is a selective disclosure redacted claim element of an array.<a href="#section-16.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-16.3.2-1">The byte string inside the tag is a selective disclosure redacted claim element of an array.<a href="#section-16.3.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.3.2-2.1">
               <p id="section-16.3.2-2.1.1">Tag: TBD5 (requested assignment 60)<a href="#section-16.3.2-2.1.1" class="pilcrow">¶</a></p>

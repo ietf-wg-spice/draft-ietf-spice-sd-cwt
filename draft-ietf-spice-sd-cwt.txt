@@ -453,7 +453,7 @@ Issuer                           Holder                         Verifier
        Figure 3: CBOR encoding of inspector_license_number disclosure
 
    The SHA-256 hash (the hash algorithm identified in the sd_alg
-   protected header field) of that bytes string is the Digested Salted
+   protected header field) of that byte string is the Digested Salted
    Disclosed Claim (in hex).  The digest value is included in the
    payload in a redacted_claim_keys field for a Redacted Claim Key (in
    this example), or in a named array for a Redacted Claim Element (ex:
@@ -551,13 +551,13 @@ Issuer                           Holder                         Verifier
 5.  Update to the CBOR Web Token Specification
 
    The CBOR Web Token Specification (Section 1.1 of [RFC8392]), uses
-   strings, negative integers, and unsigned integers as map keys.  This
-   specification relaxes that requirement, by also allowing the CBOR
-   simple value registered in this document in Section 16.2, and CBOR
-   tagged integers and text strings as map keys.  CBOR maps used in a
-   CWT cannot have duplicate keys.  (An integer or string map key is
-   distinct key from a tagged map key which wraps the corresponding
-   integer or string value).
+   text strings, negative integers, and unsigned integers as map keys.
+   This specification relaxes that requirement, by also allowing the
+   CBOR simple value registered in this document in Section 16.2, and
+   CBOR tagged integers and text strings as map keys.  CBOR maps used in
+   a CWT cannot have duplicate keys.  (An integer or text string map key
+   is a distinct key from a tagged map key which wraps the corresponding
+   integer or text string value).
 
       When sorted, map keys in CBOR are arranged in bytewise
       lexicographic order of the key's deterministic encodings (see
@@ -634,7 +634,7 @@ Issuer                           Holder                         Verifier
    purpose (with the requested value of 59).
 
    When blinding an individual item in an array, the value of the item
-   is replaced with the digested salted hash as a CBOR binary string,
+   is replaced with the digested salted hash as a CBOR byte string,
    wrapped with a CBOR tag (requested tag number 60).
 
    redacted_claim_element = #6.60( bstr .size 16 )
@@ -1582,7 +1582,7 @@ Issuer                           Holder                         Verifier
 
 16.3.2.  Redacted claim element tag
 
-   The binary string inside the tag is a selective disclosure redacted
+   The byte string inside the tag is a selective disclosure redacted
    claim element of an array.
 
    *  Tag: TBD5 (requested assignment 60)
