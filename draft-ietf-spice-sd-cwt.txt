@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 5 October 2025                                      H. Birkholz
+Expires: 8 November 2025                                     H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                            3 April 2025
+                                                              7 May 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 October 2025.
+   This Internet-Draft will expire on 8 November 2025.
 
 Copyright Notice
 
@@ -112,6 +112,7 @@ Table of Contents
        16.1.1.  sd_claims
        16.1.2.  sd_alg
        16.1.3.  sd_encrypted_claims
+       16.1.4.  sd_aead
      16.2.  CBOR Simple Values
      16.3.  CBOR Tags
        16.3.1.  To be redacted tag
@@ -136,11 +137,12 @@ Table of Contents
      C.1.  Subject / Holder
      C.2.  Issuer
    Appendix D.  Document History
-     D.1.  draft-ietf-spice-sd-cwt-04
-     D.2.  draft-ietf-spice-sd-cwt-03
-     D.3.  draft-ietf-spice-sd-cwt-02
-     D.4.  draft-ietf-spice-sd-cwt-01
-     D.5.  draft-ietf-spice-sd-cwt-00
+     D.1.  draft-ietf-spice-sd-cwt-05
+     D.2.  draft-ietf-spice-sd-cwt-04
+     D.3.  draft-ietf-spice-sd-cwt-03
+     D.4.  draft-ietf-spice-sd-cwt-02
+     D.5.  draft-ietf-spice-sd-cwt-01
+     D.6.  draft-ietf-spice-sd-cwt-00
    Acknowledgments
    Authors' Addresses
 
@@ -920,6 +922,11 @@ Issuer                           Holder                         Verifier
       different subset of those disclosures to the other members of the
       MLS group.
 
+   This document defines two new COSE Header Parameters.  If present in
+   the protected headers, the first header parameter (sd_aead) specifies
+   an IANA registered Authenticated Encryption with Additional Data
+   (AEAD) algorithm [RFC5116].  The second header parameter
+   (sd_encrypted_claims) contains a list of AEAD encrypted disclosures.
    Taking the first example disclosure from above:
 
    <<[
@@ -928,38 +935,43 @@ Issuer                           Holder                         Verifier
        /value/  "ABCD-123456"
    ]>>
 
-   The corresponding bstr is encrypted with an IANA registered
-   Authenticated Encryption with Additional Data (AEAD) algorithm
-   [RFC5116] such as AEAD_AES_128_GCM, using the salt as the nonce.  The
-   salt, the algorithm used (alg), and the resulting ciphertext and mac
-   are put in an array.  The bstr encoding of the array is placed in the
-   sd_encrypted_claims unprotected header field array of the SD-CWT.
+   The corresponding bstr is encrypted with an AEAD algorithm [RFC5116].
+   If present, the algorithm of the sd_aead protected header field is
+   used, or AEAD_AES_128_GCM if no algorithm was specified.  The bstr is
+   encrypted with a unique, random 16-octet nonce.  The nonce (nonce),
+   and the resulting ciphertext and mac are put in an array.  The bstr
+   encoding of the array is placed in the sd_encrypted_claims
+   unprotected header field array of the SD-CWT.
+
+      The encryption mechanism in _this_ section uses AEAD directly
+      instead of COSE encryption, because AEAD is more broadly
+      applicable to some of the other protocols in which encrypted
+      disclosures might be used.
+
    The entire SD-CWT is included in the protected header of the SD-KBT,
    which integrity protects both encrypted and regular disclosures
-   alike.  Neither encrypted nor regular disclosures can appear in the
-   unprotected header of a SD-KBT.
+   alike.  As with regular disclosures, encrypted disclosures MUST NOT
+   appear in the unprotected header of an SD-KBT.
 
    / sd_encrypted_claims / 19 : [ / encrypted disclosures /
        <<[
-           / salt /       h'bae611067bb823486797da1ebbb52f83',
-           / alg /        1, / AEAD_AES_128_GCM /
-           / ciphertext / h'634ae7a62782fbdb978ab2d03ca6a9f0
-                            0f123903f8ab59461fbd8ac3d86ef787
-                            ba9b90',
-           / mac /        h'8ce37110fc882bbf99c5f39e4adba636'
+           / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
+           / ciphertext / h'208cda279ca86444681503830469b705
+                            89654084156c9e65ca02f9ac40cd62b5
+                            a2470d',
+           / mac /        h'1c6e732977453ab2cacbfd578bd238c0'
        ]>>,
        ...
    ]
 
       In the example above the key in hex is
-      'b4fb68a58af8e20e4db2146a934b2d4f'.
+      a061c27a3273721e210d031863ad81b6.
 
    The blinded claim hash is still over the unencrypted disclosure.  The
-   receiver of an encrypted disclosure locates the appropriate key by
-   looking up the unique salt.  If the verifier is able to decrypt and
-   verify an encrypted disclosure, the decrypted disclosure is then
-   processed as if it where in the sd_claims unprotected header in the
-   SD-CWT.
+   receiver of an encrypted disclosure, locates the appropriate key by
+   looking up the mac.  If the verifier is able to decrypt and verify an
+   encrypted disclosure, the decrypted disclosure is then processed as
+   if it where in the sd_claims unprotected header in the SD-CWT.
 
    Details of key management are left to the specific protocols which
    make use of encrypted disclosures.
@@ -968,16 +980,12 @@ Issuer                           Holder                         Verifier
 
    encrypted-array = [ +bstr .cbor encrypted ]
    encrypted = [
-     bstr .size 16,     ; 128-bit salt
-     uint16,            ; IANA AEAD Algorithm number
+     bstr .size 16,     ; 128-bit nonce
      bstr,              ; the ciphertext output of a bstr-encoded-salted
                         ;   with a matching salt
      bstr               ; the corresponding MAC
    ]
    ;bstr-encoded-salted = bstr .cbor salted
-
-      *TODO*: consider moving the AEAD algorithm for all encrypted
-      disclosures into a new protected header field.
 
       Note: because the algorithm is in a registry which contains only
       AEAD algorithms, an attacker cannot replace the algorithm or the
@@ -1501,7 +1509,7 @@ Issuer                           Holder                         Verifier
 
    *  Value Type: int
 
-   *  Value Registry: COSE Algorithms
+   *  Value Registry: IANA COSE Algorithms
 
    *  Description: The hash algorithm used for redacting disclosures.
 
@@ -1523,6 +1531,23 @@ Issuer                           Holder                         Verifier
    *  Description: A list of encrypted selectively disclosed claims,
       which were originally redacted, then later disclosed at the
       discretion of the sender.
+
+   *  Reference: RFC XXXX
+
+16.1.4.  sd_aead
+
+   The following completed registration template per RFC8152 is
+   provided:
+
+   *  Name: sd_aead
+
+   *  Label: TBD7 (requested assignment 20)
+
+   *  Value Type: int
+
+   *  Value Registry: IANA AEAD Algorithm number
+
+   *  Description: The AEAD algorithm used for encrypting disclosures.
 
    *  Reference: RFC XXXX
 
@@ -1830,9 +1855,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-17, 1
-              March 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-selective-disclosure-jwt-17>.
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-18, 28
+              April 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-selective-disclosure-jwt-18>.
 
    [I-D.ietf-httpbis-unprompted-auth]
               Schinazi, D., Oliver, D., and J. Hoyland, "The Concealed
@@ -1889,6 +1914,7 @@ Appendix A.  Complete CDDL Schema
       &(typ: 16) ^ => "application/sd+cwt",
       &(alg: 1) ^ => int,
       &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
+      ? &(sd_aead: TBD7) ^ => uint .size 2
       * key => any
    }
 
@@ -1951,8 +1977,7 @@ Appendix A.  Complete CDDL Schema
 
    encrypted-array = [ +bstr .cbor encrypted ]
    encrypted = [
-     bstr .size 16,     ; 128-bit salt
-     int .size 2,       ; IANA AEAD Algorithm number
+     bstr .size 16,     ; 128-bit nonce
      bstr,              ; the ciphertext output of a bstr-encoded-salted
                         ;   with a matching salt
      bstr               ; the corresponding MAC
@@ -1963,6 +1988,7 @@ Appendix A.  Complete CDDL Schema
    TBD1 = 17
    TBD2 = 18
    TBD6 = 19
+   TBD7 = 20
    ;TBD3 = #6.58(any)    ; CBOR tag wrapping to-be-redacted keys or elements
    TBD4 = #7.59          ; CBOR simple value 59
    ;TBD5 = #6.60( bstr ) ; redacted_claim_element
@@ -2195,7 +2221,11 @@ Appendix D.  Document History
 
    Note: RFC Editor, please remove this entire section on publication.
 
-D.1.  draft-ietf-spice-sd-cwt-04
+D.1.  draft-ietf-spice-sd-cwt-05
+
+   *  add encrypted disclosures
+
+D.2.  draft-ietf-spice-sd-cwt-04
 
    *  use CBOR simple value 59 for the redacted_key_claims
 
@@ -2203,7 +2233,7 @@ D.1.  draft-ietf-spice-sd-cwt-04
 
    *  provide test vectors *TODO*
 
-D.2.  draft-ietf-spice-sd-cwt-03
+D.3.  draft-ietf-spice-sd-cwt-03
 
    *  remove bstr encoding from sd_claims array (but not the individual
       disclosures)
@@ -2235,7 +2265,7 @@ D.2.  draft-ietf-spice-sd-cwt-03
 
    *  add optional encrypted disclosures
 
-D.3.  draft-ietf-spice-sd-cwt-02
+D.4.  draft-ietf-spice-sd-cwt-02
 
    *  KBT now includes the entire SD-CWT in the Confirmation Key CWT
       (kcwt) existing COSE protected header.  Has algorithm now
@@ -2249,7 +2279,7 @@ D.3.  draft-ietf-spice-sd-cwt-02
 
    *  Add section saying SD-CWT updates the CWT spec (RFC8392).  (PR#29)
 
-D.4.  draft-ietf-spice-sd-cwt-01
+D.5.  draft-ietf-spice-sd-cwt-01
 
    *  Added Overview section
 
@@ -2278,7 +2308,7 @@ D.4.  draft-ietf-spice-sd-cwt-01
 
    *  Updated draft metadata
 
-D.5.  draft-ietf-spice-sd-cwt-00
+D.6.  draft-ietf-spice-sd-cwt-00
 
    *  Initial working group version based on draft-prorock-spice-cose-
       sd-cwt-01.
