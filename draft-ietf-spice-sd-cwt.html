@@ -1501,7 +1501,7 @@ However the following guidance is generally recommended, regardless of protocol 
             <p id="section-1.1-4.1.1">The issuer <span class="bcp14">SHOULD</span> confirm the holder controls all confirmation material before issuing credentials using the <code>cnf</code> claim.<a href="#section-1.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-1.1-4.2">
-            <p id="section-1.1-4.2.1">To protect against replay attacks, the verifier <span class="bcp14">SHOULD</span> provide a nonce, and reject requests that do not include an acceptable an nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.<a href="#section-1.1-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-4.2.1">To protect against replay attacks, the verifier <span class="bcp14">SHOULD</span> provide a nonce, and reject requests that do not include an acceptable nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.<a href="#section-1.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
@@ -2060,10 +2060,10 @@ sd-payload = {
       </h2>
 <p id="section-8-1">When a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
 If the Holder wishes to disclose any claims, it includes that subset of its Salted Disclosed Claims in the <code>sd_claims</code> claim of the unprotected header.<a href="#section-8-1" class="pilcrow">¶</a></p>
-<p id="section-8-2">An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder choses the subset of disclosures included in the <code>sd_claims</code> claim.
+<p id="section-8-2">An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder chooses the subset of disclosures included in the <code>sd_claims</code> claim.
 Since the unprotected header is not included in the signature, it will contain all the Salted Disclosed Claims when sent from the Issuer to the Holder.
 When sent from the Holder to the Verifier, the unprotected header will contain none, some, or all of these Claims.
-Finally, the SD-CWT used for presentation to a Verifier is included in a key binding token, as discsused in the next section.<a href="#section-8-2" class="pilcrow">¶</a></p>
+Finally, the SD-CWT used for presentation to a Verifier is included in a key binding token, as discussed in the next section.<a href="#section-8-2" class="pilcrow">¶</a></p>
 <div id="kbt">
 <section id="section-8.1">
         <h3 id="name-creating-a-key-binding-toke">
@@ -2641,7 +2641,7 @@ Issuers <span class="bcp14">MUST</span> perform a privacy and confidentiality as
 <a href="#section-15.5" class="section-number selfRef">15.5. </a><a href="#name-threat-model" class="section-name selfRef">Threat Model</a>
         </h3>
 <p id="section-15.5-1">Each use case will have a unique threat model which <span class="bcp14">MUST</span> be considered before the applicability of SD-CWT based credential types can be determined.
-This section provides a non exahustive list of topics to be consider when developing a threat model for applying SD-CWT to a given use case.<a href="#section-15.5-1" class="pilcrow">¶</a></p>
+This section provides a non exhaustive list of topics to be considered when developing a threat model for applying SD-CWT to a given use case.<a href="#section-15.5-1" class="pilcrow">¶</a></p>
 <p id="section-15.5-2">Has there been a t-closeness, k-anonymity and l-diverity assessment (see <span>[<a href="#t-Closeness" class="cite xref">t-Closeness</a>]</span>) assuming compromise of the one or more issuers, verifiers or holders, for all relevant credential types?<a href="#section-15.5-2" class="pilcrow">¶</a></p>
 <p id="section-15.5-3">How many issuers exist for the credential type?
 Is the size of the set of issuers growing or shrinking over time?
