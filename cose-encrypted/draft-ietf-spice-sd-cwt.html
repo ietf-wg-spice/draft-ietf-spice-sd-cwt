@@ -3369,7 +3369,7 @@ kbt-cwt = #6.18([
 ])
 
 sd-protected = {
-   &amp;(typ: 16) ^ =&gt; "application/sd+cwt",
+   &amp;(typ: 16) ^ =&gt; "application/sd+cwt" / TBD11,
    &amp;(alg: 1) ^ =&gt; int,
    &amp;(sd_alg: TBD2) ^ =&gt; int,        ; -16 for sha-256
    ? &amp;(sd_aead: TBD7) ^ =&gt; uint .size 2
@@ -3377,7 +3377,7 @@ sd-protected = {
 }
 
 kbt-protected = {
-   &amp;(typ: 16) ^ =&gt; "application/kb+cwt",
+   &amp;(typ: 16) ^ =&gt; "application/kb+cwt" / TBD12,
    &amp;(alg: 1) ^ =&gt; int,
    &amp;(kcwt: 13) ^ =&gt; sd-cwt-issued,
    * key =&gt; any
@@ -3480,9 +3480,13 @@ TBD1 = 17
 TBD2 = 18
 TBD6 = 19
 TBD7 = 20
+TBD8 = 21
 ;TBD3 = #6.58(any)    ; CBOR tag wrapping to-be-redacted keys or elements
 TBD4 = #7.59          ; CBOR simple value 59
 ;TBD5 = #6.60( bstr ) ; redacted_claim_element
+
+TBD11 = 298
+TBD12 = 299
 </pre>
 </div>
 <figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
