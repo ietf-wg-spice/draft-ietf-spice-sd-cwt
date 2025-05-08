@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-01T00:54:54.499869+00:00",
+  "timestamp": "2025-05-08T00:50:43.641480+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1062,7 +1062,7 @@
       "id": "I_kwDOMm_Q2s6ugHwY",
       "title": "strings vs. text strings",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/65",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "cabo",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1074,8 +1074,8 @@
       ],
       "body": "The text is sometimes using \"strings\" when it means \"text strings\" only.\n(Editorial: The other strings are called \"byte strings\".)",
       "createdAt": "2025-03-18T08:51:14Z",
-      "updatedAt": "2025-04-16T13:27:12Z",
-      "closedAt": null,
+      "updatedAt": "2025-05-07T13:20:46Z",
+      "closedAt": "2025-05-07T13:20:45Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -1104,6 +1104,13 @@
           "body": "The solution to this issue is to add the word \"text\" in front of any strings that do not yet have the word \"byte\" in front of them? (and make sure that all instances are correctly applied) ?",
           "createdAt": "2025-04-02T14:08:09Z",
           "updatedAt": "2025-04-02T14:08:09Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Resolved",
+          "createdAt": "2025-05-07T13:20:45Z",
+          "updatedAt": "2025-05-07T13:20:45Z"
         }
       ]
     },
@@ -1151,7 +1158,7 @@
       ],
       "body": "Salt can carry extra information.  The ordering of items can carry information.  Do we have any other examples?  Can these all be documented so that people understand what covert channels might exist past the holder?",
       "createdAt": "2025-03-18T08:58:22Z",
-      "updatedAt": "2025-04-16T13:24:02Z",
+      "updatedAt": "2025-05-07T13:23:47Z",
       "closedAt": null,
       "comments": [
         {
@@ -1167,6 +1174,13 @@
           "body": "Misusing the salt compromises security assumptions, and can lead to accidental disclosure or covert channels.\n\nDeterminstic salts could be an encrypted message",
           "createdAt": "2025-04-02T13:44:41Z",
           "updatedAt": "2025-04-16T13:24:00Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Any place where there is \"apparently random\" data, can be used as a covert channel.... also any place where ordering can change, or where timestamp precision is needlessly high.",
+          "createdAt": "2025-05-07T13:23:46Z",
+          "updatedAt": "2025-05-07T13:23:46Z"
         }
       ]
     },
@@ -5630,7 +5644,7 @@
       "labels": [],
       "body": "- replace 59(0) with simple(59) in the draft and CDDL\r\n- fix the EDN examples to match\r\n- fix a bug with display of booleans in EDN\r\n- update first-disclosure.pretty to be consistent with first-disclosure.cbor\r\n- update encrypted example to use correct salt",
       "createdAt": "2025-03-08T06:35:03Z",
-      "updatedAt": "2025-03-13T13:50:19Z",
+      "updatedAt": "2025-05-07T16:24:17Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "ba64c6036fee39ffe128d2d8099bba5d43f443bb",
@@ -5707,24 +5721,26 @@
       "id": "PR_kwDOMm_Q2s6PB-Fk",
       "title": "Make encrypted disclosures not leak the disclosure nonce",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/64",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- Use a separate nonce (not the salt) for encryption\r\n- find the key using the mac (instead of the salt)\r\n- put the AEAD algorithm in a new protected header or use default",
       "createdAt": "2025-03-18T04:11:54Z",
-      "updatedAt": "2025-04-30T13:40:34Z",
+      "updatedAt": "2025-05-07T16:24:16Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "49985186f2298613d8104a7c3844b55f2351f413",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "fix-encrypted",
       "headRefOid": "a91659ea1d7ebc7b5eccc9e120c385e850999269",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-07T13:14:47Z",
+      "mergedAt": "2025-05-07T13:14:47Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "f90687093f559adf17334c090298b3e8e0eee850"
+      },
       "comments": [
         {
           "author": "rohanmahy",
@@ -5934,6 +5950,52 @@
               "updatedAt": "2025-04-30T13:37:59Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6gg9ch",
+          "commit": {
+            "abbreviatedOid": "a91659e"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-18T05:18:40Z",
+          "updatedAt": "2025-05-07T13:10:51Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "This seems app/ protocol specific.\n\nI wonder if implementing this with vanilla HPKE, I would need anything other than to output the CT.\n\nI can provide an example using COSE HPKE if it's helpful, but I wonder if this is starting to add more detail than is necessary or appropriate for this draft.",
+              "createdAt": "2025-03-18T05:21:42Z",
+              "updatedAt": "2025-05-07T13:10:51Z"
+            },
+            {
+              "originalPosition": 83,
+              "body": "Is this an existing IANA registry?\n\nI wonder if this should be COSE algorithms registry instead.",
+              "createdAt": "2025-03-18T05:23:59Z",
+              "updatedAt": "2025-05-07T13:10:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6oL9r-",
+          "commit": {
+            "abbreviatedOid": "512546c"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-07T13:14:40Z",
+          "updatedAt": "2025-05-07T13:14:41Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "We're going to merge with this comment unresolved, if its important or still not clear, please file an issue.",
+              "createdAt": "2025-05-07T13:14:40Z",
+              "updatedAt": "2025-05-07T13:14:41Z"
+            }
+          ]
         }
       ]
     },
@@ -5986,6 +6048,165 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 71,
+      "id": "PR_kwDOMm_Q2s6VRFZv",
+      "title": "make use of text string and byte string consistent",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/71",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- addresses #65 \r\n- s/binary string/byte string/\r\n- fix some plurals\r\n- does not touch bare uses of \"string\" referring to JSON strings.",
+      "createdAt": "2025-05-07T12:44:04Z",
+      "updatedAt": "2025-05-07T16:24:13Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "e2db3949490eb3b7243e52accdc8397dc4ec5094",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "strings",
+      "headRefOid": "dbaeffa9ef6e71ffa2a389d778582f0613063c83",
+      "closedAt": "2025-05-07T13:17:44Z",
+      "mergedAt": "2025-05-07T13:17:43Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "615deca71ee51a3913f892483310afef4dc89d30"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6oL-Qe",
+          "commit": {
+            "abbreviatedOid": "dbaeffa"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-07T13:15:19Z",
+          "updatedAt": "2025-05-07T13:15:19Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 72,
+      "id": "PR_kwDOMm_Q2s6VSIiH",
+      "title": "typos",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/72",
+      "state": "MERGED",
+      "author": "cabo",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-07T14:24:36Z",
+      "updatedAt": "2025-05-07T14:27:47Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "615deca71ee51a3913f892483310afef4dc89d30",
+      "headRepository": "cabo/draft-ietf-spice-sd-cwt",
+      "headRefName": "typos",
+      "headRefOid": "17d04d63511f855b3422ef5440bf99e181abb6c9",
+      "closedAt": "2025-05-07T14:27:47Z",
+      "mergedAt": "2025-05-07T14:27:47Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thansk Carsten! My esplling is terrrible. ;-)",
+          "createdAt": "2025-05-07T14:27:41Z",
+          "updatedAt": "2025-05-07T14:27:41Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6oNAYt",
+          "commit": {
+            "abbreviatedOid": "17d04d6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-07T14:26:55Z",
+          "updatedAt": "2025-05-07T14:26:55Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 73,
+      "id": "PR_kwDOMm_Q2s6VS4IZ",
+      "title": "Unbreak CDDL",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/73",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Make text and appendix agree, e.g.,\r\nTBD1 and TBD2 were used for two different things, now separated out\r\n\r\nOpen:\r\n\r\n* Warning: *** Unused rule redacted_claim_element\r\n* Where would I use TBD3?\r\n* Are we sure we want two-byte content-formats for TBD-SD and TBD-KB?",
+      "createdAt": "2025-05-07T15:24:44Z",
+      "updatedAt": "2025-05-07T16:11:27Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
+      "headRepository": "cabo/draft-ietf-spice-sd-cwt",
+      "headRefName": "unbreak-cddl",
+      "headRefOid": "6b36a432a814348ba5d09e69b769b576094ad1b6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi Carsten, All else being equal, I'd prefer to stick with the TBD<n> format because it is a more common convention.\r\n\r\nIs this supposed to be valid CDDL? It does not validate for me using cddl-rs:\r\n\r\n```\r\nredacted_claim_element = #6.<TBD5>( bstr .size 16 )\r\n```\r\n\r\nAll the CDDL and CBOR in the directory should validate.",
+          "createdAt": "2025-05-07T15:59:36Z",
+          "updatedAt": "2025-05-07T15:59:36Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> Hi Carsten, All else being equal, I'd prefer to stick with the TBD format because it is a more common convention.\r\n> \r\n\r\nI thought I stuck with the TBD format (instead of using CPA...).\r\n\r\n> Is this supposed to be valid CDDL? It does not validate for me using cddl-rs:\r\n> \r\n> ```\r\n> redacted_claim_element = #6.<TBD5>( bstr .size 16 )\r\n> ```\r\n\r\nPlease see [1].\r\n\r\n[1]: https://www.rfc-editor.org/rfc/rfc9682.html#figure-10\r\n\r\nOf course, we can put in a grace period for other implementations to pick this up; redacted_claim_element isn't being used at the moment anyway and the TBDs will go away on early allocation (which I hope we have planned for pretty soon...)\r\n\r\n> All the CDDL and CBOR in the directory should validate.\r\n\r\nThe CDDL already \"validates\" (is valid CDDL), I haven't checked whether it does the right thing.   Might not have enough time today to validate the CBOR against the CDDL (needs some TLC to set up a mapping from those of the 16 examples that aren't encrypted to which CDDL rule governs them).\r\n",
+          "createdAt": "2025-05-07T16:09:02Z",
+          "updatedAt": "2025-05-07T16:09:02Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 74,
+      "id": "PR_kwDOMm_Q2s6VUz9S",
+      "title": "change order of claim name and value in disclosures array",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/74",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- change order of claim name and value in disclosures array\r\n- regenerate all the examples\r\n- fix bug in script generating encrypted disclosures\r\n\r\naddress issue #54 ",
+      "createdAt": "2025-05-07T19:13:16Z",
+      "updatedAt": "2025-05-07T19:13:44Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "disc-field-order",
+      "headRefOid": "f1de6bf6ae030ce36c9701a86db5339f0bd699e6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
