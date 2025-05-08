@@ -79,18 +79,18 @@ salted-element = [
 decoy = [
   bstr .size 16      ; 128-bit salt
 ]
+;bstr-encoded-salted = bstr .cbor salted
 
-encrypted-array = [ +bstr .cbor encrypted ]
+encrypted-array = [ +encrypted ]
 encrypted = [
   bstr .size 16,     ; 128-bit nonce
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
   bstr               ; the corresponding MAC
 ]
-;bstr-encoded-salted = bstr .cbor salted
 
-cose-encrypted-array = [ +cose-encrypted-disclosure ]
-cose-encrypted-disclosure = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
+cose-encrypted-array = [ +cose-encrypted ]
+cose-encrypted = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
 
 COSE_Encrypt0_Tagged = #6.16(COSE_Encrypt0)
 COSE_Encrypt_Tagged = #6.96(COSE_Encrypt)

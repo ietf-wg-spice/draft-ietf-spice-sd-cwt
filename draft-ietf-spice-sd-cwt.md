@@ -591,19 +591,19 @@ Taking the first example disclosure from above:
 The corresponding bstr is encrypted with an AEAD algorithm {{!RFC5116}}.
 If present, the algorithm of the `sd_aead` protected header field is used, or AEAD_AES_128_GCM if no algorithm was specified. The bstr is encrypted with a unique, random 16-octet nonce.
 The nonce (`nonce`), and the resulting `ciphertext` and `mac` are put in an array.
-The bstr encoding of the array is placed in the `sd_encrypted_claims` unprotected header field array of the SD-CWT.
+The resulting array is placed in the `sd_encrypted_claims` unprotected header field array of the SD-CWT.
 
 > The encryption mechanism in *this* section uses AEAD directly instead of COSE encryption, because AEAD is more broadly applicable to some of the other protocols in which encrypted disclosures might be used.
 
 ~~~ cbor-diag
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /
-    <<[
+    [
         / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
         / ciphertext / h'208cda279ca86444681503830469b705
                          89654084156c9e65ca02f9ac40cd62b5
                          a2470d',
         / mac /        h'1c6e732977453ab2cacbfd578bd238c0'
-    ]>>,
+    ],
     ...
 ]
 ~~~
@@ -637,10 +637,10 @@ This section defines the new COSE Header Parameter (`sd_code_encrypted_claims`) 
 
 Its contents have the same semantics as the AEAD encrypted disclosures in the previous section.
 
-Taking the bstr encoding of the example disclosure in the previous section as the payload, the key and nonce from the previous section, encrypting with COSE_Encrypt0 using the COSE A128GCM algorithm, and bstr encoding the result yields the following COSE encrypted disclosure.
+Taking the bstr encoding of the example disclosure in the previous section as the payload, the key and nonce from the previous section, and encrypting with COSE_Encrypt0 using the COSE A128GCM algorithm, yields the following COSE encrypted disclosure.
 
 ~~~ cbor-diag
-/ sd_cose_encrypted_claims / 20 : [
+/ sd_cose_encrypted_claims / 21 : [
     /COSE_Encrypt0/  16([
       /protected/ {
         /alg/ 1: 1, /A128GCM/
@@ -652,15 +652,16 @@ Taking the bstr encoding of the example disclosure in the previous section as th
                      e3c323087a0345c76c163d300b1b3346
                      49ce511302fd147b2ab125297cf540cf
                      4f9e'
-    ])
+    ]),
+    ...
 ]
 ~~~
 
 The CDDL for COSE encrypted disclosures is described below:
 
 ~~~ cddl
-cose-encrypted-array = [ +cose-encrypted-disclosure ]
-cose-encrypted-disclosure = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
+cose-encrypted-array = [ +bstr .cbor cose-encrypted ]
+cose-encrypted = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
 ~~~
 
 The IANA COSE Algorithms registry contains many deprecated and unsafe algorithms.
