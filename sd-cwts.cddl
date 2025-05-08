@@ -31,7 +31,8 @@ kbt-protected = {
 
 sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => salted-array,
-   ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array
+   ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
+   ? &(sd_cose_encrypted_claims: TBD8) ^ => cose-encrypted-array,
    * key => any   
 }
 
@@ -87,6 +88,38 @@ encrypted = [
   bstr               ; the corresponding MAC
 ]
 ;bstr-encoded-salted = bstr .cbor salted
+
+cose-encrypted-array = [ +cose-encrypted-disclosure ]
+cose-encrypted-disclosure = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
+
+COSE_Encrypt0_Tagged = #6.16(COSE_Encrypt0)
+COSE_Encrypt_Tagged = #6.96(COSE_Encrypt)
+
+COSE_Encrypt0 = [
+    Headers,
+    ciphertext : bstr / nil,
+]
+
+COSE_Encrypt = [
+    Headers,
+    ciphertext : bstr / nil,
+    recipients : [+COSE_recipient]
+]
+
+COSE_recipient = [
+    Headers,
+    ciphertext : bstr / nil,
+    ? recipients : [+COSE_recipient]
+]
+
+Headers = (
+    protected : empty_or_serialized_map,
+    unprotected : header_map
+)
+header_map = {
+    *any => value
+}
+empty_or_serialized_map = bstr .cbor header_map / bstr .size 0
 
 key = int / text
 TBD1 = 17
