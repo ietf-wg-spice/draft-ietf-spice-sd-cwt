@@ -44,7 +44,7 @@ sd-payload = {
     ; standard claims
       &(iss: 1) ^ => tstr, ; "https://issuer.example"
     ? &(sub: 2) ^ => tstr, ; "https://device.example"
-    ? &(aud: 3) ^ => tstr, ; "https://verifier.example"
+    ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
     ? &(iat: 6) ^ => int,  ; 1683000000
@@ -57,7 +57,7 @@ sd-payload = {
 }
 
 kbt-payload = {
-      &(aud: 3) ^ => tstr, ; "https://verifier.example"
+      &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
       &(iat: 6) ^ => int,  ; 1683000000
@@ -127,9 +127,10 @@ TBD2 = 18
 TBD6 = 19
 TBD7 = 20
 TBD8 = 21
-;TBD3 = #6.58(any)    ; CBOR tag wrapping to-be-redacted keys or elements
+
+TBD3 = 58; #6.<TBD3>(any) tag wrapping to-be-redacted keys or elements
 TBD4 = #7.59          ; CBOR simple value 59
-;TBD5 = #6.60( bstr ) ; redacted_claim_element
+TBD5 = 60; #6.<TBD5>(bstr) redacted_claim_element
 
 TBD11 = 298
 TBD12 = 299
