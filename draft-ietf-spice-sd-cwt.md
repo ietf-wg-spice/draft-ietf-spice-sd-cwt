@@ -504,7 +504,7 @@ kbt-cwt = #6.18([
 ])
 
 kbt-protected = {
-   &(typ: 16) ^ => TBD-KB / "application/kb+cwt",
+   &(typ: 16) ^ => "application/kb+cwt" / TBD12,
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
    * key => any
