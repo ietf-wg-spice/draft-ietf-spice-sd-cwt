@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 9 November 2025                                     H. Birkholz
+Expires: 15 November 2025                                    H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                              8 May 2025
+                                                             14 May 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 November 2025.
+   This Internet-Draft will expire on 15 November 2025.
 
 Copyright Notice
 
@@ -1829,9 +1829,9 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "CBOR Extended Diagnostic Notation (EDN)",
               Work in Progress, Internet-Draft, draft-ietf-cbor-edn-
-              literals-16, 8 January 2025,
+              literals-17, 12 May 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              edn-literals-16>.
+              edn-literals-17>.
 
    [IANA.core-parameters]
               IANA, "Constrained RESTful Environments (CoRE)
@@ -1906,9 +1906,9 @@ Issuer                           Holder                         Verifier
 
    [I-D.draft-ietf-cbor-cde]
               Bormann, C., "CBOR Common Deterministic Encoding (CDE)",
-              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-10,
-              1 April 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-cbor-cde-10>.
+              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-11,
+              12 May 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-cbor-cde-11>.
 
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",
@@ -1927,9 +1927,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-18, 28
-              April 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-selective-disclosure-jwt-18>.
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-19, 12
+              May 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-selective-disclosure-jwt-19>.
 
    [I-D.ietf-httpbis-unprompted-auth]
               Schinazi, D., Oliver, D., and J. Hoyland, "The Concealed
@@ -2085,7 +2085,7 @@ Appendix A.  Complete CDDL Schema
        unprotected : header_map
    )
    header_map = {
-       *any => value
+       * key => any
    }
    empty_or_serialized_map = bstr .cbor header_map / bstr .size 0
 
