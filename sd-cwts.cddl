@@ -15,7 +15,7 @@ kbt-cwt = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => TBD-SD / "application/sd+cwt",
+   &(typ: 16) ^ => "application/sd+cwt" / TBD11,
    &(alg: 1) ^ => int,
    &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
    ? &(sd_aead: TBD7) ^ => uint .size 2
@@ -23,7 +23,7 @@ sd-protected = {
 }
 
 kbt-protected = {
-   &(typ: 16) ^ => TBD-KB / "application/kb+cwt",
+   &(typ: 16) ^ => "application/kb+cwt" / TBD12,
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
    * key => any
@@ -32,6 +32,7 @@ kbt-protected = {
 sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => salted-array,
    ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
+   ? &(sd_cose_encrypted_claims: TBD8) ^ => cose-encrypted-array,
    * key => any
 }
 
@@ -68,8 +69,8 @@ salted-array = [ +bstr .cbor salted ]
 salted = salted-claim / salted-element / decoy
 salted-claim = [
   bstr .size 16,     ; 128-bit salt
-  (int / text),      ; claim name
-  any                ; claim value
+  any,               ; claim value
+  (int / text)       ; claim name
 ]
 salted-element = [
   bstr .size 16,     ; 128-bit salt
@@ -78,23 +79,58 @@ salted-element = [
 decoy = [
   bstr .size 16      ; 128-bit salt
 ]
+;bstr-encoded-salted = bstr .cbor salted
 
-encrypted-array = [ +bstr .cbor encrypted ]
+encrypted-array = [ +encrypted ]
 encrypted = [
   bstr .size 16,     ; 128-bit nonce
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
   bstr               ; the corresponding MAC
 ]
-;bstr-encoded-salted = bstr .cbor salted
+
+cose-encrypted-array = [ +cose-encrypted ]
+cose-encrypted = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
+
+COSE_Encrypt0_Tagged = #6.16(COSE_Encrypt0)
+COSE_Encrypt_Tagged = #6.96(COSE_Encrypt)
+
+COSE_Encrypt0 = [
+    Headers,
+    ciphertext : bstr / nil,
+]
+
+COSE_Encrypt = [
+    Headers,
+    ciphertext : bstr / nil,
+    recipients : [+COSE_recipient]
+]
+
+COSE_recipient = [
+    Headers,
+    ciphertext : bstr / nil,
+    ? recipients : [+COSE_recipient]
+]
+
+Headers = (
+    protected : empty_or_serialized_map,
+    unprotected : header_map
+)
+header_map = {
+    * key => any
+}
+empty_or_serialized_map = bstr .cbor header_map / bstr .size 0
 
 key = int / text
 TBD1 = 17
 TBD2 = 18
 TBD6 = 19
 TBD7 = 20
+TBD8 = 21
+
 TBD3 = 58; #6.<TBD3>(any) tag wrapping to-be-redacted keys or elements
 TBD4 = #7.59          ; CBOR simple value 59
 TBD5 = 60; #6.<TBD5>(bstr) redacted_claim_element
-TBD-SD = 298          ; content-format for application/sd+cwt
-TBD-KB = 299          ; content-format for application/kb+cwt
+
+TBD11 = 298
+TBD12 = 299
