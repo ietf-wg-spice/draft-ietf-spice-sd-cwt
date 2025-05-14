@@ -427,7 +427,7 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => TBD-SD / "application/sd+cwt",
+   &(typ: 16) ^ => "application/sd+cwt" / TBD11,
    &(alg: 1) ^ => int,
    &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
    ? &(sd_aead: TBD7) ^ => uint .size 2
