@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-11T00:53:52.409682+00:00",
+  "timestamp": "2025-05-15T00:49:13.328658+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -6153,13 +6153,13 @@
       "labels": [],
       "body": "Make text and appendix agree, e.g.,\r\nTBD1 and TBD2 were used for two different things, now separated out\r\n\r\nOpen:\r\n\r\n* Warning: *** Unused rule redacted_claim_element\r\n* Where would I use TBD3?\r\n* Are we sure we want two-byte content-formats for TBD-SD and TBD-KB?",
       "createdAt": "2025-05-07T15:24:44Z",
-      "updatedAt": "2025-05-07T16:11:27Z",
+      "updatedAt": "2025-05-14T17:56:41Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
-      "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
+      "baseRefOid": "0e9b917d0074f9075265245d423c49e078b972d8",
       "headRepository": "cabo/draft-ietf-spice-sd-cwt",
       "headRefName": "unbreak-cddl",
-      "headRefOid": "6b36a432a814348ba5d09e69b769b576094ad1b6",
+      "headRefOid": "e3fc06d4bf0eb14404367465b4026abbd99e3701",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -6178,55 +6178,329 @@
           "body": "> Hi Carsten, All else being equal, I'd prefer to stick with the TBD format because it is a more common convention.\r\n> \r\n\r\nI thought I stuck with the TBD format (instead of using CPA...).\r\n\r\n> Is this supposed to be valid CDDL? It does not validate for me using cddl-rs:\r\n> \r\n> ```\r\n> redacted_claim_element = #6.<TBD5>( bstr .size 16 )\r\n> ```\r\n\r\nPlease see [1].\r\n\r\n[1]: https://www.rfc-editor.org/rfc/rfc9682.html#figure-10\r\n\r\nOf course, we can put in a grace period for other implementations to pick this up; redacted_claim_element isn't being used at the moment anyway and the TBDs will go away on early allocation (which I hope we have planned for pretty soon...)\r\n\r\n> All the CDDL and CBOR in the directory should validate.\r\n\r\nThe CDDL already \"validates\" (is valid CDDL), I haven't checked whether it does the right thing.   Might not have enough time today to validate the CBOR against the CDDL (needs some TLC to set up a mapping from those of the 16 examples that aren't encrypted to which CDDL rule governs them).\r\n",
           "createdAt": "2025-05-07T16:09:02Z",
           "updatedAt": "2025-05-07T16:09:02Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We just did some heavy merges which introduced some conflicts. I'll see if I can resolve these.",
+          "createdAt": "2025-05-14T14:05:04Z",
+          "updatedAt": "2025-05-14T14:05:04Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6pSRgt",
+          "commit": {
+            "abbreviatedOid": "6b36a43"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T13:12:19Z",
+          "updatedAt": "2025-05-14T13:12:20Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "This syntax is not well supported by current tooling.",
+              "createdAt": "2025-05-14T13:12:19Z",
+              "updatedAt": "2025-05-14T13:12:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6pSnTC",
+          "commit": {
+            "abbreviatedOid": "6b36a43"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T13:34:33Z",
+          "updatedAt": "2025-05-14T13:34:33Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "Before we had a way to put in a variable for a tag number (RFC 9682), we often did something like this:\r\n\r\n```\r\nTBD3<T> = #6.58(T)\r\n```\r\n\r\nbut given that `T` is `any` here anyway\r\n\r\n```\r\nTBD3 = #6.58(any)\r\n```\r\n\r\nis fine, even if only the 58 is the actual TBD.",
+              "createdAt": "2025-05-14T13:34:33Z",
+              "updatedAt": "2025-05-14T13:34:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6pTNNa",
+          "commit": {
+            "abbreviatedOid": "2c354b5"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T14:12:54Z",
+          "updatedAt": "2025-05-14T14:12:54Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "```suggestion\r\n   &(typ: 16) ^ => \"application/sd+cwt\" / TBD11,\r\n```",
+              "createdAt": "2025-05-14T14:12:54Z",
+              "updatedAt": "2025-05-14T14:12:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6pTOkB",
+          "commit": {
+            "abbreviatedOid": "2c354b5"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T14:14:20Z",
+          "updatedAt": "2025-05-14T14:14:21Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "```suggestion\r\n   &(typ: 16) ^ => \"application/kb+cwt\" / TBD12,\r\n```",
+              "createdAt": "2025-05-14T14:14:20Z",
+              "updatedAt": "2025-05-14T14:14:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6pUCfu",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T15:14:17Z",
+          "updatedAt": "2025-05-14T15:14:18Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Interesting.\r\nWhy do you want the less efficient media type name first?\r\n",
+              "createdAt": "2025-05-14T15:14:17Z",
+              "updatedAt": "2025-05-14T15:14:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6pVsAE",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T17:50:16Z",
+          "updatedAt": "2025-05-14T17:50:16Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I put the more readable token first. I don't anticipate we are going to experience a performance problem and implementors are free to reorder.\r\n\r\nI needed to touch these two lines to fix a conflict anyway.",
+              "createdAt": "2025-05-14T17:50:16Z",
+              "updatedAt": "2025-05-14T17:50:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6pVxZX",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T17:56:41Z",
+          "updatedAt": "2025-05-14T17:56:41Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "cddl-rs doesn't support the #6.< > syntax introduced in RFC9682. It only supports RFC8610 syntax.\r\n\r\nI see where you are going and can propose something I think will work nicely here.",
+              "createdAt": "2025-05-14T17:56:41Z",
+              "updatedAt": "2025-05-14T17:56:41Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 74,
       "id": "PR_kwDOMm_Q2s6VUz9S",
       "title": "change order of claim name and value in disclosures array",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/74",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- change order of claim name and value in disclosures array\r\n- regenerate all the examples\r\n- fix bug in script generating encrypted disclosures\r\n\r\naddress issue #54 ",
       "createdAt": "2025-05-07T19:13:16Z",
-      "updatedAt": "2025-05-07T19:13:44Z",
+      "updatedAt": "2025-05-14T13:16:09Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "disc-field-order",
       "headRefOid": "f1de6bf6ae030ce36c9701a86db5339f0bd699e6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-14T13:16:09Z",
+      "mergedAt": "2025-05-14T13:16:09Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "ca9064a5f0ab13e808019c8fe78a1d4c9ad02458"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6pSTpt",
+          "commit": {
+            "abbreviatedOid": "f1de6bf"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-14T13:14:45Z",
+          "updatedAt": "2025-05-14T13:14:45Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 75,
       "id": "PR_kwDOMm_Q2s6VfgOD",
       "title": "Add COSE encrypted disclosures",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/75",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "also fixes a duplicate TBD1/TBD2 for CoAP registry (now TBD11, TBD12)\r\n\r\naddresses #66 ",
       "createdAt": "2025-05-08T20:53:16Z",
-      "updatedAt": "2025-05-08T20:53:33Z",
+      "updatedAt": "2025-05-14T13:59:19Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "ca9064a5f0ab13e808019c8fe78a1d4c9ad02458",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "cose-encrypted",
+      "headRefOid": "65a023b99f63eb481d954473ed7c1e29edddfd73",
+      "closedAt": "2025-05-14T13:59:19Z",
+      "mergedAt": "2025-05-14T13:59:19Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "0e9b917d0074f9075265245d423c49e078b972d8"
+      },
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Approved to be merged after conflicts are addressed.",
+          "createdAt": "2025-05-14T13:52:09Z",
+          "updatedAt": "2025-05-14T13:52:09Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6pStnc",
+          "commit": {
+            "abbreviatedOid": "1ea9d28"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T13:40:47Z",
+          "updatedAt": "2025-05-14T13:40:47Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "for sec considerations.\r\n\r\n... The entire SD-CWT is included in the protected header of the SD-KBT, which integrity protects both encrypted and regular disclosures alike.",
+              "createdAt": "2025-05-14T13:40:47Z",
+              "updatedAt": "2025-05-14T13:40:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6pSyzs",
+          "commit": {
+            "abbreviatedOid": "1ea9d28"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T13:45:27Z",
+          "updatedAt": "2025-05-14T13:45:27Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "also for sec considerations:\r\n\r\nThe inner verify is assured that the key binding token accepted by the outer verifier, has integrity protected, all disclosures in the issuer signed SD-CWT.",
+              "createdAt": "2025-05-14T13:45:27Z",
+              "updatedAt": "2025-05-14T13:45:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6pSy4D",
+          "commit": {
+            "abbreviatedOid": "1ea9d28"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-14T13:45:32Z",
+          "updatedAt": "2025-05-14T13:45:33Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nThe entire SD-CWT is included in the protected header of the SD-KBT, which secured the entire issuer signed SD-CWT including its unprotected headers which include its disclosures.\r\n\r\nWhen encrypted disclosures are present they MUST be in the unprotected header of the issuer signed SD-CWT, before the SD-KBT can be generated by the holder.\r\n\r\nThe verifier of the key binding token, MAY not be able to decrypt encrypted disclosures, and MAY decide to forward them to an inner verifier that can decrypt them.\r\n```",
+              "createdAt": "2025-05-14T13:45:33Z",
+              "updatedAt": "2025-05-14T13:45:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6pS4Oc",
+          "commit": {
+            "abbreviatedOid": "432e413"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-14T13:50:31Z",
+          "updatedAt": "2025-05-14T13:50:31Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 76,
+      "id": "PR_kwDOMm_Q2s6WJqwt",
+      "title": "Generate examples with claims in sorted order",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/76",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-14T12:03:48Z",
+      "updatedAt": "2025-05-14T12:03:48Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
-      "headRefName": "cose-encrypted",
-      "headRefOid": "36427b5befdffa6caee71f8abeba357c5ea61dc7",
+      "headRefName": "canonical-order",
+      "headRefOid": "27b1d5eb0eb1c3eafc746e267d9ad633513bcfaa",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
