@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-15T00:49:13.328658+00:00",
+  "timestamp": "2025-05-20T00:52:03.373691+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -6153,7 +6153,7 @@
       "labels": [],
       "body": "Make text and appendix agree, e.g.,\r\nTBD1 and TBD2 were used for two different things, now separated out\r\n\r\nOpen:\r\n\r\n* Warning: *** Unused rule redacted_claim_element\r\n* Where would I use TBD3?\r\n* Are we sure we want two-byte content-formats for TBD-SD and TBD-KB?",
       "createdAt": "2025-05-07T15:24:44Z",
-      "updatedAt": "2025-05-14T17:56:41Z",
+      "updatedAt": "2025-05-19T15:22:14Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "0e9b917d0074f9075265245d423c49e078b972d8",
@@ -6325,6 +6325,186 @@
               "body": "cddl-rs doesn't support the #6.< > syntax introduced in RFC9682. It only supports RFC8610 syntax.\r\n\r\nI see where you are going and can propose something I think will work nicely here.",
               "createdAt": "2025-05-14T17:56:41Z",
               "updatedAt": "2025-05-14T17:56:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6p6AbV",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T12:17:25Z",
+          "updatedAt": "2025-05-19T12:17:26Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\r\n; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax\r\n```\r\n\r\nThe hash can use other algorithms, so it might not be size 16. RFC 9682 syntax is fine in a comment",
+              "createdAt": "2025-05-19T12:17:26Z",
+              "updatedAt": "2025-05-19T12:17:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6p6A-O",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T12:18:15Z",
+          "updatedAt": "2025-05-19T12:18:16Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "```suggestion\r\n    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],\r\n```",
+              "createdAt": "2025-05-19T12:18:15Z",
+              "updatedAt": "2025-05-19T12:18:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6p6CWF",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T12:20:20Z",
+          "updatedAt": "2025-05-19T12:20:20Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "```suggestion\r\n;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements\r\n```\r\nthis should stay a comment since it isn't actually used.",
+              "createdAt": "2025-05-19T12:20:20Z",
+              "updatedAt": "2025-05-19T12:20:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6p6Eqj",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T12:23:48Z",
+          "updatedAt": "2025-05-19T12:23:48Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\nREDACTED_KEYS = #7.59  ; #7.<TBD4>\r\n;TBD4 = #7.59          ; CBOR simple value 59\r\n```",
+              "createdAt": "2025-05-19T12:23:48Z",
+              "updatedAt": "2025-05-19T12:23:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6p6GT7",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T12:26:04Z",
+          "updatedAt": "2025-05-19T12:26:05Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "```suggestion\r\n;REDACTED_ELEMENT = #6.<TBD5>(bstr)\r\n;TBD5 = 60; CBOR tag wrapping redacted_claim_element\r\n```",
+              "createdAt": "2025-05-19T12:26:04Z",
+              "updatedAt": "2025-05-19T12:26:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6p6GVd",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T12:26:06Z",
+          "updatedAt": "2025-05-19T12:26:07Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "If the goal is to recommend one media type over the other (for efficiency reasons), that should be done in text, not in the samples.\r\n\r\nI'd welcome some text on this, I think its bad to give options without explaining when they should be used.\r\n\r\n",
+              "createdAt": "2025-05-19T12:26:06Z",
+              "updatedAt": "2025-05-19T12:26:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6p6LMF",
+          "commit": {
+            "abbreviatedOid": "6b36a43"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T12:33:10Z",
+          "updatedAt": "2025-05-19T12:33:11Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "@cabo , I made some suggestions, based on these guidelines: \r\n\r\n- TBD_x_ should be whatever integer actually gets registered in IANA. I sort of had it meaning the wrapped tag and the integer value. Thanks for catching this.\r\n- The `#6.<TBDx>` syntax is fine in a comment. \r\n- When we actually need to validate the CBOR containing a tag or simple value with a TBD value, I suggest a name for the tag or simple value with a concrete number, with a comment of `#6.<TBDx>` , then a commented line for the TBD_x_ integer value.\r\n\r\nDoes that work for you?",
+              "createdAt": "2025-05-19T12:33:11Z",
+              "updatedAt": "2025-05-19T12:33:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6p8P_a",
+          "commit": {
+            "abbreviatedOid": "6b36a43"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T15:14:48Z",
+          "updatedAt": "2025-05-19T15:14:49Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "If I understand you right, that works for me.\r\nThe whole \"TBD\" thing goes away after early allocation, so we don't need to spend too much time on this.\r\nI just wanted to make sure I can run a validator on the actual spec and not something I have manually derived from it.\r\n\r\nBTW, which tool was it that doesn't support `#6.<foo>` yet?",
+              "createdAt": "2025-05-19T15:14:48Z",
+              "updatedAt": "2025-05-19T15:14:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6p8Xhn",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T15:22:14Z",
+          "updatedAt": "2025-05-19T15:22:14Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "> If the goal is to recommend one media type over the other (for efficiency reasons), that should be done in text, not in the samples.\r\n\r\nThe media type is the same, this is about having or not having a content-foramt number for it.\r\n\r\n> I'd welcome some text on this, I think its bad to give options without explaining when they should be used.\r\n\r\nThe short answer is that the string-based form should never be used.\r\nThe long answer is that someone might not have got around to registering a content-format number for the media type yet.\r\nThe whole thing has a strong flavor of X-Dash (RFC 6648).",
+              "createdAt": "2025-05-19T15:22:14Z",
+              "updatedAt": "2025-05-19T15:22:14Z"
             }
           ]
         }
