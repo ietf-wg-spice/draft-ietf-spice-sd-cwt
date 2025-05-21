@@ -128,9 +128,11 @@ TBD6 = 19
 TBD7 = 20
 TBD8 = 21
 
-TBD3 = 58; #6.<TBD3>(any) tag wrapping to-be-redacted keys or elements
-TBD4 = #7.59          ; CBOR simple value 59
-TBD5 = 60; #6.<TBD5>(bstr) redacted_claim_element
+;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements
+REDACTED_KEYS = #7.59  ; #7.<TBD4>
+;TBD4 = #7.59          ; CBOR simple value 59
+;REDACTED_ELEMENT = #6.<TBD5>(bstr)
+;TBD5 = 60; CBOR tag wrapping redacted_claim_element
 
 TBD11 = 298
 TBD12 = 299

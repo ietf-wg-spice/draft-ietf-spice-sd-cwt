@@ -363,7 +363,7 @@ The `redacted_claim_keys` key is a CBOR simple type registered for that purpose 
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with a CBOR tag (requested tag number 60).
 
 ~~~ cddl
-; redacted_claim_element = #6.<TBD5>( bstr .size 16 ) -- RFC 9682
+; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax
 redacted_claim_element = #6.60( bstr .size 16 )
 ~~~
 
@@ -452,7 +452,7 @@ sd-payload = {
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
     ;
-    ? &(redacted_claim_keys: TBD4) ^ => [ * bstr ],
+    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],
     * key => any
 }
 ~~~
