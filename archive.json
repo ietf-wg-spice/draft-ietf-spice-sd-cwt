@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-20T00:52:03.373691+00:00",
+  "timestamp": "2025-05-22T00:50:59.999467+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1243,6 +1243,22 @@
           "updatedAt": "2025-04-16T13:31:10Z"
         }
       ]
+    },
+    {
+      "number": 77,
+      "id": "I_kwDOMm_Q2s63fjDK",
+      "title": "SHOULD use CoAP values instead of appliation/sd-cwt and application/sd-kbt?",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/77",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Are integer values for content-type (using the CoAP registry) always preferred for efficiency, or only when using CoAP?\n\nAlso needs to update all the examples if we make this change.\n\n",
+      "createdAt": "2025-05-21T00:11:06Z",
+      "updatedAt": "2025-05-21T00:11:06Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -6153,13 +6169,13 @@
       "labels": [],
       "body": "Make text and appendix agree, e.g.,\r\nTBD1 and TBD2 were used for two different things, now separated out\r\n\r\nOpen:\r\n\r\n* Warning: *** Unused rule redacted_claim_element\r\n* Where would I use TBD3?\r\n* Are we sure we want two-byte content-formats for TBD-SD and TBD-KB?",
       "createdAt": "2025-05-07T15:24:44Z",
-      "updatedAt": "2025-05-19T15:22:14Z",
+      "updatedAt": "2025-05-21T00:15:12Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "0e9b917d0074f9075265245d423c49e078b972d8",
       "headRepository": "cabo/draft-ietf-spice-sd-cwt",
       "headRefName": "unbreak-cddl",
-      "headRefOid": "e3fc06d4bf0eb14404367465b4026abbd99e3701",
+      "headRefOid": "9746b2eebe14fed3aa9c49c3668e09c794c0ee30",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -6505,6 +6521,86 @@
               "body": "> If the goal is to recommend one media type over the other (for efficiency reasons), that should be done in text, not in the samples.\r\n\r\nThe media type is the same, this is about having or not having a content-foramt number for it.\r\n\r\n> I'd welcome some text on this, I think its bad to give options without explaining when they should be used.\r\n\r\nThe short answer is that the string-based form should never be used.\r\nThe long answer is that someone might not have got around to registering a content-format number for the media type yet.\r\nThe whole thing has a strong flavor of X-Dash (RFC 6648).",
               "createdAt": "2025-05-19T15:22:14Z",
               "updatedAt": "2025-05-19T15:22:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6qOJGW",
+          "commit": {
+            "abbreviatedOid": "6b36a43"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-20T23:42:25Z",
+          "updatedAt": "2025-05-20T23:42:25Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "cddl-rs",
+              "createdAt": "2025-05-20T23:42:25Z",
+              "updatedAt": "2025-05-20T23:42:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6qONcj",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-21T00:00:11Z",
+          "updatedAt": "2025-05-21T00:00:11Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "- an integer is obviously more efficient\r\n- I didn't know of the existence of the CoAP registry until pretty recently. Having a registry with the name CoAP in it probably discourages people who are not doing CoAP from using it.\r\n- It seems a bit weird to make a strong statement about which value to prefer when neither RFC8152 nor RFC9052 expresses any preference.\r\n- I'm ok with adding a SHOULD send the CoAP value (and think it is a good idea), but I'd feel more comfortable if we had some mailing list discussion about it.",
+              "createdAt": "2025-05-21T00:00:11Z",
+              "updatedAt": "2025-05-21T00:00:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6qOOBK",
+          "commit": {
+            "abbreviatedOid": "6b36a43"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-21T00:01:44Z",
+          "updatedAt": "2025-05-21T00:01:44Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "I'll go ahead and commit these changes to your branches. We'll talk about it on the editor's call and should merge it.",
+              "createdAt": "2025-05-21T00:01:44Z",
+              "updatedAt": "2025-05-21T00:01:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6qOQg6",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-21T00:11:48Z",
+          "updatedAt": "2025-05-21T00:11:48Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Created issue #77 ",
+              "createdAt": "2025-05-21T00:11:48Z",
+              "updatedAt": "2025-05-21T00:11:48Z"
             }
           ]
         }
