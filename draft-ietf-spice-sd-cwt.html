@@ -1942,7 +1942,7 @@ salted-element = [
   any                ; claim value
 ]
 decoy = [
-  bstr .size 16,     ; 128-bit salt
+  bstr .size 16      ; 128-bit salt
 ]
 
 ; a collection of Salted Disclosed Claims
@@ -1954,7 +1954,9 @@ The <code>redacted_claim_keys</code> key is a CBOR simple type registered for th
 <p id="section-6.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with a CBOR tag (requested tag number 60).<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-6.1-5">
 <pre>
+; redacted_claim_element = #6.&lt;TBD5&gt;( bstr .size 16 ) -- RFC 9682 syntax
 redacted_claim_element = #6.60( bstr .size 16 )
+;; XXX is the digest alwats .size 16?
 </pre><a href="#section-6.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-6">Blinded claims can be nested. For example, both individual keys in the <code>inspection_location</code> claim, and the entire <code>inspection_location</code> element can be separately blinded.
@@ -2042,14 +2044,16 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &amp;(typ: 16) ^ =&gt; "application/sd+cwt" / TBD1,
+   &amp;(typ: 16) ^ =&gt; "application/sd+cwt" / TBD11,
    &amp;(alg: 1) ^ =&gt; int,
-   &amp;(sd_alg: 18) ^ =&gt; int,             ; -16 for sha-256
+   &amp;(sd_alg: TBD2) ^ =&gt; int,        ; -16 for sha-256
+   ? &amp;(sd_aead: TBD7) ^ =&gt; uint .size 2
    * key =&gt; any
 }
 
 sd-unprotected = {
-   ? &amp;(sd_claims: 17) ^ =&gt; salted-array,
+   ? &amp;(sd_claims: TBD1) ^ =&gt; salted-array,
+   ? &amp;(sd_encrypted_claims: TBD6) ^ =&gt; encrypted-array,
    * key =&gt; any
 }
 
@@ -2065,7 +2069,7 @@ sd-payload = {
       &amp;(cnf: 8) ^ =&gt; { * key =&gt; any }, ; key confirmation
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     ;
-    ? &amp;(redacted_keys: #7.59) ^ =&gt; [ * bstr ],
+    ? &amp;(redacted_claim_keys: REDACTED_KEYS) ^ =&gt; [ * bstr ],
     * key =&gt; any
 }
 </pre><a href="#section-7.2-4" class="pilcrow">¶</a>
@@ -2127,7 +2131,7 @@ kbt-cwt = #6.18([
 ])
 
 kbt-protected = {
-   &amp;(typ: 16) ^ =&gt; "application/kb+cwt",
+   &amp;(typ: 16) ^ =&gt; "application/kb+cwt" / TBD12,
    &amp;(alg: 1) ^ =&gt; int,
    &amp;(kcwt: 13) ^ =&gt; sd-cwt-issued,
    * key =&gt; any
@@ -2138,7 +2142,7 @@ kbt-unprotected = {
 }
 
 kbt-payload = {
-      &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example"
+      &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example/app"
     ? &amp;(exp: 4) ^ =&gt; int,  ; 1883000000
     ? &amp;(nbf: 5) ^ =&gt; int,  ; 1683000000
       &amp;(iat: 6) ^ =&gt; int,  ; 1683000000
@@ -3448,7 +3452,7 @@ sd-payload = {
     ; standard claims
       &amp;(iss: 1) ^ =&gt; tstr, ; "https://issuer.example"
     ? &amp;(sub: 2) ^ =&gt; tstr, ; "https://device.example"
-    ? &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example"
+    ? &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example/app"
     ? &amp;(exp: 4) ^ =&gt; int,  ; 1883000000
     ? &amp;(nbf: 5) ^ =&gt; int,  ; 1683000000
     ? &amp;(iat: 6) ^ =&gt; int,  ; 1683000000
@@ -3456,12 +3460,12 @@ sd-payload = {
       &amp;(cnf: 8) ^ =&gt; { * key =&gt; any }, ; key confirmation
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     ;
-    ? &amp;(redacted_claim_keys: TBD4) ^ =&gt; [ * bstr ],
+    ? &amp;(redacted_claim_keys: REDACTED_KEYS) ^ =&gt; [ * bstr ],
     * key =&gt; any
 }
 
 kbt-payload = {
-      &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example"
+      &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example/app"
     ? &amp;(exp: 4) ^ =&gt; int,  ; 1883000000
     ? &amp;(nbf: 5) ^ =&gt; int,  ; 1683000000
       &amp;(iat: 6) ^ =&gt; int,  ; 1683000000
@@ -3531,12 +3535,22 @@ TBD2 = 18
 TBD6 = 19
 TBD7 = 20
 TBD8 = 21
-;TBD3 = #6.58(any)    ; CBOR tag wrapping to-be-redacted keys or elements
-TBD4 = #7.59          ; CBOR simple value 59
-;TBD5 = #6.60( bstr ) ; redacted_claim_element
+
+;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements
 
 TBD11 = 298
 TBD12 = 299
+
+; REDACTED_KEYS is to be used in CDDL payloads that are meant to
+; convey that a map key is redacted.
+REDACTED_KEYS = #7.59  ; #7.&lt;TBD4&gt;
+;TBD4 = 59          ; for CBOR simple value 59
+
+; redacted_claim_element is to be used in CDDL payloads that contain
+; array elements that are meant to be redacted.
+redacted_claim_element = #6.60(bstr .size 16)  ; #6.&lt;TBD5&gt;(bstr)
+;TBD5 = 60; CBOR tag wrapping redacted_claim_element
+
 </pre>
 </div>
 <figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
