@@ -551,6 +551,8 @@ Next the Verifier performs a breadth first or depth first traversal of the Prese
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
 If there remain unused Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid, as if the signature had failed to verify.
 
+A verifier MUST reject the SD-CWT if the audience claim in either SD-CWT or SD-KBT contains a value which is not recognized.
+
 Otherwise the SD-CWT is considered valid, and the Validated Disclosed Claimset is now a CWT Claimset with no claims marked for redaction.
 Further validation logic can be applied to the Validated Disclosed Claimset, as it might normally be applied to a validated CWT claimset.
 
@@ -973,6 +975,12 @@ All three are represented by the confirmation (public) key in the SD-CWT.
 As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT issuer and subject claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
 Extra care should be taken in case the SD-CWT subject claim is redacted.
 Likewise, Holders and Verifiers need to verify that the issuer claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.
+
+## Audience
+
+The audience claim if present in both the SD-CWT and the SD-KBT, is not required to be the same.
+It is important to reject SD-CWT with an unrecognized audience claim, to protect against accidental disclosure of sensitive data.
+
 
 
 # IANA Considerations
