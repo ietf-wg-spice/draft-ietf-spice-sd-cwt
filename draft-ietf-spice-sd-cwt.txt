@@ -109,7 +109,9 @@ Table of Contents
      15.5.  Threat Model
      15.6.  Random Numbers
      15.7.  Binding the KBT and the CWT
-     15.8.  Audience
+     15.8.  Covert Channels
+     15.9.  Nested Disclosure Ordering
+     15.10. Audience
    16. IANA Considerations
      16.1.  COSE Header Parameters
        16.1.1.  sd_claims
@@ -681,6 +683,9 @@ Issuer                           Holder                         Verifier
    The cnf claim, the cnonce claim, and the standard claims other than
    the subject MUST NOT be redacted.  Any other claims are OPTIONAL and
    MAY be redacted.
+
+   To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt)
+   [RFC9679] MAY be used in the cnf claim.
 
 7.1.  Issuer generation
 
@@ -1536,7 +1541,26 @@ Issuer                           Holder                         Verifier
    CWT corresponds to the Issuer and the key described in the protected
    header of the SD-CWT.
 
-15.8.  Audience
+15.8.  Covert Channels
+
+   Any data element that is supplied by the issuer, and that appears
+   random to the holder might be used to produce a covert channel,
+   between the issuer and the verifier.  The ordering of claims, and
+   precision of timestamps can also be used to produce a covert channel.
+   This is more of a concern for SD-CWT than typical CWTs, because the
+   holder is usually considered to be aware of the issuer claims they
+   are disclosing to a verifier.
+
+15.9.  Nested Disclosure Ordering
+
+   The Holder has flexibility in determining the order of nested
+   disclosures when making presentations.  The order can be sorted,
+   randomized, or optimized for performance based on the Holder's needs.
+   This ordering choice has no security impact on encrypted disclosures.
+   However, the order can affect the runtime of the verification
+   process.
+
+15.10.  Audience
 
    If the audience claim is present in both the SD-CWT and the SD-KBT,
    they are not required to be the same.  SD-CWTs with an unrecognized
