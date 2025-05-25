@@ -391,6 +391,8 @@ The `cnonce` / 39 claim is OPTIONAL.
 The `cnf` claim, the `cnonce` claim, and the standard claims other than the subject MUST NOT be redacted.
 Any other claims are OPTIONAL and MAY be redacted.
 
+To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) {{!RFC9679}} MAY be used in the `cnf` claim.
+
 
 ## Issuer generation
 
