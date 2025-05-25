@@ -991,7 +991,7 @@ This is more of a concern for SD-CWT than typical CWTs, because the holder is us
 The Holder has flexibility in determining the order of nested disclosures when making presentations.
 The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
 This ordering choice has no security impact on encrypted disclosures.
-However, the order can effect the runtime of the verification process.
+However, the order can affect the runtime of the verification process.
 
 ## Audience
 
