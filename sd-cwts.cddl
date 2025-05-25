@@ -140,6 +140,6 @@ REDACTED_KEYS = #7.59  ; #7.<TBD4>
 
 ; redacted_claim_element is to be used in CDDL payloads that contain
 ; array elements that are meant to be redacted.
-redacted_claim_element = #6.60(bstr .size 16)  ; #6.<TBD5>(bstr)
+redacted_claim_element = #6.60( bstr .size 16 )  ; #6.<TBD5>(bstr)
 ;TBD5 = 60; CBOR tag wrapping redacted_claim_element
 

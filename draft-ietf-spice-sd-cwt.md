@@ -440,6 +440,7 @@ sd-protected = {
 sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => salted-array,
    ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
+   ? &(sd_cose_encrypted_claims: TBD8) ^ => cose-encrypted-array,
    * key => any
 }
 
@@ -626,7 +627,7 @@ Details of key management are left to the specific protocols which make use of e
 The CDDL for encrypted disclosures is described below.
 
 ~~~ cddl
-encrypted-array = [ +bstr .cbor encrypted ]
+encrypted-array = [ +encrypted ]
 encrypted = [
   bstr .size 16,     ; 128-bit nonce
   bstr,              ; the ciphertext output of a bstr-encoded-salted
@@ -667,7 +668,7 @@ Taking the bstr encoding of the example disclosure in the previous section as th
 The CDDL for COSE encrypted disclosures is described below:
 
 ~~~ cddl
-cose-encrypted-array = [ +bstr .cbor cose-encrypted ]
+cose-encrypted-array = [ +cose-encrypted ]
 cose-encrypted = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
 ~~~
 
