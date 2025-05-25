@@ -984,6 +984,12 @@ Any data element that is supplied by the issuer, and that appears random to the 
 The ordering of claims, and precision of timestamps can also be used to produce a covert channel.
 This is more of a concern for SD-CWT than typical CWTs, because the holder is usually considered to be aware of the issuer claims they are disclosing to a verifier.
 
+## Nested Disclosure Ordering
+
+The Holder has flexibility in determining the order of nested disclosures when making presentations. 
+The order can be sorted, randomized, or optimized for performance based on the Holder's needs. 
+This ordering choice has no security impact on encrypted disclosures.
+However, the order can effect the runtime of the verification process.
 
 # IANA Considerations
 
