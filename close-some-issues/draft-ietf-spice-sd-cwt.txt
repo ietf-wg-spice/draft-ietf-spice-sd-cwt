@@ -1557,7 +1557,7 @@ Issuer                           Holder                         Verifier
    disclosures when making presentations.  The order can be sorted,
    randomized, or optimized for performance based on the Holder's needs.
    This ordering choice has no security impact on encrypted disclosures.
-   However, the order can effect the runtime of the verification
+   However, the order can affect the runtime of the verification
    process.
 
 15.10.  Audience
