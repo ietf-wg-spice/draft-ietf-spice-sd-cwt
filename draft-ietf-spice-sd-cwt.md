@@ -929,8 +929,8 @@ Issuers MUST perform a privacy and confidentiality assessment regarding each cre
 
 ## Determinism & Augmentation
 
-It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements. 
-{{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE). 
+It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements.
+{{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE).
 The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
 ## Threat Model
@@ -986,8 +986,8 @@ This is more of a concern for SD-CWT than typical CWTs, because the holder is us
 
 ## Nested Disclosure Ordering
 
-The Holder has flexibility in determining the order of nested disclosures when making presentations. 
-The order can be sorted, randomized, or optimized for performance based on the Holder's needs. 
+The Holder has flexibility in determining the order of nested disclosures when making presentations.
+The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
 This ordering choice has no security impact on encrypted disclosures.
 However, the order can effect the runtime of the verification process.
 
