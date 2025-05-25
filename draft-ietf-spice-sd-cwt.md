@@ -391,6 +391,8 @@ The `cnonce` / 39 claim is OPTIONAL.
 The `cnf` claim, the `cnonce` claim, and the standard claims other than the subject MUST NOT be redacted.
 Any other claims are OPTIONAL and MAY be redacted.
 
+To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) {{!RFC9679}} MAY be used in the `cnf` claim.
+
 
 ## Issuer generation
 
@@ -929,7 +931,9 @@ Issuers MUST perform a privacy and confidentiality assessment regarding each cre
 
 ## Determinism & Augmentation
 
-It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements. {{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE). The construction of such profiles has a significant impact on the privacy properties of a credential type.
+It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements.
+{{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE).
+The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
 ## Threat Model
 
@@ -975,6 +979,19 @@ All three are represented by the confirmation (public) key in the SD-CWT.
 As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT issuer and subject claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
 Extra care should be taken in case the SD-CWT subject claim is redacted.
 Likewise, Holders and Verifiers need to verify that the issuer claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.
+
+## Covert Channels
+
+Any data element that is supplied by the issuer, and that appears random to the holder might be used to produce a covert channel, between the issuer and the verifier.
+The ordering of claims, and precision of timestamps can also be used to produce a covert channel.
+This is more of a concern for SD-CWT than typical CWTs, because the holder is usually considered to be aware of the issuer claims they are disclosing to a verifier.
+
+## Nested Disclosure Ordering
+
+The Holder has flexibility in determining the order of nested disclosures when making presentations.
+The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
+This ordering choice has no security impact on encrypted disclosures.
+However, the order can affect the runtime of the verification process.
 
 ## Audience
 
