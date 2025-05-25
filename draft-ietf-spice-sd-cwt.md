@@ -350,7 +350,7 @@ salted-element = [
   any                ; claim value
 ]
 decoy = [
-  bstr .size 16,     ; 128-bit salt
+  bstr .size 16      ; 128-bit salt
 ]
 
 ; a collection of Salted Disclosed Claims
@@ -363,7 +363,9 @@ The `redacted_claim_keys` key is a CBOR simple type registered for that purpose 
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with a CBOR tag (requested tag number 60).
 
 ~~~ cddl
+; redacted_claim_element = #6.<TBD5>( bstr .size 16 ) -- RFC 9682 syntax
 redacted_claim_element = #6.60( bstr .size 16 )
+;; XXX is the digest alwats .size 16?
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
@@ -428,14 +430,16 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd+cwt" / TBD1,
+   &(typ: 16) ^ => "application/sd+cwt" / TBD11,
    &(alg: 1) ^ => int,
-   &(sd_alg: 18) ^ => int,             ; -16 for sha-256
+   &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
+   ? &(sd_aead: TBD7) ^ => uint .size 2
    * key => any
 }
 
 sd-unprotected = {
-   ? &(sd_claims: 17) ^ => salted-array,
+   ? &(sd_claims: TBD1) ^ => salted-array,
+   ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
    * key => any
 }
 
@@ -451,7 +455,7 @@ sd-payload = {
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
     ;
-    ? &(redacted_keys: #7.59) ^ => [ * bstr ],
+    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],
     * key => any
 }
 ~~~
@@ -503,7 +507,7 @@ kbt-cwt = #6.18([
 ])
 
 kbt-protected = {
-   &(typ: 16) ^ => "application/kb+cwt",
+   &(typ: 16) ^ => "application/kb+cwt" / TBD12,
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
    * key => any
@@ -514,7 +518,7 @@ kbt-unprotected = {
 }
 
 kbt-payload = {
-      &(aud: 3) ^ => tstr, ; "https://verifier.example"
+      &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
       &(iat: 6) ^ => int,  ; 1683000000

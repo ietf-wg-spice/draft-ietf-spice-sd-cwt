@@ -44,7 +44,7 @@ sd-payload = {
     ; standard claims
       &(iss: 1) ^ => tstr, ; "https://issuer.example"
     ? &(sub: 2) ^ => tstr, ; "https://device.example"
-    ? &(aud: 3) ^ => tstr, ; "https://verifier.example"
+    ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
     ? &(iat: 6) ^ => int,  ; 1683000000
@@ -52,12 +52,12 @@ sd-payload = {
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
     ;
-    ? &(redacted_claim_keys: TBD4) ^ => [ * bstr ],
+    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],
     * key => any
 }
 
 kbt-payload = {
-      &(aud: 3) ^ => tstr, ; "https://verifier.example"
+      &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
     ? &(exp: 4) ^ => int,  ; 1883000000
     ? &(nbf: 5) ^ => int,  ; 1683000000
       &(iat: 6) ^ => int,  ; 1683000000
@@ -127,9 +127,19 @@ TBD2 = 18
 TBD6 = 19
 TBD7 = 20
 TBD8 = 21
-;TBD3 = #6.58(any)    ; CBOR tag wrapping to-be-redacted keys or elements
-TBD4 = #7.59          ; CBOR simple value 59
-;TBD5 = #6.60( bstr ) ; redacted_claim_element
+
+;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements
 
 TBD11 = 298
 TBD12 = 299
+
+; REDACTED_KEYS is to be used in CDDL payloads that are meant to
+; convey that a map key is redacted.
+REDACTED_KEYS = #7.59  ; #7.<TBD4>
+;TBD4 = 59          ; for CBOR simple value 59
+
+; redacted_claim_element is to be used in CDDL payloads that contain
+; array elements that are meant to be redacted.
+redacted_claim_element = #6.60(bstr .size 16)  ; #6.<TBD5>(bstr)
+;TBD5 = 60; CBOR tag wrapping redacted_claim_element
+
