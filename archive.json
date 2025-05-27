@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-22T00:50:59.999467+00:00",
+  "timestamp": "2025-05-27T00:49:51.953166+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -979,11 +979,11 @@
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr"
+        "has-PR"
       ],
       "body": "When parsing `salted` (`salted = salted-claim / salted-element / decoy`) in some languages, one might not have the length of the `salted-array`. It can cause the deserialization to be less efficient because the second element is either a claim key or a claim value depending if `salted` is a `salted-claim` or a `salted-element` (CDDL below for reference).\n\n```cddl\nsalted-claim = [\n  bstr .size 16,     ; 128-bit salt\n  (int / text),      ; claim name\n  any                ; claim value\n]\nsalted-element = [\n  bstr .size 16,     ; 128-bit salt\n  any                ; claim value\n]\n```\n\nIn some languages, like in Rust, the main parsing library (serde) does only [provide an iterator](https://docs.rs/serde/latest/serde/de/trait.SeqAccess.html#method.next_element) when deserializing arrays. It also does not provide an infallible [size hint](https://docs.rs/serde/latest/serde/de/trait.SeqAccess.html#method.size_hint) of the array. Hence, implementers, have to add some performance overhead in their parser to deal with that case.\n\nThe recommendation would be to have a canonical order of these fields, so that the second element is always a claim value, i.e.\n```diff\nsalted-claim = [\n  bstr .size 16,     ; 128-bit salt\n+  any                ; claim value\n  (int / text),      ; claim name\n-  any                ; claim value\n]\n```\n\nThe current implementation roughly looks like this in Rust. You have to deserialize the second element twice: first to an intermediate `Value`, then, depending on the array size, to either a claim name or value.\n\n```rust\nimpl<'de, T> serde::Deserialize<'de> for Salted<T> {\n    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {\n        struct SaltedVisitor<T>(core::marker::PhantomData<T>);\n\n        impl<'de, T> serde::de::Visitor<'de> for SaltedVisitor<T> {\n            type Value = Salted<T>;\n\n            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {\n                write!(formatter, \"a salted disclosure\")\n            }\n\n            fn visit_seq<A: serde::de::SeqAccess<'de>>(self, mut seq: A) -> Result<Self::Value, A::Error> {\n                use serde::de::Error as _;\n\n                let salt = seq.next_element::<Salt>()??;\n                let second: Option<Value> = seq.next_element::<Value>()?;\n                let third: Option<T> = seq.next_element::<T>()?;\n\n                Ok(match (salt, second, third) {\n                    (salt, None, None) => Salted::Decoy(Decoy { salt: (salt,) }),\n                    (salt, Some(value), None) => {\n                        let value = value.deserialized()?; // <-- overhead\n                        Salted::Element(SaltedElement { salt, value })\n                    },\n                    (salt, Some(name), Some(value)) => {\n                        let name = name.deserialized()?; // <-- overhead\n                        Salted::Claim(SaltedClaim { salt, value, name })\n                    },\n                    _ => return Err(A::Error::custom(\"Invalid disclosure\")),\n                })\n            }\n        }\n\n        deserializer.deserialize_seq(SaltedVisitor(Default::default()))\n    }\n}\n```",
       "createdAt": "2025-02-18T08:22:14Z",
-      "updatedAt": "2025-04-16T13:20:03Z",
+      "updatedAt": "2025-05-25T14:29:30Z",
       "closedAt": null,
       "comments": [
         {
@@ -1014,7 +1014,7 @@
       "id": "I_kwDOMm_Q2s6rukPV",
       "title": "Support thumbprint as confirmation method \"ckt\"",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/56",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1025,8 +1025,8 @@
       ],
       "body": "When a Holder and a Verifier share signature keys in an out-of-band way, it could be interesting for them to use CoseKey Thumprint [RFC 9676](https://datatracker.ietf.org/doc/html/rfc9679) in the confirmation method (as specified [here](https://datatracker.ietf.org/doc/html/rfc9679#section-5.6)) to further reduce the size of the SD-KBT presented, which this draft is all about.\n\nWe should mention the possibility of using this Confirmation Method in [SD-CWT Issuance](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-sd-cwt-issuance) and advise about the usage in \"Security Considerations\".",
       "createdAt": "2025-02-26T10:43:18Z",
-      "updatedAt": "2025-04-16T13:15:45Z",
-      "closedAt": null,
+      "updatedAt": "2025-05-25T14:12:20Z",
+      "closedAt": "2025-05-25T14:12:20Z",
       "comments": [
         {
           "author": "OR13",
@@ -1119,7 +1119,7 @@
       "id": "I_kwDOMm_Q2s6ugKxN",
       "title": "Encrypted COSE disclosures",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/66",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "NONE",
       "assignees": [
@@ -1130,8 +1130,8 @@
       ],
       "body": "Could these be an encrypted COSE object: https://datatracker.ietf.org/doc/html/rfc8152#section-5 ?",
       "createdAt": "2025-03-18T08:55:18Z",
-      "updatedAt": "2025-04-02T13:46:37Z",
-      "closedAt": null,
+      "updatedAt": "2025-05-25T14:14:12Z",
+      "closedAt": "2025-05-25T14:14:11Z",
       "comments": [
         {
           "author": "OR13",
@@ -1139,6 +1139,13 @@
           "body": "I think the intention is to support multiple encryption mechanisms, we should list a few to make it clear, its not limited to COSE.\n\nPerhaps, JWE, COSE_Encrypt, MLS, is enough\n\nWIP here: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/64",
           "createdAt": "2025-04-02T13:46:05Z",
           "updatedAt": "2025-04-02T13:46:36Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Encrypted COSE disclosures added in #75 ",
+          "createdAt": "2025-05-25T14:14:12Z",
+          "updatedAt": "2025-05-25T14:14:12Z"
         }
       ]
     },
@@ -1147,7 +1154,7 @@
       "id": "I_kwDOMm_Q2s6ugNFW",
       "title": "Document hidden channels",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/67",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "NONE",
       "assignees": [
@@ -1158,8 +1165,8 @@
       ],
       "body": "Salt can carry extra information.  The ordering of items can carry information.  Do we have any other examples?  Can these all be documented so that people understand what covert channels might exist past the holder?",
       "createdAt": "2025-03-18T08:58:22Z",
-      "updatedAt": "2025-05-07T13:23:47Z",
-      "closedAt": null,
+      "updatedAt": "2025-05-25T14:12:20Z",
+      "closedAt": "2025-05-25T14:12:20Z",
       "comments": [
         {
           "author": "OR13",
@@ -1253,12 +1260,22 @@
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "needs-list-review"
+      ],
       "body": "Are integer values for content-type (using the CoAP registry) always preferred for efficiency, or only when using CoAP?\n\nAlso needs to update all the examples if we make this change.\n\n",
       "createdAt": "2025-05-21T00:11:06Z",
-      "updatedAt": "2025-05-21T00:11:06Z",
+      "updatedAt": "2025-05-25T14:14:48Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "The integer content-format values (using the CoRE-parameter registry) are universally useful, not just for CoAP.\nThey are necessary for the CoAP Content-Format option, but that doesn't make them less useful outside CoAP.\nRegistering the content-format with the media type avoids any X-Dash considerations (RFC 6648) that might come up due to a later registration.\nThe content-format value is preferred anywhere where the 16 bytes (times 4/3) in size difference matter.\nIt is not clear to me why they would not be preferred elsewhere.",
+          "createdAt": "2025-05-25T08:19:06Z",
+          "updatedAt": "2025-05-25T08:19:06Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -6162,24 +6179,26 @@
       "id": "PR_kwDOMm_Q2s6VS4IZ",
       "title": "Unbreak CDDL",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/73",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "cabo",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Make text and appendix agree, e.g.,\r\nTBD1 and TBD2 were used for two different things, now separated out\r\n\r\nOpen:\r\n\r\n* Warning: *** Unused rule redacted_claim_element\r\n* Where would I use TBD3?\r\n* Are we sure we want two-byte content-formats for TBD-SD and TBD-KB?",
       "createdAt": "2025-05-07T15:24:44Z",
-      "updatedAt": "2025-05-21T00:15:12Z",
+      "updatedAt": "2025-05-25T16:50:20Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "0e9b917d0074f9075265245d423c49e078b972d8",
       "headRepository": "cabo/draft-ietf-spice-sd-cwt",
       "headRefName": "unbreak-cddl",
-      "headRefOid": "9746b2eebe14fed3aa9c49c3668e09c794c0ee30",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "9ca4b71ada67786952d8e750b9aee22c0b9b36e6",
+      "closedAt": "2025-05-25T14:27:23Z",
+      "mergedAt": "2025-05-25T14:27:23Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "01ac466cb742c937d39cc0426ad3d3d8125dfdac"
+      },
       "comments": [
         {
           "author": "rohanmahy",
@@ -6201,6 +6220,90 @@
           "body": "We just did some heavy merges which introduced some conflicts. I'll see if I can resolve these.",
           "createdAt": "2025-05-14T14:05:04Z",
           "updatedAt": "2025-05-14T14:05:04Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Can we merge this?",
+          "createdAt": "2025-05-25T12:03:27Z",
+          "updatedAt": "2025-05-25T12:03:27Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Which one is it?\r\n\r\n```\r\naead-encrypted-disclosures.cddl:1:encrypted-array = [ +bstr .cbor encrypted ]\r\ncomplete-cddl-schema.cddl:84:encrypted-array = [ +encrypted ]\r\n```\r\n",
+          "createdAt": "2025-05-25T13:06:30Z",
+          "updatedAt": "2025-05-25T13:06:30Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This is commented out\r\n\r\n```\r\n;bstr-encoded-salted = bstr .cbor salted\r\n```\r\n\r\nmaybe because `salted-array` repeats it instead of using it:\r\n\r\n```\r\nsalted-array = [ +bstr .cbor salted ]\r\n```\r\n\r\nThere are lots of other repeated types, e.g.\r\n\r\n```\r\n  bstr .size 16,     ; 128-bit salt\r\n```\r\n\r\nWhy not\r\n\r\n```\r\nsalt = bstr .size 16\r\n```\r\n\r\nand use `salt` throughout then?\r\n\r\n(same for `nonce`, which *happens* to be the same type structurally, but not semantically).\r\n",
+          "createdAt": "2025-05-25T13:36:10Z",
+          "updatedAt": "2025-05-25T13:36:10Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Which one is it?\r\n> \r\n> ```\r\n> aead-encrypted-disclosures.cddl:1:encrypted-array = [ +bstr .cbor encrypted ]\r\n> complete-cddl-schema.cddl:84:encrypted-array = [ +encrypted ]\r\n> ```\r\n\r\nI'm not seeing the first CDDL file anywhere in the repo.",
+          "createdAt": "2025-05-25T14:16:23Z",
+          "updatedAt": "2025-05-25T14:16:23Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> This is commented out\r\n> \r\n> ```\r\n> ;bstr-encoded-salted = bstr .cbor salted\r\n> ```\r\n> \r\n> maybe because `salted-array` repeats it instead of using it:\r\n> \r\n> ```\r\n> salted-array = [ +bstr .cbor salted ]\r\n> ```\r\n\r\nI originally had salted array defined as  `[ +bstr-encoded-salted ]` but the cddl validator I was using at the time didn't like that. What is there now seems clear and validates properly.\r\n\r\n> There are lots of other repeated types, e.g.\r\n> \r\n> ```\r\n>   bstr .size 16,     ; 128-bit salt\r\n> ```\r\n> \r\n> Why not\r\n> \r\n> ```\r\n> salt = bstr .size 16\r\n> ```\r\n> \r\n> and use `salt` throughout then?\r\n\r\nThat would be a reasonable thing to do, however I think the way it is structured now it is still readable and succinct. I'll leave this for now, but I don't object to a small PR to update it, as long as it validates with the tooling we're using (cddl-rs).\r\n \r\n> (same for `nonce`, which _happens_ to be the same type structurally, but not semantically).\r\n\r\nYes, the semantics are important here. I actually need to check if we want to make the nonce variable for future AEAD algorithms (there are only 2 registered at the moment).\r\n\r\nI'm going to go ahead and merge this now, since the goal of Unbreaking seems to have been met, and we can have another PR (or more) to finesse it.  I'm just going to ask you to please wait until after Wednesday. I will finish #76 this week (which involves regenerating all the examples) and would like that merged before we add any new PRs which make CDDL changes.\r\n",
+          "createdAt": "2025-05-25T14:27:16Z",
+          "updatedAt": "2025-05-25T14:27:16Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 2025-05-25, at 16:27, Rohan Mahy ***@***.***> wrote:\r\n> \r\n> the goal of Unbreaking seems to have been met\r\n\r\nThere are still two conflicting definitions of encrypted-array.\r\n\r\nThis needs to be fixed.\r\n\r\nGr\u00fc\u00dfe, Carsten\r\n\r\n",
+          "createdAt": "2025-05-25T15:17:20Z",
+          "updatedAt": "2025-05-25T15:17:20Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 2025-05-25, at 16:27, Rohan Mahy ***@***.***> wrote:\r\n> \r\n> wait until after Wednesday.\r\n\r\nOn vacation from Tuesday.\r\n\r\nWill do a PR now, but you don\u2019t have to merge it; I can rebase it on whatever I find when I\u2019m back on 2025-06-07.\r\n\r\nNow which one is the right encrypted-array?\r\n\r\nGr\u00fc\u00dfe, Carsten\r\n\r\n\r\n",
+          "createdAt": "2025-05-25T15:18:40Z",
+          "updatedAt": "2025-05-25T15:18:40Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On 2025-05-25, at 16:16, Rohan Mahy ***@***.***> wrote:\r\n> \r\n>> aead-encrypted-disclosures.cddl:1:encrypted-array = [ +bstr .cbor encrypted ]\r\n>> complete-cddl-schema.cddl:84:encrypted-array = [ +encrypted ]\r\n> \r\n> I'm not seeing the first CDDL file anywhere in the repo.\r\n\r\nYou didn\u2019t name the snippet in 11.1 (which would be good practice), so the extractor gave it the name of the section that it is in, AEAD Encrypted Disclosures.\r\n\r\nGr\u00fc\u00dfe, Carsten\r\n\r\n",
+          "createdAt": "2025-05-25T15:21:26Z",
+          "updatedAt": "2025-05-25T15:21:26Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> On 2025-05-25, at 16:16, Rohan Mahy ***@***.***> wrote: > aead-encrypted-disclosures.cddl:1:encrypted-array = [ +bstr .cbor encrypted ] > complete-cddl-schema.cddl:84:encrypted-array = [ +encrypted ] I'm not seeing the first CDDL file anywhere in the repo.\r\n> You didn\u2019t name the snippet in 11.1 (which would be good practice), so the extractor gave it the name of the section that it is in, AEAD Encrypted Disclosures. Gr\u00fc\u00dfe, Carsten\r\n\r\nAh, I see. That first snippet is correct. It is an the unencrypted disclosure (the plaintext as it were).\r\nBut the transition from talking about a new COSE Header Parameter and the snippet is too abrupt and was probably confusing. I think another sentence before \"Taking the first example disclosure\" and a paragraph break before would make that clearer. Alternatively we could present the example first, and then describe how the ciphertext and mac were calculated.\r\n\r\n",
+          "createdAt": "2025-05-25T15:47:17Z",
+          "updatedAt": "2025-05-25T15:47:52Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> That first snippet is correct.\r\n\r\n44aab32\r\n\r\nchanges this inconsistently [1], so are you saying the text is right and the collected CDDL is wrong or v.v.?\r\n\r\n[1] https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/commit/44aab32572c91abb9f50bbd3a5f83ea3aab076cf",
+          "createdAt": "2025-05-25T15:51:18Z",
+          "updatedAt": "2025-05-25T15:51:18Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "There also is cose-encrypted-array, which also seems to be inconsistent.\r\nI don't know the details enough to understand why this should be byte-string-encapsulated.",
+          "createdAt": "2025-05-25T15:55:04Z",
+          "updatedAt": "2025-05-25T15:55:04Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > That first snippet is correct.\r\n> \r\n> [44aab32](https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/commit/44aab32572c91abb9f50bbd3a5f83ea3aab076cf)\r\n> \r\n> changes this inconsistently [1], so are you saying the text is right and the collected CDDL is wrong or v.v.?\r\n\r\nI don't think it does anything inconsistently. There are:\r\n- regular disclosures, each of which is a bstr encoded array of 1 to 3 items. They are bstr encoded because they get hashed and the convention in COSE is that things that are hashed get bstr encoded first.\r\n- AEAD-encrypted disclosures, each of which is an (not bstr encoded) array of three bstrs (nonce, ciphertext, mac)\r\n- COSE-encrypted disclosures, each of which is a (not bstr encoded) tagged COSE_Encrypt0 or COSE_Encrypt\r\n\r\nI hope that helps.\r\nThanks,\r\n-r\r\n\r\n> [1] [44aab32](https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/commit/44aab32572c91abb9f50bbd3a5f83ea3aab076cf)\r\n\r\n",
+          "createdAt": "2025-05-25T16:49:53Z",
+          "updatedAt": "2025-05-25T16:50:20Z"
         }
       ],
       "reviews": [
@@ -6603,6 +6706,179 @@
               "updatedAt": "2025-05-21T00:11:48Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4Do2",
+          "commit": {
+            "abbreviatedOid": "e3fc06d"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T12:02:58Z",
+          "updatedAt": "2025-05-25T12:02:58Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I'm going to resolve, lets continue to the discussion on the issue / list.",
+              "createdAt": "2025-05-25T12:02:58Z",
+              "updatedAt": "2025-05-25T12:02:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4DqJ",
+          "commit": {
+            "abbreviatedOid": "9746b2e"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-25T12:03:12Z",
+          "updatedAt": "2025-05-25T12:03:12Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4FBk",
+          "commit": {
+            "abbreviatedOid": "9746b2e"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T12:25:21Z",
+          "updatedAt": "2025-05-25T12:25:22Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\r\n;TBD4 = 59          ; for CBOR simple value 59\r\n```",
+              "createdAt": "2025-05-25T12:25:21Z",
+              "updatedAt": "2025-05-25T12:25:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4Fgu",
+          "commit": {
+            "abbreviatedOid": "9a60a78"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T12:33:36Z",
+          "updatedAt": "2025-05-25T12:33:36Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "Who is this for?\r\nThere still is a \"TBD4\" in sd-payload, maybe REDACTED_KEYS is meant to be used there instead?",
+              "createdAt": "2025-05-25T12:33:36Z",
+              "updatedAt": "2025-05-25T12:33:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4GXS",
+          "commit": {
+            "abbreviatedOid": "9a60a78"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T12:46:49Z",
+          "updatedAt": "2025-05-25T12:46:49Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "REDACTED_KEYS should be used in CDDL payloads, that are meant to convey that a map key is redacted.\r\nREDACTED_ELEMENT should be used in CDDL payloads, that contain array elements that are meant to be redacted.",
+              "createdAt": "2025-05-25T12:46:49Z",
+              "updatedAt": "2025-05-25T12:46:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4IlS",
+          "commit": {
+            "abbreviatedOid": "9a60a78"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T13:18:09Z",
+          "updatedAt": "2025-05-25T13:18:09Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "Is REDACTED_ELEMENT always containing a byte string?",
+              "createdAt": "2025-05-25T13:18:09Z",
+              "updatedAt": "2025-05-25T13:18:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4JAc",
+          "commit": {
+            "abbreviatedOid": "9a60a78"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T13:25:01Z",
+          "updatedAt": "2025-05-25T13:25:01Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "Maybe the places where bstr is being used for something specific should use more specific type names, as in\r\n\r\n```\r\ndigest = bstr .size 16\r\n```\r\n\r\n(or not .size 16, I can't make that out from the current text)\r\n",
+              "createdAt": "2025-05-25T13:25:01Z",
+              "updatedAt": "2025-05-25T13:25:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4KY1",
+          "commit": {
+            "abbreviatedOid": "9a60a78"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T13:46:02Z",
+          "updatedAt": "2025-05-25T13:46:02Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "> Who is this for? There still is a \"TBD4\" in sd-payload, maybe REDACTED_KEYS is meant to be used there instead?\r\n\r\nbecause cddl-rs does not support the #7.<TBD4> syntax, there is no linkage in the CDDL between what is IANA registered and what is in the CDDL. Hence the comment \"defining\" TBD4 directly below the declaration of REDACTED_KEYS.",
+              "createdAt": "2025-05-25T13:46:02Z",
+              "updatedAt": "2025-05-25T13:46:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4Kix",
+          "commit": {
+            "abbreviatedOid": "9a60a78"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T13:48:36Z",
+          "updatedAt": "2025-05-25T13:48:37Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "> Maybe the places where bstr is being used for something specific should use more specific type names, as in\r\n> \r\n> ```\r\n> digest = bstr .size 16\r\n> ```\r\n> \r\n> (or not .size 16, I can't make that out from the current text)\r\n\r\nNope. And it will never be 16 octets. It will be whatever size the digest using the algorithm in sd_alg (for example SHA512 would be 64 octets, SHA256 would be 32 octets)",
+              "createdAt": "2025-05-25T13:48:36Z",
+              "updatedAt": "2025-05-25T13:48:37Z"
+            }
+          ]
         }
       ]
     },
@@ -6770,7 +7046,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-14T12:03:48Z",
-      "updatedAt": "2025-05-14T12:03:48Z",
+      "updatedAt": "2025-05-25T12:03:57Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
@@ -6782,7 +7058,280 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6q4Ds9",
+          "commit": {
+            "abbreviatedOid": "27b1d5e"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-25T12:03:57Z",
+          "updatedAt": "2025-05-25T12:03:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 78,
+      "id": "PR_kwDOMm_Q2s6XidXM",
+      "title": "Close some issues",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/78",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-25T12:12:49Z",
+      "updatedAt": "2025-05-25T14:12:19Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "bf28d7028a1e49567f1633e96c7209b7c05caae2",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "close-some-issues",
+      "headRefOid": "0cd972bfb9c9fec7097f1400445b8744014ca339",
+      "closedAt": "2025-05-25T14:12:19Z",
+      "mergedAt": "2025-05-25T14:12:19Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "3e3f761104ec96cc487efae6cee2e7358ad7470e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6q4L9I",
+          "commit": {
+            "abbreviatedOid": "da59825"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T14:11:06Z",
+          "updatedAt": "2025-05-25T14:11:06Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "```suggestion\r\nHowever, the order can affect the runtime of the verification process.\r\n```",
+              "createdAt": "2025-05-25T14:11:06Z",
+              "updatedAt": "2025-05-25T14:11:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4L-f",
+          "commit": {
+            "abbreviatedOid": "0cd972b"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-25T14:11:27Z",
+          "updatedAt": "2025-05-25T14:11:27Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 79,
+      "id": "PR_kwDOMm_Q2s6XigrB",
+      "title": "Add some text about aud",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/79",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-25T12:42:29Z",
+      "updatedAt": "2025-05-25T14:07:48Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "0e9b917d0074f9075265245d423c49e078b972d8",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "aud",
+      "headRefOid": "5bf6cdc0b65480983236a1f0f565f5f9a0926a89",
+      "closedAt": "2025-05-25T14:07:48Z",
+      "mergedAt": "2025-05-25T14:07:48Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "bf28d7028a1e49567f1633e96c7209b7c05caae2"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6q4LZH",
+          "commit": {
+            "abbreviatedOid": "7ef7315"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T14:02:15Z",
+          "updatedAt": "2025-05-25T14:02:15Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\nA verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that is not recognized.\r\n```",
+              "createdAt": "2025-05-25T14:02:15Z",
+              "updatedAt": "2025-05-25T14:02:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4Lhl",
+          "commit": {
+            "abbreviatedOid": "7ef7315"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T14:04:17Z",
+          "updatedAt": "2025-05-25T14:04:17Z",
+          "comments": [
+            {
+              "originalPosition": 2,
+              "body": "```suggestion\r\nIf there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid, as if the signature had failed to verify.\r\n```",
+              "createdAt": "2025-05-25T14:04:17Z",
+              "updatedAt": "2025-05-25T14:04:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4LkK",
+          "commit": {
+            "abbreviatedOid": "7ef7315"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T14:04:59Z",
+          "updatedAt": "2025-05-25T14:04:59Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\r\nIf the audience claim is present in both the SD-CWT and the SD-KBT, they are not required to be the same.\r\n```",
+              "createdAt": "2025-05-25T14:04:59Z",
+              "updatedAt": "2025-05-25T14:05:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4Lp1",
+          "commit": {
+            "abbreviatedOid": "7ef7315"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T14:06:15Z",
+          "updatedAt": "2025-05-25T14:06:15Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\r\nSD-CWTs with an unrecognized audience claim are rejected, to protect against accidental disclosure of sensitive data.\r\n```",
+              "createdAt": "2025-05-25T14:06:15Z",
+              "updatedAt": "2025-05-25T14:06:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4LrJ",
+          "commit": {
+            "abbreviatedOid": "7ef7315"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-25T14:06:35Z",
+          "updatedAt": "2025-05-25T14:06:35Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-05-25T14:06:35Z",
+              "updatedAt": "2025-05-25T14:06:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6q4Lt_",
+          "commit": {
+            "abbreviatedOid": "5bf6cdc"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-25T14:07:20Z",
+          "updatedAt": "2025-05-25T14:07:20Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 80,
+      "id": "PR_kwDOMm_Q2s6Xi5cJ",
+      "title": "Highlight inconsistencies between CDDL in text and in collected",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/80",
+      "state": "OPEN",
+      "author": "cabo",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "These changes are just guesses, but (apart from a style one (*)) these need to be aligned.\r\n\r\n(*) The tool is too picky to deal with the inconsistent spacing style on redacted_claim_element, but this should be made consistent, too.\r\n",
+      "createdAt": "2025-05-25T16:04:42Z",
+      "updatedAt": "2025-05-25T17:06:23Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "01ac466cb742c937d39cc0426ad3d3d8125dfdac",
+      "headRepository": "cabo/draft-ietf-spice-sd-cwt",
+      "headRefName": "inconsistencies",
+      "headRefOid": "48014bc6bd2c65920075a868fe278fd9f53ea44d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I can't parse all the example EDNs in examples/*.edn:\r\n\r\n```\r\nchosen-disclosures.edn\r\n** Parse Error:\r\n    / sd_claims / 17 : [ / these are the disclosures /\r\n~~~~~~~~~~~~~~~~~~~~~^\r\nchosen-nested-disclosures.edn\r\n** Parse Error:\r\n, \"(_\" at line 1, column 22 (byte 22) after \r\n    / sd_claims / 17 : [ / these are the disclosures /\r\n~~~~~~~~~~~~~~~~~~~~~^\r\nfirst-redacted.edn\r\n** Parse Error:\r\n  / redacted_claim_keys / simple(59) : [\r\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\r\n```\r\n\r\nThese seem to be naked entries without a surrounding map.\r\nWhich is fine for exposition, but it probably would help to give these a different file name extension.",
+          "createdAt": "2025-05-25T16:29:30Z",
+          "updatedAt": "2025-05-25T16:29:30Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I can't parse all the example EDNs in examples/*.edn:\r\n> \r\n> ```\r\n> chosen-disclosures.edn\r\n> ** Parse Error:\r\n>     / sd_claims / 17 : [ / these are the disclosures /\r\n> ~~~~~~~~~~~~~~~~~~~~~^\r\n> chosen-nested-disclosures.edn\r\n> ** Parse Error:\r\n> , \"(_\" at line 1, column 22 (byte 22) after \r\n>     / sd_claims / 17 : [ / these are the disclosures /\r\n> ~~~~~~~~~~~~~~~~~~~~~^\r\n> first-redacted.edn\r\n> ** Parse Error:\r\n>   / redacted_claim_keys / simple(59) : [\r\n> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\r\n> ```\r\n> \r\n> These seem to be naked entries without a surrounding map. Which is fine for exposition, but it probably would help to give these a different file name extension.\r\n\r\nI'm happy to rename them to have the extension `.edn-snippet` for example. \r\n\r\nAlso please see Issues #52 and #53, which I am planning to implement by June 9th. There will be instructions in the README reminding folks to run `make verify` in the examples directory, and the CI can also run make verify on PRs.",
+          "createdAt": "2025-05-25T16:58:11Z",
+          "updatedAt": "2025-05-25T16:58:11Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6q4Wje",
+          "commit": {
+            "abbreviatedOid": "48014bc"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks Carsten, these look good. If you convert this to a regular PR I'll merge it.",
+          "createdAt": "2025-05-25T17:04:06Z",
+          "updatedAt": "2025-05-25T17:05:04Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
