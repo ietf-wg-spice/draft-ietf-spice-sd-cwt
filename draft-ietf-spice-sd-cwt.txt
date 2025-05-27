@@ -6,11 +6,11 @@ Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Updates: RFC8392 (if approved)                                 O. Steele
 Intended status: Standards Track                               Transmute
-Expires: 26 November 2025                                    H. Birkholz
+Expires: 28 November 2025                                    H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                             25 May 2025
+                                                             27 May 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 November 2025.
+   This Internet-Draft will expire on 28 November 2025.
 
 Copyright Notice
 
@@ -752,6 +752,7 @@ Issuer                           Holder                         Verifier
    sd-unprotected = {
       ? &(sd_claims: TBD1) ^ => salted-array,
       ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
+      ? &(sd_cose_encrypted_claims: TBD8) ^ => cose-encrypted-array,
       * key => any
    }
 
@@ -1004,7 +1005,7 @@ Issuer                           Holder                         Verifier
 
    The CDDL for encrypted disclosures is described below.
 
-   encrypted-array = [ +bstr .cbor encrypted ]
+   encrypted-array = [ +encrypted ]
    encrypted = [
      bstr .size 16,     ; 128-bit nonce
      bstr,              ; the ciphertext output of a bstr-encoded-salted
@@ -1050,7 +1051,7 @@ Issuer                           Holder                         Verifier
 
    The CDDL for COSE encrypted disclosures is described below:
 
-   cose-encrypted-array = [ +bstr .cbor cose-encrypted ]
+   cose-encrypted-array = [ +cose-encrypted ]
    cose-encrypted = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
 
    The IANA COSE Algorithms registry contains many deprecated and unsafe
@@ -2161,7 +2162,7 @@ Appendix A.  Complete CDDL Schema
 
    ; redacted_claim_element is to be used in CDDL payloads that contain
    ; array elements that are meant to be redacted.
-   redacted_claim_element = #6.60(bstr .size 16)  ; #6.<TBD5>(bstr)
+   redacted_claim_element = #6.60( bstr .size 16 )  ; #6.<TBD5>(bstr)
    ;TBD5 = 60; CBOR tag wrapping redacted_claim_element
 
               Figure 7: A complete CDDL description of SD-CWT
