@@ -558,6 +558,8 @@ Next the Verifier performs a breadth first or depth first traversal of the Prese
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
 If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid, as if the signature had failed to verify.
 
+> Note: A verifier MUST be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.
+
 A verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that is not recognized.
 
 Otherwise the SD-CWT is considered valid, and the Validated Disclosed Claimset is now a CWT Claimset with no claims marked for redaction.
