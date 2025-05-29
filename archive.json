@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-27T00:49:51.953166+00:00",
+  "timestamp": "2025-05-29T00:51:23.574550+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -853,19 +853,19 @@
       "id": "I_kwDOMm_Q2s6py--3",
       "title": "Should nested disclosures be always listed shallowest first?",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/50",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
-        "OR13"
+        "rohanmahy"
       ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "Comment on the impact of ordering of nested disclosures on timing",
       "createdAt": "2025-02-12T16:08:11Z",
-      "updatedAt": "2025-04-16T13:25:22Z",
-      "closedAt": null,
+      "updatedAt": "2025-05-28T13:20:53Z",
+      "closedAt": "2025-05-28T13:20:53Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -894,6 +894,20 @@
           "body": "Add explanatory comment that there are several strategies for ordering, and some have security and performance tradeoffs. The validator needs to be able to deal with disclosures in any order.",
           "createdAt": "2025-04-16T13:25:21Z",
           "updatedAt": "2025-04-16T13:25:21Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I believe this was addressed in https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/78/files#diff-c37ad70eb10969bbed15755d3d477a9c2f588214a63925e464de97740876056dR989",
+          "createdAt": "2025-05-27T13:23:39Z",
+          "updatedAt": "2025-05-27T13:23:39Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "There should be normative text about the receiver accepting any order for nested disclosures. I'll take that as my action item to verify it is already there or add it. @rohanmahy ",
+          "createdAt": "2025-05-27T13:30:48Z",
+          "updatedAt": "2025-05-27T13:30:48Z"
         }
       ]
     },
@@ -1259,13 +1273,16 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "OR13"
+      ],
       "labels": [
-        "needs-list-review"
+        "needs-list-review",
+        "ready-for-pr"
       ],
       "body": "Are integer values for content-type (using the CoAP registry) always preferred for efficiency, or only when using CoAP?\n\nAlso needs to update all the examples if we make this change.\n\n",
       "createdAt": "2025-05-21T00:11:06Z",
-      "updatedAt": "2025-05-25T14:14:48Z",
+      "updatedAt": "2025-05-28T13:23:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -7283,24 +7300,26 @@
       "id": "PR_kwDOMm_Q2s6Xi5cJ",
       "title": "Highlight inconsistencies between CDDL in text and in collected",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/80",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "cabo",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "These changes are just guesses, but (apart from a style one (*)) these need to be aligned.\r\n\r\n(*) The tool is too picky to deal with the inconsistent spacing style on redacted_claim_element, but this should be made consistent, too.\r\n",
       "createdAt": "2025-05-25T16:04:42Z",
-      "updatedAt": "2025-05-25T17:06:23Z",
+      "updatedAt": "2025-05-27T13:21:54Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "01ac466cb742c937d39cc0426ad3d3d8125dfdac",
       "headRepository": "cabo/draft-ietf-spice-sd-cwt",
       "headRefName": "inconsistencies",
       "headRefOid": "48014bc6bd2c65920075a868fe278fd9f53ea44d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-27T13:21:54Z",
+      "mergedAt": "2025-05-27T13:21:54Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "f36265583204682fe4cd1e4b1409e4c8e6be2c7a"
+      },
       "comments": [
         {
           "author": "cabo",
@@ -7329,6 +7348,61 @@
           "body": "Thanks Carsten, these look good. If you convert this to a regular PR I'll merge it.",
           "createdAt": "2025-05-25T17:04:06Z",
           "updatedAt": "2025-05-25T17:05:04Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6rIPCG",
+          "commit": {
+            "abbreviatedOid": "48014bc"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-27T13:21:32Z",
+          "updatedAt": "2025-05-27T13:21:32Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 81,
+      "id": "PR_kwDOMm_Q2s6X9w4A",
+      "title": "Add note for verifier about nested processing",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/81",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Finishes issue #50",
+      "createdAt": "2025-05-28T13:19:52Z",
+      "updatedAt": "2025-05-28T13:20:42Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "f36265583204682fe4cd1e4b1409e4c8e6be2c7a",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "nested-clarification",
+      "headRefOid": "f96a6f59d8c17ae00f4fc9f735e7c470c8cef11a",
+      "closedAt": "2025-05-28T13:20:41Z",
+      "mergedAt": "2025-05-28T13:20:41Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "000d9bbd4389b44d2a11d4d4cbdb9dffcfbefe37"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6rXgCu",
+          "commit": {
+            "abbreviatedOid": "f96a6f5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-28T13:20:34Z",
+          "updatedAt": "2025-05-28T13:20:34Z",
           "comments": []
         }
       ]
