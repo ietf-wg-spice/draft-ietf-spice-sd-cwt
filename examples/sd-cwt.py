@@ -469,7 +469,7 @@ def sign(phdr, uhdr, payload, key):
     cwt_object = Sign1Message(
       phdr=phdr,
       uhdr=uhdr,
-      payload=cbor2.dumps(payload),
+      payload=cbor2.dumps(payload, canonical=True),
       key=key
     )
     return cwt_object.encode()
