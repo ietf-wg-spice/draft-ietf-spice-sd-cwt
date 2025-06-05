@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-03T00:52:23.583875+00:00",
+  "timestamp": "2025-06-05T00:51:25.790961+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -77,6 +77,11 @@
       "name": "chore",
       "description": "",
       "color": "071A37"
+    },
+    {
+      "name": "blocker",
+      "description": null,
+      "color": "aaaaaa"
     }
   ],
   "issues": [
@@ -1303,12 +1308,29 @@
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "blocker"
+      ],
       "body": "The specification currently updates RFC 8392 (the CWT specification).  I believe it should not.  It's creating a new data structure drawing from CWT, but should not change CWT.\n\nIt's telling, for instance, that there are separate SD-CWT media types registered.  If an SD-CWT were truly just an updated CWT, then we would be using the `application/cwt` media type and not registering `application/sd+cwt`, etc.  But because they're distinct, they have their own media types.\n\nThe section \"Update to the CBOR Web Token Specification\" should be changed to \"Relationship to the CBOR Web Token Specification\", describing the new features added for SD-CWTs, but not describing an SD-CWT as a CWT.\n\nI'll also note that SD-JWT does not update JWT or say that an SD-JWT is a JWT.  We should follow the same course.\n",
       "createdAt": "2025-06-01T20:52:46Z",
-      "updatedAt": "2025-06-01T20:52:46Z",
+      "updatedAt": "2025-06-04T13:21:53Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Previously discussed here: \n- https://mailarchive.ietf.org/arch/msg/spice/EVdhQGkcDN-cCuLrM_6iXk_DsCE/\n- https://mailarchive.ietf.org/arch/msg/spice/8NgLpNGX0ON1E5Hm6aSOUDUFrec/",
+          "createdAt": "2025-06-04T13:18:09Z",
+          "updatedAt": "2025-06-04T13:18:33Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Possible solution:\n\n```\napplication/sd+cwt -> application/sd-cwt\n+cwt -> +sd-cwt (for profiles)\n```\n\nMike proposes this in https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/84\n\ncc @rohanmahy @henkbirkholz @cabo ",
+          "createdAt": "2025-06-04T13:20:52Z",
+          "updatedAt": "2025-06-04T13:21:52Z"
+        }
+      ]
     },
     {
       "number": 84,
@@ -1322,9 +1344,17 @@
       "labels": [],
       "body": "The specification registers the `application/sd+cwt` and `application/kb+cwt` media types.  Compare this to the SD-JWT specification, which registers the `application/sd-jwt` and `application/kb+jwt` media types.  And SD-JWT also registers the `+sd-jwt` media type suffix, allowing other media types to declare that their objects are kinds of SD-JWTs.\n\nPer #83, an SD-CWT is not a CWT.  Therefore, use of the `application/sd+cwt` media type is misleading.  Instead, this should be changed to `application/sd-cwt`.  And the `+sd-cwt` media type suffix should be registered, allowing other media types to declare that their objects are kinds of SD-CWTs.\n\n(It's fine that we keep using the `application/kb+cwt` media type if a KB-CWT is indeed, a true CWT.  Otherwise, we should change it to `application/kb-cwt`.)",
       "createdAt": "2025-06-01T20:57:04Z",
-      "updatedAt": "2025-06-01T20:57:04Z",
+      "updatedAt": "2025-06-04T13:23:28Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Mike and I discussed this on the editors call, we need to raise the 2 issues together on the list likely.",
+          "createdAt": "2025-06-04T13:23:27Z",
+          "updatedAt": "2025-06-04T13:23:27Z"
+        }
+      ]
     },
     {
       "number": 85,
@@ -1338,9 +1368,17 @@
       "labels": [],
       "body": "The term \"fixed claims\" is used once in the spec and never defined.  Should this be \"mandatory to disclose claims\"?\n",
       "createdAt": "2025-06-01T20:57:57Z",
-      "updatedAt": "2025-06-01T20:57:57Z",
+      "updatedAt": "2025-06-04T13:25:00Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Propose to define terms for both \"mandatory to disclose claims\" and \"redact-able claims\".",
+          "createdAt": "2025-06-04T13:24:59Z",
+          "updatedAt": "2025-06-04T13:24:59Z"
+        }
+      ]
     },
     {
       "number": 86,
@@ -1354,9 +1392,17 @@
       "labels": [],
       "body": "The defined terms Issuer, Holder, Verifier are not always capitalized.  Likewise, Claim Name and Claim Value are not always capitalized.  The spellings used should be consistent.",
       "createdAt": "2025-06-01T20:58:39Z",
-      "updatedAt": "2025-06-01T20:58:39Z",
+      "updatedAt": "2025-06-04T13:27:10Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Capitalized terms should be in the terminology section, and we should be consistent.",
+          "createdAt": "2025-06-04T13:27:09Z",
+          "updatedAt": "2025-06-04T13:27:09Z"
+        }
+      ]
     },
     {
       "number": 87,
@@ -1368,11 +1414,19 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "The speciication contains this statement:\n> Note: Because the algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.\n\nThis is not true, since the COSE Algorithms registry contains non-AEAD algorithms, such as AES-CTR and AES-CBC.\n\nNote that this also contradicts this statement in the specification:\n> The IANA COSE Algorithms registry contains deprecated and unsafe algorithms.\n\nThe incorrect statement should be removed or replaced.",
+      "body": "The specification contains this statement:\n> Note: Because the algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.\n\nThis is not true, since the COSE Algorithms registry contains non-AEAD algorithms, such as AES-CTR and AES-CBC.\n\nNote that this also contradicts this statement in the specification:\n> The IANA COSE Algorithms registry contains deprecated and unsafe algorithms.\n\nThe incorrect statement should be removed or replaced.",
       "createdAt": "2025-06-01T20:59:58Z",
-      "updatedAt": "2025-06-01T20:59:58Z",
+      "updatedAt": "2025-06-04T13:34:30Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "selfissued",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Per discussion on the editors' call with @OR13, this is related to #91.",
+          "createdAt": "2025-06-04T13:34:29Z",
+          "updatedAt": "2025-06-04T13:34:29Z"
+        }
+      ]
     },
     {
       "number": 88,
@@ -1386,9 +1440,17 @@
       "labels": [],
       "body": "The specification current requires `sd_alg` to be present.  This is inconsistent with `sd_aead` which does have a default value, and therefore can be omitted.  It is also inconsistent with SD-JWT, where `sd_alg` has a default value of SHA-256.\n\nI believe we should make `sd_alg` OPTIONAL, with a default value of SHA-256.\n",
       "createdAt": "2025-06-01T21:01:27Z",
-      "updatedAt": "2025-06-01T21:01:27Z",
+      "updatedAt": "2025-06-04T13:54:54Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "its sha256 when not present.",
+          "createdAt": "2025-06-04T13:54:33Z",
+          "updatedAt": "2025-06-04T13:54:53Z"
+        }
+      ]
     },
     {
       "number": 89,
@@ -1402,9 +1464,17 @@
       "labels": [],
       "body": "The specification contains this text:\n> ;; XXX is the digest always .size 16?\n\nI believe it is not always 16 bytes, since the `sd_alg` enables the use of hashes with different size outputs.  This should be corrected.\n",
       "createdAt": "2025-06-01T21:02:16Z",
-      "updatedAt": "2025-06-01T21:02:16Z",
+      "updatedAt": "2025-06-04T13:54:13Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Seems true... default is 16, when no alg is specified.",
+          "createdAt": "2025-06-04T13:54:12Z",
+          "updatedAt": "2025-06-04T13:54:12Z"
+        }
+      ]
     },
     {
       "number": 90,
@@ -1434,9 +1504,24 @@
       "labels": [],
       "body": "`sd_cose_encrypted_claims` and its relationship to `sd_encrypted_claims` is not well described.  When would you use one versus the other?  And are both actually needed?\n\nAnd how do these relate to `sd_aead`?\n",
       "createdAt": "2025-06-01T21:05:06Z",
-      "updatedAt": "2025-06-01T21:05:06Z",
+      "updatedAt": "2025-06-04T13:45:24Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "One is for using an AEAD per 5116 and the other is for using a COSE encrypt (and algorithm from the registry)",
+          "createdAt": "2025-06-04T13:33:42Z",
+          "updatedAt": "2025-06-04T13:33:42Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This is also related to #98 ",
+          "createdAt": "2025-06-04T13:45:23Z",
+          "updatedAt": "2025-06-04T13:45:23Z"
+        }
+      ]
     },
     {
       "number": 92,
@@ -1450,9 +1535,17 @@
       "labels": [],
       "body": "The way that the content encryption key used with `sd_aead` is obtained is not described.  The same is true for the content encryption keys for `sd_cose_encrypted_claims` and `sd_encrypted_claims`.  Achieving interoperablity requires this to be specified.\n\nRelated to this, this statement does not promote interoperability:\n> Details of key management are left to the specific protocols that make use of encrypted disclosures.\n",
       "createdAt": "2025-06-01T21:06:23Z",
-      "updatedAt": "2025-06-01T21:06:23Z",
+      "updatedAt": "2025-06-04T13:39:42Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think there is an assumption here, that the verifier who can decrypt is already in possession of the symmetric key... and how they have obtained that key is in scope for the protocol they are using, but out of scope for this draft.",
+          "createdAt": "2025-06-04T13:39:41Z",
+          "updatedAt": "2025-06-04T13:39:41Z"
+        }
+      ]
     },
     {
       "number": 93,
@@ -1466,9 +1559,17 @@
       "labels": [],
       "body": "The specification contains this language:\n> Since the unprotected header is not included in the signature, it will contain all the Salted Disclosed Claims when sent from the Issuer to the Holder.\n\nAs stated, the relationship between the two clauses is confusing.  Should this be reworded to be these two declarative sentences?\n> The unprotected header is not included in the signature.\n> The unprotected header contains all the Salted Disclosed Claims when sent from the Issuer to the Holder.\n\nOr is there a deeper meaning that this language is trying to convey?",
       "createdAt": "2025-06-01T21:08:05Z",
-      "updatedAt": "2025-06-01T21:08:05Z",
+      "updatedAt": "2025-06-04T13:41:03Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, to could be clearer.",
+          "createdAt": "2025-06-04T13:41:01Z",
+          "updatedAt": "2025-06-04T13:41:01Z"
+        }
+      ]
     },
     {
       "number": 94,
@@ -1482,9 +1583,17 @@
       "labels": [],
       "body": "The specification contains this language:\n> Therefore the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and are ignored for validation purposes if they are present.\n\nIgnoring fields is a way to decrease interoperation, in practice.  Can we simply say that they MUST NOT be included?  Or are there use cases where their values are not implied by the `cnf` claim?  If so, what should the processing rules be for them in that case?\n",
       "createdAt": "2025-06-01T21:08:58Z",
-      "updatedAt": "2025-06-01T21:08:58Z",
+      "updatedAt": "2025-06-04T13:43:28Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Reasonable argument.\nWe left iss / sub as allowed, because restricting it could impact profiles.",
+          "createdAt": "2025-06-04T13:43:26Z",
+          "updatedAt": "2025-06-04T13:43:26Z"
+        }
+      ]
     },
     {
       "number": 95,
@@ -1498,9 +1607,17 @@
       "labels": [],
       "body": "In the section \"SD-KBT and SD-CWT Verifier Validation\", there's a list of steps to perform.  These will be easier to understand and follow if presented as a numbered list of steps.\n",
       "createdAt": "2025-06-01T21:09:38Z",
-      "updatedAt": "2025-06-01T21:09:38Z",
+      "updatedAt": "2025-06-04T13:45:17Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We had discussed this previously, and I think there is agreement to make the validation procedure look more like SD-JWT",
+          "createdAt": "2025-06-04T13:45:16Z",
+          "updatedAt": "2025-06-04T13:45:16Z"
+        }
+      ]
     },
     {
       "number": 96,
@@ -1514,9 +1631,17 @@
       "labels": [],
       "body": "The value `AEAD_AES_128_GCM` is not registered in the IANA COSE Algorithms registry.  Is what's meant `A128GCM`?\n",
       "createdAt": "2025-06-01T21:10:25Z",
-      "updatedAt": "2025-06-01T21:10:25Z",
+      "updatedAt": "2025-06-04T13:46:04Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "That algorithm is from 5116, and is named differently than COSE, because it is not COSE.",
+          "createdAt": "2025-06-04T13:46:03Z",
+          "updatedAt": "2025-06-04T13:46:03Z"
+        }
+      ]
     },
     {
       "number": 97,
@@ -1526,13 +1651,23 @@
       "state": "OPEN",
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [],
       "body": "The specification contains this language:\n> The nonce (`nonce`), and the resulting `ciphertext` and `mac` are put in an array.\n\nWhat is meant by the \"mac\" is not specified, nor is how it is to be used specified.\n\nLikewise what is meant by \"looking up the mac\" in this statement is unspecified:\n> The receiver of an encrypted disclosure locates the appropriate key by looking up the mac.\n",
       "createdAt": "2025-06-01T21:11:31Z",
-      "updatedAt": "2025-06-01T21:11:31Z",
+      "updatedAt": "2025-06-04T13:47:34Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Seems like this layer of detail may not be needed in this specification",
+          "createdAt": "2025-06-04T13:47:33Z",
+          "updatedAt": "2025-06-04T13:47:33Z"
+        }
+      ]
     },
     {
       "number": 98,
@@ -1546,9 +1681,17 @@
       "labels": [],
       "body": "The specification includes:\n> The encryption mechanism in this section uses the AEAD algorithm directly instead of COSE encryption, because AEAD is more broadly applicable to some of the other protocols in which encrypted disclosures might be used.\n\nThis is in the COSE family of specifications.  COSE_Encrypt provides value by defining an interoperable encryption format widely supported by libraries.  Is there a compelling reason not to use it?\n",
       "createdAt": "2025-06-01T21:12:46Z",
-      "updatedAt": "2025-06-01T21:12:46Z",
+      "updatedAt": "2025-06-04T13:44:20Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Seems nearly a dupe of https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/91",
+          "createdAt": "2025-06-04T13:44:18Z",
+          "updatedAt": "2025-06-04T13:44:18Z"
+        }
+      ]
     },
     {
       "number": 99,
@@ -1562,9 +1705,17 @@
       "labels": [],
       "body": "The specification defines the `vct` claim as follows:\n> This specification defines the CWT claim `vct` (for verifiable credential type). The vct value MUST be a case-sensitive StringOrURI (see {{RFC7519}}) value serving as an identifier for the type of the SD-CWT claimset.\n\nIn the COSE world, we define integer equivalents of media types - CoAP Content-Formats numbers - to save space.  We should establish a registry for numeric VCT values to do the same for VCT identifiers.\n",
       "createdAt": "2025-06-01T21:15:06Z",
-      "updatedAt": "2025-06-01T21:15:06Z",
+      "updatedAt": "2025-06-04T13:52:05Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "If we made this an integer, we probably would want to establish a registry for the integers.\nWe could have this be StringOrURI / integer from registry established by SPICE.",
+          "createdAt": "2025-06-04T13:52:04Z",
+          "updatedAt": "2025-06-04T13:52:04Z"
+        }
+      ]
     },
     {
       "number": 100,
