@@ -369,7 +369,7 @@ redacted_claim_element = #6.60( bstr .size 16 )
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
 An example nested claim is shown in {{nesting}}.
 
-Finally, an issuer MAY create decoy digests that look like blinded claim hashes but have only a salt.
+Finally, an issuer MAY create decoy digests, which look like blinded claim hashes but have only a salt.
 Decoy digests are discussed in {{decoys}}.
 
 
