@@ -158,7 +158,7 @@ Verifier:
 : An entity that validates a Partial or Full Disclosure by a Holder.
 
 Partial Disclosure:
-: When a subset of the original claims protected by the Issuer are disclosed by the Holder.
+: When a subset of the original claims, protected by the Issuer, are disclosed by the Holder.
 
 Full Disclosure:
 : When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no blinded claims (when all claims are marked as mandatory to disclose by the Issuer) is considered a Full Disclosure.
