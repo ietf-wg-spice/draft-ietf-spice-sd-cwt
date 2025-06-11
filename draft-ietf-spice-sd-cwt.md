@@ -275,7 +275,7 @@ Redacted claims that are array elements are handled slightly differently, as des
 ~~~
 {: title="redacted inspector_license_number claim in the issued CWT payload"}
 
-# Holder prepares an SD-CWT for a Verifier {#SD-CWT-preparation}
+# Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
 
 When the Holder wants to send an SD-CWT and disclose none, some, or all of the redacted values, it makes a list of the values to disclose and puts them in `sd_claims` header parameter in the unprotected header.
 
@@ -319,7 +319,7 @@ Variability in serialization requirements impacts privacy.
 See {{security}} for more details on the privacy impact of serialization and profiling.
 
 
-# SD-CWT Definition {#SD-CWT-def}
+# SD-CWT Definition {#sd-cwt-definition}
 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with either the text value "application/sd+cwt" or an uint value of TBD11 in the SD-CWT.
 
@@ -373,10 +373,10 @@ Finally, an issuer MAY create decoy digests, which look like blinded claim hashe
 Decoy digests are discussed in {{decoys}}.
 
 
-# SD-CWT Issuance {#SD-CWT-issuance}
+# SD-CWT Issuance {#sd-cwt-issuance}
 
 How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out of scope for this specification.
-Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter that is not discussed in this specification.
+Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter, which is not discussed in this specification.
 This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in {{sd-cwt-presentation}}.
 
 The protected header MUST contain the `sd_alg` header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
@@ -586,7 +586,7 @@ When encrypted disclosures are present, they MUST be in the unprotected headers 
 
 The verifier of the key binding token might not be able to decrypt encrypted disclosures and MAY decide to forward them to an inner verifier that can decrypt them.
 
-## AEAD Encrypted Disclosures {#AEAD}
+## AEAD Encrypted Disclosures {#aead}
 
 This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (`sd_aead`) specifies an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}}.
@@ -970,7 +970,7 @@ The following completed registration template per RFC8152 is provided:
 * Value Type: bstr
 * Value Registry: (empty)
 * Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
-* Reference: {{SD-CWT-preparation}} of this specification
+* Reference: {{sd-cwt-preparation}} of this specification
 
 ### sd_alg
 
@@ -981,7 +981,7 @@ The following completed registration template per RFC8152 is provided:
 * Value Type: int
 * Value Registry: IANA COSE Algorithms
 * Description: The hash algorithm used for redacting disclosures.
-* Reference: {{SD-CWT-issuance}} of this specification
+* Reference: {{sd-cwt-issuance}} of this specification
 
 ### sd_encrypted_claims
 
@@ -992,7 +992,7 @@ The following completed registration template per RFC8152 is provided:
 * Value Type: bstr
 * Value Registry: (empty)
 * Description: A list of AEAD encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
-* Reference: {{AEAD}} of this specification
+* Reference: {{aead}} of this specification
 
 ### sd_aead
 
@@ -1003,7 +1003,7 @@ The following completed registration template per RFC8152 is provided:
 * Value Type: int
 * Value Registry: IANA AEAD Algorithm number
 * Description: The AEAD algorithm used for encrypting disclosures.
-* Reference: {{AEAD}} of this specification
+* Reference: {{aead}} of this specification
 
 ### sd_cose_encrypted_claims
 
@@ -1078,7 +1078,7 @@ The following completed registration template is provided:
 * Encoding considerations: binary
 * Security considerations: {{security}} of this specification and {{RFC8392}}
 * Interoperability considerations: n/a
-* Published specification: {{SD-CWT-def}} of this specification
+* Published specification: {{sd-cwt-definition}} of this specification
 * Applications that use this media type: TBD
 * Fragment identifier considerations: n/a
 * Additional information:
@@ -1126,7 +1126,7 @@ The following completed registration template is provided:
 IANA is requested to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group {{!IANA.core-parameters}}:
 
 | Content-Type | Content Coding | ID | Reference |
-| application/sd+cwt | - | TBD11 | {{SD-CWT-def}} of this specification |
+| application/sd+cwt | - | TBD11 | {{sd-cwt-definition}} of this specification |
 | application/kb+cwt | - | TBD12 | {{kbt}} of this specification |
 {: align="left" title="New CoAP Content Formats"}
 
@@ -1176,7 +1176,7 @@ Because the entire SD-CWT is included as a claim in the SD-KBT, the disclosures 
 
 ## Validation
 
-The validation process for SD-CWT is similar to SD-JWT, however, JSON Objects are replaced with CBOR Maps that can contain integer keys and CBOR Tags.
+The validation process for SD-CWT is similar to SD-JWT, however, JSON Objects are replaced with CBOR Maps, which can contain integer keys and CBOR Tags.
 
 # Keys Used in the Examples
 
