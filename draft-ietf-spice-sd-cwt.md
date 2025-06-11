@@ -364,7 +364,6 @@ When blinding an individual item in an array, the value of the item is replaced 
 ~~~ cddl
 ; redacted_claim_element = #6.<TBD5>( bstr .size 16 ) -- RFC 9682 syntax
 redacted_claim_element = #6.60( bstr .size 16 )
-;; XXX is the digest always .size 16?
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
