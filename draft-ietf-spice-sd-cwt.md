@@ -85,7 +85,7 @@ This specification enables Holders of CWT-based credentials to prove the integri
 Although techniques such as one time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols, CWTs remain traceable.
 Selective Disclosure CBOR Web Tokens (SD-CWTs) are CWTs and can be deployed in protocols that are already using CWTs, even if they contain no optional to disclose claims.
 Credential types are distinguished by their attributes, for example, a license to operate a vehicle and a license to import a product will contain different attributes.
-The specification of credential types is out of scope for this specification and the examples used in this specification are informative.
+The specification of credential types is out of scope for this specification, and the examples used in this specification are informative.
 
 SD-CWT operates on CWT Claims Sets as described in {{RFC8392}}.
 CWT Claims Sets contain Claim Keys and Claim Values.
