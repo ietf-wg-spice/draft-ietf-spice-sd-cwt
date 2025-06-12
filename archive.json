@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-05T00:51:25.790961+00:00",
+  "timestamp": "2025-06-12T00:51:38.873499+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1313,7 +1313,7 @@
       ],
       "body": "The specification currently updates RFC 8392 (the CWT specification).  I believe it should not.  It's creating a new data structure drawing from CWT, but should not change CWT.\n\nIt's telling, for instance, that there are separate SD-CWT media types registered.  If an SD-CWT were truly just an updated CWT, then we would be using the `application/cwt` media type and not registering `application/sd+cwt`, etc.  But because they're distinct, they have their own media types.\n\nThe section \"Update to the CBOR Web Token Specification\" should be changed to \"Relationship to the CBOR Web Token Specification\", describing the new features added for SD-CWTs, but not describing an SD-CWT as a CWT.\n\nI'll also note that SD-JWT does not update JWT or say that an SD-JWT is a JWT.  We should follow the same course.\n",
       "createdAt": "2025-06-01T20:52:46Z",
-      "updatedAt": "2025-06-04T13:21:53Z",
+      "updatedAt": "2025-06-11T11:57:09Z",
       "closedAt": null,
       "comments": [
         {
@@ -1329,6 +1329,13 @@
           "body": "Possible solution:\n\n```\napplication/sd+cwt -> application/sd-cwt\n+cwt -> +sd-cwt (for profiles)\n```\n\nMike proposes this in https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/84\n\ncc @rohanmahy @henkbirkholz @cabo ",
           "createdAt": "2025-06-04T13:20:52Z",
           "updatedAt": "2025-06-04T13:21:52Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm guessing the point of *this* issue (vs. #84 ), is whether an SD-CWT is a CWT or not; and whether a CWT should be able to contain map keys which are simple values and tagged integer or text string values.",
+          "createdAt": "2025-06-11T11:56:38Z",
+          "updatedAt": "2025-06-11T11:57:09Z"
         }
       ]
     },
@@ -1365,10 +1372,13 @@
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr",
+        "chore"
+      ],
       "body": "The term \"fixed claims\" is used once in the spec and never defined.  Should this be \"mandatory to disclose claims\"?\n",
       "createdAt": "2025-06-01T20:57:57Z",
-      "updatedAt": "2025-06-04T13:25:00Z",
+      "updatedAt": "2025-06-11T11:58:16Z",
       "closedAt": null,
       "comments": [
         {
@@ -1389,10 +1399,13 @@
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr",
+        "chore"
+      ],
       "body": "The defined terms Issuer, Holder, Verifier are not always capitalized.  Likewise, Claim Name and Claim Value are not always capitalized.  The spellings used should be consistent.",
       "createdAt": "2025-06-01T20:58:39Z",
-      "updatedAt": "2025-06-04T13:27:10Z",
+      "updatedAt": "2025-06-11T12:01:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -1401,6 +1414,13 @@
           "body": "Capitalized terms should be in the terminology section, and we should be consistent.",
           "createdAt": "2025-06-04T13:27:09Z",
           "updatedAt": "2025-06-04T13:27:09Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Generally agree with one proviso:\nIf, for example, \"claim name\" is used uncapitalized, it will still appear as \"Claim name:\" when it appears as an entry in a glossary. ",
+          "createdAt": "2025-06-11T12:00:53Z",
+          "updatedAt": "2025-06-11T12:00:53Z"
         }
       ]
     },
@@ -1409,15 +1429,15 @@
       "id": "I_kwDOMm_Q2s65Pgf3",
       "title": "Incorrect Statement about AEAD Algorithms",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/87",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The specification contains this statement:\n> Note: Because the algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.\n\nThis is not true, since the COSE Algorithms registry contains non-AEAD algorithms, such as AES-CTR and AES-CBC.\n\nNote that this also contradicts this statement in the specification:\n> The IANA COSE Algorithms registry contains deprecated and unsafe algorithms.\n\nThe incorrect statement should be removed or replaced.",
       "createdAt": "2025-06-01T20:59:58Z",
-      "updatedAt": "2025-06-04T13:34:30Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-11T12:02:14Z",
+      "closedAt": "2025-06-11T12:02:14Z",
       "comments": [
         {
           "author": "selfissued",
@@ -1425,6 +1445,13 @@
           "body": "Per discussion on the editors' call with @OR13, this is related to #91.",
           "createdAt": "2025-06-04T13:34:29Z",
           "updatedAt": "2025-06-04T13:34:29Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The text in this issue refers to the IANA AEAD Algorithms registry, which (by design and name) only contains AEAD algorithms. Closing.",
+          "createdAt": "2025-06-11T12:02:14Z",
+          "updatedAt": "2025-06-11T12:02:14Z"
         }
       ]
     },
@@ -1437,10 +1464,13 @@
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr",
+        "chore"
+      ],
       "body": "The specification current requires `sd_alg` to be present.  This is inconsistent with `sd_aead` which does have a default value, and therefore can be omitted.  It is also inconsistent with SD-JWT, where `sd_alg` has a default value of SHA-256.\n\nI believe we should make `sd_alg` OPTIONAL, with a default value of SHA-256.\n",
       "createdAt": "2025-06-01T21:01:27Z",
-      "updatedAt": "2025-06-04T13:54:54Z",
+      "updatedAt": "2025-06-11T12:02:48Z",
       "closedAt": null,
       "comments": [
         {
@@ -1461,10 +1491,13 @@
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr",
+        "chore"
+      ],
       "body": "The specification contains this text:\n> ;; XXX is the digest always .size 16?\n\nI believe it is not always 16 bytes, since the `sd_alg` enables the use of hashes with different size outputs.  This should be corrected.\n",
       "createdAt": "2025-06-01T21:02:16Z",
-      "updatedAt": "2025-06-04T13:54:13Z",
+      "updatedAt": "2025-06-11T12:03:54Z",
       "closedAt": null,
       "comments": [
         {
@@ -1473,6 +1506,13 @@
           "body": "Seems true... default is 16, when no alg is specified.",
           "createdAt": "2025-06-04T13:54:12Z",
           "updatedAt": "2025-06-04T13:54:12Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yup. that's a bug. I think that was a bad merge of a PR from Carsten.\n",
+          "createdAt": "2025-06-11T12:03:54Z",
+          "updatedAt": "2025-06-11T12:03:54Z"
         }
       ]
     },
@@ -1484,13 +1524,25 @@
       "state": "OPEN",
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "selfissued"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "The specification contains this language:\n> all the Salted Disclosed Claims are correct in their unblinded context in the payload.\n\nWhat does it mean for the claims to be \"correct\"?  This needs to be clarified.\n",
       "createdAt": "2025-06-01T21:03:33Z",
-      "updatedAt": "2025-06-01T21:03:33Z",
+      "updatedAt": "2025-06-11T13:36:07Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, that should be reworded. ",
+          "createdAt": "2025-06-11T12:04:54Z",
+          "updatedAt": "2025-06-11T12:04:54Z"
+        }
+      ]
     },
     {
       "number": 91,
@@ -1504,7 +1556,7 @@
       "labels": [],
       "body": "`sd_cose_encrypted_claims` and its relationship to `sd_encrypted_claims` is not well described.  When would you use one versus the other?  And are both actually needed?\n\nAnd how do these relate to `sd_aead`?\n",
       "createdAt": "2025-06-01T21:05:06Z",
-      "updatedAt": "2025-06-04T13:45:24Z",
+      "updatedAt": "2025-06-11T11:46:44Z",
       "closedAt": null,
       "comments": [
         {
@@ -1520,6 +1572,13 @@
           "body": "This is also related to #98 ",
           "createdAt": "2025-06-04T13:45:23Z",
           "updatedAt": "2025-06-04T13:45:23Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "And specifically, you would likely use AEAD when you had existing key management in MLS or RATS that you wanted to leverage.\n\nThe point of this draft is not to pick favorites, but to provide tools.",
+          "createdAt": "2025-06-11T11:46:07Z",
+          "updatedAt": "2025-06-11T11:46:44Z"
         }
       ]
     },
@@ -1535,7 +1594,7 @@
       "labels": [],
       "body": "The way that the content encryption key used with `sd_aead` is obtained is not described.  The same is true for the content encryption keys for `sd_cose_encrypted_claims` and `sd_encrypted_claims`.  Achieving interoperablity requires this to be specified.\n\nRelated to this, this statement does not promote interoperability:\n> Details of key management are left to the specific protocols that make use of encrypted disclosures.\n",
       "createdAt": "2025-06-01T21:06:23Z",
-      "updatedAt": "2025-06-04T13:39:42Z",
+      "updatedAt": "2025-06-11T11:44:51Z",
       "closedAt": null,
       "comments": [
         {
@@ -1544,6 +1603,13 @@
           "body": "I think there is an assumption here, that the verifier who can decrypt is already in possession of the symmetric key... and how they have obtained that key is in scope for the protocol they are using, but out of scope for this draft.",
           "createdAt": "2025-06-04T13:39:41Z",
           "updatedAt": "2025-06-04T13:39:41Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I think there is an assumption here, that the verifier who can decrypt is already in possession of the symmetric key... and how they have obtained that key is in scope for the protocol they are using, but out of scope for this draft.\n\nYes. It also says in that section:\n\"Details of key management are left to the specific protocols which make use of encrypted disclosures.\"",
+          "createdAt": "2025-06-11T11:44:51Z",
+          "updatedAt": "2025-06-11T11:44:51Z"
         }
       ]
     },
@@ -1556,10 +1622,12 @@
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "The specification contains this language:\n> Since the unprotected header is not included in the signature, it will contain all the Salted Disclosed Claims when sent from the Issuer to the Holder.\n\nAs stated, the relationship between the two clauses is confusing.  Should this be reworded to be these two declarative sentences?\n> The unprotected header is not included in the signature.\n> The unprotected header contains all the Salted Disclosed Claims when sent from the Issuer to the Holder.\n\nOr is there a deeper meaning that this language is trying to convey?",
       "createdAt": "2025-06-01T21:08:05Z",
-      "updatedAt": "2025-06-04T13:41:03Z",
+      "updatedAt": "2025-06-11T12:06:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -1583,7 +1651,7 @@
       "labels": [],
       "body": "The specification contains this language:\n> Therefore the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and are ignored for validation purposes if they are present.\n\nIgnoring fields is a way to decrease interoperation, in practice.  Can we simply say that they MUST NOT be included?  Or are there use cases where their values are not implied by the `cnf` claim?  If so, what should the processing rules be for them in that case?\n",
       "createdAt": "2025-06-01T21:08:58Z",
-      "updatedAt": "2025-06-04T13:43:28Z",
+      "updatedAt": "2025-06-11T13:41:31Z",
       "closedAt": null,
       "comments": [
         {
@@ -1592,6 +1660,13 @@
           "body": "Reasonable argument.\nWe left iss / sub as allowed, because restricting it could impact profiles.",
           "createdAt": "2025-06-04T13:43:26Z",
           "updatedAt": "2025-06-04T13:43:26Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Wait on PR proposing not changing CWT, then follow ",
+          "createdAt": "2025-06-11T13:41:31Z",
+          "updatedAt": "2025-06-11T13:41:31Z"
         }
       ]
     },
@@ -1603,11 +1678,15 @@
       "state": "OPEN",
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "In the section \"SD-KBT and SD-CWT Verifier Validation\", there's a list of steps to perform.  These will be easier to understand and follow if presented as a numbered list of steps.\n",
       "createdAt": "2025-06-01T21:09:38Z",
-      "updatedAt": "2025-06-04T13:45:17Z",
+      "updatedAt": "2025-06-11T13:47:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -1624,15 +1703,15 @@
       "id": "I_kwDOMm_Q2s65PjBO",
       "title": "Unregistered value AEAD_AES_128_GCM is used",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/96",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The value `AEAD_AES_128_GCM` is not registered in the IANA COSE Algorithms registry.  Is what's meant `A128GCM`?\n",
       "createdAt": "2025-06-01T21:10:25Z",
-      "updatedAt": "2025-06-04T13:46:04Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-11T12:13:00Z",
+      "closedAt": "2025-06-11T12:13:00Z",
       "comments": [
         {
           "author": "OR13",
@@ -1640,6 +1719,20 @@
           "body": "That algorithm is from 5116, and is named differently than COSE, because it is not COSE.",
           "createdAt": "2025-06-04T13:46:03Z",
           "updatedAt": "2025-06-04T13:46:03Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Specifically it is an \"IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm\" from https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml#aead-parameters-2\n\nthe IANA AEAD Algorithms registry under Authenticated Encryption with Associated Data (AEAD) Parameters.",
+          "createdAt": "2025-06-11T11:54:03Z",
+          "updatedAt": "2025-06-11T11:54:03Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As discussed in #87 , this algorithm name is correct. Closing.",
+          "createdAt": "2025-06-11T12:13:00Z",
+          "updatedAt": "2025-06-11T12:13:00Z"
         }
       ]
     },
@@ -1654,10 +1747,12 @@
       "assignees": [
         "rohanmahy"
       ],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "The specification contains this language:\n> The nonce (`nonce`), and the resulting `ciphertext` and `mac` are put in an array.\n\nWhat is meant by the \"mac\" is not specified, nor is how it is to be used specified.\n\nLikewise what is meant by \"looking up the mac\" in this statement is unspecified:\n> The receiver of an encrypted disclosure locates the appropriate key by looking up the mac.\n",
       "createdAt": "2025-06-01T21:11:31Z",
-      "updatedAt": "2025-06-04T13:47:34Z",
+      "updatedAt": "2025-06-11T13:48:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -1666,6 +1761,20 @@
           "body": "Seems like this layer of detail may not be needed in this specification",
           "createdAt": "2025-06-04T13:47:33Z",
           "updatedAt": "2025-06-04T13:47:33Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is defined in RFC5116 as the \"authentication tag\". It is a MAC. I'd be happy to rename this.",
+          "createdAt": "2025-06-11T12:24:16Z",
+          "updatedAt": "2025-06-11T12:24:16Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@selfissued to review resulting PR",
+          "createdAt": "2025-06-11T13:48:45Z",
+          "updatedAt": "2025-06-11T13:48:45Z"
         }
       ]
     },
@@ -1681,7 +1790,7 @@
       "labels": [],
       "body": "The specification includes:\n> The encryption mechanism in this section uses the AEAD algorithm directly instead of COSE encryption, because AEAD is more broadly applicable to some of the other protocols in which encrypted disclosures might be used.\n\nThis is in the COSE family of specifications.  COSE_Encrypt provides value by defining an interoperable encryption format widely supported by libraries.  Is there a compelling reason not to use it?\n",
       "createdAt": "2025-06-01T21:12:46Z",
-      "updatedAt": "2025-06-04T13:44:20Z",
+      "updatedAt": "2025-06-11T12:24:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -1690,6 +1799,13 @@
           "body": "Seems nearly a dupe of https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/91",
           "createdAt": "2025-06-04T13:44:18Z",
           "updatedAt": "2025-06-04T13:44:18Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": ">Is there a compelling reason not to use it?\n\nYes, there are several use cases (for example MLS credentials) where something (like an MLS stack) already using HPKE or AEAD directly should be able to encrypt a disclosure directly, without requiring the MLS stack to also implement COSE. This results in a clean separation of concerns.\n",
+          "createdAt": "2025-06-11T11:50:31Z",
+          "updatedAt": "2025-06-11T12:24:57Z"
         }
       ]
     },
@@ -1702,10 +1818,12 @@
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "needs-list-review"
+      ],
       "body": "The specification defines the `vct` claim as follows:\n> This specification defines the CWT claim `vct` (for verifiable credential type). The vct value MUST be a case-sensitive StringOrURI (see {{RFC7519}}) value serving as an identifier for the type of the SD-CWT claimset.\n\nIn the COSE world, we define integer equivalents of media types - CoAP Content-Formats numbers - to save space.  We should establish a registry for numeric VCT values to do the same for VCT identifiers.\n",
       "createdAt": "2025-06-01T21:15:06Z",
-      "updatedAt": "2025-06-04T13:52:05Z",
+      "updatedAt": "2025-06-11T12:29:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -1714,6 +1832,13 @@
           "body": "If we made this an integer, we probably would want to establish a registry for the integers.\nWe could have this be StringOrURI / integer from registry established by SPICE.",
           "createdAt": "2025-06-04T13:52:04Z",
           "updatedAt": "2025-06-04T13:52:04Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The CoAP Content-Formats numbers registry seems to have a very specific domain of application. I think we just need some mailing list traffic confirming that basically all CWTs SHOULD prefer the numbers in this registry.",
+          "createdAt": "2025-06-11T12:29:15Z",
+          "updatedAt": "2025-06-11T12:29:15Z"
         }
       ]
     },
@@ -1741,13 +1866,26 @@
       "state": "OPEN",
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr",
+        "chore"
+      ],
       "body": "The Threat Model section consists of lists of questions.  Consider giving each question a number in a list presentation.\n",
       "createdAt": "2025-06-01T21:16:35Z",
-      "updatedAt": "2025-06-01T21:16:35Z",
+      "updatedAt": "2025-06-11T13:50:10Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "No objection.",
+          "createdAt": "2025-06-11T13:49:47Z",
+          "updatedAt": "2025-06-11T13:49:47Z"
+        }
+      ]
     },
     {
       "number": 102,
@@ -1758,12 +1896,52 @@
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr",
+        "chore"
+      ],
       "body": "A To Be Redacted tag is registered in the IANA CBOR Tags registry but it is not defined or used in the specification.  What is it for?  Note that TBD3 occurs nowhere else in the source, other than in the CDDL.\n\nCompare this to the Redacted Claim tag, whose value TBD5 is used and its meaning is defined in the specification.\n",
       "createdAt": "2025-06-01T21:18:05Z",
-      "updatedAt": "2025-06-01T21:18:05Z",
+      "updatedAt": "2025-06-11T12:30:39Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "That's a simple oversight on my part. ",
+          "createdAt": "2025-06-11T12:30:39Z",
+          "updatedAt": "2025-06-11T12:30:39Z"
+        }
+      ]
+    },
+    {
+      "number": 103,
+      "id": "I_kwDOMm_Q2s66-Zxo",
+      "title": "Add @selfissued to CODEOWNERS",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/103",
+      "state": "CLOSED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr",
+        "blocker"
+      ],
+      "body": "Just do it",
+      "createdAt": "2025-06-11T13:51:30Z",
+      "updatedAt": "2025-06-11T16:25:56Z",
+      "closedAt": "2025-06-11T16:25:56Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Done",
+          "createdAt": "2025-06-11T16:25:56Z",
+          "updatedAt": "2025-06-11T16:25:56Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -7896,25 +8074,42 @@
       "id": "PR_kwDOMm_Q2s6YgWkc",
       "title": "Apply clarifications and corrections resulting from reading the entire specification",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/82",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "This PR results from me reading the entire specification.  I applied corrections and clarifications, including corrections to use standard COSE and CWT terminology, where applicable.  I also ran it through a spelling and grammar checker.\r\n\r\nThe only non-obvious change I made was to move the Implementation Status section to an appendix, since it will be deleted by the RFC Editor.\r\n\r\nI'll next file a set of issues containing questions for which the answers weren't sufficiently clear to simply include in this PR.\r\n\u00a0\r\n@mprorock @OR13 @brentzundel @rohanmahy @henkbirkholz please review.",
       "createdAt": "2025-06-01T20:49:14Z",
-      "updatedAt": "2025-06-02T13:20:45Z",
+      "updatedAt": "2025-06-11T16:24:35Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "000d9bbd4389b44d2a11d4d4cbdb9dffcfbefe37",
       "headRepository": "selfissued/draft-ietf-spice-sd-cwt",
       "headRefName": "mbj-clarifications",
-      "headRefOid": "eec294cf4cdedb1faa7a45ea6b66961224e5f82e",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "b3062fe696b33106a9480913389b64e55ed5ccf6",
+      "closedAt": "2025-06-11T16:23:09Z",
+      "mergedAt": "2025-06-11T16:23:09Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "7d1f7bef8ba50c082413909ef3fc1a58182fd731"
+      },
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@rohanmahy feel free to merge outside of call time if you complete your review.",
+          "createdAt": "2025-06-11T13:06:13Z",
+          "updatedAt": "2025-06-11T13:06:13Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "FYI: this changes the style of IANA references to point at specific section numbers. I was advised against this, so it would be nice to have a pointer or some guidance suggesting this. \r\n\r\nThe text around audience values was changed. @OR13 please make sure you are still OK with it.",
+          "createdAt": "2025-06-11T16:24:35Z",
+          "updatedAt": "2025-06-11T16:24:35Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s6sKUmk",
@@ -7928,6 +8123,302 @@
           "createdAt": "2025-06-02T13:20:45Z",
           "updatedAt": "2025-06-02T13:20:45Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6t3nJV",
+          "commit": {
+            "abbreviatedOid": "eec294c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-11T12:56:48Z",
+          "updatedAt": "2025-06-11T12:56:49Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "```suggestion\r\nThe specification of credential types is out of scope for this specification, and the examples used in this specification are informative.\r\n```",
+              "createdAt": "2025-06-11T12:56:49Z",
+              "updatedAt": "2025-06-11T12:56:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6t3oAC",
+          "commit": {
+            "abbreviatedOid": "eec294c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks for the detailed review! Please incorporate my proposed changes, then I will be happy to merge. ",
+          "createdAt": "2025-06-11T12:57:49Z",
+          "updatedAt": "2025-06-11T15:04:56Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "What terms does it use from JWT, and why would we want that?",
+              "createdAt": "2025-06-11T12:57:49Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            },
+            {
+              "originalPosition": 96,
+              "body": "```suggestion\r\n: When a subset of the original claims, protected by the Issuer, are disclosed by the Holder.\r\n```",
+              "createdAt": "2025-06-11T13:10:34Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            },
+            {
+              "originalPosition": 261,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-06-11T13:24:14Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            },
+            {
+              "originalPosition": 273,
+              "body": "```suggestion\r\n# SD-CWT Issuance {#sd-cwt-issuance}\r\n```\r\nyou get  #sd-cwt-issuance for free. It's not necessary to add it explicitly.",
+              "createdAt": "2025-06-11T13:26:54Z",
+              "updatedAt": "2025-06-11T16:13:16Z"
+            },
+            {
+              "originalPosition": 278,
+              "body": "```suggestion\r\nLikewise, how the Holder determines which claims to blind or to always disclose is a policy matter, which is not discussed in this specification.\r\n```\r\nthe policy matter is not defined by whether it is discussed in the spec. \r\n",
+              "createdAt": "2025-06-11T13:28:52Z",
+              "updatedAt": "2025-06-11T16:13:43Z"
+            },
+            {
+              "originalPosition": 364,
+              "body": "I think Orie, Henk, and I went around a bit on the \"relevant\" language. We may revisit this in another PR.\r\n```suggestion\r\nThe `aud` claim MUST be included and MUST be relevant to the Verifier.\r\n```\r\n",
+              "createdAt": "2025-06-11T14:31:24Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            },
+            {
+              "originalPosition": 917,
+              "body": "```suggestion\r\nThe validation process for SD-CWT is similar to SD-JWT, however, JSON Objects are replaced with CBOR Maps, which can contain integer keys and CBOR Tags.\r\n```",
+              "createdAt": "2025-06-11T14:45:16Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            },
+            {
+              "originalPosition": 861,
+              "body": "I was told by IANA that they could not correctly handle internal section numbers of IETF specs, and prefer the RFC XXXX convention. Do you have some information to the contrary?",
+              "createdAt": "2025-06-11T14:48:27Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            },
+            {
+              "originalPosition": 182,
+              "body": "```suggestion\r\n# Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}\r\n```",
+              "createdAt": "2025-06-11T14:54:37Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            },
+            {
+              "originalPosition": 225,
+              "body": "```suggestion\r\n# SD-CWT Definition {#sd-cwt-definition}\r\n```",
+              "createdAt": "2025-06-11T14:55:07Z",
+              "updatedAt": "2025-06-11T16:12:43Z"
+            },
+            {
+              "originalPosition": 445,
+              "body": "```suggestion\r\n## AEAD Encrypted Disclosures {#aead}\r\n```",
+              "createdAt": "2025-06-11T14:55:37Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            },
+            {
+              "originalPosition": 839,
+              "body": "```suggestion\r\n* Published specification: {{sd-cwt-definition}} of this specification\r\n```",
+              "createdAt": "2025-06-11T14:56:41Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            },
+            {
+              "originalPosition": 877,
+              "body": "```suggestion\r\n| application/sd+cwt | - | TBD11 | {{sd-cwt-definition}} of this specification |\r\n```",
+              "createdAt": "2025-06-11T14:57:12Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            },
+            {
+              "originalPosition": 268,
+              "body": "```suggestion\r\nFinally, an issuer MAY create decoy digests, which look like blinded claim hashes but have only a salt.\r\n```",
+              "createdAt": "2025-06-11T14:59:59Z",
+              "updatedAt": "2025-06-11T15:04:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6t6hm6",
+          "commit": {
+            "abbreviatedOid": "eec294c"
+          },
+          "author": "selfissued",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-11T15:51:18Z",
+          "updatedAt": "2025-06-11T15:51:18Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "Claims Set",
+              "createdAt": "2025-06-11T15:51:18Z",
+              "updatedAt": "2025-06-11T15:51:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6t6jxQ",
+          "commit": {
+            "abbreviatedOid": "eec294c"
+          },
+          "author": "selfissued",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-11T15:53:46Z",
+          "updatedAt": "2025-06-11T15:53:46Z",
+          "comments": [
+            {
+              "originalPosition": 273,
+              "body": "The problem with using the implicitly generated anchors is that they can cause naming conflicts.  If there are two subsections with the same title, they'll have the same anchor.  I've always found it cleaner and less error prone, therefore, to use explicit anchor names for any references.",
+              "createdAt": "2025-06-11T15:53:46Z",
+              "updatedAt": "2025-06-11T15:53:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6t6llh",
+          "commit": {
+            "abbreviatedOid": "eec294c"
+          },
+          "author": "selfissued",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-11T15:55:34Z",
+          "updatedAt": "2025-06-11T15:55:35Z",
+          "comments": [
+            {
+              "originalPosition": 278,
+              "body": "If you're going to use an independent clause introduced by \"which\", you need to add a comma before it.  Once you add the comma before \"which\", I'll accept your suggestion.",
+              "createdAt": "2025-06-11T15:55:34Z",
+              "updatedAt": "2025-06-11T15:55:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6t6mrb",
+          "commit": {
+            "abbreviatedOid": "eec294c"
+          },
+          "author": "selfissued",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-11T15:57:05Z",
+          "updatedAt": "2025-06-11T15:57:05Z",
+          "comments": [
+            {
+              "originalPosition": 225,
+              "body": "As above, use of explicit anchors is less error prone.  Another reason is that sometimes an editor will change a section title, not realizing that the implicitly generated anchor value is being used in a reference elsewhere.  That title change will then break the reference.  That doesn't happen with explicit anchor values.",
+              "createdAt": "2025-06-11T15:57:05Z",
+              "updatedAt": "2025-06-11T15:57:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6t6nUw",
+          "commit": {
+            "abbreviatedOid": "eec294c"
+          },
+          "author": "selfissued",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-11T15:57:59Z",
+          "updatedAt": "2025-06-11T15:57:59Z",
+          "comments": [
+            {
+              "originalPosition": 445,
+              "body": "If we change this anchor value, we also need to change all the uses of it in references.  I'm OK with the lowercase name provided the uses of it are also changed.",
+              "createdAt": "2025-06-11T15:57:59Z",
+              "updatedAt": "2025-06-11T15:57:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6t6nrx",
+          "commit": {
+            "abbreviatedOid": "eec294c"
+          },
+          "author": "selfissued",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-11T15:58:30Z",
+          "updatedAt": "2025-06-11T15:58:30Z",
+          "comments": [
+            {
+              "originalPosition": 839,
+              "body": "This doesn't correspond to the defined anchor value.",
+              "createdAt": "2025-06-11T15:58:30Z",
+              "updatedAt": "2025-06-11T15:58:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6t6n3w",
+          "commit": {
+            "abbreviatedOid": "eec294c"
+          },
+          "author": "selfissued",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-11T15:58:45Z",
+          "updatedAt": "2025-06-11T15:58:45Z",
+          "comments": [
+            {
+              "originalPosition": 877,
+              "body": "Ditto",
+              "createdAt": "2025-06-11T15:58:45Z",
+              "updatedAt": "2025-06-11T15:58:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6t65ZH",
+          "commit": {
+            "abbreviatedOid": "7279c1b"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-11T16:14:57Z",
+          "updatedAt": "2025-06-11T16:18:06Z",
+          "comments": [
+            {
+              "originalPosition": 718,
+              "body": "```suggestion\r\n* Reference: {{sd-cwt-preparation}} of this specification\r\n```",
+              "createdAt": "2025-06-11T16:14:57Z",
+              "updatedAt": "2025-06-11T16:18:06Z"
+            },
+            {
+              "originalPosition": 727,
+              "body": "```suggestion\r\n* Reference: {{sd-cwt-issuance}} of this specification\r\n```",
+              "createdAt": "2025-06-11T16:15:29Z",
+              "updatedAt": "2025-06-11T16:18:06Z"
+            },
+            {
+              "originalPosition": 740,
+              "body": "```suggestion\r\n* Reference: {{aead}} of this specification\r\n```",
+              "createdAt": "2025-06-11T16:15:42Z",
+              "updatedAt": "2025-06-11T16:18:06Z"
+            },
+            {
+              "originalPosition": 749,
+              "body": "```suggestion\r\n* Reference: {{aead}} of this specification\r\n```",
+              "createdAt": "2025-06-11T16:15:54Z",
+              "updatedAt": "2025-06-11T16:18:06Z"
+            }
+          ]
         }
       ]
     }
