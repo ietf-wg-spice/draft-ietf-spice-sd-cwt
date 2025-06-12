@@ -50,10 +50,6 @@ author:
     email: "rohan.ietf@gmail.com"
 
 normative:
-  RFC7515:
-  RFC7519:
-  RFC8392:
-  RFC9052:
   RFC8949:
   BCP205:
 
@@ -78,8 +74,8 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
 
 # Introduction
 
-This specification updates the CBOR Web Token (CWT) specification {{RFC8392}}, enabling the holder of a CWT to disclose or redact special claims marked as selectively disclosable by the issuer of a CWT.
-The approach is modeled after SD-JWT {{-SD-JWT}}, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) {{RFC9052}} and CWT.
+This specification updates the CBOR Web Token (CWT) specification {{!RFC8392}}, enabling the holder of a CWT to disclose or redact special claims marked as selectively disclosable by the issuer of a CWT.
+The approach is modeled after SD-JWT {{-SD-JWT}}, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) {{!RFC9052}} and CWT.
 This specification enables Holders of CWT-based credentials to prove the integrity and authenticity of selected attributes asserted by an Issuer about a Subject to a Verifier.
 
 Although techniques such as one time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols, CWTs remain traceable.
@@ -87,11 +83,11 @@ Selective Disclosure CBOR Web Tokens (SD-CWTs) are CWTs and can be deployed in p
 Credential types are distinguished by their attributes, for example, a license to operate a vehicle and a license to import a product will contain different attributes.
 The specification of credential types is out of scope for this specification, and the examples used in this specification are informative.
 
-SD-CWT operates on CWT Claims Sets as described in {{RFC8392}}.
+SD-CWT operates on CWT Claims Sets as described in {{!RFC8392}}.
 CWT Claims Sets contain Claim Keys and Claim Values.
 SD-CWT enables Issuers to mark certain Claim Keys or Claim Values mandatory or optional for a holder of a CWT to disclose.
 A verifier that does not understand selective disclosure at all cannot process redacted Claim Keys sent by the Holder.
-However, Claim Keys and Claim Values that are not understood remain ignored, as described in {{Section 3 of RFC8392}}.
+However, Claim Keys and Claim Values that are not understood remain ignored, as described in {{Section 3 of !RFC8392}}.
 
 ## High-Level Flow
 
@@ -138,7 +134,7 @@ However, the following guidance is generally recommended, regardless of protocol
 This specification uses terms from CWT {{!RFC8392}}, COSE {{!RFC9052}} {{!RFC9053}}
 and JWT {{!RFC7519}}.
 
-The terms Claim Name, Claim Key, and Claim Value are defined in {{RFC8392}}.
+The terms Claim Name, Claim Key, and Claim Value are defined in {{!RFC8392}}.
 
 This specification defines the following new terms:
 
@@ -300,7 +296,7 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 
 # Update to the CBOR Web Token Specification {#cwt-update}
 
-The CBOR Web Token Specification (Section 1.1 of {{RFC8392}}), uses text strings, negative integers, and unsigned integers as map keys.
+The CBOR Web Token Specification (Section 1.1 of {{!RFC8392}}), uses text strings, negative integers, and unsigned integers as map keys.
 This specification relaxes that requirement, by also allowing the CBOR simple value registered in this specification in {{simple59}}, and CBOR tagged integers and text strings as map keys.
 CBOR maps used in a CWT cannot have duplicate keys.
 (An integer or text string map key is a distinct key from a tagged map key that wraps the corresponding integer or text string value).
@@ -536,9 +532,9 @@ All other claims are OPTIONAL in an SD-KBT.
 
 The exact order of the following steps MAY be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
 First the Verifier must open the protected headers of the SD-KBT and find the issuer SD-CWT present in the `kcwt` field.
-Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of RFC8392}}.
+Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of !RFC8392}}.
 The Verifier extracts the confirmation key from the `cnf` claim in the SD-CWT payload.
-Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of RFC8392}}.
+Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
 
 Finally, the Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
 The decoded `sd_claims` are converted to an intermediate data structure called a Digest To Disclosed Claim Map that is used to transform the Presented Disclosed Claims Set into a Validated Disclosed Claims Set.
@@ -679,7 +675,7 @@ Implementations using COSE encrypted disclosures MUST select only fully-specifie
 
 # Credential Types {#cred-types}
 
-This specification defines the CWT claim `vct` (for verifiable credential type). The vct value MUST be a case-sensitive StringOrURI (see {{RFC7519}}) value serving as an identifier for the type of the SD-CWT Claims Set. The `vct` value MUST be a Collision-Resistant Name, as defined in Section 2 of {{!RFC7515}}.
+This specification defines the CWT claim `vct` (for verifiable credential type). The vct value MUST be a case-sensitive StringOrURI (see {{!RFC7519}}) value serving as an identifier for the type of the SD-CWT Claims Set. The `vct` value MUST be a Collision-Resistant Name, as defined in Section 2 of {{!RFC7515}}.
 
 This claim is defined for COSE based verifiable credentials, similar to the JOSE based verifiable credentials claim (`vct`) described in Section 3.2.2.1.1 of {{-SD-JWT-VC}}.
 
@@ -862,7 +858,7 @@ After applying the disclosures of the nested structure above, the disclosed Clai
 
 # Security Considerations {#security}
 
-Security considerations from COSE {{RFC9052}} and CWT {{RFC8392}} apply to this specification.
+Security considerations from COSE {{!RFC9052}} and CWT {{!RFC8392}} apply to this specification.
 
 ## Transparency
 
@@ -1023,7 +1019,7 @@ IANA is requested to add the following entry to the IANA "CBOR Simple Values" re
 
 * Value: TBD4 (requested assignment 59)
 * Semantics: This value as a map key indicates that the claim value is an array of redacted claim keys at the same level as the map key.
-* Specification Document(s): {{blinded-claims} of this specification
+* Specification Document(s): {{blinded-claims}} of this specification
 
 ## CBOR Tags
 
@@ -1036,7 +1032,7 @@ The array claim element, or map key and value inside the "To be redacted" tag is
 * Tag: TBD3 (requested assignment 58)
 * Data Item: (any)
 * Semantics: An array claim element, or map key and value intended to be redacted.
-* Specification Document(s): {{blinded-claims} of this specification
+* Specification Document(s): {{blinded-claims}} of this specification
 
 ### Redacted Claim Element Tag
 
@@ -1045,7 +1041,7 @@ The byte string inside the tag is a selective disclosure redacted claim element 
 * Tag: TBD5 (requested assignment 60)
 * Data Item: byte string
 * Semantics: A selective disclosure redacted (array) claim element.
-* Specification Document(s): {{blinded-claims} of this specification
+* Specification Document(s): {{blinded-claims}} of this specification
 
 ## CBOR Web Token (CWT) Claims
 
@@ -1076,7 +1072,7 @@ The following completed registration template is provided:
 * Required parameters: n/a
 * Optional parameters: n/a
 * Encoding considerations: binary
-* Security considerations: {{security}} of this specification and {{RFC8392}}
+* Security considerations: {{security}} of this specification and {{!RFC8392}}
 * Interoperability considerations: n/a
 * Published specification: {{sd-cwt-definition}} of this specification
 * Applications that use this media type: TBD
@@ -1103,7 +1099,7 @@ The following completed registration template is provided:
 * Required parameters: n/a
 * Optional parameters: n/a
 * Encoding considerations: binary
-* Security considerations: {{security}} of this specification and {{RFC8392}}
+* Security considerations: {{security}} of this specification and {{!RFC8392}}
 * Interoperability considerations: n/a
 * Published specification: {{kbt}} of this specification
 * Applications that use this media type: TBD
