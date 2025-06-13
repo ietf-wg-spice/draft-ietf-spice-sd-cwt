@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 14 December 2025</td>
+<td class="center">Expires 15 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,17 +1065,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="workgroup">Secure Patterns for Internet CrEdentials</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
-<dt class="label-updates">Updates:</dt>
-<dd class="updates">
-<a href="https://www.rfc-editor.org/rfc/rfcRFC8392" class="eref">RFC8392</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-06-12" class="published">12 June 2025</time>
+<time datetime="2025-06-13" class="published">13 June 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-12-14">14 December 2025</time></dd>
+<dd class="expires"><time datetime="2025-12-15">15 December 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1138,7 +1135,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 15 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1193,7 +1190,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-holder-prepares-an-sd-cwt-f" class="internal xref">Holder prepares an SD-CWT for a Verifier</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-update-to-the-cbor-web-toke" class="internal xref">Update to the CBOR Web Token Specification</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-differences-from-the-cbor-w" class="internal xref">Differences from the CBOR Web Token Specification</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-sd-cwt-definition" class="internal xref">SD-CWT Definition</a></p>
@@ -1440,11 +1437,11 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This specification updates the CBOR Web Token (CWT) specification <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, enabling the holder of a CWT to disclose or redact special claims marked as selectively disclosable by the issuer of a CWT.
+<p id="section-1-1">This specification creates a new format based on the CBOR Web Token (CWT) specification <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, enabling the holder of a CWT to disclose or redact special claims marked as selectively disclosable by the issuer of a CWT.
 The approach is modeled after SD-JWT <span>[<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span>, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> and CWT.
 This specification enables Holders of CWT-based credentials to prove the integrity and authenticity of selected attributes asserted by an Issuer about a Subject to a Verifier.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">Although techniques such as one time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols, CWTs remain traceable.
-Selective Disclosure CBOR Web Tokens (SD-CWTs) are CWTs and can be deployed in protocols that are already using CWTs, even if they contain no optional to disclose claims.
+<p id="section-1-2">Although techniques such as one time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols, SD-CWTs remain traceable.
+Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are already using CWTs with minor changes, even if they contain no optional to disclose claims.
 Credential types are distinguished by their attributes, for example, a license to operate a vehicle and a license to import a product will contain different attributes.
 The specification of credential types is out of scope for this specification, and the examples used in this specification are informative.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">SD-CWT operates on CWT Claims Sets as described in <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
@@ -1669,7 +1666,7 @@ Notation (EDN) <span>[<a href="#I-D.ietf-cbor-edn-literals" class="cite xref">I-
         </h3>
 <p id="section-3.2-1">Alice would like to selectively disclose some of these (custom) claims to different verifiers.
 Note that some of the claims may not be selectively disclosable.
-In our next example, the pass/fail status of the inspection, the most recent inspection date, and the country of the inspection will be fixed claims (always present in the SD-CWT).
+In our next example, the pass/fail status of the inspection, the most recent inspection date, and the country of the inspection will be claims that are always present in the SD-CWT.
 After the Holder requests an SD-CWT from the issuer, the issuer generates the following SD-CWT:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <span id="name-issued-sd-cwt-with-all-disc"></span><div id="basic-issuer-cwt">
 <figure id="figure-1">
@@ -1884,14 +1881,14 @@ Redacted claims that are array elements are handled slightly differently, as des
 Since the unprotected header of the included SD-CWT is covered by the signature in the SW-KBT, the Verifier has assurance that the Holder included the sent list of disclosures.<a href="#section-4-8" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="cwt-update">
+<div id="cwt-diffs">
 <section id="section-5">
-      <h2 id="name-update-to-the-cbor-web-toke">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-update-to-the-cbor-web-toke" class="section-name selfRef">Update to the CBOR Web Token Specification</a>
+      <h2 id="name-differences-from-the-cbor-w">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-differences-from-the-cbor-w" class="section-name selfRef">Differences from the CBOR Web Token Specification</a>
       </h2>
 <p id="section-5-1">The CBOR Web Token Specification (Section 1.1 of <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>), uses text strings, negative integers, and unsigned integers as map keys.
-This specification relaxes that requirement, by also allowing the CBOR simple value registered in this specification in <a href="#simple59" class="auto internal xref">Section 15.2</a>, and CBOR tagged integers and text strings as map keys.
-CBOR maps used in a CWT cannot have duplicate keys.
+This specification also allows the CBOR simple value registered in this specification in <a href="#simple59" class="auto internal xref">Section 15.2</a>, and CBOR tagged integers and text strings as map keys.
+As in CWTs, CBOR maps used in an SD-CWT or SD-KBT also cannot have duplicate keys.
 (An integer or text string map key is a distinct key from a tagged map key that wraps the corresponding integer or text string value).<a href="#section-5-1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-5-2.1">
@@ -1988,7 +1985,7 @@ Profiles of this specification <span class="bcp14">MAY</span> specify additional
         <h3 id="name-issuer-generation">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-issuer-generation" class="section-name selfRef">Issuer Generation</a>
         </h3>
-<p id="section-7.1-1">The Issuer follows all the requirements of generating a valid CWT, as updated by <a href="#cwt-update" class="auto internal xref">Section 5</a>.
+<p id="section-7.1-1">The Issuer follows all the requirements of generating a valid SD-CWT, largely a CWT extended by <a href="#cwt-diffs" class="auto internal xref">Section 5</a>.
 The Issuer <span class="bcp14">MUST</span> implement COSE_Sign1 using an appropriate fully-specified asymmetric signature algorithm (for example, ESP256 or Ed25519).<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">The Issuer <span class="bcp14">MUST</span> generate a unique cryptographically random salt with at least 128-bits of entropy for each Salted Disclosed Claim.
 If the client communicates a client-generated nonce (<code>cnonce</code>) when requesting the SD-CWT, the Issuer <span class="bcp14">MUST</span> include it in the payload.<a href="#section-7.1-2" class="pilcrow">¶</a></p>

@@ -4,13 +4,13 @@
 
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
-Updates: RFC8392 (if approved)                                 O. Steele
-Intended status: Standards Track                               Transmute
-Expires: 14 December 2025                                    H. Birkholz
+Intended status: Standards Track                               O. Steele
+Expires: 15 December 2025                                      Transmute
+                                                             H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                            12 June 2025
+                                                            13 June 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 December 2025.
+   This Internet-Draft will expire on 15 December 2025.
 
 Copyright Notice
 
@@ -81,7 +81,7 @@ Table of Contents
      3.1.  A CWT without Selective Disclosure
      3.2.  Holder gets an SD-CWT from the Issuer
    4.  Holder prepares an SD-CWT for a Verifier
-   5.  Update to the CBOR Web Token Specification
+   5.  Differences from the CBOR Web Token Specification
    6.  SD-CWT Definition
      6.1.  Types of Blinded Claims
    7.  SD-CWT Issuance
@@ -153,10 +153,10 @@ Table of Contents
 
 1.  Introduction
 
-   This specification updates the CBOR Web Token (CWT) specification
-   [RFC8392], enabling the holder of a CWT to disclose or redact special
-   claims marked as selectively disclosable by the issuer of a CWT.  The
-   approach is modeled after SD-JWT
+   This specification creates a new format based on the CBOR Web Token
+   (CWT) specification [RFC8392], enabling the holder of a CWT to
+   disclose or redact special claims marked as selectively disclosable
+   by the issuer of a CWT.  The approach is modeled after SD-JWT
    [I-D.draft-ietf-oauth-selective-disclosure-jwt], with changes to
    align with conventions from CBOR Object Signing and Encryption (COSE)
    [RFC9052] and CWT.  This specification enables Holders of CWT-based
@@ -165,12 +165,12 @@ Table of Contents
 
    Although techniques such as one time use and batch issuance can
    improve the confidentiality and security characteristics of CWT-based
-   credential protocols, CWTs remain traceable.  Selective Disclosure
-   CBOR Web Tokens (SD-CWTs) are CWTs and can be deployed in protocols
-   that are already using CWTs, even if they contain no optional to
-   disclose claims.  Credential types are distinguished by their
-   attributes, for example, a license to operate a vehicle and a license
-   to import a product will contain different attributes.  The
+   credential protocols, SD-CWTs remain traceable.  Selective Disclosure
+   CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are
+   already using CWTs with minor changes, even if they contain no
+   optional to disclose claims.  Credential types are distinguished by
+   their attributes, for example, a license to operate a vehicle and a
+   license to import a product will contain different attributes.  The
    specification of credential types is out of scope for this
    specification, and the examples used in this specification are
    informative.
@@ -343,8 +343,8 @@ Issuer                           Holder                         Verifier
    claims to different verifiers.  Note that some of the claims may not
    be selectively disclosable.  In our next example, the pass/fail
    status of the inspection, the most recent inspection date, and the
-   country of the inspection will be fixed claims (always present in the
-   SD-CWT).  After the Holder requests an SD-CWT from the issuer, the
+   country of the inspection will be claims that are always present in
+   the SD-CWT.  After the Holder requests an SD-CWT from the issuer, the
    issuer generates the following SD-CWT:
 
    / cose-sign1 / 18([  / issuer SD-CWT /
@@ -560,15 +560,15 @@ Issuer                           Holder                         Verifier
    signature in the SW-KBT, the Verifier has assurance that the Holder
    included the sent list of disclosures.
 
-5.  Update to the CBOR Web Token Specification
+5.  Differences from the CBOR Web Token Specification
 
    The CBOR Web Token Specification (Section 1.1 of [RFC8392]), uses
    text strings, negative integers, and unsigned integers as map keys.
-   This specification relaxes that requirement, by also allowing the
-   CBOR simple value registered in this specification in Section 15.2,
-   and CBOR tagged integers and text strings as map keys.  CBOR maps
-   used in a CWT cannot have duplicate keys.  (An integer or text string
-   map key is a distinct key from a tagged map key that wraps the
+   This specification also allows the CBOR simple value registered in
+   this specification in Section 15.2, and CBOR tagged integers and text
+   strings as map keys.  As in CWTs, CBOR maps used in an SD-CWT or SD-
+   KBT also cannot have duplicate keys.  (An integer or text string map
+   key is a distinct key from a tagged map key that wraps the
    corresponding integer or text string value).
 
       When sorted, map keys in CBOR are arranged in bytewise
@@ -698,10 +698,10 @@ Issuer                           Holder                         Verifier
 
 7.1.  Issuer Generation
 
-   The Issuer follows all the requirements of generating a valid CWT, as
-   updated by Section 5.  The Issuer MUST implement COSE_Sign1 using an
-   appropriate fully-specified asymmetric signature algorithm (for
-   example, ESP256 or Ed25519).
+   The Issuer follows all the requirements of generating a valid SD-CWT,
+   largely a CWT extended by Section 5.  The Issuer MUST implement
+   COSE_Sign1 using an appropriate fully-specified asymmetric signature
+   algorithm (for example, ESP256 or Ed25519).
 
    The Issuer MUST generate a unique cryptographically random salt with
    at least 128-bits of entropy for each Salted Disclosed Claim.  If the
