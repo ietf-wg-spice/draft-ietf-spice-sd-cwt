@@ -63,6 +63,48 @@ informative:
     title: "t-Closeness: Privacy Beyond k-Anonymity and l-Diversity"
     date: 2007-06-04
 
+  IANA.COSE:
+    target: https://www.iana.org/assignments/cose
+    title: CBOR Object Signing and Encryption (COSE)
+    author:
+    - org: IANA
+
+  IANA.CBOR.Simple:
+    target: https://www.iana.org/assignments/cbor-simple-values
+    title: CBOR Simple Values
+    author:
+    - org: IANA
+
+  IANA.CBOR.Tags:
+    target: https://www.iana.org/assignments/cbor-tags
+    title: CBOR Tags
+    author:
+    - org: IANA
+
+  IANA.CWT:
+    target: https://www.iana.org/assignments/cwt
+    title: CBOR Web Token (CWT) Claims
+    author:
+    - org: IANA
+
+  IANA.MediaTypes:
+    target: https://www.iana.org/assignments/media-types
+    title: Media Types
+    author:
+    - org: IANA
+
+  IANA.StructuredSuffix:
+    target: https://www.iana.org/assignments/media-type-structured-suffix
+    title: Structured Syntax Suffixes
+    author:
+    - org: IANA
+
+  IANA.Core.Parameters:
+    target: https://www.iana.org/assignments/core-parameters
+    title: Constrained RESTful Environments (CoRE) Parameters
+    author:
+    - org: IANA
+
 --- abstract
 
 This specification describes a data minimization technique for use with CBOR Web Tokens (CWTs).
@@ -316,7 +358,12 @@ See {{security}} for more details on the privacy impact of serialization and pro
 
 # SD-CWT Definition {#sd-cwt-definition}
 
-SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with either the text value "application/sd+cwt" or an uint value of TBD11 in the SD-CWT.
+SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
+An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with a value declaring that the object is an SD-CWT.
+This value MAY be the string content type value `application/sd-cwt`,
+the uint CoAP content-format value TBD11,
+or a value declaring that the object is a more specific kind of SD-CWT,
+such as a content type value using the `+sd-cwt` structured suffix.
 
 An SD-CWT is a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
 It is not required to contain any blinded claims.
@@ -424,7 +471,7 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd+cwt" / TBD11,
+   &(typ: 16) ^ => "application/sd-cwt" / TBD11,
    &(alg: 1) ^ => int,
    &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
    ? &(sd_aead: TBD7) ^ => uint .size 2
@@ -479,7 +526,7 @@ Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in 
 
 The `aud` claim MUST be included and MUST correspond to the Verifier.
 The SD-KBT payload MUST contain the `iat` (issued at) claim.
-The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/sd+kbt` or an uint value of TBD12.
+The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the uint value of TBD12.
 
 The SD-KBT provides the following assurances to the Verifier:
 
@@ -954,7 +1001,7 @@ SD-CWTs with audience claims that do not correspond to the intended recipients M
 
 ## COSE Header Parameters
 
-IANA is requested to add the following entries to the IANA "COSE Header Parameters" registry (https://www.iana.org/assignments/cose/cose.xhtml#header-parameters):
+IANA is requested to add the following entries to the IANA "COSE Header Parameters" registry {{IANA.COSE}}:
 
 ### sd_claims
 
@@ -1014,7 +1061,7 @@ The following completed registration template per RFC8152 is provided:
 
 ## CBOR Simple Values {#simple59}
 
-IANA is requested to add the following entry to the IANA "CBOR Simple Values" registry (https://www.iana.org/assignments/cbor-simple-values):
+IANA is requested to add the following entry to the IANA "CBOR Simple Values" registry {{IANA.CBOR.Simple}}:
 
 * Value: TBD4 (requested assignment 59)
 * Semantics: This value as a map key indicates that the claim value is an array of redacted claim keys at the same level as the map key.
@@ -1022,7 +1069,7 @@ IANA is requested to add the following entry to the IANA "CBOR Simple Values" re
 
 ## CBOR Tags
 
-IANA is requested to add the following entries to the IANA "CBOR Tags" registry (https://www.iana.org/assignments/cbor-tags/cbor-tags.xhtml):
+IANA is requested to add the following entries to the IANA "CBOR Tags" registry {{IANA.CBOR.Tags}}:
 
 ### To Be Redacted Tag
 
@@ -1044,7 +1091,7 @@ The byte string inside the tag is a selective disclosure redacted claim element 
 
 ## CBOR Web Token (CWT) Claims
 
-IANA is requested to add the following entry to the IANA "CWT Claims" registry (https://www.iana.org/assignments/cwt/cwt.xhtml):
+IANA is requested to add the following entry to the IANA "CBOR Web Token (CWT) Claims" registry {{IANA.CWT}}:
 
 ### vct
 
@@ -1060,14 +1107,14 @@ The following completed registration template per RFC8392 is provided:
 
 ## Media Types
 
-IANA is requested to add the following entries to the IANA "Media Types" registry (https://www.iana.org/assignments/media-types/media-types.xhtml):
+IANA is requested to add the following entries to the IANA "Media Types" registry {{IANA.MediaTypes}}:
 
-### application/sd+cwt
+### application/sd-cwt
 
 The following completed registration template is provided:
 
 * Type name: application
-* Subtype name: sd+cwt
+* Subtype name: sd-cwt
 * Required parameters: n/a
 * Optional parameters: n/a
 * Encoding considerations: binary
@@ -1116,12 +1163,26 @@ The following completed registration template is provided:
 * Change controller: IETF
 * Provisional registration?  No
 
+##  Structured Syntax Suffix
+
+IANA is requested to add the following entry to the IANA "Structured Syntax Suffix" registry {{IANA.StructuredSuffix}}:
+
+* Name: SD-CWT
+* +suffix: +sd-cwt
+* References: {{sd-cwt-definition}} of this specification
+* Encoding considerations: binary
+* Interoperability considerations: n/a
+* Fragment identifier considerations: n/a
+* Security considerations: {{security}} of this specification
+* Contact: See Author's Addresses section
+* Author/Change controller: IETF
+
 ## Content-Formats
 
-IANA is requested to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group {{!IANA.core-parameters}}:
+IANA is requested to register the following entries in the "CoAP Content-Formats" registry {{IANA.Core.Parameters}}:
 
 | Content-Type | Content Coding | ID | Reference |
-| application/sd+cwt | - | TBD11 | {{sd-cwt-definition}} of this specification |
+| application/sd-cwt | - | TBD11 | {{sd-cwt-definition}} of this specification |
 | application/kb+cwt | - | TBD12 | {{kbt}} of this specification |
 {: align="left" title="New CoAP Content Formats"}
 
@@ -1142,11 +1203,11 @@ SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CB
 
 ## Media Types
 
-The COSE equivalent of `application/sd-jwt` is `application/sd+cwt`.
+The COSE equivalent of `application/sd-jwt` is `application/sd-cwt`.
 
 The COSE equivalent of `application/kb+jwt` is `application/kb+cwt`.
 
-No COSE equivalent of the "+sd-jwt" media type suffix is presently defined.
+The COSE equivalent of the `+sd-jwt` structured suffix is `+sd-cwt`.
 
 ## Redaction Claims
 
@@ -1456,6 +1517,8 @@ Note: RFC Editor, please remove this entire section on publication.
 - provide test vectors **TODO**
 - add AEAD and COSE encrypted disclosures
 - Applied clarifications and corrections suggested by Mike Jones.
+- Do not update CWT {{!RFC8392}}.
+- Use `application/sd-cwt` media type and define `+sd-cwt` structured suffix.
 
 ## draft-ietf-spice-sd-cwt-03
 
