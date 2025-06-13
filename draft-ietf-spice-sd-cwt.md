@@ -9,7 +9,6 @@ date:
 consensus: true
 area: "Security"
 workgroup: "Secure Patterns for Internet CrEdentials"
-updates: RFC8392
 keyword:
  - cose
  - cwt
@@ -74,12 +73,12 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
 
 # Introduction
 
-This specification updates the CBOR Web Token (CWT) specification {{!RFC8392}}, enabling the holder of a CWT to disclose or redact special claims marked as selectively disclosable by the issuer of a CWT.
+This specification creates a new format based on the CBOR Web Token (CWT) specification {{!RFC8392}}, enabling the holder of a CWT to disclose or redact special claims marked as selectively disclosable by the issuer of a CWT.
 The approach is modeled after SD-JWT {{-SD-JWT}}, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) {{!RFC9052}} and CWT.
 This specification enables Holders of CWT-based credentials to prove the integrity and authenticity of selected attributes asserted by an Issuer about a Subject to a Verifier.
 
-Although techniques such as one time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols, CWTs remain traceable.
-Selective Disclosure CBOR Web Tokens (SD-CWTs) are CWTs and can be deployed in protocols that are already using CWTs, even if they contain no optional to disclose claims.
+Although techniques such as one time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols, SD-CWTs remain traceable.
+Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are already using CWTs with minor changes, even if they contain no optional to disclose claims.
 Credential types are distinguished by their attributes, for example, a license to operate a vehicle and a license to import a product will contain different attributes.
 The specification of credential types is out of scope for this specification, and the examples used in this specification are informative.
 
@@ -229,7 +228,7 @@ The custom claims deal with attributes of an inspection of the subject: the pass
 
 Alice would like to selectively disclose some of these (custom) claims to different verifiers.
 Note that some of the claims may not be selectively disclosable.
-In our next example, the pass/fail status of the inspection, the most recent inspection date, and the country of the inspection will be fixed claims (always present in the SD-CWT).
+In our next example, the pass/fail status of the inspection, the most recent inspection date, and the country of the inspection will be claims that are always present in the SD-CWT.
 After the Holder requests an SD-CWT from the issuer, the issuer generates the following SD-CWT:
 
 ~~~ cbor-diag
@@ -294,11 +293,11 @@ The issued SD-CWT is placed in the `kcwt` (Confirmation Key CWT) protected heade
 The digests in protected parts of the issued SD-CWT and the disclosures hashed in unprotected header of the `issuer_sd_cwt` are used together by the Verifier to confirm the disclosed claims.
 Since the unprotected header of the included SD-CWT is covered by the signature in the SW-KBT, the Verifier has assurance that the Holder included the sent list of disclosures.
 
-# Update to the CBOR Web Token Specification {#cwt-update}
+# Differences from the CBOR Web Token Specification {#cwt-diffs}
 
 The CBOR Web Token Specification (Section 1.1 of {{!RFC8392}}), uses text strings, negative integers, and unsigned integers as map keys.
-This specification relaxes that requirement, by also allowing the CBOR simple value registered in this specification in {{simple59}}, and CBOR tagged integers and text strings as map keys.
-CBOR maps used in a CWT cannot have duplicate keys.
+This specification also allows the CBOR simple value registered in this specification in {{simple59}}, and CBOR tagged integers and text strings as map keys.
+As in CWTs, CBOR maps used in an SD-CWT or SD-KBT also cannot have duplicate keys.
 (An integer or text string map key is a distinct key from a tagged map key that wraps the corresponding integer or text string value).
 
 >When sorted, map keys in CBOR are arranged in bytewise lexicographic order of the key's deterministic encodings (see Section 4.2.1 of {{RFC8949}}).
@@ -393,7 +392,7 @@ To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) {{!RFC9679
 
 ## Issuer Generation
 
-The Issuer follows all the requirements of generating a valid CWT, as updated by {{cwt-update}}.
+The Issuer follows all the requirements of generating a valid SD-CWT, largely a CWT extended by {{cwt-diffs}}.
 The Issuer MUST implement COSE_Sign1 using an appropriate fully-specified asymmetric signature algorithm (for example, ESP256 or Ed25519).
 
 The Issuer MUST generate a unique cryptographically random salt with at least 128-bits of entropy for each Salted Disclosed Claim.
