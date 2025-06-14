@@ -335,16 +335,16 @@ For Salted Disclosed Claims of items in an array, the name is omitted.
 ~~~ cddl
 salted = salted-claim / salted-element / decoy
 salted-claim = [
-  bstr .size 16,     ; 128-bit salt
+  bstr,              ; salt value
   any,               ; claim value
   (int / text)       ; claim name
 ]
 salted-element = [
-  bstr .size 16,     ; 128-bit salt
+  bstr,              ; salt value
   any                ; claim value
 ]
 decoy = [
-  bstr .size 16      ; 128-bit salt
+  bstr               ; decoy salt
 ]
 
 ; a collection of Salted Disclosed Claims
@@ -357,8 +357,8 @@ The `redacted_claim_keys` key is the CBOR simple type TBD4 registered for that p
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).
 
 ~~~ cddl
-; redacted_claim_element = #6.<TBD5>( bstr .size 16 ) -- RFC 9682 syntax
-redacted_claim_element = #6.60( bstr .size 16 )
+; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax
+redacted_claim_element = #6.60( bstr )
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
@@ -627,7 +627,7 @@ The CDDL for encrypted disclosures is below.
 ~~~ cddl
 encrypted-array = [ +encrypted ]
 encrypted = [
-  bstr .size 16,     ; 128-bit nonce
+  bstr,              ; nonce value
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
   bstr               ; the corresponding MAC
@@ -1459,6 +1459,7 @@ Note: RFC Editor, please remove this entire section on publication.
 - add AEAD and COSE encrypted disclosures
 - Applied clarifications and corrections suggested by Mike Jones.
 - Made SHA-256 be the default `sd_alg` value.
+- Salt values can be of sizes other than 16 bytes.
 
 ## draft-ietf-spice-sd-cwt-03
 
