@@ -53,6 +53,7 @@ normative:
   BCP205:
 
 informative:
+  RFC8126:
   I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
   I-D.draft-ietf-cbor-cde: CDE
