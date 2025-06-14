@@ -1927,16 +1927,16 @@ For Salted Disclosed Claims of items in an array, the name is omitted.<a href="#
 <pre>
 salted = salted-claim / salted-element / decoy
 salted-claim = [
-  bstr .size 16,     ; 128-bit salt
+  bstr,              ; salt value
   any,               ; claim value
   (int / text)       ; claim name
 ]
 salted-element = [
-  bstr .size 16,     ; 128-bit salt
+  bstr,              ; salt value
   any                ; claim value
 ]
 decoy = [
-  bstr .size 16      ; 128-bit salt
+  bstr               ; decoy salt
 ]
 
 ; a collection of Salted Disclosed Claims
@@ -1948,8 +1948,8 @@ The <code>redacted_claim_keys</code> key is the CBOR simple type TBD4 registered
 <p id="section-6.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-6.1-5">
 <pre>
-; redacted_claim_element = #6.&lt;TBD5&gt;( bstr .size 16 ) -- RFC 9682 syntax
-redacted_claim_element = #6.60( bstr .size 16 )
+; redacted_claim_element = #6.&lt;TBD5&gt;( bstr ) -- RFC 9682 syntax
+redacted_claim_element = #6.60( bstr )
 </pre><a href="#section-6.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-6">Blinded claims can be nested. For example, both individual keys in the <code>inspection_location</code> claim, and the entire <code>inspection_location</code> element can be separately blinded.
@@ -2275,7 +2275,7 @@ If the verifier is able to decrypt and verify an encrypted disclosure, the decry
 <pre>
 encrypted-array = [ +encrypted ]
 encrypted = [
-  bstr .size 16,     ; 128-bit nonce
+  bstr,              ; nonce value
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
   bstr               ; the corresponding MAC
@@ -3878,6 +3878,9 @@ It is up to the individual working groups to use this information as they see fi
 </li>
           <li class="normal" id="appendix-E.1-1.6">
             <p id="appendix-E.1-1.6.1">Made SHA-256 be the default <code>sd_alg</code> value.<a href="#appendix-E.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.1-1.7">
+            <p id="appendix-E.1-1.7.1">Salt values can be of sizes other than 16 bytes.<a href="#appendix-E.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
