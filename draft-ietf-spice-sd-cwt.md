@@ -340,7 +340,7 @@ salted-claim = [
   (int / text)       ; claim name
 ]
 salted-element = [
-  bstr,              ; salt value
+  bstr .size 16,     ; 128-bit salt
   any                ; claim value
 ]
 decoy = [
