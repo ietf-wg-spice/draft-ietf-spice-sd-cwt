@@ -1824,8 +1824,7 @@ Issuer                           Holder                         Verifier
    Identifiers registry, under the IANA "CBOR Web Token (CWT) Claims"
    group registry heading (https://www.iana.org/assignments/cwt/
    cwt.xhtml).  It registers identifiers for the type of the SD-CWT
-   Claims Set. It is a sub-registry of the IANA "CBOR Web Token (CWT)
-   Claims" registry [IANA.CWT].
+   Claims Set.
 
    It enables short integers in the range 0-65535 to be used as vct
    claim values, similarly to how CoAP Content-Formats (Section 12.3 of
