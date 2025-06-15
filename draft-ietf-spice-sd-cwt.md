@@ -1061,7 +1061,7 @@ The following completed registration template per RFC8152 is provided:
 
 ## CBOR Simple Values {#simple59}
 
-IANA is requested to add the following entry to the IANA "CBOR Simple Values" registry {{IANA.CBOR.Simple}}:
+IANA is requested to add the following entry to the [IANA "CBOR Simple Values" registry](https://www.iana.org/assignments/cbor-simple-values#simple):
 
 * Value: TBD4 (requested assignment 59)
 * Semantics: This value as a map key indicates that the claim value is an array of redacted claim keys at the same level as the map key.
