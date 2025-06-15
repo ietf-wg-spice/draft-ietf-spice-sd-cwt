@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 15 December 2025</td>
+<td class="center">Expires 17 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-06-13" class="published">13 June 2025</time>
+<time datetime="2025-06-15" class="published">15 June 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-12-15">15 December 2025</time></dd>
+<dd class="expires"><time datetime="2025-12-17">17 December 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 17 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1792,7 +1792,7 @@ For example, the <code>inspector_license_number</code> claim is a Salted Disclos
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-cbor-encoding-of-inspector_" class="selfRef">CBOR encoding of inspector_license_number disclosure</a>
           </figcaption></figure>
-<p id="section-3.2-7">The SHA-256 hash (the hash algorithm identified in the <code>sd_alg</code> header parameter of the protected headers) of that byte string is the Digested Salted Disclosed Claim (in hex).
+<p id="section-3.2-7">The cryptographic hash, using the hash algorithm identified by the <code>sd_alg</code> header parameter in the protected headers, of that byte string is the Digested Salted Disclosed Claim (shown in hex).
 The digest value is included in the payload in a <code>redacted_claim_keys</code> field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of <code>inspection_dates</code>).<a href="#section-3.2-7" class="pilcrow">¶</a></p>
 <span id="name-sha-256-hash-of-inspector_l"></span><figure id="figure-4">
           <div class="alignLeft art-text artwork" id="section-3.2-8.1">
@@ -1948,8 +1948,8 @@ The <code>redacted_claim_keys</code> key is the CBOR simple type TBD4 registered
 <p id="section-6.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-6.1-5">
 <pre>
-; redacted_claim_element = #6.&lt;TBD5&gt;( bstr .size 16 ) -- RFC 9682 syntax
-redacted_claim_element = #6.60( bstr .size 16 )
+; redacted_claim_element = #6.&lt;TBD5&gt;( bstr ) -- RFC 9682 syntax
+redacted_claim_element = #6.60( bstr )
 </pre><a href="#section-6.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-6">Blinded claims can be nested. For example, both individual keys in the <code>inspection_location</code> claim, and the entire <code>inspection_location</code> element can be separately blinded.
@@ -1968,18 +1968,19 @@ Decoy digests are discussed in <a href="#decoys" class="auto internal xref">Sect
 <p id="section-7-1">How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out of scope for this specification.
 Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter, which is not discussed in this specification.
 This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in <a href="#sd-cwt-presentation" class="auto internal xref">Section 8</a>.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">The protected header <span class="bcp14">MUST</span> contain the <code>sd_alg</code> header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
-The unprotected header <span class="bcp14">MUST</span> contain the <code>sd_claims</code> header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
+<p id="section-7-2">The protected header <span class="bcp14">MAY</span> contain the <code>sd_alg</code> header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
+If no <code>sd_alg</code> header parameter is present, the default hash function SHA-256 is used.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">The unprotected header <span class="bcp14">MUST</span> contain the <code>sd_claims</code> header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
 If there are no disclosures, the <code>sd_claims</code> header parameter value is an empty array.
-The payload also <span class="bcp14">MUST</span> include a key confirmation element (<code>cnf</code>) <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span> for the Holder's public key.<a href="#section-7-2" class="pilcrow">¶</a></p>
-<p id="section-7-3">In an SD-CWT, either the subject <code>sub</code> / 2 claim <span class="bcp14">MUST</span> be present, or the redacted form of the subject <span class="bcp14">MUST</span> be present.
+The payload also <span class="bcp14">MUST</span> include a key confirmation element (<code>cnf</code>) <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span> for the Holder's public key.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<p id="section-7-4">In an SD-CWT, either the subject <code>sub</code> / 2 claim <span class="bcp14">MUST</span> be present, or the redacted form of the subject <span class="bcp14">MUST</span> be present.
 The issuer <code>iss</code> / 1 claim <span class="bcp14">SHOULD</span> be present unless the protected header contains a certificate or certificate-like entity that fully identifies the issuer.
 All other standard CWT claims (<code>aud</code> / 3, <code>exp</code> / 4, <code>nbf</code> / 5, <code>iat</code> / 6, and <code>cti</code> / 7) are <span class="bcp14">OPTIONAL</span>.
 The <code>cnonce</code> / 39 claim is <span class="bcp14">OPTIONAL</span>.
 The <code>cnf</code> / 8 claim, the <code>cnonce</code> / 39 claim, and the standard claims other than the subject <span class="bcp14">MUST NOT</span> be redacted.
 Any other claims are <span class="bcp14">OPTIONAL</span> and <span class="bcp14">MAY</span> be redacted.
-Profiles of this specification <span class="bcp14">MAY</span> specify additional claims that <span class="bcp14">MUST</span>, <span class="bcp14">MUST NOT</span>, and <span class="bcp14">MAY</span> be redacted.<a href="#section-7-3" class="pilcrow">¶</a></p>
-<p id="section-7-4">To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) <span>[<a href="#RFC9679" class="cite xref">RFC9679</a>]</span> <span class="bcp14">MAY</span> be used in the <code>cnf</code> claim.<a href="#section-7-4" class="pilcrow">¶</a></p>
+Profiles of this specification <span class="bcp14">MAY</span> specify additional claims that <span class="bcp14">MUST</span>, <span class="bcp14">MUST NOT</span>, and <span class="bcp14">MAY</span> be redacted.<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-5">To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) <span>[<a href="#RFC9679" class="cite xref">RFC9679</a>]</span> <span class="bcp14">MAY</span> be used in the <code>cnf</code> claim.<a href="#section-7-5" class="pilcrow">¶</a></p>
 <div id="issuer-generation">
 <section id="section-7.1">
         <h3 id="name-issuer-generation">
@@ -2012,7 +2013,7 @@ Holder verifies the following:<a href="#section-7.2-1" class="pilcrow">¶</a></p
             <p id="section-7.2-2.4.1">a public key under the control of the Holder is present in the <code>cnf</code> claim;<a href="#section-7.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-2.5">
-            <p id="section-7.2-2.5.1">the hash algorithm in the <code>sd_alg</code> header parameter in the protected headers is supported by the Holder;<a href="#section-7.2-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-2.5.1">the hash algorithm identified by the <code>sd_alg</code> header parameter in the protected headers is supported by the Holder;<a href="#section-7.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-2.6">
             <p id="section-7.2-2.6.1">if a <code>cnonce</code> is present, it was provided by the Holder to this Issuer and is still fresh;<a href="#section-7.2-2.6.1" class="pilcrow">¶</a></p>
@@ -2274,7 +2275,7 @@ If the verifier is able to decrypt and verify an encrypted disclosure, the decry
 <pre>
 encrypted-array = [ +encrypted ]
 encrypted = [
-  bstr .size 16,     ; 128-bit nonce
+  bstr,              ; nonce value
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
   bstr               ; the corresponding MAC
@@ -3874,6 +3875,9 @@ It is up to the individual working groups to use this information as they see fi
 </li>
           <li class="normal" id="appendix-E.1-1.5">
             <p id="appendix-E.1-1.5.1">Applied clarifications and corrections suggested by Mike Jones.<a href="#appendix-E.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.1-1.6">
+            <p id="appendix-E.1-1.6.1">Made SHA-256 be the default <code>sd_alg</code> value.<a href="#appendix-E.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
