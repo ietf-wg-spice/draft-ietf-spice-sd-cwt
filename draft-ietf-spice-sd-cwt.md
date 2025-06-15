@@ -1165,7 +1165,7 @@ The following completed registration template is provided:
 
 ##  Structured Syntax Suffix
 
-IANA is requested to add the following entry to the IANA "Structured Syntax Suffix" registry {{IANA.StructuredSuffix}}:
+IANA is requested to add the following entry to the [IANA "Structured Syntax Suffix" registry](https://www.iana.org/assignments/media-type-structured-suffix/media-type-structured-suffix.xhtml#structured-syntax-suffix):
 
 * Name: SD-CWT
 * +suffix: +sd-cwt
