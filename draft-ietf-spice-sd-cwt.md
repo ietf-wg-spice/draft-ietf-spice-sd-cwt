@@ -1157,7 +1157,6 @@ If possible, TBD11 and TBD12 should be assigned in the 256..9999 range.
 
 This specification establishes the Verifiable Credential Type Identifiers registry, under the [IANA "CBOR Web Token (CWT) Claims" group registry heading](https://www.iana.org/assignments/cwt/cwt.xhtml).
 It registers identifiers for the type of the SD-CWT Claims Set.
-It is a sub-registry of the IANA "CBOR Web Token (CWT) Claims" registry {{IANA.CWT}}.
 
 It enables short integers in the range 0-65535 to be used as `vct` claim values, similarly to how CoAP Content-Formats ({{Section 12.3 of ?RFC7252}}) enable short integers to be used as `typ` header parameter {{!RFC9596}} values.
 
