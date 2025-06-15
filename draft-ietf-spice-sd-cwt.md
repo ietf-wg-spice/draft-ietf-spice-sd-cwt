@@ -1459,7 +1459,6 @@ Note: RFC Editor, please remove this entire section on publication.
 - add AEAD and COSE encrypted disclosures
 - Applied clarifications and corrections suggested by Mike Jones.
 - Made SHA-256 be the default `sd_alg` value.
-- Salt values can be of sizes other than 16 bytes.
 
 ## draft-ietf-spice-sd-cwt-03
 
