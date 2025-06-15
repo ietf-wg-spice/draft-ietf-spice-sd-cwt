@@ -254,7 +254,7 @@ This is represented in CBOR pretty-printed format as follows (with end-of-line c
 {: title="CBOR encoding of inspector_license_number disclosure"}
 
 
-The SHA-256 hash (the hash algorithm identified in the `sd_alg` header parameter of the protected headers) of that byte string is the Digested Salted Disclosed Claim (in hex).
+The cryptographic hash, using the hash algorithm identified by the `sd_alg` header parameter in the protected headers, of that byte string is the Digested Salted Disclosed Claim (shown in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of `inspection_dates`).
 
 ~~~
@@ -357,8 +357,8 @@ The `redacted_claim_keys` key is the CBOR simple type TBD4 registered for that p
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).
 
 ~~~ cddl
-; redacted_claim_element = #6.<TBD5>( bstr .size 16 ) -- RFC 9682 syntax
-redacted_claim_element = #6.60( bstr .size 16 )
+; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax
+redacted_claim_element = #6.60( bstr )
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
@@ -374,7 +374,9 @@ How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out o
 Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter, which is not discussed in this specification.
 This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in {{sd-cwt-presentation}}.
 
-The protected header MUST contain the `sd_alg` header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
+The protected header MAY contain the `sd_alg` header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
+If no `sd_alg` header parameter is present, the default hash function SHA-256 is used.
+
 The unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
 If there are no disclosures, the `sd_claims` header parameter value is an empty array.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
@@ -407,7 +409,7 @@ Holder verifies the following:
 - if an audience (`aud`) is present, it is acceptable;
 - the CWT is valid according to the `nbf` and `exp` claims, if present;
 - a public key under the control of the Holder is present in the `cnf` claim;
-- the hash algorithm in the `sd_alg` header parameter in the protected headers is supported by the Holder;
+- the hash algorithm identified by the `sd_alg` header parameter in the protected headers is supported by the Holder;
 - if a `cnonce` is present, it was provided by the Holder to this Issuer and is still fresh;
 - there are no unblinded claims about the subject that violate its privacy policies;
 - every blinded claim hash (some of which may be nested as in {{nesting}}) has a corresponding Salted Disclosed Claim, and vice versa;
@@ -625,7 +627,7 @@ The CDDL for encrypted disclosures is below.
 ~~~ cddl
 encrypted-array = [ +encrypted ]
 encrypted = [
-  bstr .size 16,     ; 128-bit nonce
+  bstr,              ; nonce value
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
   bstr               ; the corresponding MAC
@@ -1456,6 +1458,7 @@ Note: RFC Editor, please remove this entire section on publication.
 - provide test vectors **TODO**
 - add AEAD and COSE encrypted disclosures
 - Applied clarifications and corrections suggested by Mike Jones.
+- Made SHA-256 be the default `sd_alg` value.
 
 ## draft-ietf-spice-sd-cwt-03
 
