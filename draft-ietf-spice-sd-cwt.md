@@ -1001,7 +1001,7 @@ SD-CWTs with audience claims that do not correspond to the intended recipients M
 
 ## COSE Header Parameters
 
-IANA is requested to add the following entries to the IANA "COSE Header Parameters" registry {{IANA.COSE}}:
+IANA is requested to add the following entries to the [IANA "COSE Header Parameters" registry](https://www.iana.org/assignments/cose/cose.xhtml#header-parameters):
 
 ### sd_claims
 
