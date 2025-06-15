@@ -1069,7 +1069,7 @@ IANA is requested to add the following entry to the IANA "CBOR Simple Values" re
 
 ## CBOR Tags
 
-IANA is requested to add the following entries to the IANA "CBOR Tags" registry {{IANA.CBOR.Tags}}:
+IANA is requested to add the following entries to the [IANA "CBOR Tags" registry](https://www.iana.org/assignments/cbor-tags/cbor-tags.xhtml#tags):
 
 ### To Be Redacted Tag
 
