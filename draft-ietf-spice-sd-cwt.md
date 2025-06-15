@@ -335,7 +335,7 @@ For Salted Disclosed Claims of items in an array, the name is omitted.
 ~~~ cddl
 salted = salted-claim / salted-element / decoy
 salted-claim = [
-  bstr,              ; salt value
+  bstr .size 16,     ; 128-bit salt
   any,               ; claim value
   (int / text)       ; claim name
 ]
