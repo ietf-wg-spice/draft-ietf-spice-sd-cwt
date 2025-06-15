@@ -1091,7 +1091,7 @@ The byte string inside the tag is a selective disclosure redacted claim element 
 
 ## CBOR Web Token (CWT) Claims
 
-IANA is requested to add the following entry to the IANA "CBOR Web Token (CWT) Claims" registry {{IANA.CWT}}:
+IANA is requested to add the following entry to the [IANA "CWT Claims" registry](https://www.iana.org/assignments/cwt/cwt.xhtml#claims-registry):
 
 ### vct
 
