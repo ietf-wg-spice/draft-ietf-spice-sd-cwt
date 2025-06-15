@@ -1179,7 +1179,7 @@ IANA is requested to add the following entry to the [IANA "Structured Syntax Suf
 
 ## Content-Formats
 
-IANA is requested to register the following entries in the "CoAP Content-Formats" registry {{IANA.Core.Parameters}}:
+IANA is requested to register the following entries in the [IANA "CoAP Content-Formats" registry](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats):
 
 | Content-Type | Content Coding | ID | Reference |
 | application/sd-cwt | - | TBD11 | {{sd-cwt-definition}} of this specification |
