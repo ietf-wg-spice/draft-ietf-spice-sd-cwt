@@ -63,47 +63,6 @@ informative:
     title: "t-Closeness: Privacy Beyond k-Anonymity and l-Diversity"
     date: 2007-06-04
 
-  IANA.COSE:
-    target: https://www.iana.org/assignments/cose
-    title: CBOR Object Signing and Encryption (COSE)
-    author:
-    - org: IANA
-
-  IANA.CBOR.Simple:
-    target: https://www.iana.org/assignments/cbor-simple-values
-    title: CBOR Simple Values
-    author:
-    - org: IANA
-
-  IANA.CBOR.Tags:
-    target: https://www.iana.org/assignments/cbor-tags
-    title: CBOR Tags
-    author:
-    - org: IANA
-
-  IANA.CWT:
-    target: https://www.iana.org/assignments/cwt
-    title: CBOR Web Token (CWT) Claims
-    author:
-    - org: IANA
-
-  IANA.MediaTypes:
-    target: https://www.iana.org/assignments/media-types
-    title: Media Types
-    author:
-    - org: IANA
-
-  IANA.StructuredSuffix:
-    target: https://www.iana.org/assignments/media-type-structured-suffix
-    title: Structured Syntax Suffixes
-    author:
-    - org: IANA
-
-  IANA.Core.Parameters:
-    target: https://www.iana.org/assignments/core-parameters
-    title: Constrained RESTful Environments (CoRE) Parameters
-    author:
-    - org: IANA
 
 --- abstract
 
