@@ -344,7 +344,7 @@ salted-element = [
   any                ; claim value
 ]
 decoy = [
-  bstr .size 16,     ; 128-bit salt
+  bstr .size 16      ; 128-bit salt
 ]
 
 ; a collection of Salted Disclosed Claims
