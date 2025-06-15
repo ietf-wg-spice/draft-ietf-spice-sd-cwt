@@ -2043,14 +2043,6 @@ Issuer                           Holder                         Verifier
               March 2025, <https://datatracker.ietf.org/doc/html/draft-
               mahy-mls-sd-cwt-credential-00>.
 
-   [IANA.Core.Parameters]
-              IANA, "Constrained RESTful Environments (CoRE)
-              Parameters", n.d.,
-              <https://www.iana.org/assignments/core-parameters>.
-
-   [IANA.CWT] IANA, "CBOR Web Token (CWT) Claims", n.d.,
-              <https://www.iana.org/assignments/cwt>.
-
    [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
               Application Protocol (CoAP)", RFC 7252,
               DOI 10.17487/RFC7252, June 2014,
