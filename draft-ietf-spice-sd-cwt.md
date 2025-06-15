@@ -361,11 +361,11 @@ See {{security}} for more details on the privacy impact of serialization and pro
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
 An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with a value declaring that the object is an SD-CWT.
 This value MAY be the string content type value `application/sd-cwt`,
-the uint CoAP content-format value TBD11,
+the uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value TBD11,
 or a value declaring that the object is a more specific kind of SD-CWT,
 such as a content type value using the `+sd-cwt` structured suffix.
 
-An SD-CWT is a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
+An SD-CWT is an extension of a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
 It is not required to contain any blinded claims.
 
 Optionally the salted claim values (and often claim names) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
