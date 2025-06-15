@@ -690,6 +690,7 @@ Implementations using COSE encrypted disclosures MUST select only fully-specifie
 This specification defines the CWT claim `vct` (for Verifiable Credential Type).
 The `vct` value is an identifier for the type of the SD-CWT Claims Set.
 Like the `typ` header parameter {{!RFC9596}}, its value can be either a string or an integer.
+For size reasons, it is RECOMMENDED that the numeric representation be used.
 
 If its value is a string, it is a case-sensitive StringOrURI, as defined in {{!RFC7519}}.
 In this case, the `vct` string MUST either be registered in the
