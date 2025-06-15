@@ -1159,9 +1159,7 @@ This specification establishes the Verifiable Credential Type Identifiers regist
 It registers identifiers for the type of the SD-CWT Claims Set.
 It is a sub-registry of the IANA "CBOR Web Token (CWT) Claims" registry {{IANA.CWT}}.
 
-It enables short integers in the range 0-65535 to be used as `vct` claim values,
-similarly to how CoAP Content-Formats {{IANA.Core.Parameters}} enable short integers
-to be used as `typ` header parameter {{!RFC9596}} values.
+It enables short integers in the range 0-65535 to be used as `vct` claim values, similarly to how CoAP Content-Formats ({{Section 12.3 of ?RFC7252}}) enable short integers to be used as `typ` header parameter {{!RFC9596}} values.
 
 The registration procedures for numbers in specific ranges are as described below:
 
