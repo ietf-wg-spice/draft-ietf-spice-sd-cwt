@@ -5,12 +5,12 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 16 December 2025                                      Transmute
+Expires: 17 December 2025                                      Transmute
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                            14 June 2025
+                                                            15 June 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 December 2025.
+   This Internet-Draft will expire on 17 December 2025.
 
 Copyright Notice
 
@@ -624,7 +624,7 @@ Issuer                           Holder                         Verifier
 
    salted = salted-claim / salted-element / decoy
    salted-claim = [
-     bstr,              ; salt value
+     bstr .size 16,     ; 128-bit salt
      any,               ; claim value
      (int / text)       ; claim name
    ]
