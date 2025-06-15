@@ -1107,7 +1107,7 @@ The following completed registration template per RFC8392 is provided:
 
 ## Media Types
 
-IANA is requested to add the following entries to the IANA "Media Types" registry {{IANA.MediaTypes}}:
+IANA is requested to add the following entries to the IANA "Media Types" registry (https://www.iana.org/assignments/media-types/media-types.xhtml#application):
 
 ### application/sd-cwt
 
