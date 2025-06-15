@@ -64,18 +64,6 @@ informative:
     title: "t-Closeness: Privacy Beyond k-Anonymity and l-Diversity"
     date: 2007-06-04
 
-  IANA.CWT:
-    target: https://www.iana.org/assignments/cwt
-    title: CBOR Web Token (CWT) Claims
-    author:
-    - org: IANA
-
-  IANA.Core.Parameters:
-    target: https://www.iana.org/assignments/core-parameters
-    title: Constrained RESTful Environments (CoRE) Parameters
-    author:
-    - org: IANA
-
 --- abstract
 
 This specification describes a data minimization technique for use with CBOR Web Tokens (CWTs).
