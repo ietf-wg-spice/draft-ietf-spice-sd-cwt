@@ -2428,8 +2428,6 @@ E.1.  draft-ietf-spice-sd-cwt-04
 
    *  Made SHA-256 be the default sd_alg value.
 
-   *  Salt values can be of sizes other than 16 bytes.
-
 E.2.  draft-ietf-spice-sd-cwt-03
 
    *  remove bstr encoding from sd_claims array (but not the individual
