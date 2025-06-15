@@ -1155,7 +1155,7 @@ If possible, TBD11 and TBD12 should be assigned in the 256..9999 range.
 
 ## Verifiable Credential Type Identifiers {#vct-registry}
 
-This specification establishes the Verifiable Credential Type Identifiers registry.
+This specification establishes the Verifiable Credential Type Identifiers registry, under the [IANA "CBOR Web Token (CWT) Claims" group registry heading](https://www.iana.org/assignments/cwt/cwt.xhtml).
 It registers identifiers for the type of the SD-CWT Claims Set.
 It is a sub-registry of the IANA "CBOR Web Token (CWT) Claims" registry {{IANA.CWT}}.
 
