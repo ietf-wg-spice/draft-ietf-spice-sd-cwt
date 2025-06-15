@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-12T00:51:38.873499+00:00",
+  "timestamp": "2025-06-15T00:57:32.973440+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -991,7 +991,7 @@
       "id": "I_kwDOMm_Q2s6qczmt",
       "title": "Canonical ordering of Salted fields",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/54",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1002,8 +1002,8 @@
       ],
       "body": "When parsing `salted` (`salted = salted-claim / salted-element / decoy`) in some languages, one might not have the length of the `salted-array`. It can cause the deserialization to be less efficient because the second element is either a claim key or a claim value depending if `salted` is a `salted-claim` or a `salted-element` (CDDL below for reference).\n\n```cddl\nsalted-claim = [\n  bstr .size 16,     ; 128-bit salt\n  (int / text),      ; claim name\n  any                ; claim value\n]\nsalted-element = [\n  bstr .size 16,     ; 128-bit salt\n  any                ; claim value\n]\n```\n\nIn some languages, like in Rust, the main parsing library (serde) does only [provide an iterator](https://docs.rs/serde/latest/serde/de/trait.SeqAccess.html#method.next_element) when deserializing arrays. It also does not provide an infallible [size hint](https://docs.rs/serde/latest/serde/de/trait.SeqAccess.html#method.size_hint) of the array. Hence, implementers, have to add some performance overhead in their parser to deal with that case.\n\nThe recommendation would be to have a canonical order of these fields, so that the second element is always a claim value, i.e.\n```diff\nsalted-claim = [\n  bstr .size 16,     ; 128-bit salt\n+  any                ; claim value\n  (int / text),      ; claim name\n-  any                ; claim value\n]\n```\n\nThe current implementation roughly looks like this in Rust. You have to deserialize the second element twice: first to an intermediate `Value`, then, depending on the array size, to either a claim name or value.\n\n```rust\nimpl<'de, T> serde::Deserialize<'de> for Salted<T> {\n    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {\n        struct SaltedVisitor<T>(core::marker::PhantomData<T>);\n\n        impl<'de, T> serde::de::Visitor<'de> for SaltedVisitor<T> {\n            type Value = Salted<T>;\n\n            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {\n                write!(formatter, \"a salted disclosure\")\n            }\n\n            fn visit_seq<A: serde::de::SeqAccess<'de>>(self, mut seq: A) -> Result<Self::Value, A::Error> {\n                use serde::de::Error as _;\n\n                let salt = seq.next_element::<Salt>()??;\n                let second: Option<Value> = seq.next_element::<Value>()?;\n                let third: Option<T> = seq.next_element::<T>()?;\n\n                Ok(match (salt, second, third) {\n                    (salt, None, None) => Salted::Decoy(Decoy { salt: (salt,) }),\n                    (salt, Some(value), None) => {\n                        let value = value.deserialized()?; // <-- overhead\n                        Salted::Element(SaltedElement { salt, value })\n                    },\n                    (salt, Some(name), Some(value)) => {\n                        let name = name.deserialized()?; // <-- overhead\n                        Salted::Claim(SaltedClaim { salt, value, name })\n                    },\n                    _ => return Err(A::Error::custom(\"Invalid disclosure\")),\n                })\n            }\n        }\n\n        deserializer.deserialize_seq(SaltedVisitor(Default::default()))\n    }\n}\n```",
       "createdAt": "2025-02-18T08:22:14Z",
-      "updatedAt": "2025-05-25T14:29:30Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-13T14:54:01Z",
+      "closedAt": "2025-06-13T14:54:01Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -1025,6 +1025,13 @@
           "body": "list confirmed this is a good idea.",
           "createdAt": "2025-04-16T13:19:06Z",
           "updatedAt": "2025-04-16T13:19:06Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Done in #74. closing",
+          "createdAt": "2025-06-13T14:54:01Z",
+          "updatedAt": "2025-06-13T14:54:01Z"
         }
       ]
     },
@@ -1304,17 +1311,18 @@
       "id": "I_kwDOMm_Q2s65Pex9",
       "title": "SD-CWT should not update CWT",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/83",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
+        "has-PR",
         "blocker"
       ],
       "body": "The specification currently updates RFC 8392 (the CWT specification).  I believe it should not.  It's creating a new data structure drawing from CWT, but should not change CWT.\n\nIt's telling, for instance, that there are separate SD-CWT media types registered.  If an SD-CWT were truly just an updated CWT, then we would be using the `application/cwt` media type and not registering `application/sd+cwt`, etc.  But because they're distinct, they have their own media types.\n\nThe section \"Update to the CBOR Web Token Specification\" should be changed to \"Relationship to the CBOR Web Token Specification\", describing the new features added for SD-CWTs, but not describing an SD-CWT as a CWT.\n\nI'll also note that SD-JWT does not update JWT or say that an SD-JWT is a JWT.  We should follow the same course.\n",
       "createdAt": "2025-06-01T20:52:46Z",
-      "updatedAt": "2025-06-11T11:57:09Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-13T14:26:02Z",
+      "closedAt": "2025-06-13T14:26:02Z",
       "comments": [
         {
           "author": "OR13",
@@ -1336,6 +1344,13 @@
           "body": "I'm guessing the point of *this* issue (vs. #84 ), is whether an SD-CWT is a CWT or not; and whether a CWT should be able to contain map keys which are simple values and tagged integer or text string values.",
           "createdAt": "2025-06-11T11:56:38Z",
           "updatedAt": "2025-06-11T11:57:09Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in PR #105",
+          "createdAt": "2025-06-13T14:12:06Z",
+          "updatedAt": "2025-06-13T14:12:06Z"
         }
       ]
     },
@@ -1368,18 +1383,20 @@
       "id": "I_kwDOMm_Q2s65PgAN",
       "title": "Correct term \"fixed claims\"",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/85",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
         "ready-for-pr",
         "chore"
       ],
       "body": "The term \"fixed claims\" is used once in the spec and never defined.  Should this be \"mandatory to disclose claims\"?\n",
       "createdAt": "2025-06-01T20:57:57Z",
-      "updatedAt": "2025-06-11T11:58:16Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-13T23:46:14Z",
+      "closedAt": "2025-06-13T23:46:14Z",
       "comments": [
         {
           "author": "OR13",
@@ -1387,6 +1404,27 @@
           "body": "Propose to define terms for both \"mandatory to disclose claims\" and \"redact-able claims\".",
           "createdAt": "2025-06-04T13:24:59Z",
           "updatedAt": "2025-06-04T13:24:59Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I simply eliminated the one occurrence of the term \"fixed claims\" in #105 . Leaving this issue open in case someone wants to make \"mandatory to disclose claims\" a glossary item. It seems self-explanatory to me.",
+          "createdAt": "2025-06-13T14:19:43Z",
+          "updatedAt": "2025-06-13T14:19:43Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "#105 is merged. \n@selfissued @OR13 please thumbs up this comment if I can close this one.",
+          "createdAt": "2025-06-13T14:25:38Z",
+          "updatedAt": "2025-06-13T14:25:38Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed by #105",
+          "createdAt": "2025-06-13T23:46:14Z",
+          "updatedAt": "2025-06-13T23:46:14Z"
         }
       ]
     },
@@ -1523,7 +1561,7 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/90",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [
         "selfissued"
       ],
@@ -1532,7 +1570,7 @@
       ],
       "body": "The specification contains this language:\n> all the Salted Disclosed Claims are correct in their unblinded context in the payload.\n\nWhat does it mean for the claims to be \"correct\"?  This needs to be clarified.\n",
       "createdAt": "2025-06-01T21:03:33Z",
-      "updatedAt": "2025-06-11T13:36:07Z",
+      "updatedAt": "2025-06-14T00:12:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -1541,6 +1579,13 @@
           "body": "Yes, that should be reworded. ",
           "createdAt": "2025-06-11T12:04:54Z",
           "updatedAt": "2025-06-11T12:04:54Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Is what this statement is trying to get at something like this?\n> The unblinded values of all Salted Disclosed Claims have salted values that correspond to the unblinded values.\n\nI'll note that we should probably go through the extensive list of SD-JWT validation steps at [7. ](https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-22.html#section-7)[Verification and Processing](https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-22.html#name-verification-and-processing) and see if we're covering all those bases in our spec.",
+          "createdAt": "2025-06-14T00:12:24Z",
+          "updatedAt": "2025-06-14T00:12:24Z"
         }
       ]
     },
@@ -1551,12 +1596,14 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/91",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [],
       "body": "`sd_cose_encrypted_claims` and its relationship to `sd_encrypted_claims` is not well described.  When would you use one versus the other?  And are both actually needed?\n\nAnd how do these relate to `sd_aead`?\n",
       "createdAt": "2025-06-01T21:05:06Z",
-      "updatedAt": "2025-06-11T11:46:44Z",
+      "updatedAt": "2025-06-12T11:21:23Z",
       "closedAt": null,
       "comments": [
         {
@@ -1568,7 +1615,7 @@
         },
         {
           "author": "selfissued",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "This is also related to #98 ",
           "createdAt": "2025-06-04T13:45:23Z",
           "updatedAt": "2025-06-04T13:45:23Z"
@@ -1620,14 +1667,16 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/93",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "The specification contains this language:\n> Since the unprotected header is not included in the signature, it will contain all the Salted Disclosed Claims when sent from the Issuer to the Holder.\n\nAs stated, the relationship between the two clauses is confusing.  Should this be reworded to be these two declarative sentences?\n> The unprotected header is not included in the signature.\n> The unprotected header contains all the Salted Disclosed Claims when sent from the Issuer to the Holder.\n\nOr is there a deeper meaning that this language is trying to convey?",
       "createdAt": "2025-06-01T21:08:05Z",
-      "updatedAt": "2025-06-11T12:06:03Z",
+      "updatedAt": "2025-06-12T11:29:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -1785,12 +1834,14 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/98",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [],
       "body": "The specification includes:\n> The encryption mechanism in this section uses the AEAD algorithm directly instead of COSE encryption, because AEAD is more broadly applicable to some of the other protocols in which encrypted disclosures might be used.\n\nThis is in the COSE family of specifications.  COSE_Encrypt provides value by defining an interoperable encryption format widely supported by libraries.  Is there a compelling reason not to use it?\n",
       "createdAt": "2025-06-01T21:12:46Z",
-      "updatedAt": "2025-06-11T12:24:57Z",
+      "updatedAt": "2025-06-12T11:20:35Z",
       "closedAt": null,
       "comments": [
         {
@@ -1849,12 +1900,14 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/100",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "OR13"
+      ],
       "labels": [],
       "body": "The specification says:\n> Any claim value with sufficiently low \"anonymity set\" can be used track the subject.\n\nThe term \"anonymity set\" is undefined and doesn't have an obvious meaning.  The intent here needs to be clarified.\n",
       "createdAt": "2025-06-01T21:15:55Z",
-      "updatedAt": "2025-06-01T21:15:55Z",
+      "updatedAt": "2025-06-12T11:20:01Z",
       "closedAt": null,
       "comments": []
     },
@@ -1894,15 +1947,17 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/102",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
         "ready-for-pr",
         "chore"
       ],
       "body": "A To Be Redacted tag is registered in the IANA CBOR Tags registry but it is not defined or used in the specification.  What is it for?  Note that TBD3 occurs nowhere else in the source, other than in the CDDL.\n\nCompare this to the Redacted Claim tag, whose value TBD5 is used and its meaning is defined in the specification.\n",
       "createdAt": "2025-06-01T21:18:05Z",
-      "updatedAt": "2025-06-11T12:30:39Z",
+      "updatedAt": "2025-06-12T11:20:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -7560,7 +7615,7 @@
       "labels": [],
       "body": "- change order of claim name and value in disclosures array\r\n- regenerate all the examples\r\n- fix bug in script generating encrypted disclosures\r\n\r\naddress issue #54 ",
       "createdAt": "2025-05-07T19:13:16Z",
-      "updatedAt": "2025-05-14T13:16:09Z",
+      "updatedAt": "2025-06-13T14:21:11Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
@@ -7602,7 +7657,7 @@
       "labels": [],
       "body": "also fixes a duplicate TBD1/TBD2 for CoAP registry (now TBD11, TBD12)\r\n\r\naddresses #66 ",
       "createdAt": "2025-05-08T20:53:16Z",
-      "updatedAt": "2025-05-14T13:59:19Z",
+      "updatedAt": "2025-06-13T14:21:08Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "ca9064a5f0ab13e808019c8fe78a1d4c9ad02458",
@@ -7712,7 +7767,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-14T12:03:48Z",
-      "updatedAt": "2025-06-02T16:54:57Z",
+      "updatedAt": "2025-06-13T14:55:38Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
@@ -7723,7 +7778,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Before regenerating the examples, it would be nice to have PRs land for #84 and #77 which would also change the examples. Optionally we could generate the decoy digests as well #11 ",
+          "createdAt": "2025-06-13T14:55:38Z",
+          "updatedAt": "2025-06-13T14:55:38Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s6q4Ds9",
@@ -7744,7 +7807,7 @@
             "abbreviatedOid": "27b1d5e"
           },
           "author": "selfissued",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2025-06-02T16:54:57Z",
@@ -7765,7 +7828,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-25T12:12:49Z",
-      "updatedAt": "2025-05-25T14:12:19Z",
+      "updatedAt": "2025-06-13T14:20:56Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "bf28d7028a1e49567f1633e96c7209b7c05caae2",
@@ -8039,7 +8102,7 @@
       "labels": [],
       "body": "Finishes issue #50",
       "createdAt": "2025-05-28T13:19:52Z",
-      "updatedAt": "2025-05-28T13:20:42Z",
+      "updatedAt": "2025-06-13T14:20:55Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "f36265583204682fe4cd1e4b1409e4c8e6be2c7a",
@@ -8421,6 +8484,181 @@
           ]
         }
       ]
+    },
+    {
+      "number": 104,
+      "id": "PR_kwDOMm_Q2s6aQCnx",
+      "title": "Fix 4 external RFC refs and 3 internal refs",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/104",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-12T16:19:02Z",
+      "updatedAt": "2025-06-13T14:20:52Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "4901fcc93587d28ec9a5e49ddfeb52e51333ad77",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "fixrefs",
+      "headRefOid": "d6a73ddada797279d9f46228caa90f4d956e703e",
+      "closedAt": "2025-06-12T16:19:31Z",
+      "mergedAt": "2025-06-12T16:19:31Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "08e6b597219b0389b2b0b249f454aa634b014ce4"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 105,
+      "id": "PR_kwDOMm_Q2s6aZhW7",
+      "title": "Initial attempt to make SD-CWT an extension of CWT, not an update",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/105",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "@selfissued @OR13 \r\n\r\nThis is a lightweight change that keeps the SD-CWT working the way it does but calls it an extension of CWT instead of an update to it.",
+      "createdAt": "2025-06-13T14:02:13Z",
+      "updatedAt": "2025-06-13T14:20:50Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "08e6b597219b0389b2b0b249f454aa634b014ce4",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "no-cwt-update",
+      "headRefOid": "c23d7042b38835c02d953a25d93750ab6cd5356f",
+      "closedAt": "2025-06-13T14:15:39Z",
+      "mergedAt": "2025-06-13T14:15:39Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "33144882df5ebdb2317420fb441b7ab4aa69f064"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6uV5wa",
+          "commit": {
+            "abbreviatedOid": "c23d704"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-13T14:09:49Z",
+          "updatedAt": "2025-06-13T14:09:49Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uV8J0",
+          "commit": {
+            "abbreviatedOid": "c23d704"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Fixes #83 \r\nFixes #85 ",
+          "createdAt": "2025-06-13T14:12:58Z",
+          "updatedAt": "2025-06-13T14:12:58Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 106,
+      "id": "PR_kwDOMm_Q2s6aeQwR",
+      "title": "Use application/sd-cwt and define +sd-cwt",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/106",
+      "state": "OPEN",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #84\r\n\r\nNote that the .cbor files will need to be updated, since I don't have the software needed to run `make`.\r\n\r\n@mprorock @OR13 @brentzundel @rohanmahy @henkbirkholz please review.",
+      "createdAt": "2025-06-13T23:41:08Z",
+      "updatedAt": "2025-06-14T00:46:18Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "33144882df5ebdb2317420fb441b7ab4aa69f064",
+      "headRepository": "selfissued/draft-ietf-spice-sd-cwt",
+      "headRefName": "mbj-media-types",
+      "headRefOid": "e6b12c40087e767be748a2a6d455bf5b796f8a30",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6udSTr",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-14T00:46:18Z",
+          "updatedAt": "2025-06-14T00:46:18Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 107,
+      "id": "PR_kwDOMm_Q2s6ajanD",
+      "title": "Create Verifiable Credentials Type Identifiers registry",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/107",
+      "state": "OPEN",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #99\r\n\r\nRelated to #77\r\n\r\nCc: @brentzundel",
+      "createdAt": "2025-06-14T20:34:34Z",
+      "updatedAt": "2025-06-14T20:34:35Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "33144882df5ebdb2317420fb441b7ab4aa69f064",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "mbj-vct-registry",
+      "headRefOid": "3fbfdf6bcd1321abeeca6b127910941287f48ea4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 108,
+      "id": "PR_kwDOMm_Q2s6ajgPG",
+      "title": "Make SHA-256 be the default sd_alg value",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/108",
+      "state": "OPEN",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #88 \r\nFixes #89 \r\n\r\nCc: @brentzundel",
+      "createdAt": "2025-06-14T20:55:12Z",
+      "updatedAt": "2025-06-14T21:10:30Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "33144882df5ebdb2317420fb441b7ab4aa69f064",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "mbj-sd_alg-default",
+      "headRefOid": "69962c7c2ef684afb050fc73fba307754e317b3d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
