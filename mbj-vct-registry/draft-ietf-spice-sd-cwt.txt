@@ -1826,9 +1826,9 @@ Issuer                           Holder                         Verifier
    (CWT) Claims" registry [IANA.CWT].
 
    It enables short integers in the range 0-65535 to be used as vct
-   claim values, similarly to how CoAP Content-Formats
-   [IANA.Core.Parameters] enable short integers to be used as typ header
-   parameter [RFC9596] values.
+   claim values, similarly to how CoAP Content-Formats (Section 12.3 of
+   [RFC7252]) enable short integers to be used as typ header parameter
+   [RFC9596] values.
 
    The registration procedures for numbers in specific ranges are as
    described below:
@@ -2049,6 +2049,11 @@ Issuer                           Holder                         Verifier
 
    [IANA.CWT] IANA, "CBOR Web Token (CWT) Claims", n.d.,
               <https://www.iana.org/assignments/cwt>.
+
+   [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
+              Application Protocol (CoAP)", RFC 7252,
+              DOI 10.17487/RFC7252, June 2014,
+              <https://www.rfc-editor.org/rfc/rfc7252>.
 
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
