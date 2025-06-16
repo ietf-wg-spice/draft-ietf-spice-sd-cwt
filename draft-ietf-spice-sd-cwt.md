@@ -891,25 +891,28 @@ The construction of such profiles has a significant impact on the privacy proper
 Each use case will have a unique threat model that MUST be considered before the applicability of SD-CWT-based credential types can be determined.
 This section provides a non-exhaustive list of topics to be considered when developing a threat model for applying SD-CWT to a given use case.
 
-Has there been a t-closeness, k-anonymity, and l-diversity assessment (see {{t-Closeness}}) assuming compromise of the one or more issuers, verifiers or holders, for all relevant credential types?
+1. Has there been a t-closeness, k-anonymity, and l-diversity assessment (see {{t-Closeness}}) assuming compromise of the one or more issuers, verifiers or holders, for all relevant credential types?
 
-How many issuers exist for the credential type?
-Is the size of the set of issuers growing or shrinking over time?
-For a given credential type, will subjects be able to hold instances of the same credential type from multiple issuers, or just a single issuer?
-Does the credential type require or offer the ability to disclose a globally unique identifier?
-Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?
-Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
+2. Issuer questions:
+   1. How many issuers exist for the credential type?
+   2. Is the size of the set of issuers growing or shrinking over time?
+   3. For a given credential type, will subjects be able to hold instances of the same credential type from multiple issuers, or just a single issuer?
+   4. Does the credential type require or offer the ability to disclose a globally unique identifier?
+   5. Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?
+   6. Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
 
-How many verifiers exist for the credential type?
-Is the size of the set of verifiers growing or shrinking over time?
-Are the verifiers a superset, subset, or disjoint set of the issuers or subjects?
-Are there any legally required reporting or disclosure requirements associated with the verifiers?
-Is there reason to believe that a verifier's historic data will be aggregated and analyzed?
-Assuming multiple verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
+3. Verifier questions:
+   1. How many verifiers exist for the credential type?
+   2. Is the size of the set of verifiers growing or shrinking over time?
+   3. Are the verifiers a superset, subset, or disjoint set of the issuers or subjects?
+   4. Are there any legally required reporting or disclosure requirements associated with the verifiers?
+   5. Is there reason to believe that a verifier's historic data will be aggregated and analyzed?
+   6. Assuming multiple verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
 
-How many subjects exist for the credential type?
-Is the size of the set of subjects growing or shrinking over time?
-Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?
+4. Subject questions:
+   1. How many subjects exist for the credential type?
+   2. Is the size of the set of subjects growing or shrinking over time?
+   3. Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?
 
 ## Random Numbers
 
