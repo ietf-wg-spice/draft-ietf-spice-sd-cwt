@@ -5,7 +5,7 @@
     / kcwt /  13:  18([  / issuer SD-CWT /
       / CWT protected / << {
         / alg /    1  : -35, / ES384 /
-        / typ /    16 : "application/sd+cwt",
+        / typ /    16 : "application/sd-cwt",
         / kid /    4  : 'https://issuer.example/cwt-key3',
         / sd_alg / 18 : -16  / SHA256 /
       } >>,
