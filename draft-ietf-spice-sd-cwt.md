@@ -62,6 +62,7 @@ normative:
   BCP205:
 
 informative:
+  RFC8126:
   I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
   I-D.draft-ietf-cbor-cde: CDE
@@ -71,6 +72,7 @@ informative:
     target: https://ieeexplore.ieee.org/document/4221659
     title: "t-Closeness: Privacy Beyond k-Anonymity and l-Diversity"
     date: 2007-06-04
+
 
 --- abstract
 
@@ -263,7 +265,7 @@ This is represented in CBOR pretty-printed format as follows (with end-of-line c
 {: title="CBOR encoding of inspector_license_number disclosure"}
 
 
-The SHA-256 hash (the hash algorithm identified in the `sd_alg` header parameter of the protected headers) of that byte string is the Digested Salted Disclosed Claim (in hex).
+The cryptographic hash, using the hash algorithm identified by the `sd_alg` header parameter in the protected headers, of that byte string is the Digested Salted Disclosed Claim (shown in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of `inspection_dates`).
 
 ~~~
@@ -325,9 +327,14 @@ See {{security}} for more details on the privacy impact of serialization and pro
 
 # SD-CWT Definition {#sd-cwt-definition}
 
-SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT. An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with either the text value "application/sd+cwt" or an uint value of TBD11 in the SD-CWT.
+SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
+An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with a value declaring that the object is an SD-CWT.
+This value MAY be the string content type value `application/sd-cwt`,
+the uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value TBD11,
+or a value declaring that the object is a more specific kind of SD-CWT,
+such as a content type value using the `+sd-cwt` structured suffix.
 
-An SD-CWT is a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
+An SD-CWT is an extension of a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
 It is not required to contain any blinded claims.
 
 Optionally the salted claim values (and often claim names) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
@@ -366,8 +373,8 @@ The `redacted_claim_keys` key is the CBOR simple type TBD4 registered for that p
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).
 
 ~~~ cddl
-; redacted_claim_element = #6.<TBD5>( bstr .size 16 ) -- RFC 9682 syntax
-redacted_claim_element = #6.60( bstr .size 16 )
+; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax
+redacted_claim_element = #6.60( bstr )
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
@@ -383,7 +390,9 @@ How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out o
 Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter, which is not discussed in this specification.
 This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in {{sd-cwt-presentation}}.
 
-The protected header MUST contain the `sd_alg` header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
+The protected header MAY contain the `sd_alg` header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
+If no `sd_alg` header parameter is present, the default hash function SHA-256 is used.
+
 The unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
 If there are no disclosures, the `sd_claims` header parameter value is an empty array.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
@@ -416,7 +425,7 @@ Holder verifies the following:
 - if an audience (`aud`) is present, it is acceptable;
 - the CWT is valid according to the `nbf` and `exp` claims, if present;
 - a public key under the control of the Holder is present in the `cnf` claim;
-- the hash algorithm in the `sd_alg` header parameter in the protected headers is supported by the Holder;
+- the hash algorithm identified by the `sd_alg` header parameter in the protected headers is supported by the Holder;
 - if a `cnonce` is present, it was provided by the Holder to this Issuer and is still fresh;
 - there are no unblinded claims about the subject that violate its privacy policies;
 - every blinded claim hash (some of which may be nested as in {{nesting}}) has a corresponding Salted Disclosed Claim, and vice versa;
@@ -433,7 +442,7 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd+cwt" / TBD11,
+   &(typ: 16) ^ => "application/sd-cwt" / TBD11,
    &(alg: 1) ^ => int,
    &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
    ? &(sd_aead: TBD7) ^ => uint .size 2
@@ -488,7 +497,7 @@ Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in 
 
 The `aud` claim MUST be included and MUST correspond to the Verifier.
 The SD-KBT payload MUST contain the `iat` (issued at) claim.
-The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/sd+kbt` or an uint value of TBD12.
+The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the uint value of TBD12.
 
 The SD-KBT provides the following assurances to the Verifier:
 
@@ -634,7 +643,7 @@ The CDDL for encrypted disclosures is below.
 ~~~ cddl
 encrypted-array = [ +encrypted ]
 encrypted = [
-  bstr .size 16,     ; 128-bit nonce
+  bstr,              ; nonce value
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
   bstr               ; the corresponding MAC
@@ -683,11 +692,24 @@ Implementations using COSE encrypted disclosures MUST select only fully-specifie
 
 # Credential Types {#cred-types}
 
-This specification defines the CWT claim `vct` (for verifiable credential type). The vct value MUST be a case-sensitive StringOrURI (see {{!RFC7519}}) value serving as an identifier for the type of the SD-CWT Claims Set. The `vct` value MUST be a Collision-Resistant Name, as defined in Section 2 of {{!RFC7515}}.
+This specification defines the CWT claim `vct` (for Verifiable Credential Type).
+The `vct` value is an identifier for the type of the SD-CWT Claims Set.
+Like the `typ` header parameter {{!RFC9596}}, its value can be either a string or an integer.
+For size reasons, it is RECOMMENDED that the numeric representation be used.
 
-This claim is defined for COSE based verifiable credentials, similar to the JOSE based verifiable credentials claim (`vct`) described in Section 3.2.2.1.1 of {{-SD-JWT-VC}}.
+If its value is a string, it is a case-sensitive StringOrURI, as defined in {{!RFC7519}}.
+In this case, the `vct` string MUST either be registered in the
+IANA "Verifiable Credential Type Identifiers" registry
+established in {{vct-registry}},
+or be a Collision-Resistant Name, as defined in Section 2 of {{!RFC7515}}.
 
-Profiles built on this specification are also encouraged to use more specific media types, as described in {{!RFC9596}}.
+If its value is an integer, it is either a value in the range 0-64999 registered in
+the IANA "Verifiable Credential Type Identifiers" registry
+established in {{vct-registry}}
+or an  Experimental Use value in the range 65000-65535,
+which is not to be used in operational deployments.
+
+This claim is defined for COSE-based verifiable credentials, similar to the JOSE-based verifiable credentials claim (`vct`) described in Section 3.2.2.1.1 of {{-SD-JWT-VC}}.
 
 
 # Examples
@@ -966,7 +988,7 @@ SD-CWTs with audience claims that do not correspond to the intended recipients M
 
 ## COSE Header Parameters
 
-IANA is requested to add the following entries to the IANA "COSE Header Parameters" registry (https://www.iana.org/assignments/cose/cose.xhtml#header-parameters):
+IANA is requested to add the following entries to the [IANA "COSE Header Parameters" registry](https://www.iana.org/assignments/cose/cose.xhtml#header-parameters):
 
 ### sd_claims
 
@@ -1026,7 +1048,7 @@ The following completed registration template per RFC8152 is provided:
 
 ## CBOR Simple Values {#simple59}
 
-IANA is requested to add the following entry to the IANA "CBOR Simple Values" registry (https://www.iana.org/assignments/cbor-simple-values):
+IANA is requested to add the following entry to the [IANA "CBOR Simple Values" registry](https://www.iana.org/assignments/cbor-simple-values#simple):
 
 * Value: TBD4 (requested assignment 59)
 * Semantics: This value as a map key indicates that the claim value is an array of redacted claim keys at the same level as the map key.
@@ -1034,7 +1056,7 @@ IANA is requested to add the following entry to the IANA "CBOR Simple Values" re
 
 ## CBOR Tags
 
-IANA is requested to add the following entries to the IANA "CBOR Tags" registry (https://www.iana.org/assignments/cbor-tags/cbor-tags.xhtml):
+IANA is requested to add the following entries to the [IANA "CBOR Tags" registry](https://www.iana.org/assignments/cbor-tags/cbor-tags.xhtml#tags):
 
 ### To Be Redacted Tag
 
@@ -1056,7 +1078,7 @@ The byte string inside the tag is a selective disclosure redacted claim element 
 
 ## CBOR Web Token (CWT) Claims
 
-IANA is requested to add the following entry to the IANA "CWT Claims" registry (https://www.iana.org/assignments/cwt/cwt.xhtml):
+IANA is requested to add the following entry to the [IANA "CWT Claims" registry](https://www.iana.org/assignments/cwt/cwt.xhtml#claims-registry):
 
 ### vct
 
@@ -1072,14 +1094,14 @@ The following completed registration template per RFC8392 is provided:
 
 ## Media Types
 
-IANA is requested to add the following entries to the IANA "Media Types" registry (https://www.iana.org/assignments/media-types/media-types.xhtml):
+IANA is requested to add the following entries to the IANA "Media Types" registry (https://www.iana.org/assignments/media-types/media-types.xhtml#application):
 
-### application/sd+cwt
+### application/sd-cwt
 
 The following completed registration template is provided:
 
 * Type name: application
-* Subtype name: sd+cwt
+* Subtype name: sd-cwt
 * Required parameters: n/a
 * Optional parameters: n/a
 * Encoding considerations: binary
@@ -1128,16 +1150,109 @@ The following completed registration template is provided:
 * Change controller: IETF
 * Provisional registration?  No
 
+##  Structured Syntax Suffix
+
+IANA is requested to add the following entry to the [IANA "Structured Syntax Suffix" registry](https://www.iana.org/assignments/media-type-structured-suffix/media-type-structured-suffix.xhtml#structured-syntax-suffix):
+
+* Name: SD-CWT
+* +suffix: +sd-cwt
+* References: {{sd-cwt-definition}} of this specification
+* Encoding considerations: binary
+* Interoperability considerations: n/a
+* Fragment identifier considerations: n/a
+* Security considerations: {{security}} of this specification
+* Contact: See Author's Addresses section
+* Author/Change controller: IETF
+
 ## Content-Formats
 
-IANA is requested to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group {{!IANA.core-parameters}}:
+IANA is requested to register the following entries in the [IANA "CoAP Content-Formats" registry](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats):
 
 | Content-Type | Content Coding | ID | Reference |
-| application/sd+cwt | - | TBD11 | {{sd-cwt-definition}} of this specification |
+| application/sd-cwt | - | TBD11 | {{sd-cwt-definition}} of this specification |
 | application/kb+cwt | - | TBD12 | {{kbt}} of this specification |
 {: align="left" title="New CoAP Content Formats"}
 
 If possible, TBD11 and TBD12 should be assigned in the 256..9999 range.
+
+## Verifiable Credential Type Identifiers {#vct-registry}
+
+This specification establishes the Verifiable Credential Type Identifiers registry, under the [IANA "CBOR Web Token (CWT) Claims" group registry heading](https://www.iana.org/assignments/cwt/cwt.xhtml).
+It registers identifiers for the type of the SD-CWT Claims Set.
+
+It enables short integers in the range 0-65535 to be used as `vct` claim values, similarly to how CoAP Content-Formats ({{Section 12.3 of ?RFC7252}}) enable short integers to be used as `typ` header parameter {{!RFC9596}} values.
+
+The registration procedures for numbers in specific ranges are as described below:
+
+| Range       | Registration Procedure {{RFC8126}}    |
+|:------------|:--------------------------------------|
+| 0-9999      | Specification Required                |
+| 10000-64999 | First Come First Served               |
+| 65000-65535 | Experimental Use (no operational use) |
+
+Values in the Specification Required {{RFC8126}} range are registered
+after a two-week review period on the spice-ext-review@ietf.org
+mailing list, on the advice of one or more Designated Experts.
+To allow for the allocation of values prior to publication
+of the final version of a specification,
+the Designated Experts may approve registration once they are satisfied
+that the specification will be completed and published.
+However, if the specification is not completed and published
+in a timely manner, as determined by the Designated Experts,
+the Designated Experts may request that IANA withdraw the registration.
+
+Registration requests sent to the mailing list for review should use
+an appropriate subject
+(e.g., "Request to register VCT value").
+
+Within the review period, the Designated Experts will either approve or deny
+the registration request, communicating this decision to the review list and IANA.
+Denials should include an explanation and, if applicable,
+suggestions as to how to make the request successful.
+The IANA escalation process is followed when the Designated Experts
+are not responsive within 14 days.
+
+Criteria that should be applied by the Designated Experts includes
+determining whether the proposed registration duplicates existing functionality,
+determining whether it is likely to be of general applicability
+or whether it is useful only for a single application,
+and whether the registration makes sense.
+
+IANA must only accept registry updates from the Designated Experts and should direct
+all requests for registration in the Specification Required range
+to the review mailing list.
+
+It is suggested that multiple Designated Experts be appointed who are able to
+represent the perspectives of different applications using this specification,
+in order to enable broadly-informed review of registration decisions.
+In cases where a registration decision could be perceived as
+creating a conflict of interest for a particular Expert,
+that Expert should defer to the judgment of the other Experts.
+
+### Registration Template
+
+Verifiable Credential Type Identifier String:
+: String identifier for use as a JWT `vct` or CWT `vct` claim value.  It is a StringOrURI value.
+
+Verifiable Credential Type Identifier Number:
+: Integer in the range 0-64999 for use as a CWT `vct` claim value.  (Integers in the range 65000-65535 are not to be registered.)
+
+Description:
+: Brief description of the verifiable credential type
+
+Change Controller:
+: For IETF stream RFCs, use "IETF".
+For others, give the name of the responsible party.
+Other details (e.g., postal address, e-mail address, home page URI) may also be included.
+
+Specification Document(s):
+: Reference to the document or documents that specify the values to be registered,
+preferably including URLs that can be used to retrieve the documents.
+An indication of the relevant sections may also be included, but is not required.
+
+### Initial Registry Contents
+
+No initial values are provided for the registry.
 
 --- back
 
@@ -1154,11 +1269,11 @@ SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CB
 
 ## Media Types
 
-The COSE equivalent of `application/sd-jwt` is `application/sd+cwt`.
+The COSE equivalent of `application/sd-jwt` is `application/sd-cwt`.
 
 The COSE equivalent of `application/kb+jwt` is `application/kb+cwt`.
 
-No COSE equivalent of the "+sd-jwt" media type suffix is presently defined.
+The COSE equivalent of the `+sd-jwt` structured suffix is `+sd-cwt`.
 
 ## Redaction Claims
 
@@ -1468,6 +1583,10 @@ Note: RFC Editor, please remove this entire section on publication.
 - provide test vectors **TODO**
 - add AEAD and COSE encrypted disclosures
 - Applied clarifications and corrections suggested by Mike Jones.
+- Do not update CWT {{!RFC8392}}.
+- Use `application/sd-cwt` media type and define `+sd-cwt` structured suffix.
+- Made SHA-256 be the default `sd_alg` value.
+- Created Verifiable Credential Type Identifiers registry.
 
 ## draft-ietf-spice-sd-cwt-03
 

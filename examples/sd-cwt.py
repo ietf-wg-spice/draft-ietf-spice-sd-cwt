@@ -542,7 +542,7 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
     return f'''/ cose-sign1 / 18([  / issuer SD-CWT /
   / CWT protected / << {{
     / alg /    1  : -35, / ES384 /
-    / typ /    16 : "application/sd+cwt",
+    / typ /    16 : "application/sd-cwt",
     / kid /    4  : 'https://issuer.example/cose-key3',
     / sd_alg / 18 : -16  / SHA256 /
   }} >>,
@@ -689,7 +689,7 @@ if __name__ == "__main__":
     cwt_protected = {
       1 : -35,                                 # alg = ES384
       4 : b'https://issuer.example/cose-key3', # kid
-      16: "application/sd+cwt",                # typ
+      16: "application/sd-cwt",                # typ
       18: -16,                                 # sd_alg = SHA256
     }
     issuer_cwt = sign(cwt_protected,
