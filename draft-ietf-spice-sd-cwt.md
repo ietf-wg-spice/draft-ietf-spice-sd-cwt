@@ -53,6 +53,7 @@ normative:
   BCP205:
 
 informative:
+  RFC8126:
   I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
   I-D.draft-ietf-cbor-cde: CDE
@@ -676,11 +677,24 @@ Implementations using COSE encrypted disclosures MUST select only fully-specifie
 
 # Credential Types {#cred-types}
 
-This specification defines the CWT claim `vct` (for verifiable credential type). The vct value MUST be a case-sensitive StringOrURI (see {{!RFC7519}}) value serving as an identifier for the type of the SD-CWT Claims Set. The `vct` value MUST be a Collision-Resistant Name, as defined in Section 2 of {{!RFC7515}}.
+This specification defines the CWT claim `vct` (for Verifiable Credential Type).
+The `vct` value is an identifier for the type of the SD-CWT Claims Set.
+Like the `typ` header parameter {{!RFC9596}}, its value can be either a string or an integer.
+For size reasons, it is RECOMMENDED that the numeric representation be used.
 
-This claim is defined for COSE based verifiable credentials, similar to the JOSE based verifiable credentials claim (`vct`) described in Section 3.2.2.1.1 of {{-SD-JWT-VC}}.
+If its value is a string, it is a case-sensitive StringOrURI, as defined in {{!RFC7519}}.
+In this case, the `vct` string MUST either be registered in the
+IANA "Verifiable Credential Type Identifiers" registry
+established in {{vct-registry}},
+or be a Collision-Resistant Name, as defined in Section 2 of {{!RFC7515}}.
 
-Profiles built on this specification are also encouraged to use more specific media types, as described in {{!RFC9596}}.
+If its value is an integer, it is either a value in the range 0-64999 registered in
+the IANA "Verifiable Credential Type Identifiers" registry
+established in {{vct-registry}}
+or an  Experimental Use value in the range 65000-65535,
+which is not to be used in operational deployments.
+
+This claim is defined for COSE-based verifiable credentials, similar to the JOSE-based verifiable credentials claim (`vct`) described in Section 3.2.2.1.1 of {{-SD-JWT-VC}}.
 
 
 # Examples
@@ -1129,6 +1143,85 @@ IANA is requested to register the following entries in the "CoAP Content-Formats
 
 If possible, TBD11 and TBD12 should be assigned in the 256..9999 range.
 
+## Verifiable Credential Type Identifiers {#vct-registry}
+
+This specification establishes the Verifiable Credential Type Identifiers registry, under the [IANA "CBOR Web Token (CWT) Claims" group registry heading](https://www.iana.org/assignments/cwt/cwt.xhtml).
+It registers identifiers for the type of the SD-CWT Claims Set.
+
+It enables short integers in the range 0-65535 to be used as `vct` claim values, similarly to how CoAP Content-Formats ({{Section 12.3 of ?RFC7252}}) enable short integers to be used as `typ` header parameter {{!RFC9596}} values.
+
+The registration procedures for numbers in specific ranges are as described below:
+
+| Range       | Registration Procedure {{RFC8126}}    |
+|:------------|:--------------------------------------|
+| 0-9999      | Specification Required                |
+| 10000-64999 | First Come First Served               |
+| 65000-65535 | Experimental Use (no operational use) |
+
+Values in the Specification Required {{RFC8126}} range are registered
+after a two-week review period on the spice-ext-review@ietf.org
+mailing list, on the advice of one or more Designated Experts.
+To allow for the allocation of values prior to publication
+of the final version of a specification,
+the Designated Experts may approve registration once they are satisfied
+that the specification will be completed and published.
+However, if the specification is not completed and published
+in a timely manner, as determined by the Designated Experts,
+the Designated Experts may request that IANA withdraw the registration.
+
+Registration requests sent to the mailing list for review should use
+an appropriate subject
+(e.g., "Request to register VCT value").
+
+Within the review period, the Designated Experts will either approve or deny
+the registration request, communicating this decision to the review list and IANA.
+Denials should include an explanation and, if applicable,
+suggestions as to how to make the request successful.
+The IANA escalation process is followed when the Designated Experts
+are not responsive within 14 days.
+
+Criteria that should be applied by the Designated Experts includes
+determining whether the proposed registration duplicates existing functionality,
+determining whether it is likely to be of general applicability
+or whether it is useful only for a single application,
+and whether the registration makes sense.
+
+IANA must only accept registry updates from the Designated Experts and should direct
+all requests for registration in the Specification Required range
+to the review mailing list.
+
+It is suggested that multiple Designated Experts be appointed who are able to
+represent the perspectives of different applications using this specification,
+in order to enable broadly-informed review of registration decisions.
+In cases where a registration decision could be perceived as
+creating a conflict of interest for a particular Expert,
+that Expert should defer to the judgment of the other Experts.
+
+### Registration Template
+
+Verifiable Credential Type Identifier String:
+: String identifier for use as a JWT `vct` or CWT `vct` claim value.  It is a StringOrURI value.
+
+Verifiable Credential Type Identifier Number:
+: Integer in the range 0-64999 for use as a CWT `vct` claim value.  (Integers in the range 65000-65535 are not to be registered.)
+
+Description:
+: Brief description of the verifiable credential type
+
+Change Controller:
+: For IETF stream RFCs, use "IETF".
+For others, give the name of the responsible party.
+Other details (e.g., postal address, e-mail address, home page URI) may also be included.
+
+Specification Document(s):
+: Reference to the document or documents that specify the values to be registered,
+preferably including URLs that can be used to retrieve the documents.
+An indication of the relevant sections may also be included, but is not required.
+
+### Initial Registry Contents
+
+No initial values are provided for the registry.
+
 --- back
 
 # Complete CDDL Schema {#cddl}
@@ -1459,6 +1552,7 @@ Note: RFC Editor, please remove this entire section on publication.
 - add AEAD and COSE encrypted disclosures
 - Applied clarifications and corrections suggested by Mike Jones.
 - Made SHA-256 be the default `sd_alg` value.
+- Created Verifiable Credential Type Identifiers registry.
 
 ## draft-ietf-spice-sd-cwt-03
 
