@@ -48,6 +48,15 @@ author:
     organization: Rohan Mahy Consulting Services
     email: "rohan.ietf@gmail.com"
 
+contributor:
+  -
+    ins: M. Jones
+    fullname: Michael B. Jones
+    organization: Self-Issued Consulting
+    country: United States
+    email: michael_b_jones@hotmail.com
+    uri: https://self-issued.info/
+
 normative:
   RFC8949:
   BCP205:
