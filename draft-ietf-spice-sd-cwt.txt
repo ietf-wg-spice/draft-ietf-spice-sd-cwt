@@ -123,12 +123,13 @@ Table of Contents
      15.4.  CBOR Web Token (CWT) Claims
        15.4.1.  vct
      15.5.  Media Types
-       15.5.1.  application/sd+cwt
+       15.5.1.  application/sd-cwt
        15.5.2.  application/kb+cwt
-     15.6.  Content-Formats
-     15.7.  Verifiable Credential Type Identifiers
-       15.7.1.  Registration Template
-       15.7.2.  Initial Registry Contents
+     15.6.  Structured Syntax Suffix
+     15.7.  Content-Formats
+     15.8.  Verifiable Credential Type Identifiers
+       15.8.1.  Registration Template
+       15.8.2.  Initial Registry Contents
    16. References
      16.1.  Normative References
      16.2.  Informative References
@@ -353,7 +354,7 @@ Issuer                           Holder                         Verifier
    / cose-sign1 / 18([  / issuer SD-CWT /
      / CWT protected / << {
        / alg /    1  : -35, / ES384 /
-       / typ /    16 : "application/sd+cwt",
+       / typ /    16 : "application/sd-cwt",
        / kid /    4  : 'https://issuer.example/cwt-key3',
        / sd_alg / 18 : -16  / SHA256 /
      } >>,
@@ -599,13 +600,17 @@ Issuer                           Holder                         Verifier
 
    SD-CWT is modeled after SD-JWT, with adjustments to align with
    conventions in CBOR, COSE, and CWT.  An SD-CWT MUST include the
-   protected header parameter typ [RFC9596] with either the text value
-   "application/sd+cwt" or an uint value of TBD11 in the SD-CWT.
+   protected header parameter typ [RFC9596] with a value declaring that
+   the object is an SD-CWT.  This value MAY be the string content type
+   value application/sd-cwt, the uint Constrained Application Protocol
+   (CoAP) [RFC7252] content-format value TBD11, or a value declaring
+   that the object is a more specific kind of SD-CWT, such as a content
+   type value using the +sd-cwt structured suffix.
 
-   An SD-CWT is a CWT that can contain blinded claims (each expressed as
-   a Blinded Claim Hash) in the CWT payload, at the root level or in any
-   arrays or maps inside that payload.  It is not required to contain
-   any blinded claims.
+   An SD-CWT is an extension of a CWT that can contain blinded claims
+   (each expressed as a Blinded Claim Hash) in the CWT payload, at the
+   root level or in any arrays or maps inside that payload.  It is not
+   required to contain any blinded claims.
 
    Optionally the salted claim values (and often claim names) for the
    corresponding Blinded Claim Hash are disclosed in the sd_claims
@@ -754,7 +759,7 @@ Issuer                           Holder                         Verifier
    ])
 
    sd-protected = {
-      &(typ: 16) ^ => "application/sd+cwt" / TBD11,
+      &(typ: 16) ^ => "application/sd-cwt" / TBD11,
       &(alg: 1) ^ => int,
       &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
       ? &(sd_aead: TBD7) ^ => uint .size 2
@@ -822,7 +827,7 @@ Issuer                           Holder                         Verifier
    The aud claim MUST be included and MUST correspond to the Verifier.
    The SD-KBT payload MUST contain the iat (issued at) claim.  The
    protected header of the SD-KBT MUST include the typ header parameter
-   with the value application/sd+kbt or an uint value of TBD12.
+   with the value application/kb+cwt or the uint value of TBD12.
 
    The SD-KBT provides the following assurances to the Verifier:
 
@@ -1089,12 +1094,12 @@ Issuer                           Holder                         Verifier
    If its value is a string, it is a case-sensitive StringOrURI, as
    defined in [RFC7519].  In this case, the vct string MUST either be
    registered in the IANA "Verifiable Credential Type Identifiers"
-   registry established in Section 15.7, or be a Collision-Resistant
+   registry established in Section 15.8, or be a Collision-Resistant
    Name, as defined in Section 2 of [RFC7515].
 
    If its value is an integer, it is either a value in the range 0-64999
    registered in the IANA "Verifiable Credential Type Identifiers"
-   registry established in Section 15.7 or an Experimental Use value in
+   registry established in Section 15.8 or an Experimental Use value in
    the range 65000-65535, which is not to be used in operational
    deployments.
 
@@ -1116,7 +1121,7 @@ Issuer                           Holder                         Verifier
        / kcwt /  13:  18([  / issuer SD-CWT /
          / CWT protected / << {
            / alg /    1  : -35, / ES384 /
-           / typ /    16 : "application/sd+cwt",
+           / typ /    16 : "application/sd-cwt",
            / kid /    4  : 'https://issuer.example/cwt-key3',
            / sd_alg / 18 : -16  / SHA256 /
          } >>,
@@ -1631,7 +1636,7 @@ Issuer                           Holder                         Verifier
 
    IANA is requested to add the following entry to the IANA "CBOR Simple
    Values" registry (https://www.iana.org/assignments/cbor-simple-
-   values):
+   values#simple):
 
    *  Value: TBD4 (requested assignment 59)
 
@@ -1645,7 +1650,7 @@ Issuer                           Holder                         Verifier
 
    IANA is requested to add the following entries to the IANA "CBOR
    Tags" registry (https://www.iana.org/assignments/cbor-tags/cbor-
-   tags.xhtml):
+   tags.xhtml#tags):
 
 15.3.1.  To Be Redacted Tag
 
@@ -1677,7 +1682,8 @@ Issuer                           Holder                         Verifier
 15.4.  CBOR Web Token (CWT) Claims
 
    IANA is requested to add the following entry to the IANA "CWT Claims"
-   registry (https://www.iana.org/assignments/cwt/cwt.xhtml):
+   registry (https://www.iana.org/assignments/cwt/cwt.xhtml#claims-
+   registry):
 
 15.4.1.  vct
 
@@ -1702,15 +1708,15 @@ Issuer                           Holder                         Verifier
 
    IANA is requested to add the following entries to the IANA "Media
    Types" registry (https://www.iana.org/assignments/media-types/media-
-   types.xhtml):
+   types.xhtml#application):
 
-15.5.1.  application/sd+cwt
+15.5.1.  application/sd-cwt
 
    The following completed registration template is provided:
 
    *  Type name: application
 
-   *  Subtype name: sd+cwt
+   *  Subtype name: sd-cwt
 
    *  Required parameters: n/a
 
@@ -1798,17 +1804,41 @@ Issuer                           Holder                         Verifier
 
    *  Provisional registration?  No
 
-15.6.  Content-Formats
+15.6.  Structured Syntax Suffix
 
-   IANA is requested to register the following entries in the "CoAP
-   Content-Formats" registry within the "Constrained RESTful
-   Environments (CoRE) Parameters" registry group
-   [IANA.core-parameters]:
+   IANA is requested to add the following entry to the IANA "Structured
+   Syntax Suffix" registry (https://www.iana.org/assignments/media-type-
+   structured-suffix/media-type-structured-suffix.xhtml#structured-
+   syntax-suffix):
+
+   *  Name: SD-CWT
+
+   *  +suffix: +sd-cwt
+
+   *  References: Section 6 of this specification
+
+   *  Encoding considerations: binary
+
+   *  Interoperability considerations: n/a
+
+   *  Fragment identifier considerations: n/a
+
+   *  Security considerations: Section 14 of this specification
+
+   *  Contact: See Author's Addresses section
+
+   *  Author/Change controller: IETF
+
+15.7.  Content-Formats
+
+   IANA is requested to register the following entries in the IANA "CoAP
+   Content-Formats" registry (https://www.iana.org/assignments/core-
+   parameters/core-parameters.xhtml#content-formats):
 
    +====================+================+=======+====================+
    | Content-Type       | Content Coding | ID    | Reference          |
    +====================+================+=======+====================+
-   | application/sd+cwt | -              | TBD11 | Section 6 of this  |
+   | application/sd-cwt | -              | TBD11 | Section 6 of this  |
    |                    |                |       | specification      |
    +--------------------+----------------+-------+--------------------+
    | application/kb+cwt | -              | TBD12 | Section 8.1 of     |
@@ -1820,7 +1850,7 @@ Issuer                           Holder                         Verifier
    If possible, TBD11 and TBD12 should be assigned in the 256..9999
    range.
 
-15.7.  Verifiable Credential Type Identifiers
+15.8.  Verifiable Credential Type Identifiers
 
    This specification establishes the Verifiable Credential Type
    Identifiers registry, under the IANA "CBOR Web Token (CWT) Claims"
@@ -1887,7 +1917,7 @@ Issuer                           Holder                         Verifier
    Expert, that Expert should defer to the judgment of the other
    Experts.
 
-15.7.1.  Registration Template
+15.8.1.  Registration Template
 
    Verifiable Credential Type Identifier String:  String identifier for
       use as a JWT vct or CWT vct claim value.  It is a StringOrURI
@@ -1909,7 +1939,7 @@ Issuer                           Holder                         Verifier
       URLs that can be used to retrieve the documents.  An indication of
       the relevant sections may also be included, but is not required.
 
-15.7.2.  Initial Registry Contents
+15.8.2.  Initial Registry Contents
 
    No initial values are provided for the registry.
 
@@ -1932,11 +1962,6 @@ Issuer                           Holder                         Verifier
               literals-17, 12 May 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
               edn-literals-17>.
-
-   [IANA.core-parameters]
-              IANA, "Constrained RESTful Environments (CoRE)
-              Parameters",
-              <https://www.iana.org/assignments/core-parameters>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2093,7 +2118,7 @@ Appendix A.  Complete CDDL Schema
    ])
 
    sd-protected = {
-      &(typ: 16) ^ => "application/sd+cwt" / TBD11,
+      &(typ: 16) ^ => "application/sd-cwt" / TBD11,
       &(alg: 1) ^ => int,
       &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
       ? &(sd_aead: TBD7) ^ => uint .size 2
@@ -2230,12 +2255,11 @@ Appendix B.  Comparison to SD-JWT
 
 B.1.  Media Types
 
-   The COSE equivalent of application/sd-jwt is application/sd+cwt.
+   The COSE equivalent of application/sd-jwt is application/sd-cwt.
 
    The COSE equivalent of application/kb+jwt is application/kb+cwt.
 
-   No COSE equivalent of the "+sd-jwt" media type suffix is presently
-   defined.
+   The COSE equivalent of the +sd-jwt structured suffix is +sd-cwt.
 
 B.2.  Redaction Claims
 
@@ -2540,6 +2564,11 @@ E.1.  draft-ietf-spice-sd-cwt-04
    *  add AEAD and COSE encrypted disclosures
 
    *  Applied clarifications and corrections suggested by Mike Jones.
+
+   *  Do not update CWT [RFC8392].
+
+   *  Use application/sd-cwt media type and define +sd-cwt structured
+      suffix.
 
    *  Made SHA-256 be the default sd_alg value.
 
