@@ -543,7 +543,7 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
   / CWT protected / << {{
     / alg /    1  : -35, / ES384 /
     / typ /    16 : "application/sd+cwt",
-    / kid /    4  : 'https://issuer.example/cwt-key3',
+    / kid /    4  : 'https://issuer.example/cose-key3',
     / sd_alg / 18 : -16  / SHA256 /
   }} >>,
   / CWT unprotected / {{
