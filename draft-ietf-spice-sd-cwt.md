@@ -474,7 +474,7 @@ An SD-KBT is itself a type of CWT, signed using the private key corresponding to
 The SD-KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the `kcwt` protected header field in the SD-KBT.
 
 The Holder is conceptually both the subject and the issuer of the Key Binding Token.
-Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and are ignored for validation purposes if they are present.
+Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and MUST NOT be present in the SD-KBT.
 (Profiles of this specification MAY define additional semantics.)
 
 The `aud` claim MUST be included and MUST correspond to the Verifier.
