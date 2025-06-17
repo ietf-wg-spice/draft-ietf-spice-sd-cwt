@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-15T00:57:32.973440+00:00",
+  "timestamp": "2025-06-17T00:52:15.581907+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1359,15 +1359,17 @@
       "id": "I_kwDOMm_Q2s65Pf38",
       "title": "Use appropriate SD-CWT Media Types",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/84",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-PR"
+      ],
       "body": "The specification registers the `application/sd+cwt` and `application/kb+cwt` media types.  Compare this to the SD-JWT specification, which registers the `application/sd-jwt` and `application/kb+jwt` media types.  And SD-JWT also registers the `+sd-jwt` media type suffix, allowing other media types to declare that their objects are kinds of SD-JWTs.\n\nPer #83, an SD-CWT is not a CWT.  Therefore, use of the `application/sd+cwt` media type is misleading.  Instead, this should be changed to `application/sd-cwt`.  And the `+sd-cwt` media type suffix should be registered, allowing other media types to declare that their objects are kinds of SD-CWTs.\n\n(It's fine that we keep using the `application/kb+cwt` media type if a KB-CWT is indeed, a true CWT.  Otherwise, we should change it to `application/kb-cwt`.)",
       "createdAt": "2025-06-01T20:57:04Z",
-      "updatedAt": "2025-06-04T13:23:28Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-16T04:25:21Z",
+      "closedAt": "2025-06-16T04:25:21Z",
       "comments": [
         {
           "author": "OR13",
@@ -1435,15 +1437,17 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/86",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
         "ready-for-pr",
         "chore"
       ],
       "body": "The defined terms Issuer, Holder, Verifier are not always capitalized.  Likewise, Claim Name and Claim Value are not always capitalized.  The spellings used should be consistent.",
       "createdAt": "2025-06-01T20:58:39Z",
-      "updatedAt": "2025-06-11T12:01:03Z",
+      "updatedAt": "2025-06-16T04:27:36Z",
       "closedAt": null,
       "comments": [
         {
@@ -1498,9 +1502,9 @@
       "id": "I_kwDOMm_Q2s65Pgy8",
       "title": "sd_alg should have a default value",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/88",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
         "ready-for-pr",
@@ -1508,8 +1512,8 @@
       ],
       "body": "The specification current requires `sd_alg` to be present.  This is inconsistent with `sd_aead` which does have a default value, and therefore can be omitted.  It is also inconsistent with SD-JWT, where `sd_alg` has a default value of SHA-256.\n\nI believe we should make `sd_alg` OPTIONAL, with a default value of SHA-256.\n",
       "createdAt": "2025-06-01T21:01:27Z",
-      "updatedAt": "2025-06-11T12:02:48Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-15T19:01:37Z",
+      "closedAt": "2025-06-15T19:01:37Z",
       "comments": [
         {
           "author": "OR13",
@@ -1525,9 +1529,9 @@
       "id": "I_kwDOMm_Q2s65Pg7Z",
       "title": "The digest is not always 16 bytes",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/89",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
         "ready-for-pr",
@@ -1535,8 +1539,8 @@
       ],
       "body": "The specification contains this text:\n> ;; XXX is the digest always .size 16?\n\nI believe it is not always 16 bytes, since the `sd_alg` enables the use of hashes with different size outputs.  This should be corrected.\n",
       "createdAt": "2025-06-01T21:02:16Z",
-      "updatedAt": "2025-06-11T12:03:54Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-15T19:01:38Z",
+      "closedAt": "2025-06-15T19:01:38Z",
       "comments": [
         {
           "author": "OR13",
@@ -1695,12 +1699,16 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/94",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
-      "labels": [],
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "has-PR"
+      ],
       "body": "The specification contains this language:\n> Therefore the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and are ignored for validation purposes if they are present.\n\nIgnoring fields is a way to decrease interoperation, in practice.  Can we simply say that they MUST NOT be included?  Or are there use cases where their values are not implied by the `cnf` claim?  If so, what should the processing rules be for them in that case?\n",
       "createdAt": "2025-06-01T21:08:58Z",
-      "updatedAt": "2025-06-11T13:41:31Z",
+      "updatedAt": "2025-06-16T19:48:33Z",
       "closedAt": null,
       "comments": [
         {
@@ -1726,16 +1734,16 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/95",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr"
+        "has-PR"
       ],
       "body": "In the section \"SD-KBT and SD-CWT Verifier Validation\", there's a list of steps to perform.  These will be easier to understand and follow if presented as a numbered list of steps.\n",
       "createdAt": "2025-06-01T21:09:38Z",
-      "updatedAt": "2025-06-11T13:47:45Z",
+      "updatedAt": "2025-06-16T21:08:29Z",
       "closedAt": null,
       "comments": [
         {
@@ -1744,6 +1752,34 @@
           "body": "We had discussed this previously, and I think there is agreement to make the validation procedure look more like SD-JWT",
           "createdAt": "2025-06-04T13:45:16Z",
           "updatedAt": "2025-06-04T13:45:16Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "OK, I did some experiments. I was able to get a nested ordered list to work, but only by playing games with spacing. \nI also had to eliminate the aside and the code fragment.\n\n```\n{::options nested_ol_types=\"1, a, i\" /}\n 1. test level 1 A\n 2. test level 1 B\n    1. test level 2 C\n    2. test level 2 D\n       1. test level 3 E\n 3. test level B\n```\n\nas soon as you add an aside, it gets added into the level above it if you get rid of vertical whitespace. If you add vertical whitespace it breaks the numbered list.\n\nI'm going to need some guidance here from the other authors about what we want, but this is not a trivial conversion at the moment. @OR13 @henkbirkholz ",
+          "createdAt": "2025-06-16T12:14:10Z",
+          "updatedAt": "2025-06-16T12:14:10Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I actually despise MarkDown as a specification source format.  It's fine for simple things like README.md docs, etc.  But if you want tight control over the output, it's not up to the task.\n\nI'd be glad to convert the source to XML, which doesn't have these problems.  No, I'm not kidding.",
+          "createdAt": "2025-06-16T18:26:51Z",
+          "updatedAt": "2025-06-16T18:26:51Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I actually despise MarkDown as a specification source format. It's fine for simple things like README.md docs, etc. But if you want tight control over the output, it's not up to the task.\n> \n> I'd be glad to convert the source to XML, which doesn't have these problems. No, I'm not kidding.\n\nThanks for the offer. While I am personally very comfortable with XML editing, the draft template, automatic editor's copies and diffs between datatracker and latest versions, aasvg support, etc. that basically require kramdown-rfc are sufficiently compelling to make it worth it for me, especially for WG documents. I used to use mmark, which IMO is a much less arbitrary and easy to use Markdown variant. Unfortunately its tooling never kept up. ",
+          "createdAt": "2025-06-16T19:48:00Z",
+          "updatedAt": "2025-06-16T19:48:00Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Thanks for the offer. While I am personally very comfortable with XML editing, the draft template, automatic editor's copies and diffs between datatracker and latest versions, aasvg support, etc. that basically require kramdown-rfc are sufficiently compelling to make it worth it for me, especially for WG documents.\n\nMartin Thompson's tooling works just as well for XML as for Markdown.  Orie and I used it for https://github.com/selfissued/draft-ietf-cose-typ-header-parameter, which became RFC 9596.  It gave us automatic editor's copies, etc.  Same for https://github.com/oauth-wg/draft-ietf-oauth-resource-metadata, which became RFC 9728.  The latter also used SVG.\n\nRemember that anything you can do in Kramdown you can do in XML, because Kramdown compiles to XML.  Getting rid of Markdown would just cut out the middleman and the limitations that it imposes.\n\n",
+          "createdAt": "2025-06-16T21:08:29Z",
+          "updatedAt": "2025-06-16T21:08:29Z"
         }
       ]
     },
@@ -1865,17 +1901,17 @@
       "id": "I_kwDOMm_Q2s65Pj0C",
       "title": "Using integer \"vct\" identifiers",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/99",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "needs-list-review"
+        "has-PR"
       ],
       "body": "The specification defines the `vct` claim as follows:\n> This specification defines the CWT claim `vct` (for verifiable credential type). The vct value MUST be a case-sensitive StringOrURI (see {{RFC7519}}) value serving as an identifier for the type of the SD-CWT claimset.\n\nIn the COSE world, we define integer equivalents of media types - CoAP Content-Formats numbers - to save space.  We should establish a registry for numeric VCT values to do the same for VCT identifiers.\n",
       "createdAt": "2025-06-01T21:15:06Z",
-      "updatedAt": "2025-06-11T12:29:24Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-16T04:21:47Z",
+      "closedAt": "2025-06-16T04:21:47Z",
       "comments": [
         {
           "author": "OR13",
@@ -1918,17 +1954,17 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/101",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "chore"
       ],
       "body": "The Threat Model section consists of lists of questions.  Consider giving each question a number in a list presentation.\n",
       "createdAt": "2025-06-01T21:16:35Z",
-      "updatedAt": "2025-06-11T13:50:10Z",
+      "updatedAt": "2025-06-16T19:43:27Z",
       "closedAt": null,
       "comments": [
         {
@@ -1997,6 +2033,27 @@
           "updatedAt": "2025-06-11T16:25:56Z"
         }
       ]
+    },
+    {
+      "number": 109,
+      "id": "I_kwDOMm_Q2s67qilC",
+      "title": "Add Mike Jones to contributors",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/109",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "has-PR",
+        "chore"
+      ],
+      "body": "",
+      "createdAt": "2025-06-16T04:22:56Z",
+      "updatedAt": "2025-06-16T19:43:06Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -7767,7 +7824,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-14T12:03:48Z",
-      "updatedAt": "2025-06-13T14:55:38Z",
+      "updatedAt": "2025-06-16T18:31:03Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
@@ -7785,6 +7842,20 @@
           "body": "Before regenerating the examples, it would be nice to have PRs land for #84 and #77 which would also change the examples. Optionally we could generate the decoy digests as well #11 ",
           "createdAt": "2025-06-13T14:55:38Z",
           "updatedAt": "2025-06-13T14:55:38Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Before regenerating the examples, it would be nice to have PRs land for #84 and #77 which would also change the examples. Optionally we could generate the decoy digests as well #11\r\n\r\nOn second thought, it would be better to get early allocation of the actual CoAP values and use them in the examples. ",
+          "createdAt": "2025-06-16T13:15:03Z",
+          "updatedAt": "2025-06-16T13:15:03Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Getting early allocations generally requires that the chairs and AD believe the draft is unlikely to change.  I don't think we're there yet.\r\n\r\nI'd go ahead and do this using string values for now, which are already stable, and using any CoAP content format values that are already registered, where applicable.",
+          "createdAt": "2025-06-16T18:31:03Z",
+          "updatedAt": "2025-06-16T18:31:03Z"
         }
       ],
       "reviews": [
@@ -8573,25 +8644,56 @@
       "id": "PR_kwDOMm_Q2s6aeQwR",
       "title": "Use application/sd-cwt and define +sd-cwt",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/106",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #84\r\n\r\nNote that the .cbor files will need to be updated, since I don't have the software needed to run `make`.\r\n\r\n@mprorock @OR13 @brentzundel @rohanmahy @henkbirkholz please review.",
       "createdAt": "2025-06-13T23:41:08Z",
-      "updatedAt": "2025-06-14T00:46:18Z",
+      "updatedAt": "2025-06-16T04:25:20Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
-      "baseRefOid": "33144882df5ebdb2317420fb441b7ab4aa69f064",
+      "baseRefOid": "c231ba3e5770a32d4eaa09ef06130b27fe46dd3f",
       "headRepository": "selfissued/draft-ietf-spice-sd-cwt",
       "headRefName": "mbj-media-types",
-      "headRefOid": "e6b12c40087e767be748a2a6d455bf5b796f8a30",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "84dc00643ef3a6446149466941e575b0c110e6da",
+      "closedAt": "2025-06-16T04:25:20Z",
+      "mergedAt": "2025-06-16T04:25:20Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "be14502c0447bdf9083b2c22038a3797f6ba73f7"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Note that the .cbor files will need to be updated, since I don't have the software needed to run `make`.\r\n\r\nI'll do that when I complete #76 \r\n",
+          "createdAt": "2025-06-15T08:07:33Z",
+          "updatedAt": "2025-06-15T08:07:33Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "May I suggest this compromise and try to get it through the RFC Editor when the time comes?\r\n- Do have references to specific registries including link fragments.  I can modify the PR accordingly.\r\n- Do have all links external to the specification occur in the references section.  That's cleaner because it shows all the document's dependencies in one place, rather than have some of them be implicitly scattered throughout the body of the document.  (And I believe the RFC Editor will want all the external links to be in the References sections anyway, so we're better off doing that up front, which my PR does.)\r\n\r\nWill that work for you, @rohanmahy?",
+          "createdAt": "2025-06-15T20:00:49Z",
+          "updatedAt": "2025-06-15T20:00:49Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> May I suggest this compromise and try to get it through the RFC Editor when the time comes?\r\n> \r\n>     * Do have references to specific registries including link fragments.  I can modify the PR accordingly.\r\n> \r\n>     * Do have all links external to the specification occur in the references section.  That's cleaner because it shows all the document's dependencies in one place, rather than have some of them be implicitly scattered throughout the body of the document.  (And I believe the RFC Editor will want all the external links to be in the References sections anyway, so we're better off doing that up front, which my PR does.)\r\n> \r\n> \r\n> Will that work for you, @rohanmahy?\r\n\r\nAs I said, I don't like links to be references, and they are definitely **_not_** dependencies for the reader. I think someone reading the HTML should be able to click on the links and go to the relevant registry. For the TXT format they can see the URL inline and copy it from right there into their browser. IMO the reader has a superior experience with external links to having them in the references section. The RFC Editor **doesn't even require links or references to registries**. The document was previously using the external link form except for one registry, so I suggest we leave it that way.\r\n\r\nRespectfully, -r",
+          "createdAt": "2025-06-15T20:24:06Z",
+          "updatedAt": "2025-06-15T20:24:06Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "All right.  This isn't a hill I'm going to die on today. ;-)  I care about the normative content of the PRs a lot more.\r\n\r\nI'll update the PRs accordingly.\r\n\r\nRespectfully,\r\n-- Mike",
+          "createdAt": "2025-06-15T20:33:35Z",
+          "updatedAt": "2025-06-15T20:33:35Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s6udSTr",
@@ -8605,6 +8707,512 @@
           "createdAt": "2025-06-14T00:46:18Z",
           "updatedAt": "2025-06-14T00:46:18Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulZTW",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:11:20Z",
+          "updatedAt": "2025-06-15T08:11:20Z",
+          "comments": [
+            {
+              "originalPosition": 61,
+              "body": "```suggestion\r\nAn SD-CWT is an extension of a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.\r\n```",
+              "createdAt": "2025-06-15T08:11:20Z",
+              "updatedAt": "2025-06-15T08:11:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulZko",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:15:37Z",
+          "updatedAt": "2025-06-15T08:15:37Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "```suggestion\r\nthe uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value TBD11,\r\n```",
+              "createdAt": "2025-06-15T08:15:37Z",
+              "updatedAt": "2025-06-15T08:15:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulZ_p",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:21:35Z",
+          "updatedAt": "2025-06-15T08:21:36Z",
+          "comments": [
+            {
+              "originalPosition": 183,
+              "body": "@selfissued as an editor style note, I usually do not update the change log in each PR when there are multiple PRs in flight, because this inevitably creates merge conflicts. I usually do a separate PR shortly before submitting an I-D, unless I expect only a single PR with changes worthy of the change log at a time. YMMV.",
+              "createdAt": "2025-06-15T08:21:35Z",
+              "updatedAt": "2025-06-15T08:21:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulaMj",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:24:45Z",
+          "updatedAt": "2025-06-15T08:24:46Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "the EDN will get autogenerated (and rarely hand edited for spacing) after running the tool. It is not necessary to update the .edn files manually (though it does no harm). ",
+              "createdAt": "2025-06-15T08:24:46Z",
+              "updatedAt": "2025-06-15T08:25:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulbBX",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:37:57Z",
+          "updatedAt": "2025-06-15T08:37:58Z",
+          "comments": [
+            {
+              "originalPosition": 44,
+              "body": "I really don't link the way this renders as a reference instead of an external link. The way they are in the draft now isn't great, but this is not an improvement IMO. I'll propose something below. Also, in general I think we should include the link fragments in the URLs to go directly to the specific registries.\r\n\r\n```suggestion\r\n```",
+              "createdAt": "2025-06-15T08:37:58Z",
+              "updatedAt": "2025-06-15T08:37:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulbGm",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:39:15Z",
+          "updatedAt": "2025-06-15T08:39:15Z",
+          "comments": [
+            {
+              "originalPosition": 86,
+              "body": "```suggestion\r\nIANA is requested to add the following entries to the [IANA \"COSE Header Parameters\" registry](https://www.iana.org/assignments/cose/cose.xhtml#header-parameters):\r\n```",
+              "createdAt": "2025-06-15T08:39:15Z",
+              "updatedAt": "2025-06-15T08:39:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulbLB",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:40:14Z",
+          "updatedAt": "2025-06-15T08:40:15Z",
+          "comments": [
+            {
+              "originalPosition": 95,
+              "body": "```suggestion\r\nIANA is requested to add the following entry to the [IANA \"CBOR Simple Values\" registry](https://www.iana.org/assignments/cbor-simple-values#simple):\r\n```",
+              "createdAt": "2025-06-15T08:40:14Z",
+              "updatedAt": "2025-06-15T08:40:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulbPM",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:41:00Z",
+          "updatedAt": "2025-06-15T08:41:00Z",
+          "comments": [
+            {
+              "originalPosition": 104,
+              "body": "```suggestion\r\nIANA is requested to add the following entries to the [IANA \"CBOR Tags\" registry](https://www.iana.org/assignments/cbor-tags/cbor-tags.xhtml#tags):\r\n```",
+              "createdAt": "2025-06-15T08:41:00Z",
+              "updatedAt": "2025-06-15T08:41:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulbTT",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:42:07Z",
+          "updatedAt": "2025-06-15T08:42:08Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "```suggestion\r\nIANA is requested to add the following entry to the [IANA \"CWT Claims\" registry](https://www.iana.org/assignments/cwt/cwt.xhtml#claims-registry):\r\n```",
+              "createdAt": "2025-06-15T08:42:08Z",
+              "updatedAt": "2025-06-15T08:42:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulbYo",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:43:40Z",
+          "updatedAt": "2025-06-15T08:43:41Z",
+          "comments": [
+            {
+              "originalPosition": 122,
+              "body": "```suggestion\r\nIANA is requested to add the following entries to the IANA \"Media Types\" registry (https://www.iana.org/assignments/media-types/media-types.xhtml#application):\r\n```",
+              "createdAt": "2025-06-15T08:43:41Z",
+              "updatedAt": "2025-06-15T08:43:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulbdX",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:44:52Z",
+          "updatedAt": "2025-06-15T08:44:53Z",
+          "comments": [
+            {
+              "originalPosition": 141,
+              "body": "```suggestion\r\nIANA is requested to add the following entry to the [IANA \"Structured Syntax Suffix\" registry](https://www.iana.org/assignments/media-type-structured-suffix/media-type-structured-suffix.xhtml#structured-syntax-suffix):\r\n```",
+              "createdAt": "2025-06-15T08:44:53Z",
+              "updatedAt": "2025-06-15T08:44:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulbmZ",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:47:20Z",
+          "updatedAt": "2025-06-15T08:47:21Z",
+          "comments": [
+            {
+              "originalPosition": 156,
+              "body": "```suggestion\r\nIANA is requested to register the following entries in the [IANA \"CoAP Content-Formats\" registry](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats):\r\n```",
+              "createdAt": "2025-06-15T08:47:21Z",
+              "updatedAt": "2025-06-15T08:47:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulcS9",
+          "commit": {
+            "abbreviatedOid": "2dec60a"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "My remaining actionable comments are about the style of the IANA references. I greatly prefer the external link style since you don't have to click twice to go the registry. If the other co-authors overrule me, then I ask at least that the target URLs include the fragment (to point directly to the correct registry).\r\nThanks!",
+          "createdAt": "2025-06-15T08:58:17Z",
+          "updatedAt": "2025-06-15T08:58:17Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unkuZ",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:11:39Z",
+          "updatedAt": "2025-06-15T14:11:39Z",
+          "comments": [
+            {
+              "originalPosition": 183,
+              "body": "OK, I understand that's a possible approach.  That said, these kinds of merge conflicts are easy to resolve in GitHub's web interface.  I add the history entries so I don't forget. :-)",
+              "createdAt": "2025-06-15T14:11:39Z",
+              "updatedAt": "2025-06-15T14:11:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unk7C",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:12:18Z",
+          "updatedAt": "2025-06-15T14:12:18Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "Interesting.  What are they auto-generated from?  I don't know the workflow here.",
+              "createdAt": "2025-06-15T14:12:18Z",
+              "updatedAt": "2025-06-15T14:12:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unmsa",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:15:13Z",
+          "updatedAt": "2025-06-15T14:15:13Z",
+          "comments": [
+            {
+              "originalPosition": 44,
+              "body": "Inline links don't work at all in the .txt output of the RFC.  This is the style that the RFC Editor uses so that the IANA references work in all the output formats.\r\n\r\nIf we want link fragments (which the RFC Editor often deletes), we would need separate references for each registry, rather than for the registry page.",
+              "createdAt": "2025-06-15T14:15:13Z",
+              "updatedAt": "2025-06-15T14:15:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unnMw",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:15:57Z",
+          "updatedAt": "2025-06-15T14:15:57Z",
+          "comments": [
+            {
+              "originalPosition": 86,
+              "body": "As I said earlier, this doesn't work at all in the .txt output for the RFC.",
+              "createdAt": "2025-06-15T14:15:57Z",
+              "updatedAt": "2025-06-15T14:15:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unnVJ",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:16:08Z",
+          "updatedAt": "2025-06-15T14:16:08Z",
+          "comments": [
+            {
+              "originalPosition": 95,
+              "body": "Ditto",
+              "createdAt": "2025-06-15T14:16:08Z",
+              "updatedAt": "2025-06-15T14:16:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unnb6",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:16:16Z",
+          "updatedAt": "2025-06-15T14:16:16Z",
+          "comments": [
+            {
+              "originalPosition": 104,
+              "body": "Ditto",
+              "createdAt": "2025-06-15T14:16:16Z",
+              "updatedAt": "2025-06-15T14:16:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unng7",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:16:26Z",
+          "updatedAt": "2025-06-15T14:16:26Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "Ditto",
+              "createdAt": "2025-06-15T14:16:26Z",
+              "updatedAt": "2025-06-15T14:16:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unnkm",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:16:37Z",
+          "updatedAt": "2025-06-15T14:16:37Z",
+          "comments": [
+            {
+              "originalPosition": 122,
+              "body": "Ditto",
+              "createdAt": "2025-06-15T14:16:37Z",
+              "updatedAt": "2025-06-15T14:16:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unnqA",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:16:45Z",
+          "updatedAt": "2025-06-15T14:16:45Z",
+          "comments": [
+            {
+              "originalPosition": 141,
+              "body": "Ditto",
+              "createdAt": "2025-06-15T14:16:45Z",
+              "updatedAt": "2025-06-15T14:16:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unntl",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:16:55Z",
+          "updatedAt": "2025-06-15T14:16:55Z",
+          "comments": [
+            {
+              "originalPosition": 156,
+              "body": "Ditto",
+              "createdAt": "2025-06-15T14:16:55Z",
+              "updatedAt": "2025-06-15T14:16:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6up_wJ",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T18:48:21Z",
+          "updatedAt": "2025-06-15T18:48:22Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "Once you have the basic tooling installed (python3 with pycose, cbor2diag.rb, and gnu sed) then you can generate example files.\r\n\r\nThe only pure input files are draft-ietf-spice-sd-cwt.md, examples/sd-cwt.py, and sd-cwts.cddl.\r\n\r\n```\r\ncd examples\r\npython3 sd_cwt.py && make first-disclosure.pretty\r\n```\r\n\r\nThat gets you about 95% of the way. There is a still a tiny bit of manual editing for spacing that I haven't automated yet. \r\n\r\nI also have an open issue to be able to type `make validate` in the directory and have it verify that the CDDL is valid, all the CBOR files validate against the CDDL, and the all the EDN converts to the same CBOR as the corresponding CBOR file. To do that you will need cddl-rs, and an edn2cbor script built on Joe Hildebrand's cbor-edn project (cbor2diag doesn't support the multi-line strings or string concat EDN features).",
+              "createdAt": "2025-06-15T18:48:21Z",
+              "updatedAt": "2025-06-15T18:48:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uqE6E",
+          "commit": {
+            "abbreviatedOid": "e6b12c4"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T18:58:05Z",
+          "updatedAt": "2025-06-15T18:58:05Z",
+          "comments": [
+            {
+              "originalPosition": 44,
+              "body": ">Inline links don't work at all in the .txt output of the RFC.\r\nThat's not the case.\r\n\r\nHere is a sample of unmodified .txt generated from the markdown style I proposed:\r\n\r\n\"16.5.  Media Types\r\n\r\n   This section requests the registration of new media types in the IANA\r\n   \"Media Types\" registry (https://www.iana.org/assignments/media-types/\r\n   media-types.xhtml).\"\r\n\r\n>If we want link fragments (which the RFC Editor often deletes), we would need separate references for each registry, rather than for the registry page.\r\n\r\nWe only need one extra reference in this document fortunately. I am willing to push for link fragments with the RFC editor because they have important meaning here.",
+              "createdAt": "2025-06-15T18:58:05Z",
+              "updatedAt": "2025-06-15T18:58:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6urU8Z",
+          "commit": {
+            "abbreviatedOid": "84dc006"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-16T04:25:07Z",
+          "updatedAt": "2025-06-16T04:25:07Z",
+          "comments": []
         }
       ]
     },
@@ -8613,52 +9221,617 @@
       "id": "PR_kwDOMm_Q2s6ajanD",
       "title": "Create Verifiable Credentials Type Identifiers registry",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/107",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #99\r\n\r\nRelated to #77\r\n\r\nCc: @brentzundel",
       "createdAt": "2025-06-14T20:34:34Z",
-      "updatedAt": "2025-06-14T20:34:35Z",
+      "updatedAt": "2025-06-16T04:21:47Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
-      "baseRefOid": "33144882df5ebdb2317420fb441b7ab4aa69f064",
+      "baseRefOid": "c231ba3e5770a32d4eaa09ef06130b27fe46dd3f",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "mbj-vct-registry",
-      "headRefOid": "3fbfdf6bcd1321abeeca6b127910941287f48ea4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "b4189d88ff5a4719e7bcec20742ecf24457b3655",
+      "closedAt": "2025-06-16T04:21:47Z",
+      "mergedAt": "2025-06-16T04:21:47Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "f2491e756aaf7e922143795b850c4d64d4eef9cb"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6ulczM",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T09:06:28Z",
+          "updatedAt": "2025-06-15T09:06:29Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "```suggestion\r\nThis specification establishes the Verifiable Credential Type Identifiers registry, under the [IANA \"CBOR Web Token (CWT) Claims\" group registry heading](https://www.iana.org/assignments/cwt/cwt.xhtml).\r\n```",
+              "createdAt": "2025-06-15T09:06:28Z",
+              "updatedAt": "2025-06-15T09:06:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulc6S",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T09:08:08Z",
+          "updatedAt": "2025-06-15T09:08:08Z",
+          "comments": [
+            {
+              "originalPosition": 62,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-06-15T09:08:08Z",
+              "updatedAt": "2025-06-15T09:08:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uldGf",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T09:11:01Z",
+          "updatedAt": "2025-06-15T09:11:02Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "```suggestion\r\nIt enables short integers in the range 0-65535 to be used as `vct` claim values, similarly to how CoAP Content-Formats ({{Section 12.3 of ?RFC7252}}) enable short integers to be used as `typ` header parameter {{!RFC9596}} values.\r\n```",
+              "createdAt": "2025-06-15T09:11:01Z",
+              "updatedAt": "2025-06-15T09:11:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uldKI",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T09:11:53Z",
+          "updatedAt": "2025-06-15T09:11:53Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-06-15T09:11:53Z",
+              "updatedAt": "2025-06-15T09:11:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uldq0",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I believe the correct term for a page on the IANA site is a \"group registry heading\" (see line 1157). A \"registry\" is usually a single table on one of those pages.\r\n\r\nI have the same comments about the external links vs. references as for #106 ",
+          "createdAt": "2025-06-15T09:17:22Z",
+          "updatedAt": "2025-06-15T09:17:22Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uld4Z",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T09:20:56Z",
+          "updatedAt": "2025-06-15T09:20:56Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "Do we want to say it SHOULD be an integer? Since it is a new claim I don't see a reason not to.",
+              "createdAt": "2025-06-15T09:20:56Z",
+              "updatedAt": "2025-06-15T09:21:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unoc4",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:18:26Z",
+          "updatedAt": "2025-06-15T14:18:26Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "Inline links don't work in the .txt RFC output.",
+              "createdAt": "2025-06-15T14:18:26Z",
+              "updatedAt": "2025-06-15T14:18:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unqlX",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:22:13Z",
+          "updatedAt": "2025-06-15T14:22:13Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "Is the \"?\" a typo?  If not, what does it do?  I do get that Markdown is chock full of non-obvious syntax using special characters, which is part of what I hate about it.  Heck, whitespace is significant in Markdown as well!  By comparison, in the XML input format, everything is explicit and declared.",
+              "createdAt": "2025-06-15T14:22:13Z",
+              "updatedAt": "2025-06-15T14:22:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unrCM",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:22:54Z",
+          "updatedAt": "2025-06-15T14:22:54Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "It's not good to have references in the document that aren't listed in the References section.",
+              "createdAt": "2025-06-15T14:22:54Z",
+              "updatedAt": "2025-06-15T14:22:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unr0P",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:24:16Z",
+          "updatedAt": "2025-06-15T14:24:16Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "I'm fine saying this:\r\n> For size reasons, it is RECOMMENDED that the numeric representation be used.",
+              "createdAt": "2025-06-15T14:24:16Z",
+              "updatedAt": "2025-06-15T14:24:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uqDZC",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T18:56:01Z",
+          "updatedAt": "2025-06-15T18:56:01Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": ">Inline links don't work in the .txt RFC output.\r\nThat's not the case.\r\n\r\nHere is a sample of unmodified .txt generated from the markdown style I proposed:\r\n\r\n```\r\n16.5.  Media Types\r\n\r\n   This section requests the registration of new media types in the IANA\r\n   \"Media Types\" registry (https://www.iana.org/assignments/media-types/\r\n   media-types.xhtml).\r\n```",
+              "createdAt": "2025-06-15T18:56:01Z",
+              "updatedAt": "2025-06-15T19:02:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uqKsY",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T19:07:15Z",
+          "updatedAt": "2025-06-15T19:07:16Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "?RFC7252 creates a non-normative reference without having to declare it first, like\r\n!RFC7252 would create a normative reference without having to declare it first.",
+              "createdAt": "2025-06-15T19:07:15Z",
+              "updatedAt": "2025-06-15T19:07:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uqR-C",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T19:55:53Z",
+          "updatedAt": "2025-06-15T19:55:54Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "```suggestion\r\nLike the `typ` header parameter {{!RFC9596}}, its value can be either a string or an integer.\r\nFor size reasons, it is RECOMMENDED that the numeric representation be used.\r\n```",
+              "createdAt": "2025-06-15T19:55:53Z",
+              "updatedAt": "2025-06-15T19:55:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uqSv8",
+          "commit": {
+            "abbreviatedOid": "3fbfdf6"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T20:11:17Z",
+          "updatedAt": "2025-06-15T20:11:17Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "See my suggestion for our links strategy at https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/106#issuecomment-2974666827.",
+              "createdAt": "2025-06-15T20:11:17Z",
+              "updatedAt": "2025-06-15T20:11:17Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 108,
       "id": "PR_kwDOMm_Q2s6ajgPG",
       "title": "Make SHA-256 be the default sd_alg value",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/108",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #88 \r\nFixes #89 \r\n\r\nCc: @brentzundel",
       "createdAt": "2025-06-14T20:55:12Z",
-      "updatedAt": "2025-06-14T21:10:30Z",
+      "updatedAt": "2025-06-15T19:01:37Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "33144882df5ebdb2317420fb441b7ab4aa69f064",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "mbj-sd_alg-default",
-      "headRefOid": "69962c7c2ef684afb050fc73fba307754e317b3d",
+      "headRefOid": "c57c9cd0ff5b301b4b216c63798d88c77496e7ee",
+      "closedAt": "2025-06-15T19:01:36Z",
+      "mergedAt": "2025-06-15T19:01:36Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "c231ba3e5770a32d4eaa09ef06130b27fe46dd3f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6ulYpM",
+          "commit": {
+            "abbreviatedOid": "69962c7"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:00:37Z",
+          "updatedAt": "2025-06-15T08:00:37Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\n  bstr .size 16,     ; 128-bit salt\r\n```\r\nThe **salt** is still a fixed 128-bits, even though the digest size can vary.",
+              "createdAt": "2025-06-15T08:00:37Z",
+              "updatedAt": "2025-06-15T08:00:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulYqA",
+          "commit": {
+            "abbreviatedOid": "69962c7"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:00:53Z",
+          "updatedAt": "2025-06-15T08:00:53Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "```suggestion\r\n  bstr .size 16,     ; 128-bit salt\r\n```\r\n",
+              "createdAt": "2025-06-15T08:00:53Z",
+              "updatedAt": "2025-06-15T08:00:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulYqh",
+          "commit": {
+            "abbreviatedOid": "69962c7"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:01:02Z",
+          "updatedAt": "2025-06-15T08:01:02Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\n  bstr .size 16,     ; 128-bit salt\r\n```\r\n",
+              "createdAt": "2025-06-15T08:01:02Z",
+              "updatedAt": "2025-06-15T08:01:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulYwl",
+          "commit": {
+            "abbreviatedOid": "69962c7"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:02:47Z",
+          "updatedAt": "2025-06-15T08:02:47Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "Are we at all concerned about down bid attacks here?",
+              "createdAt": "2025-06-15T08:02:47Z",
+              "updatedAt": "2025-06-15T08:02:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulY1F",
+          "commit": {
+            "abbreviatedOid": "69962c7"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:04:08Z",
+          "updatedAt": "2025-06-15T08:04:08Z",
+          "comments": [
+            {
+              "originalPosition": 74,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-06-15T08:04:08Z",
+              "updatedAt": "2025-06-15T08:04:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulY50",
+          "commit": {
+            "abbreviatedOid": "69962c7"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T08:05:15Z",
+          "updatedAt": "2025-06-15T08:05:15Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "```suggestion\r\n  bstr .size 16,     ; 128-bit nonce\r\n```\r\n\r\nA 128-bit nonce should be sufficient for any AEAD, regardless of key size.",
+              "createdAt": "2025-06-15T08:05:15Z",
+              "updatedAt": "2025-06-15T08:05:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ulY9d",
+          "commit": {
+            "abbreviatedOid": "69962c7"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "The salts and nonce sizes should remain constant.",
+          "createdAt": "2025-06-15T08:06:11Z",
+          "updatedAt": "2025-06-15T08:06:11Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6unveo",
+          "commit": {
+            "abbreviatedOid": "69962c7"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T14:30:04Z",
+          "updatedAt": "2025-06-15T14:30:04Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "We can include language about choosing appropriate hash algorithms (not MD5, SHA-1, etc.) as SD-JWT did.  We can copy their text.",
+              "createdAt": "2025-06-15T14:30:04Z",
+              "updatedAt": "2025-06-15T14:30:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uqGUY",
+          "commit": {
+            "abbreviatedOid": "5890546"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-15T18:59:53Z",
+          "updatedAt": "2025-06-15T18:59:53Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\n  bstr .size 16      ; 128-bit salt\r\n```",
+              "createdAt": "2025-06-15T18:59:53Z",
+              "updatedAt": "2025-06-15T18:59:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6uqHWQ",
+          "commit": {
+            "abbreviatedOid": "c57c9cd"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-15T19:01:13Z",
+          "updatedAt": "2025-06-15T19:01:13Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 110,
+      "id": "PR_kwDOMm_Q2s6atz_1",
+      "title": "Complete some chores",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/110",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Forbid `iss` and `sub` in KBTs #94\r\n- Number threats in Threat Model section #101 \r\n- Attempt at numbering Verification steps #95 \r\n- Fix a discrepancy in the `iss` of the EDN examples and the corresponding CBOR examples\r\n- Add Mike Jones as a contributor #109 \r\n- Add README in example directory with information about how to add tooling\r\n- Add tool to compare EDN and CBOR files\r\n\r\nThese are each atomic commits, so feel free to look at the commits separately. Numbering the verification section is an especially messy diff, even though its actual changes are pretty small. ",
+      "createdAt": "2025-06-16T13:12:03Z",
+      "updatedAt": "2025-06-16T20:02:27Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "be14502c0447bdf9083b2c22038a3797f6ba73f7",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "howto-tooling",
+      "headRefOid": "87e4e546edc2e7cd647276bf418621004afb8e65",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6u1dj3",
+          "commit": {
+            "abbreviatedOid": "87e4e54"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-16T19:24:24Z",
+          "updatedAt": "2025-06-16T19:24:24Z",
+          "comments": [
+            {
+              "originalPosition": 58,
+              "body": "I don't understand the `&` notation used here.  I suspect other readers won't either.",
+              "createdAt": "2025-06-16T19:24:24Z",
+              "updatedAt": "2025-06-16T19:24:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6u1lYe",
+          "commit": {
+            "abbreviatedOid": "87e4e54"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "This is much improved.  Thanks!",
+          "createdAt": "2025-06-16T19:36:46Z",
+          "updatedAt": "2025-06-16T19:36:46Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6u1wRj",
+          "commit": {
+            "abbreviatedOid": "87e4e54"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-16T19:52:26Z",
+          "updatedAt": "2025-06-16T19:52:27Z",
+          "comments": [
+            {
+              "originalPosition": 58,
+              "body": "> I don't understand the `&` notation used here. I suspect other readers won't either.\r\n\r\nIt is a fragment of CDDL. I'd be fine removing line 565. @OR13 any thoughts?",
+              "createdAt": "2025-06-16T19:52:26Z",
+              "updatedAt": "2025-06-16T19:52:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6u12nO",
+          "commit": {
+            "abbreviatedOid": "87e4e54"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-16T20:02:27Z",
+          "updatedAt": "2025-06-16T20:02:27Z",
+          "comments": [
+            {
+              "originalPosition": 58,
+              "body": "Then explicitly that it's CDDL.",
+              "createdAt": "2025-06-16T20:02:27Z",
+              "updatedAt": "2025-06-16T20:02:27Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
