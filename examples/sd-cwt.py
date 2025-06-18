@@ -280,7 +280,7 @@ def make_disclosure(salt=None, key=None, value=None):
             # map claim
             disclosure_array = [salt, key, value]
     # double encode to add bstr type and bstr length
-    return cbor2.dumps(cbor2.dumps(disclosure_array))
+    return cbor2.dumps(cbor2.dumps(disclosure_array), canonical=True)
 
 
 def parse_disclosures(disclosures):
