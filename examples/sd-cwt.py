@@ -280,7 +280,7 @@ def make_disclosure(salt=None, key=None, value=None):
             # map claim
             disclosure_array = [salt, value, key]
     # double encode to add bstr type and bstr length
-    return cbor2.dumps(cbor2.dumps(disclosure_array))
+    return cbor2.dumps(cbor2.dumps(disclosure_array), canonical=True)
 
 
 def parse_disclosures(disclosures):
@@ -469,7 +469,7 @@ def sign(phdr, uhdr, payload, key):
     cwt_object = Sign1Message(
       phdr=phdr,
       uhdr=uhdr,
-      payload=cbor2.dumps(payload),
+      payload=cbor2.dumps(payload, canonical=True),
       key=key
     )
     return cwt_object.encode()
