@@ -48,6 +48,15 @@ author:
     organization: Rohan Mahy Consulting Services
     email: "rohan.ietf@gmail.com"
 
+contributor:
+  -
+    ins: M. Jones
+    fullname: Michael B. Jones
+    organization: Self-Issued Consulting
+    country: United States
+    email: michael_b_jones@hotmail.com
+    uri: https://self-issued.info/
+
 normative:
   RFC8949:
   BCP205:
@@ -483,7 +492,7 @@ An SD-KBT is itself a type of CWT, signed using the private key corresponding to
 The SD-KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the `kcwt` protected header field in the SD-KBT.
 
 The Holder is conceptually both the subject and the issuer of the Key Binding Token.
-Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and are ignored for validation purposes if they are present.
+Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and MUST NOT be present in the SD-KBT.
 (Profiles of this specification MAY define additional semantics.)
 
 The `aud` claim MUST be included and MUST correspond to the Verifier.
@@ -539,34 +548,34 @@ All other claims are OPTIONAL in an SD-KBT.
 # SD-KBT and SD-CWT Verifier Validation
 
 The exact order of the following steps MAY be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
-First the Verifier must open the protected headers of the SD-KBT and find the issuer SD-CWT present in the `kcwt` field.
-Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of !RFC8392}}.
-The Verifier extracts the confirmation key from the `cnf` claim in the SD-CWT payload.
-Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
 
-Finally, the Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
-The decoded `sd_claims` are converted to an intermediate data structure called a Digest To Disclosed Claim Map that is used to transform the Presented Disclosed Claims Set into a Validated Disclosed Claims Set.
-The Verifier MUST compute the hash of each Salted Disclosed Claim (`salted`), in order to match each disclosed value to each entry of the Presented Disclosed Claims Set.
+{::options nested_ol_types="1, a, i" /}
 
-One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map could be:
+ 1. First the Verifier must open the protected headers of the SD-KBT and find the issuer SD-CWT present in the `kcwt` field.
 
-~~~ cddl-ish
-{
-  &(digested-salted-disclosed-claim) => salted
-}
-~~~
+ 2. Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of !RFC8392}}.
 
-The Verifier constructs an empty cbor map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.
-Next, the Verifier performs a breadth first or depth first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.
+ 3. The Verifier extracts the confirmation key from the `cnf` claim in the SD-CWT payload.
+
+ 4. Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
+
+ 5. Finally, the Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
+    The decoded `sd_claims` are converted to an intermediate data structure called a Digest To Disclosed Claim Map that is used to transform the Presented Disclosed Claims Set into a Validated Disclosed Claims Set.
+    The Verifier MUST compute the hash of each Salted Disclosed Claim (`salted`), in order to match each disclosed value to each entry of the Presented Disclosed Claims Set.
+    One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map could be: `{ &(digested-salted-disclosed-claim) => salted }`
+    1. The Verifier constructs an empty cbor map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.
+    2. Next, the Verifier performs a breadth first or depth first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
-If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid.
+    3. If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid.
 
-> Note: A verifier MUST be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.
+    > Note: A verifier MUST be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.
 
-A verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
+{:start="6"}
+ 6. A verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
 
-Otherwise, the SD-CWT is considered valid, and the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
-Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
+ 7. Otherwise, the SD-CWT is considered valid, and the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
+
+ 8. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
 
 # Decoy Digests {#decoys}
 
@@ -913,25 +922,28 @@ The construction of such profiles has a significant impact on the privacy proper
 Each use case will have a unique threat model that MUST be considered before the applicability of SD-CWT-based credential types can be determined.
 This section provides a non-exhaustive list of topics to be considered when developing a threat model for applying SD-CWT to a given use case.
 
-Has there been a t-closeness, k-anonymity, and l-diversity assessment (see {{t-Closeness}}) assuming compromise of the one or more issuers, verifiers or holders, for all relevant credential types?
+1. Has there been a t-closeness, k-anonymity, and l-diversity assessment (see {{t-Closeness}}) assuming compromise of the one or more issuers, verifiers or holders, for all relevant credential types?
 
-How many issuers exist for the credential type?
-Is the size of the set of issuers growing or shrinking over time?
-For a given credential type, will subjects be able to hold instances of the same credential type from multiple issuers, or just a single issuer?
-Does the credential type require or offer the ability to disclose a globally unique identifier?
-Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?
-Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
+2. Issuer questions:
+   1. How many issuers exist for the credential type?
+   2. Is the size of the set of issuers growing or shrinking over time?
+   3. For a given credential type, will subjects be able to hold instances of the same credential type from multiple issuers, or just a single issuer?
+   4. Does the credential type require or offer the ability to disclose a globally unique identifier?
+   5. Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?
+   6. Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
 
-How many verifiers exist for the credential type?
-Is the size of the set of verifiers growing or shrinking over time?
-Are the verifiers a superset, subset, or disjoint set of the issuers or subjects?
-Are there any legally required reporting or disclosure requirements associated with the verifiers?
-Is there reason to believe that a verifier's historic data will be aggregated and analyzed?
-Assuming multiple verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
+3. Verifier questions:
+   1. How many verifiers exist for the credential type?
+   2. Is the size of the set of verifiers growing or shrinking over time?
+   3. Are the verifiers a superset, subset, or disjoint set of the issuers or subjects?
+   4. Are there any legally required reporting or disclosure requirements associated with the verifiers?
+   5. Is there reason to believe that a verifier's historic data will be aggregated and analyzed?
+   6. Assuming multiple verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
 
-How many subjects exist for the credential type?
-Is the size of the set of subjects growing or shrinking over time?
-Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?
+4. Subject questions:
+   1. How many subjects exist for the credential type?
+   2. Is the size of the set of subjects growing or shrinking over time?
+   3. Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?
 
 ## Random Numbers
 
