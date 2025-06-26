@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-19T00:52:17.842317+00:00",
+  "timestamp": "2025-06-26T00:52:29.766280+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -80,6 +80,21 @@
     },
     {
       "name": "blocker",
+      "description": null,
+      "color": "aaaaaa"
+    },
+    {
+      "name": "next-stretch",
+      "description": "would like to address this before the next I-D publication",
+      "color": "f9d0c4"
+    },
+    {
+      "name": "up-next",
+      "description": "must address this before the next I-D is published",
+      "color": "b60205"
+    },
+    {
+      "name": "wait-for-IANA",
       "description": null,
       "color": "aaaaaa"
     }
@@ -1290,11 +1305,11 @@
       ],
       "labels": [
         "needs-list-review",
-        "ready-for-pr"
+        "wait-for-IANA"
       ],
       "body": "Are integer values for content-type (using the CoAP registry) always preferred for efficiency, or only when using CoAP?\n\nAlso needs to update all the examples if we make this change.\n\n",
       "createdAt": "2025-05-21T00:11:06Z",
-      "updatedAt": "2025-05-28T13:23:53Z",
+      "updatedAt": "2025-06-25T13:54:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -1303,6 +1318,13 @@
           "body": "The integer content-format values (using the CoRE-parameter registry) are universally useful, not just for CoAP.\nThey are necessary for the CoAP Content-Format option, but that doesn't make them less useful outside CoAP.\nRegistering the content-format with the media type avoids any X-Dash considerations (RFC 6648) that might come up due to a later registration.\nThe content-format value is preferred anywhere where the 16 bytes (times 4/3) in size difference matter.\nIt is not clear to me why they would not be preferred elsewhere.",
           "createdAt": "2025-05-25T08:19:06Z",
           "updatedAt": "2025-05-25T08:19:06Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Let's wait for IANA to early assign the values, then we can change the text and examples to use the new values",
+          "createdAt": "2025-06-25T13:54:24Z",
+          "updatedAt": "2025-06-25T13:54:24Z"
         }
       ]
     },
@@ -1570,11 +1592,12 @@
         "selfissued"
       ],
       "labels": [
-        "ready-for-pr"
+        "ready-for-pr",
+        "next-stretch"
       ],
       "body": "The specification contains this language:\n> all the Salted Disclosed Claims are correct in their unblinded context in the payload.\n\nWhat does it mean for the claims to be \"correct\"?  This needs to be clarified.\n",
       "createdAt": "2025-06-01T21:03:33Z",
-      "updatedAt": "2025-06-14T00:12:24Z",
+      "updatedAt": "2025-06-25T13:42:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -1604,10 +1627,13 @@
       "assignees": [
         "rohanmahy"
       ],
-      "labels": [],
+      "labels": [
+        "ready-for-pr",
+        "up-next"
+      ],
       "body": "`sd_cose_encrypted_claims` and its relationship to `sd_encrypted_claims` is not well described.  When would you use one versus the other?  And are both actually needed?\n\nAnd how do these relate to `sd_aead`?\n",
       "createdAt": "2025-06-01T21:05:06Z",
-      "updatedAt": "2025-06-12T11:21:23Z",
+      "updatedAt": "2025-06-25T13:47:04Z",
       "closedAt": null,
       "comments": [
         {
@@ -1640,12 +1666,17 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/92",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
-      "labels": [],
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr",
+        "up-next"
+      ],
       "body": "The way that the content encryption key used with `sd_aead` is obtained is not described.  The same is true for the content encryption keys for `sd_cose_encrypted_claims` and `sd_encrypted_claims`.  Achieving interoperablity requires this to be specified.\n\nRelated to this, this statement does not promote interoperability:\n> Details of key management are left to the specific protocols that make use of encrypted disclosures.\n",
       "createdAt": "2025-06-01T21:06:23Z",
-      "updatedAt": "2025-06-11T11:44:51Z",
+      "updatedAt": "2025-06-25T13:47:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -1676,11 +1707,12 @@
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr"
+        "ready-for-pr",
+        "up-next"
       ],
       "body": "The specification contains this language:\n> Since the unprotected header is not included in the signature, it will contain all the Salted Disclosed Claims when sent from the Issuer to the Holder.\n\nAs stated, the relationship between the two clauses is confusing.  Should this be reworded to be these two declarative sentences?\n> The unprotected header is not included in the signature.\n> The unprotected header contains all the Salted Disclosed Claims when sent from the Issuer to the Holder.\n\nOr is there a deeper meaning that this language is trying to convey?",
       "createdAt": "2025-06-01T21:08:05Z",
-      "updatedAt": "2025-06-12T11:29:32Z",
+      "updatedAt": "2025-06-25T13:50:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -1697,7 +1729,7 @@
       "id": "I_kwDOMm_Q2s65PizH",
       "title": "Treatment of \"sub\" and \"iss\" in SD-KBT",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/94",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1708,8 +1740,8 @@
       ],
       "body": "The specification contains this language:\n> Therefore the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and are ignored for validation purposes if they are present.\n\nIgnoring fields is a way to decrease interoperation, in practice.  Can we simply say that they MUST NOT be included?  Or are there use cases where their values are not implied by the `cnf` claim?  If so, what should the processing rules be for them in that case?\n",
       "createdAt": "2025-06-01T21:08:58Z",
-      "updatedAt": "2025-06-16T19:48:33Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-25T13:40:29Z",
+      "closedAt": "2025-06-25T13:40:29Z",
       "comments": [
         {
           "author": "OR13",
@@ -1724,6 +1756,13 @@
           "body": "Wait on PR proposing not changing CWT, then follow ",
           "createdAt": "2025-06-11T13:41:31Z",
           "updatedAt": "2025-06-11T13:41:31Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Done in #110 ",
+          "createdAt": "2025-06-25T13:40:29Z",
+          "updatedAt": "2025-06-25T13:40:29Z"
         }
       ]
     },
@@ -1732,7 +1771,7 @@
       "id": "I_kwDOMm_Q2s65Pi5g",
       "title": "Number Validation Steps",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/95",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1743,8 +1782,8 @@
       ],
       "body": "In the section \"SD-KBT and SD-CWT Verifier Validation\", there's a list of steps to perform.  These will be easier to understand and follow if presented as a numbered list of steps.\n",
       "createdAt": "2025-06-01T21:09:38Z",
-      "updatedAt": "2025-06-16T21:08:29Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-25T13:52:31Z",
+      "closedAt": "2025-06-25T13:52:31Z",
       "comments": [
         {
           "author": "OR13",
@@ -1780,6 +1819,13 @@
           "body": "> Thanks for the offer. While I am personally very comfortable with XML editing, the draft template, automatic editor's copies and diffs between datatracker and latest versions, aasvg support, etc. that basically require kramdown-rfc are sufficiently compelling to make it worth it for me, especially for WG documents.\n\nMartin Thompson's tooling works just as well for XML as for Markdown.  Orie and I used it for https://github.com/selfissued/draft-ietf-cose-typ-header-parameter, which became RFC 9596.  It gave us automatic editor's copies, etc.  Same for https://github.com/oauth-wg/draft-ietf-oauth-resource-metadata, which became RFC 9728.  The latter also used SVG.\n\nRemember that anything you can do in Kramdown you can do in XML, because Kramdown compiles to XML.  Getting rid of Markdown would just cut out the middleman and the limitations that it imposes.\n\n",
           "createdAt": "2025-06-16T21:08:29Z",
           "updatedAt": "2025-06-16T21:08:29Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Done in #110, but the validation text could use another pass. See #111 and #112 ",
+          "createdAt": "2025-06-25T13:52:31Z",
+          "updatedAt": "2025-06-25T13:52:31Z"
         }
       ]
     },
@@ -1828,16 +1874,17 @@
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/97",
       "state": "OPEN",
       "author": "selfissued",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr"
+        "ready-for-pr",
+        "up-next"
       ],
       "body": "The specification contains this language:\n> The nonce (`nonce`), and the resulting `ciphertext` and `mac` are put in an array.\n\nWhat is meant by the \"mac\" is not specified, nor is how it is to be used specified.\n\nLikewise what is meant by \"looking up the mac\" in this statement is unspecified:\n> The receiver of an encrypted disclosure locates the appropriate key by looking up the mac.\n",
       "createdAt": "2025-06-01T21:11:31Z",
-      "updatedAt": "2025-06-11T13:48:45Z",
+      "updatedAt": "2025-06-25T13:46:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -1874,10 +1921,13 @@
       "assignees": [
         "rohanmahy"
       ],
-      "labels": [],
+      "labels": [
+        "ready-for-pr",
+        "up-next"
+      ],
       "body": "The specification includes:\n> The encryption mechanism in this section uses the AEAD algorithm directly instead of COSE encryption, because AEAD is more broadly applicable to some of the other protocols in which encrypted disclosures might be used.\n\nThis is in the COSE family of specifications.  COSE_Encrypt provides value by defining an interoperable encryption format widely supported by libraries.  Is there a compelling reason not to use it?\n",
       "createdAt": "2025-06-01T21:12:46Z",
-      "updatedAt": "2025-06-12T11:20:35Z",
+      "updatedAt": "2025-06-25T13:49:29Z",
       "closedAt": null,
       "comments": [
         {
@@ -1952,7 +2002,7 @@
       "id": "I_kwDOMm_Q2s65PkQF",
       "title": "Number questions in Threat Model section",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/101",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1964,8 +2014,8 @@
       ],
       "body": "The Threat Model section consists of lists of questions.  Consider giving each question a number in a list presentation.\n",
       "createdAt": "2025-06-01T21:16:35Z",
-      "updatedAt": "2025-06-16T19:43:27Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-25T13:40:13Z",
+      "closedAt": "2025-06-25T13:40:13Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -1973,6 +2023,13 @@
           "body": "No objection.",
           "createdAt": "2025-06-11T13:49:47Z",
           "updatedAt": "2025-06-11T13:49:47Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Done in #110 ",
+          "createdAt": "2025-06-25T13:40:13Z",
+          "updatedAt": "2025-06-25T13:40:13Z"
         }
       ]
     },
@@ -1989,11 +2046,12 @@
       ],
       "labels": [
         "ready-for-pr",
-        "chore"
+        "chore",
+        "next-stretch"
       ],
       "body": "A To Be Redacted tag is registered in the IANA CBOR Tags registry but it is not defined or used in the specification.  What is it for?  Note that TBD3 occurs nowhere else in the source, other than in the CDDL.\n\nCompare this to the Redacted Claim tag, whose value TBD5 is used and its meaning is defined in the specification.\n",
       "createdAt": "2025-06-01T21:18:05Z",
-      "updatedAt": "2025-06-12T11:20:14Z",
+      "updatedAt": "2025-06-25T13:51:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -2039,7 +2097,7 @@
       "id": "I_kwDOMm_Q2s67qilC",
       "title": "Add Mike Jones to contributors",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/109",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2051,7 +2109,53 @@
       ],
       "body": "",
       "createdAt": "2025-06-16T04:22:56Z",
-      "updatedAt": "2025-06-16T19:43:06Z",
+      "updatedAt": "2025-06-25T13:39:54Z",
+      "closedAt": "2025-06-25T13:39:54Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Done in #110 ",
+          "createdAt": "2025-06-25T13:39:54Z",
+          "updatedAt": "2025-06-25T13:39:54Z"
+        }
+      ]
+    },
+    {
+      "number": 111,
+      "id": "I_kwDOMm_Q2s69SMid",
+      "title": "Move implementation specific language out of Validation section and into an appendix",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/111",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Pull the discussion about Validated disclosed claim set to Presented disclosed claim set map discussion out of validation section and put it into an implementation appendix.",
+      "createdAt": "2025-06-25T13:30:28Z",
+      "updatedAt": "2025-06-25T13:30:28Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 112,
+      "id": "I_kwDOMm_Q2s69SO3m",
+      "title": "Add an ascii diagram for claimsets",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/112",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy",
+        "OR13"
+      ],
+      "labels": [
+        "ready-for-pr",
+        "next-stretch"
+      ],
+      "body": "presented, and disclosed",
+      "createdAt": "2025-06-25T13:33:01Z",
+      "updatedAt": "2025-06-25T13:52:03Z",
       "closedAt": null,
       "comments": []
     }
@@ -9745,7 +9849,7 @@
       "labels": [],
       "body": "- Forbid `iss` and `sub` in KBTs #94\r\n- Number threats in Threat Model section #101 \r\n- Attempt at numbering Verification steps #95 \r\n- Fix a discrepancy in the `iss` of the EDN examples and the corresponding CBOR examples\r\n- Add Mike Jones as a contributor #109 \r\n- Add README in example directory with information about how to add tooling\r\n- Add tool to compare EDN and CBOR files\r\n\r\nThese are each atomic commits, so feel free to look at the commits separately. Numbering the verification section is an especially messy diff, even though its actual changes are pretty small. ",
       "createdAt": "2025-06-16T13:12:03Z",
-      "updatedAt": "2025-06-18T13:37:40Z",
+      "updatedAt": "2025-06-25T13:28:46Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "be14502c0447bdf9083b2c22038a3797f6ba73f7",
@@ -9830,6 +9934,46 @@
               "body": "Then explicitly that it's CDDL.",
               "createdAt": "2025-06-16T20:02:27Z",
               "updatedAt": "2025-06-16T20:02:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6wUfKQ",
+          "commit": {
+            "abbreviatedOid": "52b70f2"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-25T13:27:24Z",
+          "updatedAt": "2025-06-25T13:27:24Z",
+          "comments": [
+            {
+              "originalPosition": 58,
+              "body": "Fine to remove this",
+              "createdAt": "2025-06-25T13:27:24Z",
+              "updatedAt": "2025-06-25T13:27:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6wUgW9",
+          "commit": {
+            "abbreviatedOid": "52b70f2"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-25T13:28:46Z",
+          "updatedAt": "2025-06-25T13:28:46Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "We should move the stuff about API / maps to a non normative appendix",
+              "createdAt": "2025-06-25T13:28:46Z",
+              "updatedAt": "2025-06-25T13:28:46Z"
             }
           ]
         }
