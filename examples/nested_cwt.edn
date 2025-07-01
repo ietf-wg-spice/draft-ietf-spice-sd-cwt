@@ -23,7 +23,7 @@
             /claim/  3   / postcode=80302 /
         ]>>,
         <<[
-            /salt/   h'043affb4c05f33cd25b2d8276907f872',
+            /salt/   h'c23a4d192be75dbd583be570482de8dd',
             /value/  {
                          1: "us",
                          simple(59): [
@@ -36,13 +36,13 @@
             /claim/  503   / Denver location /
         ]>>,
         <<[
-            /salt/   h'1512077a88538f7ec813f2ead9ef1667',
+            /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
             /value/  {
                          simple(59): [
                          h'7257a8697dfa40221079b00fb65fe587
                            c310e6ca3da1aa33b090335de66ec810',
-                         h'1987648790f4282b934f0d169ad16f54
-                           edbb1dd704427de07b250aef8c554094'
+                         h'c24c646b52fecd773c6ea01c6caa5a73
+                           422b85d3afa5900fa998336d83a88025'
                      ],
                          500: true,
                          502: 1549560720
@@ -64,7 +64,7 @@
             /claim/  3   / postcode=89155 /
         ]>>,
         <<[
-            /salt/   h'cc7d92e7262b01148ab7bc3423cfa5ad',
+            /salt/   h'c225607427e01072bbafcce7e48049e3',
             /value/  {
                          1: "us",
                          simple(59): [
@@ -77,13 +77,13 @@
             /claim/  503   / Las Vegas location /
         ]>>,
         <<[
-            /salt/   h'24896aa6619c54a22630cfe948f6bb59',
+            /salt/   h'1b248d469cf00b8dfa896f069f04697b',
             /value/  {
                          simple(59): [
                          h'98d15f82dfadc18f5700582ff47b286c
                            d7ca047bb1e0529a5374c59d6dc5057d',
-                         h'503e8da41dde08585dc299cd622f3991
-                           b0915b2154ede7072b42c53d72892255'
+                         h'5dec8f268d3b9735936740c91b9baf00
+                           43de8ee42357a414e3e8d4ab098fae5d'
                      ],
                          500: true,
                          502: 1612560720
@@ -105,7 +105,7 @@
             /claim/  3   / postcode=94188 /
         ]>>,
         <<[
-            /salt/   h'3ea41c77629b40bcbd85006c4f321543',
+            /salt/   h'483e4b3c194df6073a9c41ca9f274067',
             /value/  {
                          1: "us",
                          simple(59): [
@@ -118,13 +118,13 @@
             /claim/  503   / San Francisco location /
         ]>>,
         <<[
-            /salt/   h'8a56762aab2b0c2f3fa4a9b4f35501b4',
+            /salt/   h'c4057d22ba56c3513af4c94f6c21826d',
             /value/  {
                          simple(59): [
                          h'af375dc3fba1d082448642c00be7b2f7
                            bb05c9d8fb61cfc230ddfdfb4616a693',
-                         h'13abe1f7f71ac145fe465f6d7e78a9c2
-                           f9a627c1b9fb2495f608f3be2381f3a4'
+                         h'9d151abeb800adcc11ff10ff61fbd3d7
+                           5944c134b40a24abef1787d3ae6583aa'
                      ],
                          500: true,
                          502: 17183928
@@ -162,11 +162,11 @@
         "country" : "us",            / United States /
         / redacted_claim_keys / simple(59) : [
             / redacted region /
-            h'1987648790f4282b934f0d169ad16f54
-              edbb1dd704427de07b250aef8c554094'
+            h'c24c646b52fecd773c6ea01c6caa5a73
+              422b85d3afa5900fa998336d83a88025'
             / redacted postal_code /
-            h'3a667b3059c54b491efe06995b7040f4
-              7cee050053831e1a7756fe675f2a3be9'
+            h'f47cb8d8e59f5c53a0dba45f0682c4f2
+              e952dd0da06e3a3f0217a88fa6115b92'
       ]
     },
     / redacted_claim_keys / simple(59) : [

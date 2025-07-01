@@ -1,12 +1,12 @@
     / sd_claims / 17 : [ / these are the disclosures /
         <<[
-            /salt/   h'8a56762aab2b0c2f3fa4a9b4f35501b4',
+            /salt/   h'c4057d22ba56c3513af4c94f6c21826d',
             /value/  {
                          simple(59): [
                          h'af375dc3fba1d082448642c00be7b2f7
                            bb05c9d8fb61cfc230ddfdfb4616a693',
-                         h'13abe1f7f71ac145fe465f6d7e78a9c2
-                           f9a627c1b9fb2495f608f3be2381f3a4'
+                         h'9d151abeb800adcc11ff10ff61fbd3d7
+                           5944c134b40a24abef1787d3ae6583aa'
                      ],
                          500: true,
                          502: 17183928
@@ -18,7 +18,7 @@
             /claim/  501   / inspector_license_number /
         ]>>,
         <<[
-            /salt/   h'3ea41c77629b40bcbd85006c4f321543',
+            /salt/   h'483e4b3c194df6073a9c41ca9f274067',
             /value/  {
                          1: "us",
                          simple(59): [
@@ -36,13 +36,13 @@
             /claim/  2   / region=California /
         ]>>,
         <<[
-            /salt/   h'1512077a88538f7ec813f2ead9ef1667',
+            /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
             /value/  {
                          simple(59): [
                          h'7257a8697dfa40221079b00fb65fe587
                            c310e6ca3da1aa33b090335de66ec810',
-                         h'1987648790f4282b934f0d169ad16f54
-                           edbb1dd704427de07b250aef8c554094'
+                         h'c24c646b52fecd773c6ea01c6caa5a73
+                           422b85d3afa5900fa998336d83a88025'
                      ],
                          500: true,
                          502: 1549560720
@@ -54,7 +54,7 @@
             /claim/  501   / inspector_license_number /
         ]>>,
         <<[
-            /salt/   h'043affb4c05f33cd25b2d8276907f872',
+            /salt/   h'c23a4d192be75dbd583be570482de8dd',
             /value/  {
                          1: "us",
                          simple(59): [

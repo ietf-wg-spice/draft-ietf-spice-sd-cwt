@@ -10,6 +10,24 @@ def hex2bytes(string):
 # pre-used salts so the values can stay the same when the data is the same
 # hashes the rest of the disclosure (minus the salt) as the dict key
 salts = {
+    hex2bytes('84e6023a698dea8d7eaefeda3ec51a50a89ec6def850703720f171550e106aca'):
+    hex2bytes('c23a4d192be75dbd583be570482de8dd'),
+
+    hex2bytes('d2a4ef4cbcc59b1a9574213bfff2f63fd5f804caf8c8229e4ddbd7155dfcfa88'):
+    hex2bytes('2df7d2c105b5bf3acf9c698f3658552f'),
+
+    hex2bytes('c6fcdd752637e315c81aa612209c7f592a8238014b2f0b41eb6f69cae5bd5c04'):
+    hex2bytes('c225607427e01072bbafcce7e48049e3'),
+
+    hex2bytes('d7b86b369f670a6333e03b12071b4a6361ad3b92d51ef3187dc15d74c7c98f87'):
+    hex2bytes('1b248d469cf00b8dfa896f069f04697b'),
+
+    hex2bytes('25baa45374593ff558152aaf85b9c483667f620be3984852b6558a63a927af2f'):
+    hex2bytes('483e4b3c194df6073a9c41ca9f274067'),
+
+    hex2bytes('0ce809ed234b06848d02c6adaa8435d2b6ddb803bf161b326f40f45ff48f9c1b'):
+    hex2bytes('c4057d22ba56c3513af4c94f6c21826d'),
+
     hex2bytes('d3870bfc39a2fbd377de1c529ab2b45078506c6c53eb0d35d4b8ddc56b1b67cd'):
     hex2bytes('414915421ae4b3cdb2f04521a8ec8475'),
 
