@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-26T00:52:29.766280+00:00",
+  "timestamp": "2025-07-01T00:58:55.367019+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1461,7 +1461,7 @@
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
-        "rohanmahy"
+        "selfissued"
       ],
       "labels": [
         "ready-for-pr",
@@ -1469,7 +1469,7 @@
       ],
       "body": "The defined terms Issuer, Holder, Verifier are not always capitalized.  Likewise, Claim Name and Claim Value are not always capitalized.  The spellings used should be consistent.",
       "createdAt": "2025-06-01T20:58:39Z",
-      "updatedAt": "2025-06-16T04:27:36Z",
+      "updatedAt": "2025-07-01T00:12:08Z",
       "closedAt": null,
       "comments": [
         {
@@ -9978,6 +9978,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 113,
+      "id": "PR_kwDOMm_Q2s6cyZHb",
+      "title": "Capitalize defined terms and use Claim Key when that is meant",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/113",
+      "state": "OPEN",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #86 \r\n\r\nAlso replaces uses of Claim Name with Claim Key when that's what is meant.",
+      "createdAt": "2025-07-01T00:00:13Z",
+      "updatedAt": "2025-07-01T00:00:13Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "df69bf05c6801192ba1e23ff1465c35db9cad120",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "mbj-capitalize-terms",
+      "headRefOid": "96f404dde357814e79b228879afeccdf21653cfd",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
