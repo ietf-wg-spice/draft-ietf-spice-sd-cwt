@@ -1,27 +1,26 @@
 / cose-sign1 / 18( / sd_kbt / [
   / KBT protected / << {
     / alg /    1:  -7, / ES256 /
-    / typ /   16:  "application/kb+cwt",
     / kcwt /  13:  18([  / issuer SD-CWT /
       / CWT protected / << {
         / alg /    1  : -35, / ES384 /
+        / kid /    4  : 'https://issuer.example/cose-key3',
         / typ /    16 : "application/sd-cwt",
-        / kid /    4  : 'https://issuer.example/cwt-key3',
         / sd_alg / 18 : -16  / SHA256 /
       } >>,
       / CWT unprotected / {
         / sd_claims / 17 : [ / these are the disclosures /
             <<[
-                /salt/   h'2e9a833949c163ce845813c258a8f13c',
+                /salt/   h'c4057d22ba56c3513af4c94f6c21826d',
                 /value/  {
-                             500: true,
-                             502: 17183928,
                              simple(59): [
-                             h'3fc9748e00684e6442641e58ea965468
-                               085024da253ed46b507ae56d4c204434',
-                             h'a5124745703ea9023bf92a2028ba4547
-                               b830ce9705161eaad56729cab8e1d807'
-                         ]
+                             h'af375dc3fba1d082448642c00be7b2f7
+                               bb05c9d8fb61cfc230ddfdfb4616a693',
+                             h'9d151abeb800adcc11ff10ff61fbd3d7
+                               5944c134b40a24abef1787d3ae6583aa'
+                         ],
+                             500: true,
+                             502: 17183928
                          }   / inspection 17-Jan-2023 /
             ]>>,
             <<[
@@ -30,14 +29,14 @@
                 /claim/  501   / inspector_license_number /
             ]>>,
             <<[
-                /salt/   h'd5c7494eb16a8ff11fba507cbc7c816b',
+                /salt/   h'483e4b3c194df6073a9c41ca9f274067',
                 /value/  {
                              1: "us",
                              simple(59): [
-                             h'3bf93977377099c66997303ddbce67b4
-                               ca7ee95d2c8cf2b8b45f451362493460',
-                             h'231e125d192de099e91bc59e2ae914f0
-                               c891cbc3329b7fea70a3aa636c87a0a4'
+                             h'2470fb9175b062c347ab3c3a19776d02
+                               476112a17cd7cfc9416664bc058c220b',
+                             h'cf397a08917528624ca3b332c9edcc54
+                               a72c9411dd5983f68017ce160f709f52'
                          ]
                          },
                 /claim/  503   / San Francisco location /
@@ -48,16 +47,16 @@
                 /claim/  2   / region=California /
             ]>>,
             <<[
-                /salt/   h'9adcf14141f8607a44a130a4b341e162',
+                /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
                 /value/  {
-                             500: true,
-                             502: 1549560720,
                              simple(59): [
-                             h'94d61c995d4fa25ad4d3cc4752f6ffaf
-                               9e67f7f0b4836c8252a9ad23c20499f5',
-                             h'4ff0ecad5f767923582febd69714f3f8
-                               0cb00f58390a0825bc402febfa3548bf'
-                         ]
+                             h'7257a8697dfa40221079b00fb65fe587
+                               c310e6ca3da1aa33b090335de66ec810',
+                             h'c24c646b52fecd773c6ea01c6caa5a73
+                               422b85d3afa5900fa998336d83a88025'
+                         ],
+                             500: true,
+                             502: 1549560720
                          }   / inspection 7-Feb-2019 /
             ]>>,
             <<[
@@ -66,14 +65,14 @@
                 /claim/  501   / inspector_license_number /
             ]>>,
             <<[
-                /salt/   h'95b006410a1b6908997eed7d2a10f958',
+                /salt/   h'c23a4d192be75dbd583be570482de8dd',
                 /value/  {
                              1: "us",
                              simple(59): [
-                             h'2bc86e391ec9b663de195ae9680bf614
-                               21666bc9073b1ebaf80c77be3adb379f',
-                             h'e11c93b44fb150a73212edec5bde46d3
-                               d7db23d0d43bfd6a465f82ee8cf72503'
+                             h'1b89717167f39d51eec08b13baeda570
+                               eff5d0aedaa1d7d0821185c33634a5a0',
+                             h'49412884fa1e3787c17d1320bdd48f6e
+                               0e5365da010cde0571d4a7effd13cc2a'
                          ]
                          },
                 /claim/  503   / Denver location /
@@ -97,49 +96,50 @@
           }
         },
         /most_recent_inspection_passed/ 500: true,
-        / redacted_claim_keys / simple(59) : [
-            / redacted inspector_license_number /
-            h'94d61c995d4fa25ad4d3cc4752f6ffaf
-              9e67f7f0b4836c8252a9ad23c20499f5'
-        ],
         /inspection_dates/ 502 : [
             / redacted inspection date 7-Feb-2019 /
-            60(h'2bc86e391ec9b663de195ae9680bf614
-                 21666bc9073b1ebaf80c77be3adb379f'),
+            60(h'1b89717167f39d51eec08b13baeda570
+                 eff5d0aedaa1d7d0821185c33634a5a0'),
             / redacted inspection date 4-Feb-2021 /
-            60(h'e11c93b44fb150a73212edec5bde46d3
-                 d7db23d0d43bfd6a465f82ee8cf72503'),
+            60(h'49412884fa1e3787c17d1320bdd48f6e
+                 0e5365da010cde0571d4a7effd13cc2a'),
             1674004740,   / 2023-01-17T17:19:00 /
         ],
         / inspection_location / 503 : {
             "country" : "us",            / United States /
             / redacted_claim_keys / simple(59) : [
                 / redacted region /
-                h'4ff0ecad5f767923582febd69714f3f8
-                  0cb00f58390a0825bc402febfa3548bf'
+                h'c24c646b52fecd773c6ea01c6caa5a73
+                  422b85d3afa5900fa998336d83a88025'
                 / redacted postal_code /
-                h'c26a5e15b904601ddffb70cf63299d5a
-                  a4b2844ee8ba4026c169a3b9652bab00'
+                h'f47cb8d8e59f5c53a0dba45f0682c4f2
+                  e952dd0da06e3a3f0217a88fa6115b92'
           ]
-        }
+        },
+        / redacted_claim_keys / simple(59) : [
+            / redacted inspector_license_number /
+            h'7257a8697dfa40221079b00fb65fe587
+              c310e6ca3da1aa33b090335de66ec810'
+        ]
       } >>,
-      / CWT signature / h'9280a520b8686183bf72cd07c714e603
-                          ff0975b357975a1391de51a248d554e1
-                          b93d0d101edb6bf11a4a98aa9714d823
-                          c84d1d6c438e5d733a4f67c16e1ff030
-                          ae3f4b1c546ecc9e9add168da97e32e1
-                          c5b8de5b873c9572ecb9f219399c5a9f'
-    ])
-     / end of issuer SD-CWT /
+      / CWT signature / h'9c9022e57adb33c853f30b6e8a590f40
+                          6ca55849d7b8cd2a2519d3aec03e61b9
+                          ef0ecd85fe96103f916f58d73cd2f775
+                          4c390401945f0683b144d3504e500f94
+                          d30433c3445417dc3c920f7a155548e9
+                          1994601827d0a46ead66ff450485e85f'
+    ]),
+    / end of issuer SD-CWT /
+    / typ /   16:  "application/kb+cwt",
   } >>,     / end of KBT protected header /
   / KBT unprotected / {},
   / KBT payload / << {
-    / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
     / aud    /  3    : "https://verifier.example/app",
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
+    / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } >>,      / end of KBT payload /
-  / KBT signature / h'91a6afff50510321406bf6873cc8b319
-                      1be6f6d92b137d35797fc35bee391a82
-                      840fbedc900d72c71203cc58bbe283df
-                      07bb84b316afabdd5d6d2b7212149845'
+  / KBT signature / h'af049f8229ecc5417ea3b4a227dda2fa
+                      4aaebc8e113f0a35b55043f28a94f140
+                      415909324d974e109823e4fdc4ea6a5a
+                      d5f3d3fa946c2d8e3cb3036716825ddf'
 ])   / end of kbt /

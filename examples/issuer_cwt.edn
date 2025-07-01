@@ -1,8 +1,8 @@
 / cose-sign1 / 18([  / issuer SD-CWT /
   / CWT protected / << {
     / alg /    1  : -35, / ES384 /
+    / kid /    4  : 'https://issuer.example/cose-key3',
     / typ /    16 : "application/sd-cwt",
-    / kid /    4  : 'https://issuer.example/cwt-key3',
     / sd_alg / 18 : -16  / SHA256 /
   } >>,
   / CWT unprotected / {
@@ -49,36 +49,36 @@
       }
     },
     /most_recent_inspection_passed/ 500: true,
-    / redacted_claim_keys / simple(59) : [
-        / redacted inspector_license_number /
-        h'3fc9748e00684e6442641e58ea965468
-          085024da253ed46b507ae56d4c204434'
-    ],
     /inspection_dates/ 502 : [
         / redacted inspection date 7-Feb-2019 /
-        60(h'f468b68dd7432030d7f33a8783acb3a4
-             d6afc215bbc184dce8831c64b539f335'),
+        60(h'1b7fc8ecf4b1290712497d226c04b503
+             b4aa126c603c83b75d2679c3c613f3fd'),
         / redacted inspection date 4-Feb-2021 /
-        60(h'0839dcbdd9ed55c8aac3e573ccf59c81
-             0fa8d9f6ec551cb9737621faf3584e1f'),
+        60(h'64afccd3ad52da405329ad935de1fb36
+             814ec48fdfd79e3a108ef858e291e146'),
         1674004740,   / 2023-01-17T17:19:00 /
     ],
     / inspection_location / 503 : {
         "country" : "us",            / United States /
         / redacted_claim_keys / simple(59) : [
             / redacted region /
-            h'2ff24f519a1bdfc66292263de2415a36
-              6b9a4302d2a9f36b9791f8eab1867513'
+            h'0d4b8c6123f287a1698ff2db15764564
+              a976fb742606e8fd00e2140656ba0df3'
             / redacted postal_code /
-            h'f907645d118184af56331cb07b7b8c31
-              826ac7d18d051bcec37a3a8afb8581c3'
+            h'c0b7747f960fc2e201c4d47c64fee141
+              b78e3ab768ce941863dc8914e8f5815f'
       ]
-    }
+    },
+    / redacted_claim_keys / simple(59) : [
+        / redacted inspector_license_number /
+        h'af375dc3fba1d082448642c00be7b2f7
+          bb05c9d8fb61cfc230ddfdfb4616a693'
+    ]
   } >>,
-  / CWT signature / h'9280a520b8686183bf72cd07c714e603
-                      ff0975b357975a1391de51a248d554e1
-                      b93d0d101edb6bf11a4a98aa9714d823
-                      c84d1d6c438e5d733a4f67c16e1ff030
-                      ae3f4b1c546ecc9e9add168da97e32e1
-                      c5b8de5b873c9572ecb9f219399c5a9f'
+  / CWT signature / h'9c9022e57adb33c853f30b6e8a590f40
+                      6ca55849d7b8cd2a2519d3aec03e61b9
+                      ef0ecd85fe96103f916f58d73cd2f775
+                      4c390401945f0683b144d3504e500f94
+                      d30433c3445417dc3c920f7a155548e9
+                      1994601827d0a46ead66ff450485e85f'
 ])

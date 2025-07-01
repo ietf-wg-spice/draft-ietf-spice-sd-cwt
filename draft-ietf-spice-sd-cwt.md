@@ -866,21 +866,21 @@ After applying the disclosures of the nested structure above, the disclosed Clai
     504: [                      / inspection history log /
         {
             500: True,          / inspection passed /
-            502: 1549560720,    / 2019-02-07T17:32:00 /
             501: "DCBA-101777", / inspector license /
+            502: 1549560720,    / 2019-02-07T17:32:00 /
             503: {
                 1: "us"         / United States /
             }
         },
         {
             500: True,          / inspection passed /
-            502: 17183928,      / 2023-01-17T17:19:00 /
             501: "ABCD-123456", / inspector license /
+            502: 17183928,      / 2023-01-17T17:19:00 /
             503: {
                 1: "us",        / United States /
                 2: "ca"         / region=California /
             }
-        },
+        }
     ]
 }
 ~~~

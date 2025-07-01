@@ -10,6 +10,43 @@ def hex2bytes(string):
 # pre-used salts so the values can stay the same when the data is the same
 # hashes the rest of the disclosure (minus the salt) as the dict key
 salts = {
+    hex2bytes('84e6023a698dea8d7eaefeda3ec51a50a89ec6def850703720f171550e106aca'):
+    hex2bytes('c23a4d192be75dbd583be570482de8dd'),
+
+    hex2bytes('d2a4ef4cbcc59b1a9574213bfff2f63fd5f804caf8c8229e4ddbd7155dfcfa88'):
+    hex2bytes('2df7d2c105b5bf3acf9c698f3658552f'),
+
+    hex2bytes('c6fcdd752637e315c81aa612209c7f592a8238014b2f0b41eb6f69cae5bd5c04'):
+    hex2bytes('c225607427e01072bbafcce7e48049e3'),
+
+    hex2bytes('d7b86b369f670a6333e03b12071b4a6361ad3b92d51ef3187dc15d74c7c98f87'):
+    hex2bytes('1b248d469cf00b8dfa896f069f04697b'),
+
+    hex2bytes('25baa45374593ff558152aaf85b9c483667f620be3984852b6558a63a927af2f'):
+    hex2bytes('483e4b3c194df6073a9c41ca9f274067'),
+
+    hex2bytes('0ce809ed234b06848d02c6adaa8435d2b6ddb803bf161b326f40f45ff48f9c1b'):
+    hex2bytes('c4057d22ba56c3513af4c94f6c21826d'),
+
+    hex2bytes('d3870bfc39a2fbd377de1c529ab2b45078506c6c53eb0d35d4b8ddc56b1b67cd'):
+    hex2bytes('414915421ae4b3cdb2f04521a8ec8475'),
+
+    hex2bytes('15f1c68ea20b62af0ec924f62b8355e674cd254b6cbea184823dc70c573eb091'):
+    hex2bytes('29d880f7bdc161b98a6b27f7f523be51'),
+
+    hex2bytes('24e2d75288c7409cb1e803f20a2e59253dd62ccd8bde930aa50a7016d6cb62e7'):
+    hex2bytes('41c7a3cd57b26ce28049301838b5f1c4'),
+
+    hex2bytes('7abbfcaff1ce239e350f4c1dde880da50bbecf5218f0e9c67d16b5291a566dcc'):
+    hex2bytes('42423c7e05c8273dda2be4d4ec11c62c'),
+
+    hex2bytes('5af839c0c65d6eb6c59b59a9255cafd11d8d05190af123067ff733098c6df080'):
+    hex2bytes('10cc82ab0554cde23c7ec67d3237eb8a'),
+
+    hex2bytes('0159388947ab60e445baa6aee63226fa7508d428c239aa7c8b67a74c98b2d746'):
+    hex2bytes('a6c5b334512af02a0de1c83f74f81fe8'),
+
+
     # first disclosure
     hex2bytes('47abe6e8bfe75077c60b7941cec72a900773c75075b8229a36a550b78bd1d8cc'):
     hex2bytes('bae611067bb823486797da1ebbb52f83'),
@@ -113,7 +150,7 @@ def bytes2hex(bytes):
     return binascii.hexlify(bytes).decode("utf-8")
 
 def new_redacted_entry_tag(value):
-    REDACTED_ENTRY_TAG = 59
+    REDACTED_ENTRY_TAG = 60
     return cbor2.CBORTag(REDACTED_ENTRY_TAG, value)
 
 def new_salt():
@@ -280,7 +317,7 @@ def make_disclosure(salt=None, key=None, value=None):
             # map claim
             disclosure_array = [salt, value, key]
     # double encode to add bstr type and bstr length
-    return cbor2.dumps(cbor2.dumps(disclosure_array))
+    return cbor2.dumps(disclosure_array, canonical=True)
 
 
 def parse_disclosures(disclosures):
@@ -469,7 +506,7 @@ def sign(phdr, uhdr, payload, key):
     cwt_object = Sign1Message(
       phdr=phdr,
       uhdr=uhdr,
-      payload=cbor2.dumps(payload),
+      payload=cbor2.dumps(payload, canonical=True),
       key=key
     )
     return cwt_object.encode()
@@ -515,8 +552,7 @@ def edn_decoded_disclosures(disclosures, comments=[], all=False):
         cmt = None
         if i < len(comments):
             cmt = comments[i]
-        disc_array = cbor2.loads(d)
-        edn += edn_one_disclosure(disc_array, comment=cmt)
+        edn += edn_one_disclosure(d, comment=cmt)
         i += 1
     edn += '    ]\n'
     return edn
@@ -542,8 +578,8 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
     return f'''/ cose-sign1 / 18([  / issuer SD-CWT /
   / CWT protected / << {{
     / alg /    1  : -35, / ES384 /
-    / typ /    16 : "application/sd-cwt",
     / kid /    4  : 'https://issuer.example/cose-key3',
+    / typ /    16 : "application/sd-cwt",
     / sd_alg / 18 : -16  / SHA256 /
   }} >>,
   / CWT unprotected / {{
@@ -559,10 +595,6 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
 {thumb_fields}      }}
     }},
     /most_recent_inspection_passed/ 500: true,
-    / redacted_claim_keys / simple(59) : [
-        / redacted inspector_license_number /
-        {pretty_hex(redacted[0], 8)}
-    ],
     /inspection_dates/ 502 : [
         / redacted inspection date 7-Feb-2019 /
         60({pretty_hex(redacted[1], 11)}),
@@ -578,7 +610,11 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
             / redacted postal_code /
             {pretty_hex(redacted[4], 12)}
       ]
-    }}
+    }},
+    / redacted_claim_keys / simple(59) : [
+        / redacted inspector_license_number /
+        {pretty_hex(redacted[0], 8)}
+    ]
   }} >>,
   / CWT signature / {pretty_hex(bytes2hex(sig), 20)}
 ])'''
@@ -592,14 +628,14 @@ def generate_basic_holder_kbt_edn(issuer_cwt, iat, sig):
     return f'''/ cose-sign1 / 18( / sd_kbt / [
   / KBT protected / << {{
     / alg /    1:  -7, / ES256 /
+    / kcwt /  13:  {cwt},\n    / end of issuer SD-CWT /
     / typ /   16:  "application/kb+cwt",
-    / kcwt /  13:  {cwt}\n     / end of issuer SD-CWT /
   }} >>,     / end of KBT protected header /
   / KBT unprotected / {{}},
   / KBT payload / << {{
-    / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803',
     / aud    /  3    : "https://verifier.example/app",
     / iat    /  6    : {iat}, / {iso_date(iat)} /
+    / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   }} >>,      / end of KBT payload /
   / KBT signature / {pretty_hex(bytes2hex(sig), 20)}
 ])   / end of kbt /'''
@@ -662,11 +698,11 @@ if __name__ == "__main__":
     redacted = redacted_hashes_from_disclosures(disclosures)
     
     # write first disclosure becoming blinded claim
-    first_disc_array = cbor2.loads(decoded_disclosures[0])
+    first_disc_array = decoded_disclosures[0]
     with open('first-disclosure.edn', 'w') as file:
-        print(edn_one_disclosure(first_disc_array, comment=example_comments[0]),
+        print(edn_one_disclosure(first_disc_array, comment=example_comments[0])[:-1],
             file=file, end='')
-    first_bstr = decoded_disclosures[0]
+    first_bstr = cbor2.dumps(decoded_disclosures[0])
     with open('first-disclosure.cbor', 'wb') as file:
         file.write(first_bstr)
     first_redacted = bytes2hex(sha256(first_bstr))
@@ -741,9 +777,9 @@ if __name__ == "__main__":
         print("oops the issuer signatures don't match ")
     
     kbt_protected = {
-        1  : -7,                        # alg = ES256
-        16 : "application/kb+cwt",      # typ
-        13 : presentation_cwt           # kcwt
+        1  : -7,                                  # alg = ES256
+        13 : cbor2.loads(presentation_cwt),       # kcwt
+        16 : "application/kb+cwt"                 # typ
     }
     
     kbt_payload = {
@@ -818,7 +854,7 @@ if __name__ == "__main__":
     
     # which disclosures to include?
     for d in disclosures:
-        disc_array = cbor2.loads(cbor2.loads(d))
+        disc_array = cbor2.loads(d)
         print(f'''
 {disc_array}
 ''')
