@@ -1,8 +1,8 @@
 / cose-sign1 / 18([  / issuer SD-CWT /
   / CWT protected / << {
     / alg /    1  : -35, / ES384 /
+    / kid /    4  : 'https://issuer.example/cose-key3',
     / typ /    16 : "application/sd-cwt",
-    / kid /    4  : 'https://issuer.example/cwt-key3',
     / sd_alg / 18 : -16  / SHA256 /
   } >>,
   / CWT unprotected / {
@@ -23,29 +23,29 @@
             /claim/  3   / postcode=80302 /
         ]>>,
         <<[
-            /salt/   h'95b006410a1b6908997eed7d2a10f958',
+            /salt/   h'043affb4c05f33cd25b2d8276907f872',
             /value/  {
                          1: "us",
                          simple(59): [
-                         h'2bc86e391ec9b663de195ae9680bf614
-                           21666bc9073b1ebaf80c77be3adb379f',
-                         h'e11c93b44fb150a73212edec5bde46d3
-                           d7db23d0d43bfd6a465f82ee8cf72503'
+                         h'1b89717167f39d51eec08b13baeda570
+                           eff5d0aedaa1d7d0821185c33634a5a0',
+                         h'49412884fa1e3787c17d1320bdd48f6e
+                           0e5365da010cde0571d4a7effd13cc2a'
                      ]
                      },
             /claim/  503   / Denver location /
         ]>>,
         <<[
-            /salt/   h'9adcf14141f8607a44a130a4b341e162',
+            /salt/   h'1512077a88538f7ec813f2ead9ef1667',
             /value/  {
-                         500: true,
-                         502: 1549560720,
                          simple(59): [
-                         h'94d61c995d4fa25ad4d3cc4752f6ffaf
-                           9e67f7f0b4836c8252a9ad23c20499f5',
-                         h'4ff0ecad5f767923582febd69714f3f8
-                           0cb00f58390a0825bc402febfa3548bf'
-                     ]
+                         h'7257a8697dfa40221079b00fb65fe587
+                           c310e6ca3da1aa33b090335de66ec810',
+                         h'1987648790f4282b934f0d169ad16f54
+                           edbb1dd704427de07b250aef8c554094'
+                     ],
+                         500: true,
+                         502: 1549560720
                      }   / inspection 7-Feb-2019 /
         ]>>,
         <<[
@@ -64,29 +64,29 @@
             /claim/  3   / postcode=89155 /
         ]>>,
         <<[
-            /salt/   h'2b5c3a9e0c387d6b60b4f1af7c378d7a',
+            /salt/   h'cc7d92e7262b01148ab7bc3423cfa5ad',
             /value/  {
                          1: "us",
                          simple(59): [
-                         h'37b9ab635d78d58729a6527ec4e60227
-                           058cd8e2e1574b3edca55036d35212cc',
-                         h'69e10fde229231a166b1e05e4f12e525
-                           fb5c9a8bea00317569e79d7927ce19cc'
+                         h'da268d9b81c19c02fcea7c4cadc2e23f
+                           0454a4550a380cde8b0842463ed034da',
+                         h'61dcdb8cbae7b66c3e36b2510daf61ba
+                           9168a50f20f4cad4213ed231e33d5b7b'
                      ]
                      },
             /claim/  503   / Las Vegas location /
         ]>>,
         <<[
-            /salt/   h'4523cd9f9f1834acbceaab117c21938a',
+            /salt/   h'24896aa6619c54a22630cfe948f6bb59',
             /value/  {
-                         500: true,
-                         502: 1612560720,
                          simple(59): [
-                         h'1f01ebe7f765f8fa4ef9eb77383b9c17
-                           840b7d329e8b814803269197d482c4a3',
-                         h'fa579cf9e001ddcbe7dbf1f6908777fd
-                           21f0f9aa36e985d6278d93b115865325'
-                     ]
+                         h'98d15f82dfadc18f5700582ff47b286c
+                           d7ca047bb1e0529a5374c59d6dc5057d',
+                         h'503e8da41dde08585dc299cd622f3991
+                           b0915b2154ede7072b42c53d72892255'
+                     ],
+                         500: true,
+                         502: 1612560720
                      }   / inspection 4-Feb-2021 /
         ]>>,
         <<[
@@ -105,29 +105,29 @@
             /claim/  3   / postcode=94188 /
         ]>>,
         <<[
-            /salt/   h'd5c7494eb16a8ff11fba507cbc7c816b',
+            /salt/   h'3ea41c77629b40bcbd85006c4f321543',
             /value/  {
                          1: "us",
                          simple(59): [
-                         h'3bf93977377099c66997303ddbce67b4
-                           ca7ee95d2c8cf2b8b45f451362493460',
-                         h'231e125d192de099e91bc59e2ae914f0
-                           c891cbc3329b7fea70a3aa636c87a0a4'
+                         h'2470fb9175b062c347ab3c3a19776d02
+                           476112a17cd7cfc9416664bc058c220b',
+                         h'cf397a08917528624ca3b332c9edcc54
+                           a72c9411dd5983f68017ce160f709f52'
                      ]
                      },
             /claim/  503   / San Francisco location /
         ]>>,
         <<[
-            /salt/   h'2e9a833949c163ce845813c258a8f13c',
+            /salt/   h'8a56762aab2b0c2f3fa4a9b4f35501b4',
             /value/  {
-                         500: true,
-                         502: 17183928,
                          simple(59): [
-                         h'3fc9748e00684e6442641e58ea965468
-                           085024da253ed46b507ae56d4c204434',
-                         h'a5124745703ea9023bf92a2028ba4547
-                           b830ce9705161eaad56729cab8e1d807'
-                     ]
+                         h'af375dc3fba1d082448642c00be7b2f7
+                           bb05c9d8fb61cfc230ddfdfb4616a693',
+                         h'13abe1f7f71ac145fe465f6d7e78a9c2
+                           f9a627c1b9fb2495f608f3be2381f3a4'
+                     ],
+                         500: true,
+                         502: 17183928
                      }   / inspection 17-Jan-2023 /
         ]>>,
     ]
@@ -149,36 +149,36 @@
       }
     },
     /most_recent_inspection_passed/ 500: true,
-    / redacted_claim_keys / simple(59) : [
-        / redacted inspector_license_number /
-        h'94d61c995d4fa25ad4d3cc4752f6ffaf
-          9e67f7f0b4836c8252a9ad23c20499f5'
-    ],
     /inspection_dates/ 502 : [
         / redacted inspection date 7-Feb-2019 /
-        60(h'2bc86e391ec9b663de195ae9680bf614
-             21666bc9073b1ebaf80c77be3adb379f'),
+        60(h'1b89717167f39d51eec08b13baeda570
+             eff5d0aedaa1d7d0821185c33634a5a0'),
         / redacted inspection date 4-Feb-2021 /
-        60(h'e11c93b44fb150a73212edec5bde46d3
-             d7db23d0d43bfd6a465f82ee8cf72503'),
+        60(h'49412884fa1e3787c17d1320bdd48f6e
+             0e5365da010cde0571d4a7effd13cc2a'),
         1674004740,   / 2023-01-17T17:19:00 /
     ],
     / inspection_location / 503 : {
         "country" : "us",            / United States /
         / redacted_claim_keys / simple(59) : [
             / redacted region /
-            h'4ff0ecad5f767923582febd69714f3f8
-              0cb00f58390a0825bc402febfa3548bf'
+            h'1987648790f4282b934f0d169ad16f54
+              edbb1dd704427de07b250aef8c554094'
             / redacted postal_code /
-            h'c26a5e15b904601ddffb70cf63299d5a
-              a4b2844ee8ba4026c169a3b9652bab00'
+            h'3a667b3059c54b491efe06995b7040f4
+              7cee050053831e1a7756fe675f2a3be9'
       ]
-    }
+    },
+    / redacted_claim_keys / simple(59) : [
+        / redacted inspector_license_number /
+        h'7257a8697dfa40221079b00fb65fe587
+          c310e6ca3da1aa33b090335de66ec810'
+    ]
   } >>,
-  / CWT signature / h'9280a520b8686183bf72cd07c714e603
-                      ff0975b357975a1391de51a248d554e1
-                      b93d0d101edb6bf11a4a98aa9714d823
-                      c84d1d6c438e5d733a4f67c16e1ff030
-                      ae3f4b1c546ecc9e9add168da97e32e1
-                      c5b8de5b873c9572ecb9f219399c5a9f'
+  / CWT signature / h'9c9022e57adb33c853f30b6e8a590f40
+                      6ca55849d7b8cd2a2519d3aec03e61b9
+                      ef0ecd85fe96103f916f58d73cd2f775
+                      4c390401945f0683b144d3504e500f94
+                      d30433c3445417dc3c920f7a155548e9
+                      1994601827d0a46ead66ff450485e85f'
 ])

@@ -1,15 +1,15 @@
     / sd_claims / 17 : [ / these are the disclosures /
         <<[
-            /salt/   h'2e9a833949c163ce845813c258a8f13c',
+            /salt/   h'8a56762aab2b0c2f3fa4a9b4f35501b4',
             /value/  {
-                         500: true,
-                         502: 17183928,
                          simple(59): [
-                         h'3fc9748e00684e6442641e58ea965468
-                           085024da253ed46b507ae56d4c204434',
-                         h'a5124745703ea9023bf92a2028ba4547
-                           b830ce9705161eaad56729cab8e1d807'
-                     ]
+                         h'af375dc3fba1d082448642c00be7b2f7
+                           bb05c9d8fb61cfc230ddfdfb4616a693',
+                         h'13abe1f7f71ac145fe465f6d7e78a9c2
+                           f9a627c1b9fb2495f608f3be2381f3a4'
+                     ],
+                         500: true,
+                         502: 17183928
                      }   / inspection 17-Jan-2023 /
         ]>>,
         <<[
@@ -18,14 +18,14 @@
             /claim/  501   / inspector_license_number /
         ]>>,
         <<[
-            /salt/   h'd5c7494eb16a8ff11fba507cbc7c816b',
+            /salt/   h'3ea41c77629b40bcbd85006c4f321543',
             /value/  {
                          1: "us",
                          simple(59): [
-                         h'3bf93977377099c66997303ddbce67b4
-                           ca7ee95d2c8cf2b8b45f451362493460',
-                         h'231e125d192de099e91bc59e2ae914f0
-                           c891cbc3329b7fea70a3aa636c87a0a4'
+                         h'2470fb9175b062c347ab3c3a19776d02
+                           476112a17cd7cfc9416664bc058c220b',
+                         h'cf397a08917528624ca3b332c9edcc54
+                           a72c9411dd5983f68017ce160f709f52'
                      ]
                      },
             /claim/  503   / San Francisco location /
@@ -36,16 +36,16 @@
             /claim/  2   / region=California /
         ]>>,
         <<[
-            /salt/   h'9adcf14141f8607a44a130a4b341e162',
+            /salt/   h'1512077a88538f7ec813f2ead9ef1667',
             /value/  {
-                         500: true,
-                         502: 1549560720,
                          simple(59): [
-                         h'94d61c995d4fa25ad4d3cc4752f6ffaf
-                           9e67f7f0b4836c8252a9ad23c20499f5',
-                         h'4ff0ecad5f767923582febd69714f3f8
-                           0cb00f58390a0825bc402febfa3548bf'
-                     ]
+                         h'7257a8697dfa40221079b00fb65fe587
+                           c310e6ca3da1aa33b090335de66ec810',
+                         h'1987648790f4282b934f0d169ad16f54
+                           edbb1dd704427de07b250aef8c554094'
+                     ],
+                         500: true,
+                         502: 1549560720
                      }   / inspection 7-Feb-2019 /
         ]>>,
         <<[
@@ -54,14 +54,14 @@
             /claim/  501   / inspector_license_number /
         ]>>,
         <<[
-            /salt/   h'95b006410a1b6908997eed7d2a10f958',
+            /salt/   h'043affb4c05f33cd25b2d8276907f872',
             /value/  {
                          1: "us",
                          simple(59): [
-                         h'2bc86e391ec9b663de195ae9680bf614
-                           21666bc9073b1ebaf80c77be3adb379f',
-                         h'e11c93b44fb150a73212edec5bde46d3
-                           d7db23d0d43bfd6a465f82ee8cf72503'
+                         h'1b89717167f39d51eec08b13baeda570
+                           eff5d0aedaa1d7d0821185c33634a5a0',
+                         h'49412884fa1e3787c17d1320bdd48f6e
+                           0e5365da010cde0571d4a7effd13cc2a'
                      ]
                      },
             /claim/  503   / Denver location /
