@@ -687,8 +687,6 @@ Taking the bstr encoding of the example disclosure in the previous section as th
 
 As with the AEAD encrypted disclosures from the previous section, if the Verifier is able to decrypt and verify a COSE encrypted disclosure, the decrypted disclosure is then processed as if it were in the `sd_claims` header parameter in the unprotected headers of the SD-CWT.
 
-Details of specific profiles of COSE encryption and key selection are left to the specific protocols that make use of COSE encrypted disclosures.
-
 The CDDL for COSE encrypted disclosures is below:
 
 ~~~ cddl
