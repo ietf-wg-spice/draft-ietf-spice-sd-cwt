@@ -476,12 +476,15 @@ sd-payload = {
 
 # SD-CWT Presentation
 
-When a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
+When issuing an SD-CWT to a Holder, the Issuer includes all the Salted Disclosed Claims in the unprotected header.
+
+By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
 If the Holder wishes to disclose any blinded claims, it includes that subset of its Salted Disclosed Claims in the `sd_claims` header parameter of the unprotected header.
 
 An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder chooses the subset of disclosures included in the `sd_claims` header parameter.
-Since the unprotected header is not included in the signature, it will contain all the Salted Disclosed Claims when sent from the Issuer to the Holder.
-When sent from the Holder to the Verifier, the unprotected header will contain none, some, or all of these Claims.
+
+> Since the unprotected header is not included in the Issuer's signature, the list of disclosed claims can differ without invalidating the corresponding signature.
+
 Finally, the SD-CWT used for presentation to a Verifier is included in a key binding token, as discussed in the next section.
 
 ## Creating a Key Binding Token {#kbt}
