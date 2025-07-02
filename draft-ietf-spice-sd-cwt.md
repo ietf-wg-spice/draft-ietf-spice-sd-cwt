@@ -429,7 +429,9 @@ Holder verifies the following:
 - if a `cnonce` is present, it was provided by the Holder to this Issuer and is still fresh;
 - there are no unblinded claims about the subject that violate its privacy policies;
 - every blinded claim hash (some of which may be nested as in {{nesting}}) has a corresponding Salted Disclosed Claim, and vice versa;
-- all the Salted Disclosed Claims are correct in their unblinded context in the payload.
+- the values of all the Salted Disclosed Claims when placed in their unblinded context in the payload are acceptable to the Holder.
+
+> If the Issuer includes a claim value that contradicts the Holder's notion of that claim value, then a claim might not be acceptable to the Holder (for example, if the Holder includes a claim that an inspection occurred on a particular date that contradicts with the date known to the Holder).
 
 The following informative CDDL is provided to describe the syntax for SD-CWT issuance. A complete CDDL schema is in {{cddl}}.
 
