@@ -84,9 +84,9 @@ decoy = [
 encrypted-array = [ +encrypted ]
 encrypted = [
   bstr .size 16,     ; 128-bit nonce
-  bstr,              ; the ciphertext output of a bstr-encoded-salted
-                     ;   with a matching salt
-  bstr               ; the corresponding MAC
+  bstr,              ; the encryption ciphertext output of a
+                     ;   bstr-encoded-salted
+  bstr               ; the corresponding authentication tag
 ]
 
 cose-encrypted-array = [ +cose-encrypted ]
