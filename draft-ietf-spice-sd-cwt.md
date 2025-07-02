@@ -665,8 +665,6 @@ encrypted = [
 
 This section defines the new COSE Header Parameter (`sd_cose_encrypted_claims`) that contains a list of tagged COSE_Encrypt0 or COSE_Encrypt encrypted disclosures, following the rules defined in {{!RFC9502}}.
 
-Its contents have the same semantics as the AEAD encrypted disclosures in the previous section.
-
 Taking the bstr encoding of the example disclosure in the previous section as the payload, the key and nonce from the previous section, and encrypting with COSE_Encrypt0 using the COSE A128GCM algorithm, yields the following COSE encrypted disclosure.
 
 ~~~ cbor-diag
@@ -686,6 +684,10 @@ Taking the bstr encoding of the example disclosure in the previous section as th
     ...
 ]
 ~~~
+
+As with the AEAD encrypted disclosures from the previous section, if the Verifier is able to decrypt and verify a COSE encrypted disclosure, the decrypted disclosure is then processed as if it were in the `sd_claims` header parameter in the unprotected headers of the SD-CWT.
+
+Details of specific profiles of COSE encryption and key selection are left to the specific protocols that make use of COSE encrypted disclosures.
 
 The CDDL for COSE encrypted disclosures is below:
 
