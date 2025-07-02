@@ -885,6 +885,11 @@ After applying the disclosures of the nested structure above, the disclosed Clai
 }
 ~~~
 
+# To Be Redacted Tag Definition {#tbr-tag}
+
+In order to indicate specific claims that should be redacted in a Claim Set, this specification defines a new CBOR tag "To be redacted".
+It can be used by a library to automatically convert a Claim Set with "To be redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
+
 
 # Security Considerations {#security}
 
@@ -1065,7 +1070,7 @@ The array claim element, or map key and value inside the "To be redacted" tag is
 * Tag: TBD3 (requested assignment 58)
 * Data Item: (any)
 * Semantics: An array claim element, or map key and value intended to be redacted.
-* Specification Document(s): {{blinded-claims}} of this specification
+* Specification Document(s): {{tbr-tag}} of this specification
 
 ### Redacted Claim Element Tag
 
