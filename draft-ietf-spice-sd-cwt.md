@@ -453,7 +453,7 @@ sd-protected = {
 
 sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => salted-array,
-   ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
+   ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
    ? &(sd_cose_encrypted_claims: TBD8) ^ => cose-encrypted-array,
    * key => any
 }
@@ -616,7 +616,7 @@ The Verifier of the key binding token might not be able to decrypt encrypted dis
 
 This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
-The second header parameter (`sd_encrypted_claims`) contains a list of AEAD encrypted disclosures.
+The second header parameter (`sd_aead_encrypted_claims`) contains a list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:
 
 ~~~ cbor-diag
@@ -628,10 +628,10 @@ If present, the algorithm of the `sd_aead` protected header field is used, or AE
 The AEAD ciphertext consists of its encryption algorithm's ciphertext and its authentication tag.
 (For example, in AEAD_AES_128_GCM the authentication tag is 16 octets.)
 The nonce (`nonce`), the encryption algorithm's ciphertext (`ciphertext`) and authentication tag (`tag`) are put in an array.
-The resulting array is placed in the `sd_encrypted_claims` header parameter in the unprotected headers of the SD-CWT.
+The resulting array is placed in the `sd_aead_encrypted_claims` header parameter in the unprotected headers of the SD-CWT.
 
 ~~~ cbor-diag
-/ sd_encrypted_claims / 19 : [ / encrypted disclosures /
+/ sd_aead_encrypted_claims / 19 : [ / AEAD encrypted disclosures /
     [
         / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
         / ciphertext / h'208cda279ca86444681503830469b705
@@ -646,7 +646,7 @@ The resulting array is placed in the `sd_encrypted_claims` header parameter in t
 > In the example above, the key in hex is `a061c27a3273721e210d031863ad81b6`.
 
 The blinded claim hash is still over the unencrypted disclosure.
-The receiver of an encrypted disclosure locates the appropriate key by looking up the authentication tag.
+The receiver of an AEAD encrypted disclosure locates the appropriate key by looking up the authentication tag.
 If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the `sd_claims` header parameter in the unprotected headers of the SD-CWT.
 
 Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.
@@ -654,8 +654,8 @@ Details of key management are left to profiles of the specific protocols that ma
 The CDDL for AEAD encrypted disclosures is below.
 
 ~~~ cddl
-encrypted-array = [ +encrypted ]
-encrypted = [
+aead-encrypted-array = [ +aead-encrypted ]
+aead-encrypted = [
   bstr,              ; nonce value
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
@@ -1030,11 +1030,11 @@ The following completed registration template per RFC8152 is provided:
 * Description: The hash algorithm used for redacting disclosures.
 * Reference: {{sd-cwt-issuance}} of this specification
 
-### sd_encrypted_claims
+### sd_aead_encrypted_claims
 
 The following completed registration template per RFC8152 is provided:
 
-* Name: sd_encrypted_claims
+* Name: sd_aead_encrypted_claims
 * Label: TBD6 (requested assignment 19)
 * Value Type: bstr
 * Value Registry: (empty)
