@@ -431,7 +431,7 @@ Holder verifies the following:
 - every blinded claim hash (some of which may be nested as in {{nesting}}) has a corresponding Salted Disclosed Claim, and vice versa;
 - the values of the Salted Disclosed Claims when placed in their unblinded context in the payload are acceptable to the Holder.
 
-> If the Issuer includes a claim value that contradicts the Holder's notion of that claim value, then a claim might not be acceptable to the Holder (for example, if the Holder includes a claim that an inspection occurred on a particular date that contradicts with the date known to the Holder).
+> A Holder MAY choose to validate the appropriateness or correctness of some or all of the information in a token, should it have the ability to do so, and it MAY choose to not present information to a Verifier that it deems to be incorrect.
 
 The following informative CDDL is provided to describe the syntax for SD-CWT issuance. A complete CDDL schema is in {{cddl}}.
 
