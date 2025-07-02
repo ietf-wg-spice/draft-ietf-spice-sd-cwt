@@ -1097,10 +1097,6 @@ Issuer                           Holder                         Verifier
    in the sd_claims header parameter in the unprotected headers of the
    SD-CWT.
 
-   Details of specific profiles of COSE encryption and key selection are
-   left to the specific protocols that make use of COSE encrypted
-   disclosures.
-
    The CDDL for COSE encrypted disclosures is below:
 
    cose-encrypted-array = [ +cose-encrypted ]

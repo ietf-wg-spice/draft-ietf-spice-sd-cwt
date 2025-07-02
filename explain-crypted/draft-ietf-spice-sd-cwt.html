@@ -2362,16 +2362,15 @@ encrypted = [
 </pre><a href="#section-11.2-3" class="pilcrow">¶</a>
 </div>
 <p id="section-11.2-4">As with the AEAD encrypted disclosures from the previous section, if the Verifier is able to decrypt and verify a COSE encrypted disclosure, the decrypted disclosure is then processed as if it were in the <code>sd_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.2-4" class="pilcrow">¶</a></p>
-<p id="section-11.2-5">Details of specific profiles of COSE encryption and key selection are left to the specific protocols that make use of COSE encrypted disclosures.<a href="#section-11.2-5" class="pilcrow">¶</a></p>
-<p id="section-11.2-6">The CDDL for COSE encrypted disclosures is below:<a href="#section-11.2-6" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-11.2-7">
+<p id="section-11.2-5">The CDDL for COSE encrypted disclosures is below:<a href="#section-11.2-5" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-11.2-6">
 <pre>
 cose-encrypted-array = [ +cose-encrypted ]
 cose-encrypted = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
-</pre><a href="#section-11.2-7" class="pilcrow">¶</a>
+</pre><a href="#section-11.2-6" class="pilcrow">¶</a>
 </div>
-<p id="section-11.2-8">The IANA COSE Algorithms registry contains deprecated and unsafe algorithms.
-Implementations using COSE encrypted disclosures <span class="bcp14">MUST</span> select only fully-specified signature algorithms, authenticated encryption (AEAD) algorithms, and <span class="bcp14">SHOULD</span> preferably use algorithms that have a "Yes" in the "Recommended" column of the IANA COSE Algorithms registry.<a href="#section-11.2-8" class="pilcrow">¶</a></p>
+<p id="section-11.2-7">The IANA COSE Algorithms registry contains deprecated and unsafe algorithms.
+Implementations using COSE encrypted disclosures <span class="bcp14">MUST</span> select only fully-specified signature algorithms, authenticated encryption (AEAD) algorithms, and <span class="bcp14">SHOULD</span> preferably use algorithms that have a "Yes" in the "Recommended" column of the IANA COSE Algorithms registry.<a href="#section-11.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
