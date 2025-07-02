@@ -610,7 +610,7 @@ The Verifier of the key binding token might not be able to decrypt encrypted dis
 ## AEAD Encrypted Disclosures {#aead}
 
 This section defines two new COSE Header Parameters.
-If present in the protected headers, the first header parameter (`sd_aead`) specifies an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}}.
+If present in the protected headers, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
 The second header parameter (`sd_encrypted_claims`) contains a list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:
 
@@ -620,10 +620,10 @@ Taking the first example disclosure from above:
 
 The corresponding bstr is encrypted with an AEAD algorithm {{!RFC5116}}.
 If present, the algorithm of the `sd_aead` protected header field is used, or AEAD_AES_128_GCM if no algorithm was specified. The bstr is encrypted with a unique, random 16-octet nonce.
-The nonce (`nonce`), and the resulting `ciphertext` and `mac` are put in an array.
+The AEAD ciphertext consists of its encryption algorithm's ciphertext and its authentication tag.
+(For example, in AEAD_AES_128_GCM the authentication tag is 16 octets.)
+The nonce (`nonce`), the encryption algorithm's ciphertext (`ciphertext`) and authentication tag (`tag`) are put in an array.
 The resulting array is placed in the `sd_encrypted_claims` header parameter in the unprotected headers of the SD-CWT.
-
-> The encryption mechanism in this section uses the AEAD algorithm directly instead of COSE encryption, because AEAD is more broadly applicable to some of the other protocols in which encrypted disclosures might be used.
 
 ~~~ cbor-diag
 / sd_encrypted_claims / 19 : [ / encrypted disclosures /
@@ -632,7 +632,7 @@ The resulting array is placed in the `sd_encrypted_claims` header parameter in t
         / ciphertext / h'208cda279ca86444681503830469b705
                          89654084156c9e65ca02f9ac40cd62b5
                          a2470d',
-        / mac /        h'1c6e732977453ab2cacbfd578bd238c0'
+        / tag /        h'1c6e732977453ab2cacbfd578bd238c0'
     ],
     ...
 ]
@@ -641,12 +641,12 @@ The resulting array is placed in the `sd_encrypted_claims` header parameter in t
 > In the example above, the key in hex is `a061c27a3273721e210d031863ad81b6`.
 
 The blinded claim hash is still over the unencrypted disclosure.
-The receiver of an encrypted disclosure locates the appropriate key by looking up the mac.
+The receiver of an encrypted disclosure locates the appropriate key by looking up the authentication tag.
 If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the `sd_claims` header parameter in the unprotected headers of the SD-CWT.
 
-Details of key management are left to the specific protocols that make use of encrypted disclosures.
+Details of key management are left to the specific protocols that make use of AEAD encrypted disclosures.
 
-The CDDL for encrypted disclosures is below.
+The CDDL for AEAD encrypted disclosures is below.
 
 ~~~ cddl
 encrypted-array = [ +encrypted ]
@@ -654,12 +654,12 @@ encrypted = [
   bstr,              ; nonce value
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
-  bstr               ; the corresponding MAC
+  bstr               ; the corresponding authentication tag
 ]
 ;bstr-encoded-salted = bstr .cbor salted
 ~~~
 
-> Note: Because the algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.
+> Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.
 
 ## COSE Encrypted Disclosures {#cose-encrypted}
 
