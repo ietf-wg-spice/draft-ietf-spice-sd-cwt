@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 2 January 2026</td>
+<td class="center">Expires 3 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-07-01" class="published">1 July 2025</time>
+<time datetime="2025-07-02" class="published">2 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-01-02">2 January 2026</time></dd>
+<dd class="expires"><time datetime="2026-01-03">3 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2101,12 +2101,16 @@ sd-payload = {
       <h2 id="name-sd-cwt-presentation">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-sd-cwt-presentation" class="section-name selfRef">SD-CWT Presentation</a>
       </h2>
-<p id="section-8-1">When a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
-If the Holder wishes to disclose any blinded claims, it includes that subset of its Salted Disclosed Claims in the <code>sd_claims</code> header parameter of the unprotected header.<a href="#section-8-1" class="pilcrow">¶</a></p>
-<p id="section-8-2">An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder chooses the subset of disclosures included in the <code>sd_claims</code> header parameter.
-Since the unprotected header is not included in the signature, it will contain all the Salted Disclosed Claims when sent from the Issuer to the Holder.
-When sent from the Holder to the Verifier, the unprotected header will contain none, some, or all of these Claims.
-Finally, the SD-CWT used for presentation to a Verifier is included in a key binding token, as discussed in the next section.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-1">When issuing an SD-CWT to a Holder, the Issuer includes all the Salted Disclosed Claims in the unprotected header.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
+If the Holder wishes to disclose any blinded claims, it includes that subset of its Salted Disclosed Claims in the <code>sd_claims</code> header parameter of the unprotected header.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-3">An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder chooses the subset of disclosures included in the <code>sd_claims</code> header parameter.<a href="#section-8-3" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-8-4.1">
+          <p id="section-8-4.1.1">Since the unprotected header is not included in the Issuer's signature, the list of disclosed claims can differ without invalidating the corresponding signature.<a href="#section-8-4.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-8-5">Finally, the SD-CWT used for presentation to a Verifier is included in a key binding token, as discussed in the next section.<a href="#section-8-5" class="pilcrow">¶</a></p>
 <div id="kbt">
 <section id="section-8.1">
         <h3 id="name-creating-a-key-binding-toke">
