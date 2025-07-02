@@ -2047,11 +2047,16 @@ Holder verifies the following:<a href="#section-7.2-1" class="pilcrow">¶</a></p
             <p id="section-7.2-2.8.1">every blinded claim hash (some of which may be nested as in <a href="#nesting" class="auto internal xref">Section 13.2</a>) has a corresponding Salted Disclosed Claim, and vice versa;<a href="#section-7.2-2.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-2.9">
-            <p id="section-7.2-2.9.1">all the Salted Disclosed Claims are correct in their unblinded context in the payload.<a href="#section-7.2-2.9.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-2.9.1">the values of the Salted Disclosed Claims when placed in their unblinded context in the payload are acceptable to the Holder.<a href="#section-7.2-2.9.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.2-3">The following informative CDDL is provided to describe the syntax for SD-CWT issuance. A complete CDDL schema is in <a href="#cddl" class="auto internal xref">Appendix A</a>.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-7.2-4">
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-7.2-3.1">
+            <p id="section-7.2-3.1.1">A Holder <span class="bcp14">MAY</span> choose to validate the appropriateness or correctness of some or all of the information in a token, should it have the ability to do so, and it <span class="bcp14">MAY</span> choose to not present information to a Verifier that it deems to be incorrect.<a href="#section-7.2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.2-4">The following informative CDDL is provided to describe the syntax for SD-CWT issuance. A complete CDDL schema is in <a href="#cddl" class="auto internal xref">Appendix A</a>.<a href="#section-7.2-4" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-7.2-5">
 <pre>
 sd-cwt-issued = #6.18([
    protected: bstr .cbor sd-protected,
@@ -2090,7 +2095,7 @@ sd-payload = {
     ? &amp;(redacted_claim_keys: REDACTED_KEYS) ^ =&gt; [ * bstr ],
     * key =&gt; any
 }
-</pre><a href="#section-7.2-4" class="pilcrow">¶</a>
+</pre><a href="#section-7.2-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
