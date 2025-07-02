@@ -644,7 +644,7 @@ The blinded claim hash is still over the unencrypted disclosure.
 The receiver of an encrypted disclosure locates the appropriate key by looking up the authentication tag.
 If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the `sd_claims` header parameter in the unprotected headers of the SD-CWT.
 
-Details of key management are left to the specific protocols that make use of AEAD encrypted disclosures.
+Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.
 
 The CDDL for AEAD encrypted disclosures is below.
 
