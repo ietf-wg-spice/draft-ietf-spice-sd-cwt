@@ -746,7 +746,7 @@ Issuer                           Holder                         Verifier
       Section 13.2) has a corresponding Salted Disclosed Claim, and vice
       versa;
 
-   *  the values of all the Salted Disclosed Claims when placed in their
+   *  the values of the Salted Disclosed Claims when placed in their
       unblinded context in the payload are acceptable to the Holder.
 
       If the Issuer includes a claim value that contradicts the Holder's
