@@ -1453,12 +1453,13 @@ Issuer                           Holder                         Verifier
    correlated by matching on the signature component of the COSE_Sign1.
    Signature based linkability can be mitigated by leveraging batch
    issuance of single-use tokens, at a credential management complexity
-   cost.  Any Claim Value with sufficiently low "anonymity set" can be
-   used to track the subject.  For example, a high precision issuance
-   time might match the issuance of only a few credentials for a given
-   Issuer, and as such, any presentation of a credential issued at that
-   time can be determined to be associated with the set of credentials
-   issued at that time, for those subjects.
+   cost.  Any Claim Value that pertains to a sufficiently small set of
+   subjects can be used to facilitate tracking the subject.  For
+   example, a high precision issuance time might match the issuance of
+   only a few credentials for a given Issuer, and as such, any
+   presentation of a credential issued at that time can be determined to
+   be associated with the set of credentials issued at that time, for
+   those subjects.
 
 15.3.  Credential Types
 
