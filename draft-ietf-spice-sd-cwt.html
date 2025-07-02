@@ -1301,7 +1301,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
                     <p id="section-toc.1-1.16.2.1.2.2.1"><a href="#section-16.1.2" class="auto internal xref">16.1.2</a>.  <a href="#name-sd_alg" class="internal xref">sd_alg</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.1.2.3">
-                    <p id="section-toc.1-1.16.2.1.2.3.1"><a href="#section-16.1.3" class="auto internal xref">16.1.3</a>.  <a href="#name-sd_encrypted_claims" class="internal xref">sd_encrypted_claims</a></p>
+                    <p id="section-toc.1-1.16.2.1.2.3.1"><a href="#section-16.1.3" class="auto internal xref">16.1.3</a>.  <a href="#name-sd_aead_encrypted_claims" class="internal xref">sd_aead_encrypted_claims</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.1.2.4">
                     <p id="section-toc.1-1.16.2.1.2.4.1"><a href="#section-16.1.4" class="auto internal xref">16.1.4</a>.  <a href="#name-sd_aead" class="internal xref">sd_aead</a></p>
@@ -2078,7 +2078,7 @@ sd-protected = {
 
 sd-unprotected = {
    ? &amp;(sd_claims: TBD1) ^ =&gt; salted-array,
-   ? &amp;(sd_encrypted_claims: TBD6) ^ =&gt; encrypted-array,
+   ? &amp;(sd_aead_encrypted_claims: TBD6) ^ =&gt; aead-encrypted-array,
    ? &amp;(sd_cose_encrypted_claims: TBD8) ^ =&gt; cose-encrypted-array,
    * key =&gt; any
 }
@@ -2287,7 +2287,7 @@ In this first case, the Holder encrypts the encrypted disclosures directly using
         </h3>
 <p id="section-11.1-1">This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (<code>sd_aead</code>) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span> registered in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .
-The second header parameter (<code>sd_encrypted_claims</code>) contains a list of AEAD encrypted disclosures.
+The second header parameter (<code>sd_aead_encrypted_claims</code>) contains a list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <div class="lang-cbor-diag sourcecode" id="section-11.1-2">
 <pre>
@@ -2303,10 +2303,10 @@ If present, the algorithm of the <code>sd_aead</code> protected header field is 
 The AEAD ciphertext consists of its encryption algorithm's ciphertext and its authentication tag.
 (For example, in AEAD_AES_128_GCM the authentication tag is 16 octets.)
 The nonce (<code>nonce</code>), the encryption algorithm's ciphertext (<code>ciphertext</code>) and authentication tag (<code>tag</code>) are put in an array.
-The resulting array is placed in the <code>sd_encrypted_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
+The resulting array is placed in the <code>sd_aead_encrypted_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
 <div class="lang-cbor-diag sourcecode" id="section-11.1-4">
 <pre>
-/ sd_encrypted_claims / 19 : [ / encrypted disclosures /
+/ sd_aead_encrypted_claims / 19 : [ / AEAD encrypted disclosures /
     [
         / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
         / ciphertext / h'208cda279ca86444681503830469b705
@@ -2324,14 +2324,14 @@ The resulting array is placed in the <code>sd_encrypted_claims</code> header par
 </li>
         </ul>
 <p id="section-11.1-6">The blinded claim hash is still over the unencrypted disclosure.
-The receiver of an encrypted disclosure locates the appropriate key by looking up the authentication tag.
+The receiver of an AEAD encrypted disclosure locates the appropriate key by looking up the authentication tag.
 If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the <code>sd_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.1-6" class="pilcrow">¶</a></p>
 <p id="section-11.1-7">Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.<a href="#section-11.1-7" class="pilcrow">¶</a></p>
 <p id="section-11.1-8">The CDDL for AEAD encrypted disclosures is below.<a href="#section-11.1-8" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-11.1-9">
 <pre>
-encrypted-array = [ +encrypted ]
-encrypted = [
+aead-encrypted-array = [ +aead-encrypted ]
+aead-encrypted = [
   bstr,              ; nonce value
   bstr,              ; the ciphertext output of a bstr-encoded-salted
                      ;   with a matching salt
@@ -2947,15 +2947,15 @@ SD-CWTs with audience claims that do not correspond to the intended recipients <
           </ul>
 </section>
 </div>
-<div id="sdencryptedclaims">
+<div id="sdaeadencryptedclaims">
 <section id="section-16.1.3">
-          <h4 id="name-sd_encrypted_claims">
-<a href="#section-16.1.3" class="section-number selfRef">16.1.3. </a><a href="#name-sd_encrypted_claims" class="section-name selfRef">sd_encrypted_claims</a>
+          <h4 id="name-sd_aead_encrypted_claims">
+<a href="#section-16.1.3" class="section-number selfRef">16.1.3. </a><a href="#name-sd_aead_encrypted_claims" class="section-name selfRef">sd_aead_encrypted_claims</a>
           </h4>
 <p id="section-16.1.3-1">The following completed registration template per RFC8152 is provided:<a href="#section-16.1.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.1.3-2.1">
-              <p id="section-16.1.3-2.1.1">Name: sd_encrypted_claims<a href="#section-16.1.3-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-16.1.3-2.1.1">Name: sd_aead_encrypted_claims<a href="#section-16.1.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-16.1.3-2.2">
               <p id="section-16.1.3-2.2.1">Label: TBD6 (requested assignment 19)<a href="#section-16.1.3-2.2.1" class="pilcrow">¶</a></p>
@@ -3673,7 +3673,7 @@ kbt-protected = {
 
 sd-unprotected = {
    ? &amp;(sd_claims: TBD1) ^ =&gt; salted-array,
-   ? &amp;(sd_encrypted_claims: TBD6) ^ =&gt; encrypted-array,
+   ? &amp;(sd_aead_encrypted_claims: TBD6) ^ =&gt; aead-encrypted-array,
    ? &amp;(sd_cose_encrypted_claims: TBD8) ^ =&gt; cose-encrypted-array,
    * key =&gt; any
 }
@@ -3723,8 +3723,8 @@ decoy = [
 ]
 ;bstr-encoded-salted = bstr .cbor salted
 
-encrypted-array = [ +encrypted ]
-encrypted = [
+aead-encrypted-array = [ +aead-encrypted ]
+aead-encrypted = [
   bstr .size 16,     ; 128-bit nonce
   bstr,              ; the encryption ciphertext output of a
                      ;   bstr-encoded-salted

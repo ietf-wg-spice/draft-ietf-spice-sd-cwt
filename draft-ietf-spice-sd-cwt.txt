@@ -114,7 +114,7 @@ Table of Contents
      16.1.  COSE Header Parameters
        16.1.1.  sd_claims
        16.1.2.  sd_alg
-       16.1.3.  sd_encrypted_claims
+       16.1.3.  sd_aead_encrypted_claims
        16.1.4.  sd_aead
        16.1.5.  sd_cose_encrypted_claims
      16.2.  CBOR Simple Values
@@ -775,7 +775,7 @@ Issuer                           Holder                         Verifier
 
    sd-unprotected = {
       ? &(sd_claims: TBD1) ^ => salted-array,
-      ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
+      ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
       ? &(sd_cose_encrypted_claims: TBD8) ^ => cose-encrypted-array,
       * key => any
    }
@@ -1012,9 +1012,9 @@ Issuer                           Holder                         Verifier
    an Authenticated Encryption with Additional Data (AEAD) algorithm
    [RFC5116] registered in the IANA AEAD Algorithms registry
    (https://www.iana.org/assignments/aead-parameters/aead-
-   parameters.xhtml) . The second header parameter (sd_encrypted_claims)
-   contains a list of AEAD encrypted disclosures.  Taking the first
-   example disclosure from above:
+   parameters.xhtml) . The second header parameter
+   (sd_aead_encrypted_claims) contains a list of AEAD encrypted
+   disclosures.  Taking the first example disclosure from above:
 
            <<[
                /salt/   h'bae611067bb823486797da1ebbb52f83',
@@ -1031,10 +1031,10 @@ Issuer                           Holder                         Verifier
    authentication tag is 16 octets.)  The nonce (nonce), the encryption
    algorithm's ciphertext (ciphertext) and authentication tag (tag) are
    put in an array.  The resulting array is placed in the
-   sd_encrypted_claims header parameter in the unprotected headers of
-   the SD-CWT.
+   sd_aead_encrypted_claims header parameter in the unprotected headers
+   of the SD-CWT.
 
-   / sd_encrypted_claims / 19 : [ / encrypted disclosures /
+   / sd_aead_encrypted_claims / 19 : [ / AEAD encrypted disclosures /
        [
            / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
            / ciphertext / h'208cda279ca86444681503830469b705
@@ -1049,8 +1049,8 @@ Issuer                           Holder                         Verifier
       a061c27a3273721e210d031863ad81b6.
 
    The blinded claim hash is still over the unencrypted disclosure.  The
-   receiver of an encrypted disclosure locates the appropriate key by
-   looking up the authentication tag.  If the Verifier is able to
+   receiver of an AEAD encrypted disclosure locates the appropriate key
+   by looking up the authentication tag.  If the Verifier is able to
    decrypt and verify an encrypted disclosure, the decrypted disclosure
    is then processed as if it were in the sd_claims header parameter in
    the unprotected headers of the SD-CWT.
@@ -1060,8 +1060,8 @@ Issuer                           Holder                         Verifier
 
    The CDDL for AEAD encrypted disclosures is below.
 
-   encrypted-array = [ +encrypted ]
-   encrypted = [
+   aead-encrypted-array = [ +aead-encrypted ]
+   aead-encrypted = [
      bstr,              ; nonce value
      bstr,              ; the ciphertext output of a bstr-encoded-salted
                         ;   with a matching salt
@@ -1651,12 +1651,12 @@ Issuer                           Holder                         Verifier
 
    *  Reference: Section 7 of this specification
 
-16.1.3.  sd_encrypted_claims
+16.1.3.  sd_aead_encrypted_claims
 
    The following completed registration template per RFC8152 is
    provided:
 
-   *  Name: sd_encrypted_claims
+   *  Name: sd_aead_encrypted_claims
 
    *  Label: TBD6 (requested assignment 19)
 
@@ -2208,7 +2208,7 @@ Appendix A.  Complete CDDL Schema
 
    sd-unprotected = {
       ? &(sd_claims: TBD1) ^ => salted-array,
-      ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
+      ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
       ? &(sd_cose_encrypted_claims: TBD8) ^ => cose-encrypted-array,
       * key => any
    }
@@ -2258,8 +2258,8 @@ Appendix A.  Complete CDDL Schema
    ]
    ;bstr-encoded-salted = bstr .cbor salted
 
-   encrypted-array = [ +encrypted ]
-   encrypted = [
+   aead-encrypted-array = [ +aead-encrypted ]
+   aead-encrypted = [
      bstr .size 16,     ; 128-bit nonce
      bstr,              ; the encryption ciphertext output of a
                         ;   bstr-encoded-salted
