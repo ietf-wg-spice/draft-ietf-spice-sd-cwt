@@ -429,7 +429,7 @@ Holder verifies the following:
 - if a `cnonce` is present, it was provided by the Holder to this Issuer and is still fresh;
 - there are no unblinded claims about the subject that violate its privacy policies;
 - every blinded claim hash (some of which may be nested as in {{nesting}}) has a corresponding Salted Disclosed Claim, and vice versa;
-- the values of all the Salted Disclosed Claims when placed in their unblinded context in the payload are acceptable to the Holder.
+- the values of the Salted Disclosed Claims when placed in their unblinded context in the payload are acceptable to the Holder.
 
 > If the Issuer includes a claim value that contradicts the Holder's notion of that claim value, then a claim might not be acceptable to the Holder (for example, if the Holder includes a claim that an inspection occurred on a particular date that contradicts with the date known to the Holder).
 
