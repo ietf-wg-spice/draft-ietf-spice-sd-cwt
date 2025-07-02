@@ -31,7 +31,7 @@ kbt-protected = {
 
 sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => salted-array,
-   ? &(sd_encrypted_claims: TBD6) ^ => encrypted-array,
+   ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
    ? &(sd_cose_encrypted_claims: TBD8) ^ => cose-encrypted-array,
    * key => any
 }
@@ -81,8 +81,8 @@ decoy = [
 ]
 ;bstr-encoded-salted = bstr .cbor salted
 
-encrypted-array = [ +encrypted ]
-encrypted = [
+aead-encrypted-array = [ +aead-encrypted ]
+aead-encrypted = [
   bstr .size 16,     ; 128-bit nonce
   bstr,              ; the encryption ciphertext output of a
                      ;   bstr-encoded-salted
