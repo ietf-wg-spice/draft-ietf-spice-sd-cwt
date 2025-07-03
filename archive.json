@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-01T00:58:55.367019+00:00",
+  "timestamp": "2025-07-03T00:52:27.356381+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -976,9 +976,17 @@
       ],
       "body": "in the examples Makefile, run diag2cbor on the full EDN examples and byte compare against the generated CBOR.",
       "createdAt": "2025-02-18T02:34:17Z",
-      "updatedAt": "2025-04-16T13:15:22Z",
+      "updatedAt": "2025-07-02T12:53:55Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "diag2cbor can do CDE, using -d option.  That should allow you to compare the contents of the EDN with CBOR (that is also created using the -d option).",
+          "createdAt": "2025-07-02T12:53:54Z",
+          "updatedAt": "2025-07-02T12:53:54Z"
+        }
+      ]
     },
     {
       "number": 53,
@@ -992,14 +1000,36 @@
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
+        "blocked",
         "chore"
       ],
       "body": "in the Makefile, validate each of the CBOR files against the CDDL.",
       "createdAt": "2025-02-18T02:34:46Z",
-      "updatedAt": "2025-04-16T13:14:28Z",
+      "updatedAt": "2025-07-02T12:50:16Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In order to have the CBOR files and the EDN files match, we need to use a consistent order. When using python's cbor2 library with canonical=True, map keys are sorted according to RFC7049 rules instead of RFC8494 order. We could probably manually order the claim keys; wait for a fix to python's cbor2; or rewrite the tool that generates the examples in another programming language with good CBOR support.",
+          "createdAt": "2025-07-01T13:50:17Z",
+          "updatedAt": "2025-07-01T13:50:17Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Do not use the outdated canonical=True?\nWhat is not consistent then?\n",
+          "createdAt": "2025-07-01T16:48:21Z",
+          "updatedAt": "2025-07-01T16:48:21Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "sorry, the previous comment should have been applied to Isseu #52, not this one. ",
+          "createdAt": "2025-07-02T12:50:16Z",
+          "updatedAt": "2025-07-02T12:50:16Z"
+        }
+      ]
     },
     {
       "number": 54,
@@ -1457,7 +1487,7 @@
       "id": "I_kwDOMm_Q2s65PgIL",
       "title": "Inconsistent Capitalization of Defined Terms",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/86",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1469,8 +1499,8 @@
       ],
       "body": "The defined terms Issuer, Holder, Verifier are not always capitalized.  Likewise, Claim Name and Claim Value are not always capitalized.  The spellings used should be consistent.",
       "createdAt": "2025-06-01T20:58:39Z",
-      "updatedAt": "2025-07-01T00:12:08Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-01T06:16:49Z",
+      "closedAt": "2025-07-01T06:16:49Z",
       "comments": [
         {
           "author": "OR13",
@@ -1585,20 +1615,20 @@
       "id": "I_kwDOMm_Q2s65PhVA",
       "title": "Confusing statement about claims being \"correct\"",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/90",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "selfissued"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "next-stretch"
       ],
       "body": "The specification contains this language:\n> all the Salted Disclosed Claims are correct in their unblinded context in the payload.\n\nWhat does it mean for the claims to be \"correct\"?  This needs to be clarified.\n",
       "createdAt": "2025-06-01T21:03:33Z",
-      "updatedAt": "2025-06-25T13:42:53Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-02T13:32:12Z",
+      "closedAt": "2025-07-02T13:32:12Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -1613,6 +1643,13 @@
           "body": "Is what this statement is trying to get at something like this?\n> The unblinded values of all Salted Disclosed Claims have salted values that correspond to the unblinded values.\n\nI'll note that we should probably go through the extensive list of SD-JWT validation steps at [7. ](https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-22.html#section-7)[Verification and Processing](https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-22.html#name-verification-and-processing) and see if we're covering all those bases in our spec.",
           "createdAt": "2025-06-14T00:12:24Z",
           "updatedAt": "2025-06-14T00:12:24Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Resolved in #117",
+          "createdAt": "2025-07-02T13:32:12Z",
+          "updatedAt": "2025-07-02T13:32:12Z"
         }
       ]
     },
@@ -1621,20 +1658,20 @@
       "id": "I_kwDOMm_Q2s65PhoV",
       "title": "sd_cose_encrypted_claims versus sd_encrypted_claims",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/91",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "up-next"
       ],
       "body": "`sd_cose_encrypted_claims` and its relationship to `sd_encrypted_claims` is not well described.  When would you use one versus the other?  And are both actually needed?\n\nAnd how do these relate to `sd_aead`?\n",
       "createdAt": "2025-06-01T21:05:06Z",
-      "updatedAt": "2025-06-25T13:47:04Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-02T16:17:31Z",
+      "closedAt": "2025-07-02T16:17:31Z",
       "comments": [
         {
           "author": "OR13",
@@ -1656,6 +1693,20 @@
           "body": "And specifically, you would likely use AEAD when you had existing key management in MLS or RATS that you wanted to leverage.\n\nThe point of this draft is not to pick favorites, but to provide tools.",
           "createdAt": "2025-06-11T11:46:07Z",
           "updatedAt": "2025-06-11T11:46:44Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We discussed this, proposal is to make \"sd_encrypted_claims\" less generic, and use \"sd_aead_encrypted_claims\"",
+          "createdAt": "2025-07-02T13:40:15Z",
+          "updatedAt": "2025-07-02T13:40:15Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think we can close this now that #119 is merged.",
+          "createdAt": "2025-07-02T16:17:31Z",
+          "updatedAt": "2025-07-02T16:17:31Z"
         }
       ]
     },
@@ -1664,20 +1715,20 @@
       "id": "I_kwDOMm_Q2s65Ph7q",
       "title": "Content encryption key unspecified",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/92",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "up-next"
       ],
       "body": "The way that the content encryption key used with `sd_aead` is obtained is not described.  The same is true for the content encryption keys for `sd_cose_encrypted_claims` and `sd_encrypted_claims`.  Achieving interoperablity requires this to be specified.\n\nRelated to this, this statement does not promote interoperability:\n> Details of key management are left to the specific protocols that make use of encrypted disclosures.\n",
       "createdAt": "2025-06-01T21:06:23Z",
-      "updatedAt": "2025-06-25T13:47:57Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-02T13:36:41Z",
+      "closedAt": "2025-07-02T13:36:41Z",
       "comments": [
         {
           "author": "OR13",
@@ -1700,20 +1751,20 @@
       "id": "I_kwDOMm_Q2s65PiaN",
       "title": "Strange statement about Salted Disclosed Claims",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/93",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "up-next"
       ],
       "body": "The specification contains this language:\n> Since the unprotected header is not included in the signature, it will contain all the Salted Disclosed Claims when sent from the Issuer to the Holder.\n\nAs stated, the relationship between the two clauses is confusing.  Should this be reworded to be these two declarative sentences?\n> The unprotected header is not included in the signature.\n> The unprotected header contains all the Salted Disclosed Claims when sent from the Issuer to the Holder.\n\nOr is there a deeper meaning that this language is trying to convey?",
       "createdAt": "2025-06-01T21:08:05Z",
-      "updatedAt": "2025-06-25T13:50:53Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-02T13:33:27Z",
+      "closedAt": "2025-07-02T13:33:27Z",
       "comments": [
         {
           "author": "OR13",
@@ -1872,20 +1923,20 @@
       "id": "I_kwDOMm_Q2s65PjKl",
       "title": "\"mac\" used in AEAD Encrypted Disclosures unspecified",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/97",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "up-next"
       ],
       "body": "The specification contains this language:\n> The nonce (`nonce`), and the resulting `ciphertext` and `mac` are put in an array.\n\nWhat is meant by the \"mac\" is not specified, nor is how it is to be used specified.\n\nLikewise what is meant by \"looking up the mac\" in this statement is unspecified:\n> The receiver of an encrypted disclosure locates the appropriate key by looking up the mac.\n",
       "createdAt": "2025-06-01T21:11:31Z",
-      "updatedAt": "2025-06-25T13:46:45Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-02T13:32:35Z",
+      "closedAt": "2025-07-02T13:32:35Z",
       "comments": [
         {
           "author": "OR13",
@@ -1915,20 +1966,20 @@
       "id": "I_kwDOMm_Q2s65PjWD",
       "title": "Motivation for bare AEAD encryption unclear",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/98",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "up-next"
       ],
       "body": "The specification includes:\n> The encryption mechanism in this section uses the AEAD algorithm directly instead of COSE encryption, because AEAD is more broadly applicable to some of the other protocols in which encrypted disclosures might be used.\n\nThis is in the COSE family of specifications.  COSE_Encrypt provides value by defining an interoperable encryption format widely supported by libraries.  Is there a compelling reason not to use it?\n",
       "createdAt": "2025-06-01T21:12:46Z",
-      "updatedAt": "2025-06-25T13:49:29Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-02T13:37:26Z",
+      "closedAt": "2025-07-02T13:37:26Z",
       "comments": [
         {
           "author": "OR13",
@@ -1993,9 +2044,17 @@
       "labels": [],
       "body": "The specification says:\n> Any claim value with sufficiently low \"anonymity set\" can be used track the subject.\n\nThe term \"anonymity set\" is undefined and doesn't have an obvious meaning.  The intent here needs to be clarified.\n",
       "createdAt": "2025-06-01T21:15:55Z",
-      "updatedAt": "2025-06-12T11:20:01Z",
+      "updatedAt": "2025-07-02T14:16:59Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I suggest changing\n> Any Claim Value with sufficiently low \"anonymity set\" can be used to track the subject.\nto\n> Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.",
+          "createdAt": "2025-07-02T14:16:59Z",
+          "updatedAt": "2025-07-02T14:16:59Z"
+        }
+      ]
     },
     {
       "number": 101,
@@ -2038,21 +2097,21 @@
       "id": "I_kwDOMm_Q2s65Pkpz",
       "title": "To Be Redacted tag not defined",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/102",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "chore",
         "next-stretch"
       ],
       "body": "A To Be Redacted tag is registered in the IANA CBOR Tags registry but it is not defined or used in the specification.  What is it for?  Note that TBD3 occurs nowhere else in the source, other than in the CDDL.\n\nCompare this to the Redacted Claim tag, whose value TBD5 is used and its meaning is defined in the specification.\n",
       "createdAt": "2025-06-01T21:18:05Z",
-      "updatedAt": "2025-06-25T13:51:19Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-02T13:32:59Z",
+      "closedAt": "2025-07-02T13:32:59Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -2158,6 +2217,66 @@
       "updatedAt": "2025-06-25T13:52:03Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 119,
+      "id": "I_kwDOMm_Q2s6-fpHJ",
+      "title": "rename sd_encrypted_claims to sd_aead_encrypted_claims",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/119",
+      "state": "CLOSED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr",
+        "up-next"
+      ],
+      "body": "",
+      "createdAt": "2025-07-02T13:40:08Z",
+      "updatedAt": "2025-07-02T15:01:39Z",
+      "closedAt": "2025-07-02T15:01:39Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "resolved in #121 ",
+          "createdAt": "2025-07-02T15:01:39Z",
+          "updatedAt": "2025-07-02T15:01:39Z"
+        }
+      ]
+    },
+    {
+      "number": 122,
+      "id": "I_kwDOMm_Q2s6-g_na",
+      "title": "Proposed update to encrypted disclosures",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/122",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Remove the cose examples and framing.\n- Remove the MLS framing\n\nAdjust the introduction to be more of a statement of fact, something like:\n\nThere exist use cases where the verifier and relying party are separate entities, the RATs architecture provides one example of this, but there are others.\nIn some of these use cases, there is an existing use of AES 128GCM or other AEADs.\nThis section of the document describes how to use AEADs to encrypt disclosures to a relying party, while enabling a verifier to confirm the authenticity of the presentation from the holder.\n\nKeep the AEAD example, remove the COSE stuff, remove the MLS stuff.",
+      "createdAt": "2025-07-02T15:30:32Z",
+      "updatedAt": "2025-07-02T17:52:11Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "That works for me.  @rohanmahy, can you create a PR putting this into effect?",
+          "createdAt": "2025-07-02T16:46:17Z",
+          "updatedAt": "2025-07-02T16:46:17Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, I can do that.\r\n\r\nOn Wed, Jul 2, 2025, 18:46 Michael B. Jones ***@***.***>\r\nwrote:\r\n\r\n> *selfissued* left a comment (ietf-wg-spice/draft-ietf-spice-sd-cwt#122)\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/122#issuecomment-3028552204>\r\n>\r\n> That works for me. @rohanmahy <https://github.com/rohanmahy>, can you\r\n> create a PR putting this into effect?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/122#issuecomment-3028552204>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPU6J3FDJTHYUNVDZ6T3GQEG7AVCNFSM6AAAAACAUJXGO2VHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZTAMRYGU2TEMRQGQ>\r\n> .\r\n> You are receiving this because you were mentioned.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2025-07-02T17:52:11Z",
+          "updatedAt": "2025-07-02T17:52:11Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -7921,21 +8040,21 @@
       "id": "PR_kwDOMm_Q2s6WJqwt",
       "title": "Generate examples with claims in sorted order",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/76",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-05-14T12:03:48Z",
-      "updatedAt": "2025-06-18T13:42:28Z",
+      "updatedAt": "2025-07-01T11:40:36Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "canonical-order",
       "headRefOid": "555d99f65c19360e25682f5a6535636a5503b955",
-      "closedAt": null,
+      "closedAt": "2025-07-01T11:40:36Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -7960,6 +8079,13 @@
           "body": "Getting early allocations generally requires that the chairs and AD believe the draft is unlikely to change.  I don't think we're there yet.\r\n\r\nI'd go ahead and do this using string values for now, which are already stable, and using any CoAP content format values that are already registered, where applicable.",
           "createdAt": "2025-06-16T18:31:03Z",
           "updatedAt": "2025-06-16T18:31:03Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Replaced by #114. Also will need a separate step to make the CBOR ordering correct due to https://github.com/agronholm/cbor2/issues/28#issuecomment-3019364456 in python cbor2 library",
+          "createdAt": "2025-07-01T11:40:33Z",
+          "updatedAt": "2025-07-01T11:40:33Z"
         }
       ],
       "reviews": [
@@ -8065,7 +8191,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-25T12:42:29Z",
-      "updatedAt": "2025-05-25T14:07:48Z",
+      "updatedAt": "2025-07-01T09:04:42Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "0e9b917d0074f9075265245d423c49e078b972d8",
@@ -9332,7 +9458,7 @@
       "labels": [],
       "body": "Fixes #99\r\n\r\nRelated to #77\r\n\r\nCc: @brentzundel",
       "createdAt": "2025-06-14T20:34:34Z",
-      "updatedAt": "2025-06-16T04:21:47Z",
+      "updatedAt": "2025-07-01T09:04:35Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c231ba3e5770a32d4eaa09ef06130b27fe46dd3f",
@@ -9634,7 +9760,7 @@
       "labels": [],
       "body": "Fixes #88 \r\nFixes #89 \r\n\r\nCc: @brentzundel",
       "createdAt": "2025-06-14T20:55:12Z",
-      "updatedAt": "2025-06-15T19:01:37Z",
+      "updatedAt": "2025-07-01T09:04:43Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "33144882df5ebdb2317420fb441b7ab4aa69f064",
@@ -9849,7 +9975,7 @@
       "labels": [],
       "body": "- Forbid `iss` and `sub` in KBTs #94\r\n- Number threats in Threat Model section #101 \r\n- Attempt at numbering Verification steps #95 \r\n- Fix a discrepancy in the `iss` of the EDN examples and the corresponding CBOR examples\r\n- Add Mike Jones as a contributor #109 \r\n- Add README in example directory with information about how to add tooling\r\n- Add tool to compare EDN and CBOR files\r\n\r\nThese are each atomic commits, so feel free to look at the commits separately. Numbering the verification section is an especially messy diff, even though its actual changes are pretty small. ",
       "createdAt": "2025-06-16T13:12:03Z",
-      "updatedAt": "2025-06-25T13:28:46Z",
+      "updatedAt": "2025-07-01T09:04:33Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "be14502c0447bdf9083b2c22038a3797f6ba73f7",
@@ -9984,24 +10110,387 @@
       "id": "PR_kwDOMm_Q2s6cyZHb",
       "title": "Capitalize defined terms and use Claim Key when that is meant",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/113",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #86 \r\n\r\nAlso replaces uses of Claim Name with Claim Key when that's what is meant.",
       "createdAt": "2025-07-01T00:00:13Z",
-      "updatedAt": "2025-07-01T00:00:13Z",
+      "updatedAt": "2025-07-01T09:04:31Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "df69bf05c6801192ba1e23ff1465c35db9cad120",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "mbj-capitalize-terms",
       "headRefOid": "96f404dde357814e79b228879afeccdf21653cfd",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-07-01T06:16:48Z",
+      "mergedAt": "2025-07-01T06:16:48Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "874c349f892576fa37f858be4c75b0844da3e200"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Look good. Thanks @selfissued !",
+          "createdAt": "2025-07-01T06:16:37Z",
+          "updatedAt": "2025-07-01T06:16:37Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6xPoMS",
+          "commit": {
+            "abbreviatedOid": "96f404d"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-01T06:16:05Z",
+          "updatedAt": "2025-07-01T06:16:05Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 114,
+      "id": "PR_kwDOMm_Q2s6c4y5G",
+      "title": "Generate EDN examples in sorted order",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/114",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Replaces #76 which is in merge prison. ",
+      "createdAt": "2025-07-01T11:37:10Z",
+      "updatedAt": "2025-07-01T11:41:05Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "874c349f892576fa37f858be4c75b0844da3e200",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "canonical2",
+      "headRefOid": "7ea2963d4c912717521b436fabf03bb8a0093130",
+      "closedAt": "2025-07-01T11:41:05Z",
+      "mergedAt": "2025-07-01T11:41:05Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "3d9acabdde83d9106111860ea1d4f60e1c9627f7"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 115,
+      "id": "PR_kwDOMm_Q2s6dDG_B",
+      "title": "Clarify language about claims in the unprotected header",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/115",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses Issue #93 ",
+      "createdAt": "2025-07-02T09:17:09Z",
+      "updatedAt": "2025-07-02T13:09:55Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "3d9acabdde83d9106111860ea1d4f60e1c9627f7",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue93",
+      "headRefOid": "6faf1f57f97df6a3af3bc6b7a13f2d33a8dc23ff",
+      "closedAt": "2025-07-02T13:09:55Z",
+      "mergedAt": "2025-07-02T13:09:55Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "e3adecaa20b2f6b67208ddd125b1a1980041b782"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6xkZHq",
+          "commit": {
+            "abbreviatedOid": "6faf1f5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-02T13:09:49Z",
+          "updatedAt": "2025-07-02T13:09:49Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 116,
+      "id": "PR_kwDOMm_Q2s6dEtK5",
+      "title": "Address a number of issues related to encrypted disclosures",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/116",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses the following issues:\r\n- #91 why use AEAD encryption vs COSE encryption\r\n- #92 where do you get the encryption key\r\n- #97 describes how to get the authentication tag for AEAD encryption\r\n- #98 motivation for AEAD encryption\r\n",
+      "createdAt": "2025-07-02T12:09:36Z",
+      "updatedAt": "2025-07-02T13:30:38Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "3d9acabdde83d9106111860ea1d4f60e1c9627f7",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "explain-crypted",
+      "headRefOid": "19c7a89d0f2880e971ce6e8418928c16f9f604d8",
+      "closedAt": "2025-07-02T13:30:38Z",
+      "mergedAt": "2025-07-02T13:30:38Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "9a848675acdecd2d55f15c4f509108cae30c9f5a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6xkraV",
+          "commit": {
+            "abbreviatedOid": "f2b243c"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-02T13:29:47Z",
+          "updatedAt": "2025-07-02T13:29:48Z",
+          "comments": [
+            {
+              "originalPosition": 96,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-07-02T13:29:47Z",
+              "updatedAt": "2025-07-02T13:29:48Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 117,
+      "id": "PR_kwDOMm_Q2s6dE4gN",
+      "title": "Reword unfortunate use of \"correct\" claims",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/117",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses Issue #90 ",
+      "createdAt": "2025-07-02T12:27:53Z",
+      "updatedAt": "2025-07-02T13:22:23Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "3d9acabdde83d9106111860ea1d4f60e1c9627f7",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "correct-claims",
+      "headRefOid": "49e005b9d99b5cd4a2d1a2f87befa86713ead140",
+      "closedAt": "2025-07-02T13:22:23Z",
+      "mergedAt": "2025-07-02T13:22:23Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "d45b5e13fe76dcf1028834b495e242f6b47326bc"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6xkaws",
+          "commit": {
+            "abbreviatedOid": "cbaf489"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-02T13:11:35Z",
+          "updatedAt": "2025-07-02T13:11:36Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Sometimes you get a credential with your name or birthdate misspelled.",
+              "createdAt": "2025-07-02T13:11:36Z",
+              "updatedAt": "2025-07-02T13:11:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6xkbL9",
+          "commit": {
+            "abbreviatedOid": "cbaf489"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-02T13:12:00Z",
+          "updatedAt": "2025-07-02T13:12:00Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6xkhN-",
+          "commit": {
+            "abbreviatedOid": "cbaf489"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-02T13:19:11Z",
+          "updatedAt": "2025-07-02T13:19:11Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "I think this formulation would be clearer:\r\n\r\nA Holder MAY choose to validate the appropriateness or correctness of some or all of the information in a token, should it have the ability to do so, and it MAY choose to not present information to a Verifier that it deems to be incorrect.",
+              "createdAt": "2025-07-02T13:19:11Z",
+              "updatedAt": "2025-07-02T13:19:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6xkizB",
+          "commit": {
+            "abbreviatedOid": "cbaf489"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-02T13:21:02Z",
+          "updatedAt": "2025-07-02T13:21:02Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n- the values of the Salted Disclosed Claims when placed in their unblinded context in the payload are acceptable to the Holder.\r\n```",
+              "createdAt": "2025-07-02T13:21:02Z",
+              "updatedAt": "2025-07-02T13:21:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6xkjJC",
+          "commit": {
+            "abbreviatedOid": "fa9e770"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-02T13:21:28Z",
+          "updatedAt": "2025-07-02T13:21:28Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\n> A Holder MAY choose to validate the appropriateness or correctness of some or all of the information in a token, should it have the ability to do so, and it MAY choose to not present information to a Verifier that it deems to be incorrect.\r\n```",
+              "createdAt": "2025-07-02T13:21:28Z",
+              "updatedAt": "2025-07-02T13:21:28Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 118,
+      "id": "PR_kwDOMm_Q2s6dFDYc",
+      "title": "Define the To Be Redacted tag in a new Section",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/118",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses #102 ",
+      "createdAt": "2025-07-02T12:45:43Z",
+      "updatedAt": "2025-07-02T13:23:35Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "3d9acabdde83d9106111860ea1d4f60e1c9627f7",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "to-be-redacted",
+      "headRefOid": "3690543b7f3b57c10404c825b2bafdf74360dd73",
+      "closedAt": "2025-07-02T13:23:35Z",
+      "mergedAt": "2025-07-02T13:23:35Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "bedf65f7a2e577cb4ccb42dd8166ef9ab6c60803"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6xklUg",
+          "commit": {
+            "abbreviatedOid": "3690543"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-02T13:23:31Z",
+          "updatedAt": "2025-07-02T13:23:31Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 120,
+      "id": "PR_kwDOMm_Q2s6dGDNj",
+      "title": "Update draft-ietf-spice-sd-cwt.md",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/120",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-02T14:18:08Z",
+      "updatedAt": "2025-07-02T22:02:37Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "9a848675acdecd2d55f15c4f509108cae30c9f5a",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "OR13-patch-1",
+      "headRefOid": "90c76628947a58eefd3ff0086354ac43ad35ec84",
+      "closedAt": "2025-07-02T14:18:36Z",
+      "mergedAt": "2025-07-02T14:18:36Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "c6c29500ee8500a74b3c2b38be9e2b330c88a2ec"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 121,
+      "id": "PR_kwDOMm_Q2s6dGhK0",
+      "title": "rename sd_encypted_claims to sd_aead_encrypted-claims",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/121",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-02T14:59:40Z",
+      "updatedAt": "2025-07-02T15:00:53Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c6c29500ee8500a74b3c2b38be9e2b330c88a2ec",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "rename-claim",
+      "headRefOid": "a6ec0c0083638972ceceb128d8bf06da870e996a",
+      "closedAt": "2025-07-02T15:00:53Z",
+      "mergedAt": "2025-07-02T15:00:53Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "34ab22a9da611e04d8c9a260093a090c6cc3ba53"
+      },
       "comments": [],
       "reviews": []
     }
