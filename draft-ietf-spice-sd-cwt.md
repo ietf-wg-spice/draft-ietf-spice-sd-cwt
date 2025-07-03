@@ -454,7 +454,6 @@ sd-protected = {
 sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => salted-array,
    ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
-   ? &(sd_cose_encrypted_claims: TBD8) ^ => cose-encrypted-array,
    * key => any
 }
 
@@ -657,42 +656,6 @@ aead-encrypted = [
 ~~~
 
 > Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.
-
-## COSE Encrypted Disclosures {#cose-encrypted}
-
-This section defines the new COSE Header Parameter (`sd_cose_encrypted_claims`) that contains a list of tagged COSE_Encrypt0 or COSE_Encrypt encrypted disclosures, following the rules defined in {{!RFC9502}}.
-
-Taking the bstr encoding of the example disclosure in the previous section as the payload, the key and nonce from the previous section, and encrypting with COSE_Encrypt0 using the COSE A128GCM algorithm, yields the following COSE encrypted disclosure.
-
-~~~ cbor-diag
-/ sd_cose_encrypted_claims / 21 : [
-    /COSE_Encrypt0/  16([
-      /protected/ {
-        /alg/ 1: 1, /A128GCM/
-        /IV/  5: h'95d0040fe650e5baf51c907c31be15dc'
-      },
-      /unprotected/ {},
-      /ciphertext/ h'f5e33642feca31cacb5325db179663e8
-                     540336178526f0803c0b13b17e3eb2f9
-                     e3c323087a0345c76c163d300b1b3346
-                     49ce511302fd147b2ab125297cf540cf
-                     4f9e'
-    ]),
-    ...
-]
-~~~
-
-As with the AEAD encrypted disclosures from the previous section, if the Verifier is able to decrypt and verify a COSE encrypted disclosure, the decrypted disclosure is then processed as if it were in the `sd_claims` header parameter in the unprotected headers of the SD-CWT.
-
-The CDDL for COSE encrypted disclosures is below:
-
-~~~ cddl
-cose-encrypted-array = [ +cose-encrypted ]
-cose-encrypted = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
-~~~
-
-The IANA COSE Algorithms registry contains deprecated and unsafe algorithms.
-Implementations using COSE encrypted disclosures MUST select only fully-specified signature algorithms, authenticated encryption (AEAD) algorithms, and SHOULD preferably use algorithms that have a "Yes" in the "Recommended" column of the IANA COSE Algorithms registry.
 
 
 # Credential Types {#cred-types}
@@ -1043,18 +1006,6 @@ The following completed registration template per RFC8152 is provided:
 * Value Registry: IANA AEAD Algorithm number
 * Description: The AEAD algorithm used for encrypting disclosures.
 * Reference: {{aead}} of this specification
-
-### sd_cose_encrypted_claims
-
-The following completed registration template per RFC8152 is provided:
-
-* Name: sd_cose_encrypted_claims
-* Label: TBD8 (requested assignment 21)
-* Value Type: bstr
-* Value Registry: (empty)
-* Description: A list of COSE encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
-* Reference: {{cose-encrypted}} of this specification
-
 
 ## CBOR Simple Values {#simple59}
 
