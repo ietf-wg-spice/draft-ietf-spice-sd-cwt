@@ -32,7 +32,6 @@ kbt-protected = {
 sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => salted-array,
    ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
-   ? &(sd_cose_encrypted_claims: TBD8) ^ => cose-encrypted-array,
    * key => any
 }
 
@@ -89,33 +88,6 @@ aead-encrypted = [
   bstr               ; the corresponding authentication tag
 ]
 
-cose-encrypted-array = [ +cose-encrypted ]
-cose-encrypted = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
-
-COSE_Encrypt0_Tagged = #6.16(COSE_Encrypt0)
-COSE_Encrypt_Tagged = #6.96(COSE_Encrypt)
-
-COSE_Encrypt0 = [
-    Headers,
-    ciphertext : bstr / nil,
-]
-
-COSE_Encrypt = [
-    Headers,
-    ciphertext : bstr / nil,
-    recipients : [+COSE_recipient]
-]
-
-COSE_recipient = [
-    Headers,
-    ciphertext : bstr / nil,
-    ? recipients : [+COSE_recipient]
-]
-
-Headers = (
-    protected : empty_or_serialized_map,
-    unprotected : header_map
-)
 header_map = {
     * key => any
 }
@@ -126,7 +98,6 @@ TBD1 = 17
 TBD2 = 18
 TBD6 = 19
 TBD7 = 20
-TBD8 = 21
 
 ;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements
 
