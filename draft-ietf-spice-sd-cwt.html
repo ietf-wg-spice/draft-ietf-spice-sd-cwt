@@ -1229,10 +1229,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
             <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-encrypted-disclosures" class="internal xref">Encrypted Disclosures</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
-                <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="auto internal xref">11.1</a>.  <a href="#name-aead-encrypted-disclosures" class="internal xref">AEAD Encrypted Disclosures</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
-                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-cose-encrypted-disclosures" class="internal xref">COSE Encrypted Disclosures</a></p>
+                <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="auto internal xref">11.1</a>.  <a href="#name-aead-encrypted-disclosures-" class="internal xref">AEAD Encrypted Disclosures Mechanism</a></p>
 </li>
             </ul>
 </li>
@@ -1305,9 +1302,6 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.1.2.4">
                     <p id="section-toc.1-1.16.2.1.2.4.1"><a href="#section-16.1.4" class="auto internal xref">16.1.4</a>.  <a href="#name-sd_aead" class="internal xref">sd_aead</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.1.2.5">
-                    <p id="section-toc.1-1.16.2.1.2.5.1"><a href="#section-16.1.5" class="auto internal xref">16.1.5</a>.  <a href="#name-sd_cose_encrypted_claims" class="internal xref">sd_cose_encrypted_claims</a></p>
 </li>
                 </ul>
 </li>
@@ -2079,7 +2073,6 @@ sd-protected = {
 sd-unprotected = {
    ? &amp;(sd_claims: TBD1) ^ =&gt; salted-array,
    ? &amp;(sd_aead_encrypted_claims: TBD6) ^ =&gt; aead-encrypted-array,
-   ? &amp;(sd_cose_encrypted_claims: TBD8) ^ =&gt; cose-encrypted-array,
    * key =&gt; any
 }
 
@@ -2257,33 +2250,18 @@ By performing these steps, the recipient can cryptographically verify the integr
       <h2 id="name-encrypted-disclosures">
 <a href="#section-11" class="section-number selfRef">11. </a><a href="#name-encrypted-disclosures" class="section-name selfRef">Encrypted Disclosures</a>
       </h2>
-<p id="section-11-1">Some uses of SD-CWT involve Verifiers that have internal structure.
-In these cases, encrypted disclosures allow more fine-grained disclosure inside a single presentation.<a href="#section-11-1" class="pilcrow">¶</a></p>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-11-2.1">
-          <p id="section-11-2.1.1">In the Remote Attestation Procedures (RATS) architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>, an SD-CWT is a RATS conceptual message that represents evidence.
-Different evidence claims could be processed by different attesters within the same Verifier.
-For example, one SD-KBT could include an SD-CWT with one set of claims about the workload, and one set of claims about the platform.
-It would be desirable to have each RATS appraiser see a different subset of disclosures in the SD-CWT / SD-KBT.<a href="#section-11-2.1.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-11-3.1">
-          <p id="section-11-3.1.1">In the Messaging Layer Security (MLS) protocol <span>[<a href="#RFC9420" class="cite xref">RFC9420</a>]</span>, an SD-CWT credential <span>[<a href="#I-D.mahy-mls-sd-cwt-credential" class="cite xref">I-D.mahy-mls-sd-cwt-credential</a>]</span> could present one subset of its disclosures to the MLS Distribution Service, and a different subset of those disclosures to the other members of the MLS group.<a href="#section-11-3.1.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<p id="section-11-4">This specification includes two options for presented encrypted disclosures.
-The first is useful when an appropriate symmetric key and its context are provided completely out-of-band.
-For example, the MLS protocol can produce a secret that is only known to the members of a specific group in a specific MLS epoch.
-In this first case, the Holder encrypts the encrypted disclosures directly using an IANA registered Authenticated Encryption with Additional Data (AEAD) algorithm.<a href="#section-11-4" class="pilcrow">¶</a></p>
-<p id="section-11-5">In the second case, the context is conveyed in-band using COSE.<a href="#section-11-5" class="pilcrow">¶</a></p>
-<p id="section-11-6">In both cases, the entire SD-CWT is included in the protected header of the SD-KBT, which secures the entire Issuer-signed SD-CWT including its unprotected headers that include its disclosures.<a href="#section-11-6" class="pilcrow">¶</a></p>
-<p id="section-11-7">When encrypted disclosures are present, they <span class="bcp14">MUST</span> be in the unprotected headers of the Issuer-signed SD-CWT, before the SD-KBT can be generated by the Holder.<a href="#section-11-7" class="pilcrow">¶</a></p>
-<p id="section-11-8">The Verifier of the key binding token might not be able to decrypt encrypted disclosures and <span class="bcp14">MAY</span> decide to forward them to an inner Verifier that can decrypt them.<a href="#section-11-8" class="pilcrow">¶</a></p>
+<p id="section-11-1">The RATS architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> defines a model where the Verifier is split into separate entities, with an initial verifier called an Attester, and a target entity called a Relying Party.
+Other protocols have a similar type of internal structure for the Verifier.<a href="#section-11-1" class="pilcrow">¶</a></p>
+<p id="section-11-2">In some of these use cases, there is existing usage of AES-128 GCM and other Authenticated Encryption with Additional Data (AEAD) <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span> algorithms.<a href="#section-11-2" class="pilcrow">¶</a></p>
+<p id="section-11-3">This section describes how to use AEADs to encrypt disclosures to a target entity, while enabling a initial verifier to confirm the authenticity of the presentation from the Holder.<a href="#section-11-3" class="pilcrow">¶</a></p>
+<p id="section-11-4">In these systems, an appropriate symmetric key and its context are provided completely out-of-band.<a href="#section-11-4" class="pilcrow">¶</a></p>
+<p id="section-11-5">The entire SD-CWT is included in the protected header of the SD-KBT, which secures the entire Issuer-signed SD-CWT including its unprotected headers that include its disclosures.<a href="#section-11-5" class="pilcrow">¶</a></p>
+<p id="section-11-6">When encrypted disclosures are present, they <span class="bcp14">MUST</span> be in the unprotected headers of the Issuer-signed SD-CWT, before the SD-KBT can be generated by the Holder.<a href="#section-11-6" class="pilcrow">¶</a></p>
+<p id="section-11-7">The initial Verifier of the key binding token might not be able to decrypt encrypted disclosures and <span class="bcp14">MAY</span> decide to forward them to an inner Verifier that can decrypt them.<a href="#section-11-7" class="pilcrow">¶</a></p>
 <div id="aead">
 <section id="section-11.1">
-        <h3 id="name-aead-encrypted-disclosures">
-<a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-aead-encrypted-disclosures" class="section-name selfRef">AEAD Encrypted Disclosures</a>
+        <h3 id="name-aead-encrypted-disclosures-">
+<a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-aead-encrypted-disclosures-" class="section-name selfRef">AEAD Encrypted Disclosures Mechanism</a>
         </h3>
 <p id="section-11.1-1">This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (<code>sd_aead</code>) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span> registered in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .
@@ -2345,44 +2323,6 @@ aead-encrypted = [
             <p id="section-11.1-10.1.1">Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.<a href="#section-11.1-10.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-</section>
-</div>
-<div id="cose-encrypted">
-<section id="section-11.2">
-        <h3 id="name-cose-encrypted-disclosures">
-<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-cose-encrypted-disclosures" class="section-name selfRef">COSE Encrypted Disclosures</a>
-        </h3>
-<p id="section-11.2-1">This section defines the new COSE Header Parameter (<code>sd_cose_encrypted_claims</code>) that contains a list of tagged COSE_Encrypt0 or COSE_Encrypt encrypted disclosures, following the rules defined in <span>[<a href="#RFC9502" class="cite xref">RFC9502</a>]</span>.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
-<p id="section-11.2-2">Taking the bstr encoding of the example disclosure in the previous section as the payload, the key and nonce from the previous section, and encrypting with COSE_Encrypt0 using the COSE A128GCM algorithm, yields the following COSE encrypted disclosure.<a href="#section-11.2-2" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-11.2-3">
-<pre>
-/ sd_cose_encrypted_claims / 21 : [
-    /COSE_Encrypt0/  16([
-      /protected/ {
-        /alg/ 1: 1, /A128GCM/
-        /IV/  5: h'95d0040fe650e5baf51c907c31be15dc'
-      },
-      /unprotected/ {},
-      /ciphertext/ h'f5e33642feca31cacb5325db179663e8
-                     540336178526f0803c0b13b17e3eb2f9
-                     e3c323087a0345c76c163d300b1b3346
-                     49ce511302fd147b2ab125297cf540cf
-                     4f9e'
-    ]),
-    ...
-]
-</pre><a href="#section-11.2-3" class="pilcrow">¶</a>
-</div>
-<p id="section-11.2-4">As with the AEAD encrypted disclosures from the previous section, if the Verifier is able to decrypt and verify a COSE encrypted disclosure, the decrypted disclosure is then processed as if it were in the <code>sd_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.2-4" class="pilcrow">¶</a></p>
-<p id="section-11.2-5">The CDDL for COSE encrypted disclosures is below:<a href="#section-11.2-5" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-11.2-6">
-<pre>
-cose-encrypted-array = [ +cose-encrypted ]
-cose-encrypted = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
-</pre><a href="#section-11.2-6" class="pilcrow">¶</a>
-</div>
-<p id="section-11.2-7">The IANA COSE Algorithms registry contains deprecated and unsafe algorithms.
-Implementations using COSE encrypted disclosures <span class="bcp14">MUST</span> select only fully-specified signature algorithms, authenticated encryption (AEAD) algorithms, and <span class="bcp14">SHOULD</span> preferably use algorithms that have a "Yes" in the "Recommended" column of the IANA COSE Algorithms registry.<a href="#section-11.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3003,34 +2943,6 @@ SD-CWTs with audience claims that do not correspond to the intended recipients <
           </ul>
 </section>
 </div>
-<div id="sdcoseencryptedclaims">
-<section id="section-16.1.5">
-          <h4 id="name-sd_cose_encrypted_claims">
-<a href="#section-16.1.5" class="section-number selfRef">16.1.5. </a><a href="#name-sd_cose_encrypted_claims" class="section-name selfRef">sd_cose_encrypted_claims</a>
-          </h4>
-<p id="section-16.1.5-1">The following completed registration template per RFC8152 is provided:<a href="#section-16.1.5-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-16.1.5-2.1">
-              <p id="section-16.1.5-2.1.1">Name: sd_cose_encrypted_claims<a href="#section-16.1.5-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-16.1.5-2.2">
-              <p id="section-16.1.5-2.2.1">Label: TBD8 (requested assignment 21)<a href="#section-16.1.5-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-16.1.5-2.3">
-              <p id="section-16.1.5-2.3.1">Value Type: bstr<a href="#section-16.1.5-2.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-16.1.5-2.4">
-              <p id="section-16.1.5-2.4.1">Value Registry: (empty)<a href="#section-16.1.5-2.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-16.1.5-2.5">
-              <p id="section-16.1.5-2.5.1">Description: A list of COSE encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.<a href="#section-16.1.5-2.5.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-16.1.5-2.6">
-              <p id="section-16.1.5-2.6.1">Reference: <a href="#cose-encrypted" class="auto internal xref">Section 11.2</a> of this specification<a href="#section-16.1.5-2.6.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
 </section>
 </div>
 <div id="simple59">
@@ -3553,10 +3465,6 @@ An indication of the relevant sections may also be included, but is not required
         <dd>
 <span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Initial Algorithms"</span>, <span class="seriesInfo">RFC 9053</span>, <span class="seriesInfo">DOI 10.17487/RFC9053</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9053">https://www.rfc-editor.org/rfc/rfc9053</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC9502">[RFC9502]</dt>
-        <dd>
-<span class="refAuthor">Britto, W.</span>, <span class="refAuthor">Hegde, S.</span>, <span class="refAuthor">Kaneriya, P.</span>, <span class="refAuthor">Shetty, R.</span>, <span class="refAuthor">Bonica, R.</span>, and <span class="refAuthor">P. Psenak</span>, <span class="refTitle">"IGP Flexible Algorithm in IP Networks"</span>, <span class="seriesInfo">RFC 9502</span>, <span class="seriesInfo">DOI 10.17487/RFC9502</span>, <time datetime="2023-11" class="refDate">November 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9502">https://www.rfc-editor.org/rfc/rfc9502</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC9528">[RFC9528]</dt>
         <dd>
 <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Preuß Mattsson, J.</span>, and <span class="refAuthor">F. Palombini</span>, <span class="refTitle">"Ephemeral Diffie-Hellman Over COSE (EDHOC)"</span>, <span class="seriesInfo">RFC 9528</span>, <span class="seriesInfo">DOI 10.17487/RFC9528</span>, <time datetime="2024-03" class="refDate">March 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9528">https://www.rfc-editor.org/rfc/rfc9528</a>&gt;</span>. </dd>
@@ -3598,10 +3506,6 @@ An indication of the relevant sections may also be included, but is not required
         <dd>
 <span class="refAuthor">Schinazi, D.</span>, <span class="refAuthor">Oliver, D.</span>, and <span class="refAuthor">J. Hoyland</span>, <span class="refTitle">"The Concealed HTTP Authentication Scheme"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-httpbis-unprompted-auth-12</span>, <time datetime="2024-09-19" class="refDate">19 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-unprompted-auth-12">https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-unprompted-auth-12</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.mahy-mls-sd-cwt-credential">[I-D.mahy-mls-sd-cwt-credential]</dt>
-        <dd>
-<span class="refAuthor">Mahy, R.</span>, <span class="refTitle">"Messaging Layer Security credentials using Selective Disclosure CBOR Web Tokens"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-mahy-mls-sd-cwt-credential-00</span>, <time datetime="2025-03-02" class="refDate">2 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-mahy-mls-sd-cwt-credential-00">https://datatracker.ietf.org/doc/html/draft-mahy-mls-sd-cwt-credential-00</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC7252">[RFC7252]</dt>
         <dd>
 <span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Hartke, K.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"The Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7252</span>, <span class="seriesInfo">DOI 10.17487/RFC7252</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7252">https://www.rfc-editor.org/rfc/rfc7252</a>&gt;</span>. </dd>
@@ -3617,10 +3521,6 @@ An indication of the relevant sections may also be included, but is not required
 <dt id="RFC9334">[RFC9334]</dt>
         <dd>
 <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Thaler, D.</span>, <span class="refAuthor">Richardson, M.</span>, <span class="refAuthor">Smith, N.</span>, and <span class="refAuthor">W. Pan</span>, <span class="refTitle">"Remote ATtestation procedureS (RATS) Architecture"</span>, <span class="seriesInfo">RFC 9334</span>, <span class="seriesInfo">DOI 10.17487/RFC9334</span>, <time datetime="2023-01" class="refDate">January 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9334">https://www.rfc-editor.org/rfc/rfc9334</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9420">[RFC9420]</dt>
-        <dd>
-<span class="refAuthor">Barnes, R.</span>, <span class="refAuthor">Beurdouche, B.</span>, <span class="refAuthor">Robert, R.</span>, <span class="refAuthor">Millican, J.</span>, <span class="refAuthor">Omara, E.</span>, and <span class="refAuthor">K. Cohn-Gordon</span>, <span class="refTitle">"The Messaging Layer Security (MLS) Protocol"</span>, <span class="seriesInfo">RFC 9420</span>, <span class="seriesInfo">DOI 10.17487/RFC9420</span>, <time datetime="2023-07" class="refDate">July 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9420">https://www.rfc-editor.org/rfc/rfc9420</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="t-Closeness">[t-Closeness]</dt>
       <dd>
@@ -3674,7 +3574,6 @@ kbt-protected = {
 sd-unprotected = {
    ? &amp;(sd_claims: TBD1) ^ =&gt; salted-array,
    ? &amp;(sd_aead_encrypted_claims: TBD6) ^ =&gt; aead-encrypted-array,
-   ? &amp;(sd_cose_encrypted_claims: TBD8) ^ =&gt; cose-encrypted-array,
    * key =&gt; any
 }
 
@@ -3731,33 +3630,6 @@ aead-encrypted = [
   bstr               ; the corresponding authentication tag
 ]
 
-cose-encrypted-array = [ +cose-encrypted ]
-cose-encrypted = COSE_Encrypt0_Tagged / COSE_Encrypt_Tagged
-
-COSE_Encrypt0_Tagged = #6.16(COSE_Encrypt0)
-COSE_Encrypt_Tagged = #6.96(COSE_Encrypt)
-
-COSE_Encrypt0 = [
-    Headers,
-    ciphertext : bstr / nil,
-]
-
-COSE_Encrypt = [
-    Headers,
-    ciphertext : bstr / nil,
-    recipients : [+COSE_recipient]
-]
-
-COSE_recipient = [
-    Headers,
-    ciphertext : bstr / nil,
-    ? recipients : [+COSE_recipient]
-]
-
-Headers = (
-    protected : empty_or_serialized_map,
-    unprotected : header_map
-)
 header_map = {
     * key =&gt; any
 }
@@ -3768,7 +3640,6 @@ TBD1 = 17
 TBD2 = 18
 TBD6 = 19
 TBD7 = 20
-TBD8 = 21
 
 ;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements
 
