@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-03T00:52:27.356381+00:00",
+  "timestamp": "2025-07-06T00:57:44.824522+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -976,7 +976,7 @@
       ],
       "body": "in the examples Makefile, run diag2cbor on the full EDN examples and byte compare against the generated CBOR.",
       "createdAt": "2025-02-18T02:34:17Z",
-      "updatedAt": "2025-07-02T12:53:55Z",
+      "updatedAt": "2025-07-03T13:45:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -985,6 +985,20 @@
           "body": "diag2cbor can do CDE, using -d option.  That should allow you to compare the contents of the EDN with CBOR (that is also created using the -d option).",
           "createdAt": "2025-07-02T12:53:54Z",
           "updatedAt": "2025-07-02T12:53:54Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I just ran `gem update cbor-diag` a moment ago. cbor-diag 0.9.7 still does not support at least one of these EDN features the draft is using:\n-  `h''` with newlines\n- end of line (`#`) comments\n- string concatenation with `+`\n",
+          "createdAt": "2025-07-03T12:21:50Z",
+          "updatedAt": "2025-07-03T12:21:50Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Yes, this is in transition.\nThe full EDN implementation is in the edn-abnf gem; this supports all of the above.\nThe processing components are in the cbor-diag gem, though.\nThese will be merged together in time.\n\nFor now, I have pushed an update to the cbor-diag gem (0.9.8) that provides cbor2cbor.rb, which can be used to create deterministic CBOR output (-d flag).\nSorry for the mix and match...\n",
+          "createdAt": "2025-07-03T13:45:23Z",
+          "updatedAt": "2025-07-03T13:45:23Z"
         }
       ]
     },
@@ -1273,12 +1287,22 @@
       "assignees": [
         "henkbirkholz"
       ],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "We get questions about how RATS is related to trusting wallets/ holders and relying parties / verifiers.\n\nEvidence and Endorsements, how are they related to credentials and presentations with SD.\n\nProposal to add a section to security considerations.",
       "createdAt": "2025-04-02T13:52:15Z",
-      "updatedAt": "2025-04-16T13:26:19Z",
+      "updatedAt": "2025-07-03T12:06:22Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Note, please see the comment in the Encrypted Disclosures section about the Attester and Relying Party in #123 ",
+          "createdAt": "2025-07-03T11:59:22Z",
+          "updatedAt": "2025-07-03T11:59:22Z"
+        }
+      ]
     },
     {
       "number": 69,
@@ -2035,7 +2059,7 @@
       "id": "I_kwDOMm_Q2s65Pj_V",
       "title": "Undefined term \"anonymity set\" used",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/100",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2044,8 +2068,8 @@
       "labels": [],
       "body": "The specification says:\n> Any claim value with sufficiently low \"anonymity set\" can be used track the subject.\n\nThe term \"anonymity set\" is undefined and doesn't have an obvious meaning.  The intent here needs to be clarified.\n",
       "createdAt": "2025-06-01T21:15:55Z",
-      "updatedAt": "2025-07-02T14:16:59Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-03T12:05:37Z",
+      "closedAt": "2025-07-03T12:05:37Z",
       "comments": [
         {
           "author": "selfissued",
@@ -2053,6 +2077,13 @@
           "body": "I suggest changing\n> Any Claim Value with sufficiently low \"anonymity set\" can be used to track the subject.\nto\n> Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.",
           "createdAt": "2025-07-02T14:16:59Z",
           "updatedAt": "2025-07-02T14:16:59Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #120 ",
+          "createdAt": "2025-07-03T12:05:37Z",
+          "updatedAt": "2025-07-03T12:05:37Z"
         }
       ]
     },
@@ -2189,10 +2220,12 @@
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "Pull the discussion about Validated disclosed claim set to Presented disclosed claim set map discussion out of validation section and put it into an implementation appendix.",
       "createdAt": "2025-06-25T13:30:28Z",
-      "updatedAt": "2025-06-25T13:30:28Z",
+      "updatedAt": "2025-07-03T12:06:08Z",
       "closedAt": null,
       "comments": []
     },
@@ -2214,9 +2247,17 @@
       ],
       "body": "presented, and disclosed",
       "createdAt": "2025-06-25T13:33:01Z",
-      "updatedAt": "2025-06-25T13:52:03Z",
+      "updatedAt": "2025-07-03T13:15:01Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@OR13 if you have a bar napkin in your head, I can turn it into ascii art/aasvg.  Otherwise I might come up with something between now and the deadline, or I might not. ",
+          "createdAt": "2025-07-03T13:15:01Z",
+          "updatedAt": "2025-07-03T13:15:01Z"
+        }
+      ]
     },
     {
       "number": 119,
@@ -2252,15 +2293,20 @@
       "id": "I_kwDOMm_Q2s6-g_na",
       "title": "Proposed update to encrypted disclosures",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/122",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "has-PR",
+        "up-next"
+      ],
       "body": "- Remove the cose examples and framing.\n- Remove the MLS framing\n\nAdjust the introduction to be more of a statement of fact, something like:\n\nThere exist use cases where the verifier and relying party are separate entities, the RATs architecture provides one example of this, but there are others.\nIn some of these use cases, there is an existing use of AES 128GCM or other AEADs.\nThis section of the document describes how to use AEADs to encrypt disclosures to a relying party, while enabling a verifier to confirm the authenticity of the presentation from the holder.\n\nKeep the AEAD example, remove the COSE stuff, remove the MLS stuff.",
       "createdAt": "2025-07-02T15:30:32Z",
-      "updatedAt": "2025-07-02T17:52:11Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-03T17:16:56Z",
+      "closedAt": "2025-07-03T17:16:55Z",
       "comments": [
         {
           "author": "selfissued",
@@ -2275,6 +2321,13 @@
           "body": "Yes, I can do that.\r\n\r\nOn Wed, Jul 2, 2025, 18:46 Michael B. Jones ***@***.***>\r\nwrote:\r\n\r\n> *selfissued* left a comment (ietf-wg-spice/draft-ietf-spice-sd-cwt#122)\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/122#issuecomment-3028552204>\r\n>\r\n> That works for me. @rohanmahy <https://github.com/rohanmahy>, can you\r\n> create a PR putting this into effect?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/122#issuecomment-3028552204>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPU6J3FDJTHYUNVDZ6T3GQEG7AVCNFSM6AAAAACAUJXGO2VHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZTAMRYGU2TEMRQGQ>\r\n> .\r\n> You are receiving this because you were mentioned.Message ID:\r\n> ***@***.***>\r\n>\r\n",
           "createdAt": "2025-07-02T17:52:11Z",
           "updatedAt": "2025-07-02T17:52:11Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #123",
+          "createdAt": "2025-07-03T17:16:56Z",
+          "updatedAt": "2025-07-03T17:16:56Z"
         }
       ]
     }
@@ -8047,7 +8100,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-14T12:03:48Z",
-      "updatedAt": "2025-07-01T11:40:36Z",
+      "updatedAt": "2025-07-03T12:04:26Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7af107d6d67edcfe249cf81ca6b046cdf565dd0f",
@@ -10167,7 +10220,7 @@
       "labels": [],
       "body": "Replaces #76 which is in merge prison. ",
       "createdAt": "2025-07-01T11:37:10Z",
-      "updatedAt": "2025-07-01T11:41:05Z",
+      "updatedAt": "2025-07-03T12:04:27Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "874c349f892576fa37f858be4c75b0844da3e200",
@@ -10195,7 +10248,7 @@
       "labels": [],
       "body": "Addresses Issue #93 ",
       "createdAt": "2025-07-02T09:17:09Z",
-      "updatedAt": "2025-07-02T13:09:55Z",
+      "updatedAt": "2025-07-03T12:04:28Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "3d9acabdde83d9106111860ea1d4f60e1c9627f7",
@@ -10237,7 +10290,7 @@
       "labels": [],
       "body": "Addresses the following issues:\r\n- #91 why use AEAD encryption vs COSE encryption\r\n- #92 where do you get the encryption key\r\n- #97 describes how to get the authentication tag for AEAD encryption\r\n- #98 motivation for AEAD encryption\r\n",
       "createdAt": "2025-07-02T12:09:36Z",
-      "updatedAt": "2025-07-02T13:30:38Z",
+      "updatedAt": "2025-07-03T12:04:14Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "3d9acabdde83d9106111860ea1d4f60e1c9627f7",
@@ -10286,7 +10339,7 @@
       "labels": [],
       "body": "Addresses Issue #90 ",
       "createdAt": "2025-07-02T12:27:53Z",
-      "updatedAt": "2025-07-02T13:22:23Z",
+      "updatedAt": "2025-07-03T12:04:13Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "3d9acabdde83d9106111860ea1d4f60e1c9627f7",
@@ -10408,7 +10461,7 @@
       "labels": [],
       "body": "Addresses #102 ",
       "createdAt": "2025-07-02T12:45:43Z",
-      "updatedAt": "2025-07-02T13:23:35Z",
+      "updatedAt": "2025-07-03T12:04:12Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "3d9acabdde83d9106111860ea1d4f60e1c9627f7",
@@ -10450,7 +10503,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-07-02T14:18:08Z",
-      "updatedAt": "2025-07-02T22:02:37Z",
+      "updatedAt": "2025-07-03T12:33:59Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "9a848675acdecd2d55f15c4f509108cae30c9f5a",
@@ -10478,7 +10531,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-07-02T14:59:40Z",
-      "updatedAt": "2025-07-02T15:00:53Z",
+      "updatedAt": "2025-07-03T12:04:14Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c6c29500ee8500a74b3c2b38be9e2b330c88a2ec",
@@ -10490,6 +10543,97 @@
       "mergedBy": "rohanmahy",
       "mergeCommit": {
         "oid": "34ab22a9da611e04d8c9a260093a090c6cc3ba53"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 123,
+      "id": "PR_kwDOMm_Q2s6dQX72",
+      "title": "Revamp encrypted disclosures section based on Issue #122",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/123",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Revamp encrypted disclosures section based on Issue #122 \r\n\r\n- introduce internal verifier structure using RATS terms\r\n- describe the fact of existing protocol use of AEADs\r\n- remove other motivations\r\n- remove COSE encrypted disclosures as not motivated\r\n",
+      "createdAt": "2025-07-03T11:56:00Z",
+      "updatedAt": "2025-07-03T17:16:14Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "34ab22a9da611e04d8c9a260093a090c6cc3ba53",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "revamp-encrypted",
+      "headRefOid": "5289cee97d32b256dc506636a24c0ca546bce50b",
+      "closedAt": "2025-07-03T17:16:14Z",
+      "mergedAt": "2025-07-03T17:16:14Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "93701082315ffda9753cd723dbbc7b9a05707ac2"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@selfissued @OR13 please have a look. As discussed yesterday.",
+          "createdAt": "2025-07-03T11:56:49Z",
+          "updatedAt": "2025-07-03T11:56:49Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6x12P0",
+          "commit": {
+            "abbreviatedOid": "5289cee"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-03T15:33:59Z",
+          "updatedAt": "2025-07-03T15:33:59Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6x2SSz",
+          "commit": {
+            "abbreviatedOid": "5289cee"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-03T16:15:07Z",
+          "updatedAt": "2025-07-03T16:15:07Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 124,
+      "id": "PR_kwDOMm_Q2s6dQteC",
+      "title": "document the examples tool chain a bit better",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/124",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-03T12:31:35Z",
+      "updatedAt": "2025-07-03T12:33:55Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "34ab22a9da611e04d8c9a260093a090c6cc3ba53",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "howto-tooling",
+      "headRefOid": "5cb9b306711fee1c33f759e9e65e84d8a71a841a",
+      "closedAt": "2025-07-03T12:33:39Z",
+      "mergedAt": "2025-07-03T12:33:39Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "4712d8df7c316b081e998beb3557238408bbc1d4"
       },
       "comments": [],
       "reviews": []
