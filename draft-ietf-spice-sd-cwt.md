@@ -63,6 +63,7 @@ normative:
 
 informative:
   RFC8126:
+  RFC6973:
   I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
   I-D.draft-ietf-cbor-cde: CDE
@@ -941,6 +942,23 @@ After applying the disclosures of the nested structure above, the disclosed Clai
 In order to indicate specific claims that should be redacted in a Claim Set, this specification defines a new CBOR tag "To be redacted".
 It can be used by a library to automatically convert a Claim Set with "To be redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
 
+# Privacy Considerations {#privacy}
+
+This section describes the privacy considerations in accordance with the recommendations from {{RFC6973}}.
+
+### Correlation
+
+Presentations of the same SD-CWT to multiple Verifiers can be correlated by matching on the signature component of the COSE_Sign1.
+Signature based linkability can be mitigated by leveraging batch issuance of single-use tokens, at a credential management complexity cost.
+Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.
+For example, a high precision issuance time might match the issuance of only a few credentials for a given Issuer, and as such, any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
+
+## Determinism & Augmentation
+
+It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements.
+{{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE).
+The construction of such profiles has a significant impact on the privacy properties of a credential type.
+
 # Security Considerations {#security}
 
 Security considerations from COSE {{!RFC9052}} and CWT {{!RFC8392}} apply to this specification.
@@ -953,24 +971,13 @@ Certificate transparency, as described in {{-CT}}, or key transparency, as descr
 Issuers choose which claims to include in an SD-CWT, and whether they are mandatory to disclose, including self-asserted claims such as "iss".
 All mandatory to disclose data elements are visible to the Verifier as part of verification. Some of these elements reveal information about the Issuer, such as key or certificate thumbprints, supported digital signature algorithms, and operational windows that can be inferred from analysis of timestamps.
 
-## Correlation
-
-Presentations of the same SD-CWT to multiple Verifiers can be correlated by matching on the signature component of the COSE_Sign1.
-Signature based linkability can be mitigated by leveraging batch issuance of single-use tokens, at a credential management complexity cost.
-Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.
-For example, a high precision issuance time might match the issuance of only a few credentials for a given Issuer, and as such, any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
-
 ## Credential Types
 
 The mandatory- and optional-to-disclose data elements in an SD-CWT are credential type specific.
 Several distinct credential types might be applicable to a given use case.
 Issuers MUST perform a privacy and confidentiality assessment regarding each credential type they intend to issue prior to issuance.
 
-## Determinism & Augmentation
 
-It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements.
-{{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE).
-The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
 ## Disclosure Coercion and Over-identification {#disclosure-coercion}
 
