@@ -247,7 +247,6 @@ After the Holder requests an SD-CWT from the Issuer, the Issuer generates the fo
 ~~~
 {: #basic-issuer-cwt title="Issued SD-CWT with all disclosures"}
 
-
 Some of the claims are *redacted* in the payload. The corresponding *disclosure* is communicated in the unprotected header in the `sd_claims` header parameter.
 For example, the `inspector_license_number` claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the Claim Key, and Claim Value.
 
@@ -256,14 +255,12 @@ For example, the `inspector_license_number` claim is a Salted Disclosed Claim, c
 ~~~
 {: title="CBOR extended diagnostic notation representation of inspector_license_number disclosure"}
 
-
 This is represented in CBOR pretty-printed format as follows (with end-of-line comments and spaces inserted for clarity):
 
 ~~~ cbor-pretty
 {::include examples/first-disclosure.pretty}
 ~~~
 {: title="CBOR encoding of inspector_license_number disclosure"}
-
 
 The cryptographic hash, using the hash algorithm identified by the `sd_alg` header parameter in the protected headers, of that byte string is the Digested Salted Disclosed Claim (shown in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of `inspection_dates`).
@@ -324,7 +321,6 @@ Variability in serialization requirements impacts privacy.
 
 See {{security}} for more details on the privacy impact of serialization and profiling.
 
-
 # SD-CWT Definition {#sd-cwt-definition}
 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
@@ -383,7 +379,6 @@ An example nested claim is shown in {{nesting}}.
 Finally, an Issuer MAY create decoy digests, which look like blinded claim hashes but have only a salt.
 Decoy digests are discussed in {{decoys}}.
 
-
 # SD-CWT Issuance {#sd-cwt-issuance}
 
 How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out of scope for this specification.
@@ -406,7 +401,6 @@ Any other claims are OPTIONAL and MAY be redacted.
 Profiles of this specification MAY specify additional claims that MUST, MUST NOT, and MAY be redacted.
 
 To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) {{!RFC9679}} MAY be used in the `cnf` claim.
-
 
 ## Issuer Generation
 
@@ -473,7 +467,6 @@ sd-payload = {
     * key => any
 }
 ~~~
-
 
 # SD-CWT Presentation
 
@@ -548,38 +541,37 @@ The SD-KBT payload MAY include a `cnonce` claim.
 If included, the `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
 All other claims are OPTIONAL in an SD-KBT.
 
-
 # SD-KBT and SD-CWT Verifier Validation
 
 The exact order of the following steps MAY be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
 
 {::options nested_ol_types="1, a, i" /}
 
- 1. First the Verifier must open the protected headers of the SD-KBT and find the Issuer SD-CWT present in the `kcwt` field.
+1. First the Verifier must open the protected headers of the SD-KBT and find the Issuer SD-CWT present in the `kcwt` field.
 
- 2. Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of !RFC8392}}.
+2. Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of !RFC8392}}.
 
- 3. The Verifier extracts the confirmation key from the `cnf` claim in the SD-CWT payload.
+3. The Verifier extracts the confirmation key from the `cnf` claim in the SD-CWT payload.
 
- 4. Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
+4. Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
 
- 5. Finally, the Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
+5. Finally, the Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
     The decoded `sd_claims` are converted to an intermediate data structure called a Digest To Disclosed Claim Map that is used to transform the Presented Disclosed Claims Set into a Validated Disclosed Claims Set.
     The Verifier MUST compute the hash of each Salted Disclosed Claim (`salted`), in order to match each disclosed value to each entry of the Presented Disclosed Claims Set.
     One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map could be: `{ &(digested-salted-disclosed-claim) => salted }`
-    1. The Verifier constructs an empty cbor map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.
-    2. Next, the Verifier performs a breadth first or depth first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.
+   1. The Verifier constructs an empty cbor map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.
+   2. Next, the Verifier performs a breadth first or depth first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
-    3. If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid.
+   3. If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid.
 
     > Note: A Verifier MUST be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.
 
 {:start="6"}
- 6. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
+6. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
 
- 7. Otherwise, the SD-CWT is considered valid, and the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
+7. Otherwise, the SD-CWT is considered valid, and the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
 
- 8. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
+8. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
 
 # Decoy Digests {#decoys}
 
@@ -601,7 +593,6 @@ The entire SD-CWT is included in the protected header of the SD-KBT, which secur
 When encrypted disclosures are present, they MUST be in the unprotected headers of the Issuer-signed SD-CWT, before the SD-KBT can be generated by the Holder.
 
 The initial Verifier of the key binding token might not be able to decrypt encrypted disclosures and MAY decide to forward them to an inner Verifier that can decrypt them.
-
 
 ## AEAD Encrypted Disclosures Mechanism {#aead}
 
@@ -657,7 +648,6 @@ aead-encrypted = [
 
 > Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.
 
-
 # Credential Types {#cred-types}
 
 This specification defines the CWT claim `vct` (for Verifiable Credential Type).
@@ -679,7 +669,6 @@ which is not to be used in operational deployments.
 
 This claim is defined for COSE-based verifiable credentials, similar to the JOSE-based verifiable credentials claim (`vct`) described in Section 3.2.2.1.1 of {{-SD-JWT-VC}}.
 
-
 # Examples
 
 ## Minimal Spanning Example
@@ -690,7 +679,6 @@ The following example contains claims needed to demonstrate redaction of key-val
 {::include examples/kbt.edn}
 ~~~
 {: #example-edn title="An EDN Example"}
-
 
 ## Nested Example {#nesting}
 
@@ -858,7 +846,6 @@ After applying the disclosures of the nested structure above, the disclosed Clai
 In order to indicate specific claims that should be redacted in a Claim Set, this specification defines a new CBOR tag "To be redacted".
 It can be used by a library to automatically convert a Claim Set with "To be redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
 
-
 # Security Considerations {#security}
 
 Security considerations from COSE {{!RFC9052}} and CWT {{!RFC8392}} apply to this specification.
@@ -890,6 +877,21 @@ It is possible to encode additional information through the choices made during 
 {{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE).
 The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
+## Disclosure Coercion and Over-identification {#disclosure-coercion}
+
+The Security Considerations from {{Section 10.2. of -SD-JWT}} apply, with additional attention to disclosure coercion risks.
+Holders face risks of being coerced into disclosing more claims than necessary. This threat warrants special attention because:
+
+1. Verifier Trust: Holders MUST be able to verify that a Verifier will handle disclosed claims appropriately and only for stated purposes.
+2. Elevated Risk: Claims from trusted authorities (e.g., government-issued credentials) carry higher misuse potential due to their inherent legitimacy.
+3. Mitigation Measures:
+   - Verifiers SHOULD demonstrate eligibility to receive claims
+   - Holders MUST conduct risk assessments when verifier eligibility cannot be established
+   - Trust lists maintained by trusted parties can help identify authorized verifiers
+4. Irreversibility: Disclosed claims cannot be withdrawn. This permanent exposure risk MUST be considered in any disclosure decision.
+
+Without proper safeguards (such as verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.
+
 ## Threat Model
 
 Each use case will have a unique threat model that MUST be considered before the applicability of SD-CWT-based credential types can be determined.
@@ -898,25 +900,32 @@ This section provides a non-exhaustive list of topics to be considered when deve
 1. Has there been a t-closeness, k-anonymity, and l-diversity assessment (see {{t-Closeness}}) assuming compromise of the one or more Issuers, Verifiers or Holders, for all relevant credential types?
 
 2. Issuer questions:
-   1. How many Issuers exist for the credential type?
-   2. Is the size of the set of Issuers growing or shrinking over time?
-   3. For a given credential type, will subjects be able to hold instances of the same credential type from multiple Issuers, or just a single Issuer?
-   4. Does the credential type require or offer the ability to disclose a globally unique identifier?
-   5. Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?
-   6. Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
+    1. How many Issuers exist for the credential type?
+    2. Is the size of the set of Issuers growing or shrinking over time?
+    3. For a given credential type, will subjects be able to hold instances of the same credential type from multiple Issuers, or just a single Issuer?
+    4. Does the credential type require or offer the ability to disclose a globally unique identifier?
+    5. Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?
+    6. Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
 
-3. Verifier questions:
-   1. How many Verifiers exist for the credential type?
-   2. Is the size of the set of Verifiers growing or shrinking over time?
-   3. Are the Verifiers a superset, subset, or disjoint set of the Issuers or subjects?
-   4. Are there any legally required reporting or disclosure requirements associated with the Verifiers?
-   5. Is there reason to believe that a Verifier's historic data will be aggregated and analyzed?
-   6. Assuming multiple Verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
+3. Holder questions:
 
-4. Subject questions:
-   1. How many subjects exist for the credential type?
-   2. Is the size of the set of subjects growing or shrinking over time?
-   3. Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?
+    0. What steps has the Holder taken to improve their operation security regarding presenting credentials to verifiers?
+    1. How can the Holder be convinced the Verifier that received presentations is legitimate?
+    2. How can the Holder be convinced the Verifier will not share, sell, leak, or otherwise disclose the Holder's presentations or Issuer or Holder signed material?
+    3. What steps has the Holder taken to understand and confirm the consequences resulting from their support for the aggregate-use of digital credential presentations?
+
+4. Verifier questions:
+    1. How many Verifiers exist for the credential type?
+    2. Is the size of the set of Verifiers growing or shrinking over time?
+    3. Are the Verifiers a superset, subset, or disjoint set of the Issuers or subjects?
+    4. Are there any legally required reporting or disclosure requirements associated with the Verifiers?
+    5. Is there reason to believe that a Verifier's historic data will be aggregated and analyzed?
+    6. Assuming multiple Verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
+
+5. Subject questions:
+    1. How many subjects exist for the credential type?
+    2. Is the size of the set of subjects growing or shrinking over time?
+    3. Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?
 
 ## Random Numbers
 
@@ -955,7 +964,6 @@ However, the order can affect the runtime of the verification process.
 
 If the audience claim is present in both the SD-CWT and the SD-KBT, they are not required to be the same.
 SD-CWTs with audience claims that do not correspond to the intended recipients MUST be rejected, to protect against accidental disclosure of sensitive data.
-
 
 # IANA Considerations
 
@@ -1183,12 +1191,8 @@ IANA must only accept registry updates from the Designated Experts and should di
 all requests for registration in the Specification Required range
 to the review mailing list.
 
-It is suggested that multiple Designated Experts be appointed who are able to
-represent the perspectives of different applications using this specification,
-in order to enable broadly-informed review of registration decisions.
-In cases where a registration decision could be perceived as
-creating a conflict of interest for a particular Expert,
-that Expert should defer to the judgment of the other Experts.
+It is suggested that multiple Designated Experts be appointed who are able to represent the perspectives of different applications using this specification, in order to enable broadly-informed review of registration decisions.
+In cases where a registration decision could be perceived as creating a conflict of interest for a particular Expert, that Expert should defer to the judgment of the other Experts.
 
 ### Registration Template
 
@@ -1207,8 +1211,7 @@ For others, give the name of the responsible party.
 Other details (e.g., postal address, e-mail address, home page URI) may also be included.
 
 Specification Document(s):
-: Reference to the document or documents that specify the values to be registered,
-preferably including URLs that can be used to retrieve the documents.
+: Reference to the document or documents that specify the values to be registered, preferably including URLs that can be used to retrieve the documents.
 An indication of the relevant sections may also be included, but is not required.
 
 ### Initial Registry Contents
@@ -1245,7 +1248,6 @@ The COSE equivalent of `...` is a CBOR tag (requested assignment 60) of the dige
 In SD-CWT, the order of the fields in a disclosure is salt, value, key.
 In SD-JWT the order of fields in a disclosure is salt, key, value.
 This choice ensures that the second element in the CBOR array is always the value, which makes parsing faster and more efficient in strongly-typed programming languages.
-
 
 ## Issuance
 
@@ -1512,7 +1514,7 @@ License: Apache-2.0
 
 Implementation Experience: No interop testing has been done yet. The code works as a proof of concept, but is not yet production ready.
 
-Contact: Orie Steele (orie@transmute.industries)
+Contact: Orie Steele (orie.steele@tradeverifyd.com)
 
 ## Rust Prototype
 
@@ -1531,7 +1533,6 @@ License: Apache-2.0
 Implementation Experience: No interop testing has been done yet. The code works as a proof of concept, but is not yet production ready.
 
 Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
-
 
 # Document History
 
