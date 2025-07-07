@@ -884,13 +884,14 @@ Holders face risks of being coerced into disclosing more claims than necessary. 
 
 1. Verifier Trust: Holders MUST be able to verify that a Verifier will handle disclosed claims appropriately and only for stated purposes.
 2. Elevated Risk: Claims from trusted authorities (e.g., government-issued credentials) carry higher misuse potential due to their inherent legitimacy.
-3. Mitigation Measures:
-   - Verifiers SHOULD demonstrate eligibility to receive claims
-   - Holders MUST conduct risk assessments when verifier eligibility cannot be established
-   - Trust lists maintained by trusted parties can help identify authorized verifiers
-4. Irreversibility: Disclosed claims cannot be withdrawn. This permanent exposure risk MUST be considered in any disclosure decision.
+3. Irreversibility: Disclosed claims cannot be withdrawn. This permanent exposure risk MUST be considered in any disclosure decision.
 
-Without proper safeguards (such as verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.
+Mitigation Measures:
+1. Verifiers SHOULD demonstrate eligibility to receive claims
+2. Holders MUST conduct risk assessments when Verifier eligibility cannot be established
+3. Trust lists maintained by trusted parties can help identify authorized Verifiers
+
+Without proper safeguards (such as Verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.
 
 ## Threat Model
 
