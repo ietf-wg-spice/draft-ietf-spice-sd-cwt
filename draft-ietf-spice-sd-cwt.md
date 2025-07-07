@@ -154,11 +154,17 @@ Selective Disclosure CBOR Web Token (SD-CWT):
 Selective Disclosure Key Binding Token (SD-CWT-KBT):
 : A CWT used to demonstrate possession of a confirmation method, associated with an SD-CWT.
 
+Assertion Key:
+: A key used by the Issuer to sign a Claim Values.
+
+Confirmation Key:
+: A key used by the Holder to sign a Selected Salted Disclosed Claims.
+
 Issuer:
-: An entity that produces a Selective Disclosure CBOR Web Token.
+: An entity that produces a Selective Disclosure CBOR Web Token by signing a Claim Values with an Assertion Key.
 
 Holder:
-: An entity that presents a Selective Disclosure CBOR Web Token that includes a Selective Disclosure Key Binding Token.
+: An entity that presents a Selective Disclosure Key Binding Token, containing a Selective Disclosure CBOR Web Token and Selected Salted Disclosed Claims signed with a Confirmation Key.
 
 Verifier:
 : An entity that validates a Partial or Full Disclosure by a Holder.
@@ -172,7 +178,7 @@ Full Disclosure:
 Salted Disclosed Claim:
 : A salted claim disclosed in the unprotected header of an SD-CWT.
 
-Digested Salted Disclosed Claim / Blinded Claim Hash:
+Blinded Claim Hash:
 : A hash digest of a Salted Disclosed Claim.
 
 Blinded Claim:
@@ -192,6 +198,94 @@ Validated Disclosed Claims Set:
 : The CBOR map containing all mandatory to disclose claims signed by the Issuer, all selectively disclosed claims presented by the Holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
 
 
+
+The following diagram explains the relationships between the terminology used in this specification.
+
+~~~ aasvg
+  +-----------+     +--------------------+
+  |   Issuer  |<----+ Assertion Key      |
+  +-----------+     +--------------------+
+        v
++------------------------------------------+
+| Issuer Signed Blinded Claims             |
+| All Salted Disclosed Claims              |
++------------------------------------------+
+        |
+        v
+  +--------------+     +--------------------+
+  |   Holder     |<----+ Confirmation Key   |
+  +--------------+     +--------------------+
+        v
++------------------------------------------+
+| Issuer Signed Blinded Claims             |
+| Holder Selected Salted Disclosed Claims  |
+| Holder Signed Key Binding Token          |
++------------------------------------------+
+        |
+        v
+  +--------------+
+  |  Verifier    |
+  +--------------+
+        |
+        v
++------------------------------------------+
+| Validated Disclosed Claim Set            |
++------------------------------------------+
+~~~
+
+This diagram relates the terminology specific to selective disclosure and redaction.
+
+~~~ aasvg
++-----------+
+|  Issuer   |
++-----------+
+      |
+      | 1. Creates Salted Disclosed Claim
+      |    [salt, value, key]
+      v
++------------------------------------------+
+| Salted Disclosed Claim                   |
++------------------------------------------+
+      |
+      | 2. Hashes to create
+      v
++------------------------------------------+
+| Blinded Claim Hash                       |
++------------------------------------------+
+      |
+      | 3. Replaces Claim Value with
+      v
++------------------------------------------+
+| Blinded Claim (in CWT payload)           |
+| - Original Claim Value is replaced       |
+|   with Blinded Claim Hash                |
++------------------------------------------+
+      |
+      v
++-----------+
+|  Holder   |
++-----------+
+      |
+      | 4. Presents selected
+      |    Salted Disclosed Claims
+      v
++-----------+
+| Verifier  |
++-----------+
+      |
+      | 5. Hashes Salted Disclosed Claim
+      v
++------------------------------------------+
+| Blinded Claim Hash (computed)            |
++------------------------------------------+
+      |
+      | 6. Matches with hash in payload
+      |    to recover original
+      v
++------------------------------------------+
+| Claim Value (recovered)                  |
++------------------------------------------+
+~~~
 
 # Overview of Selective Disclosure CWT
 
@@ -262,7 +356,7 @@ This is represented in CBOR pretty-printed format as follows (with end-of-line c
 ~~~
 {: title="CBOR encoding of inspector_license_number disclosure"}
 
-The cryptographic hash, using the hash algorithm identified by the `sd_alg` header parameter in the protected headers, of that byte string is the Digested Salted Disclosed Claim (shown in hex).
+The cryptographic hash, using the hash algorithm identified by the `sd_alg` header parameter in the protected headers, of that byte string is the Blinded Claim Hash (shown in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of `inspection_dates`).
 
 ~~~
@@ -270,7 +364,7 @@ The digest value is included in the payload in a `redacted_claim_keys` field for
 ~~~
 {: title="SHA-256 hash of inspector_license_number disclosure"}
 
-Finally, since this redacted claim is a map key and value, the Digested Salted Disclosed Claim is placed in a `redacted_claim_keys` array in the SD-CWT payload at the same level of hierarchy as the original claim.
+Finally, since this redacted claim is a map key and value, the Blinded Claim Hash is placed in a `redacted_claim_keys` array in the SD-CWT payload at the same level of hierarchy as the original claim.
 Redacted claims that are array elements are handled slightly differently, as described in {{blinded-claims}}.
 
 ~~~ cbor-diag
@@ -338,6 +432,7 @@ If there are no disclosures (and when no Blinded Claims Hash is present in the p
 
 Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
 However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.
+
 
 ## Types of Blinded Claims {#blinded-claims}
 
@@ -1577,7 +1672,7 @@ Note: RFC Editor, please remove this entire section on publication.
 ## draft-ietf-spice-sd-cwt-01
 
 - Added Overview section
-- Rewrote the main normative section
+- Rewritten the main normative section
 - Made redacted_claim_keys use an unlikely to collide claim key integer
 - Make cnonce optional (it now says SHOULD)
 - Made most standard claims optional.
