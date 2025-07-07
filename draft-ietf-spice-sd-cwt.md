@@ -896,9 +896,11 @@ This section provides a non-exhaustive list of topics to be considered when deve
 
 Is there a way to prohibit extortion of over-identification or disclosure misuse via a Verifier by a Holder being bullied into disclosure towards Verifiers?
 
+The Security Consideration from {{Section 10.2. of -SD-JWT}} apply and are augmented with non-technical risks about such leak of data risks. 
+
 This threat is represented in this Threat Model via its own section rather than by an item in an itemized list as this threat can stem from various sources, many of them non-technical.
-A Holder MUST be able to tell in a believable manner, if the Verifier receiving an SD-CWT including disclosed Claims is capable and actually doing what it is intended to do (from the Holders point of view) with the disclosed Claim content - and doing nothing else with them.
-Disclosed Claims bundled with an SD-CWT that was initially issued by a high-stakeholder entity (e.g., a government) come with a "misuse value" magnitudes higher than "clear text data" (i.e., in the example of a government being the Issuer, the governments certification paths on the one hand provides legitimacy, but that legitimacy in the object security on the other hand also significantly increases its misuse value).
+A Holder MUST be able to tell in a believable manner, if the Verifier receiving an SD-CWT including disclosed Claims is capable and actually doing what it is intended to do (from the Holders point of view) with the disclosed Claim content - and doing nothing else with that content.
+Disclosed Claims bundled with an SD-CWT that was initially issued by an entity that is a trusted authority (e.g., a government) come with a "misuse value" magnitudes higher than "clear text data" (i.e., in the example of a government being the Issuer, the governments certification paths on the one hand provides legitimacy, but that legitimacy in the object security on the other hand also significantly increases its misuse value).
 In consequence, any Verifier that requests an SD-CWT SHOULD be able to show that it is eligible to receive such Claims and also will treat them appropriately.
 If a Verifier cannot show such eligibility, a corresponding risk assessment MUST be conducted by the Holder to check if an SD-CWT alongside a number of disclosed Claims can and might be misused with unintended purpose and without a Holder's knowledge.
 If an assurance of believable Verifier behavior cannot be provided and risk assessments of disclosures to a Verifier are omitted, there is no safeguard in place to prevent or at least detect misuse of disclosed Claims.
