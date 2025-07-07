@@ -945,6 +945,7 @@ It can be used by a library to automatically convert a Claim Set with "To be red
 # Privacy Considerations {#privacy}
 
 This section describes the privacy considerations in accordance with the recommendations from {{RFC6973}}.
+Many of the topics discussed in {{RFC6973}} apply to SD-CWT, but are not repeated here.
 
 ### Correlation
 
@@ -953,31 +954,66 @@ Signature based linkability can be mitigated by leveraging batch issuance of sin
 Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.
 For example, a high precision issuance time might match the issuance of only a few credentials for a given Issuer, and as such, any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
 
-## Determinism & Augmentation
+## Determinism
 
 It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements.
 {{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE).
 The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
+## Audience
+
+If the audience claim is present in both the SD-CWT and the SD-KBT, they are not required to be the same.
+SD-CWTs with audience claims that do not correspond to the intended recipients MUST be rejected, to protect against accidental disclosure of sensitive data.
+
+## Credential Types
+
+The privacy implications of selective disclosure vary significantly across different credential types due to their inherent characteristics and intended use cases.
+The mandatory and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.
+
+For example, a passport credential contains highly sensitive personal information where even partial disclosure can have significant privacy implications:
+- Revealing citizenship status may expose an individual to discrimination
+- Date of birth combined with any other attribute enables age-based profiling
+- Biometric data, even if selectively disclosed, presents irreversible privacy risks
+- The mere possession of a passport from certain countries can be sensitive information
+
+In contrast, a legal entity certificate has fundamentally different privacy considerations:
+- The entity's legal name and registration number are often public information
+- Business addresses and contact details may already be in public registries
+- Authorized signatories' names might be required for legal validity
+- The primary concern is often business confidentiality rather than personal privacy
+
+These differences mean that:
+- Passport credentials should minimize mandatory disclosures and maximize holder control over optional elements
+- Legal entity certificates might reasonably require disclosure of more fields to establish business legitimacy
+- The granularity of selective disclosure should match the credential type's privacy sensitivity
+- Default disclosure sets must be carefully calibrated to each credential's risk profile
+
+Several distinct credential types might be applicable to a given use case, each with unique privacy trade-offs.
+Issuers MUST perform a comprehensive privacy and confidentiality assessment for each credential type they intend to issue, considering:
+- The sensitivity spectrum of contained attributes
+- Likely disclosure scenarios and their privacy impacts
+- Correlation risks when attributes are combined
+- Long-term privacy implications of disclosed information
+- Cultural and jurisdictional privacy expectations
+
 # Security Considerations {#security}
 
 Security considerations from COSE {{!RFC9052}} and CWT {{!RFC8392}} apply to this specification.
 
-## Transparency
+## Issuer Key Compromise
 
 Verification of an SD-CWT requires that the Verifier have access to a verification key (public key) associated with the Issuer.
-Compromise of the Issuer's signing key would enable an attacker to forge credentials for any subject associated with the Issuer.
-Certificate transparency, as described in {{-CT}}, or key transparency, as described in {{-KT}}, can enable the observation of incorrectly issued certificates or fraudulent bindings between verification keys and Issuer identifiers.
-Issuers choose which claims to include in an SD-CWT, and whether they are mandatory to disclose, including self-asserted claims such as "iss".
-All mandatory to disclose data elements are visible to the Verifier as part of verification. Some of these elements reveal information about the Issuer, such as key or certificate thumbprints, supported digital signature algorithms, and operational windows that can be inferred from analysis of timestamps.
+Compromise of the Issuer's signing key would enable an attacker to forge credentials for any subject, potentially undermining the entire trust model of the credential system.
+Beyond key compromise, attacks targeting the provisioning and binding between issuer names and their cryptographic key material pose significant risks.
+An attacker who can manipulate these bindings could substitute their own keys for legitimate issuer keys, enabling credential forgery while appearing to be a trusted issuer.
 
-## Credential Types
+Certificate transparency, as described in {{-CT}}, or key transparency, as described in {{-KT}}, can help detect and prevent such attacks by:
+- Enabling public observation of all issued certificates or key bindings
+- Detecting unauthorized or fraudulent bindings between verification keys and Issuer identifiers
+- Providing cryptographic proof of inclusion for legitimate keys
+- Creating an append-only audit trail that makes key substitution attacks discoverable
 
-The mandatory- and optional-to-disclose data elements in an SD-CWT are credential type specific.
-Several distinct credential types might be applicable to a given use case.
-Issuers MUST perform a privacy and confidentiality assessment regarding each credential type they intend to issue prior to issuance.
-
-
+Verifiers SHOULD leverage transparency mechanisms where available to validate that the issuer's keys have not been compromised or fraudulently substituted.
 
 ## Disclosure Coercion and Over-identification {#disclosure-coercion}
 
@@ -995,10 +1031,13 @@ Mitigation Measures:
 
 Without proper safeguards (such as Verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.
 
-## Threat Model
+## Threat Model Development Guidance
 
-Each use case will have a unique threat model that MUST be considered before the applicability of SD-CWT-based credential types can be determined.
-This section provides a non-exhaustive list of topics to be considered when developing a threat model for applying SD-CWT to a given use case.
+This section provides guidance for developing threat models when applying SD-CWT to specific use cases.
+It is NOT a threat model itself, but rather a framework to help implementers create appropriate threat models for their particular contexts.
+Each use case will have unique security characteristics that MUST be analyzed before determining the applicability of SD-CWT-based credential types.
+
+The following non-exhaustive list of questions and considerations should guide the development of a use-case-specific threat model:
 
 1. Has there been a t-closeness, k-anonymity, and l-diversity assessment (see {{t-Closeness}}) assuming compromise of the one or more Issuers, Verifiers or Holders, for all relevant credential types?
 
@@ -1062,11 +1101,6 @@ The Holder has flexibility in determining the order of nested disclosures when m
 The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
 This ordering choice has no security impact on encrypted disclosures.
 However, the order can affect the runtime of the verification process.
-
-## Audience
-
-If the audience claim is present in both the SD-CWT and the SD-KBT, they are not required to be the same.
-SD-CWTs with audience claims that do not correspond to the intended recipients MUST be rejected, to protect against accidental disclosure of sensitive data.
 
 # IANA Considerations
 
