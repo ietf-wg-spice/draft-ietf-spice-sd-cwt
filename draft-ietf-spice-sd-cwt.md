@@ -894,6 +894,12 @@ This section provides a non-exhaustive list of topics to be considered when deve
 
 3. Holder question:
 
+
+0. What steps has the Holder taken to improve their operation security regarding presenting credentials to verifiers?
+1. How can the Holder be convinced the Verifier that received presentations is legitimate?
+2. How can the Holder be convinced the Verifier will not share, sell, leak, or otherwise disclose the Holder's presentations or Issuer or Holder signed material?
+3. What steps has the Holder taken to understand and confirm the consequences resulting from their support for the aggregate-use of digital credential presentations?
+
 Is there a way to prohibit extortion of over-identification or disclosure misuse via a Verifier by a Holder being bullied into disclosure towards Verifiers?
 
 The Security Consideration from {{Section 10.2. of -SD-JWT}} apply and are augmented with non-technical risks about such leak of data risks. 
