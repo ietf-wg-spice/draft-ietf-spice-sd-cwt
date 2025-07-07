@@ -5,12 +5,12 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 4 January 2026                                        Transmute
+Expires: 8 January 2026                                        Transmute
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                             3 July 2025
+                                                             7 July 2025
 
 
                               SPICE SD-CWT
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2026.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
@@ -103,12 +103,13 @@ Table of Contents
      15.2.  Correlation
      15.3.  Credential Types
      15.4.  Determinism & Augmentation
-     15.5.  Threat Model
-     15.6.  Random Numbers
-     15.7.  Binding the KBT and the CWT
-     15.8.  Covert Channels
-     15.9.  Nested Disclosure Ordering
-     15.10. Audience
+     15.5.  Disclosure Coercion and Over-identification
+     15.6.  Threat Model
+     15.7.  Random Numbers
+     15.8.  Binding the KBT and the CWT
+     15.9.  Covert Channels
+     15.10. Nested Disclosure Ordering
+     15.11. Audience
    16. IANA Considerations
      16.1.  COSE Header Parameters
        16.1.1.  sd_claims
@@ -913,12 +914,12 @@ Issuer                           Holder                         Verifier
        header of the SD-CWT.  The decoded sd_claims are converted to an
        intermediate data structure called a Digest To Disclosed Claim
        Map that is used to transform the Presented Disclosed Claims Set
-       into a Validated Disclosed Claims Set. The Verifier MUST compute
+       into a Validated Disclosed Claims Set.  The Verifier MUST compute
        the hash of each Salted Disclosed Claim (salted), in order to
        match each disclosed value to each entry of the Presented
-       Disclosed Claims Set. One possible concrete representation of the
-       intermediate data structure for the Digest To Disclosed Claim Map
-       could be: { &(digested-salted-disclosed-claim) => salted }
+       Disclosed Claims Set.  One possible concrete representation of
+       the intermediate data structure for the Digest To Disclosed Claim
+       Map could be: { &(digested-salted-disclosed-claim) => salted }
 
        a.  The Verifier constructs an empty cbor map called the
            Validated Disclosed Claims Set, and initializes it with all
@@ -1418,7 +1419,41 @@ Issuer                           Holder                         Verifier
    of such profiles has a significant impact on the privacy properties
    of a credential type.
 
-15.5.  Threat Model
+15.5.  Disclosure Coercion and Over-identification
+
+   The Security Considerations from Section 10.2. of
+   [I-D.draft-ietf-oauth-selective-disclosure-jwt] apply, with
+   additional attention to disclosure coercion risks.  Holders face
+   risks of being coerced into disclosing more claims than necessary.
+   This threat warrants special attention because:
+
+   1.  Verifier Trust: Holders MUST be able to verify that a Verifier
+       will handle disclosed claims appropriately and only for stated
+       purposes.
+
+   2.  Elevated Risk: Claims from trusted authorities (e.g., government-
+       issued credentials) carry higher misuse potential due to their
+       inherent legitimacy.
+
+   3.  Mitigation Measures:
+
+       *  Verifiers SHOULD demonstrate eligibility to receive claims
+
+       *  Holders MUST conduct risk assessments when verifier
+          eligibility cannot be established
+
+       *  Trust lists maintained by trusted parties can help identify
+          authorized verifiers
+
+   4.  Irreversibility: Disclosed claims cannot be withdrawn.  This
+       permanent exposure risk MUST be considered in any disclosure
+       decision.
+
+   Without proper safeguards (such as verifier trust lists), Holders
+   remain vulnerable to over-identification and long-term misuse of
+   their disclosed information.
+
+15.6.  Threat Model
 
    Each use case will have a unique threat model that MUST be considered
    before the applicability of SD-CWT-based credential types can be
@@ -1453,7 +1488,23 @@ Issuer                           Holder                         Verifier
            Information (PII), or other sensitive information that might
            have value in a market?
 
-   3.  Verifier questions:
+   3.  Holder questions:
+
+       a.  What steps has the Holder taken to improve their operation
+           security regarding presenting credentials to verifiers?
+
+       b.  How can the Holder be convinced the Verifier that received
+           presentations is legitimate?
+
+       c.  How can the Holder be convinced the Verifier will not share,
+           sell, leak, or otherwise disclose the Holder's presentations
+           or Issuer or Holder signed material?
+
+       d.  What steps has the Holder taken to understand and confirm the
+           consequences resulting from their support for the aggregate-
+           use of digital credential presentations?
+
+   4.  Verifier questions:
 
        a.  How many Verifiers exist for the credential type?
 
@@ -1473,7 +1524,7 @@ Issuer                           Holder                         Verifier
            what knowledge regarding subjects can be inferred from
            analyzing the resulting dataset?
 
-   4.  Subject questions:
+   5.  Subject questions:
 
        a.  How many subjects exist for the credential type?
 
@@ -1484,7 +1535,7 @@ Issuer                           Holder                         Verifier
            algorithms that limit the set of possible subjects to owners
            of specific devices or subscribers to specific services?
 
-15.6.  Random Numbers
+15.7.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
    independently from the salts of other claims.  The salts MUST be
@@ -1492,7 +1543,7 @@ Issuer                           Holder                         Verifier
    Poor choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
-15.7.  Binding the KBT and the CWT
+15.8.  Binding the KBT and the CWT
 
    The "iss" claim in the SD-CWT is self-asserted by the Issuer.
 
@@ -1518,7 +1569,7 @@ Issuer                           Holder                         Verifier
    corresponds to the Issuer and the key described in the protected
    header of the SD-CWT.
 
-15.8.  Covert Channels
+15.9.  Covert Channels
 
    Any data element that is supplied by the Issuer, and that appears
    random to the Holder might be used to produce a covert channel
@@ -1528,7 +1579,7 @@ Issuer                           Holder                         Verifier
    Holder is usually considered to be aware of the Issuer claims they
    are disclosing to a Verifier.
 
-15.9.  Nested Disclosure Ordering
+15.10.  Nested Disclosure Ordering
 
    The Holder has flexibility in determining the order of nested
    disclosures when making presentations.  The order can be sorted,
@@ -1537,7 +1588,7 @@ Issuer                           Holder                         Verifier
    However, the order can affect the runtime of the verification
    process.
 
-15.10.  Audience
+15.11.  Audience
 
    If the audience claim is present in both the SD-CWT and the SD-KBT,
    they are not required to be the same.  SD-CWTs with audience claims
@@ -2025,9 +2076,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",
               Work in Progress, Internet-Draft, draft-ietf-keytrans-
-              protocol-01, 4 June 2025,
+              protocol-02, 6 July 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-
-              keytrans-protocol-01>.
+              keytrans-protocol-02>.
 
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
@@ -2470,7 +2521,7 @@ D.1.  Transmute Prototype
    Implementation Experience: No interop testing has been done yet.  The
    code works as a proof of concept, but is not yet production ready.
 
-   Contact: Orie Steele (orie@transmute.industries)
+   Contact: Orie Steele (orie.steele@tradeverifyd.com)
 
 D.2.  Rust Prototype
 
