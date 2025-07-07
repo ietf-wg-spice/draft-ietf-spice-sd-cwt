@@ -877,6 +877,21 @@ It is possible to encode additional information through the choices made during 
 {{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE).
 The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
+## Disclosure Coercion and Over-identification {#disclosure-coercion}
+
+The Security Considerations from {{Section 10.2. of -SD-JWT}} apply, with additional attention to disclosure coercion risks.
+Holders face risks of being coerced into disclosing more claims than necessary. This threat warrants special attention because:
+
+1. Verifier Trust: Holders MUST be able to verify that a Verifier will handle disclosed claims appropriately and only for stated purposes.
+2. Elevated Risk: Claims from trusted authorities (e.g., government-issued credentials) carry higher misuse potential due to their inherent legitimacy.
+3. Mitigation Measures:
+   - Verifiers SHOULD demonstrate eligibility to receive claims
+   - Holders MUST conduct risk assessments when verifier eligibility cannot be established
+   - Trust lists maintained by trusted parties can help identify authorized verifiers
+4. Irreversibility: Disclosed claims cannot be withdrawn. This permanent exposure risk MUST be considered in any disclosure decision.
+
+Without proper safeguards (such as verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.
+
 ## Threat Model
 
 Each use case will have a unique threat model that MUST be considered before the applicability of SD-CWT-based credential types can be determined.
@@ -885,48 +900,32 @@ This section provides a non-exhaustive list of topics to be considered when deve
 1. Has there been a t-closeness, k-anonymity, and l-diversity assessment (see {{t-Closeness}}) assuming compromise of the one or more Issuers, Verifiers or Holders, for all relevant credential types?
 
 2. Issuer questions:
-   1. How many Issuers exist for the credential type?
-   2. Is the size of the set of Issuers growing or shrinking over time?
-   3. For a given credential type, will subjects be able to hold instances of the same credential type from multiple Issuers, or just a single Issuer?
-   4. Does the credential type require or offer the ability to disclose a globally unique identifier?
-   5. Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?
-   6. Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
+    1. How many Issuers exist for the credential type?
+    2. Is the size of the set of Issuers growing or shrinking over time?
+    3. For a given credential type, will subjects be able to hold instances of the same credential type from multiple Issuers, or just a single Issuer?
+    4. Does the credential type require or offer the ability to disclose a globally unique identifier?
+    5. Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?
+    6. Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
 
-3. Holder question:
+3. Holder questions:
 
-
-0. What steps has the Holder taken to improve their operation security regarding presenting credentials to verifiers?
-1. How can the Holder be convinced the Verifier that received presentations is legitimate?
-2. How can the Holder be convinced the Verifier will not share, sell, leak, or otherwise disclose the Holder's presentations or Issuer or Holder signed material?
-3. What steps has the Holder taken to understand and confirm the consequences resulting from their support for the aggregate-use of digital credential presentations?
-
-Is there a way to prohibit extortion of over-identification or disclosure misuse via a Verifier by a Holder being bullied into disclosure towards Verifiers?
-
-The Security Consideration from {{Section 10.2. of -SD-JWT}} apply and are augmented with non-technical risks about such leak of data risks. 
-
-This threat is represented in this Threat Model via its own section rather than by an item in an itemized list as this threat can stem from various sources, many of them non-technical.
-A Holder MUST be able to tell in a believable manner, if the Verifier receiving an SD-CWT including disclosed Claims is capable and actually doing what it is intended to do (from the Holders point of view) with the disclosed Claim content - and doing nothing else with that content.
-Disclosed Claims bundled with an SD-CWT that was initially issued by an entity that is a trusted authority (e.g., a government) come with a "misuse value" magnitudes higher than "clear text data" (i.e., in the example of a government being the Issuer, the governments certification paths on the one hand provides legitimacy, but that legitimacy in the object security on the other hand also significantly increases its misuse value).
-In consequence, any Verifier that requests an SD-CWT SHOULD be able to show that it is eligible to receive such Claims and also will treat them appropriately.
-If a Verifier cannot show such eligibility, a corresponding risk assessment MUST be conducted by the Holder to check if an SD-CWT alongside a number of disclosed Claims can and might be misused with unintended purpose and without a Holder's knowledge.
-If an assurance of believable Verifier behavior cannot be provided and risk assessments of disclosures to a Verifier are omitted, there is no safeguard in place to prevent or at least detect misuse of disclosed Claims.
-One prominent way of providing assurance of appropriate Verifier behavior is rendering all Verifier instances allowed to receive SD-CWT bundled disclosed Claims authorized Verifiers that are include in trust lists maintained by a trusted party (given the example above, for instance, a government).
-If measures, such as trust lists, are not in place and maintained by an Issuer or another trusted third party, or not available to Holders, then there are no safeguards in play that are in support of preventing over-identification via a Holder or long-term misuses of disclosed presentations by the Holder.
-
-Additionally, disclosed Claims cannot be withdrawn. A Holder's decision to disclose Claims to a Verifier is final and cannot be undone. This is a long-lasting consequence for Holders (exceeding the expiration date of any corresponding Issuer certificate) and MUST be taken into account in a risk assessment conducted by a Holder.
+    0. What steps has the Holder taken to improve their operation security regarding presenting credentials to verifiers?
+    1. How can the Holder be convinced the Verifier that received presentations is legitimate?
+    2. How can the Holder be convinced the Verifier will not share, sell, leak, or otherwise disclose the Holder's presentations or Issuer or Holder signed material?
+    3. What steps has the Holder taken to understand and confirm the consequences resulting from their support for the aggregate-use of digital credential presentations?
 
 4. Verifier questions:
-   1. How many Verifiers exist for the credential type?
-   2. Is the size of the set of Verifiers growing or shrinking over time?
-   3. Are the Verifiers a superset, subset, or disjoint set of the Issuers or subjects?
-   4. Are there any legally required reporting or disclosure requirements associated with the Verifiers?
-   5. Is there reason to believe that a Verifier's historic data will be aggregated and analyzed?
-   6. Assuming multiple Verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
+    1. How many Verifiers exist for the credential type?
+    2. Is the size of the set of Verifiers growing or shrinking over time?
+    3. Are the Verifiers a superset, subset, or disjoint set of the Issuers or subjects?
+    4. Are there any legally required reporting or disclosure requirements associated with the Verifiers?
+    5. Is there reason to believe that a Verifier's historic data will be aggregated and analyzed?
+    6. Assuming multiple Verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
 
 5. Subject questions:
-   1. How many subjects exist for the credential type?
-   2. Is the size of the set of subjects growing or shrinking over time?
-   3. Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?
+    1. How many subjects exist for the credential type?
+    2. Is the size of the set of subjects growing or shrinking over time?
+    3. Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?
 
 ## Random Numbers
 
