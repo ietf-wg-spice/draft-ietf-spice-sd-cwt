@@ -892,7 +892,22 @@ This section provides a non-exhaustive list of topics to be considered when deve
    5. Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?
    6. Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
 
-3. Verifier questions:
+3. Holder question:
+
+Is there a way to prohibit extortion of over-identification or disclosure misuse via a Verifier by a Holder being bullied into disclosure towards Verifiers?
+
+This threat is represented in this Threat Model via its own section rather than by an item in an itemized list as this threat can stem from various sources, many of them non-technical.
+A Holder MUST be able to tell in a believable manner, if the Verifier receiving an SD-CWT including disclosed Claims is capable and actually doing what it is intended to do (from the Holders point of view) with the disclosed Claim content - and doing nothing else with them.
+Disclosed Claims bundled with an SD-CWT that was initially issued by a high-stakeholder entity (e.g., a government) come with a "misuse value" magnitudes higher than "clear text data" (i.e., in the example of a government being the Issuer, the governments certification paths on the one hand provides legitimacy, but that legitimacy in the object security on the other hand also significantly increases its misuse value).
+In consequence, any Verifier that requests an SD-CWT SHOULD be able to show that it is eligible to receive such Claims and also will treat them appropriately.
+If a Verifier cannot show such eligibility, a corresponding risk assessment MUST be conducted by the Holder to check if an SD-CWT alongside a number of disclosed Claims can and might be misused with unintended purpose and without a Holder's knowledge.
+If an assurance of believable Verifier behavior cannot be provided and risk assessments of disclosures to a Verifier are omitted, there is no safeguard in place to prevent or at least detect misuse of disclosed Claims.
+One prominent way of providing assurance of appropriate Verifier behavior is rendering all Verifier instances allowed to receive SD-CWT bundled disclosed Claims authorized Verifiers that are include in trust lists maintained by a trusted party (given the example above, for instance, a government).
+If measures, such as trust lists, are not in place and maintained by an Issuer or another trusted third party, or not available to Holders, then there are no safeguards in play that are in support of preventing over-identification via a Holder or long-term misuses of disclosed presentations by the Holder.
+
+Additionally, disclosed Claims cannot be withdrawn. A Holder's decision to disclose Claims to a Verifier is final and cannot be undone. This is a long-lasting consequence for Holders (exceeding the expiration date of any corresponding Issuer certificate) and MUST be taken into account in a risk assessment conducted by a Holder.
+
+4. Verifier questions:
    1. How many Verifiers exist for the credential type?
    2. Is the size of the set of Verifiers growing or shrinking over time?
    3. Are the Verifiers a superset, subset, or disjoint set of the Issuers or subjects?
@@ -900,7 +915,7 @@ This section provides a non-exhaustive list of topics to be considered when deve
    5. Is there reason to believe that a Verifier's historic data will be aggregated and analyzed?
    6. Assuming multiple Verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
 
-4. Subject questions:
+5. Subject questions:
    1. How many subjects exist for the credential type?
    2. Is the size of the set of subjects growing or shrinking over time?
    3. Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?
