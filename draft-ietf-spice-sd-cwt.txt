@@ -2547,13 +2547,11 @@ Appendix E.  Document History
 
 E.1.  draft-ietf-spice-sd-cwt-04
 
-   *  use CBOR simple value 59 for the redacted_key_claims
+   *  Place value before claim name in disclosures
 
-   *  add description of decoy digests *TODO*
+   *  Use CBOR simple value 59 for the redacted_key_claims
 
-   *  provide test vectors *TODO*
-
-   *  add AEAD and COSE encrypted disclosures
+   *  Greatly improved text around AEAD encrypted disclosures
 
    *  Applied clarifications and corrections suggested by Mike Jones.
 
@@ -2568,6 +2566,25 @@ E.1.  draft-ietf-spice-sd-cwt-04
 
    *  Corrected places where Claim Name was used when what was meant was
       Claim Key.
+
+   *  Defined the To Be Redacted CBOR tag
+
+   *  In the SD-KBT, iss and sub are now forbidden
+
+   *  Clarified text about aud
+
+   *  Described Trust Lists
+
+   *  EDN Examples are now in deterministic order
+
+   *  Expressed some validation steps as a list
+
+   *  Clarified handling of nested claims
+
+   *  Fixed the handling of the to be registered items in the CDDL; made
+      CDDL self consistent
+
+   *  Fixed some references
 
 E.2.  draft-ietf-spice-sd-cwt-03
 
