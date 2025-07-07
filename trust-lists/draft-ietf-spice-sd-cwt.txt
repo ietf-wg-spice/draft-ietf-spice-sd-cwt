@@ -103,12 +103,13 @@ Table of Contents
      15.2.  Correlation
      15.3.  Credential Types
      15.4.  Determinism & Augmentation
-     15.5.  Threat Model
-     15.6.  Random Numbers
-     15.7.  Binding the KBT and the CWT
-     15.8.  Covert Channels
-     15.9.  Nested Disclosure Ordering
-     15.10. Audience
+     15.5.  Disclosure Coercion and Over-identification
+     15.6.  Threat Model
+     15.7.  Random Numbers
+     15.8.  Binding the KBT and the CWT
+     15.9.  Covert Channels
+     15.10. Nested Disclosure Ordering
+     15.11. Audience
    16. IANA Considerations
      16.1.  COSE Header Parameters
        16.1.1.  sd_claims
@@ -1418,7 +1419,41 @@ Issuer                           Holder                         Verifier
    of such profiles has a significant impact on the privacy properties
    of a credential type.
 
-15.5.  Threat Model
+15.5.  Disclosure Coercion and Over-identification
+
+   The Security Considerations from Section 10.2. of
+   [I-D.draft-ietf-oauth-selective-disclosure-jwt] apply, with
+   additional attention to disclosure coercion risks.  Holders face
+   risks of being coerced into disclosing more claims than necessary.
+   This threat warrants special attention because:
+
+   1.  Verifier Trust: Holders MUST be able to verify that a Verifier
+       will handle disclosed claims appropriately and only for stated
+       purposes.
+
+   2.  Elevated Risk: Claims from trusted authorities (e.g., government-
+       issued credentials) carry higher misuse potential due to their
+       inherent legitimacy.
+
+   3.  Mitigation Measures:
+
+       *  Verifiers SHOULD demonstrate eligibility to receive claims
+
+       *  Holders MUST conduct risk assessments when verifier
+          eligibility cannot be established
+
+       *  Trust lists maintained by trusted parties can help identify
+          authorized verifiers
+
+   4.  Irreversibility: Disclosed claims cannot be withdrawn.  This
+       permanent exposure risk MUST be considered in any disclosure
+       decision.
+
+   Without proper safeguards (such as verifier trust lists), Holders
+   remain vulnerable to over-identification and long-term misuse of
+   their disclosed information.
+
+15.6.  Threat Model
 
    Each use case will have a unique threat model that MUST be considered
    before the applicability of SD-CWT-based credential types can be
@@ -1453,52 +1488,23 @@ Issuer                           Holder                         Verifier
            Information (PII), or other sensitive information that might
            have value in a market?
 
-   3.  Holder question:
+   3.  Holder questions:
 
-   Is there a way to prohibit extortion of over-identification or
-   disclosure misuse via a Verifier by a Holder being bullied into
-   disclosure towards Verifiers?
+       a.  What steps has the Holder taken to improve their operation
+           security regarding presenting credentials to verifiers?
 
-   This threat is represented in this Threat Model via its own section
-   rather than by an item in an itemized list as this threat can stem
-   from various sources, many of them non-technical.  A Holder MUST be
-   able to tell in a believable manner, if the Verifier receiving an SD-
-   CWT including disclosed Claims is capable and actually doing what it
-   is intended to do (from the Holders point of view) with the disclosed
-   Claim content - and doing nothing else with them.  Disclosed Claims
-   bundled with an SD-CWT that was initially issued by a high-
-   stakeholder entity (e.g., a government) come with a "misuse value"
-   magnitudes higher than "clear text data" (i.e., in the example of a
-   government being the Issuer, the governments certification paths on
-   the one hand provides legitimacy, but that legitimacy in the object
-   security on the other hand also significantly increases its misuse
-   value).  In consequence, any Verifier that requests an SD-CWT SHOULD
-   be able to show that it is eligible to receive such Claims and also
-   will treat them appropriately.  If a Verifier cannot show such
-   eligibility, a corresponding risk assessment MUST be conducted by the
-   Holder to check if an SD-CWT alongside a number of disclosed Claims
-   can and might be misused with unintended purpose and without a
-   Holder's knowledge.  If an assurance of believable Verifier behavior
-   cannot be provided and risk assessments of disclosures to a Verifier
-   are omitted, there is no safeguard in place to prevent or at least
-   detect misuse of disclosed Claims.  One prominent way of providing
-   assurance of appropriate Verifier behavior is rendering all Verifier
-   instances allowed to receive SD-CWT bundled disclosed Claims
-   authorized Verifiers that are include in trust lists maintained by a
-   trusted party (given the example above, for instance, a government).
-   If measures, such as trust lists, are not in place and maintained by
-   an Issuer or another trusted third party, or not available to
-   Holders, then there are no safeguards in play that are in support of
-   preventing over-identification via a Holder or long-term misuses of
-   disclosed presentations by the Holder.
+       b.  How can the Holder be convinced the Verifier that received
+           presentations is legitimate?
 
-   Additionally, disclosed Claims cannot be withdrawn.  A Holder's
-   decision to disclose Claims to a Verifier is final and cannot be
-   undone.  This is a long-lasting consequence for Holders (exceeding
-   the expiration date of any corresponding Issuer certificate) and MUST
-   be taken into account in a risk assessment conducted by a Holder.
+       c.  How can the Holder be convinced the Verifier will not share,
+           sell, leak, or otherwise disclose the Holder's presentations
+           or Issuer or Holder signed material?
 
-   1.  Verifier questions:
+       d.  What steps has the Holder taken to understand and confirm the
+           consequences resulting from their support for the aggregate-
+           use of digital credential presentations?
+
+   4.  Verifier questions:
 
        a.  How many Verifiers exist for the credential type?
 
@@ -1518,7 +1524,7 @@ Issuer                           Holder                         Verifier
            what knowledge regarding subjects can be inferred from
            analyzing the resulting dataset?
 
-   2.  Subject questions:
+   5.  Subject questions:
 
        a.  How many subjects exist for the credential type?
 
@@ -1529,7 +1535,7 @@ Issuer                           Holder                         Verifier
            algorithms that limit the set of possible subjects to owners
            of specific devices or subscribers to specific services?
 
-15.6.  Random Numbers
+15.7.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
    independently from the salts of other claims.  The salts MUST be
@@ -1537,7 +1543,7 @@ Issuer                           Holder                         Verifier
    Poor choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
-15.7.  Binding the KBT and the CWT
+15.8.  Binding the KBT and the CWT
 
    The "iss" claim in the SD-CWT is self-asserted by the Issuer.
 
@@ -1563,7 +1569,7 @@ Issuer                           Holder                         Verifier
    corresponds to the Issuer and the key described in the protected
    header of the SD-CWT.
 
-15.8.  Covert Channels
+15.9.  Covert Channels
 
    Any data element that is supplied by the Issuer, and that appears
    random to the Holder might be used to produce a covert channel
@@ -1573,7 +1579,7 @@ Issuer                           Holder                         Verifier
    Holder is usually considered to be aware of the Issuer claims they
    are disclosing to a Verifier.
 
-15.9.  Nested Disclosure Ordering
+15.10.  Nested Disclosure Ordering
 
    The Holder has flexibility in determining the order of nested
    disclosures when making presentations.  The order can be sorted,
@@ -1582,7 +1588,7 @@ Issuer                           Holder                         Verifier
    However, the order can affect the runtime of the verification
    process.
 
-15.10.  Audience
+15.11.  Audience
 
    If the audience claim is present in both the SD-CWT and the SD-KBT,
    they are not required to be the same.  SD-CWTs with audience claims

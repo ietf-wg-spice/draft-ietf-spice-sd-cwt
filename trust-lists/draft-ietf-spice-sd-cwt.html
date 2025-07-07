@@ -1266,22 +1266,25 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
                 <p id="section-toc.1-1.15.2.4.1"><a href="#section-15.4" class="auto internal xref">15.4</a>.  <a href="#name-determinism-augmentation" class="internal xref">Determinism &amp; Augmentation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.5">
-                <p id="section-toc.1-1.15.2.5.1"><a href="#section-15.5" class="auto internal xref">15.5</a>.  <a href="#name-threat-model" class="internal xref">Threat Model</a></p>
+                <p id="section-toc.1-1.15.2.5.1"><a href="#section-15.5" class="auto internal xref">15.5</a>.  <a href="#name-disclosure-coercion-and-ove" class="internal xref">Disclosure Coercion and Over-identification</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.6">
-                <p id="section-toc.1-1.15.2.6.1"><a href="#section-15.6" class="auto internal xref">15.6</a>.  <a href="#name-random-numbers" class="internal xref">Random Numbers</a></p>
+                <p id="section-toc.1-1.15.2.6.1"><a href="#section-15.6" class="auto internal xref">15.6</a>.  <a href="#name-threat-model" class="internal xref">Threat Model</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.7">
-                <p id="section-toc.1-1.15.2.7.1"><a href="#section-15.7" class="auto internal xref">15.7</a>.  <a href="#name-binding-the-kbt-and-the-cwt" class="internal xref">Binding the KBT and the CWT</a></p>
+                <p id="section-toc.1-1.15.2.7.1"><a href="#section-15.7" class="auto internal xref">15.7</a>.  <a href="#name-random-numbers" class="internal xref">Random Numbers</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.8">
-                <p id="section-toc.1-1.15.2.8.1"><a href="#section-15.8" class="auto internal xref">15.8</a>.  <a href="#name-covert-channels" class="internal xref">Covert Channels</a></p>
+                <p id="section-toc.1-1.15.2.8.1"><a href="#section-15.8" class="auto internal xref">15.8</a>.  <a href="#name-binding-the-kbt-and-the-cwt" class="internal xref">Binding the KBT and the CWT</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.9">
-                <p id="section-toc.1-1.15.2.9.1"><a href="#section-15.9" class="auto internal xref">15.9</a>.  <a href="#name-nested-disclosure-ordering" class="internal xref">Nested Disclosure Ordering</a></p>
+                <p id="section-toc.1-1.15.2.9.1"><a href="#section-15.9" class="auto internal xref">15.9</a>.  <a href="#name-covert-channels" class="internal xref">Covert Channels</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.10">
-                <p id="section-toc.1-1.15.2.10.1"><a href="#section-15.10" class="auto internal xref">15.10</a>. <a href="#name-audience" class="internal xref">Audience</a></p>
+                <p id="section-toc.1-1.15.2.10.1"><a href="#section-15.10" class="auto internal xref">15.10</a>. <a href="#name-nested-disclosure-ordering" class="internal xref">Nested Disclosure Ordering</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.11">
+                <p id="section-toc.1-1.15.2.11.1"><a href="#section-15.11" class="auto internal xref">15.11</a>. <a href="#name-audience" class="internal xref">Audience</a></p>
 </li>
             </ul>
 </li>
@@ -2688,89 +2691,126 @@ Issuers <span class="bcp14">MUST</span> perform a privacy and confidentiality as
 The construction of such profiles has a significant impact on the privacy properties of a credential type.<a href="#section-15.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="threat-model">
+<div id="disclosure-coercion">
 <section id="section-15.5">
-        <h3 id="name-threat-model">
-<a href="#section-15.5" class="section-number selfRef">15.5. </a><a href="#name-threat-model" class="section-name selfRef">Threat Model</a>
+        <h3 id="name-disclosure-coercion-and-ove">
+<a href="#section-15.5" class="section-number selfRef">15.5. </a><a href="#name-disclosure-coercion-and-ove" class="section-name selfRef">Disclosure Coercion and Over-identification</a>
         </h3>
-<p id="section-15.5-1">Each use case will have a unique threat model that <span class="bcp14">MUST</span> be considered before the applicability of SD-CWT-based credential types can be determined.
-This section provides a non-exhaustive list of topics to be considered when developing a threat model for applying SD-CWT to a given use case.<a href="#section-15.5-1" class="pilcrow">¶</a></p>
+<p id="section-15.5-1">The Security Considerations from <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-10.2." class="relref">Section 10.2.</a> of [<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span> apply, with additional attention to disclosure coercion risks.
+Holders face risks of being coerced into disclosing more claims than necessary. This threat warrants special attention because:<a href="#section-15.5-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-15.5-2">
 <li id="section-15.5-2.1">
-            <p id="section-15.5-2.1.1">Has there been a t-closeness, k-anonymity, and l-diversity assessment (see <span>[<a href="#t-Closeness" class="cite xref">t-Closeness</a>]</span>) assuming compromise of the one or more Issuers, Verifiers or Holders, for all relevant credential types?<a href="#section-15.5-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-15.5-2.1.1">Verifier Trust: Holders <span class="bcp14">MUST</span> be able to verify that a Verifier will handle disclosed claims appropriately and only for stated purposes.<a href="#section-15.5-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-15.5-2.2">
-            <p id="section-15.5-2.2.1">Issuer questions:<a href="#section-15.5-2.2.1" class="pilcrow">¶</a></p>
-<ol start="1" type="a" class="normal type-a" id="section-15.5-2.2.2">
-<li id="section-15.5-2.2.2.1">
-                <p id="section-15.5-2.2.2.1.1">How many Issuers exist for the credential type?<a href="#section-15.5-2.2.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-15.5-2.2.2.2">
-                <p id="section-15.5-2.2.2.2.1">Is the size of the set of Issuers growing or shrinking over time?<a href="#section-15.5-2.2.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-15.5-2.2.2.3">
-                <p id="section-15.5-2.2.2.3.1">For a given credential type, will subjects be able to hold instances of the same credential type from multiple Issuers, or just a single Issuer?<a href="#section-15.5-2.2.2.3.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-15.5-2.2.2.4">
-                <p id="section-15.5-2.2.2.4.1">Does the credential type require or offer the ability to disclose a globally unique identifier?<a href="#section-15.5-2.2.2.4.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-15.5-2.2.2.5">
-                <p id="section-15.5-2.2.2.5.1">Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?<a href="#section-15.5-2.2.2.5.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-15.5-2.2.2.6">
-                <p id="section-15.5-2.2.2.6.1">Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?<a href="#section-15.5-2.2.2.6.1" class="pilcrow">¶</a></p>
-</li>
-            </ol>
+            <p id="section-15.5-2.2.1">Elevated Risk: Claims from trusted authorities (e.g., government-issued credentials) carry higher misuse potential due to their inherent legitimacy.<a href="#section-15.5-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-15.5-2.3">
-            <p id="section-15.5-2.3.1">Holder question:<a href="#section-15.5-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-15.5-2.3.1">Mitigation Measures:<a href="#section-15.5-2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-15.5-2.3.2.1">
+                <p id="section-15.5-2.3.2.1.1">Verifiers <span class="bcp14">SHOULD</span> demonstrate eligibility to receive claims<a href="#section-15.5-2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-15.5-2.3.2.2">
+                <p id="section-15.5-2.3.2.2.1">Holders <span class="bcp14">MUST</span> conduct risk assessments when verifier eligibility cannot be established<a href="#section-15.5-2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-15.5-2.3.2.3">
+                <p id="section-15.5-2.3.2.3.1">Trust lists maintained by trusted parties can help identify authorized verifiers<a href="#section-15.5-2.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li id="section-15.5-2.4">
+            <p id="section-15.5-2.4.1">Irreversibility: Disclosed claims cannot be withdrawn. This permanent exposure risk <span class="bcp14">MUST</span> be considered in any disclosure decision.<a href="#section-15.5-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-15.5-3">Is there a way to prohibit extortion of over-identification or disclosure misuse via a Verifier by a Holder being bullied into disclosure towards Verifiers?<a href="#section-15.5-3" class="pilcrow">¶</a></p>
-<p id="section-15.5-4">This threat is represented in this Threat Model via its own section rather than by an item in an itemized list as this threat can stem from various sources, many of them non-technical.
-A Holder <span class="bcp14">MUST</span> be able to tell in a believable manner, if the Verifier receiving an SD-CWT including disclosed Claims is capable and actually doing what it is intended to do (from the Holders point of view) with the disclosed Claim content - and doing nothing else with them.
-Disclosed Claims bundled with an SD-CWT that was initially issued by a high-stakeholder entity (e.g., a government) come with a "misuse value" magnitudes higher than "clear text data" (i.e., in the example of a government being the Issuer, the governments certification paths on the one hand provides legitimacy, but that legitimacy in the object security on the other hand also significantly increases its misuse value).
-In consequence, any Verifier that requests an SD-CWT <span class="bcp14">SHOULD</span> be able to show that it is eligible to receive such Claims and also will treat them appropriately.
-If a Verifier cannot show such eligibility, a corresponding risk assessment <span class="bcp14">MUST</span> be conducted by the Holder to check if an SD-CWT alongside a number of disclosed Claims can and might be misused with unintended purpose and without a Holder's knowledge.
-If an assurance of believable Verifier behavior cannot be provided and risk assessments of disclosures to a Verifier are omitted, there is no safeguard in place to prevent or at least detect misuse of disclosed Claims.
-One prominent way of providing assurance of appropriate Verifier behavior is rendering all Verifier instances allowed to receive SD-CWT bundled disclosed Claims authorized Verifiers that are include in trust lists maintained by a trusted party (given the example above, for instance, a government).
-If measures, such as trust lists, are not in place and maintained by an Issuer or another trusted third party, or not available to Holders, then there are no safeguards in play that are in support of preventing over-identification via a Holder or long-term misuses of disclosed presentations by the Holder.<a href="#section-15.5-4" class="pilcrow">¶</a></p>
-<p id="section-15.5-5">Additionally, disclosed Claims cannot be withdrawn. A Holder's decision to disclose Claims to a Verifier is final and cannot be undone. This is a long-lasting consequence for Holders (exceeding the expiration date of any corresponding Issuer certificate) and <span class="bcp14">MUST</span> be taken into account in a risk assessment conducted by a Holder.<a href="#section-15.5-5" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-15.5-6">
-<li id="section-15.5-6.1">
-            <p id="section-15.5-6.1.1">Verifier questions:<a href="#section-15.5-6.1.1" class="pilcrow">¶</a></p>
-<ol start="1" type="a" class="normal type-a" id="section-15.5-6.1.2">
-<li id="section-15.5-6.1.2.1">
-                <p id="section-15.5-6.1.2.1.1">How many Verifiers exist for the credential type?<a href="#section-15.5-6.1.2.1.1" class="pilcrow">¶</a></p>
+<p id="section-15.5-3">Without proper safeguards (such as verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.<a href="#section-15.5-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="threat-model">
+<section id="section-15.6">
+        <h3 id="name-threat-model">
+<a href="#section-15.6" class="section-number selfRef">15.6. </a><a href="#name-threat-model" class="section-name selfRef">Threat Model</a>
+        </h3>
+<p id="section-15.6-1">Each use case will have a unique threat model that <span class="bcp14">MUST</span> be considered before the applicability of SD-CWT-based credential types can be determined.
+This section provides a non-exhaustive list of topics to be considered when developing a threat model for applying SD-CWT to a given use case.<a href="#section-15.6-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-15.6-2">
+<li id="section-15.6-2.1">
+            <p id="section-15.6-2.1.1">Has there been a t-closeness, k-anonymity, and l-diversity assessment (see <span>[<a href="#t-Closeness" class="cite xref">t-Closeness</a>]</span>) assuming compromise of the one or more Issuers, Verifiers or Holders, for all relevant credential types?<a href="#section-15.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-15.5-6.1.2.2">
-                <p id="section-15.5-6.1.2.2.1">Is the size of the set of Verifiers growing or shrinking over time?<a href="#section-15.5-6.1.2.2.1" class="pilcrow">¶</a></p>
+          <li id="section-15.6-2.2">
+            <p id="section-15.6-2.2.1">Issuer questions:<a href="#section-15.6-2.2.1" class="pilcrow">¶</a></p>
+<ol start="1" type="a" class="normal type-a" id="section-15.6-2.2.2">
+<li id="section-15.6-2.2.2.1">
+                <p id="section-15.6-2.2.2.1.1">How many Issuers exist for the credential type?<a href="#section-15.6-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-15.5-6.1.2.3">
-                <p id="section-15.5-6.1.2.3.1">Are the Verifiers a superset, subset, or disjoint set of the Issuers or subjects?<a href="#section-15.5-6.1.2.3.1" class="pilcrow">¶</a></p>
+              <li id="section-15.6-2.2.2.2">
+                <p id="section-15.6-2.2.2.2.1">Is the size of the set of Issuers growing or shrinking over time?<a href="#section-15.6-2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-15.5-6.1.2.4">
-                <p id="section-15.5-6.1.2.4.1">Are there any legally required reporting or disclosure requirements associated with the Verifiers?<a href="#section-15.5-6.1.2.4.1" class="pilcrow">¶</a></p>
+              <li id="section-15.6-2.2.2.3">
+                <p id="section-15.6-2.2.2.3.1">For a given credential type, will subjects be able to hold instances of the same credential type from multiple Issuers, or just a single Issuer?<a href="#section-15.6-2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-15.5-6.1.2.5">
-                <p id="section-15.5-6.1.2.5.1">Is there reason to believe that a Verifier's historic data will be aggregated and analyzed?<a href="#section-15.5-6.1.2.5.1" class="pilcrow">¶</a></p>
+              <li id="section-15.6-2.2.2.4">
+                <p id="section-15.6-2.2.2.4.1">Does the credential type require or offer the ability to disclose a globally unique identifier?<a href="#section-15.6-2.2.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-15.5-6.1.2.6">
-                <p id="section-15.5-6.1.2.6.1">Assuming multiple Verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?<a href="#section-15.5-6.1.2.6.1" class="pilcrow">¶</a></p>
+              <li id="section-15.6-2.2.2.5">
+                <p id="section-15.6-2.2.2.5.1">Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?<a href="#section-15.6-2.2.2.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-15.6-2.2.2.6">
+                <p id="section-15.6-2.2.2.6.1">Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?<a href="#section-15.6-2.2.2.6.1" class="pilcrow">¶</a></p>
 </li>
             </ol>
 </li>
-          <li id="section-15.5-6.2">
-            <p id="section-15.5-6.2.1">Subject questions:<a href="#section-15.5-6.2.1" class="pilcrow">¶</a></p>
-<ol start="1" type="a" class="normal type-a" id="section-15.5-6.2.2">
-<li id="section-15.5-6.2.2.1">
-                <p id="section-15.5-6.2.2.1.1">How many subjects exist for the credential type?<a href="#section-15.5-6.2.2.1.1" class="pilcrow">¶</a></p>
+          <li id="section-15.6-2.3">
+            <p id="section-15.6-2.3.1">Holder questions:<a href="#section-15.6-2.3.1" class="pilcrow">¶</a></p>
+<ol start="1" type="a" class="normal type-a" id="section-15.6-2.3.2">
+<li id="section-15.6-2.3.2.1">
+                <p id="section-15.6-2.3.2.1.1">What steps has the Holder taken to improve their operation security regarding presenting credentials to verifiers?<a href="#section-15.6-2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-15.5-6.2.2.2">
-                <p id="section-15.5-6.2.2.2.1">Is the size of the set of subjects growing or shrinking over time?<a href="#section-15.5-6.2.2.2.1" class="pilcrow">¶</a></p>
+              <li id="section-15.6-2.3.2.2">
+                <p id="section-15.6-2.3.2.2.1">How can the Holder be convinced the Verifier that received presentations is legitimate?<a href="#section-15.6-2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-15.5-6.2.2.3">
-                <p id="section-15.5-6.2.2.3.1">Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?<a href="#section-15.5-6.2.2.3.1" class="pilcrow">¶</a></p>
+              <li id="section-15.6-2.3.2.3">
+                <p id="section-15.6-2.3.2.3.1">How can the Holder be convinced the Verifier will not share, sell, leak, or otherwise disclose the Holder's presentations or Issuer or Holder signed material?<a href="#section-15.6-2.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-15.6-2.3.2.4">
+                <p id="section-15.6-2.3.2.4.1">What steps has the Holder taken to understand and confirm the consequences resulting from their support for the aggregate-use of digital credential presentations?<a href="#section-15.6-2.3.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ol>
+</li>
+          <li id="section-15.6-2.4">
+            <p id="section-15.6-2.4.1">Verifier questions:<a href="#section-15.6-2.4.1" class="pilcrow">¶</a></p>
+<ol start="1" type="a" class="normal type-a" id="section-15.6-2.4.2">
+<li id="section-15.6-2.4.2.1">
+                <p id="section-15.6-2.4.2.1.1">How many Verifiers exist for the credential type?<a href="#section-15.6-2.4.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-15.6-2.4.2.2">
+                <p id="section-15.6-2.4.2.2.1">Is the size of the set of Verifiers growing or shrinking over time?<a href="#section-15.6-2.4.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-15.6-2.4.2.3">
+                <p id="section-15.6-2.4.2.3.1">Are the Verifiers a superset, subset, or disjoint set of the Issuers or subjects?<a href="#section-15.6-2.4.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-15.6-2.4.2.4">
+                <p id="section-15.6-2.4.2.4.1">Are there any legally required reporting or disclosure requirements associated with the Verifiers?<a href="#section-15.6-2.4.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-15.6-2.4.2.5">
+                <p id="section-15.6-2.4.2.5.1">Is there reason to believe that a Verifier's historic data will be aggregated and analyzed?<a href="#section-15.6-2.4.2.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-15.6-2.4.2.6">
+                <p id="section-15.6-2.4.2.6.1">Assuming multiple Verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?<a href="#section-15.6-2.4.2.6.1" class="pilcrow">¶</a></p>
+</li>
+            </ol>
+</li>
+          <li id="section-15.6-2.5">
+            <p id="section-15.6-2.5.1">Subject questions:<a href="#section-15.6-2.5.1" class="pilcrow">¶</a></p>
+<ol start="1" type="a" class="normal type-a" id="section-15.6-2.5.2">
+<li id="section-15.6-2.5.2.1">
+                <p id="section-15.6-2.5.2.1.1">How many subjects exist for the credential type?<a href="#section-15.6-2.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-15.6-2.5.2.2">
+                <p id="section-15.6-2.5.2.2.1">Is the size of the set of subjects growing or shrinking over time?<a href="#section-15.6-2.5.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-15.6-2.5.2.3">
+                <p id="section-15.6-2.5.2.3.1">Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?<a href="#section-15.6-2.5.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ol>
 </li>
@@ -2778,59 +2818,59 @@ If measures, such as trust lists, are not in place and maintained by an Issuer o
 </section>
 </div>
 <div id="random-numbers">
-<section id="section-15.6">
+<section id="section-15.7">
         <h3 id="name-random-numbers">
-<a href="#section-15.6" class="section-number selfRef">15.6. </a><a href="#name-random-numbers" class="section-name selfRef">Random Numbers</a>
+<a href="#section-15.7" class="section-number selfRef">15.7. </a><a href="#name-random-numbers" class="section-name selfRef">Random Numbers</a>
         </h3>
-<p id="section-15.6-1">Each salt used to protect disclosed claims <span class="bcp14">MUST</span> be generated independently from the salts of other claims. The salts <span class="bcp14">MUST</span> be generated from a source of entropy that is acceptable to the Issuer.
-Poor choice of salts can lead to brute force attacks that can reveal redacted claims.<a href="#section-15.6-1" class="pilcrow">¶</a></p>
+<p id="section-15.7-1">Each salt used to protect disclosed claims <span class="bcp14">MUST</span> be generated independently from the salts of other claims. The salts <span class="bcp14">MUST</span> be generated from a source of entropy that is acceptable to the Issuer.
+Poor choice of salts can lead to brute force attacks that can reveal redacted claims.<a href="#section-15.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="binding-the-kbt-and-the-cwt">
-<section id="section-15.7">
+<section id="section-15.8">
         <h3 id="name-binding-the-kbt-and-the-cwt">
-<a href="#section-15.7" class="section-number selfRef">15.7. </a><a href="#name-binding-the-kbt-and-the-cwt" class="section-name selfRef">Binding the KBT and the CWT</a>
+<a href="#section-15.8" class="section-number selfRef">15.8. </a><a href="#name-binding-the-kbt-and-the-cwt" class="section-name selfRef">Binding the KBT and the CWT</a>
         </h3>
-<p id="section-15.7-1">The "iss" claim in the SD-CWT is self-asserted by the Issuer.<a href="#section-15.7-1" class="pilcrow">¶</a></p>
-<p id="section-15.7-2">Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.
+<p id="section-15.8-1">The "iss" claim in the SD-CWT is self-asserted by the Issuer.<a href="#section-15.8-1" class="pilcrow">¶</a></p>
+<p id="section-15.8-2">Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.
 There might be many subject claims and many confirmation keys that identify the same entity or that are controlled by the same entity, while the identifiers and keys are distinct values.
 Reusing an identifier or key enables correlation, but <span class="bcp14">MUST</span> be evaluated in terms of the confidential and privacy constraints associated with the credential type.
 Conceptually, the Holder is both the Issuer and the subject of the SD-KBT, even if the "iss" or "sub" claims are not present.
 If they are present, they are self-asserted by the Holder.
-All three are represented by the confirmation (public) key in the SD-CWT.<a href="#section-15.7-2" class="pilcrow">¶</a></p>
-<p id="section-15.7-3">As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT "iss" and "sub" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
+All three are represented by the confirmation (public) key in the SD-CWT.<a href="#section-15.8-2" class="pilcrow">¶</a></p>
+<p id="section-15.8-3">As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT "iss" and "sub" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
 Extra care should be taken in case the SD-CWT subject claim is redacted.
-Likewise, Holders and Verifiers <span class="bcp14">MUST</span> verify that the "iss" claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.<a href="#section-15.7-3" class="pilcrow">¶</a></p>
+Likewise, Holders and Verifiers <span class="bcp14">MUST</span> verify that the "iss" claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.<a href="#section-15.8-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="covert-channels">
-<section id="section-15.8">
+<section id="section-15.9">
         <h3 id="name-covert-channels">
-<a href="#section-15.8" class="section-number selfRef">15.8. </a><a href="#name-covert-channels" class="section-name selfRef">Covert Channels</a>
+<a href="#section-15.9" class="section-number selfRef">15.9. </a><a href="#name-covert-channels" class="section-name selfRef">Covert Channels</a>
         </h3>
-<p id="section-15.8-1">Any data element that is supplied by the Issuer, and that appears random to the Holder might be used to produce a covert channel between the Issuer and the Verifier.
+<p id="section-15.9-1">Any data element that is supplied by the Issuer, and that appears random to the Holder might be used to produce a covert channel between the Issuer and the Verifier.
 The ordering of claims, and precision of timestamps can also be used to produce a covert channel.
-This is more of a concern for SD-CWT than typical CWTs, because the Holder is usually considered to be aware of the Issuer claims they are disclosing to a Verifier.<a href="#section-15.8-1" class="pilcrow">¶</a></p>
+This is more of a concern for SD-CWT than typical CWTs, because the Holder is usually considered to be aware of the Issuer claims they are disclosing to a Verifier.<a href="#section-15.9-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="nested-disclosure-ordering">
-<section id="section-15.9">
+<section id="section-15.10">
         <h3 id="name-nested-disclosure-ordering">
-<a href="#section-15.9" class="section-number selfRef">15.9. </a><a href="#name-nested-disclosure-ordering" class="section-name selfRef">Nested Disclosure Ordering</a>
+<a href="#section-15.10" class="section-number selfRef">15.10. </a><a href="#name-nested-disclosure-ordering" class="section-name selfRef">Nested Disclosure Ordering</a>
         </h3>
-<p id="section-15.9-1">The Holder has flexibility in determining the order of nested disclosures when making presentations.
+<p id="section-15.10-1">The Holder has flexibility in determining the order of nested disclosures when making presentations.
 The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
 This ordering choice has no security impact on encrypted disclosures.
-However, the order can affect the runtime of the verification process.<a href="#section-15.9-1" class="pilcrow">¶</a></p>
+However, the order can affect the runtime of the verification process.<a href="#section-15.10-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="audience">
-<section id="section-15.10">
+<section id="section-15.11">
         <h3 id="name-audience">
-<a href="#section-15.10" class="section-number selfRef">15.10. </a><a href="#name-audience" class="section-name selfRef">Audience</a>
+<a href="#section-15.11" class="section-number selfRef">15.11. </a><a href="#name-audience" class="section-name selfRef">Audience</a>
         </h3>
-<p id="section-15.10-1">If the audience claim is present in both the SD-CWT and the SD-KBT, they are not required to be the same.
-SD-CWTs with audience claims that do not correspond to the intended recipients <span class="bcp14">MUST</span> be rejected, to protect against accidental disclosure of sensitive data.<a href="#section-15.10-1" class="pilcrow">¶</a></p>
+<p id="section-15.11-1">If the audience claim is present in both the SD-CWT and the SD-KBT, they are not required to be the same.
+SD-CWTs with audience claims that do not correspond to the intended recipients <span class="bcp14">MUST</span> be rejected, to protect against accidental disclosure of sensitive data.<a href="#section-15.11-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
