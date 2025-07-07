@@ -1541,16 +1541,24 @@ Note: RFC Editor, please remove this entire section on publication.
 
 ## draft-ietf-spice-sd-cwt-04
 
-- use CBOR simple value 59 for the redacted_key_claims
-- add description of decoy digests **TODO**
-- provide test vectors **TODO**
-- add AEAD and COSE encrypted disclosures
+- Place value before claim name in disclosures
+- Use CBOR simple value 59 for the redacted_key_claims
+- Greatly improved text around AEAD encrypted disclosures
 - Applied clarifications and corrections suggested by Mike Jones.
 - Do not update CWT {{!RFC8392}}.
 - Use `application/sd-cwt` media type and define `+sd-cwt` structured suffix.
 - Made SHA-256 be the default `sd_alg` value.
 - Created Verifiable Credential Type Identifiers registry.
 - Corrected places where Claim Name was used when what was meant was Claim Key.
+- Defined the To Be Redacted CBOR tag
+- In the SD-KBT, `iss` and `sub` are now forbidden
+- Clarified text about `aud`
+- Described Trust Lists
+- EDN Examples are now in deterministic order
+- Expressed some validation steps as a list
+- Clarified handling of nested claims
+- Fixed the handling of the to be registered items in the CDDL; made CDDL self consistent
+- Fixed some references
 
 ## draft-ietf-spice-sd-cwt-03
 
