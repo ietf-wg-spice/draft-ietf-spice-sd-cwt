@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-06T00:57:44.824522+00:00",
+  "timestamp": "2025-07-08T00:52:40.515262+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1309,7 +1309,7 @@
       "id": "I_kwDOMm_Q2s6w0Pdq",
       "title": "Security Considerations: Controlling Trust Lists",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/69",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1320,8 +1320,8 @@
       ],
       "body": "Controlling trusted wallets / trusted verifiers impact how credentials and presentations can be used.\n\nManagement of lists can become political.",
       "createdAt": "2025-04-02T13:58:55Z",
-      "updatedAt": "2025-04-16T13:31:11Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-07T13:48:35Z",
+      "closedAt": "2025-07-07T13:48:35Z",
       "comments": [
         {
           "author": "henkbirkholz",
@@ -10637,6 +10637,194 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 125,
+      "id": "PR_kwDOMm_Q2s6dwO5v",
+      "title": "Trust Lists",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/125",
+      "state": "MERGED",
+      "author": "henkbirkholz",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "fixes #69 ",
+      "createdAt": "2025-07-07T12:43:06Z",
+      "updatedAt": "2025-07-07T13:48:34Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "93701082315ffda9753cd723dbbc7b9a05707ac2",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "trust-lists",
+      "headRefOid": "300fec7c599bd0a72a4fa3b6be914fd5a4654278",
+      "closedAt": "2025-07-07T13:48:34Z",
+      "mergedAt": "2025-07-07T13:48:34Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "33f49b9ecf5006d2d5fed38c42d25af459e09b7b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6ycvXv",
+          "commit": {
+            "abbreviatedOid": "373124c"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-07T13:23:58Z",
+          "updatedAt": "2025-07-07T13:23:59Z",
+          "comments": [
+            {
+              "originalPosition": 153,
+              "body": "```suggestion\r\n\r\n0. What steps has the Holder taken to improve their operation security regarding presenting credentials to verifiers?\r\n1. How can the Holder be convinced the Verifier that received presentations is legitimate?\r\n2. How can the Holder be convinced the Verifier will not share, sell, leak, or otherwise disclose the Holder's presentations or Issuer or Holder signed material?\r\n3. What steps has the Holder taken to understand and confirm the consequences resulting from their support for the aggregate-use of digital credential presentations?\r\n\r\nIs there a way to prohibit extortion of over-identification or disclosure misuse via a Verifier by a Holder being bullied into disclosure towards Verifiers?\r\n```",
+              "createdAt": "2025-07-07T13:23:59Z",
+              "updatedAt": "2025-07-07T13:32:59Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 126,
+      "id": "PR_kwDOMm_Q2s6dxo6b",
+      "title": "Some Trust List Polish",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/126",
+      "state": "MERGED",
+      "author": "henkbirkholz",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-07T14:39:54Z",
+      "updatedAt": "2025-07-07T15:49:44Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "33f49b9ecf5006d2d5fed38c42d25af459e09b7b",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "trust-lists",
+      "headRefOid": "27ef733f449ec50520452a835744eca523782103",
+      "closedAt": "2025-07-07T15:49:44Z",
+      "mergedAt": "2025-07-07T15:49:44Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "d03a6bf3e04f29e5fc1ca17e9054ae9ec0788278"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6yeAHW",
+          "commit": {
+            "abbreviatedOid": "27ef733"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-07T14:46:45Z",
+          "updatedAt": "2025-07-07T14:46:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6ye0v2",
+          "commit": {
+            "abbreviatedOid": "27ef733"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-07T15:49:35Z",
+          "updatedAt": "2025-07-07T15:49:35Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 127,
+      "id": "PR_kwDOMm_Q2s6dzFof",
+      "title": "Updated the change log",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/127",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Wow, we did a lot to the draft this cycle!",
+      "createdAt": "2025-07-07T17:08:00Z",
+      "updatedAt": "2025-07-07T17:11:10Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "d03a6bf3e04f29e5fc1ca17e9054ae9ec0788278",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "update-change-log",
+      "headRefOid": "49489926ccf9ea3e8f4748ef58a8d97816d5b81a",
+      "closedAt": "2025-07-07T17:11:10Z",
+      "mergedAt": "2025-07-07T17:11:10Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "5544965a6c9e0e0ff7ecb9ff7ec55344cd8c4749"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6ygAyS",
+          "commit": {
+            "abbreviatedOid": "4948992"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-07T17:11:02Z",
+          "updatedAt": "2025-07-07T17:11:02Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 128,
+      "id": "PR_kwDOMm_Q2s6d0FsR",
+      "title": "Reworking security and privacy considerations",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/128",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Also addresses https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/112",
+      "createdAt": "2025-07-07T19:20:37Z",
+      "updatedAt": "2025-07-07T20:45:05Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "5544965a6c9e0e0ff7ecb9ff7ec55344cd8c4749",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "ietf-123-cut-off-cramming",
+      "headRefOid": "c653c46ee88c7ec596301eedc6b6010692849edf",
+      "closedAt": "2025-07-07T20:45:05Z",
+      "mergedAt": "2025-07-07T20:45:05Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "c0c6cee5e900e158801895acbfb5706c87ab2224"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6yhXRG",
+          "commit": {
+            "abbreviatedOid": "c653c46"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "The new diagrams are great!  They will facilitate easier understanding of the spec.\r\n\r\nI found the change from \"Rewrote\" to \"Rewritten\" in the history section a bit odd, but I'm not going to block on this.",
+          "createdAt": "2025-07-07T19:44:46Z",
+          "updatedAt": "2025-07-07T19:44:46Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
