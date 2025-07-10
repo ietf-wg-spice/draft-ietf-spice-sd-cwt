@@ -206,6 +206,7 @@ The following diagram explains the relationships between the terminology used in
   +-----------+     +--------------------+
   |   Issuer  |<----+ Assertion Key      |
   +-----------+     +--------------------+
+        |
         v
 +------------------------------------------+
 | Issuer Signed Blinded Claims             |
@@ -216,12 +217,16 @@ The following diagram explains the relationships between the terminology used in
   +--------------+     +--------------------+
   |   Holder     |<----+ Confirmation Key   |
   +--------------+     +--------------------+
+        |
         v
-+------------------------------------------+
-| Issuer Signed Blinded Claims             |
-| Holder Selected Salted Disclosed Claims  |
-| Holder Signed Key Binding Token          |
-+------------------------------------------+
++----------------------------------------------+
+| Holder Signed Key Binding Token              |
+|  +-----------------------------------------+ |
+|  | Issuer Signed Blinded Claims            | |
+|  | Holder Selected Salted Disclosed Claims | |
+|  +-----------------------------------------+ |
+|                                              |
++----------------------------------------------+
         |
         v
   +--------------+
@@ -258,8 +263,12 @@ This diagram relates the terminology specific to selective disclosure and redact
       v
 +------------------------------------------+
 | Blinded Claim (in CWT payload)           |
-| - Original Claim Value is replaced       |
-|   with Blinded Claim Hash                |
+|                                          |
+|  +----------------------------------+    |
+|  | Original Claim Value is replaced |    |
+|  | with Blinded Claim Hash          |    |
+|  +----------------------------------+    |
+|                                          |
 +------------------------------------------+
       |
       v
