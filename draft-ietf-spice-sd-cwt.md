@@ -205,18 +205,18 @@ The following diagram explains the relationships between the terminology used in
 ~~~ aasvg
   +-----------+     +--------------------+
   |   Issuer  |<----+ Assertion Key      |
-  +-----------+     +--------------------+
+  +-----+-----+     +--------------------+
         |
         v
 +------------------------------------------+
 | Issuer Signed Blinded Claims             |
 | All Salted Disclosed Claims              |
-+------------------------------------------+
++-------+----------------------------------+
         |
         v
   +--------------+     +--------------------+
   |   Holder     |<----+ Confirmation Key   |
-  +--------------+     +--------------------+
+  +-----+--------+     +--------------------+
         |
         v
 +----------------------------------------------+
@@ -226,12 +226,12 @@ The following diagram explains the relationships between the terminology used in
 |  | Holder Selected Salted Disclosed Claims | |
 |  +-----------------------------------------+ |
 |                                              |
-+----------------------------------------------+
++-------+--------------------------------------+
         |
         v
   +--------------+
   |  Verifier    |
-  +--------------+
+  +-----+--------+
         |
         v
 +------------------------------------------+
@@ -244,20 +244,20 @@ This diagram relates the terminology specific to selective disclosure and redact
 ~~~ aasvg
 +-----------+
 |  Issuer   |
-+-----------+
++-----+-----+
       |
       | 1. Creates Salted Disclosed Claim
       |    [salt, value, key]
       v
 +------------------------------------------+
 | Salted Disclosed Claim                   |
-+------------------------------------------+
++-----+------------------------------------+
       |
       | 2. Hashes to create
       v
 +------------------------------------------+
 | Blinded Claim Hash                       |
-+------------------------------------------+
++-----+------------------------------------+
       |
       | 3. Replaces Claim Value with
       v
@@ -274,20 +274,20 @@ This diagram relates the terminology specific to selective disclosure and redact
       v
 +-----------+
 |  Holder   |
-+-----------+
++-----+-----+
       |
       | 4. Presents selected
       |    Salted Disclosed Claims
       v
 +-----------+
 | Verifier  |
-+-----------+
++-----+-----+
       |
       | 5. Hashes Salted Disclosed Claim
       v
 +------------------------------------------+
 | Blinded Claim Hash (computed)            |
-+------------------------------------------+
++-----+------------------------------------+
       |
       | 6. Matches with hash in payload
       |    to recover original
