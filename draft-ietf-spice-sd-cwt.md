@@ -269,7 +269,7 @@ This diagram relates the terminology specific to selective disclosure and redact
 |  | with Blinded Claim Hash          |    |
 |  +----------------------------------+    |
 |                                          |
-+------------------------------------------+
++-----+------------------------------------+
       |
       v
 +-----------+
