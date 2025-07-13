@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-08T00:52:40.515262+00:00",
+  "timestamp": "2025-07-13T00:59:28.718931+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -10823,6 +10823,53 @@
           "createdAt": "2025-07-07T19:44:46Z",
           "updatedAt": "2025-07-07T19:44:46Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 129,
+      "id": "PR_kwDOMm_Q2s6eRa_d",
+      "title": "Adjust new diagram",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/129",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-10T10:09:01Z",
+      "updatedAt": "2025-07-10T11:07:15Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c0c6cee5e900e158801895acbfb5706c87ab2224",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "fix-diagram",
+      "headRefOid": "b952becbe0b6edbc33db50914bc8a28daeaa648f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s6zHmzP",
+          "commit": {
+            "abbreviatedOid": "bdc2370"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-10T10:53:24Z",
+          "updatedAt": "2025-07-10T10:53:25Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "It also helps to add these:\r\n\r\n```suggestion\r\n+-----+------------------------------------+\r\n```",
+              "createdAt": "2025-07-10T10:53:25Z",
+              "updatedAt": "2025-07-10T10:53:25Z"
+            }
+          ]
         }
       ]
     }
