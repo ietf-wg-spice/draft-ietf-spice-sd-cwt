@@ -10,6 +10,9 @@ def hex2bytes(string):
 # pre-used salts so the values can stay the same when the data is the same
 # hashes the rest of the disclosure (minus the salt) as the dict key
 salts = {
+    hex2bytes('e46eb069cb1b453700c8199c9431931dad9f7dac76098999b802e03dc8d0db2e'):
+    hex2bytes('cd99b3858f1d659f9d16039abf8c5fba'),
+
     hex2bytes('84e6023a698dea8d7eaefeda3ec51a50a89ec6def850703720f171550e106aca'):
     hex2bytes('c23a4d192be75dbd583be570482de8dd'),
 
@@ -701,7 +704,7 @@ if __name__ == "__main__":
       502 : [
         cbor2.CBORTag(58, 1549560720),
         cbor2.CBORTag(58, 1612560720),
-        17183928
+        1674004740
       ],
       503 : {
         "country": "us",
@@ -873,7 +876,7 @@ if __name__ == "__main__":
           }),
           cbor2.CBORTag(58, {
               500 : True,
-              502 : 17183928,
+              502 : 1674004740,
               cbor2.CBORTag(58,501) : "ABCD-123456",
               cbor2.CBORTag(58, 503) : {
                   1: "us",
