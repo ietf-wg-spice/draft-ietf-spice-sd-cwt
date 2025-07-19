@@ -272,6 +272,40 @@ def iso_date(secs_since_epoch):
     t = datetime.datetime.fromtimestamp(secs_since_epoch, datetime.UTC)
     return t.isoformat() + 'Z'
 
+def sort_keys(unsorted_dict, rfc7049=False):
+    def walk_array(array):
+        if array == []:
+            return []
+        temp_array = []
+        for item in array:
+            if type(item) == dict:
+                temp_array.append(sort_keys(item))
+            elif type(item) == list:
+                temp_array.append(walk_array(item))
+            else:
+                temp_array.append(item)
+        return temp_array
+    # note: does not sort into keys which are themselves maps
+    if len(unsorted_dict) == 0:
+        return {}
+    if rfc7049 is True:
+        raise Exception("RFC7049 ordering not yet supported")
+    new_dict = {}
+    cbor_key_encoding = {}
+    for k in unsorted_dict:
+        cbor_key_encoding[cbor2.dumps(k)] = k
+    sorted_keys = dict(sorted(cbor_key_encoding.items()))
+    for encoded_key in sorted_keys:
+        original_key = cbor_key_encoding[encoded_key]
+        val = unsorted_dict[original_key]
+        if type(val) == dict:
+            new_dict[original_key] = sort_keys(val)
+        elif type(val) == list:
+            new_dict[original_key] = walk_array(val)
+        else:
+            new_dict[original_key] = val
+    return new_dict
+
 
 # ****** Functions specific to SD-CWTs
 
