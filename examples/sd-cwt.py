@@ -811,7 +811,11 @@ if __name__ == "__main__":
         redacted=redacted,
         sig=issuer_cwt[-96:])
     
-    holder_unprotected = {SD_CLAIMS: presented_disclosures}
+    encoded_presented_disclosures = []
+    for d in presented_disclosures:
+        encoded_presented_disclosures.append(cbor2.dumps(d))
+    
+    holder_unprotected = {SD_CLAIMS: encoded_presented_disclosures}
     presentation_cwt = sign(cwt_protected,
                        holder_unprotected,
                        payload,
@@ -826,8 +830,9 @@ if __name__ == "__main__":
     }
     
     kbt_payload = {
-        3: "https://verifier.example",  # aud
-        6: KBT_IAT                      # iat
+        3: "https://verifier.example/app",                # aud
+        6: KBT_IAT,                                       # iat
+        39: hex2bytes('8c0f5f523b95bea44a9a48c649240803') # cnonce
     }
     
     kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
@@ -922,6 +927,11 @@ if __name__ == "__main__":
         disclosures[3]
       ]
     }
+
+    encoded_nested_unprotected = { SD_CLAIMS: [] }
+    for d in nested_unprotected[SD_CLAIMS]:
+        encoded_nested_unprotected[SD_CLAIMS].append(cbor2.dumps(d))
+    
     nested_cwt = sign(cwt_protected,
                       nested_unprotected,
                       payload,
@@ -931,7 +941,7 @@ if __name__ == "__main__":
     kbt_protected[13] = nested_cwt
     nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
     write_to_file(nested_kbt, "nested_kbt.cbor")
-
+    
     # generate/save pretty-printed disclosures from nested example
     example_comments=[
         "inspector_license_number",  # 0
