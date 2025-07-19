@@ -13,13 +13,13 @@
        This specification describes a data minimization technique for use with CBOR Web Tokens (CWTs).
 The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE) and CWTs. 
     " name="description">
-<meta content="xml2rfc 3.29.0" name="generator">
+<meta content="xml2rfc 3.30.0" name="generator">
 <meta content="cose" name="keyword">
 <meta content="cwt" name="keyword">
 <meta content="selective disclosure" name="keyword">
 <meta content="draft-ietf-spice-sd-cwt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.29.0
+  xml2rfc 3.30.0
     Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 8 January 2026</td>
+<td class="center">Expires 20 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-07-07" class="published">7 July 2025</time>
+<time datetime="2025-07-19" class="published">19 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-01-08">8 January 2026</time></dd>
+<dd class="expires"><time datetime="2026-01-20">20 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1643,85 +1643,91 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-5.24.1" class="pilcrow">
 <p id="section-2-6">The following diagram explains the relationships between the terminology used in this specification.<a href="#section-2-6" class="pilcrow">¶</a></p>
 <div id="section-2-7">
         <div class="alignLeft art-svg artwork" id="section-2-7.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="496" width="368" viewBox="0 0 368 496" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-            <path d="M 8,96 L 8,144" fill="none" stroke="black"></path>
-            <path d="M 8,256 L 8,320" fill="none" stroke="black"></path>
-            <path d="M 8,448 L 8,480" fill="none" stroke="black"></path>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="392" viewBox="0 0 392 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+            <path d="M 8,112 L 8,160" fill="none" stroke="black"></path>
+            <path d="M 8,288 L 8,400" fill="none" stroke="black"></path>
+            <path d="M 8,528 L 8,560" fill="none" stroke="black"></path>
             <path d="M 24,32 L 24,64" fill="none" stroke="black"></path>
-            <path d="M 24,192 L 24,224" fill="none" stroke="black"></path>
-            <path d="M 24,368 L 24,400" fill="none" stroke="black"></path>
-            <path d="M 72,152 L 72,184" fill="none" stroke="black"></path>
-            <path d="M 72,328 L 72,360" fill="none" stroke="black"></path>
-            <path d="M 72,408 L 72,440" fill="none" stroke="black"></path>
+            <path d="M 24,208 L 24,240" fill="none" stroke="black"></path>
+            <path d="M 24,448 L 24,480" fill="none" stroke="black"></path>
+            <path d="M 32,320 L 32,368" fill="none" stroke="black"></path>
+            <path d="M 72,64 L 72,104" fill="none" stroke="black"></path>
+            <path d="M 72,160 L 72,200" fill="none" stroke="black"></path>
+            <path d="M 72,240 L 72,280" fill="none" stroke="black"></path>
+            <path d="M 72,400 L 72,440" fill="none" stroke="black"></path>
+            <path d="M 72,480 L 72,520" fill="none" stroke="black"></path>
             <path d="M 120,32 L 120,64" fill="none" stroke="black"></path>
-            <path d="M 144,192 L 144,224" fill="none" stroke="black"></path>
-            <path d="M 144,368 L 144,400" fill="none" stroke="black"></path>
+            <path d="M 144,208 L 144,240" fill="none" stroke="black"></path>
+            <path d="M 144,448 L 144,480" fill="none" stroke="black"></path>
             <path d="M 168,32 L 168,64" fill="none" stroke="black"></path>
-            <path d="M 192,192 L 192,224" fill="none" stroke="black"></path>
+            <path d="M 192,208 L 192,240" fill="none" stroke="black"></path>
             <path d="M 336,32 L 336,64" fill="none" stroke="black"></path>
-            <path d="M 352,96 L 352,144" fill="none" stroke="black"></path>
-            <path d="M 352,256 L 352,320" fill="none" stroke="black"></path>
-            <path d="M 352,448 L 352,480" fill="none" stroke="black"></path>
-            <path d="M 360,192 L 360,224" fill="none" stroke="black"></path>
+            <path d="M 352,112 L 352,160" fill="none" stroke="black"></path>
+            <path d="M 352,528 L 352,560" fill="none" stroke="black"></path>
+            <path d="M 360,208 L 360,240" fill="none" stroke="black"></path>
+            <path d="M 368,320 L 368,368" fill="none" stroke="black"></path>
+            <path d="M 384,288 L 384,400" fill="none" stroke="black"></path>
             <path d="M 24,32 L 120,32" fill="none" stroke="black"></path>
             <path d="M 168,32 L 336,32" fill="none" stroke="black"></path>
             <path d="M 128,48 L 168,48" fill="none" stroke="black"></path>
             <path d="M 24,64 L 120,64" fill="none" stroke="black"></path>
             <path d="M 168,64 L 336,64" fill="none" stroke="black"></path>
-            <path d="M 8,96 L 352,96" fill="none" stroke="black"></path>
-            <path d="M 8,144 L 352,144" fill="none" stroke="black"></path>
-            <path d="M 24,192 L 144,192" fill="none" stroke="black"></path>
-            <path d="M 192,192 L 360,192" fill="none" stroke="black"></path>
-            <path d="M 152,208 L 192,208" fill="none" stroke="black"></path>
-            <path d="M 24,224 L 144,224" fill="none" stroke="black"></path>
-            <path d="M 192,224 L 360,224" fill="none" stroke="black"></path>
-            <path d="M 8,256 L 352,256" fill="none" stroke="black"></path>
-            <path d="M 8,320 L 352,320" fill="none" stroke="black"></path>
-            <path d="M 24,368 L 144,368" fill="none" stroke="black"></path>
-            <path d="M 24,400 L 144,400" fill="none" stroke="black"></path>
-            <path d="M 8,448 L 352,448" fill="none" stroke="black"></path>
-            <path d="M 8,480 L 352,480" fill="none" stroke="black"></path>
-            <polygon class="arrowhead" points="160,208 148,202.4 148,213.6" fill="black" transform="rotate(180,152,208)"></polygon>
+            <path d="M 8,112 L 352,112" fill="none" stroke="black"></path>
+            <path d="M 8,160 L 352,160" fill="none" stroke="black"></path>
+            <path d="M 24,208 L 144,208" fill="none" stroke="black"></path>
+            <path d="M 192,208 L 360,208" fill="none" stroke="black"></path>
+            <path d="M 152,224 L 192,224" fill="none" stroke="black"></path>
+            <path d="M 24,240 L 144,240" fill="none" stroke="black"></path>
+            <path d="M 192,240 L 360,240" fill="none" stroke="black"></path>
+            <path d="M 8,288 L 384,288" fill="none" stroke="black"></path>
+            <path d="M 32,320 L 368,320" fill="none" stroke="black"></path>
+            <path d="M 32,368 L 368,368" fill="none" stroke="black"></path>
+            <path d="M 8,400 L 384,400" fill="none" stroke="black"></path>
+            <path d="M 24,448 L 144,448" fill="none" stroke="black"></path>
+            <path d="M 24,480 L 144,480" fill="none" stroke="black"></path>
+            <path d="M 8,528 L 352,528" fill="none" stroke="black"></path>
+            <path d="M 8,560 L 352,560" fill="none" stroke="black"></path>
+            <polygon class="arrowhead" points="160,224 148,218.4 148,229.6" fill="black" transform="rotate(180,152,224)"></polygon>
             <polygon class="arrowhead" points="136,48 124,42.4 124,53.6" fill="black" transform="rotate(180,128,48)"></polygon>
+            <polygon class="arrowhead" points="80,520 68,514.4 68,525.6" fill="black" transform="rotate(90,72,520)"></polygon>
             <polygon class="arrowhead" points="80,440 68,434.4 68,445.6" fill="black" transform="rotate(90,72,440)"></polygon>
-            <polygon class="arrowhead" points="80,360 68,354.4 68,365.6" fill="black" transform="rotate(90,72,360)"></polygon>
-            <polygon class="arrowhead" points="80,184 68,178.4 68,189.6" fill="black" transform="rotate(90,72,184)"></polygon>
+            <polygon class="arrowhead" points="80,280 68,274.4 68,285.6" fill="black" transform="rotate(90,72,280)"></polygon>
+            <polygon class="arrowhead" points="80,200 68,194.4 68,205.6" fill="black" transform="rotate(90,72,200)"></polygon>
+            <polygon class="arrowhead" points="80,104 68,98.4 68,109.6" fill="black" transform="rotate(90,72,104)"></polygon>
             <g class="text">
               <text x="76" y="52">Issuer</text>
               <text x="216" y="52">Assertion</text>
               <text x="272" y="52">Key</text>
-              <text x="72" y="84">v</text>
-              <text x="44" y="116">Issuer</text>
-              <text x="100" y="116">Signed</text>
-              <text x="160" y="116">Blinded</text>
-              <text x="220" y="116">Claims</text>
-              <text x="32" y="132">All</text>
-              <text x="76" y="132">Salted</text>
-              <text x="144" y="132">Disclosed</text>
-              <text x="212" y="132">Claims</text>
-              <text x="76" y="212">Holder</text>
-              <text x="252" y="212">Confirmation</text>
-              <text x="320" y="212">Key</text>
-              <text x="72" y="244">v</text>
-              <text x="44" y="276">Issuer</text>
-              <text x="100" y="276">Signed</text>
-              <text x="160" y="276">Blinded</text>
-              <text x="220" y="276">Claims</text>
-              <text x="44" y="292">Holder</text>
-              <text x="108" y="292">Selected</text>
-              <text x="172" y="292">Salted</text>
-              <text x="240" y="292">Disclosed</text>
-              <text x="308" y="292">Claims</text>
+              <text x="44" y="132">Issuer</text>
+              <text x="100" y="132">Signed</text>
+              <text x="160" y="132">Blinded</text>
+              <text x="220" y="132">Claims</text>
+              <text x="32" y="148">All</text>
+              <text x="76" y="148">Salted</text>
+              <text x="144" y="148">Disclosed</text>
+              <text x="212" y="148">Claims</text>
+              <text x="76" y="228">Holder</text>
+              <text x="252" y="228">Confirmation</text>
+              <text x="320" y="228">Key</text>
               <text x="44" y="308">Holder</text>
               <text x="100" y="308">Signed</text>
               <text x="144" y="308">Key</text>
               <text x="192" y="308">Binding</text>
               <text x="248" y="308">Token</text>
-              <text x="76" y="388">Verifier</text>
-              <text x="56" y="468">Validated</text>
-              <text x="136" y="468">Disclosed</text>
-              <text x="200" y="468">Claim</text>
-              <text x="240" y="468">Set</text>
+              <text x="68" y="340">Issuer</text>
+              <text x="124" y="340">Signed</text>
+              <text x="184" y="340">Blinded</text>
+              <text x="244" y="340">Claims</text>
+              <text x="68" y="356">Holder</text>
+              <text x="132" y="356">Selected</text>
+              <text x="196" y="356">Salted</text>
+              <text x="264" y="356">Disclosed</text>
+              <text x="332" y="356">Claims</text>
+              <text x="76" y="468">Verifier</text>
+              <text x="56" y="548">Validated</text>
+              <text x="136" y="548">Disclosed</text>
+              <text x="200" y="548">Claim</text>
+              <text x="240" y="548">Set</text>
             </g>
           </svg><a href="#section-2-7.1" class="pilcrow">¶</a>
 </div>
@@ -1729,30 +1735,32 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-5.24.1" class="pilcrow">
 <p id="section-2-8">This diagram relates the terminology specific to selective disclosure and redaction.<a href="#section-2-8" class="pilcrow">¶</a></p>
 <div id="section-2-9">
         <div class="alignLeft art-svg artwork" id="section-2-9.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="816" width="360" viewBox="0 0 360 816" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="880" width="360" viewBox="0 0 360 880" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
             <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
             <path d="M 8,144 L 8,176" fill="none" stroke="black"></path>
             <path d="M 8,240 L 8,272" fill="none" stroke="black"></path>
-            <path d="M 8,336 L 8,400" fill="none" stroke="black"></path>
-            <path d="M 8,448 L 8,480" fill="none" stroke="black"></path>
-            <path d="M 8,560 L 8,592" fill="none" stroke="black"></path>
-            <path d="M 8,656 L 8,688" fill="none" stroke="black"></path>
-            <path d="M 8,768 L 8,800" fill="none" stroke="black"></path>
-            <path d="M 56,72 L 56,136" fill="none" stroke="black"></path>
-            <path d="M 56,184 L 56,232" fill="none" stroke="black"></path>
-            <path d="M 56,280 L 56,328" fill="none" stroke="black"></path>
-            <path d="M 56,408 L 56,440" fill="none" stroke="black"></path>
-            <path d="M 56,488 L 56,552" fill="none" stroke="black"></path>
-            <path d="M 56,600 L 56,648" fill="none" stroke="black"></path>
-            <path d="M 56,696 L 56,760" fill="none" stroke="black"></path>
+            <path d="M 8,336 L 8,464" fill="none" stroke="black"></path>
+            <path d="M 8,512 L 8,544" fill="none" stroke="black"></path>
+            <path d="M 8,624 L 8,656" fill="none" stroke="black"></path>
+            <path d="M 8,720 L 8,752" fill="none" stroke="black"></path>
+            <path d="M 8,832 L 8,864" fill="none" stroke="black"></path>
+            <path d="M 32,384 L 32,432" fill="none" stroke="black"></path>
+            <path d="M 56,64 L 56,136" fill="none" stroke="black"></path>
+            <path d="M 56,176 L 56,232" fill="none" stroke="black"></path>
+            <path d="M 56,272 L 56,328" fill="none" stroke="black"></path>
+            <path d="M 56,464 L 56,504" fill="none" stroke="black"></path>
+            <path d="M 56,544 L 56,616" fill="none" stroke="black"></path>
+            <path d="M 56,656 L 56,712" fill="none" stroke="black"></path>
+            <path d="M 56,752 L 56,824" fill="none" stroke="black"></path>
             <path d="M 104,32 L 104,64" fill="none" stroke="black"></path>
-            <path d="M 104,448 L 104,480" fill="none" stroke="black"></path>
-            <path d="M 104,560 L 104,592" fill="none" stroke="black"></path>
+            <path d="M 104,512 L 104,544" fill="none" stroke="black"></path>
+            <path d="M 104,624 L 104,656" fill="none" stroke="black"></path>
+            <path d="M 312,384 L 312,432" fill="none" stroke="black"></path>
             <path d="M 352,144 L 352,176" fill="none" stroke="black"></path>
             <path d="M 352,240 L 352,272" fill="none" stroke="black"></path>
-            <path d="M 352,336 L 352,400" fill="none" stroke="black"></path>
-            <path d="M 352,656 L 352,688" fill="none" stroke="black"></path>
-            <path d="M 352,768 L 352,800" fill="none" stroke="black"></path>
+            <path d="M 352,336 L 352,464" fill="none" stroke="black"></path>
+            <path d="M 352,720 L 352,752" fill="none" stroke="black"></path>
+            <path d="M 352,832 L 352,864" fill="none" stroke="black"></path>
             <path d="M 8,32 L 104,32" fill="none" stroke="black"></path>
             <path d="M 8,64 L 104,64" fill="none" stroke="black"></path>
             <path d="M 8,144 L 352,144" fill="none" stroke="black"></path>
@@ -1760,19 +1768,21 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-5.24.1" class="pilcrow">
             <path d="M 8,240 L 352,240" fill="none" stroke="black"></path>
             <path d="M 8,272 L 352,272" fill="none" stroke="black"></path>
             <path d="M 8,336 L 352,336" fill="none" stroke="black"></path>
-            <path d="M 8,400 L 352,400" fill="none" stroke="black"></path>
-            <path d="M 8,448 L 104,448" fill="none" stroke="black"></path>
-            <path d="M 8,480 L 104,480" fill="none" stroke="black"></path>
-            <path d="M 8,560 L 104,560" fill="none" stroke="black"></path>
-            <path d="M 8,592 L 104,592" fill="none" stroke="black"></path>
-            <path d="M 8,656 L 352,656" fill="none" stroke="black"></path>
-            <path d="M 8,688 L 352,688" fill="none" stroke="black"></path>
-            <path d="M 8,768 L 352,768" fill="none" stroke="black"></path>
-            <path d="M 8,800 L 352,800" fill="none" stroke="black"></path>
-            <polygon class="arrowhead" points="64,760 52,754.4 52,765.6" fill="black" transform="rotate(90,56,760)"></polygon>
-            <polygon class="arrowhead" points="64,648 52,642.4 52,653.6" fill="black" transform="rotate(90,56,648)"></polygon>
-            <polygon class="arrowhead" points="64,552 52,546.4 52,557.6" fill="black" transform="rotate(90,56,552)"></polygon>
-            <polygon class="arrowhead" points="64,440 52,434.4 52,445.6" fill="black" transform="rotate(90,56,440)"></polygon>
+            <path d="M 32,384 L 312,384" fill="none" stroke="black"></path>
+            <path d="M 32,432 L 312,432" fill="none" stroke="black"></path>
+            <path d="M 8,464 L 352,464" fill="none" stroke="black"></path>
+            <path d="M 8,512 L 104,512" fill="none" stroke="black"></path>
+            <path d="M 8,544 L 104,544" fill="none" stroke="black"></path>
+            <path d="M 8,624 L 104,624" fill="none" stroke="black"></path>
+            <path d="M 8,656 L 104,656" fill="none" stroke="black"></path>
+            <path d="M 8,720 L 352,720" fill="none" stroke="black"></path>
+            <path d="M 8,752 L 352,752" fill="none" stroke="black"></path>
+            <path d="M 8,832 L 352,832" fill="none" stroke="black"></path>
+            <path d="M 8,864 L 352,864" fill="none" stroke="black"></path>
+            <polygon class="arrowhead" points="64,824 52,818.4 52,829.6" fill="black" transform="rotate(90,56,824)"></polygon>
+            <polygon class="arrowhead" points="64,712 52,706.4 52,717.6" fill="black" transform="rotate(90,56,712)"></polygon>
+            <polygon class="arrowhead" points="64,616 52,610.4 52,621.6" fill="black" transform="rotate(90,56,616)"></polygon>
+            <polygon class="arrowhead" points="64,504 52,498.4 52,509.6" fill="black" transform="rotate(90,56,504)"></polygon>
             <polygon class="arrowhead" points="64,328 52,322.4 52,333.6" fill="black" transform="rotate(90,56,328)"></polygon>
             <polygon class="arrowhead" points="64,232 52,226.4 52,237.6" fill="black" transform="rotate(90,56,232)"></polygon>
             <polygon class="arrowhead" points="64,136 52,130.4 52,141.6" fill="black" transform="rotate(90,56,136)"></polygon>
@@ -1806,45 +1816,44 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-5.24.1" class="pilcrow">
               <text x="144" y="356">(in</text>
               <text x="176" y="356">CWT</text>
               <text x="228" y="356">payload)</text>
-              <text x="24" y="372">-</text>
-              <text x="68" y="372">Original</text>
-              <text x="128" y="372">Claim</text>
-              <text x="176" y="372">Value</text>
-              <text x="212" y="372">is</text>
-              <text x="260" y="372">replaced</text>
-              <text x="52" y="388">with</text>
-              <text x="104" y="388">Blinded</text>
-              <text x="160" y="388">Claim</text>
-              <text x="204" y="388">Hash</text>
-              <text x="52" y="468">Holder</text>
-              <text x="76" y="516">4.</text>
-              <text x="124" y="516">Presents</text>
-              <text x="196" y="516">selected</text>
-              <text x="116" y="532">Salted</text>
-              <text x="184" y="532">Disclosed</text>
-              <text x="252" y="532">Claims</text>
-              <text x="52" y="580">Verifier</text>
-              <text x="76" y="628">5.</text>
-              <text x="116" y="628">Hashes</text>
-              <text x="172" y="628">Salted</text>
-              <text x="240" y="628">Disclosed</text>
-              <text x="304" y="628">Claim</text>
-              <text x="48" y="676">Blinded</text>
-              <text x="104" y="676">Claim</text>
-              <text x="148" y="676">Hash</text>
-              <text x="212" y="676">(computed)</text>
-              <text x="76" y="724">6.</text>
-              <text x="120" y="724">Matches</text>
-              <text x="172" y="724">with</text>
-              <text x="212" y="724">hash</text>
-              <text x="244" y="724">in</text>
-              <text x="288" y="724">payload</text>
-              <text x="100" y="740">to</text>
-              <text x="144" y="740">recover</text>
-              <text x="212" y="740">original</text>
-              <text x="40" y="788">Claim</text>
-              <text x="88" y="788">Value</text>
-              <text x="160" y="788">(recovered)</text>
+              <text x="76" y="404">Original</text>
+              <text x="136" y="404">Claim</text>
+              <text x="184" y="404">Value</text>
+              <text x="220" y="404">is</text>
+              <text x="268" y="404">replaced</text>
+              <text x="60" y="420">with</text>
+              <text x="112" y="420">Blinded</text>
+              <text x="168" y="420">Claim</text>
+              <text x="212" y="420">Hash</text>
+              <text x="52" y="532">Holder</text>
+              <text x="76" y="580">4.</text>
+              <text x="124" y="580">Presents</text>
+              <text x="196" y="580">selected</text>
+              <text x="116" y="596">Salted</text>
+              <text x="184" y="596">Disclosed</text>
+              <text x="252" y="596">Claims</text>
+              <text x="52" y="644">Verifier</text>
+              <text x="76" y="692">5.</text>
+              <text x="116" y="692">Hashes</text>
+              <text x="172" y="692">Salted</text>
+              <text x="240" y="692">Disclosed</text>
+              <text x="304" y="692">Claim</text>
+              <text x="48" y="740">Blinded</text>
+              <text x="104" y="740">Claim</text>
+              <text x="148" y="740">Hash</text>
+              <text x="212" y="740">(computed)</text>
+              <text x="76" y="788">6.</text>
+              <text x="120" y="788">Matches</text>
+              <text x="172" y="788">with</text>
+              <text x="212" y="788">hash</text>
+              <text x="244" y="788">in</text>
+              <text x="288" y="788">payload</text>
+              <text x="100" y="804">to</text>
+              <text x="144" y="804">recover</text>
+              <text x="212" y="804">original</text>
+              <text x="40" y="852">Claim</text>
+              <text x="88" y="852">Value</text>
+              <text x="160" y="852">(recovered)</text>
             </g>
           </svg><a href="#section-2-9.1" class="pilcrow">¶</a>
 </div>
