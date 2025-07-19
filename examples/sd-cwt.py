@@ -273,6 +273,7 @@ def iso_date(secs_since_epoch):
     return t.isoformat() + 'Z'
 
 def sort_keys(unsorted_dict, rfc7049=False):
+    # note: does not sort into keys which are themselves maps
     def walk_array(array):
         if array == []:
             return []
@@ -285,11 +286,16 @@ def sort_keys(unsorted_dict, rfc7049=False):
             else:
                 temp_array.append(item)
         return temp_array
-    # note: does not sort into keys which are themselves maps
-    if len(unsorted_dict) == 0:
-        return {}
     if rfc7049 is True:
         raise Exception("RFC7049 ordering not yet supported")
+    if type(unsorted_dict) == list:
+        # actually an array
+        return walk_array(unsorted_dict)
+    elif type(unsorted_dict) != dict:
+        # some scalar type
+        return unsorted_dict
+    if len(unsorted_dict) == 0:
+        return {}
     new_dict = {}
     cbor_key_encoding = {}
     for k in unsorted_dict:
