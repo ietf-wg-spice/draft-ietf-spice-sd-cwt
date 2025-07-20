@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-13T00:59:28.718931+00:00",
+  "timestamp": "2025-07-20T01:00:43.152368+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -10831,24 +10831,26 @@
       "id": "PR_kwDOMm_Q2s6eRa_d",
       "title": "Adjust new diagram",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/129",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-07-10T10:09:01Z",
-      "updatedAt": "2025-07-10T11:07:15Z",
+      "updatedAt": "2025-07-19T17:49:49Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c0c6cee5e900e158801895acbfb5706c87ab2224",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "fix-diagram",
       "headRefOid": "b952becbe0b6edbc33db50914bc8a28daeaa648f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-07-19T17:49:49Z",
+      "mergedAt": "2025-07-19T17:49:49Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "5b35a6df1f95d953d115f310cca928d434ac7de9"
+      },
       "comments": [],
       "reviews": [
         {
@@ -10857,7 +10859,7 @@
             "abbreviatedOid": "bdc2370"
           },
           "author": "martinthomson",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-07-10T10:53:24Z",
@@ -10870,6 +10872,19 @@
               "updatedAt": "2025-07-10T10:53:25Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s607Y10",
+          "commit": {
+            "abbreviatedOid": "b952bec"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-19T17:49:45Z",
+          "updatedAt": "2025-07-19T17:49:45Z",
+          "comments": []
         }
       ]
     }
