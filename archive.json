@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-20T01:00:43.152368+00:00",
+  "timestamp": "2025-07-24T00:55:33.354601+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2330,6 +2330,70 @@
           "updatedAt": "2025-07-03T17:16:56Z"
         }
       ]
+    },
+    {
+      "number": 130,
+      "id": "I_kwDOMm_Q2s7B0cb7",
+      "title": "Recommend against using short tag variants of AEAD algorithms",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/130",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "... in AEAD encrypted disclosures section\n\n@martinthomson ",
+      "createdAt": "2025-07-22T08:51:06Z",
+      "updatedAt": "2025-07-22T08:51:06Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 131,
+      "id": "I_kwDOMm_Q2s7B6x61",
+      "title": "relation between time claims",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/131",
+      "state": "OPEN",
+      "author": "beltram",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There should be a section about how time claims (iat, exp, nbf) should be set in the SD-KBT depending of the ones present in the SD-CWT it wraps.\nThe general rule of thumb should be that the KBT should be shorter-lived than the token it wraps, in order to prevent illegal state from occurring.\n\nWhich translates to:\n1. `sd_kbt.exp <= sd_cwt.exp`\n2. `sd_kbt.nbf >= sd_cwt.nbf`\n3. `sd_kbt.iat >= sd_cwt.iat`\n\nAmong those lemmas, only the third one should be included in [section 9](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-9). The two other should be recommended in [section 8](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-8)",
+      "createdAt": "2025-07-22T16:54:01Z",
+      "updatedAt": "2025-07-22T16:54:01Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 132,
+      "id": "I_kwDOMm_Q2s7CEP4N",
+      "title": "time claims as NumericDate",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/132",
+      "state": "OPEN",
+      "author": "beltram",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Strictly speaking, since both SD-CWT and SD-KBT are supposed to be regular CWT, their time claims (exp, iat, nbf) should be NumericDate i.e. \"integer or floating-point number\".\nUnless it is added as an exception to [section 5](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-5) although more divergence from RFC-8392 is probably not desired.",
+      "createdAt": "2025-07-23T10:56:37Z",
+      "updatedAt": "2025-07-23T10:56:37Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 133,
+      "id": "I_kwDOMm_Q2s7CET01",
+      "title": "allowing tagged map keys",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/133",
+      "state": "OPEN",
+      "author": "beltram",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Coming back to [Differences from the CBOR Web Token Specification](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-differences-from-the-cbor-w) to realize that even though at first they was a reason to bend RFC-8392 because the `redacted_claim_keys` was proposed as a tag first. Since it's settled that it's going to be a simple type, I do not see the reason to continue allowing tagged integers or text strings.",
+      "createdAt": "2025-07-23T11:01:50Z",
+      "updatedAt": "2025-07-23T11:01:50Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
