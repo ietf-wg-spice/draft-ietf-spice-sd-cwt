@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-24T00:55:33.354601+00:00",
+  "timestamp": "2025-07-31T00:56:20.664751+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2391,9 +2391,17 @@
       "labels": [],
       "body": "Coming back to [Differences from the CBOR Web Token Specification](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-differences-from-the-cbor-w) to realize that even though at first they was a reason to bend RFC-8392 because the `redacted_claim_keys` was proposed as a tag first. Since it's settled that it's going to be a simple type, I do not see the reason to continue allowing tagged integers or text strings.",
       "createdAt": "2025-07-23T11:01:50Z",
-      "updatedAt": "2025-07-23T11:01:50Z",
+      "updatedAt": "2025-07-30T16:25:05Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The \"To Be Redacted\" tag (also defined in the document) is another reason to keep it.",
+          "createdAt": "2025-07-30T16:25:05Z",
+          "updatedAt": "2025-07-30T16:25:05Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -10623,7 +10631,7 @@
       "labels": [],
       "body": "Revamp encrypted disclosures section based on Issue #122 \r\n\r\n- introduce internal verifier structure using RATS terms\r\n- describe the fact of existing protocol use of AEADs\r\n- remove other motivations\r\n- remove COSE encrypted disclosures as not motivated\r\n",
       "createdAt": "2025-07-03T11:56:00Z",
-      "updatedAt": "2025-07-03T17:16:14Z",
+      "updatedAt": "2025-07-30T16:20:37Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "34ab22a9da611e04d8c9a260093a090c6cc3ba53",
@@ -10763,7 +10771,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-07-07T14:39:54Z",
-      "updatedAt": "2025-07-07T15:49:44Z",
+      "updatedAt": "2025-07-30T16:20:18Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "33f49b9ecf5006d2d5fed38c42d25af459e09b7b",
@@ -10818,7 +10826,7 @@
       "labels": [],
       "body": "Wow, we did a lot to the draft this cycle!",
       "createdAt": "2025-07-07T17:08:00Z",
-      "updatedAt": "2025-07-07T17:11:10Z",
+      "updatedAt": "2025-07-30T16:20:12Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "d03a6bf3e04f29e5fc1ca17e9054ae9ec0788278",
@@ -10860,7 +10868,7 @@
       "labels": [],
       "body": "Also addresses https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/112",
       "createdAt": "2025-07-07T19:20:37Z",
-      "updatedAt": "2025-07-07T20:45:05Z",
+      "updatedAt": "2025-07-30T16:20:00Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5544965a6c9e0e0ff7ecb9ff7ec55344cd8c4749",
@@ -10902,7 +10910,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-07-10T10:09:01Z",
-      "updatedAt": "2025-07-19T17:49:49Z",
+      "updatedAt": "2025-07-30T16:19:46Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c0c6cee5e900e158801895acbfb5706c87ab2224",
