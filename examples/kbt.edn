@@ -69,12 +69,12 @@
               bb05c9d8fb61cfc230ddfdfb4616a693'
         ]
       } >>,
-      / CWT signature / h'9c9022e57adb33c853f30b6e8a590f40
-                          6ca55849d7b8cd2a2519d3aec03e61b9
-                          ef0ecd85fe96103f916f58d73cd2f775
-                          4c390401945f0683b144d3504e500f94
-                          d30433c3445417dc3c920f7a155548e9
-                          1994601827d0a46ead66ff450485e85f'
+      / CWT signature / h'ed7ff84b27e746199698a94cc19292e4
+                          b72dc4c3eb551f0ef2b9da07980c648c
+                          2bb033c337c6ed13e1bc7c5b7b7c9df9
+                          49a70239f51eca1f6d8e058b8b70bcb3
+                          b5746812a932ffb37a2e6e984957e3f6
+                          b003eb3319fbe21e97f6a3a273307424'
     ]),
     / end of issuer SD-CWT /
     / typ /   16:  "application/kb+cwt",
@@ -85,8 +85,8 @@
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } >>,      / end of KBT payload /
-  / KBT signature / h'd895729e72a3a7c801d5a20e9daf5103
-                      27858aecbb39b8b2e4bc11cbbd625ea8
-                      c60b78da31fc9762c46b7cd61094d047
-                      5ff1f19a7496cde53ab11600a5859d10'
+  / KBT signature / h'dd49379434b25b03cd8756787ab49731
+                      580a04505439ca78ee53300dd49a00b7
+                      0e8715d015a2a6e8d88455f5850e3d93
+                      eade1366c0040c2cee1cc568322a6b93'
 ])   / end of kbt /
