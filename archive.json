@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-31T00:56:20.664751+00:00",
+  "timestamp": "2025-08-07T00:57:33.511446+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2402,6 +2402,22 @@
           "updatedAt": "2025-07-30T16:25:05Z"
         }
       ]
+    },
+    {
+      "number": 136,
+      "id": "I_kwDOMm_Q2s7Ef_Td",
+      "title": "Make example CBOR files usable as test vectors",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/136",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently the example CBOR files are generated such that map keys are usually but not always sorted. The python cbor2 library used to generate the examples only offers a \"canonical\" option which sorts map keys in RFC 7049 \"length-first\" order. Sorting in RFC 8949 order would enable the examples to be used as test vectors.\n",
+      "createdAt": "2025-08-06T13:27:20Z",
+      "updatedAt": "2025-08-06T13:27:20Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -10959,6 +10975,58 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 134,
+      "id": "PR_kwDOMm_Q2s6iYYDN",
+      "title": "change mac to tag in enc-disc.py",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/134",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-08-06T12:52:44Z",
+      "updatedAt": "2025-08-06T12:52:44Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "5b35a6df1f95d953d115f310cca928d434ac7de9",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "fix-encryption-script",
+      "headRefOid": "e70e6ab3ab48213d6e36fe5a10c03d69470768e7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 135,
+      "id": "PR_kwDOMm_Q2s6iYakC",
+      "title": "WIP: Sort CBOR map keys so example cbor files can be used in test vectors",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/135",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses #136\r\nAs a side effect addresses #52 ",
+      "createdAt": "2025-08-06T12:56:03Z",
+      "updatedAt": "2025-08-06T13:27:36Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "5b35a6df1f95d953d115f310cca928d434ac7de9",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "sort-cbor",
+      "headRefOid": "446ad5874d8beb8f16955f811d36ad01b89b8b05",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
