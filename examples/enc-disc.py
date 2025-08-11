@@ -38,14 +38,14 @@ def encrypt_disclosure(key, nonce, plaintext):
     from Crypto.Cipher import AES
     # uses default mac_len of 16
     cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
-    # returns (ciphertext, mac)
+    # returns (ciphertext, tag)
     return cipher.encrypt_and_digest(plaintext)
 
-def decrypt_disclosure(key, nonce, ciphertext, mac):
+def decrypt_disclosure(key, nonce, ciphertext, tag):
     from Crypto.Cipher import AES
     decipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
     out = bytearray(len(ciphertext))
-    decipher.decrypt_and_verify(ciphertext, mac, output=out)
+    decipher.decrypt_and_verify(ciphertext, tag, output=out)
     return bytes(out)
 
 nonce = hex2bytes('95d0040fe650e5baf51c907c31be15dc')
@@ -53,22 +53,22 @@ key = hex2bytes('a061c27a3273721e210d031863ad81b6')
 salt = hex2bytes('bae611067bb823486797da1ebbb52f83')
 salted_array = [salt, "ABCD-123456", 501]
 plaintext = cbor2.dumps(cbor2.dumps(salted_array))
-(ciphertext, mac) = encrypt_disclosure(key, nonce, plaintext)
+(ciphertext, tag) = encrypt_disclosure(key, nonce, plaintext)
 
-encrypted_array = [nonce, ciphertext, mac]
+encrypted_array = [nonce, ciphertext, tag]
 enc_disclosure = cbor2.dumps(cbor2.dumps(encrypted_array))
 print(f'''key = {pretty_hex(bytes2hex(key), 6)}
 
 encrypted_array = [
     / nonce /      {pretty_hex(bytes2hex(nonce), 19)},
     / ciphertext / {pretty_hex(bytes2hex(ciphertext), 19)},
-    / mac /        {pretty_hex(bytes2hex(mac), 19)}
+    / tag /        {pretty_hex(bytes2hex(tag), 19)}
 ]
 
 encrypted_disclosure = {bytes2hex(enc_disclosure)}
 ''')
 
-test_plaintext = decrypt_disclosure(key, nonce, ciphertext, mac)
+test_plaintext = decrypt_disclosure(key, nonce, ciphertext, tag)
 if test_plaintext == plaintext:
     print("OK")
 else:
