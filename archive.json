@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-12T00:52:02.438530+00:00",
+  "timestamp": "2025-08-19T00:51:32.877681+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2219,13 +2219,15 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "Pull the discussion about Validated disclosed claim set to Presented disclosed claim set map discussion out of validation section and put it into an implementation appendix.",
       "createdAt": "2025-06-25T13:30:28Z",
-      "updatedAt": "2025-07-03T12:06:08Z",
+      "updatedAt": "2025-08-18T13:57:03Z",
       "closedAt": null,
       "comments": []
     },
@@ -2234,7 +2236,7 @@
       "id": "I_kwDOMm_Q2s69SO3m",
       "title": "Add an ascii diagram for claimsets",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/112",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2247,8 +2249,8 @@
       ],
       "body": "presented, and disclosed",
       "createdAt": "2025-06-25T13:33:01Z",
-      "updatedAt": "2025-07-03T13:15:01Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-18T13:58:50Z",
+      "closedAt": "2025-08-18T13:58:49Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -2256,6 +2258,13 @@
           "body": "@OR13 if you have a bar napkin in your head, I can turn it into ascii art/aasvg.  Otherwise I might come up with something between now and the deadline, or I might not. ",
           "createdAt": "2025-07-03T13:15:01Z",
           "updatedAt": "2025-07-03T13:15:01Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is done",
+          "createdAt": "2025-08-18T13:58:49Z",
+          "updatedAt": "2025-08-18T13:58:49Z"
         }
       ]
     },
@@ -2339,11 +2348,15 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "... in AEAD encrypted disclosures section\n\n@martinthomson ",
       "createdAt": "2025-07-22T08:51:06Z",
-      "updatedAt": "2025-07-22T08:51:06Z",
+      "updatedAt": "2025-08-18T13:57:54Z",
       "closedAt": null,
       "comments": []
     },
@@ -2355,13 +2368,25 @@
       "state": "OPEN",
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "OR13"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "There should be a section about how time claims (iat, exp, nbf) should be set in the SD-KBT depending of the ones present in the SD-CWT it wraps.\nThe general rule of thumb should be that the KBT should be shorter-lived than the token it wraps, in order to prevent illegal state from occurring.\n\nWhich translates to:\n1. `sd_kbt.exp <= sd_cwt.exp`\n2. `sd_kbt.nbf >= sd_cwt.nbf`\n3. `sd_kbt.iat >= sd_cwt.iat`\n\nAmong those lemmas, only the third one should be included in [section 9](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-9). The two other should be recommended in [section 8](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-8)",
       "createdAt": "2025-07-22T16:54:01Z",
-      "updatedAt": "2025-07-22T16:54:01Z",
+      "updatedAt": "2025-08-18T13:57:45Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We should put the guidance into the body of the document, and a note about weird paring of these in security considerations",
+          "createdAt": "2025-08-18T13:52:09Z",
+          "updatedAt": "2025-08-18T13:52:09Z"
+        }
+      ]
     },
     {
       "number": 132,
@@ -2371,13 +2396,31 @@
       "state": "OPEN",
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy",
+        "henkbirkholz"
+      ],
       "labels": [],
       "body": "Strictly speaking, since both SD-CWT and SD-KBT are supposed to be regular CWT, their time claims (exp, iat, nbf) should be NumericDate i.e. \"integer or floating-point number\".\nUnless it is added as an exception to [section 5](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-5) although more divergence from RFC-8392 is probably not desired.",
       "createdAt": "2025-07-23T10:56:37Z",
-      "updatedAt": "2025-07-23T10:56:37Z",
+      "updatedAt": "2025-08-18T13:55:03Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "CDDL needs to be integer or float... not a numeric date... CDDL needs updating.",
+          "createdAt": "2025-08-18T13:53:39Z",
+          "updatedAt": "2025-08-18T13:53:39Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@henkbirkholz to check on CDDL for CWT datetime values. ",
+          "createdAt": "2025-08-18T13:55:03Z",
+          "updatedAt": "2025-08-18T13:55:03Z"
+        }
+      ]
     },
     {
       "number": 133,
@@ -2391,7 +2434,7 @@
       "labels": [],
       "body": "Coming back to [Differences from the CBOR Web Token Specification](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-differences-from-the-cbor-w) to realize that even though at first they was a reason to bend RFC-8392 because the `redacted_claim_keys` was proposed as a tag first. Since it's settled that it's going to be a simple type, I do not see the reason to continue allowing tagged integers or text strings.",
       "createdAt": "2025-07-23T11:01:50Z",
-      "updatedAt": "2025-07-30T16:25:05Z",
+      "updatedAt": "2025-08-18T16:26:55Z",
       "closedAt": null,
       "comments": [
         {
@@ -2400,6 +2443,41 @@
           "body": "The \"To Be Redacted\" tag (also defined in the document) is another reason to keep it.",
           "createdAt": "2025-07-30T16:25:05Z",
           "updatedAt": "2025-07-30T16:25:05Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So we are saying that with simple values, are used to identify redactions... that means you can redact a key of any type including:\n\n- simple values\n- tagged values\n- integers\n- lists\n- maps\n- strings\n\nAll these values can now be used as keys since we are not required to conform to CWT",
+          "createdAt": "2025-08-18T13:24:35Z",
+          "updatedAt": "2025-08-18T13:24:35Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So with simple values, map keys can be whatever we want.",
+          "createdAt": "2025-08-18T13:25:19Z",
+          "updatedAt": "2025-08-18T13:25:19Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So this can be closed, no action needed... please open again if you disagree",
+          "createdAt": "2025-08-18T13:46:43Z",
+          "updatedAt": "2025-08-18T13:46:43Z"
+        },
+        {
+          "author": "beltram",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I disagree.\n\n\nFirst of all the The \"To Be Redacted\" tag is only used as an input to the Issuer (to mark claims to redact). But the Issuer is supposed to trim those tags in the disclosures. So this tag never ends up in the payload of any CWT.\n\nI also don't get this \n> So with simple values, map keys can be whatever we want.\n\na simple value is a 1-2 byte that replaces a key, it does not annonate it like a tag.\n\nI feel that all of this is a remainder from when is was debated what should be used for `redacted_claim_keys` and tagged keys were envisionned with a magic number.\nI don't think it's a good thing for the draft adoption (by implementers) to diverge too much from CWT since now in addition to amend the lib to add support for simple value support (which is already painful) there also need to be support for tagged keys. The simple the better.\n\nAlso reading that section twice I noticed this:\n> Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.\n\nWhich could be problematic since the \"redacted_claim_keys\" is a simple value, part of the payload, authenticated by the Issuer. So if it is trimmed, the Verifier cannot anymore verify the signature of the SD-CWT by the Issuer.\n\n(I don't have permissions to reopen the issue)\n",
+          "createdAt": "2025-08-18T16:01:34Z",
+          "updatedAt": "2025-08-18T16:01:34Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@henkbirkholz @rohanmahy can you take a stab at this, we discussed on the call this morning.",
+          "createdAt": "2025-08-18T16:26:55Z",
+          "updatedAt": "2025-08-18T16:26:55Z"
         }
       ]
     },
@@ -2411,11 +2489,33 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [],
       "body": "Currently the example CBOR files are generated such that map keys are usually but not always sorted. The python cbor2 library used to generate the examples only offers a \"canonical\" option which sorts map keys in RFC 7049 \"length-first\" order. Sorting in RFC 8949 order would enable the examples to be used as test vectors.\n",
       "createdAt": "2025-08-06T13:27:20Z",
-      "updatedAt": "2025-08-06T13:27:20Z",
+      "updatedAt": "2025-08-18T13:17:38Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 137,
+      "id": "I_kwDOMm_Q2s7Gh_YN",
+      "title": "We are missing the definition for redacted claim keys",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/137",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
+      "body": "Should be `#7.59` on https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/draft-ietf-spice-sd-cwt.md?plain=1#L571\n\n\n```\n    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],\n```\n\nWould be nice to mirror the treatment of arrays:\n\n```\n~~~ cddl\n; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax\nredacted_claim_element = #6.60( bstr )\n~~~\n```",
+      "createdAt": "2025-08-18T13:41:35Z",
+      "updatedAt": "2025-08-18T13:57:30Z",
       "closedAt": null,
       "comments": []
     }
@@ -11024,7 +11124,7 @@
       "labels": [],
       "body": "Addresses #136\r\nAs a side effect addresses #52 ",
       "createdAt": "2025-08-06T12:56:03Z",
-      "updatedAt": "2025-08-06T13:27:36Z",
+      "updatedAt": "2025-08-18T13:14:34Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5b35a6df1f95d953d115f310cca928d434ac7de9",
@@ -11036,7 +11136,28 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s66dnA_",
+          "commit": {
+            "abbreviatedOid": "446ad58"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-18T13:14:34Z",
+          "updatedAt": "2025-08-18T13:14:34Z",
+          "comments": [
+            {
+              "originalPosition": 168,
+              "body": "hmm",
+              "createdAt": "2025-08-18T13:14:34Z",
+              "updatedAt": "2025-08-18T13:14:34Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
