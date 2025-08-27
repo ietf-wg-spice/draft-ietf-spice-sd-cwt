@@ -1,6 +1,6 @@
 ---
 v: 3
-title: "Selective Disclosure COSE Web Tokens"
+title: "Selective Disclosure COSE Web Tokens (SD-CWT)"
 abbrev: "SD-CWT"
 category: std
 docname: draft-ietf-spice-sd-cwt-latest
