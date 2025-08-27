@@ -1,6 +1,7 @@
 ---
 v: 3
-title: "SPICE SD-CWT"
+title: "Selective Disclosure COSE Web Tokens"
+abbrev: "SD-CWT"
 category: std
 docname: draft-ietf-spice-sd-cwt-latest
 stream: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
