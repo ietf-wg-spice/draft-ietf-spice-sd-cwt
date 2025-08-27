@@ -13,7 +13,7 @@ Expires: 28 February 2026                                      Transmute
                                                           27 August 2025
 
 
-                  Selective Disclosure COSE Web Tokens
+             Selective Disclosure COSE Web Tokens (SD-CWT)
                      draft-ietf-spice-sd-cwt-latest
 
 Abstract
