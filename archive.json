@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-19T00:51:32.877681+00:00",
+  "timestamp": "2025-08-28T00:47:05.783212+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -11156,6 +11156,106 @@
               "updatedAt": "2025-08-18T13:14:34Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 138,
+      "id": "PR_kwDOMm_Q2s6liBZm",
+      "title": "A verifier cannot process optional claims",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/138",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The text here originally implied that a verifier might be able to process optional claims if they are disclosed.  My understanding is that this is not possible because the verifier needs to process the hash and understand how to link that to the separate disclosure of those claims.  That makes all optional claims inaccessible to a non-SD CWT processor.  (This is hardly a major problem in the spectrum of possibilities for backwards-compatibility.)",
+      "createdAt": "2025-08-27T05:01:47Z",
+      "updatedAt": "2025-08-27T17:28:22Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c9f44fcb674f2b94c70d11118eafb05e0a1dc6e0",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "non-sd-understanding",
+      "headRefOid": "7452a3715b08211a2ea44232ce1ecf19bb48e562",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s68aP01",
+          "commit": {
+            "abbreviatedOid": "7452a37"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-08-27T17:28:22Z",
+          "updatedAt": "2025-08-27T17:28:22Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 139,
+      "id": "PR_kwDOMm_Q2s6liDla",
+      "title": "Propose a new title",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/139",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I don't think that you need \"SPICE\" in the name (it's meaningless).  And it might be better to spell out the name.",
+      "createdAt": "2025-08-27T05:08:41Z",
+      "updatedAt": "2025-08-27T17:27:46Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c9f44fcb674f2b94c70d11118eafb05e0a1dc6e0",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "new-title",
+      "headRefOid": "800c233885af555036c42f500cd8edd1b8320d30",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s68P3E_",
+          "commit": {
+            "abbreviatedOid": "12bfcd1"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-27T05:09:26Z",
+          "updatedAt": "2025-08-27T05:09:27Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "An acronym is probably not a bad idea.\r\n\r\n```suggestion\r\ntitle: \"Selective Disclosure COSE Web Tokens (SD-CWT)\"\r\n```",
+              "createdAt": "2025-08-27T05:09:26Z",
+              "updatedAt": "2025-08-27T05:09:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s68aO9z",
+          "commit": {
+            "abbreviatedOid": "800c233"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-08-27T17:27:46Z",
+          "updatedAt": "2025-08-27T17:27:46Z",
+          "comments": []
         }
       ]
     }
