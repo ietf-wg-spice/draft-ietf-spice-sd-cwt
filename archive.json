@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-28T00:47:05.783212+00:00",
+  "timestamp": "2025-09-02T00:48:14.015689+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2516,6 +2516,22 @@
       "body": "Should be `#7.59` on https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/draft-ietf-spice-sd-cwt.md?plain=1#L571\n\n\n```\n    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],\n```\n\nWould be nice to mirror the treatment of arrays:\n\n```\n~~~ cddl\n; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax\nredacted_claim_element = #6.60( bstr )\n~~~\n```",
       "createdAt": "2025-08-18T13:41:35Z",
       "updatedAt": "2025-08-18T13:57:30Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 140,
+      "id": "I_kwDOMm_Q2s7JCwh-",
+      "title": "hex values in Figures 4 and 5 do not match (redacted inspector number claim)",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/140",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "These two values are supposed to be the same. Clearly there is a tooling error somewhere. ",
+      "createdAt": "2025-09-01T14:37:40Z",
+      "updatedAt": "2025-09-01T14:37:40Z",
       "closedAt": null,
       "comments": []
     }
