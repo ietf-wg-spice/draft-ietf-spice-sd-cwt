@@ -17,8 +17,9 @@ kbt-cwt = #6.18([
 sd-protected = {
    &(typ: 16) ^ => "application/sd-cwt" / TBD11,
    &(alg: 1) ^ => int,
-   &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
-   ? &(sd_aead: TBD7) ^ => uint .size 2
+   ? &(kid: 4) ^ => bstr,
+   ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
+   ? &(sd_aead: TBD7) ^ => uint .size 2,
    * key => any
 }
 
@@ -44,9 +45,9 @@ sd-payload = {
       &(iss: 1) ^ => tstr, ; "https://issuer.example"
     ? &(sub: 2) ^ => tstr, ; "https://device.example"
     ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-    ? &(exp: 4) ^ => int,  ; 1883000000
-    ? &(nbf: 5) ^ => int,  ; 1683000000
-    ? &(iat: 6) ^ => int,  ; 1683000000
+    ? &(exp: 4) ^ => num,  ; 1883000000
+    ? &(nbf: 5) ^ => num,  ; 1683000000
+    ? &(iat: 6) ^ => num,  ; 1683000000
     ? &(cti: 7) ^ => bstr,
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
@@ -57,15 +58,16 @@ sd-payload = {
 
 kbt-payload = {
       &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-    ? &(exp: 4) ^ => int,  ; 1883000000
-    ? &(nbf: 5) ^ => int,  ; 1683000000
-      &(iat: 6) ^ => int,  ; 1683000000
+    ? &(exp: 4) ^ => num,  ; 1883000000
+    ? &(nbf: 5) ^ => num,  ; 1683000000
+      &(iat: 6) ^ => num,  ; 1683000000
     ? &(cnonce: 39) ^ => bstr,
     * key => any
 }
 
-salted-array = [ +bstr .cbor salted ]
-salted = salted-claim / salted-element / decoy
+salted-array = [ *bstr-encoded-salted ]
+bstr-encoded-salted = bstr .cbor salted-entry
+salted-entry = salted-claim / salted-element / decoy
 salted-claim = [
   bstr .size 16,     ; 128-bit salt
   any,               ; claim value
@@ -78,9 +80,8 @@ salted-element = [
 decoy = [
   bstr .size 16      ; 128-bit salt
 ]
-;bstr-encoded-salted = bstr .cbor salted
 
-aead-encrypted-array = [ +aead-encrypted ]
+aead-encrypted-array = [ *aead-encrypted ]
 aead-encrypted = [
   bstr .size 16,     ; 128-bit nonce
   bstr,              ; the encryption ciphertext output of a
@@ -88,11 +89,7 @@ aead-encrypted = [
   bstr               ; the corresponding authentication tag
 ]
 
-header_map = {
-    * key => any
-}
-empty_or_serialized_map = bstr .cbor header_map / bstr .size 0
-
+num = int / float
 key = int / text
 TBD1 = 17
 TBD2 = 18
@@ -111,6 +108,6 @@ REDACTED_KEYS = #7.59  ; #7.<TBD4>
 
 ; redacted_claim_element is to be used in CDDL payloads that contain
 ; array elements that are meant to be redacted.
-redacted_claim_element = #6.60( bstr .size 16 )  ; #6.<TBD5>(bstr)
+;redacted_claim_element = #6.60( bstr .size 16 )  ; #6.<TBD5>(bstr)
 ;TBD5 = 60; CBOR tag wrapping redacted_claim_element
 
