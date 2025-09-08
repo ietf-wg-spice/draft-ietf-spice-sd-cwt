@@ -28,14 +28,14 @@ brew install gnu-sed
 cargo install cddl
 ```
 
-And either add `alias cddl-rs="/Users/rohan/.cargo/bin/cddl"` or change the name in the Makefile from cddl-rs to cddl.
+Change `CDDL_RS` to the full path to the cddl Rust executable in the Makefile in this directory.
 
 If you don't have rust installed, try `brew install rustup && rustup`
 
 4. cbor-diag package (ruby)
 
 ```
-gem install cbor-diag
+gem install cbor-diag cddl
 ```
 
 If you don't mind running the homebrew Ruby:
@@ -43,6 +43,7 @@ If you don't mind running the homebrew Ruby:
 - `brew install ruby`
 - Add `/opt/homebrew/opt/ruby/bin` and `/opt/homebrew/opt/ruby/lib/ruby/gems/bin` before the system ruby in your PATH.
 - Add `export GEM_HOME=/opt/homebrew/opt/ruby/lib/ruby/gems` to your shell startup
+- Change `CDDL_RUBY` to the full path to the cddl ruby executable in the Makefile in this directory.
 
 5. node-cbor CLI tools (Node.js)
 

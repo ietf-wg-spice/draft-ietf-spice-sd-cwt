@@ -3,6 +3,8 @@ edn  = issuer_cwt.edn  kbt.edn  first-disclosure.edn first-redacted.edn chosen-d
 primary = $(edn)  first-blinded-hash.txt
 keys = ../holder_privkey.pem ../issuer_privkey.pem
 generated = $(cbor) $(edn) first-blinded-hash.txt
+CDDL_RUBY = /opt/homebrew/opt/ruby/lib/ruby/gems/bin/cddl
+CDDL_RS = "${HOME}/.cargo/bin/cddl"
 
 help:
 	echo 'To rebuild the examples, run:'
@@ -16,14 +18,15 @@ $(primary): sd-cwt.py first-disclosure.pretty $(keys)
 # Section 3.2
 first-disclosure.pretty: first-disclosure.cbor
 	cbor2pretty.rb $< > $@
+	# This sed command replaces the comment after the salt with a comment just say "16-byte salt"
         # Note: using pipe character as a sed delimiter below
 	gsed -i -r -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
 
 validate: validate-cddl validate-edn
 
 validate-cddl: ../sd-cwts.cddl $(cbor)
-	cddl-rs compile-cddl --cddl ../sd-cwts.cddl
-	for c in $(cbor); do cddl ../sd-cwts.cddl validate $${c}; done
+	$CDDL_RS compile-cddl --cddl ../sd-cwts.cddl
+	for c in $(cbor); do $CDDL_RUBY ../sd-cwts.cddl validate $${c}; done
 
 validate-edn: validate issuer_cwt.edn kbt.edn nested.edn
 
