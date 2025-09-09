@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-02T00:48:14.015689+00:00",
+  "timestamp": "2025-09-09T00:46:25.088566+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2430,11 +2430,13 @@
       "state": "OPEN",
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "OR13"
+      ],
       "labels": [],
       "body": "Coming back to [Differences from the CBOR Web Token Specification](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-differences-from-the-cbor-w) to realize that even though at first they was a reason to bend RFC-8392 because the `redacted_claim_keys` was proposed as a tag first. Since it's settled that it's going to be a simple type, I do not see the reason to continue allowing tagged integers or text strings.",
       "createdAt": "2025-07-23T11:01:50Z",
-      "updatedAt": "2025-08-18T16:26:55Z",
+      "updatedAt": "2025-09-08T13:35:41Z",
       "closedAt": null,
       "comments": [
         {
@@ -2478,6 +2480,13 @@
           "body": "@henkbirkholz @rohanmahy can you take a stab at this, we discussed on the call this morning.",
           "createdAt": "2025-08-18T16:26:55Z",
           "updatedAt": "2025-08-18T16:26:55Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Suggest a small section in the body of the document, guidance on impact to apis, reserve the tag, explain its use.",
+          "createdAt": "2025-09-08T13:35:26Z",
+          "updatedAt": "2025-09-08T13:35:26Z"
         }
       ]
     },
@@ -2527,11 +2536,13 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [],
       "body": "These two values are supposed to be the same. Clearly there is a tooling error somewhere. ",
       "createdAt": "2025-09-01T14:37:40Z",
-      "updatedAt": "2025-09-01T14:37:40Z",
+      "updatedAt": "2025-09-08T13:16:52Z",
       "closedAt": null,
       "comments": []
     }
@@ -11138,15 +11149,15 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Addresses #136\r\nAs a side effect addresses #52 ",
+      "body": "Addresses #136\r\nAs a side effect addresses #52, #132, and #140 ",
       "createdAt": "2025-08-06T12:56:03Z",
-      "updatedAt": "2025-08-18T13:14:34Z",
+      "updatedAt": "2025-09-08T16:16:50Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5b35a6df1f95d953d115f310cca928d434ac7de9",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "sort-cbor",
-      "headRefOid": "446ad5874d8beb8f16955f811d36ad01b89b8b05",
+      "headRefOid": "a27dd47340365f9a23866f95b322d4c1b10b5e7c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -11183,11 +11194,13 @@
       "state": "OPEN",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [],
       "body": "The text here originally implied that a verifier might be able to process optional claims if they are disclosed.  My understanding is that this is not possible because the verifier needs to process the hash and understand how to link that to the separate disclosure of those claims.  That makes all optional claims inaccessible to a non-SD CWT processor.  (This is hardly a major problem in the spectrum of possibilities for backwards-compatibility.)",
       "createdAt": "2025-08-27T05:01:47Z",
-      "updatedAt": "2025-08-27T17:28:22Z",
+      "updatedAt": "2025-09-08T13:14:58Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c9f44fcb674f2b94c70d11118eafb05e0a1dc6e0",
@@ -11198,7 +11211,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussed on call, needs some adjacent text or refinement.\r\n\r\nWe felt like we needed to say something like:\r\n\r\n\"Because simple values are not valid in a traditional CWT CBOR Map (claimset), SD-CWT claimsets may not parse in a CWT verifier...\"",
+          "createdAt": "2025-09-08T13:14:33Z",
+          "updatedAt": "2025-09-08T13:14:33Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s68aP01",
@@ -11220,24 +11241,26 @@
       "id": "PR_kwDOMm_Q2s6liDla",
       "title": "Propose a new title",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/139",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "I don't think that you need \"SPICE\" in the name (it's meaningless).  And it might be better to spell out the name.",
       "createdAt": "2025-08-27T05:08:41Z",
-      "updatedAt": "2025-08-27T17:27:46Z",
+      "updatedAt": "2025-09-08T13:06:02Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c9f44fcb674f2b94c70d11118eafb05e0a1dc6e0",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "new-title",
-      "headRefOid": "800c233885af555036c42f500cd8edd1b8320d30",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "2ec5ed5321a32a4a448f40915c1f43b1573317bc",
+      "closedAt": "2025-09-08T13:06:02Z",
+      "mergedAt": "2025-09-08T13:06:02Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "2e5ad36d404a4a1d3fd0763dfced11065eb260ac"
+      },
       "comments": [],
       "reviews": [
         {
@@ -11271,6 +11294,39 @@
           "body": "",
           "createdAt": "2025-08-27T17:27:46Z",
           "updatedAt": "2025-08-27T17:27:46Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6-hgAm",
+          "commit": {
+            "abbreviatedOid": "800c233"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-08T13:04:43Z",
+          "updatedAt": "2025-09-08T13:04:43Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\ntitle: \"Selective Disclosure CBOR Web Tokens (SD-CWT)\"\r\n```",
+              "createdAt": "2025-09-08T13:04:43Z",
+              "updatedAt": "2025-09-08T13:04:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s6-hhF9",
+          "commit": {
+            "abbreviatedOid": "2ec5ed5"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-08T13:05:59Z",
+          "updatedAt": "2025-09-08T13:05:59Z",
           "comments": []
         }
       ]
