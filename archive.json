@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-09T00:46:25.088566+00:00",
+  "timestamp": "2025-09-11T00:46:22.304850+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2543,6 +2543,22 @@
       "body": "These two values are supposed to be the same. Clearly there is a tooling error somewhere. ",
       "createdAt": "2025-09-01T14:37:40Z",
       "updatedAt": "2025-09-08T13:16:52Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 141,
+      "id": "I_kwDOMm_Q2s7KcEVY",
+      "title": "ES256 and ESP256 inconsstency in -04",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/141",
+      "state": "OPEN",
+      "author": "cyberphone",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Holder key",
+      "createdAt": "2025-09-09T02:56:07Z",
+      "updatedAt": "2025-09-09T02:56:07Z",
       "closedAt": null,
       "comments": []
     }
