@@ -1419,7 +1419,7 @@ Holder COSE key pair in EDN format
 ~~~ cbor-diag
 {
   /kty/  1 : 2, /EC/
-  /alg/  3 : -9, /ESP256/
+  /alg/  3 : -7, /ES256/
   /crv/ -1 : 1, /P-256/
   /x/   -2 : h'8554eb275dcd6fbd1c7ac641aa2c90d9
                2022fd0d3024b5af18c7cc61ad527a2d',
