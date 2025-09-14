@@ -29,8 +29,8 @@ author:
     email: "mprorock@mesur.io"
   -
     fullname: "Orie Steele"
-    organization: Transmute
-    email: "orie@transmute.industries"
+    organization: Tradeverifyd
+    email: "orie@or13.io"
 
   -
     ins: H. Birkholz
