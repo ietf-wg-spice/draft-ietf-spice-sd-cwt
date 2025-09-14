@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-11T00:46:22.304850+00:00",
+  "timestamp": "2025-09-14T00:50:29.612252+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2558,7 +2558,47 @@
       "labels": [],
       "body": "Holder key",
       "createdAt": "2025-09-09T02:56:07Z",
-      "updatedAt": "2025-09-09T02:56:07Z",
+      "updatedAt": "2025-09-13T19:43:07Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yep, there is a problem here.\n\n1. Holder/Subject key: P-256 (ES256) with algorithm -7 (but note: line 2458 shows -9 which seems to be an error)",
+          "createdAt": "2025-09-13T19:43:07Z",
+          "updatedAt": "2025-09-13T19:43:07Z"
+        }
+      ]
+    },
+    {
+      "number": 143,
+      "id": "I_kwDOMm_Q2s7LfFqs",
+      "title": "Holder presentation format",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/143",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We have the \"to be redact-able\" tag, which the issuer can use to prepare the to be signed claim set.\nDo we have / need a similar \"redact this claim\" tag for the holder?\n\nFor example:\n\nIssuer:\n\n``` cbor-edn\n{\n    #6.58: \"claim that will be issued as redact-able\"\n}\n```\n\n\nHolder:\n\n``` cbor-edn\n{\n    #6.???: \"claim that will be issued as redact-able\" # \"claim that is chosen to be disclosed\"\n}\n```",
+      "createdAt": "2025-09-13T18:04:25Z",
+      "updatedAt": "2025-09-13T18:04:25Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 144,
+      "id": "I_kwDOMm_Q2s7LfJU4",
+      "title": "Better examples for tag 58 and 59",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/144",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We need to make its clearer how to use these tags, and relate them to whatever we decide for #143 ",
+      "createdAt": "2025-09-13T18:19:09Z",
+      "updatedAt": "2025-09-13T18:19:09Z",
       "closedAt": null,
       "comments": []
     }
@@ -11167,7 +11207,7 @@
       "labels": [],
       "body": "Addresses #136\r\nAs a side effect addresses #52, #132, and #140 ",
       "createdAt": "2025-08-06T12:56:03Z",
-      "updatedAt": "2025-09-08T16:16:50Z",
+      "updatedAt": "2025-09-13T01:12:29Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5b35a6df1f95d953d115f310cca928d434ac7de9",
@@ -11178,7 +11218,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Having test vectors published would help me finish my implementation, I suggest we add a comprehensive set of test vectors to the appendix of the spec, that will be easy for LLMs to process : )",
+          "createdAt": "2025-09-13T01:01:33Z",
+          "updatedAt": "2025-09-13T01:01:33Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "btw work in progress on an implementation of the draft is now here: https://github.com/tradeverifyd/sd-cwt",
+          "createdAt": "2025-09-13T01:12:29Z",
+          "updatedAt": "2025-09-13T01:12:29Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s66dnA_",
@@ -11346,6 +11401,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 142,
+      "id": "PR_kwDOMm_Q2s6oV5L5",
+      "title": "Update contact information for Orie Steele",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/142",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-09-13T00:13:16Z",
+      "updatedAt": "2025-09-13T00:13:18Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "2e5ad36d404a4a1d3fd0763dfced11065eb260ac",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "OR13-patch-1",
+      "headRefOid": "f313de7a866c94a83746b8067f89fafa8b09bbd5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
