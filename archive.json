@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-14T00:50:29.612252+00:00",
+  "timestamp": "2025-09-16T00:44:30.608415+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -97,6 +97,11 @@
       "name": "wait-for-IANA",
       "description": null,
       "color": "aaaaaa"
+    },
+    {
+      "name": "WIP",
+      "description": "",
+      "color": "fda1f7"
     }
   ],
   "issues": [
@@ -151,10 +156,12 @@
       "assignees": [
         "rohanmahy"
       ],
-      "labels": [],
+      "labels": [
+        "chore"
+      ],
       "body": "do we want to support decoy digests like SD-JWT does?\r\n\r\nIf so, I left a simple hook to do so in PR #9 ",
       "createdAt": "2024-09-06T11:41:52Z",
-      "updatedAt": "2025-04-16T13:23:01Z",
+      "updatedAt": "2025-09-15T12:21:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -971,12 +978,13 @@
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
-        "chore"
+        "has-PR",
+        "chore",
+        "WIP"
       ],
       "body": "in the examples Makefile, run diag2cbor on the full EDN examples and byte compare against the generated CBOR.",
       "createdAt": "2025-02-18T02:34:17Z",
-      "updatedAt": "2025-07-03T13:45:24Z",
+      "updatedAt": "2025-09-15T12:27:01Z",
       "closedAt": null,
       "comments": [
         {
@@ -999,6 +1007,13 @@
           "body": "Yes, this is in transition.\nThe full EDN implementation is in the edn-abnf gem; this supports all of the above.\nThe processing components are in the cbor-diag gem, though.\nThese will be merged together in time.\n\nFor now, I have pushed an update to the cbor-diag gem (0.9.8) that provides cbor2cbor.rb, which can be used to create deterministic CBOR output (-d flag).\nSorry for the mix and match...\n",
           "createdAt": "2025-07-03T13:45:23Z",
           "updatedAt": "2025-07-03T13:45:23Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I wrote a python function in `sd-cwts.py` that sorts map keys in the correct order and used it. The EDN now validates against the CBOR unnested examples.\n\ncurrently there are still mistakes in encoding the nested examples. That is the WIP.",
+          "createdAt": "2025-09-15T12:27:01Z",
+          "updatedAt": "2025-09-15T12:27:01Z"
         }
       ]
     },
@@ -1014,12 +1029,12 @@
         "rohanmahy"
       ],
       "labels": [
-        "blocked",
-        "chore"
+        "has-PR",
+        "WIP"
       ],
       "body": "in the Makefile, validate each of the CBOR files against the CDDL.",
       "createdAt": "2025-02-18T02:34:46Z",
-      "updatedAt": "2025-07-02T12:50:16Z",
+      "updatedAt": "2025-09-15T12:24:20Z",
       "closedAt": null,
       "comments": [
         {
@@ -1042,6 +1057,13 @@
           "body": "sorry, the previous comment should have been applied to Isseu #52, not this one. ",
           "createdAt": "2025-07-02T12:50:16Z",
           "updatedAt": "2025-07-02T12:50:16Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I found a tooling solution. This is currently WIP in #135 .\n\nCBOR files for the unnested examples are (again) all validating against the CDDL.\nThe nested examples are corrupted with an extra layer of bstr encoding in a few places as a result of the refactor which obviously should not validate.",
+          "createdAt": "2025-09-15T12:19:58Z",
+          "updatedAt": "2025-09-15T12:24:20Z"
         }
       ]
     },
@@ -2400,10 +2422,12 @@
         "rohanmahy",
         "henkbirkholz"
       ],
-      "labels": [],
+      "labels": [
+        "has-PR"
+      ],
       "body": "Strictly speaking, since both SD-CWT and SD-KBT are supposed to be regular CWT, their time claims (exp, iat, nbf) should be NumericDate i.e. \"integer or floating-point number\".\nUnless it is added as an exception to [section 5](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-5) although more divergence from RFC-8392 is probably not desired.",
       "createdAt": "2025-07-23T10:56:37Z",
-      "updatedAt": "2025-08-18T13:55:03Z",
+      "updatedAt": "2025-09-15T12:15:04Z",
       "closedAt": null,
       "comments": [
         {
@@ -2433,10 +2457,12 @@
       "assignees": [
         "OR13"
       ],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "Coming back to [Differences from the CBOR Web Token Specification](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-differences-from-the-cbor-w) to realize that even though at first they was a reason to bend RFC-8392 because the `redacted_claim_keys` was proposed as a tag first. Since it's settled that it's going to be a simple type, I do not see the reason to continue allowing tagged integers or text strings.",
       "createdAt": "2025-07-23T11:01:50Z",
-      "updatedAt": "2025-09-08T13:35:41Z",
+      "updatedAt": "2025-09-15T15:26:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -2487,6 +2513,20 @@
           "body": "Suggest a small section in the body of the document, guidance on impact to apis, reserve the tag, explain its use.",
           "createdAt": "2025-09-08T13:35:26Z",
           "updatedAt": "2025-09-08T13:35:26Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In the final verified claimet, you cannot have any cbor that is not valid for a cbor claimset (no tagged map keys, no simple value amp keys)",
+          "createdAt": "2025-09-15T13:53:54Z",
+          "updatedAt": "2025-09-15T13:53:54Z"
+        },
+        {
+          "author": "beltram",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Btw this restriction only applies to the claims at the root of the CWT payload.\nIf someone has such a payload it has to put in a  SD-CWT the draft could hint to wrap it in a Map.",
+          "createdAt": "2025-09-15T15:26:58Z",
+          "updatedAt": "2025-09-15T15:26:58Z"
         }
       ]
     },
@@ -2501,12 +2541,22 @@
       "assignees": [
         "rohanmahy"
       ],
-      "labels": [],
+      "labels": [
+        "has-PR"
+      ],
       "body": "Currently the example CBOR files are generated such that map keys are usually but not always sorted. The python cbor2 library used to generate the examples only offers a \"canonical\" option which sorts map keys in RFC 7049 \"length-first\" order. Sorting in RFC 8949 order would enable the examples to be used as test vectors.\n",
       "createdAt": "2025-08-06T13:27:20Z",
-      "updatedAt": "2025-08-18T13:17:38Z",
+      "updatedAt": "2025-09-15T12:28:11Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Added appropriate sort function in `sd-cwts.py`",
+          "createdAt": "2025-09-15T12:28:10Z",
+          "updatedAt": "2025-09-15T12:28:10Z"
+        }
+      ]
     },
     {
       "number": 137,
@@ -2539,27 +2589,31 @@
       "assignees": [
         "rohanmahy"
       ],
-      "labels": [],
+      "labels": [
+        "has-PR"
+      ],
       "body": "These two values are supposed to be the same. Clearly there is a tooling error somewhere. ",
       "createdAt": "2025-09-01T14:37:40Z",
-      "updatedAt": "2025-09-08T13:16:52Z",
+      "updatedAt": "2025-09-15T12:16:49Z",
       "closedAt": null,
       "comments": []
     },
     {
       "number": 141,
       "id": "I_kwDOMm_Q2s7KcEVY",
-      "title": "ES256 and ESP256 inconsstency in -04",
+      "title": "ES256 and ESP256 inconsistency in -04",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/141",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "cyberphone",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-PR"
+      ],
       "body": "Holder key",
       "createdAt": "2025-09-09T02:56:07Z",
-      "updatedAt": "2025-09-13T19:43:07Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-15T13:14:45Z",
+      "closedAt": "2025-09-15T13:14:45Z",
       "comments": [
         {
           "author": "OR13",
@@ -2567,6 +2621,13 @@
           "body": "Yep, there is a problem here.\n\n1. Holder/Subject key: P-256 (ES256) with algorithm -7 (but note: line 2458 shows -9 which seems to be an error)",
           "createdAt": "2025-09-13T19:43:07Z",
           "updatedAt": "2025-09-13T19:43:07Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Nice catch. Fortunately that is a 1 line fix, since the value of alg isn't used in the calculation of the thumbprint.",
+          "createdAt": "2025-09-14T08:32:34Z",
+          "updatedAt": "2025-09-14T08:32:34Z"
         }
       ]
     },
@@ -2575,32 +2636,64 @@
       "id": "I_kwDOMm_Q2s7LfFqs",
       "title": "Holder presentation format",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/143",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "We have the \"to be redact-able\" tag, which the issuer can use to prepare the to be signed claim set.\nDo we have / need a similar \"redact this claim\" tag for the holder?\n\nFor example:\n\nIssuer:\n\n``` cbor-edn\n{\n    #6.58: \"claim that will be issued as redact-able\"\n}\n```\n\n\nHolder:\n\n``` cbor-edn\n{\n    #6.???: \"claim that will be issued as redact-able\" # \"claim that is chosen to be disclosed\"\n}\n```",
       "createdAt": "2025-09-13T18:04:25Z",
-      "updatedAt": "2025-09-13T18:04:25Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-09-15T13:18:56Z",
+      "closedAt": "2025-09-15T13:18:56Z",
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think not a good idea",
+          "createdAt": "2025-09-15T13:18:56Z",
+          "updatedAt": "2025-09-15T13:18:56Z"
+        }
+      ]
     },
     {
       "number": 144,
       "id": "I_kwDOMm_Q2s7LfJU4",
-      "title": "Better examples for tag 58 and 59",
+      "title": "Better examples for tag 58 and 60",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/144",
       "state": "OPEN",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "We need to make its clearer how to use these tags, and relate them to whatever we decide for #143 ",
+      "body": "We need to make its clearer how to use these tags, and relate them to whatever we decide for #143 \n\nAnd simple value 59",
       "createdAt": "2025-09-13T18:19:09Z",
-      "updatedAt": "2025-09-13T18:19:09Z",
+      "updatedAt": "2025-09-15T13:48:25Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 146,
+      "id": "I_kwDOMm_Q2s7Lt34b",
+      "title": "Require any CBOR encoding restrictions?",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/146",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
+      "createdAt": "2025-09-15T12:40:25Z",
+      "updatedAt": "2025-09-15T13:34:37Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Lets make this a MUST, and avoid a SHOULD with a long and likely to not be read security considerations.",
+          "createdAt": "2025-09-15T13:34:37Z",
+          "updatedAt": "2025-09-15T13:34:37Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -11271,7 +11364,7 @@
       "labels": [],
       "body": "The text here originally implied that a verifier might be able to process optional claims if they are disclosed.  My understanding is that this is not possible because the verifier needs to process the hash and understand how to link that to the separate disclosure of those claims.  That makes all optional claims inaccessible to a non-SD CWT processor.  (This is hardly a major problem in the spectrum of possibilities for backwards-compatibility.)",
       "createdAt": "2025-08-27T05:01:47Z",
-      "updatedAt": "2025-09-08T13:14:58Z",
+      "updatedAt": "2025-09-15T12:13:27Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c9f44fcb674f2b94c70d11118eafb05e0a1dc6e0",
@@ -11304,6 +11397,46 @@
           "createdAt": "2025-08-27T17:28:22Z",
           "updatedAt": "2025-08-27T17:28:22Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7ALw10",
+          "commit": {
+            "abbreviatedOid": "7452a37"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T12:12:40Z",
+          "updatedAt": "2025-09-15T12:12:41Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\nA Verifier that does not understand selective disclosure at all can only act on unblinded claims sent by the Holder; it will ignore Blinded Claims representing array items, and will fail to process any SD-CWT containing Blinded Claims that represent map keys.\r\n```\r\n\r\n\r\n\r\nRFC 8392 only Verifier\r\n- can act on unredacted Claims\r\n- will ignore redacted array elements\r\n- will fail in the presence of redacted claim keys\r\n\r\nRFC 8392 Verifier split into payload processing and SD-CWT library\r\n- will process disclosed and unredacted Claims\r\n- will not see redacted Claims\r\n\r\n",
+              "createdAt": "2025-09-15T12:12:40Z",
+              "updatedAt": "2025-09-15T12:12:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7ALxi7",
+          "commit": {
+            "abbreviatedOid": "7452a37"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T12:13:26Z",
+          "updatedAt": "2025-09-15T12:13:27Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\noptional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.\r\n```",
+              "createdAt": "2025-09-15T12:13:26Z",
+              "updatedAt": "2025-09-15T12:13:27Z"
+            }
+          ]
         }
       ]
     },
@@ -11407,26 +11540,84 @@
       "id": "PR_kwDOMm_Q2s6oV5L5",
       "title": "Update contact information for Orie Steele",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/142",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-09-13T00:13:16Z",
-      "updatedAt": "2025-09-13T00:13:18Z",
+      "updatedAt": "2025-09-14T11:30:16Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "2e5ad36d404a4a1d3fd0763dfced11065eb260ac",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "OR13-patch-1",
       "headRefOid": "f313de7a866c94a83746b8067f89fafa8b09bbd5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-14T11:30:16Z",
+      "mergedAt": "2025-09-14T11:30:16Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "10f3faef4035b44a8410f848ba5da6051369152c"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7ADBgM",
+          "commit": {
+            "abbreviatedOid": "f313de7"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-14T11:30:10Z",
+          "updatedAt": "2025-09-14T11:30:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 145,
+      "id": "PR_kwDOMm_Q2s6oesPj",
+      "title": "Fix wrong algorithm in COSE key examples",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/145",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #141\r\n\r\nNote that since `alg` is not included in the COSE thumbprint, other parts of the example are still correct.",
+      "createdAt": "2025-09-14T11:26:38Z",
+      "updatedAt": "2025-09-15T13:14:44Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "2e5ad36d404a4a1d3fd0763dfced11065eb260ac",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "fix-cose-alg",
+      "headRefOid": "9eb49395d9d56dfba483c031c760afaa97044ca6",
+      "closedAt": "2025-09-15T13:14:44Z",
+      "mergedAt": "2025-09-15T13:14:44Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "094a92989ea5413428927aae8d7f9673c436d250"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7AMpgr",
+          "commit": {
+            "abbreviatedOid": "9eb4939"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-15T13:11:21Z",
+          "updatedAt": "2025-09-15T13:11:21Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
