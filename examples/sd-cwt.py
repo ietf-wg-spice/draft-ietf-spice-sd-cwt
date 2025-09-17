@@ -929,13 +929,11 @@ if __name__ == "__main__":
     
     # redact payload for nested example
     (payload, disclosures) = redact_map(tbr_nested_payload, 1)
-    
-    # generate issued nested example?
-    
+        
     # make nested-cwt
     payload |= holder_cnf | cwt_time_claims
     
-    # which disclosures to include?
+    # help figure out which disclosures to include
     for d in disclosures:
         disc_array = cbor2.loads(d)
         print(f'''
@@ -950,35 +948,6 @@ if __name__ == "__main__":
                       payload,
                       issuer_priv_key)
     write_to_file(issuer_nested_cwt, "nested_issuer_cwt.cbor")
-    
-    nested_unprotected = {
-      SD_CLAIMS: [
-        disclosures[14],
-        disclosures[10],
-        disclosures[13],
-        disclosures[11],
-        disclosures[4],
-        disclosures[0],
-        disclosures[3]
-      ]
-    }
-    
-    nested_sd_claims = []
-    for d in nested_unprotected[SD_CLAIMS]:
-        nested_sd_claims.append(cbor2.dumps(d))
-    encoded_nested_unprotected = {
-        SD_CLAIMS: nested_sd_claims
-    }
-
-    nested_cwt = sign(cwt_protected,
-                      encoded_nested_unprotected,
-                      payload,
-                      issuer_priv_key)
-    write_to_file(nested_cwt, "nested_cwt.cbor")
-
-    kbt_protected[13] = nested_cwt
-    nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
-    write_to_file(nested_kbt, "nested_kbt.cbor")
 
     # generate/save pretty-printed disclosures from nested example
     example_comments=[
@@ -1011,6 +980,39 @@ if __name__ == "__main__":
         sig=issuer_nested_cwt[-96:],
         comments=example_comments)
     write_to_file(nested_issued_edn, "nested_issuer_cwt.edn")
+
+
+
+
+    nested_unprotected = {
+      SD_CLAIMS: [
+        disclosures[14],
+        disclosures[10],
+        disclosures[13],
+        disclosures[11],
+        disclosures[4],
+        disclosures[0],
+        disclosures[3]
+      ]
+    }
+    
+    nested_sd_claims = []
+    for d in nested_unprotected[SD_CLAIMS]:
+        nested_sd_claims.append(cbor2.dumps(d))
+    encoded_nested_unprotected = {
+        SD_CLAIMS: nested_sd_claims
+    }
+
+    nested_cwt = sign(cwt_protected,
+                      encoded_nested_unprotected,
+                      payload,
+                      issuer_priv_key)
+    write_to_file(nested_cwt, "nested_cwt.cbor")
+
+    kbt_protected[13] = nested_cwt
+    nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
+    write_to_file(nested_kbt, "nested_kbt.cbor")
+
 
     presented_disclosures = [
         decoded_disclosures[14],
