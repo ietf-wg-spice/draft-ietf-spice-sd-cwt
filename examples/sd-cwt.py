@@ -1008,7 +1008,7 @@ if __name__ == "__main__":
         exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
         thumb_fields=holder_thumb_edn,
         redacted=redacted,
-        sig=issuer_cwt[-96:],
+        sig=issuer_nested_cwt[-96:],
         comments=example_comments)
     write_to_file(nested_issued_edn, "nested_issuer_cwt.edn")
 
@@ -1039,7 +1039,7 @@ if __name__ == "__main__":
         exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
         thumb_fields=holder_thumb_edn,
         redacted=redacted,
-        sig=issuer_cwt[-96:])
+        sig=issuer_nested_cwt[-96:])
     write_to_file(nested_presented_edn, "nested_cwt.edn")
 
 #    holder_unprotected = {SD_CLAIMS: presented_disclosures}
