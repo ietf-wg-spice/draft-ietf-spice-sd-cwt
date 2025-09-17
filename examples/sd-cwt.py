@@ -781,7 +781,7 @@ if __name__ == "__main__":
         print(edn_one_disclosure(first_disc_array, comment=example_comments[0])[:-1],
             file=file, end='')
     first_bstr = cbor2.dumps(decoded_disclosures[0])
-    with open('first-disclosure.cbor', 'wb') as file:
+    with open('first-disclosure.cborseq', 'wb') as file:
         file.write(first_bstr)
     first_redacted = bytes2hex(sha256(first_bstr))
     with open('first-blinded-hash.txt', 'w') as file:
