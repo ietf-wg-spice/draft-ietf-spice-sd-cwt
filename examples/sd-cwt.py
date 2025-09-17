@@ -662,6 +662,41 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
   / CWT signature / {pretty_hex(bytes2hex(sig), 20)}
 ])'''
 
+def generate_nested_cwt_edn(edn_disclosures, exp, nbf, iat,
+                            thumb_fields, redacted, sig, comments):
+    # use this function twice to generate two versions of this EDN:
+    #   - one for holder with all disclosures,
+    #   - one for verifier with holder-selected disclosures
+    return f'''/ cose-sign1 / 18([  / issuer SD-CWT /
+  / CWT protected / << {{
+    / alg /    1  : -35, / ES384 /
+    / kid /    4  : 'https://issuer.example/cose-key3',
+    / typ /    16 : "application/sd-cwt",
+    / sd_alg / 18 : -16  / SHA256 /
+  }} >>,
+  / CWT unprotected / {{
+{edn_disclosures}  }}
+  / CWT payload / << {{
+    / iss / 1   : "https://issuer.example",
+    / sub / 2   : "https://device.example",
+    / exp / 4   : {exp},  /{iso_date(exp)}/
+    / nbf / 5   : {nbf},  /{iso_date(nbf)}/
+    / iat / 6   : {iat},  /{iso_date(iat)}/
+    / cnf / 8   : {{
+      / cose key / 1 : {{
+{thumb_fields}      }}
+    }},
+    /inspection history log/ 504: [
+      / {comments[4]} /
+      60({pretty_hex(redacted[4], 9)}),
+      / {comments[9]} /
+      60({pretty_hex(redacted[9], 9)}),
+      / {comments[14]} /
+      60({pretty_hex(redacted[14], 9)})
+    ]
+  }} >>,
+  / CWT signature / {pretty_hex(bytes2hex(sig), 20)}
+])'''
 
 def generate_basic_holder_kbt_edn(issuer_cwt, iat, sig):
     cwt = indent(issuer_cwt, 4) # indent 4 spaces
@@ -914,7 +949,7 @@ if __name__ == "__main__":
                       full_nested_unprotected,
                       payload,
                       issuer_priv_key)
-    write_to_file(issuer_nested_cwt, "issuer_nested_cwt.cbor")
+    write_to_file(issuer_nested_cwt, "nested_issuer_cwt.cbor")
     
     nested_unprotected = {
       SD_CLAIMS: [
@@ -969,11 +1004,12 @@ if __name__ == "__main__":
 
     # generate nested issuer EDN
     redacted = redacted_hashes_from_disclosures(disclosures)
-    nested_issued_edn = generate_basic_issuer_cwt_edn(edn_disclosures, 
+    nested_issued_edn = generate_nested_cwt_edn(edn_disclosures,
         exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
         thumb_fields=holder_thumb_edn,
         redacted=redacted,
-        sig=issuer_cwt[-96:])
+        sig=issuer_cwt[-96:],
+        comments=example_comments)
     write_to_file(nested_issued_edn, "nested_issuer_cwt.edn")
 
     presented_disclosures = [
