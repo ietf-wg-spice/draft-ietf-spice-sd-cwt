@@ -1000,7 +1000,7 @@ if __name__ == "__main__":
                       issuer_priv_key)
     write_to_file(nested_cwt, "nested_cwt.cbor")
 
-    kbt_protected[13] = nested_cwt
+    kbt_protected[13] = cbor2.loads(nested_cwt)
     nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
     write_to_file(nested_kbt, "nested_kbt.cbor")
 
