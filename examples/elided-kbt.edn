@@ -14,8 +14,8 @@
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } >>,      / end of KBT payload /
-  / KBT signature / h'd895729e72a3a7c801d5a20e9daf5103
-                      27858aecbb39b8b2e4bc11cbbd625ea8
-                      c60b78da31fc9762c46b7cd61094d047
-                      5ff1f19a7496cde53ab11600a5859d10'
+  / KBT signature / h'dd49379434b25b03cd8756787ab49731
+                      580a04505439ca78ee53300dd49a00b7
+                      0e8715d015a2a6e8d88455f5850e3d93
+                      eade1366c0040c2cee1cc568322a6b93'
 ])   / end of kbt /

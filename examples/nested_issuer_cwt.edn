@@ -1,0 +1,169 @@
+/ cose-sign1 / 18([  / issuer SD-CWT /
+  / CWT protected / << {
+    / alg /    1  : -35, / ES384 /
+    / kid /    4  : 'https://issuer.example/cose-key3',
+    / typ /    16 : "application/sd-cwt",
+    / sd_alg / 18 : -16  / SHA256 /
+  } >>,
+  / CWT unprotected / {
+    / sd_claims / 17 : [ / these are all the disclosures /
+        <<[
+            /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+            /value/  "DCBA-101777",
+            /claim/  501   / inspector_license_number /
+        ]>>,
+        <<[
+            /salt/   h'e70e23e77176fa59beb0b2559943a079',
+            /value/  "co",
+            /claim/  2   / region=Colorado /
+        ]>>,
+        <<[
+            /salt/   h'cbbf1cd3d1a5da83e1d92c08d566a481',
+            /value/  "80302",
+            /claim/  3   / postcode=80302 /
+        ]>>,
+        <<[
+            /salt/   h'c23a4d192be75dbd583be570482de8dd',
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'1b89717167f39d51eec08b13baeda570
+                           eff5d0aedaa1d7d0821185c33634a5a0',
+                         h'49412884fa1e3787c17d1320bdd48f6e
+                           0e5365da010cde0571d4a7effd13cc2a'
+                     ]
+                     },
+            /claim/  503   / Denver location /
+        ]>>,
+        <<[
+            /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
+            /value/  {
+                         500: true,
+                         502: 1549560720,
+                         simple(59): [
+                         h'7257a8697dfa40221079b00fb65fe587
+                           c310e6ca3da1aa33b090335de66ec810',
+                         h'c24c646b52fecd773c6ea01c6caa5a73
+                           422b85d3afa5900fa998336d83a88025'
+                     ]
+                     }   / inspection 7-Feb-2019 /
+        ]>>,
+        <<[
+            /salt/   h'9a3bc899090435650b377199450c1fa1',
+            /value/  "EFGH-789012",
+            /claim/  501   / inspector_license_number /
+        ]>>,
+        <<[
+            /salt/   h'5e852d2eef59c0ebeab8c08fca252cc5',
+            /value/  "nv",
+            /claim/  2   / region=Nevada /
+        ]>>,
+        <<[
+            /salt/   h'3dd46bd7dea09c9ee7dfe4e0d510129b',
+            /value/  "89155",
+            /claim/  3   / postcode=89155 /
+        ]>>,
+        <<[
+            /salt/   h'c225607427e01072bbafcce7e48049e3',
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'da268d9b81c19c02fcea7c4cadc2e23f
+                           0454a4550a380cde8b0842463ed034da',
+                         h'61dcdb8cbae7b66c3e36b2510daf61ba
+                           9168a50f20f4cad4213ed231e33d5b7b'
+                     ]
+                     },
+            /claim/  503   / Las Vegas location /
+        ]>>,
+        <<[
+            /salt/   h'1b248d469cf00b8dfa896f069f04697b',
+            /value/  {
+                         500: true,
+                         502: 1612560720,
+                         simple(59): [
+                         h'98d15f82dfadc18f5700582ff47b286c
+                           d7ca047bb1e0529a5374c59d6dc5057d',
+                         h'5dec8f268d3b9735936740c91b9baf00
+                           43de8ee42357a414e3e8d4ab098fae5d'
+                     ]
+                     }   / inspection 4-Feb-2021 /
+        ]>>,
+        <<[
+            /salt/   h'bae611067bb823486797da1ebbb52f83',
+            /value/  "ABCD-123456",
+            /claim/  501   / inspector_license_number /
+        ]>>,
+        <<[
+            /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+            /value/  "ca",
+            /claim/  2   / region=California /
+        ]>>,
+        <<[
+            /salt/   h'a965de35aa599d603fe1b7aa89490eb0',
+            /value/  "94188",
+            /claim/  3   / postcode=94188 /
+        ]>>,
+        <<[
+            /salt/   h'483e4b3c194df6073a9c41ca9f274067',
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'2470fb9175b062c347ab3c3a19776d02
+                           476112a17cd7cfc9416664bc058c220b',
+                         h'cf397a08917528624ca3b332c9edcc54
+                           a72c9411dd5983f68017ce160f709f52'
+                     ]
+                     },
+            /claim/  503   / San Francisco location /
+        ]>>,
+        <<[
+            /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
+            /value/  {
+                         500: true,
+                         502: 1674004740,
+                         simple(59): [
+                         h'af375dc3fba1d082448642c00be7b2f7
+                           bb05c9d8fb61cfc230ddfdfb4616a693',
+                         h'9d151abeb800adcc11ff10ff61fbd3d7
+                           5944c134b40a24abef1787d3ae6583aa'
+                     ]
+                     }   / inspection 17-Jan-2023 /
+        ]>>,
+    ]
+  }
+  / CWT payload / << {
+    / iss / 1   : "https://issuer.example",
+    / sub / 2   : "https://device.example",
+    / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
+    / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
+    / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
+    / cnf / 8   : {
+      / cose key / 1 : {
+        / kty /  1: 2,  / EC2   /
+        / crv / -1: 1,  / P-256 /
+        / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                      2022fd0d3024b5af18c7cc61ad527a2d',
+        / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                      503f54293d87875d1e79ce4770194343'
+      }
+    },
+    /inspection history log/ 504: [
+      / inspection 7-Feb-2019 /
+      60(h'ca6b851688236744ff0cf0814508e4f1
+           81d3811bfec4ed5bb8ace7823132dbc0'),
+      / inspection 4-Feb-2021 /
+      60(h'0dfdc69d0efb65eec14bf28af78cd8f0
+           6cabfe8e2b1a0611ef8bca869ce35b61'),
+      / inspection 17-Jan-2023 /
+      60(h'20d9bb11363bae49851cfd4a3f166539
+           d0aa00433c30aede18380bfa98d781dc')
+    ]
+  } >>,
+  / CWT signature / h'035322cfc2f66bb5beab30ad560df124
+                      aaee14cfe949be91065403b2c9020320
+                      2a1f8abb3b9b7c4c95ab670279002413
+                      7958f9b8b2286ea9cdd79b8117270cde
+                      fdf63ee6ba95d9c43ae3ecf8c4842205
+                      c7d2fa509af53eb25cda229962b1856f'
+])

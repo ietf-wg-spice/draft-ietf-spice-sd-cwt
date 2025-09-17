@@ -10,6 +10,9 @@ def hex2bytes(string):
 # pre-used salts so the values can stay the same when the data is the same
 # hashes the rest of the disclosure (minus the salt) as the dict key
 salts = {
+    hex2bytes('e46eb069cb1b453700c8199c9431931dad9f7dac76098999b802e03dc8d0db2e'):
+    hex2bytes('cd99b3858f1d659f9d16039abf8c5fba'),
+
     hex2bytes('84e6023a698dea8d7eaefeda3ec51a50a89ec6def850703720f171550e106aca'):
     hex2bytes('c23a4d192be75dbd583be570482de8dd'),
 
@@ -272,6 +275,46 @@ def iso_date(secs_since_epoch):
     t = datetime.datetime.fromtimestamp(secs_since_epoch, datetime.UTC)
     return t.isoformat() + 'Z'
 
+def sort_keys(unsorted_dict, rfc7049=False):
+    # note: does not sort into keys which are themselves maps
+    def walk_array(array):
+        if array == []:
+            return []
+        temp_array = []
+        for item in array:
+            if type(item) == dict:
+                temp_array.append(sort_keys(item))
+            elif type(item) == list:
+                temp_array.append(walk_array(item))
+            else:
+                temp_array.append(item)
+        return temp_array
+    if rfc7049 is True:
+        raise Exception("RFC7049 ordering not yet supported")
+    if type(unsorted_dict) == list:
+        # actually an array
+        return walk_array(unsorted_dict)
+    elif type(unsorted_dict) != dict:
+        # some scalar type
+        return unsorted_dict
+    if len(unsorted_dict) == 0:
+        return {}
+    new_dict = {}
+    cbor_key_encoding = {}
+    for k in unsorted_dict:
+        cbor_key_encoding[cbor2.dumps(k)] = k
+    sorted_keys = dict(sorted(cbor_key_encoding.items()))
+    for encoded_key in sorted_keys:
+        original_key = cbor_key_encoding[encoded_key]
+        val = unsorted_dict[original_key]
+        if type(val) == dict:
+            new_dict[original_key] = sort_keys(val)
+        elif type(val) == list:
+            new_dict[original_key] = walk_array(val)
+        else:
+            new_dict[original_key] = val
+    return new_dict
+
 
 # ****** Functions specific to SD-CWTs
 
@@ -317,7 +360,7 @@ def make_disclosure(salt=None, key=None, value=None):
             # map claim
             disclosure_array = [salt, value, key]
     # double encode to add bstr type and bstr length
-    return cbor2.dumps(disclosure_array, canonical=True)
+    return cbor2.dumps(sort_keys(disclosure_array))
 
 
 def parse_disclosures(disclosures):
@@ -506,7 +549,7 @@ def sign(phdr, uhdr, payload, key):
     cwt_object = Sign1Message(
       phdr=phdr,
       uhdr=uhdr,
-      payload=cbor2.dumps(payload, canonical=True),
+      payload=cbor2.dumps(sort_keys(payload)),
       key=key
     )
     return cwt_object.encode()
@@ -619,6 +662,41 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
   / CWT signature / {pretty_hex(bytes2hex(sig), 20)}
 ])'''
 
+def generate_nested_cwt_edn(edn_disclosures, exp, nbf, iat,
+                            thumb_fields, redacted, sig, comments):
+    # use this function twice to generate two versions of this EDN:
+    #   - one for holder with all disclosures,
+    #   - one for verifier with holder-selected disclosures
+    return f'''/ cose-sign1 / 18([  / issuer SD-CWT /
+  / CWT protected / << {{
+    / alg /    1  : -35, / ES384 /
+    / kid /    4  : 'https://issuer.example/cose-key3',
+    / typ /    16 : "application/sd-cwt",
+    / sd_alg / 18 : -16  / SHA256 /
+  }} >>,
+  / CWT unprotected / {{
+{edn_disclosures}  }}
+  / CWT payload / << {{
+    / iss / 1   : "https://issuer.example",
+    / sub / 2   : "https://device.example",
+    / exp / 4   : {exp},  /{iso_date(exp)}/
+    / nbf / 5   : {nbf},  /{iso_date(nbf)}/
+    / iat / 6   : {iat},  /{iso_date(iat)}/
+    / cnf / 8   : {{
+      / cose key / 1 : {{
+{thumb_fields}      }}
+    }},
+    /inspection history log/ 504: [
+      / {comments[4]} /
+      60({pretty_hex(redacted[4], 9)}),
+      / {comments[9]} /
+      60({pretty_hex(redacted[9], 9)}),
+      / {comments[14]} /
+      60({pretty_hex(redacted[14], 9)})
+    ]
+  }} >>,
+  / CWT signature / {pretty_hex(bytes2hex(sig), 20)}
+])'''
 
 def generate_basic_holder_kbt_edn(issuer_cwt, iat, sig):
     cwt = indent(issuer_cwt, 4) # indent 4 spaces
@@ -661,7 +739,7 @@ if __name__ == "__main__":
       502 : [
         cbor2.CBORTag(58, 1549560720),
         cbor2.CBORTag(58, 1612560720),
-        17183928
+        1674004740
       ],
       503 : {
         "country": "us",
@@ -703,7 +781,7 @@ if __name__ == "__main__":
         print(edn_one_disclosure(first_disc_array, comment=example_comments[0])[:-1],
             file=file, end='')
     first_bstr = cbor2.dumps(decoded_disclosures[0])
-    with open('first-disclosure.cbor', 'wb') as file:
+    with open('first-disclosure.cborseq', 'wb') as file:
         file.write(first_bstr)
     first_redacted = bytes2hex(sha256(first_bstr))
     with open('first-blinded-hash.txt', 'w') as file:
@@ -768,7 +846,11 @@ if __name__ == "__main__":
         redacted=redacted,
         sig=issuer_cwt[-96:])
     
-    holder_unprotected = {SD_CLAIMS: presented_disclosures}
+    encoded_presented_disclosures = []
+    for d in presented_disclosures:
+        encoded_presented_disclosures.append(cbor2.dumps(d))
+    
+    holder_unprotected = {SD_CLAIMS: encoded_presented_disclosures}
     presentation_cwt = sign(cwt_protected,
                        holder_unprotected,
                        payload,
@@ -783,8 +865,9 @@ if __name__ == "__main__":
     }
     
     kbt_payload = {
-        3: "https://verifier.example",  # aud
-        6: KBT_IAT                      # iat
+        3: "https://verifier.example/app",                # aud
+        6: KBT_IAT,                                       # iat
+        39: hex2bytes('8c0f5f523b95bea44a9a48c649240803') # cnonce
     }
     
     kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
@@ -833,7 +916,7 @@ if __name__ == "__main__":
           }),
           cbor2.CBORTag(58, {
               500 : True,
-              502 : 17183928,
+              502 : 1674004740,
               cbor2.CBORTag(58,501) : "ABCD-123456",
               cbor2.CBORTag(58, 503) : {
                   1: "us",
@@ -846,13 +929,11 @@ if __name__ == "__main__":
     
     # redact payload for nested example
     (payload, disclosures) = redact_map(tbr_nested_payload, 1)
-    
-    # generate issued nested example?
-    
+        
     # make nested-cwt
     payload |= holder_cnf | cwt_time_claims
     
-    # which disclosures to include?
+    # help figure out which disclosures to include
     for d in disclosures:
         disc_array = cbor2.loads(d)
         print(f'''
@@ -866,28 +947,7 @@ if __name__ == "__main__":
                       full_nested_unprotected,
                       payload,
                       issuer_priv_key)
-    write_to_file(issuer_nested_cwt, "issuer_nested_cwt.cbor")
-    
-    nested_unprotected = {
-      SD_CLAIMS: [
-        disclosures[14],
-        disclosures[10],
-        disclosures[13],
-        disclosures[11],
-        disclosures[4],
-        disclosures[0],
-        disclosures[3]
-      ]
-    }
-    nested_cwt = sign(cwt_protected,
-                      nested_unprotected,
-                      payload,
-                      issuer_priv_key)
-    write_to_file(nested_cwt, "nested_cwt.cbor")
-    
-    kbt_protected[13] = nested_cwt
-    nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
-    write_to_file(nested_kbt, "nested_kbt.cbor")
+    write_to_file(issuer_nested_cwt, "nested_issuer_cwt.cbor")
 
     # generate/save pretty-printed disclosures from nested example
     example_comments=[
@@ -913,23 +973,38 @@ if __name__ == "__main__":
 
     # generate nested issuer EDN
     redacted = redacted_hashes_from_disclosures(disclosures)
-    nested_issued_edn = generate_basic_issuer_cwt_edn(edn_disclosures, 
+    nested_issued_edn = generate_nested_cwt_edn(edn_disclosures,
         exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
         thumb_fields=holder_thumb_edn,
         redacted=redacted,
-        sig=issuer_cwt[-96:])
-    write_to_file(nested_issued_edn, "nested_cwt.edn")
+        sig=issuer_nested_cwt[-96:],
+        comments=example_comments)
+    write_to_file(nested_issued_edn, "nested_issuer_cwt.edn")
 
-    presented_disclosures = [
-        decoded_disclosures[14],
-        decoded_disclosures[10],
-        decoded_disclosures[13],
-        decoded_disclosures[11],
-        decoded_disclosures[4],
-        decoded_disclosures[0],
-        decoded_disclosures[3]
+    chosen_nested_disclosures = [
+        disclosures[14],
+        disclosures[10],
+        disclosures[13],
+        disclosures[11],
+        disclosures[4],
+        disclosures[0],
+        disclosures[3]
     ]
-    presented_comments = [
+    chosen_nested_unprotected = {
+        SD_CLAIMS: chosen_nested_disclosures
+    }
+
+    nested_cwt = sign(cwt_protected,
+                      chosen_nested_unprotected,
+                      payload,
+                      issuer_priv_key)
+    write_to_file(nested_cwt, "nested_cwt.cbor")
+
+    kbt_protected[13] = cbor2.loads(nested_cwt)
+    nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
+    write_to_file(nested_kbt, "nested_kbt.cbor")
+
+    chosen_comments = [
         example_comments[14],
         example_comments[10],
         example_comments[13],
@@ -938,20 +1013,18 @@ if __name__ == "__main__":
         example_comments[0],
         example_comments[3]
     ]
-    edn_disclosures = edn_decoded_disclosures(
-        presented_disclosures, comments=presented_comments)
+    decoded_disclosures = parse_disclosures(chosen_nested_disclosures)
+    edn_disclosures = edn_decoded_disclosures(decoded_disclosures,
+                            comments=chosen_comments)
     write_to_file(edn_disclosures, 'chosen-nested-disclosures.edn')
 
-    nested_presented_edn = generate_basic_issuer_cwt_edn(edn_disclosures, 
+    nested_presented_edn = generate_nested_cwt_edn(edn_disclosures,
         exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
         thumb_fields=holder_thumb_edn,
         redacted=redacted,
-        sig=issuer_cwt[-96:])
-    holder_unprotected = {SD_CLAIMS: presented_disclosures}
-    nested_presentation_cwt = sign(cwt_protected,
-                       holder_unprotected,
-                       payload,
-                       issuer_priv_key)
+        sig=issuer_nested_cwt[-96:],
+        comments=example_comments)
+    write_to_file(nested_presented_edn, "nested_cwt.edn")
 
     nested_kbt_edn = generate_basic_holder_kbt_edn(
         nested_presented_edn, iat=KBT_IAT, sig=nested_kbt[-64:])

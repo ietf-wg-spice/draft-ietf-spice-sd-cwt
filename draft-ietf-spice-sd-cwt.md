@@ -451,7 +451,11 @@ Salted Disclosed Claims for named claims are structured as a 128-bit salt, the d
 For Salted Disclosed Claims of items in an array, the name is omitted.
 
 ~~~ cddl
-salted = salted-claim / salted-element / decoy
+; an array of bstr-encoded Salted Disclosed Claims
+salted-array = [ *bstr-encoded-salted ]
+
+bstr-encoded-salted = bstr .cbor salted-entry
+salted-entry = salted-claim / salted-element / decoy
 salted-claim = [
   bstr .size 16,     ; 128-bit salt
   any,               ; Claim Value
@@ -464,9 +468,6 @@ salted-element = [
 decoy = [
   bstr .size 16      ; 128-bit salt
 ]
-
-; a collection of Salted Disclosed Claims
-salted-array = [ +bstr .cbor salted ]
 ~~~
 
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
@@ -546,8 +547,9 @@ sd-cwt-issued = #6.18([
 sd-protected = {
    &(typ: 16) ^ => "application/sd-cwt" / TBD11,
    &(alg: 1) ^ => int,
-   &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
-   ? &(sd_aead: TBD7) ^ => uint .size 2
+   ? &(kid: 4) ^ => bstr,
+   ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
+   ? &(sd_aead: TBD7) ^ => uint .size 2,
    * key => any
 }
 
@@ -562,9 +564,9 @@ sd-payload = {
       &(iss: 1) ^ => tstr, ; "https://issuer.example"
     ? &(sub: 2) ^ => tstr, ; "https://device.example"
     ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-    ? &(exp: 4) ^ => int,  ; 1883000000
-    ? &(nbf: 5) ^ => int,  ; 1683000000
-    ? &(iat: 6) ^ => int,  ; 1683000000
+    ? &(exp: 4) ^ => num,  ; 1883000000
+    ? &(nbf: 5) ^ => num,  ; 1683000000
+    ? &(iat: 6) ^ => num,  ; 1683000000
     ? &(cti: 7) ^ => bstr,
       &(cnf: 8) ^ => { * key => any }, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
@@ -635,9 +637,9 @@ kbt-unprotected = {
 
 kbt-payload = {
       &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-    ? &(exp: 4) ^ => int,  ; 1883000000
-    ? &(nbf: 5) ^ => int,  ; 1683000000
-      &(iat: 6) ^ => int,  ; 1683000000
+    ? &(exp: 4) ^ => num,  ; 1883000000
+    ? &(nbf: 5) ^ => num,  ; 1683000000
+      &(iat: 6) ^ => num,  ; 1683000000
     ? &(cnonce: 39) ^ => bstr,
     * key => any
 }
@@ -742,14 +744,13 @@ Details of key management are left to profiles of the specific protocols that ma
 The CDDL for AEAD encrypted disclosures is below.
 
 ~~~ cddl
-aead-encrypted-array = [ +aead-encrypted ]
+aead-encrypted-array = [ *aead-encrypted ]
 aead-encrypted = [
-  bstr,              ; nonce value
-  bstr,              ; the ciphertext output of a bstr-encoded-salted
-                     ;   with a matching salt
+  bstr .size 16,     ; 128-bit nonce
+  bstr,              ; the encryption ciphertext output of a
+                     ;   bstr-encoded-salted
   bstr               ; the corresponding authentication tag
 ]
-;bstr-encoded-salted = bstr .cbor salted
 ~~~
 
 > Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.

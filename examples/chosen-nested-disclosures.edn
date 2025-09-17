@@ -1,15 +1,15 @@
     / sd_claims / 17 : [ / these are the disclosures /
         <<[
-            /salt/   h'c4057d22ba56c3513af4c94f6c21826d',
+            /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
             /value/  {
+                         500: true,
+                         502: 1674004740,
                          simple(59): [
                          h'af375dc3fba1d082448642c00be7b2f7
                            bb05c9d8fb61cfc230ddfdfb4616a693',
                          h'9d151abeb800adcc11ff10ff61fbd3d7
                            5944c134b40a24abef1787d3ae6583aa'
-                     ],
-                         500: true,
-                         502: 17183928
+                     ]
                      }   / inspection 17-Jan-2023 /
         ]>>,
         <<[
@@ -38,14 +38,14 @@
         <<[
             /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
             /value/  {
+                         500: true,
+                         502: 1549560720,
                          simple(59): [
                          h'7257a8697dfa40221079b00fb65fe587
                            c310e6ca3da1aa33b090335de66ec810',
                          h'c24c646b52fecd773c6ea01c6caa5a73
                            422b85d3afa5900fa998336d83a88025'
-                     ],
-                         500: true,
-                         502: 1549560720
+                     ]
                      }   / inspection 7-Feb-2019 /
         ]>>,
         <<[

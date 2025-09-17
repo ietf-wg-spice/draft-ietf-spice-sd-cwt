@@ -11,16 +11,16 @@
       / CWT unprotected / {
         / sd_claims / 17 : [ / these are the disclosures /
             <<[
-                /salt/   h'c4057d22ba56c3513af4c94f6c21826d',
+                /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
                 /value/  {
+                             500: true,
+                             502: 1674004740,
                              simple(59): [
                              h'af375dc3fba1d082448642c00be7b2f7
                                bb05c9d8fb61cfc230ddfdfb4616a693',
                              h'9d151abeb800adcc11ff10ff61fbd3d7
                                5944c134b40a24abef1787d3ae6583aa'
-                         ],
-                             500: true,
-                             502: 17183928
+                         ]
                          }   / inspection 17-Jan-2023 /
             ]>>,
             <<[
@@ -49,14 +49,14 @@
             <<[
                 /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
                 /value/  {
+                             500: true,
+                             502: 1549560720,
                              simple(59): [
                              h'7257a8697dfa40221079b00fb65fe587
                                c310e6ca3da1aa33b090335de66ec810',
                              h'c24c646b52fecd773c6ea01c6caa5a73
                                422b85d3afa5900fa998336d83a88025'
-                         ],
-                             500: true,
-                             502: 1549560720
+                         ]
                          }   / inspection 7-Feb-2019 /
             ]>>,
             <<[
@@ -95,39 +95,24 @@
                           503f54293d87875d1e79ce4770194343'
           }
         },
-        /most_recent_inspection_passed/ 500: true,
-        /inspection_dates/ 502 : [
-            / redacted inspection date 7-Feb-2019 /
-            60(h'1b89717167f39d51eec08b13baeda570
-                 eff5d0aedaa1d7d0821185c33634a5a0'),
-            / redacted inspection date 4-Feb-2021 /
-            60(h'49412884fa1e3787c17d1320bdd48f6e
-                 0e5365da010cde0571d4a7effd13cc2a'),
-            1674004740,   / 2023-01-17T17:19:00 /
-        ],
-        / inspection_location / 503 : {
-            "country" : "us",            / United States /
-            / redacted_claim_keys / simple(59) : [
-                / redacted region /
-                h'c24c646b52fecd773c6ea01c6caa5a73
-                  422b85d3afa5900fa998336d83a88025'
-                / redacted postal_code /
-                h'f47cb8d8e59f5c53a0dba45f0682c4f2
-                  e952dd0da06e3a3f0217a88fa6115b92'
-          ]
-        },
-        / redacted_claim_keys / simple(59) : [
-            / redacted inspector_license_number /
-            h'7257a8697dfa40221079b00fb65fe587
-              c310e6ca3da1aa33b090335de66ec810'
+        /inspection history log/ 504: [
+          / inspection 7-Feb-2019 /
+          60(h'ca6b851688236744ff0cf0814508e4f1
+               81d3811bfec4ed5bb8ace7823132dbc0'),
+          / inspection 4-Feb-2021 /
+          60(h'0dfdc69d0efb65eec14bf28af78cd8f0
+               6cabfe8e2b1a0611ef8bca869ce35b61'),
+          / inspection 17-Jan-2023 /
+          60(h'20d9bb11363bae49851cfd4a3f166539
+               d0aa00433c30aede18380bfa98d781dc')
         ]
       } >>,
-      / CWT signature / h'9c9022e57adb33c853f30b6e8a590f40
-                          6ca55849d7b8cd2a2519d3aec03e61b9
-                          ef0ecd85fe96103f916f58d73cd2f775
-                          4c390401945f0683b144d3504e500f94
-                          d30433c3445417dc3c920f7a155548e9
-                          1994601827d0a46ead66ff450485e85f'
+      / CWT signature / h'035322cfc2f66bb5beab30ad560df124
+                          aaee14cfe949be91065403b2c9020320
+                          2a1f8abb3b9b7c4c95ab670279002413
+                          7958f9b8b2286ea9cdd79b8117270cde
+                          fdf63ee6ba95d9c43ae3ecf8c4842205
+                          c7d2fa509af53eb25cda229962b1856f'
     ]),
     / end of issuer SD-CWT /
     / typ /   16:  "application/kb+cwt",
@@ -138,8 +123,8 @@
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } >>,      / end of KBT payload /
-  / KBT signature / h'af049f8229ecc5417ea3b4a227dda2fa
-                      4aaebc8e113f0a35b55043f28a94f140
-                      415909324d974e109823e4fdc4ea6a5a
-                      d5f3d3fa946c2d8e3cb3036716825ddf'
+  / KBT signature / h'c6d3371aebde44696512ff722c612a95
+                      f61c98cbc7b431ea6fd1544e1eb5a21a
+                      dc4d4a11480ad50f30af4dc8fdde6701
+                      3beef31a45d1374885bcd62fe4e209a8'
 ])   / end of kbt /
