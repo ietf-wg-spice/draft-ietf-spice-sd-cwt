@@ -981,11 +981,7 @@ if __name__ == "__main__":
         comments=example_comments)
     write_to_file(nested_issued_edn, "nested_issuer_cwt.edn")
 
-
-
-
-    nested_unprotected = {
-      SD_CLAIMS: [
+    chosen_nested_disclosures = [
         disclosures[14],
         disclosures[10],
         disclosures[13],
@@ -993,18 +989,13 @@ if __name__ == "__main__":
         disclosures[4],
         disclosures[0],
         disclosures[3]
-      ]
-    }
-    
-    nested_sd_claims = []
-    for d in nested_unprotected[SD_CLAIMS]:
-        nested_sd_claims.append(cbor2.dumps(d))
-    encoded_nested_unprotected = {
-        SD_CLAIMS: nested_sd_claims
+    ]
+    chosen_nested_unprotected = {
+        SD_CLAIMS: chosen_nested_disclosures
     }
 
     nested_cwt = sign(cwt_protected,
-                      encoded_nested_unprotected,
+                      chosen_nested_unprotected,
                       payload,
                       issuer_priv_key)
     write_to_file(nested_cwt, "nested_cwt.cbor")
@@ -1013,17 +1004,7 @@ if __name__ == "__main__":
     nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
     write_to_file(nested_kbt, "nested_kbt.cbor")
 
-
-    presented_disclosures = [
-        decoded_disclosures[14],
-        decoded_disclosures[10],
-        decoded_disclosures[13],
-        decoded_disclosures[11],
-        decoded_disclosures[4],
-        decoded_disclosures[0],
-        decoded_disclosures[3]
-    ]
-    presented_comments = [
+    chosen_comments = [
         example_comments[14],
         example_comments[10],
         example_comments[13],
@@ -1032,24 +1013,18 @@ if __name__ == "__main__":
         example_comments[0],
         example_comments[3]
     ]
-    edn_disclosures = edn_decoded_disclosures(
-        presented_disclosures, comments=presented_comments)
+    decoded_disclosures = parse_disclosures(chosen_nested_disclosures)
+    edn_disclosures = edn_decoded_disclosures(decoded_disclosures,
+                            comments=chosen_comments)
     write_to_file(edn_disclosures, 'chosen-nested-disclosures.edn')
 
-    nested_presented_edn = generate_nested_cwt_edn(
-        encoded_nested_unprotected,
+    nested_presented_edn = generate_nested_cwt_edn(edn_disclosures,
         exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
         thumb_fields=holder_thumb_edn,
         redacted=redacted,
         sig=issuer_nested_cwt[-96:],
         comments=example_comments)
     write_to_file(nested_presented_edn, "nested_cwt.edn")
-
-#    holder_unprotected = {SD_CLAIMS: presented_disclosures}
-#    nested_presentation_cwt = sign(cwt_protected,
-#                       holder_unprotected,
-#                       payload,
-#                       issuer_priv_key)
 
     nested_kbt_edn = generate_basic_holder_kbt_edn(
         nested_presented_edn, iat=KBT_IAT, sig=nested_kbt[-64:])
