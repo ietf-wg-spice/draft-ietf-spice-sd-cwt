@@ -10,6 +10,3 @@ TODO
   - postlude
   - redacted_claim_element (add ';' before it is included in the main sd-cwts.cddl)
 - write some tooling??
-- figure out why nested example cbor and edn don't match
-- rename first-disclosure.cbor to first-disclosure.cborseq
-- try CDDL validation against all CBOR files
