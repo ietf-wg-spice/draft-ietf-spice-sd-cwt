@@ -1034,12 +1034,13 @@ if __name__ == "__main__":
         presented_disclosures, comments=presented_comments)
     write_to_file(edn_disclosures, 'chosen-nested-disclosures.edn')
 
-    nested_presented_edn = generate_basic_issuer_cwt_edn(
+    nested_presented_edn = generate_nested_cwt_edn(
         encoded_nested_unprotected,
         exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
         thumb_fields=holder_thumb_edn,
         redacted=redacted,
-        sig=issuer_nested_cwt[-96:])
+        sig=issuer_nested_cwt[-96:],
+        comments=example_comments)
     write_to_file(nested_presented_edn, "nested_cwt.edn")
 
 #    holder_unprotected = {SD_CLAIMS: presented_disclosures}
