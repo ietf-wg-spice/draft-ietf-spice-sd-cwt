@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-16T00:44:30.608415+00:00",
+  "timestamp": "2025-09-18T00:44:55.915227+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -971,7 +971,7 @@
       "id": "I_kwDOMm_Q2s6qa6Ww",
       "title": "Verify EDN files in the draft match the example generated CBOR",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/52",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -984,8 +984,8 @@
       ],
       "body": "in the examples Makefile, run diag2cbor on the full EDN examples and byte compare against the generated CBOR.",
       "createdAt": "2025-02-18T02:34:17Z",
-      "updatedAt": "2025-09-15T12:27:01Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-17T19:44:24Z",
+      "closedAt": "2025-09-17T19:44:24Z",
       "comments": [
         {
           "author": "cabo",
@@ -1014,6 +1014,13 @@
           "body": "I wrote a python function in `sd-cwts.py` that sorts map keys in the correct order and used it. The EDN now validates against the CBOR unnested examples.\n\ncurrently there are still mistakes in encoding the nested examples. That is the WIP.",
           "createdAt": "2025-09-15T12:27:01Z",
           "updatedAt": "2025-09-15T12:27:01Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed via PR #135 ",
+          "createdAt": "2025-09-17T19:44:24Z",
+          "updatedAt": "2025-09-17T19:44:24Z"
         }
       ]
     },
@@ -1022,7 +1029,7 @@
       "id": "I_kwDOMm_Q2s6qa6eY",
       "title": "Verify generated CBOR files are valid according to CDDL",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/53",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1034,8 +1041,8 @@
       ],
       "body": "in the Makefile, validate each of the CBOR files against the CDDL.",
       "createdAt": "2025-02-18T02:34:46Z",
-      "updatedAt": "2025-09-15T12:24:20Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-17T19:44:41Z",
+      "closedAt": "2025-09-17T19:44:41Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -1064,6 +1071,13 @@
           "body": "I found a tooling solution. This is currently WIP in #135 .\n\nCBOR files for the unnested examples are (again) all validating against the CDDL.\nThe nested examples are corrupted with an extra layer of bstr encoding in a few places as a result of the refactor which obviously should not validate.",
           "createdAt": "2025-09-15T12:19:58Z",
           "updatedAt": "2025-09-15T12:24:20Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed via PR #135 ",
+          "createdAt": "2025-09-17T19:44:41Z",
+          "updatedAt": "2025-09-17T19:44:41Z"
         }
       ]
     },
@@ -2415,7 +2429,7 @@
       "id": "I_kwDOMm_Q2s7CEP4N",
       "title": "time claims as NumericDate",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/132",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -2427,8 +2441,8 @@
       ],
       "body": "Strictly speaking, since both SD-CWT and SD-KBT are supposed to be regular CWT, their time claims (exp, iat, nbf) should be NumericDate i.e. \"integer or floating-point number\".\nUnless it is added as an exception to [section 5](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-5) although more divergence from RFC-8392 is probably not desired.",
       "createdAt": "2025-07-23T10:56:37Z",
-      "updatedAt": "2025-09-15T12:15:04Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-17T19:44:58Z",
+      "closedAt": "2025-09-17T19:44:58Z",
       "comments": [
         {
           "author": "OR13",
@@ -2443,6 +2457,13 @@
           "body": "@henkbirkholz to check on CDDL for CWT datetime values. ",
           "createdAt": "2025-08-18T13:55:03Z",
           "updatedAt": "2025-08-18T13:55:03Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed via PR #135 ",
+          "createdAt": "2025-09-17T19:44:58Z",
+          "updatedAt": "2025-09-17T19:44:58Z"
         }
       ]
     },
@@ -2535,7 +2556,7 @@
       "id": "I_kwDOMm_Q2s7Ef_Td",
       "title": "Make example CBOR files usable as test vectors",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/136",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2546,8 +2567,8 @@
       ],
       "body": "Currently the example CBOR files are generated such that map keys are usually but not always sorted. The python cbor2 library used to generate the examples only offers a \"canonical\" option which sorts map keys in RFC 7049 \"length-first\" order. Sorting in RFC 8949 order would enable the examples to be used as test vectors.\n",
       "createdAt": "2025-08-06T13:27:20Z",
-      "updatedAt": "2025-09-15T12:28:11Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-17T19:45:35Z",
+      "closedAt": "2025-09-17T19:45:35Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -2555,6 +2576,13 @@
           "body": "Added appropriate sort function in `sd-cwts.py`",
           "createdAt": "2025-09-15T12:28:10Z",
           "updatedAt": "2025-09-15T12:28:10Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed via PR #135 ",
+          "createdAt": "2025-09-17T19:45:35Z",
+          "updatedAt": "2025-09-17T19:45:35Z"
         }
       ]
     },
@@ -2583,7 +2611,7 @@
       "id": "I_kwDOMm_Q2s7JCwh-",
       "title": "hex values in Figures 4 and 5 do not match (redacted inspector number claim)",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/140",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2594,9 +2622,17 @@
       ],
       "body": "These two values are supposed to be the same. Clearly there is a tooling error somewhere. ",
       "createdAt": "2025-09-01T14:37:40Z",
-      "updatedAt": "2025-09-15T12:16:49Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-09-17T19:46:56Z",
+      "closedAt": "2025-09-17T19:46:56Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed via PR #135 ",
+          "createdAt": "2025-09-17T19:46:56Z",
+          "updatedAt": "2025-09-17T19:46:56Z"
+        }
+      ]
     },
     {
       "number": 141,
@@ -11291,26 +11327,28 @@
     {
       "number": 135,
       "id": "PR_kwDOMm_Q2s6iYakC",
-      "title": "WIP: Sort CBOR map keys so example cbor files can be used in test vectors",
+      "title": "Sort CBOR map keys so example cbor files can be used in test vectors",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/135",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Addresses #136\r\nAs a side effect addresses #52, #132, and #140 ",
+      "body": "Addresses #136\r\nAs a side effect addresses #52, #53, #132, and #140 ",
       "createdAt": "2025-08-06T12:56:03Z",
-      "updatedAt": "2025-09-13T01:12:29Z",
+      "updatedAt": "2025-09-17T19:43:49Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5b35a6df1f95d953d115f310cca928d434ac7de9",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "sort-cbor",
-      "headRefOid": "a27dd47340365f9a23866f95b322d4c1b10b5e7c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "084b9627a46011cdc27762304ff25578e8495294",
+      "closedAt": "2025-09-17T19:43:49Z",
+      "mergedAt": "2025-09-17T19:43:49Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "e81729423e403031e16beb570838a3e6389f6828"
+      },
       "comments": [
         {
           "author": "OR13",
@@ -11325,6 +11363,13 @@
           "body": "btw work in progress on an implementation of the draft is now here: https://github.com/tradeverifyd/sd-cwt",
           "createdAt": "2025-09-13T01:12:29Z",
           "updatedAt": "2025-09-13T01:12:29Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I ran `cddl ../sd-cwts.cddl validate` on the following files, and `compare_edn_to_cbor.sh` on the corresponding .edn files:\r\n\r\n```\r\nissuer_cwt.cbor\r\nkbt.cbor\r\nnested_issuer_cwt.cbor\r\nnested_cwt.cbor\r\nnested_kbt.cbor\r\n```\r\n\r\nI also spot checked the additional EDN fragments used in the document.",
+          "createdAt": "2025-09-17T16:39:27Z",
+          "updatedAt": "2025-09-17T16:39:27Z"
         }
       ],
       "reviews": [
@@ -11347,6 +11392,79 @@
               "updatedAt": "2025-08-18T13:14:34Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7A1qoA",
+          "commit": {
+            "abbreviatedOid": "446ad58"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-17T16:29:29Z",
+          "updatedAt": "2025-09-17T16:29:30Z",
+          "comments": [
+            {
+              "originalPosition": 168,
+              "body": "the presented_disclosures section was just plain wrong. fixed.",
+              "createdAt": "2025-09-17T16:29:29Z",
+              "updatedAt": "2025-09-17T16:29:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7A4NFF",
+          "commit": {
+            "abbreviatedOid": "084b962"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-17T19:32:27Z",
+          "updatedAt": "2025-09-17T19:32:27Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "I don't this we should have both `? &` right?",
+              "createdAt": "2025-09-17T19:32:27Z",
+              "updatedAt": "2025-09-17T19:32:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7A4OCX",
+          "commit": {
+            "abbreviatedOid": "084b962"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-17T19:33:18Z",
+          "updatedAt": "2025-09-17T19:33:18Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "nvm... ",
+              "createdAt": "2025-09-17T19:33:18Z",
+              "updatedAt": "2025-09-17T19:33:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7A4PEY",
+          "commit": {
+            "abbreviatedOid": "084b962"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-17T19:34:36Z",
+          "updatedAt": "2025-09-17T19:34:36Z",
+          "comments": []
         }
       ]
     },
@@ -11364,7 +11482,7 @@
       "labels": [],
       "body": "The text here originally implied that a verifier might be able to process optional claims if they are disclosed.  My understanding is that this is not possible because the verifier needs to process the hash and understand how to link that to the separate disclosure of those claims.  That makes all optional claims inaccessible to a non-SD CWT processor.  (This is hardly a major problem in the spectrum of possibilities for backwards-compatibility.)",
       "createdAt": "2025-08-27T05:01:47Z",
-      "updatedAt": "2025-09-15T12:13:27Z",
+      "updatedAt": "2025-09-17T19:07:33Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c9f44fcb674f2b94c70d11118eafb05e0a1dc6e0",
@@ -11382,6 +11500,13 @@
           "body": "Discussed on call, needs some adjacent text or refinement.\r\n\r\nWe felt like we needed to say something like:\r\n\r\n\"Because simple values are not valid in a traditional CWT CBOR Map (claimset), SD-CWT claimsets may not parse in a CWT verifier...\"",
           "createdAt": "2025-09-08T13:14:33Z",
           "updatedAt": "2025-09-08T13:14:33Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@martinthomson if you are happy with the additions let us know and we'll merge it",
+          "createdAt": "2025-09-17T19:07:33Z",
+          "updatedAt": "2025-09-17T19:07:33Z"
         }
       ],
       "reviews": [
