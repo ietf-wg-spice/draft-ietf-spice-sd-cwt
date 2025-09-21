@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-18T00:44:55.915227+00:00",
+  "timestamp": "2025-09-21T00:51:51.677156+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1385,7 +1385,7 @@
     {
       "number": 77,
       "id": "I_kwDOMm_Q2s63fjDK",
-      "title": "SHOULD use CoAP values instead of appliation/sd-cwt and application/sd-kbt?",
+      "title": "SHOULD use CoAP values instead of application/sd-cwt and application/sd-kbt?",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/77",
       "state": "OPEN",
       "author": "rohanmahy",
@@ -1399,7 +1399,7 @@
       ],
       "body": "Are integer values for content-type (using the CoAP registry) always preferred for efficiency, or only when using CoAP?\n\nAlso needs to update all the examples if we make this change.\n\n",
       "createdAt": "2025-05-21T00:11:06Z",
-      "updatedAt": "2025-06-25T13:54:24Z",
+      "updatedAt": "2025-09-18T09:55:09Z",
       "closedAt": null,
       "comments": [
         {
