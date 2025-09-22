@@ -98,7 +98,7 @@ SD-CWT operates on CWT Claims Sets as described in {{!RFC8392}}.
 CWT Claims Sets contain Claim Keys and Claim Values.
 SD-CWT enables Issuers to mark certain Claim Keys or Claim Values mandatory or optional for a Holder of a CWT to disclose.
 A Verifier that does not understand selective disclosure at all can only process mandatory Claim Keys sent by the Holder;
-optional Claim Keys, whether they are disclosed or not, can only processed by a Verifier that understands this specification.
+optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
 However, Claim Keys and Claim Values that are not understood remain ignored, as described in {{Section 3 of !RFC8392}}.
 
 ## High-Level Flow
