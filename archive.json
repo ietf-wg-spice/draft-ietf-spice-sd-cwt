@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-21T00:51:51.677156+00:00",
+  "timestamp": "2025-09-23T00:45:11.936944+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2719,7 +2719,7 @@
       "labels": [],
       "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
       "createdAt": "2025-09-15T12:40:25Z",
-      "updatedAt": "2025-09-15T13:34:37Z",
+      "updatedAt": "2025-09-22T04:08:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -2728,6 +2728,27 @@
           "body": "Lets make this a MUST, and avoid a SHOULD with a long and likely to not be read security considerations.",
           "createdAt": "2025-09-15T13:34:37Z",
           "updatedAt": "2025-09-15T13:34:37Z"
+        },
+        {
+          "author": "cyberphone",
+          "authorAssociation": "NONE",
+          "body": "Requiring time claims to not contain non-finite numbers (NaN, Infinity) seems very reasonable.  The \"problem\" (if there is one) is how to deal with this restriction in practice.  Im my [CBOR::Core](https://datatracker.ietf.org/doc/draft-rundgren-cbor-core/) implementations I started by having a _decoder option_ flagging non-finite numbers.  Although working, it meant that non-finite numbers could not be used in a CBOR application also using time data objects.  To cope with this, I scrapped the option and addressed the issue through different methods for creating and reading floating point objects:\nhttps://cyberphone.github.io/CBOR.js/doc/non-finite-numbers.html\n\nMy guess is very few applications have any reason for dealing with non-finite numbers, they typically rather represent an error condition, dealt with through a generic error return.",
+          "createdAt": "2025-09-21T11:42:58Z",
+          "updatedAt": "2025-09-21T11:42:58Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": ">\n> I propose requiring encoding of SD-CWT and KBT to use Preferred Encoding \n\nWe discussed this in the last CBOR interim.\nThere really is no good reason to require that.\n\n> and never use CBOR indeterminate length encoding. \n\n(Indefinite length.) That, however, can be a good thing.\n\n> I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nIs infinite OK?\n\n> The preferred encoding is just a best practice, \n\nIt may be, but creating a pocket of interoperability problems by making recipients assume that preferred serialization will be used does not help.\n\n> but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.\n\nI don't know about that, but there is a good motivation here to enable partial implementations on the recipient side.\n",
+          "createdAt": "2025-09-21T17:49:55Z",
+          "updatedAt": "2025-09-21T17:49:55Z"
+        },
+        {
+          "author": "cyberphone",
+          "authorAssociation": "NONE",
+          "body": "> It may be, but creating a pocket of interoperability problems by making recipients assume that preferred serialization will be used does not help.\n\nImplementers not being able to build CBOR tools that (at least) meet 4.2 should seriously consider their career choices.  Since COSE thumbprints require full determinism (albeit for a limited set of data types), the 4.2 requirement seems pretty humble.\n\nI fact, the CBOR world may need taking _an even bolder step_ if they want to ever become an alternative to firmly established JSON-based solutions.",
+          "createdAt": "2025-09-22T04:08:00Z",
+          "updatedAt": "2025-09-22T04:08:00Z"
         }
       ]
     }
@@ -11482,13 +11503,13 @@
       "labels": [],
       "body": "The text here originally implied that a verifier might be able to process optional claims if they are disclosed.  My understanding is that this is not possible because the verifier needs to process the hash and understand how to link that to the separate disclosure of those claims.  That makes all optional claims inaccessible to a non-SD CWT processor.  (This is hardly a major problem in the spectrum of possibilities for backwards-compatibility.)",
       "createdAt": "2025-08-27T05:01:47Z",
-      "updatedAt": "2025-09-17T19:07:33Z",
+      "updatedAt": "2025-09-22T13:17:41Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c9f44fcb674f2b94c70d11118eafb05e0a1dc6e0",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "non-sd-understanding",
-      "headRefOid": "7452a3715b08211a2ea44232ce1ecf19bb48e562",
+      "headRefOid": "c4ed31bc78e9f3baf81386c8b6b06af46dda3a73",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -11560,6 +11581,79 @@
               "body": "```suggestion\r\noptional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.\r\n```",
               "createdAt": "2025-09-15T12:13:26Z",
               "updatedAt": "2025-09-15T12:13:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7BxR9G",
+          "commit": {
+            "abbreviatedOid": "7452a37"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-22T07:20:20Z",
+          "updatedAt": "2025-09-22T07:20:20Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Is there any risk that a verifier would recognize an array with redacted elements as invalid and so lose the entire thing?\r\n\r\n\"it will ignore Blinded Claims representing array items\" is a bit awkward.  Is \"it will ignore any Blinded Claims in arrays\" better?",
+              "createdAt": "2025-09-22T07:20:20Z",
+              "updatedAt": "2025-09-22T07:25:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7BxZDL",
+          "commit": {
+            "abbreviatedOid": "c4ed31b"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "I'm happy to defer to Rohan's text on this, but I'm not sure that I'm following the implications of the split.  You have more information than I.\r\n\r\nI thought that the map keys were ignored if they have the \"wrong\" or unexpected type, but I guess that's an implementation choice.  I couldn't trace this to text in an RFC in the quick search I did.",
+          "createdAt": "2025-09-22T07:28:13Z",
+          "updatedAt": "2025-09-22T07:28:13Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7B3SaK",
+          "commit": {
+            "abbreviatedOid": "7452a37"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-22T12:40:22Z",
+          "updatedAt": "2025-09-22T12:40:22Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "The normal processing guidelines for JSON claims is \"values that are not understood are ignored\".\r\n\r\nIn contrast to text like:\r\n\r\nhttps://datatracker.ietf.org/doc/html/rfc7518#section-4.6.1.2\r\n\r\n> This Header Parameter MUST be understood and processed by implementations when these algorithms are used.\r\n\r\nI agree that its a bit awkward telling verifiers they will ignore things they do not understand.\r\n\r\nA verifier that does not understand SD-CWT may not act on any claims if their parser rejects simple values as map keys.\r\n\r\n",
+              "createdAt": "2025-09-22T12:40:22Z",
+              "updatedAt": "2025-09-22T12:43:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7B4MJk",
+          "commit": {
+            "abbreviatedOid": "c4ed31b"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-22T13:17:41Z",
+          "updatedAt": "2025-09-22T13:17:41Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "If there's a verifier that does not understand sd-cwt claims, you already failed. Is simple(59) a mandatory key?",
+              "createdAt": "2025-09-22T13:17:41Z",
+              "updatedAt": "2025-09-22T13:17:42Z"
             }
           ]
         }
