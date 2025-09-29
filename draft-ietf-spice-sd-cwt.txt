@@ -5,12 +5,12 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 21 March 2026                                      Tradeverifyd
+Expires: 2 April 2026                                       Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                       17 September 2025
+                                                       29 September 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 March 2026.
+   This Internet-Draft will expire on 2 April 2026.
 
 Copyright Notice
 
@@ -185,9 +185,13 @@ Table of Contents
    Claims Sets contain Claim Keys and Claim Values.  SD-CWT enables
    Issuers to mark certain Claim Keys or Claim Values mandatory or
    optional for a Holder of a CWT to disclose.  A Verifier that does not
-   understand selective disclosure at all cannot process redacted Claim
-   Keys sent by the Holder.  However, Claim Keys and Claim Values that
-   are not understood remain ignored, as described in Section 3 of
+   understand selective disclosure at all can only act on unblinded
+   claims sent by the Holder; it will ignore Blinded Claims representing
+   array items, and will fail to process any SD-CWT containing Blinded
+   Claims that represent map keys. optional Claim Keys, whether they are
+   disclosed or not, can only be processed by a Verifier that
+   understands this specification.  However, Claim Keys and Claim Values
+   that are not understood remain ignored, as described in Section 3 of
    [RFC8392].
 
 1.1.  High-Level Flow
@@ -199,7 +203,7 @@ Issuer                           Holder                         Verifier
   |                                +---+                             |
   |                                |   | Key Gen                     |
   |        Request SD-CWT          |<--+                             |
-  |<-------------------------------|                                 |
+  |<-------------------------------+                                 |
   |                                |                                 |
   +------------------------------->|             Request Nonce       |
   |        Receive SD-CWT          +-------------------------------->|
