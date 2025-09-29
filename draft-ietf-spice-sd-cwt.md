@@ -97,7 +97,7 @@ The specification of credential types is out of scope for this specification, an
 SD-CWT operates on CWT Claims Sets as described in {{!RFC8392}}.
 CWT Claims Sets contain Claim Keys and Claim Values.
 SD-CWT enables Issuers to mark certain Claim Keys or Claim Values mandatory or optional for a Holder of a CWT to disclose.
-A Verifier that does not understand selective disclosure at all can only process mandatory Claim Keys sent by the Holder;
+A Verifier that does not understand selective disclosure at all can only act on unblinded claims sent by the Holder; it will ignore Blinded Claims representing array items, and will fail to process any SD-CWT containing Blinded Claims that represent map keys.
 optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
 However, Claim Keys and Claim Values that are not understood remain ignored, as described in {{Section 3 of !RFC8392}}.
 
