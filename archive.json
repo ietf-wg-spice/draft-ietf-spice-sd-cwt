@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-23T00:45:11.936944+00:00",
+  "timestamp": "2025-09-30T00:47:05.519993+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1321,6 +1321,7 @@
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
+        "OR13",
         "henkbirkholz"
       ],
       "labels": [
@@ -1328,7 +1329,7 @@
       ],
       "body": "We get questions about how RATS is related to trusting wallets/ holders and relying parties / verifiers.\n\nEvidence and Endorsements, how are they related to credentials and presentations with SD.\n\nProposal to add a section to security considerations.",
       "createdAt": "2025-04-02T13:52:15Z",
-      "updatedAt": "2025-07-03T12:06:22Z",
+      "updatedAt": "2025-09-29T13:34:15Z",
       "closedAt": null,
       "comments": [
         {
@@ -1337,6 +1338,41 @@
           "body": "Note, please see the comment in the Encrypted Disclosures section about the Attester and Relying Party in #123 ",
           "createdAt": "2025-07-03T11:59:22Z",
           "updatedAt": "2025-07-03T11:59:22Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Issuer, Holder, Verifier -> RATs passport model.\n\nHolder is between evidence creator and Verifier.\n\nHow is Evidence presented by a Holder to a Verifier?\n\nHow are Endorsements presented by a Holder to a Verifier?\n\nAttestation Result ~=> Issuer Signed SD-CWT.\n\nWhere can redaction be applied?\n\n\n\n\"Evidence, Attestation Results and Endorsements are all possible to express as Issuer Signed SD-CWT\".",
+          "createdAt": "2025-09-29T13:15:19Z",
+          "updatedAt": "2025-09-29T13:18:38Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Is this relevant (from Figure 1 of RFC9334)?\n\n<img width=\"588\" height=\"385\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/3bb26b25-d175-45fd-82a0-45a118c4b6fb\" />",
+          "createdAt": "2025-09-29T13:19:39Z",
+          "updatedAt": "2025-09-29T13:19:39Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We think that nobody will ever want to redact \"Endorsements\"... or \"Reference Values\".",
+          "createdAt": "2025-09-29T13:21:32Z",
+          "updatedAt": "2025-09-29T13:21:32Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Consider the camera case, where a camera signs images with SD-CWT, and it should be possible to redact the serial number, and present a signed image with or without serial number...\n\nWhy can you trust the key is correct for the camera? You need endorsements.",
+          "createdAt": "2025-09-29T13:30:32Z",
+          "updatedAt": "2025-09-29T13:32:06Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Per Henk: \"Endorsements and Attestation Results\" is the main source of claims we would want to selectively disclose.",
+          "createdAt": "2025-09-29T13:34:15Z",
+          "updatedAt": "2025-09-29T13:34:15Z"
         }
       ]
     },
@@ -11494,7 +11530,7 @@
       "id": "PR_kwDOMm_Q2s6liBZm",
       "title": "A verifier cannot process optional claims",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/138",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -11503,17 +11539,19 @@
       "labels": [],
       "body": "The text here originally implied that a verifier might be able to process optional claims if they are disclosed.  My understanding is that this is not possible because the verifier needs to process the hash and understand how to link that to the separate disclosure of those claims.  That makes all optional claims inaccessible to a non-SD CWT processor.  (This is hardly a major problem in the spectrum of possibilities for backwards-compatibility.)",
       "createdAt": "2025-08-27T05:01:47Z",
-      "updatedAt": "2025-09-22T13:17:41Z",
+      "updatedAt": "2025-09-29T13:08:51Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c9f44fcb674f2b94c70d11118eafb05e0a1dc6e0",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "non-sd-understanding",
-      "headRefOid": "c4ed31bc78e9f3baf81386c8b6b06af46dda3a73",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "e9c11553ebd1e12d9ba7a7ebf6650c32c3decf70",
+      "closedAt": "2025-09-29T13:08:51Z",
+      "mergedAt": "2025-09-29T13:08:51Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "efaef8500395147c72457f7d4d3fc10d788fffc3"
+      },
       "comments": [
         {
           "author": "OR13",
@@ -11656,6 +11694,19 @@
               "updatedAt": "2025-09-22T13:17:42Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7DfJeF",
+          "commit": {
+            "abbreviatedOid": "c4ed31b"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-29T13:08:28Z",
+          "updatedAt": "2025-09-29T13:08:28Z",
+          "comments": []
         }
       ]
     },
