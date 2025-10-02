@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-30T00:47:05.519993+00:00",
+  "timestamp": "2025-10-02T00:45:06.861985+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -161,7 +161,7 @@
       ],
       "body": "do we want to support decoy digests like SD-JWT does?\r\n\r\nIf so, I left a simple hook to do so in PR #9 ",
       "createdAt": "2024-09-06T11:41:52Z",
-      "updatedAt": "2025-09-15T12:21:10Z",
+      "updatedAt": "2025-09-30T14:13:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -198,6 +198,13 @@
           "body": "Save this for the end, close to WGLC",
           "createdAt": "2025-04-16T13:22:39Z",
           "updatedAt": "2025-04-16T13:22:39Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "What's the argument for waiting to add this?  Having a major feature reviewed earlier rather than later could increase the chances of us getting it right.",
+          "createdAt": "2025-09-30T14:13:03Z",
+          "updatedAt": "2025-09-30T14:13:03Z"
         }
       ]
     },
@@ -1329,7 +1336,7 @@
       ],
       "body": "We get questions about how RATS is related to trusting wallets/ holders and relying parties / verifiers.\n\nEvidence and Endorsements, how are they related to credentials and presentations with SD.\n\nProposal to add a section to security considerations.",
       "createdAt": "2025-04-02T13:52:15Z",
-      "updatedAt": "2025-09-29T13:34:15Z",
+      "updatedAt": "2025-09-30T13:48:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -1373,6 +1380,13 @@
           "body": "Per Henk: \"Endorsements and Attestation Results\" is the main source of claims we would want to selectively disclose.",
           "createdAt": "2025-09-29T13:34:15Z",
           "updatedAt": "2025-09-29T13:34:15Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Orie, what are you concretely suggesting we do in the specification?  For instance, do you want an appendix describing the correspondence between the terms in the different specifications?",
+          "createdAt": "2025-09-30T13:48:40Z",
+          "updatedAt": "2025-09-30T13:48:40Z"
         }
       ]
     },
@@ -2299,9 +2313,17 @@
       ],
       "body": "Pull the discussion about Validated disclosed claim set to Presented disclosed claim set map discussion out of validation section and put it into an implementation appendix.",
       "createdAt": "2025-06-25T13:30:28Z",
-      "updatedAt": "2025-08-18T13:57:03Z",
+      "updatedAt": "2025-09-30T13:54:27Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Is this the sentence in question?\n> The decoded sd_claims are converted to an intermediate data structure called a Digest To Disclosed Claim Map that is used to transform the Presented Disclosed Claims Set into a Validated Disclosed Claims Set.",
+          "createdAt": "2025-09-30T13:54:27Z",
+          "updatedAt": "2025-09-30T13:54:27Z"
+        }
+      ]
     },
     {
       "number": 112,
@@ -2428,9 +2450,17 @@
       ],
       "body": "... in AEAD encrypted disclosures section\n\n@martinthomson ",
       "createdAt": "2025-07-22T08:51:06Z",
-      "updatedAt": "2025-08-18T13:57:54Z",
+      "updatedAt": "2025-09-30T13:55:53Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Is the intent to name specific examples of algorithms that it is RECOMMENDED not to use?  Or define criteria?  Or both?",
+          "createdAt": "2025-09-30T13:55:53Z",
+          "updatedAt": "2025-09-30T13:55:53Z"
+        }
+      ]
     },
     {
       "number": 131,
@@ -2448,7 +2478,7 @@
       ],
       "body": "There should be a section about how time claims (iat, exp, nbf) should be set in the SD-KBT depending of the ones present in the SD-CWT it wraps.\nThe general rule of thumb should be that the KBT should be shorter-lived than the token it wraps, in order to prevent illegal state from occurring.\n\nWhich translates to:\n1. `sd_kbt.exp <= sd_cwt.exp`\n2. `sd_kbt.nbf >= sd_cwt.nbf`\n3. `sd_kbt.iat >= sd_cwt.iat`\n\nAmong those lemmas, only the third one should be included in [section 9](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-9). The two other should be recommended in [section 8](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-8)",
       "createdAt": "2025-07-22T16:54:01Z",
-      "updatedAt": "2025-08-18T13:57:45Z",
+      "updatedAt": "2025-09-30T15:08:33Z",
       "closedAt": null,
       "comments": [
         {
@@ -2457,6 +2487,20 @@
           "body": "We should put the guidance into the body of the document, and a note about weird paring of these in security considerations",
           "createdAt": "2025-08-18T13:52:09Z",
           "updatedAt": "2025-08-18T13:52:09Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'll note that SD-JWT doesn't appear to contain rules of these forms.  Is there a reason we want to have them when SD-JWT doesn't?\n\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-22.html",
+          "createdAt": "2025-09-30T14:00:03Z",
+          "updatedAt": "2025-09-30T14:00:03Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Mike,\r\nsince we have two related tokens and key binding is mandatory we are in a\r\ndifferent situation than SD-JWT is optional and is not itself a JWT.\r\n\r\n\r\nOn Tue, 30 Sept 2025, 16:00 Michael B. Jones, ***@***.***>\r\nwrote:\r\n\r\n> *selfissued* left a comment (ietf-wg-spice/draft-ietf-spice-sd-cwt#131)\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/131#issuecomment-3352327549>\r\n>\r\n> I'll note that SD-JWT doesn't appear to contain rules of these forms. Is\r\n> there a reason we want to have them when SD-JWT doesn't?\r\n>\r\n>\r\n> https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-22.html\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/131#issuecomment-3352327549>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPRRJUA5J76GBW64XJT3VKEHTAVCNFSM6AAAAACCDOXCNKVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZTGNJSGMZDONJUHE>\r\n> .\r\n> You are receiving this because you are subscribed to this thread.Message\r\n> ID: ***@***.***\r\n> com>\r\n>\r\n",
+          "createdAt": "2025-09-30T15:08:33Z",
+          "updatedAt": "2025-09-30T15:08:33Z"
         }
       ]
     },
@@ -2519,7 +2563,7 @@
       ],
       "body": "Coming back to [Differences from the CBOR Web Token Specification](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-differences-from-the-cbor-w) to realize that even though at first they was a reason to bend RFC-8392 because the `redacted_claim_keys` was proposed as a tag first. Since it's settled that it's going to be a simple type, I do not see the reason to continue allowing tagged integers or text strings.",
       "createdAt": "2025-07-23T11:01:50Z",
-      "updatedAt": "2025-09-15T15:26:58Z",
+      "updatedAt": "2025-09-30T14:03:49Z",
       "closedAt": null,
       "comments": [
         {
@@ -2584,6 +2628,13 @@
           "body": "Btw this restriction only applies to the claims at the root of the CWT payload.\nIf someone has such a payload it has to put in a  SD-CWT the draft could hint to wrap it in a Map.",
           "createdAt": "2025-09-15T15:26:58Z",
           "updatedAt": "2025-09-15T15:26:58Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree that, other than the tags that this specification defines with specific processing rules, that we should not allow tagged claim names.  The reason we prohibited them in CWT was to increase interoperability.  The same logic applies here.",
+          "createdAt": "2025-09-30T14:03:48Z",
+          "updatedAt": "2025-09-30T14:03:48Z"
         }
       ]
     },
@@ -2638,9 +2689,17 @@
       ],
       "body": "Should be `#7.59` on https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/draft-ietf-spice-sd-cwt.md?plain=1#L571\n\n\n```\n    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],\n```\n\nWould be nice to mirror the treatment of arrays:\n\n```\n~~~ cddl\n; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax\nredacted_claim_element = #6.60( bstr )\n~~~\n```",
       "createdAt": "2025-08-18T13:41:35Z",
-      "updatedAt": "2025-08-18T13:57:30Z",
+      "updatedAt": "2025-09-30T14:05:13Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree that we should address this omission.",
+          "createdAt": "2025-09-30T14:05:13Z",
+          "updatedAt": "2025-09-30T14:05:13Z"
+        }
+      ]
     },
     {
       "number": 140,
@@ -2739,9 +2798,24 @@
       "labels": [],
       "body": "We need to make its clearer how to use these tags, and relate them to whatever we decide for #143 \n\nAnd simple value 59",
       "createdAt": "2025-09-13T18:19:09Z",
-      "updatedAt": "2025-09-15T13:48:25Z",
+      "updatedAt": "2025-09-30T14:08:48Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Are you suggesting adding examples, improving the normative descriptions of how to use them, or both Orie?",
+          "createdAt": "2025-09-30T14:06:27Z",
+          "updatedAt": "2025-09-30T14:06:27Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "both, just a clearer example and better text describing the figure",
+          "createdAt": "2025-09-30T14:08:48Z",
+          "updatedAt": "2025-09-30T14:08:48Z"
+        }
+      ]
     },
     {
       "number": 146,
@@ -2755,7 +2829,7 @@
       "labels": [],
       "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
       "createdAt": "2025-09-15T12:40:25Z",
-      "updatedAt": "2025-09-22T04:08:00Z",
+      "updatedAt": "2025-09-30T19:07:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -2785,6 +2859,20 @@
           "body": "> It may be, but creating a pocket of interoperability problems by making recipients assume that preferred serialization will be used does not help.\n\nImplementers not being able to build CBOR tools that (at least) meet 4.2 should seriously consider their career choices.  Since COSE thumbprints require full determinism (albeit for a limited set of data types), the 4.2 requirement seems pretty humble.\n\nI fact, the CBOR world may need taking _an even bolder step_ if they want to ever become an alternative to firmly established JSON-based solutions.",
           "createdAt": "2025-09-22T04:08:00Z",
           "updatedAt": "2025-09-22T04:08:00Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@cabo, context on when indeterminate length encoding is used in practice, and why it is used, would be useful when evaluating this possibility.",
+          "createdAt": "2025-09-30T14:10:26Z",
+          "updatedAt": "2025-09-30T14:10:26Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "There is a bit of discussion in the most recent draft PR to draft-ietf-cbor-cde, e.g.\n\nhttps://cbor-wg.github.io/draft-ietf-cbor-cde/disentangle/draft-ietf-cbor-cde.html#name-the-definite-length-only-en\n\nThe background for indefinite-length in CBOR is in:\n\nhttps://www.rfc-editor.org/rfc/rfc8949#name-cbor-in-streaming-applicati\n\n(Note the comment about security.)\n",
+          "createdAt": "2025-09-30T19:07:13Z",
+          "updatedAt": "2025-09-30T19:07:13Z"
         }
       ]
     }
