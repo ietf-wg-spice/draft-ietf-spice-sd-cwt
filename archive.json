@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-02T00:45:06.861985+00:00",
+  "timestamp": "2025-10-05T00:51:50.907312+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2478,7 +2478,7 @@
       ],
       "body": "There should be a section about how time claims (iat, exp, nbf) should be set in the SD-KBT depending of the ones present in the SD-CWT it wraps.\nThe general rule of thumb should be that the KBT should be shorter-lived than the token it wraps, in order to prevent illegal state from occurring.\n\nWhich translates to:\n1. `sd_kbt.exp <= sd_cwt.exp`\n2. `sd_kbt.nbf >= sd_cwt.nbf`\n3. `sd_kbt.iat >= sd_cwt.iat`\n\nAmong those lemmas, only the third one should be included in [section 9](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-9). The two other should be recommended in [section 8](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-8)",
       "createdAt": "2025-07-22T16:54:01Z",
-      "updatedAt": "2025-09-30T15:08:33Z",
+      "updatedAt": "2025-10-02T12:10:04Z",
       "closedAt": null,
       "comments": [
         {
@@ -2498,9 +2498,9 @@
         {
           "author": "rohanmahy",
           "authorAssociation": "COLLABORATOR",
-          "body": "Mike,\r\nsince we have two related tokens and key binding is mandatory we are in a\r\ndifferent situation than SD-JWT is optional and is not itself a JWT.\r\n\r\n\r\nOn Tue, 30 Sept 2025, 16:00 Michael B. Jones, ***@***.***>\r\nwrote:\r\n\r\n> *selfissued* left a comment (ietf-wg-spice/draft-ietf-spice-sd-cwt#131)\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/131#issuecomment-3352327549>\r\n>\r\n> I'll note that SD-JWT doesn't appear to contain rules of these forms. Is\r\n> there a reason we want to have them when SD-JWT doesn't?\r\n>\r\n>\r\n> https://www.ietf.org/archive/id/draft-ietf-oauth-selective-disclosure-jwt-22.html\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/131#issuecomment-3352327549>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPRRJUA5J76GBW64XJT3VKEHTAVCNFSM6AAAAACCDOXCNKVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZTGNJSGMZDONJUHE>\r\n> .\r\n> You are receiving this because you are subscribed to this thread.Message\r\n> ID: ***@***.***\r\n> com>\r\n>\r\n",
+          "body": "Mike,\nsince we have two related tokens and key binding is mandatory we are in a\ndifferent situation than SD-JWT, where the key binding is optional and is not itself a JWT.",
           "createdAt": "2025-09-30T15:08:33Z",
-          "updatedAt": "2025-09-30T15:08:33Z"
+          "updatedAt": "2025-10-02T12:10:04Z"
         }
       ]
     },
