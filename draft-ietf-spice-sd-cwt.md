@@ -1759,7 +1759,7 @@ This appendix describes the relationship between the Remote ATtestation procedur
 The verifiable credentials model involves three distinct parties:
 
 - **Issuer**: Creates and signs credentials containing claims about a subject
-- **Holder**: Controls the credential and presents it to verifiers (typically the subject of the credential)
+- **Holder**: Controls the credential and presents it to verifiers (the holder is typically the subject of the credential)
 - **Verifier**: Receives and validates presented credentials to make authorization or access decisions
 
 In SD-CWT, these roles are explicitly represented: the Issuer signs claims using an Assertion Key ({{terminology}}), the Holder controls the credential and creates presentations using a Confirmation Key, and the Verifier validates both the Issuer's signature over the credential and the Holder's signature over the presentation (key binding token).
