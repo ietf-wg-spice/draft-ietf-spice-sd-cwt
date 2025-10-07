@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-05T00:51:50.907312+00:00",
+  "timestamp": "2025-10-07T00:45:55.486659+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1336,7 +1336,7 @@
       ],
       "body": "We get questions about how RATS is related to trusting wallets/ holders and relying parties / verifiers.\n\nEvidence and Endorsements, how are they related to credentials and presentations with SD.\n\nProposal to add a section to security considerations.",
       "createdAt": "2025-04-02T13:52:15Z",
-      "updatedAt": "2025-09-30T13:48:40Z",
+      "updatedAt": "2025-10-06T13:15:33Z",
       "closedAt": null,
       "comments": [
         {
@@ -1387,6 +1387,13 @@
           "body": "Orie, what are you concretely suggesting we do in the specification?  For instance, do you want an appendix describing the correspondence between the terms in the different specifications?",
           "createdAt": "2025-09-30T13:48:40Z",
           "updatedAt": "2025-09-30T13:48:40Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "```\n+  # Relationship between RATS Architecture and Verifiable Credentials                                                                                                                                                            \u254e\u2502\n\u2502\u254e   1753 +  {:numbered=\"false\"}                                                                                                                                                                                                            \u254e\u2502\n\u2502\u254e   1754 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1755 +  This appendix describes the relationship between the Remote ATtestation procedureS (RATS) architecture defined in {{?RFC9334}} and the three-party model used in verifiable credentials, which consists of                     \u254e\u2502\n\u2502\u254e        +  Issuer, Holder, and Verifier roles.                                                                                                                                                                                            \u254e\u2502\n\u2502\u254e   1756 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1757 +  ## Three-Party Verifiable Credentials Model                                                                                                                                                                                    \u254e\u2502\n\u2502\u254e   1758 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1759 +  The verifiable credentials model involves three distinct parties:                                                                                                                                                              \u254e\u2502\n\u2502\u254e   1760 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1761 +  - **Issuer**: Creates and signs credentials containing claims about a subject                                                                                                                                                  \u254e\u2502\n\u2502\u254e   1762 +  - **Holder**: Controls the credential and presents it to verifiers (typically the subject of the credential)                                                                                                                   \u254e\u2502\n\u2502\u254e   1763 +  - **Verifier**: Receives and validates presented credentials to make authorization or access decisions                                                                                                                         \u254e\u2502\n\u2502\u254e   1764 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1765 +  In SD-CWT, these roles are explicitly represented: the Issuer signs claims using an Assertion Key ({{terminology}}), the Holder controls the credential and creates presentations using a Confirmation                         \u254e\u2502\n\u2502\u254e        + Key, and the Verifier validates both the Issuer's signature over the credential and the Holder's signature over the presentation (key binding token).                                                                           \u254e\u2502\n\u2502\u254e   1766 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1767 +  ## RATS Architecture Roles                                                                                                                                                                                                     \u254e\u2502\n\u2502\u254e   1768 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1769 +  The RATS architecture defines the following key roles:                                                                                                                                                                         \u254e\u2502\n\u2502\u254e   1770 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1771 +  - **Attester**: Produces Evidence about its own trustworthiness and operational state                                                                                                                                          \u254e\u2502\n\u2502\u254e   1772 +  - **Verifier**: Appraises Evidence and produces Attestation Results                                                                                                                                                            \u254e\u2502\n\u2502\u254e   1773 +  - **Relying Party**: Consumes Attestation Results to make authorization decisions                                                                                                                                              \u254e\u2502\n\u2502\u254e   1774 +  - **Endorser**: Provides Endorsements about an Attester (typically a manufacturer)                                                                                                                                             \u254e\u2502\n\u2502\u254e   1775 +  - **Reference Value Provider**: Supplies Reference Values used by Verifiers to evaluate Evidence                                                                                                                               \u254e\u2502\n\u2502\u254e   1776 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1777 +  ## Role Mappings                                                                                                                                                                                                               \u254e\u2502\n\u2502\u254e   1778 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1779 +  ### Direct Mappings                                                                                                                                                                                                            \u254e\u2502\n\u2502\u254e   1780 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1781 +  Several RATS roles have clear correspondences to the three-party model:                                                                                                                                                        \u254e\u2502\n\u2502\u254e   1782 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1783 +  1. **Attester \u2192 Holder**: The Attester generates Evidence about itself, similar to how a Holder presents credentials about themselves. Both control the cryptographic keys used to prove authenticity of                       \u254e\u2502\n\u2502\u254e        + their assertions.                                                                                                                                                                                                               \u254e\u2502\n\u2502\u254e   1784 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1785 +  2. **RATS Verifier \u2192 Issuer**: In the RATS \"passport model,\" the Verifier consumes Evidence from the Attester and produces Attestation Results. This is analogous to an Issuer consuming information about                     \u254e\u2502\n\u2502\u254e        +  a subject and producing a signed credential. The Attestation Result is a signed assertion about the Attester's state, just as a verifiable credential is a signed assertion about the subject.                                 \u254e\u2502\n\u2502\u254e   1786 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1787 +  3. **Relying Party \u2192 Verifier**: The Relying Party consumes Attestation Results to make authorization decisions, exactly as a Verifier in the credentials model consumes presented credentials to make                         \u254e\u2502\n\u2502\u254e        + access control or authorization decisions.                                                                                                                                                                                      \u254e\u2502\n\u2502\u254e   1788 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1789 +  ### Supporting Roles                                                                                                                                                                                                           \u254e\u2502\n\u2502\u254e   1790 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1791 +  The RATS architecture includes supporting roles that do not have direct equivalents in the three-party credentials model:                                                                                                      \u254e\u2502\n\u2502\u254e   1792 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1793 +  - **Endorser**: This role provides authenticated information about an Attester's capabilities and provenance. This is an infrastructure role that supports the evaluation process but is not part of the                       \u254e\u2502\n\u2502\u254e        + core three-party interaction. In credentials systems, equivalent functionality might be provided through trust registries, issuer metadata, or governance frameworks, but these are typically considered                        \u254e\u2502\n\u2502\u254e        + part of the trust infrastructure rather than a distinct party in the presentation flow.                                                                                                                                         \u254e\u2502\n\u2502\u254e   1794 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1795 +  - **Reference Value Provider**: This role supplies known-good reference values that enable Verifiers to evaluate Evidence. Like the Endorser, this is a supporting infrastructure role without a direct                        \u254e\u2502\n\u2502\u254e        + credential model equivalent. In practice, these reference values might be analogous to schema definitions, trust frameworks, or validation rules used by credential Verifiers, but again are considered                         \u254e\u2502\n\u2502\u254e        + part of the infrastructure rather than a distinct party.                                                                                                                                                                        \u254e\u2502\n\u2502\u254e   1796 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1797 +  ## Background-Check vs Passport Models                                                                                                                                                                                         \u254e\u2502\n\u2502\u254e   1798 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1799 +  RATS defines two interaction models that affect role relationships:                                                                                                                                                            \u254e\u2502\n\u2502\u254e   1800 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1801 +  **Passport Model**: In this model, the Attester sends Evidence to a Verifier, receives back an Attestation Result, and can then present this result to multiple Relying Parties. This closely matches the                      \u254e\u2502\n\u2502\u254e        + three-party credentials model: the Attester (Holder) obtains an Attestation Result (credential) from a Verifier (Issuer) and presents it to Relying Parties (Verifiers).                                                        \u254e\u2502\n\u2502\u254e   1802 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1803 +  **Background-Check Model**: In this model, the Attester sends Evidence to a Relying Party, which forwards it to a Verifier for appraisal. The Verifier returns Attestation Results to the Relying Party,                       \u254e\u2502\n\u2502\u254e        + which makes the authorization decision. This is fundamentally a two-party model from the Attester's perspective - the Attester interacts only with the Relying Party, which then interacts with a Verifier                      \u254e\u2502\n\u2502\u254e        + as a backend service.                                                                                                                                                                                                           \u254e\u2502\n\u2502\u254e   1804 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1805 +  ## Two-Party Model Considerations                                                                                                                                                                                              \u254e\u2502\n\u2502\u254e   1806 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1807 +  The background-check model represents a significant architectural difference from the three-party credentials model. In the background-check model:                                                                            \u254e\u2502\n\u2502\u254e   1808 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1809 +  - The Attester has no direct relationship with the Verifier                                                                                                                                                                    \u254e\u2502\n\u2502\u254e   1810 +  - The Verifier's output (Attestation Results) is not designed for reuse across multiple Relying Parties                                                                                                                        \u254e\u2502\n\u2502\u254e   1811 +  - The Attester cannot control or observe what information is sent to the Verifier                                                                                                                                              \u254e\u2502\n\u2502\u254e   1812 +  - There is no equivalent to the Holder's selective disclosure capability                                                                                                                                                       \u254e\u2502\n\u2502\u254e   1813 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1814 +  The Endorser and Reference Value Provider roles are primarily relevant in the two-party (background-check) model where the Verifier must directly appraise raw Evidence. In the three-party (passport)                         \u254e\u2502\n\u2502\u254e        + model, once Attestation Results are produced, they function like credentials and the supporting roles become less relevant to individual presentation transactions.                                                             \u254e\u2502\n\u2502\u254e   1815 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1816 +  When applying RATS concepts to SD-CWT:                                                                                                                                                                                         \u254e\u2502\n\u2502\u254e   1817 +                                                                                                                                                                                                                                 \u254e\u2502\n\u2502\u254e   1818 +  - The passport model aligns naturally with SD-CWT's three-party model                                                                                                                                                          \u254e\u2502\n\u2502\u254e   1819 +  - The background-check model would require different mechanisms, as SD-CWT is designed for Holder-mediated presentations with selective disclosure                                                                             \u254e\u2502\n\u2502\u254e   1820 +  - The Endorser and Reference Value Provider roles, while important for attestation infrastructure, do not need explicit representation in the SD-CWT format itself                                                             \u254e\u2502\n\u2502\u254e   1821 +  - Supporting roles are better addressed through trust infrastructure, governance frameworks, and out-of-band mechanisms rather than protocol-level roles                                                                       \u254e\u2502\n\u2502\u254e   1822 +   \n```\n\nNaive proposal from Claude, several problems in it.",
+          "createdAt": "2025-10-06T13:15:05Z",
+          "updatedAt": "2025-10-06T13:15:33Z"
         }
       ]
     },
@@ -2829,7 +2836,7 @@
       "labels": [],
       "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
       "createdAt": "2025-09-15T12:40:25Z",
-      "updatedAt": "2025-09-30T19:07:13Z",
+      "updatedAt": "2025-10-06T06:31:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -2873,6 +2880,13 @@
           "body": "There is a bit of discussion in the most recent draft PR to draft-ietf-cbor-cde, e.g.\n\nhttps://cbor-wg.github.io/draft-ietf-cbor-cde/disentangle/draft-ietf-cbor-cde.html#name-the-definite-length-only-en\n\nThe background for indefinite-length in CBOR is in:\n\nhttps://www.rfc-editor.org/rfc/rfc8949#name-cbor-in-streaming-applicati\n\n(Note the comment about security.)\n",
           "createdAt": "2025-09-30T19:07:13Z",
           "updatedAt": "2025-09-30T19:07:13Z"
+        },
+        {
+          "author": "cyberphone",
+          "authorAssociation": "NONE",
+          "body": "Before you decide that streaming support is a MUST you may consider the fact that streaming is pretty much incompatible with object oriented encoders using the heap for storing self-contained objects.  However, all is not gloom and doom.\n\n_Problem definition_: serialization of large objects may require excessive amounts of RAM.\n\n_Possible solution_: Imagine you have a large file that you want send together with some metadata.  You also want to sign the whole package.  Below is a possible solution (here expressed in EDN for readability), as it could appear \"on the wire\":\n\n```\n[{\n  \"id\": \"9899c0da-10c7-4979-9c1b-fdb9dd7b461f\",\n  \"type\": \"pdf\",\n  \"file\": h'f0916672a9e53820b8412a465849bb0....e3da94ae00dcd7c9ec909c4171b0d6b4' #   The file data \n}],\n{\n  \"metadata\": \"building-permit\",\n  \"attachments\": [{\n    \"id\": \"9899c0da-10c7-4979-9c1b-fdb9dd7b461f\",\n    \"sha256\": h'250345017583d9cd66ee9043d65397580588d085741db55f0d686a37743c3b7c'\n  }],\n  simple(99): { #   Yeah, embedded signature but it could equally well be COSE.\n    1: -19,\n    3: \"mykey\",\n    6: h'8c9fa4525152ee907864d4ee26bf33d11a04f866c80bd57066cdf59916e21d81c4c5036b6868a53b9c0909a66c0c23de0620fde9eaa1225d53f7fc62060d6d0e'\n  }\n}\n```\n\nExplanation:\nThe first part of this CBOR sequence would be carried out by _dedicated_ encoder and decoder software.  \"File\" would be read and written in chunks while also building up a hash value for inclusion in the second part.\n\nThe second part would be processed by regular CBOR software.\n\n_In short_: detached data is an established alternative to streaming encoders.  Servers returning URLs to detached data for clients to read is a similar solution.\n\nIt would in some cases be an advantage putting the large objects _after_ the regular CBOR object.  This may though require additional read operations, in order to calculate hash values.",
+          "createdAt": "2025-10-05T13:00:38Z",
+          "updatedAt": "2025-10-06T06:31:39Z"
         }
       ]
     }
@@ -11974,6 +11988,408 @@
           "createdAt": "2025-09-15T13:11:21Z",
           "updatedAt": "2025-09-15T13:11:21Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 147,
+      "id": "PR_kwDOMm_Q2s6sRhBG",
+      "title": "Address RATS",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/147",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Towards #68 ",
+      "createdAt": "2025-10-06T13:32:29Z",
+      "updatedAt": "2025-10-06T23:45:24Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "efaef8500395147c72457f7d4d3fc10d788fffc3",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "feat-rats-appendix",
+      "headRefOid": "155ade6cc75f5f7c1c295ee73e907140ede670c6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is now ready for review, I will fix the lint issues before we merge.",
+          "createdAt": "2025-10-06T13:52:30Z",
+          "updatedAt": "2025-10-06T13:52:30Z"
+        },
+        {
+          "author": "ounsworth",
+          "authorAssociation": "NONE",
+          "body": "I've done similar sections in LAMPS I-Ds, comparing RATS Architecture against PKI Architecture. One trick is to Capitalize one set of terms and UPPERCASE the other, or something.\r\n\r\nSo you have SD-CWT roles: Issuer, Holder, Verifier.\r\nAnd RATS Roles ATTESTER, VERIFIER, RELYING PARTY. Otherwise you and your reader are gonna trip all over \"Verifier\".",
+          "createdAt": "2025-10-06T23:30:10Z",
+          "updatedAt": "2025-10-06T23:30:10Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7E-W6h",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:33:04Z",
+          "updatedAt": "2025-10-06T13:33:05Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "```suggestion\r\nThe credential issued by the Issuer serves the same function as an Endorsement in RATS: it is a signed assertion about the Holder's attributes that can be used by Verifiers to make trust decisions.\r\n```",
+              "createdAt": "2025-10-06T13:33:04Z",
+              "updatedAt": "2025-10-06T13:33:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-cIk",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:36:07Z",
+          "updatedAt": "2025-10-06T13:36:07Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "```suggestion\r\n- **Attester**: Produces Evidence about its own trustworthiness and operational state\r\n- **Endorser**: Provides Endorsements about an Attester (typically a manufacturer)\r\n- **Reference Value Provider**: Supplies Reference Values used by Verifiers to evaluate Evidence\r\n- **Verifier**: Appraises Evidence and produces Attestation Results\r\n- **Relying Party**: Consumes Attestation Results to make authorization decisions\r\n```",
+              "createdAt": "2025-10-06T13:36:07Z",
+              "updatedAt": "2025-10-06T13:36:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-dWk",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:36:54Z",
+          "updatedAt": "2025-10-06T13:36:54Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\nThis appendix describes the relationship between the Remote ATtestation procedureS (RATS) architecture defined in {{?RFC9334}} and the three-party model used in verifiable credentials.\r\n```\r\n\r\ndefined immediately following",
+              "createdAt": "2025-10-06T13:36:54Z",
+              "updatedAt": "2025-10-06T13:36:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-hEC",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:38:58Z",
+          "updatedAt": "2025-10-06T13:38:58Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "```suggestion\r\nA verifiable credential Holder functions as a RATS Verifier. In RATS, the Verifier appraises Evidence and Endorsements and produces Attestation Results. In the credentials model, the Holder:\r\n```",
+              "createdAt": "2025-10-06T13:38:58Z",
+              "updatedAt": "2025-10-06T13:38:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-hxs",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:39:21Z",
+          "updatedAt": "2025-10-06T13:39:21Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "```suggestion\r\n- Receives credentials (analogous to Endorsements) from Issuers\r\n```",
+              "createdAt": "2025-10-06T13:39:21Z",
+              "updatedAt": "2025-10-06T13:39:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-oY4",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:43:14Z",
+          "updatedAt": "2025-10-06T13:43:14Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "```suggestion\r\nThe Holder's presentation, which includes the Issuer's credential plus the Holder's signature over selected disclosures, functions as an Attestation Result - a processed, signed assertion derived from the original credential (Endorsement).\r\n```",
+              "createdAt": "2025-10-06T13:43:14Z",
+              "updatedAt": "2025-10-06T13:43:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-paz",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:43:54Z",
+          "updatedAt": "2025-10-06T13:43:55Z",
+          "comments": [
+            {
+              "originalPosition": 62,
+              "body": "```suggestion\r\n- Does not directly interact with the original Endorsement source (the Issuer)\r\n```",
+              "createdAt": "2025-10-06T13:43:54Z",
+              "updatedAt": "2025-10-06T13:43:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-pwV",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:44:06Z",
+          "updatedAt": "2025-10-06T13:44:06Z",
+          "comments": [
+            {
+              "originalPosition": 61,
+              "body": "```suggestion\r\n- Makes access control or authorization decisions based on the claims received\r\n```",
+              "createdAt": "2025-10-06T13:44:06Z",
+              "updatedAt": "2025-10-06T13:44:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-rM5",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:44:50Z",
+          "updatedAt": "2025-10-06T13:44:51Z",
+          "comments": [
+            {
+              "originalPosition": 64,
+              "body": "```suggestion\r\nThe credential Verifier appraises the Holder's presentation in the same way a Relying Party appraises Attestation Results from a RATS Verifier.\r\n```",
+              "createdAt": "2025-10-06T13:44:51Z",
+              "updatedAt": "2025-10-06T13:45:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-wad",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:47:42Z",
+          "updatedAt": "2025-10-06T13:47:43Z",
+          "comments": [
+            {
+              "originalPosition": 76,
+              "body": "```suggestion\r\nThe Attester role is orthogonal to the three primary roles - it represents the ability to produce evidence about one's own state, while the Issuer/Holder/Verifier roles represent the flow of credentials and claims about subjects.\r\n```",
+              "createdAt": "2025-10-06T13:47:42Z",
+              "updatedAt": "2025-10-06T13:47:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-zfs",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:49:26Z",
+          "updatedAt": "2025-10-06T13:49:26Z",
+          "comments": [
+            {
+              "originalPosition": 88,
+              "body": "```suggestion\r\nThe **Reference Value Provider** role from RATS does not have a direct equivalent in the three-party verifiable credentials model. This role supplies reference values (known-good measurements or configurations) that RATS Verifiers use to appraise Endorsements and Evidence. In credentials systems, equivalent functionality might be provided through:\r\n```",
+              "createdAt": "2025-10-06T13:49:26Z",
+              "updatedAt": "2025-10-06T13:49:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7E-0u0",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T13:50:08Z",
+          "updatedAt": "2025-10-06T13:50:08Z",
+          "comments": [
+            {
+              "originalPosition": 91,
+              "body": "```suggestion\r\n- Schema registries, or lists of valid claims that define credential formats\r\n```",
+              "createdAt": "2025-10-06T13:50:08Z",
+              "updatedAt": "2025-10-06T13:50:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7FKCc5",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T22:43:26Z",
+          "updatedAt": "2025-10-06T22:43:26Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\n- **Holder**: Controls the credential and presents it to verifiers (the holder is typically the subject of the credential)\n```",
+              "createdAt": "2025-10-06T22:43:26Z",
+              "updatedAt": "2025-10-06T22:43:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7FKFBM",
+          "commit": {
+            "abbreviatedOid": "a266863"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T22:45:19Z",
+          "updatedAt": "2025-10-06T22:45:19Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Also, does the Holder have a cryptographic key? They are an active cryptographic entity, not a passive holder?",
+              "createdAt": "2025-10-06T22:45:19Z",
+              "updatedAt": "2025-10-06T23:11:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7FKNUl",
+          "commit": {
+            "abbreviatedOid": "155ade6"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T22:54:47Z",
+          "updatedAt": "2025-10-06T22:54:47Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Yes, the holders key is in the cnf claim.\n\nBy proving possession of this key while presenting the credentials, the holder is protected against credential theft, and the verifier is protected against replay attacks.",
+              "createdAt": "2025-10-06T22:54:47Z",
+              "updatedAt": "2025-10-06T22:54:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7FKWgH",
+          "commit": {
+            "abbreviatedOid": "155ade6"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T23:16:17Z",
+          "updatedAt": "2025-10-06T23:16:17Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "You might get Henk'd on the statement that an attester tells you about its own trustworthiness. Henk would say that an attester measures and attests an adjacent component -- like, the boot ROM measures and attests UEFI, and UEFI measures and attests the OS kernel, etc.\n\nWe are currently having a big-ol-dust-up in RATS about whether \"Self-assertions\" are the same as \"Evidence\", or something less.",
+              "createdAt": "2025-10-06T23:16:17Z",
+              "updatedAt": "2025-10-06T23:17:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7FKYKW",
+          "commit": {
+            "abbreviatedOid": "155ade6"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T23:21:35Z",
+          "updatedAt": "2025-10-06T23:21:35Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "Otherwise, this summary (OR13's re-write) LGTM.",
+              "createdAt": "2025-10-06T23:21:35Z",
+              "updatedAt": "2025-10-06T23:21:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7FKgI_",
+          "commit": {
+            "abbreviatedOid": "155ade6"
+          },
+          "author": "ounsworth",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-06T23:45:24Z",
+          "updatedAt": "2025-10-06T23:45:24Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "Ok. So. I disagree with this.\nA Verifier is a thing that you trust implicitly because it's either (in the RATS Passport Model) a central authority, or (in the RATS backrgound check model) some local component that you called. A Verifier's job is to say \"I checked the evidence / endorsement, and it's all good\". \n\nI absolutely do not trust the attester (ie the subject of the claims) that I'm trying to establish the trustworthiness of to be a trusted authority about its own trustworthiness. The bouncer at the bar asks you for your ID, and you say \"It's cool bro, I looked at my ID earlier and I'm 21\". Stack of turtles implodes and becomes a bagel. (insert EverythingEverywhereAllAtOnce meme).\n\nSo, I think you have stumbled on a role that is missing from RFC9334: The Presenter, who sits in between the Attester / Endorser, and the Verifier and gets to choose what to present to the Verifier, possibly re-requesting data from the Attester / Endorser to match what the Verifier wants. Several people in RATS have agreed that we need some sort of RFC9334bis that adds Presenter.",
+              "createdAt": "2025-10-06T23:45:24Z",
+              "updatedAt": "2025-10-06T23:48:13Z"
+            }
+          ]
         }
       ]
     }
