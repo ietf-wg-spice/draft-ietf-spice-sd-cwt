@@ -664,14 +664,10 @@ The exact order of the following steps MAY be changed, as long as all checks are
 
 4. Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
 
-5. Finally, the Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
-    The decoded `sd_claims` are converted to an intermediate data structure called a Digest To Disclosed Claim Map that is used to transform the Presented Disclosed Claims Set into a Validated Disclosed Claims Set.
-    The Verifier MUST compute the hash of each Salted Disclosed Claim (`salted`), in order to match each disclosed value to each entry of the Presented Disclosed Claims Set.
-    One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map could be: `{ &(digested-salted-disclosed-claim) => salted }`
-   1. The Verifier constructs an empty cbor map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.
-   2. Next, the Verifier performs a breadth first or depth first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.
-By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
-   3. If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid.
+5. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
+Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Blinded Claim Hash in the payload.
+If there are any disclosures that do not have a corresponding Blinded Claim Hash, the entire SD-CWT is invalid.
+If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.
 
     > Note: A Verifier MUST be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.
 
@@ -681,6 +677,9 @@ By performing these steps, the recipient can cryptographically verify the integr
 7. Otherwise, the SD-CWT is considered valid, and the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
 
 8. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
+
+By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
+
 
 # Decoy Digests {#decoys}
 
@@ -1851,6 +1850,29 @@ When applying RATS concepts to SD-CWT:
 - Any party can additionally provide Evidence about their own platform or operational state (act as an Attester)
 - The three-party model with selective disclosure maps naturally to the RATS passport model
 - Reference Value Provider functionality is addressed through trust infrastructure and out-of-band mechanisms rather than protocol-level roles
+
+# Sample Disclosure Matching Algorithm for Verifier
+
+The Verifier of an SD-CWT needs to decode disclosed claims match them with their redacted versions.
+The following example algorithm describes a way to accomplish this.
+
+{::options nested_ol_types="1, a, i" /}
+
+1. The decoded `sd_claims` are converted to an intermediate data structure called a Digest To Disclosed Claim Map that is used to transform the Presented Disclosed Claims Set into a Validated Disclosed Claims Set.
+
+2. The Verifier MUST compute the hash of each Salted Disclosed Claim (`salted`), in order to match each disclosed value to each entry of the Presented Disclosed Claims Set.
+
+> One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map is a CBOR map with the hash of the `bstr-encoded-salted` data structure (from the CDDL) as the map key and its value as the contents of the corresponding `salted-entry` data structure.
+
+{:start="3"}
+3. The Verifier constructs an empty CBOR map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.
+
+4. Next, the Verifier performs a depth-first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.
+
+5. The Verifier repeats the fourth step if the previous iteration resulted in any new Presented Disclosed Claims.
+
+6. If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid.
+Likewise, if this algorithm results in any duplicate CBOR map keys, the entire SD-CWT MUST be considered invalid.
 
 # Acknowledgments
 {:numbered="false"}
