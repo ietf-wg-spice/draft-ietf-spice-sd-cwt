@@ -1759,7 +1759,7 @@ The verifiable credentials model involves three distinct parties:
 
 - **Issuer**: Creates and signs credentials containing claims about a subject
 - **Holder**: Controls the credential and presents it to verifiers (the holder is typically the subject of the credential)
-- **Verifier**: Receives and validates presented credentials to make authorization or access decisions
+- **Verifier**: Receives and validates presented credentials to make authorization or access decisions. In this appendix we refer to this role as a **Credential Verifier**
 
 In SD-CWT, these roles are explicitly represented: the Issuer signs claims using an Assertion Key ({{terminology}}), the Holder controls the credential and creates presentations using a Confirmation Key, and the Verifier validates both the Issuer's signature over the credential and the Holder's signature over the presentation (key binding token).
 
@@ -1770,7 +1770,7 @@ The RATS architecture defines the following key roles:
 - **Attester**: Produces Evidence about its own trustworthiness and operational state
 - **Endorser**: Provides Endorsements about an Attester (typically a manufacturer)
 - **Reference Value Provider**: Supplies Reference Values used by Verifiers to evaluate Evidence
-- **Verifier**: Appraises Evidence and produces Attestation Results
+- **Verifier**: Appraises Evidence and produces Attestation Results. In this appendix we refer to this role as a **RATS Verifier**
 - **Relying Party**: Consumes Attestation Results to make authorization decisions
 
 ## Role Mappings in the Three-Party Model
@@ -1790,45 +1790,45 @@ The credential issued by the Issuer serves the same function as an Endorsement i
 
 ### Verifiable Credential Holder as RATS Verifier
 
-A verifiable credential Holder functions as a RATS Verifier. In RATS, the Verifier appraises Evidence and Endorsements and produces Attestation Results. In the credentials model, the Holder:
+A verifiable credential Holder functions as a RATS Verifier. The RATS Verifier appraises Evidence and Endorsements and produces Attestation Results. In the credentials model, the Holder:
 
 - Receives credentials (analogous to Endorsements) from Issuers
 - Evaluates which credentials to present and which claims to disclose
-- Produces presentations (analogous to Attestation Results) that are sent to Verifiers
+- Produces presentations (analogous to Attestation Results) that are sent to Credential Verifiers
 - Uses their Confirmation Key to create key binding tokens that prove control
 
 The Holder's presentation, which includes the Issuer's credential plus the Holder's signature over selected disclosures, functions as an Attestation Result - a processed, signed assertion derived from the original credential (Endorsement).
 
 ### Verifiable Credential Verifier as RATS Relying Party
 
-A verifiable credential Verifier functions as a RATS Relying Party. The Relying Party:
+A verifiable credential Credential Verifier functions as a RATS Relying Party. The Relying Party:
 
 - Consumes Attestation Results (credential presentations) to make authorization decisions
 - Validates the cryptographic integrity of received assertions
 - Makes access control or authorization decisions based on the claims received
 - Does not directly interact with the original Endorsement source (the Issuer)
 
-The credential Verifier appraises the Holder's presentation in the same way a Relying Party appraises Attestation Results from a RATS Verifier.
+The Credential Verifier appraises the Holder's presentation in the same way a Relying Party appraises Attestation Results from a RATS Verifier.
 
 ### All Parties Can Be Attesters
 
-Importantly, any of these parties - Issuer, Holder, or Verifier - can simultaneously function as a RATS Attester. The Attester role in RATS is about producing Evidence about one's own trustworthiness:
+Importantly, any of these parties - Issuer, Holder, or Credential Verifier - can simultaneously function as a RATS Attester. The Attester role in RATS is about producing Evidence about one's own trustworthiness:
 
 - An **Issuer** may be an Attester when it needs to prove its own integrity, platform state, or authorization to issue certain credential types. For example, an Issuer might provide Evidence about its secure enclave or certified infrastructure when establishing trust with Holders or during credential issuance.
 
 - A **Holder** may be an Attester when presenting credentials, particularly when the presentation itself requires proof of the Holder's platform integrity. For example, a Holder might provide Evidence about their device's secure boot state, firmware version, or trusted execution environment alongside their credential presentation.
 
-- A **Verifier** may be an Attester when it needs to prove its own trustworthiness to Holders or to upstream systems. For example, a Verifier might provide Evidence about its data protection capabilities, compliance certifications, or secure processing environment before Holders agree to disclose sensitive claims.
+- A **Credential Verifier** may be an Attester when it needs to prove its own trustworthiness to Holders or to upstream systems. For example, a Credential Verifier might provide Evidence about its data protection capabilities, compliance certifications, or secure processing environment before Holders agree to disclose sensitive claims.
 
-The Attester role is orthogonal to the three primary roles - it represents the ability to produce evidence about one's own state, while the Issuer/Holder/Verifier roles represent the flow of credentials and claims about subjects.
+The Attester role is orthogonal to the three primary roles - it represents the ability to produce evidence about one's own state, while the Issuer/Holder/Credential Verifier roles represent the flow of credentials and claims about subjects.
 
 ## Comparison with RATS Interaction Models
 
 RATS defines two interaction models:
 
-**Passport Model**: The Attester sends Evidence to a Verifier, receives Attestation Results, and presents these results to Relying Parties. This maps to the three-party credentials model where the Holder obtains credentials from Issuers and presents them to Verifiers.
+**Passport Model**: The Attester sends Evidence to a RATS Verifier, receives Attestation Results, and presents these results to Relying Parties. This maps to the three-party credentials model where the Holder obtains credentials from Issuers and presents them to Credential Verifiers.
 
-**Background-Check Model**: The Attester sends Evidence to a Relying Party, which forwards it to a Verifier. The Verifier returns results directly to the Relying Party. This is a two-party model from the Attester's perspective and does not map well to the three-party credentials model, as it lacks Holder mediation and control over presentations.
+**Background-Check Model**: The Attester sends Evidence to a Relying Party, which forwards it to a RATS Verifier. The RATS Verifier returns results directly to the Relying Party. This is a two-party model from the Attester's perspective and does not map well to the three-party credentials model, as it lacks Holder mediation and control over presentations.
 
 ## Roles That Don't Map to the Three-Party Model
 
@@ -1846,8 +1846,8 @@ However, these are typically considered part of the trust infrastructure rather 
 When applying RATS concepts to SD-CWT:
 
 - SD-CWT credentials function as Endorsements about the Holder (subject)
-- The Holder's key binding token and selective disclosure act as the Verifier's appraisal and production of Attestation Results
-- The credential Verifier consumes these presentations as a Relying Party consumes Attestation Results
+- The Holder's key binding token and selective disclosure act as the RATS Verifier's appraisal and production of Attestation Results
+- The Credential Verifier consumes these presentations as a Relying Party consumes Attestation Results
 - Any party can additionally provide Evidence about their own platform or operational state (act as an Attester)
 - The three-party model with selective disclosure maps naturally to the RATS passport model
 - Reference Value Provider functionality is addressed through trust infrastructure and out-of-band mechanisms rather than protocol-level roles
