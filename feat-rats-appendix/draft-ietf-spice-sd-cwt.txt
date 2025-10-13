@@ -2844,8 +2844,7 @@ Appendix F.  Relationship between RATS Architecture and Verifiable
 
    This appendix describes the relationship between the Remote
    ATtestation procedureS (RATS) architecture defined in [RFC9334] and
-   the three-party model used in verifiable credentials, which consists
-   of Issuer, Holder, and Verifier roles.
+   the three-party model used in verifiable credentials.
 
 F.1.  Three-Party Verifiable Credentials Model
 
@@ -2874,16 +2873,16 @@ F.2.  RATS Architecture Roles
    *  *Attester*: Produces Evidence about its own trustworthiness and
       operational state
 
-   *  *Verifier*: Appraises Evidence and produces Attestation Results
-
-   *  *Relying Party*: Consumes Attestation Results to make
-      authorization decisions
-
    *  *Endorser*: Provides Endorsements about an Attester (typically a
       manufacturer)
 
    *  *Reference Value Provider*: Supplies Reference Values used by
       Verifiers to evaluate Evidence
+
+   *  *Verifier*: Appraises Evidence and produces Attestation Results
+
+   *  *Relying Party*: Consumes Attestation Results to make
+      authorization decisions
 
 F.3.  Role Mappings in the Three-Party Model
 
@@ -2909,16 +2908,16 @@ F.3.1.  Verifiable Credential Issuer as RATS Endorser
       decisions
 
    The credential issued by the Issuer serves the same function as an
-   Endorsement in RATS: it is a signed attestation about the Holder's
+   Endorsement in RATS: it is a signed assertion about the Holder's
    attributes that can be used by Verifiers to make trust decisions.
 
 F.3.2.  Verifiable Credential Holder as RATS Verifier
 
    A verifiable credential Holder functions as a RATS Verifier.  In
-   RATS, the Verifier appraises Evidence and produces Attestation
-   Results.  In the credentials model, the Holder:
+   RATS, the Verifier appraises Evidence and Endorsements and produces
+   Attestation Results.  In the credentials model, the Holder:
 
-   *  Receives credentials (analogous to Evidence) from Issuers
+   *  Receives credentials (analogous to Endorsements) from Issuers
 
    *  Evaluates which credentials to present and which claims to
       disclose
@@ -2932,7 +2931,7 @@ F.3.2.  Verifiable Credential Holder as RATS Verifier
    The Holder's presentation, which includes the Issuer's credential
    plus the Holder's signature over selected disclosures, functions as
    an Attestation Result - a processed, signed assertion derived from
-   the original credential (Evidence).
+   the original credential (Endorsement).
 
 F.3.3.  Verifiable Credential Verifier as RATS Relying Party
 
@@ -2945,13 +2944,13 @@ F.3.3.  Verifiable Credential Verifier as RATS Relying Party
    *  Validates the cryptographic integrity of received assertions
 
    *  Makes access control or authorization decisions based on the
-      information received
+      claims received
 
-   *  Does not directly interact with the original Evidence source (the
-      Issuer)
+   *  Does not directly interact with the original Endorsement source
+      (the Issuer)
 
-   The credential Verifier evaluates the Holder's presentation in the
-   same way a Relying Party evaluates Attestation Results from a RATS
+   The credential Verifier appraises the Holder's presentation in the
+   same way a Relying Party appraises Attestation Results from a RATS
    Verifier.
 
 F.3.4.  All Parties Can Be Attesters
@@ -2980,7 +2979,7 @@ F.3.4.  All Parties Can Be Attesters
       environment before Holders agree to disclose sensitive claims.
 
    The Attester role is orthogonal to the three primary roles - it
-   represents the ability to make attestations about one's own state,
+   represents the ability to produce evidence about one's own state,
    while the Issuer/Holder/Verifier roles represent the flow of
    credentials and claims about subjects.
 
@@ -3005,13 +3004,14 @@ F.5.  Roles That Don't Map to the Three-Party Model
    The *Reference Value Provider* role from RATS does not have a direct
    equivalent in the three-party verifiable credentials model.  This
    role supplies reference values (known-good measurements or
-   configurations) that RATS Verifiers use to appraise Evidence.  In
-   credentials systems, equivalent functionality might be provided
-   through:
+   configurations) that RATS Verifiers use to appraise Endorsements and
+   Evidence.  In credentials systems, equivalent functionality might be
+   provided through:
 
    *  Trust registries that list authorized Issuers
 
-   *  Schema registries that define credential formats
+   *  Schema registries, or lists of valid claims that define credential
+      formats
 
    *  Governance frameworks that specify validation rules
 
