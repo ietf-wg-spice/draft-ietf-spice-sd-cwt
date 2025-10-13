@@ -1124,7 +1124,8 @@ As such, implementations SHOULD NOT use any AEAD algorithm with a tag length les
 
 Algorithms using AES-CCM are NOT RECOMMENDED.
 
-As of this writing, implementation SHOULD NOT use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28. Implementations using the AEGIS algorithms containing an X SHOULD only use the 256-bit tag variant.
+As of this writing, implementations SHOULD NOT use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
+Implementations using the AEGIS algorithms containing an X SHOULD only use the 256-bit tag variant.
 
 # IANA Considerations
 
