@@ -1786,7 +1786,7 @@ A verifiable credential Issuer functions as a RATS Endorser. The Endorser role i
 - Are typically trusted third parties in their respective ecosystems
 - Provide information that enables downstream authorization decisions
 
-The credential issued by the Issuer serves the same function as an Endorsement in RATS: it is a signed assertion about the Holder's attributes that can be used by Verifiers to make trust decisions.
+The credential issued by the Issuer serves the same function as an Endorsement in RATS: it is a signed assertion about the Holder's attributes that can be used by Credential Verifiers to make trust decisions.
 
 ### Verifiable Credential Holder as RATS Verifier
 
