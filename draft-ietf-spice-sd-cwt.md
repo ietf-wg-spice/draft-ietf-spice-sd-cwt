@@ -1750,7 +1750,6 @@ Note: RFC Editor, please remove this entire section on publication.
 * Initial working group version based on draft-prorock-spice-cose-sd-cwt-01.
 
 # Relationship between RATS Architecture and Verifiable Credentials
-{:numbered="false"}
 
 This appendix describes the relationship between the Remote ATtestation procedureS (RATS) architecture defined in {{?RFC9334}} and the three-party model used in verifiable credentials, which consists of Issuer, Holder, and Verifier roles.
 
