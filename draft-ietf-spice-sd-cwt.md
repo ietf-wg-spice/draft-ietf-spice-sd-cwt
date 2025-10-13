@@ -1682,72 +1682,6 @@ Implementation Experience: No interop testing has been done yet. The code works 
 
 Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
 
-# Document History
-
-Note: RFC Editor, please remove this entire section on publication.
-
-## draft-ietf-spice-sd-cwt-04
-
-- Place value before claim name in disclosures
-- Use CBOR simple value 59 for the redacted_key_claims
-- Greatly improved text around AEAD encrypted disclosures
-- Applied clarifications and corrections suggested by Mike Jones.
-- Do not update CWT {{!RFC8392}}.
-- Use `application/sd-cwt` media type and define `+sd-cwt` structured suffix.
-- Made SHA-256 be the default `sd_alg` value.
-- Created Verifiable Credential Type Identifiers registry.
-- Corrected places where Claim Name was used when what was meant was Claim Key.
-- Defined the To Be Redacted CBOR tag
-- In the SD-KBT, `iss` and `sub` are now forbidden
-- Clarified text about `aud`
-- Described Trust Lists
-- EDN Examples are now in deterministic order
-- Expressed some validation steps as a list
-- Clarified handling of nested claims
-- Fixed the handling of the to be registered items in the CDDL; made CDDL self consistent
-- Fixed some references
-
-## draft-ietf-spice-sd-cwt-03
-
-- remove bstr encoding from sd_claims array (but not the individual disclosures)
-- clarify which claims are optional/mandatory
-- correct that an SD-CWT may have zero redacted claims
-- improve the walkthrough of computing a disclosure
-- clarify that duplicate map keys are not allowed, and how tagged keys are represented.
-- added security considerations section (#42) and text about privacy and linkability risks (#43)
-- register SD-CWT and SD-KBT as content formats in CoAP registry (#39)
-- updated media types registrations to have more useful contacts (#44)
-- build most of the values (signatures/salts/hashes/dates) in the examples automatically using a script that implements SD-CWT
-- regenerate all examples with correct signatures
-- add nested example
-- add optional encrypted disclosures
-
-## draft-ietf-spice-sd-cwt-02
-
-- KBT now includes the entire SD-CWT in the Confirmation Key CWT (`kcwt`) existing COSE protected header. Has algorithm now specified in new `sd_alg` COSE protected header. No more `sd_hash` claim. (PR #34, 32)
-- Introduced tags for redacted and to-be-redacted claim keys and elements. (PR#31, 28)
-- Updated example to be a generic inspection certificate. (PR#33)
-- Add section saying SD-CWT updates the CWT spec (RFC8392). (PR#29)
-
-## draft-ietf-spice-sd-cwt-01
-
-- Added Overview section
-- Rewritten the main normative section
-- Made redacted_claim_keys use an unlikely to collide claim key integer
-- Make cnonce optional (it now says SHOULD)
-- Made most standard claims optional.
-- Consistently avoid use of bare term "key" - to make crypto keys and map keys clear
-- Make clear issued SD-CWT can contain zero or more redactions; presented SD-CWT can disclose zero, some, or all redacted claims.
-- Clarified use of sd_hash for issuer to holder case.
-- Lots of editorial cleanup
-- Added Rohan as an author and Brian Campbell to Acknowledgements
-- Updated implementation status section to be BCP205-compatible
-- Updated draft metadata
-
-## draft-ietf-spice-sd-cwt-00
-
-* Initial working group version based on draft-prorock-spice-cose-sd-cwt-01.
-
 # Relationship between RATS Architecture and Verifiable Credentials
 
 This appendix describes the relationship between the Remote ATtestation procedureS (RATS) architecture defined in {{?RFC9334}} and the three-party model used in verifiable credentials.
@@ -1873,6 +1807,72 @@ The following example algorithm describes a way to accomplish this.
 
 6. If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid.
 Likewise, if this algorithm results in any duplicate CBOR map keys, the entire SD-CWT MUST be considered invalid.
+
+# Document History
+
+Note: RFC Editor, please remove this entire section on publication.
+
+## draft-ietf-spice-sd-cwt-04
+
+- Place value before claim name in disclosures
+- Use CBOR simple value 59 for the redacted_key_claims
+- Greatly improved text around AEAD encrypted disclosures
+- Applied clarifications and corrections suggested by Mike Jones.
+- Do not update CWT {{!RFC8392}}.
+- Use `application/sd-cwt` media type and define `+sd-cwt` structured suffix.
+- Made SHA-256 be the default `sd_alg` value.
+- Created Verifiable Credential Type Identifiers registry.
+- Corrected places where Claim Name was used when what was meant was Claim Key.
+- Defined the To Be Redacted CBOR tag
+- In the SD-KBT, `iss` and `sub` are now forbidden
+- Clarified text about `aud`
+- Described Trust Lists
+- EDN Examples are now in deterministic order
+- Expressed some validation steps as a list
+- Clarified handling of nested claims
+- Fixed the handling of the to be registered items in the CDDL; made CDDL self consistent
+- Fixed some references
+
+## draft-ietf-spice-sd-cwt-03
+
+- remove bstr encoding from sd_claims array (but not the individual disclosures)
+- clarify which claims are optional/mandatory
+- correct that an SD-CWT may have zero redacted claims
+- improve the walkthrough of computing a disclosure
+- clarify that duplicate map keys are not allowed, and how tagged keys are represented.
+- added security considerations section (#42) and text about privacy and linkability risks (#43)
+- register SD-CWT and SD-KBT as content formats in CoAP registry (#39)
+- updated media types registrations to have more useful contacts (#44)
+- build most of the values (signatures/salts/hashes/dates) in the examples automatically using a script that implements SD-CWT
+- regenerate all examples with correct signatures
+- add nested example
+- add optional encrypted disclosures
+
+## draft-ietf-spice-sd-cwt-02
+
+- KBT now includes the entire SD-CWT in the Confirmation Key CWT (`kcwt`) existing COSE protected header. Has algorithm now specified in new `sd_alg` COSE protected header. No more `sd_hash` claim. (PR #34, 32)
+- Introduced tags for redacted and to-be-redacted claim keys and elements. (PR#31, 28)
+- Updated example to be a generic inspection certificate. (PR#33)
+- Add section saying SD-CWT updates the CWT spec (RFC8392). (PR#29)
+
+## draft-ietf-spice-sd-cwt-01
+
+- Added Overview section
+- Rewritten the main normative section
+- Made redacted_claim_keys use an unlikely to collide claim key integer
+- Make cnonce optional (it now says SHOULD)
+- Made most standard claims optional.
+- Consistently avoid use of bare term "key" - to make crypto keys and map keys clear
+- Make clear issued SD-CWT can contain zero or more redactions; presented SD-CWT can disclose zero, some, or all redacted claims.
+- Clarified use of sd_hash for issuer to holder case.
+- Lots of editorial cleanup
+- Added Rohan as an author and Brian Campbell to Acknowledgements
+- Updated implementation status section to be BCP205-compatible
+- Updated draft metadata
+
+## draft-ietf-spice-sd-cwt-00
+
+* Initial working group version based on draft-prorock-spice-cose-sd-cwt-01.
 
 # Acknowledgments
 {:numbered="false"}
