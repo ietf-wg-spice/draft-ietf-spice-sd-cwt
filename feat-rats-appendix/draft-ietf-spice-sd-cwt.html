@@ -4565,7 +4565,7 @@ It is up to the individual working groups to use this information as they see fi
             <p id="appendix-F.1-2.2.1"><strong>Holder</strong>: Controls the credential and presents it to verifiers (the holder is typically the subject of the credential)<a href="#appendix-F.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-F.1-2.3">
-            <p id="appendix-F.1-2.3.1"><strong>Verifier</strong>: Receives and validates presented credentials to make authorization or access decisions<a href="#appendix-F.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-F.1-2.3.1"><strong>Verifier</strong>: Receives and validates presented credentials to make authorization or access decisions. In this appendix we refer to this role as a <strong>Credential Verifier</strong><a href="#appendix-F.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="appendix-F.1-3">In SD-CWT, these roles are explicitly represented: the Issuer signs claims using an Assertion Key (<a href="#terminology" class="auto internal xref">Section 2</a>), the Holder controls the credential and creates presentations using a Confirmation Key, and the Verifier validates both the Issuer's signature over the credential and the Holder's signature over the presentation (key binding token).<a href="#appendix-F.1-3" class="pilcrow">¶</a></p>
@@ -4588,7 +4588,7 @@ It is up to the individual working groups to use this information as they see fi
             <p id="appendix-F.2-2.3.1"><strong>Reference Value Provider</strong>: Supplies Reference Values used by Verifiers to evaluate Evidence<a href="#appendix-F.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-F.2-2.4">
-            <p id="appendix-F.2-2.4.1"><strong>Verifier</strong>: Appraises Evidence and produces Attestation Results<a href="#appendix-F.2-2.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-F.2-2.4.1"><strong>Verifier</strong>: Appraises Evidence and produces Attestation Results. In this appendix we refer to this role as a <strong>RATS Verifier</strong><a href="#appendix-F.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-F.2-2.5">
             <p id="appendix-F.2-2.5.1"><strong>Relying Party</strong>: Consumes Attestation Results to make authorization decisions<a href="#appendix-F.2-2.5.1" class="pilcrow">¶</a></p>
@@ -4630,7 +4630,7 @@ It is up to the individual working groups to use this information as they see fi
           <h4 id="name-verifiable-credential-holde">
 <a href="#appendix-F.3.2" class="section-number selfRef">F.3.2. </a><a href="#name-verifiable-credential-holde" class="section-name selfRef">Verifiable Credential Holder as RATS Verifier</a>
           </h4>
-<p id="appendix-F.3.2-1">A verifiable credential Holder functions as a RATS Verifier. In RATS, the Verifier appraises Evidence and Endorsements and produces Attestation Results. In the credentials model, the Holder:<a href="#appendix-F.3.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-F.3.2-1">A verifiable credential Holder functions as a RATS Verifier. The RATS Verifier appraises Evidence and Endorsements and produces Attestation Results. In the credentials model, the Holder:<a href="#appendix-F.3.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-F.3.2-2.1">
               <p id="appendix-F.3.2-2.1.1">Receives credentials (analogous to Endorsements) from Issuers<a href="#appendix-F.3.2-2.1.1" class="pilcrow">¶</a></p>
@@ -4639,7 +4639,7 @@ It is up to the individual working groups to use this information as they see fi
               <p id="appendix-F.3.2-2.2.1">Evaluates which credentials to present and which claims to disclose<a href="#appendix-F.3.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="appendix-F.3.2-2.3">
-              <p id="appendix-F.3.2-2.3.1">Produces presentations (analogous to Attestation Results) that are sent to Verifiers<a href="#appendix-F.3.2-2.3.1" class="pilcrow">¶</a></p>
+              <p id="appendix-F.3.2-2.3.1">Produces presentations (analogous to Attestation Results) that are sent to Credential Verifiers<a href="#appendix-F.3.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="appendix-F.3.2-2.4">
               <p id="appendix-F.3.2-2.4.1">Uses their Confirmation Key to create key binding tokens that prove control<a href="#appendix-F.3.2-2.4.1" class="pilcrow">¶</a></p>
@@ -4653,7 +4653,7 @@ It is up to the individual working groups to use this information as they see fi
           <h4 id="name-verifiable-credential-verif">
 <a href="#appendix-F.3.3" class="section-number selfRef">F.3.3. </a><a href="#name-verifiable-credential-verif" class="section-name selfRef">Verifiable Credential Verifier as RATS Relying Party</a>
           </h4>
-<p id="appendix-F.3.3-1">A verifiable credential Verifier functions as a RATS Relying Party. The Relying Party:<a href="#appendix-F.3.3-1" class="pilcrow">¶</a></p>
+<p id="appendix-F.3.3-1">A verifiable credential Credential Verifier functions as a RATS Relying Party. The Relying Party:<a href="#appendix-F.3.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-F.3.3-2.1">
               <p id="appendix-F.3.3-2.1.1">Consumes Attestation Results (credential presentations) to make authorization decisions<a href="#appendix-F.3.3-2.1.1" class="pilcrow">¶</a></p>
@@ -4668,7 +4668,7 @@ It is up to the individual working groups to use this information as they see fi
               <p id="appendix-F.3.3-2.4.1">Does not directly interact with the original Endorsement source (the Issuer)<a href="#appendix-F.3.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="appendix-F.3.3-3">The credential Verifier appraises the Holder's presentation in the same way a Relying Party appraises Attestation Results from a RATS Verifier.<a href="#appendix-F.3.3-3" class="pilcrow">¶</a></p>
+<p id="appendix-F.3.3-3">The Credential Verifier appraises the Holder's presentation in the same way a Relying Party appraises Attestation Results from a RATS Verifier.<a href="#appendix-F.3.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="all-parties-can-be-attesters">
@@ -4676,7 +4676,7 @@ It is up to the individual working groups to use this information as they see fi
           <h4 id="name-all-parties-can-be-attester">
 <a href="#appendix-F.3.4" class="section-number selfRef">F.3.4. </a><a href="#name-all-parties-can-be-attester" class="section-name selfRef">All Parties Can Be Attesters</a>
           </h4>
-<p id="appendix-F.3.4-1">Importantly, any of these parties - Issuer, Holder, or Verifier - can simultaneously function as a RATS Attester. The Attester role in RATS is about producing Evidence about one's own trustworthiness:<a href="#appendix-F.3.4-1" class="pilcrow">¶</a></p>
+<p id="appendix-F.3.4-1">Importantly, any of these parties - Issuer, Holder, or Credential Verifier - can simultaneously function as a RATS Attester. The Attester role in RATS is about producing Evidence about one's own trustworthiness:<a href="#appendix-F.3.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-F.3.4-2.1">
               <p id="appendix-F.3.4-2.1.1">An <strong>Issuer</strong> may be an Attester when it needs to prove its own integrity, platform state, or authorization to issue certain credential types. For example, an Issuer might provide Evidence about its secure enclave or certified infrastructure when establishing trust with Holders or during credential issuance.<a href="#appendix-F.3.4-2.1.1" class="pilcrow">¶</a></p>
@@ -4685,10 +4685,10 @@ It is up to the individual working groups to use this information as they see fi
               <p id="appendix-F.3.4-2.2.1">A <strong>Holder</strong> may be an Attester when presenting credentials, particularly when the presentation itself requires proof of the Holder's platform integrity. For example, a Holder might provide Evidence about their device's secure boot state, firmware version, or trusted execution environment alongside their credential presentation.<a href="#appendix-F.3.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="appendix-F.3.4-2.3">
-              <p id="appendix-F.3.4-2.3.1">A <strong>Verifier</strong> may be an Attester when it needs to prove its own trustworthiness to Holders or to upstream systems. For example, a Verifier might provide Evidence about its data protection capabilities, compliance certifications, or secure processing environment before Holders agree to disclose sensitive claims.<a href="#appendix-F.3.4-2.3.1" class="pilcrow">¶</a></p>
+              <p id="appendix-F.3.4-2.3.1">A <strong>Credential Verifier</strong> may be an Attester when it needs to prove its own trustworthiness to Holders or to upstream systems. For example, a Credential Verifier might provide Evidence about its data protection capabilities, compliance certifications, or secure processing environment before Holders agree to disclose sensitive claims.<a href="#appendix-F.3.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="appendix-F.3.4-3">The Attester role is orthogonal to the three primary roles - it represents the ability to produce evidence about one's own state, while the Issuer/Holder/Verifier roles represent the flow of credentials and claims about subjects.<a href="#appendix-F.3.4-3" class="pilcrow">¶</a></p>
+<p id="appendix-F.3.4-3">The Attester role is orthogonal to the three primary roles - it represents the ability to produce evidence about one's own state, while the Issuer/Holder/Credential Verifier roles represent the flow of credentials and claims about subjects.<a href="#appendix-F.3.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4699,8 +4699,8 @@ It is up to the individual working groups to use this information as they see fi
 <a href="#appendix-F.4" class="section-number selfRef">F.4. </a><a href="#name-comparison-with-rats-intera" class="section-name selfRef">Comparison with RATS Interaction Models</a>
         </h3>
 <p id="appendix-F.4-1">RATS defines two interaction models:<a href="#appendix-F.4-1" class="pilcrow">¶</a></p>
-<p id="appendix-F.4-2"><strong>Passport Model</strong>: The Attester sends Evidence to a Verifier, receives Attestation Results, and presents these results to Relying Parties. This maps to the three-party credentials model where the Holder obtains credentials from Issuers and presents them to Verifiers.<a href="#appendix-F.4-2" class="pilcrow">¶</a></p>
-<p id="appendix-F.4-3"><strong>Background-Check Model</strong>: The Attester sends Evidence to a Relying Party, which forwards it to a Verifier. The Verifier returns results directly to the Relying Party. This is a two-party model from the Attester's perspective and does not map well to the three-party credentials model, as it lacks Holder mediation and control over presentations.<a href="#appendix-F.4-3" class="pilcrow">¶</a></p>
+<p id="appendix-F.4-2"><strong>Passport Model</strong>: The Attester sends Evidence to a RATS Verifier, receives Attestation Results, and presents these results to Relying Parties. This maps to the three-party credentials model where the Holder obtains credentials from Issuers and presents them to Credential Verifiers.<a href="#appendix-F.4-2" class="pilcrow">¶</a></p>
+<p id="appendix-F.4-3"><strong>Background-Check Model</strong>: The Attester sends Evidence to a Relying Party, which forwards it to a RATS Verifier. The RATS Verifier returns results directly to the Relying Party. This is a two-party model from the Attester's perspective and does not map well to the three-party credentials model, as it lacks Holder mediation and control over presentations.<a href="#appendix-F.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="roles-that-dont-map-to-the-three-party-model">
@@ -4737,10 +4737,10 @@ It is up to the individual working groups to use this information as they see fi
             <p id="appendix-F.6-2.1.1">SD-CWT credentials function as Endorsements about the Holder (subject)<a href="#appendix-F.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-F.6-2.2">
-            <p id="appendix-F.6-2.2.1">The Holder's key binding token and selective disclosure act as the Verifier's appraisal and production of Attestation Results<a href="#appendix-F.6-2.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-F.6-2.2.1">The Holder's key binding token and selective disclosure act as the RATS Verifier's appraisal and production of Attestation Results<a href="#appendix-F.6-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-F.6-2.3">
-            <p id="appendix-F.6-2.3.1">The credential Verifier consumes these presentations as a Relying Party consumes Attestation Results<a href="#appendix-F.6-2.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-F.6-2.3.1">The Credential Verifier consumes these presentations as a Relying Party consumes Attestation Results<a href="#appendix-F.6-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-F.6-2.4">
             <p id="appendix-F.6-2.4.1">Any party can additionally provide Evidence about their own platform or operational state (act as an Attester)<a href="#appendix-F.6-2.4.1" class="pilcrow">¶</a></p>
