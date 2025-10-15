@@ -5,12 +5,12 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 16 April 2026                                      Tradeverifyd
+Expires: 18 April 2026                                      Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                         13 October 2025
+                                                         15 October 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 April 2026.
+   This Internet-Draft will expire on 18 April 2026.
 
 Copyright Notice
 
@@ -147,24 +147,25 @@ Table of Contents
    Appendix D.  Implementation Status
      D.1.  Transmute Prototype
      D.2.  Rust Prototype
-   Appendix E.  Document History
-     E.1.  draft-ietf-spice-sd-cwt-04
-     E.2.  draft-ietf-spice-sd-cwt-03
-     E.3.  draft-ietf-spice-sd-cwt-02
-     E.4.  draft-ietf-spice-sd-cwt-01
-     E.5.  draft-ietf-spice-sd-cwt-00
-   Appendix F.  Relationship between RATS Architecture and Verifiable
+   Appendix E.  Relationship between RATS Architecture and Verifiable
            Credentials
-     F.1.  Three-Party Verifiable Credentials Model
-     F.2.  RATS Architecture Roles
-     F.3.  Role Mappings in the Three-Party Model
-       F.3.1.  Verifiable Credential Issuer as RATS Endorser
-       F.3.2.  Verifiable Credential Holder as RATS Verifier
-       F.3.3.  Verifiable Credential Verifier as RATS Relying Party
-       F.3.4.  All Parties Can Be Attesters
-     F.4.  Comparison with RATS Interaction Models
-     F.5.  Roles That Don't Map to the Three-Party Model
-     F.6.  Application to SD-CWT
+     E.1.  Three-Party Verifiable Credentials Model
+     E.2.  RATS Architecture Roles
+     E.3.  Role Mappings in the Three-Party Model
+       E.3.1.  Verifiable Credential Issuer as RATS Endorser
+       E.3.2.  Verifiable Credential Holder as RATS Verifier
+       E.3.3.  Verifiable Credential Verifier as RATS Relying Party
+       E.3.4.  All Parties Can Be Attesters
+     E.4.  Comparison with RATS Interaction Models
+     E.5.  Roles That Don't Map to the Three-Party Model
+     E.6.  Application to SD-CWT
+   Appendix F.  Sample Disclosure Matching Algorithm for Verifier
+   Appendix G.  Document History
+     G.1.  draft-ietf-spice-sd-cwt-04
+     G.2.  draft-ietf-spice-sd-cwt-03
+     G.3.  draft-ietf-spice-sd-cwt-02
+     G.4.  draft-ietf-spice-sd-cwt-01
+     G.5.  draft-ietf-spice-sd-cwt-00
    Acknowledgments
    Contributors
    Authors' Addresses
@@ -1028,35 +1029,14 @@ Issuer                           Holder                         Verifier
    4.  Using the confirmation key, the Verifier validates the SD-KBT as
        described in Section 7.2 of [RFC8392].
 
-   5.  Finally, the Verifier MUST extract and decode the disclosed
-       claims from the sd_claims header parameter in the unprotected
-       header of the SD-CWT.  The decoded sd_claims are converted to an
-       intermediate data structure called a Digest To Disclosed Claim
-       Map that is used to transform the Presented Disclosed Claims Set
-       into a Validated Disclosed Claims Set.  The Verifier MUST compute
-       the hash of each Salted Disclosed Claim (salted), in order to
-       match each disclosed value to each entry of the Presented
-       Disclosed Claims Set.  One possible concrete representation of
-       the intermediate data structure for the Digest To Disclosed Claim
-       Map could be: { &(digested-salted-disclosed-claim) => salted }
-
-       a.  The Verifier constructs an empty cbor map called the
-           Validated Disclosed Claims Set, and initializes it with all
-           mandatory to disclose claims from the verified Presented
-           Disclosed Claims Set.
-
-       b.  Next, the Verifier performs a breadth first or depth first
-           traversal of the Presented Disclosed Claims Set and Validated
-           Disclosed Claims Set, using the Digest To Disclosed Claim Map
-           to insert claims into the Validated Disclosed Claims Set when
-           they appear in the Presented Disclosed Claims Set. By
-           performing these steps, the recipient can cryptographically
-           verify the integrity of the protected claims and verify they
-           have not been tampered with.
-
-       c.  If there remain unused claims in the Digest To Disclosed
-           Claim Map at the end of this procedure the SD-CWT MUST be
-           considered invalid.
+   5.  The Verifier MUST extract and decode the disclosed claims from
+       the sd_claims header parameter in the unprotected header of the
+       SD-CWT.  Each decoded disclosure is treated as if it is a claim
+       key or claim element at the location corresponding to its Blinded
+       Claim Hash in the payload.  If there are any disclosures that do
+       not have a corresponding Blinded Claim Hash, the entire SD-CWT is
+       invalid.  If any decoded Redacted Claim Key duplicates another
+       claim key in the same position, the entire SD-CWT is invalid.
 
           Note: A Verifier MUST be prepared to process disclosures in
           any order.  When disclosures are nested, a disclosed value
@@ -1073,6 +1053,10 @@ Issuer                           Holder                         Verifier
    8.  Further validation logic can be applied to the Validated
        Disclosed Claims Set, just as it might be applied to a validated
        CWT Claims Set.
+
+   By performing these steps, the recipient can cryptographically verify
+   the integrity of the protected claims and verify they have not been
+   tampered with.
 
 10.  Decoy Digests
 
@@ -2234,9 +2218,9 @@ Issuer                           Holder                         Verifier
 
    [I-D.draft-ietf-cbor-cde]
               Bormann, C., "CBOR Common Deterministic Encoding (CDE)",
-              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-12,
-              7 July 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-cbor-cde-12>.
+              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-13,
+              13 October 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-cde-13>.
 
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",
@@ -2714,11 +2698,270 @@ D.2.  Rust Prototype
 
    Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
 
-Appendix E.  Document History
+Appendix E.  Relationship between RATS Architecture and Verifiable
+             Credentials
+
+   This appendix describes the relationship between the Remote
+   ATtestation procedureS (RATS) architecture defined in [RFC9334] and
+   the three-party model used in verifiable credentials.
+
+E.1.  Three-Party Verifiable Credentials Model
+
+   The verifiable credentials model involves three distinct parties:
+
+   *  *Issuer*: Creates and signs credentials containing claims about a
+      subject
+
+   *  *Holder*: Controls the credential and presents it to verifiers
+      (the holder is typically the subject of the credential)
+
+   *  *Verifier*: Receives and validates presented credentials to make
+      authorization or access decisions.  In this appendix we refer to
+      this role as a *Credential Verifier*
+
+   In SD-CWT, these roles are explicitly represented: the Issuer signs
+   claims using an Assertion Key (Section 2), the Holder controls the
+   credential and creates presentations using a Confirmation Key, and
+   the Verifier validates both the Issuer's signature over the
+   credential and the Holder's signature over the presentation (key
+   binding token).
+
+E.2.  RATS Architecture Roles
+
+   The RATS architecture defines the following key roles:
+
+   *  *Attester*: Produces Evidence about its own trustworthiness and
+      operational state
+
+   *  *Endorser*: Provides Endorsements about an Attester (typically a
+      manufacturer)
+
+   *  *Reference Value Provider*: Supplies Reference Values used by
+      Verifiers to evaluate Evidence
+
+   *  *Verifier*: Appraises Evidence and produces Attestation Results.
+      In this appendix we refer to this role as a *RATS Verifier*
+
+   *  *Relying Party*: Consumes Attestation Results to make
+      authorization decisions
+
+E.3.  Role Mappings in the Three-Party Model
+
+   The mapping between RATS roles and verifiable credential roles can be
+   understood as follows:
+
+E.3.1.  Verifiable Credential Issuer as RATS Endorser
+
+   A verifiable credential Issuer functions as a RATS Endorser.  The
+   Endorser role in RATS produces Endorsements - secure statements about
+   an Attester's capabilities, identity, or trustworthiness.  Similarly,
+   a credential Issuer produces signed credentials containing claims
+   about a subject (the Holder).  Both roles:
+
+   *  Make authoritative statements about another party's attributes or
+      capabilities
+
+   *  Use cryptographic signatures to ensure integrity and authenticity
+
+   *  Are typically trusted third parties in their respective ecosystems
+
+   *  Provide information that enables downstream authorization
+      decisions
+
+   The credential issued by the Issuer serves the same function as an
+   Endorsement in RATS: it is a signed assertion about the Holder's
+   attributes that can be used by Credential Verifiers to make trust
+   decisions.
+
+E.3.2.  Verifiable Credential Holder as RATS Verifier
+
+   A verifiable credential Holder functions as a RATS Verifier.  The
+   RATS Verifier appraises Evidence and Endorsements and produces
+   Attestation Results.  In the credentials model, the Holder:
+
+   *  Receives credentials (analogous to Endorsements) from Issuers
+
+   *  Evaluates which credentials to present and which claims to
+      disclose
+
+   *  Produces presentations (analogous to Attestation Results) that are
+      sent to Credential Verifiers
+
+   *  Uses their Confirmation Key to create key binding tokens that
+      prove control
+
+   The Holder's presentation, which includes the Issuer's credential
+   plus the Holder's signature over selected disclosures, functions as
+   an Attestation Result - a processed, signed assertion derived from
+   the original credential (Endorsement).
+
+E.3.3.  Verifiable Credential Verifier as RATS Relying Party
+
+   A verifiable credential Credential Verifier functions as a RATS
+   Relying Party.  The Relying Party:
+
+   *  Consumes Attestation Results (credential presentations) to make
+      authorization decisions
+
+   *  Validates the cryptographic integrity of received assertions
+
+   *  Makes access control or authorization decisions based on the
+      claims received
+
+   *  Does not directly interact with the original Endorsement source
+      (the Issuer)
+
+   The Credential Verifier appraises the Holder's presentation in the
+   same way a Relying Party appraises Attestation Results from a RATS
+   Verifier.
+
+E.3.4.  All Parties Can Be Attesters
+
+   Importantly, any of these parties - Issuer, Holder, or Credential
+   Verifier - can simultaneously function as a RATS Attester.  The
+   Attester role in RATS is about producing Evidence about one's own
+   trustworthiness:
+
+   *  An *Issuer* may be an Attester when it needs to prove its own
+      integrity, platform state, or authorization to issue certain
+      credential types.  For example, an Issuer might provide Evidence
+      about its secure enclave or certified infrastructure when
+      establishing trust with Holders or during credential issuance.
+
+   *  A *Holder* may be an Attester when presenting credentials,
+      particularly when the presentation itself requires proof of the
+      Holder's platform integrity.  For example, a Holder might provide
+      Evidence about their device's secure boot state, firmware version,
+      or trusted execution environment alongside their credential
+      presentation.
+
+   *  A *Credential Verifier* may be an Attester when it needs to prove
+      its own trustworthiness to Holders or to upstream systems.  For
+      example, a Credential Verifier might provide Evidence about its
+      data protection capabilities, compliance certifications, or secure
+      processing environment before Holders agree to disclose sensitive
+      claims.
+
+   The Attester role is orthogonal to the three primary roles - it
+   represents the ability to produce evidence about one's own state,
+   while the Issuer/Holder/Credential Verifier roles represent the flow
+   of credentials and claims about subjects.
+
+E.4.  Comparison with RATS Interaction Models
+
+   RATS defines two interaction models:
+
+   *Passport Model*: The Attester sends Evidence to a RATS Verifier,
+   receives Attestation Results, and presents these results to Relying
+   Parties.  This maps to the three-party credentials model where the
+   Holder obtains credentials from Issuers and presents them to
+   Credential Verifiers.
+
+   *Background-Check Model*: The Attester sends Evidence to a Relying
+   Party, which forwards it to a RATS Verifier.  The RATS Verifier
+   returns results directly to the Relying Party.  This is a two-party
+   model from the Attester's perspective and does not map well to the
+   three-party credentials model, as it lacks Holder mediation and
+   control over presentations.
+
+E.5.  Roles That Don't Map to the Three-Party Model
+
+   The *Reference Value Provider* role from RATS does not have a direct
+   equivalent in the three-party verifiable credentials model.  This
+   role supplies reference values (known-good measurements or
+   configurations) that RATS Verifiers use to appraise Endorsements and
+   Evidence.  In credentials systems, equivalent functionality might be
+   provided through:
+
+   *  Trust registries that list authorized Issuers
+
+   *  Schema registries, or lists of valid claims that define credential
+      formats
+
+   *  Governance frameworks that specify validation rules
+
+   *  Revocation registries
+
+   However, these are typically considered part of the trust
+   infrastructure rather than a distinct party in the presentation
+   protocol.  The Reference Value Provider role is primarily relevant in
+   scenarios where raw Evidence must be evaluated against known-good
+   values - a pattern more common in the two-party background-check
+   model than in the three-party credentials model where Issuers have
+   already performed evaluation and produced credentials.
+
+E.6.  Application to SD-CWT
+
+   When applying RATS concepts to SD-CWT:
+
+   *  SD-CWT credentials function as Endorsements about the Holder
+      (subject)
+
+   *  The Holder's key binding token and selective disclosure act as the
+      RATS Verifier's appraisal and production of Attestation Results
+
+   *  The Credential Verifier consumes these presentations as a Relying
+      Party consumes Attestation Results
+
+   *  Any party can additionally provide Evidence about their own
+      platform or operational state (act as an Attester)
+
+   *  The three-party model with selective disclosure maps naturally to
+      the RATS passport model
+
+   *  Reference Value Provider functionality is addressed through trust
+      infrastructure and out-of-band mechanisms rather than protocol-
+      level roles
+
+Appendix F.  Sample Disclosure Matching Algorithm for Verifier
+
+   The Verifier of an SD-CWT needs to decode disclosed claims match them
+   with their redacted versions.  The following example algorithm
+   describes a way to accomplish this.
+
+   1.  The decoded sd_claims are converted to an intermediate data
+       structure called a Digest To Disclosed Claim Map that is used to
+       transform the Presented Disclosed Claims Set into a Validated
+       Disclosed Claims Set.
+
+   2.  The Verifier MUST compute the hash of each Salted Disclosed Claim
+       (salted), in order to match each disclosed value to each entry of
+       the Presented Disclosed Claims Set.
+
+      One possible concrete representation of the intermediate data
+      structure for the Digest To Disclosed Claim Map is a CBOR map with
+      the hash of the bstr-encoded-salted data structure (from the CDDL)
+      as the map key and its value as the contents of the corresponding
+      salted-entry data structure.
+
+   3.  The Verifier constructs an empty CBOR map called the Validated
+       Disclosed Claims Set, and initializes it with all mandatory to
+       disclose claims from the verified Presented Disclosed Claims Set.
+
+   4.  Next, the Verifier performs a depth-first traversal of the
+       Presented Disclosed Claims Set and Validated Disclosed Claims
+       Set, using the Digest To Disclosed Claim Map to insert claims
+       into the Validated Disclosed Claims Set when they appear in the
+       Presented Disclosed Claims Set.
+
+   5.  The Verifier repeats the fourth step if the previous iteration
+       resulted in any new Presented Disclosed Claims.
+
+   6.  If there remain unused claims in the Digest To Disclosed Claim
+       Map at the end of this procedure the SD-CWT MUST be considered
+       invalid.  Likewise, if this algorithm results in any duplicate
+       CBOR map keys, the entire SD-CWT MUST be considered invalid.
+
+      Note: If there are remaining digests without corresponding
+      disclosures, this means that either the holder intentionally did
+      not disclose a claim, or that the digest is a decoy digest
+      Section 10.
+
+Appendix G.  Document History
 
    Note: RFC Editor, please remove this entire section on publication.
 
-E.1.  draft-ietf-spice-sd-cwt-04
+G.1.  draft-ietf-spice-sd-cwt-04
 
    *  Place value before claim name in disclosures
 
@@ -2759,7 +3002,7 @@ E.1.  draft-ietf-spice-sd-cwt-04
 
    *  Fixed some references
 
-E.2.  draft-ietf-spice-sd-cwt-03
+G.2.  draft-ietf-spice-sd-cwt-03
 
    *  remove bstr encoding from sd_claims array (but not the individual
       disclosures)
@@ -2791,7 +3034,7 @@ E.2.  draft-ietf-spice-sd-cwt-03
 
    *  add optional encrypted disclosures
 
-E.3.  draft-ietf-spice-sd-cwt-02
+G.3.  draft-ietf-spice-sd-cwt-02
 
    *  KBT now includes the entire SD-CWT in the Confirmation Key CWT
       (kcwt) existing COSE protected header.  Has algorithm now
@@ -2805,7 +3048,7 @@ E.3.  draft-ietf-spice-sd-cwt-02
 
    *  Add section saying SD-CWT updates the CWT spec (RFC8392).  (PR#29)
 
-E.4.  draft-ietf-spice-sd-cwt-01
+G.4.  draft-ietf-spice-sd-cwt-01
 
    *  Added Overview section
 
@@ -2834,225 +3077,10 @@ E.4.  draft-ietf-spice-sd-cwt-01
 
    *  Updated draft metadata
 
-E.5.  draft-ietf-spice-sd-cwt-00
+G.5.  draft-ietf-spice-sd-cwt-00
 
    *  Initial working group version based on draft-prorock-spice-cose-
       sd-cwt-01.
-
-Appendix F.  Relationship between RATS Architecture and Verifiable
-             Credentials
-
-   This appendix describes the relationship between the Remote
-   ATtestation procedureS (RATS) architecture defined in [RFC9334] and
-   the three-party model used in verifiable credentials.
-
-F.1.  Three-Party Verifiable Credentials Model
-
-   The verifiable credentials model involves three distinct parties:
-
-   *  *Issuer*: Creates and signs credentials containing claims about a
-      subject
-
-   *  *Holder*: Controls the credential and presents it to verifiers
-      (the holder is typically the subject of the credential)
-
-   *  *Verifier*: Receives and validates presented credentials to make
-      authorization or access decisions.  In this appendix we refer to
-      this role as a *Credential Verifier*
-
-   In SD-CWT, these roles are explicitly represented: the Issuer signs
-   claims using an Assertion Key (Section 2), the Holder controls the
-   credential and creates presentations using a Confirmation Key, and
-   the Verifier validates both the Issuer's signature over the
-   credential and the Holder's signature over the presentation (key
-   binding token).
-
-F.2.  RATS Architecture Roles
-
-   The RATS architecture defines the following key roles:
-
-   *  *Attester*: Produces Evidence about its own trustworthiness and
-      operational state
-
-   *  *Endorser*: Provides Endorsements about an Attester (typically a
-      manufacturer)
-
-   *  *Reference Value Provider*: Supplies Reference Values used by
-      Verifiers to evaluate Evidence
-
-   *  *Verifier*: Appraises Evidence and produces Attestation Results.
-      In this appendix we refer to this role as a *RATS Verifier*
-
-   *  *Relying Party*: Consumes Attestation Results to make
-      authorization decisions
-
-F.3.  Role Mappings in the Three-Party Model
-
-   The mapping between RATS roles and verifiable credential roles can be
-   understood as follows:
-
-F.3.1.  Verifiable Credential Issuer as RATS Endorser
-
-   A verifiable credential Issuer functions as a RATS Endorser.  The
-   Endorser role in RATS produces Endorsements - secure statements about
-   an Attester's capabilities, identity, or trustworthiness.  Similarly,
-   a credential Issuer produces signed credentials containing claims
-   about a subject (the Holder).  Both roles:
-
-   *  Make authoritative statements about another party's attributes or
-      capabilities
-
-   *  Use cryptographic signatures to ensure integrity and authenticity
-
-   *  Are typically trusted third parties in their respective ecosystems
-
-   *  Provide information that enables downstream authorization
-      decisions
-
-   The credential issued by the Issuer serves the same function as an
-   Endorsement in RATS: it is a signed assertion about the Holder's
-   attributes that can be used by Credential Verifiers to make trust
-   decisions.
-
-F.3.2.  Verifiable Credential Holder as RATS Verifier
-
-   A verifiable credential Holder functions as a RATS Verifier.  The
-   RATS Verifier appraises Evidence and Endorsements and produces
-   Attestation Results.  In the credentials model, the Holder:
-
-   *  Receives credentials (analogous to Endorsements) from Issuers
-
-   *  Evaluates which credentials to present and which claims to
-      disclose
-
-   *  Produces presentations (analogous to Attestation Results) that are
-      sent to Credential Verifiers
-
-   *  Uses their Confirmation Key to create key binding tokens that
-      prove control
-
-   The Holder's presentation, which includes the Issuer's credential
-   plus the Holder's signature over selected disclosures, functions as
-   an Attestation Result - a processed, signed assertion derived from
-   the original credential (Endorsement).
-
-F.3.3.  Verifiable Credential Verifier as RATS Relying Party
-
-   A verifiable credential Credential Verifier functions as a RATS
-   Relying Party.  The Relying Party:
-
-   *  Consumes Attestation Results (credential presentations) to make
-      authorization decisions
-
-   *  Validates the cryptographic integrity of received assertions
-
-   *  Makes access control or authorization decisions based on the
-      claims received
-
-   *  Does not directly interact with the original Endorsement source
-      (the Issuer)
-
-   The Credential Verifier appraises the Holder's presentation in the
-   same way a Relying Party appraises Attestation Results from a RATS
-   Verifier.
-
-F.3.4.  All Parties Can Be Attesters
-
-   Importantly, any of these parties - Issuer, Holder, or Credential
-   Verifier - can simultaneously function as a RATS Attester.  The
-   Attester role in RATS is about producing Evidence about one's own
-   trustworthiness:
-
-   *  An *Issuer* may be an Attester when it needs to prove its own
-      integrity, platform state, or authorization to issue certain
-      credential types.  For example, an Issuer might provide Evidence
-      about its secure enclave or certified infrastructure when
-      establishing trust with Holders or during credential issuance.
-
-   *  A *Holder* may be an Attester when presenting credentials,
-      particularly when the presentation itself requires proof of the
-      Holder's platform integrity.  For example, a Holder might provide
-      Evidence about their device's secure boot state, firmware version,
-      or trusted execution environment alongside their credential
-      presentation.
-
-   *  A *Credential Verifier* may be an Attester when it needs to prove
-      its own trustworthiness to Holders or to upstream systems.  For
-      example, a Credential Verifier might provide Evidence about its
-      data protection capabilities, compliance certifications, or secure
-      processing environment before Holders agree to disclose sensitive
-      claims.
-
-   The Attester role is orthogonal to the three primary roles - it
-   represents the ability to produce evidence about one's own state,
-   while the Issuer/Holder/Credential Verifier roles represent the flow
-   of credentials and claims about subjects.
-
-F.4.  Comparison with RATS Interaction Models
-
-   RATS defines two interaction models:
-
-   *Passport Model*: The Attester sends Evidence to a RATS Verifier,
-   receives Attestation Results, and presents these results to Relying
-   Parties.  This maps to the three-party credentials model where the
-   Holder obtains credentials from Issuers and presents them to
-   Credential Verifiers.
-
-   *Background-Check Model*: The Attester sends Evidence to a Relying
-   Party, which forwards it to a RATS Verifier.  The RATS Verifier
-   returns results directly to the Relying Party.  This is a two-party
-   model from the Attester's perspective and does not map well to the
-   three-party credentials model, as it lacks Holder mediation and
-   control over presentations.
-
-F.5.  Roles That Don't Map to the Three-Party Model
-
-   The *Reference Value Provider* role from RATS does not have a direct
-   equivalent in the three-party verifiable credentials model.  This
-   role supplies reference values (known-good measurements or
-   configurations) that RATS Verifiers use to appraise Endorsements and
-   Evidence.  In credentials systems, equivalent functionality might be
-   provided through:
-
-   *  Trust registries that list authorized Issuers
-
-   *  Schema registries, or lists of valid claims that define credential
-      formats
-
-   *  Governance frameworks that specify validation rules
-
-   *  Revocation registries
-
-   However, these are typically considered part of the trust
-   infrastructure rather than a distinct party in the presentation
-   protocol.  The Reference Value Provider role is primarily relevant in
-   scenarios where raw Evidence must be evaluated against known-good
-   values - a pattern more common in the two-party background-check
-   model than in the three-party credentials model where Issuers have
-   already performed evaluation and produced credentials.
-
-F.6.  Application to SD-CWT
-
-   When applying RATS concepts to SD-CWT:
-
-   *  SD-CWT credentials function as Endorsements about the Holder
-      (subject)
-
-   *  The Holder's key binding token and selective disclosure act as the
-      RATS Verifier's appraisal and production of Attestation Results
-
-   *  The Credential Verifier consumes these presentations as a Relying
-      Party consumes Attestation Results
-
-   *  Any party can additionally provide Evidence about their own
-      platform or operational state (act as an Attester)
-
-   *  The three-party model with selective disclosure maps naturally to
-      the RATS passport model
-
-   *  Reference Value Provider functionality is addressed through trust
-      infrastructure and out-of-band mechanisms rather than protocol-
-      level roles
 
 Acknowledgments
 
