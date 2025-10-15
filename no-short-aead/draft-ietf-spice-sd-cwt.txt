@@ -5,12 +5,12 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 16 April 2026                                      Tradeverifyd
+Expires: 18 April 2026                                      Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                         13 October 2025
+                                                         15 October 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 April 2026.
+   This Internet-Draft will expire on 18 April 2026.
 
 Copyright Notice
 
@@ -1771,14 +1771,14 @@ Issuer                           Holder                         Verifier
 
    When choosing an AEAD algorithm, the tag length is critical for the
    integrity of encrypted disclosures in SD-CWT.  As such,
-   implementations SHOULD NOT use any AEAD algorithm with a tag length
+   implementations MUST NOT use any AEAD algorithm with a tag length
    less than 16 octets.
 
    Algorithms using AES-CCM are NOT RECOMMENDED.
 
-   As of this writing, implementations SHOULD NOT use algorithms 3
-   through 14, 18, 19, 21, 22, 24, 25, 27, or 28.  Implementations using
-   the AEGIS algorithms containing an X SHOULD only use the 256-bit tag
+   As of this writing, implementations MUST NOT use algorithms 3 through
+   14, 18, 19, 21, 22, 24, 25, 27, or 28.  Implementations using the
+   AEGIS algorithms containing an X MUST only use the 256-bit tag
    variant.
 
 17.  IANA Considerations
@@ -2255,9 +2255,9 @@ Issuer                           Holder                         Verifier
 
    [I-D.draft-ietf-cbor-cde]
               Bormann, C., "CBOR Common Deterministic Encoding (CDE)",
-              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-12,
-              7 July 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-cbor-cde-12>.
+              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-13,
+              13 October 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-cde-13>.
 
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",
