@@ -5,12 +5,12 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 16 April 2026                                      Tradeverifyd
+Expires: 18 April 2026                                      Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
                                           Rohan Mahy Consulting Services
-                                                         13 October 2025
+                                                         15 October 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 April 2026.
+   This Internet-Draft will expire on 18 April 2026.
 
 Copyright Notice
 
@@ -2218,9 +2218,9 @@ Issuer                           Holder                         Verifier
 
    [I-D.draft-ietf-cbor-cde]
               Bormann, C., "CBOR Common Deterministic Encoding (CDE)",
-              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-12,
-              7 July 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-cbor-cde-12>.
+              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-13,
+              13 October 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-cde-13>.
 
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",
@@ -2951,6 +2951,11 @@ Appendix F.  Sample Disclosure Matching Algorithm for Verifier
        Map at the end of this procedure the SD-CWT MUST be considered
        invalid.  Likewise, if this algorithm results in any duplicate
        CBOR map keys, the entire SD-CWT MUST be considered invalid.
+
+      Note: If there are remaining digests without corresponding
+      disclosures, this means that either the holder intentionally did
+      not disclose a claim, or that the digest is a decoy digest
+      Section 10.
 
 Appendix G.  Document History
 
