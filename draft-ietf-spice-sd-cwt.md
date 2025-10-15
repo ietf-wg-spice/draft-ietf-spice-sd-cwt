@@ -1808,6 +1808,8 @@ The following example algorithm describes a way to accomplish this.
 6. If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT MUST be considered invalid.
 Likewise, if this algorithm results in any duplicate CBOR map keys, the entire SD-CWT MUST be considered invalid.
 
+> Note: If there are remaining digests without corresponding disclosures, this means that either the holder intentionally did not disclose a claim, or that the digest is a decoy digest {{decoys}}.
+
 # Document History
 
 Note: RFC Editor, please remove this entire section on publication.
