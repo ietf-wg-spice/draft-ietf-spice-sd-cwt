@@ -1120,12 +1120,12 @@ However, the order can affect the runtime of the verification process.
 The AEAD encrypted disclosures mechanism discussed in {{aead}} can refer to any AEAD alogithm in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
 
 When choosing an AEAD algorithm, the tag length is critical for the integrity of encrypted disclosures in SD-CWT.
-As such, implementations SHOULD NOT use any AEAD algorithm with a tag length less than 16 octets.
+As such, implementations MUST NOT use any AEAD algorithm with a tag length less than 16 octets.
 
 Algorithms using AES-CCM are NOT RECOMMENDED.
 
-As of this writing, implementations SHOULD NOT use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
-Implementations using the AEGIS algorithms containing an X SHOULD only use the 256-bit tag variant.
+As of this writing, implementations MUST NOT use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
+Implementations using the AEGIS algorithms containing an X MUST only use the 256-bit tag variant.
 
 # IANA Considerations
 
