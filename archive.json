@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-14T00:46:18.996052+00:00",
+  "timestamp": "2025-10-16T00:48:09.102068+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2317,7 +2317,7 @@
       "id": "I_kwDOMm_Q2s69SMid",
       "title": "Move implementation specific language out of Validation section and into an appendix",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/111",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2328,8 +2328,8 @@
       ],
       "body": "Pull the discussion about Validated disclosed claim set to Presented disclosed claim set map discussion out of validation section and put it into an implementation appendix.",
       "createdAt": "2025-06-25T13:30:28Z",
-      "updatedAt": "2025-10-13T17:16:02Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-15T14:27:06Z",
+      "closedAt": "2025-10-15T14:27:06Z",
       "comments": [
         {
           "author": "selfissued",
@@ -2337,6 +2337,13 @@
           "body": "Is this the sentence in question?\n> The decoded sd_claims are converted to an intermediate data structure called a Digest To Disclosed Claim Map that is used to transform the Presented Disclosed Claims Set into a Validated Disclosed Claims Set.",
           "createdAt": "2025-09-30T13:54:27Z",
           "updatedAt": "2025-09-30T13:54:27Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed via #149 ",
+          "createdAt": "2025-10-15T14:27:06Z",
+          "updatedAt": "2025-10-15T14:27:06Z"
         }
       ]
     },
@@ -2578,7 +2585,7 @@
       ],
       "body": "Coming back to [Differences from the CBOR Web Token Specification](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-differences-from-the-cbor-w) to realize that even though at first they was a reason to bend RFC-8392 because the `redacted_claim_keys` was proposed as a tag first. Since it's settled that it's going to be a simple type, I do not see the reason to continue allowing tagged integers or text strings.",
       "createdAt": "2025-07-23T11:01:50Z",
-      "updatedAt": "2025-09-30T14:03:49Z",
+      "updatedAt": "2025-10-14T09:40:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -2650,6 +2657,13 @@
           "body": "I agree that, other than the tags that this specification defines with specific processing rules, that we should not allow tagged claim names.  The reason we prohibited them in CWT was to increase interoperability.  The same logic applies here.",
           "createdAt": "2025-09-30T14:03:48Z",
           "updatedAt": "2025-09-30T14:03:48Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.\n> \n> Which could be problematic since the \"redacted_claim_keys\" is a simple value, part of the payload, authenticated by the Issuer. So if it is trimmed, the Verifier cannot anymore verify the signature of the SD-CWT by the Issuer.\n\nI don't think this is saying anything new. It's just say that you can't hand an invalid CWT to a strict CWT-only Verifier; however you could use SD-CWT to generate a CWT with no redacted key claims and a CWT-only Verifier will process it just fine. (That applies to maps at arbitrary depth.)\n\nI also envisioned that the Verifier might consist of an SD-CWT compatible processor, which generates a regular CWT claim set and hands it to the logic that deals with claims, which doesn't need to see any tagged or simple value keys.",
+          "createdAt": "2025-10-14T09:40:52Z",
+          "updatedAt": "2025-10-14T09:40:52Z"
         }
       ]
     },
@@ -2700,11 +2714,11 @@
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr"
+        "wait-for-IANA"
       ],
       "body": "Should be `#7.59` on https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/draft-ietf-spice-sd-cwt.md?plain=1#L571\n\n\n```\n    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],\n```\n\nWould be nice to mirror the treatment of arrays:\n\n```\n~~~ cddl\n; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax\nredacted_claim_element = #6.60( bstr )\n~~~\n```",
       "createdAt": "2025-08-18T13:41:35Z",
-      "updatedAt": "2025-09-30T14:05:13Z",
+      "updatedAt": "2025-10-14T09:28:25Z",
       "closedAt": null,
       "comments": [
         {
@@ -2713,6 +2727,13 @@
           "body": "I agree that we should address this omission.",
           "createdAt": "2025-09-30T14:05:13Z",
           "updatedAt": "2025-09-30T14:05:13Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is defined [here](https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/b2941a8413248bfdbccd366a8411490e3a7a29ab/sd-cwts.cddl#L106) as`REDACTED_KEYS = #7.59 ; #7.<TBD4>`\n\nThe CDDL validator our tooling is using does not support the CDDL extensions in RFC 9682, hence why we are using the integer values here.\n\nThis problem will go away once we have early IANA registrations. I'll rewrite the CDDL at that time to be cleaner",
+          "createdAt": "2025-10-14T09:28:25Z",
+          "updatedAt": "2025-10-14T09:28:25Z"
         }
       ]
     },
@@ -2848,7 +2869,7 @@
       ],
       "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
       "createdAt": "2025-09-15T12:40:25Z",
-      "updatedAt": "2025-10-13T17:31:34Z",
+      "updatedAt": "2025-10-14T09:20:06Z",
       "closedAt": null,
       "comments": [
         {
@@ -2899,6 +2920,13 @@
           "body": "Before you decide that streaming support is a MUST you may consider the fact that streaming is pretty much incompatible with object oriented encoders using the heap for storing self-contained objects.  However, all is not gloom and doom.\n\n_Problem definition_: serialization of large objects may require excessive amounts of RAM.\n\n_Possible solution_: Imagine you have a large file that you want send together with some metadata.  You also want to sign the whole package.  Below is a possible solution (here expressed in EDN for readability), as it could appear \"on the wire\":\n\n```\n[{\n  \"id\": \"9899c0da-10c7-4979-9c1b-fdb9dd7b461f\",\n  \"type\": \"pdf\",\n  \"file\": h'f0916672a9e53820b8412a465849bb0....e3da94ae00dcd7c9ec909c4171b0d6b4' #   The file data \n}],\n{\n  \"metadata\": \"building-permit\",\n  \"attachments\": [{\n    \"id\": \"9899c0da-10c7-4979-9c1b-fdb9dd7b461f\",\n    \"sha256\": h'250345017583d9cd66ee9043d65397580588d085741db55f0d686a37743c3b7c'\n  }],\n  simple(99): { #   Yeah, embedded signature but it could equally well be COSE.\n    1: -19,\n    3: \"mykey\",\n    6: h'8c9fa4525152ee907864d4ee26bf33d11a04f866c80bd57066cdf59916e21d81c4c5036b6868a53b9c0909a66c0c23de0620fde9eaa1225d53f7fc62060d6d0e'\n  }\n}\n```\n\nExplanation:\nThe first part of this CBOR sequence would be carried out by _dedicated_ encoder and decoder software.  \"File\" would be read and written in chunks while also building up a hash value for inclusion in the second part.\n\nThe second part would be processed by regular CBOR software.\n\n_In short_: detached data is an established alternative to streaming encoders.  Servers returning URLs to detached data for clients to read is a similar solution.\n\nIt would in some cases be an advantage putting the large objects _after_ the regular CBOR object.  This may though require additional read operations, in order to calculate hash values.",
           "createdAt": "2025-10-05T13:00:38Z",
           "updatedAt": "2025-10-06T06:31:39Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > I propose requiring encoding of SD-CWT and KBT to use Preferred Encoding\n> \n> We discussed this in the last CBOR interim. There really is no good reason to require that.\n> \n> > and never use CBOR indeterminate length encoding.\n> \n> (Indefinite length.) That, however, can be a good thing.\n> \n> > I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n> \n> Is infinite OK?\n\nI think the semantics of infinity for exp and nbf claims should be reasonably straightforward. I think a non-finite iat makes no sense however.\n\nexp == Infinity   means it never expires\nexp == -Infinity  means it is always expired\nnbf == Infinity   means it will never become valid\nnbf == -Infinity  means it has always started to be valid\n\nof course the combinations can be a bit surreal, but here they are:\n\nexp < nbf is not valid\nexp == Infinity with nbf == Infinity  is not valid\nexp == -Infinity with nbf == -Infinity is not valid\nexp == Infinity with nbf == -Infinity is valid\n\n> > The preferred encoding is just a best practice,\n> \n> It may be, but creating a pocket of interoperability problems by making recipients assume that preferred serialization will be used does not help.\n> \n> > but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.\n> \n> I don't know about that, but there is a good motivation here to enable partial implementations on the recipient side.\n\nIt certainly makes it easier to detect duplicate map keys when there is only one valid way to express the map key.\n",
+          "createdAt": "2025-10-14T09:20:06Z",
+          "updatedAt": "2025-10-14T09:20:06Z"
         }
       ]
     }
@@ -11471,7 +11499,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-08-06T12:52:44Z",
-      "updatedAt": "2025-08-11T14:40:18Z",
+      "updatedAt": "2025-10-14T10:21:11Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5b35a6df1f95d953d115f310cca928d434ac7de9",
@@ -11507,7 +11535,7 @@
       "labels": [],
       "body": "Addresses #136\r\nAs a side effect addresses #52, #53, #132, and #140 ",
       "createdAt": "2025-08-06T12:56:03Z",
-      "updatedAt": "2025-09-17T19:43:49Z",
+      "updatedAt": "2025-10-14T10:18:26Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5b35a6df1f95d953d115f310cca928d434ac7de9",
@@ -11653,7 +11681,7 @@
       "labels": [],
       "body": "The text here originally implied that a verifier might be able to process optional claims if they are disclosed.  My understanding is that this is not possible because the verifier needs to process the hash and understand how to link that to the separate disclosure of those claims.  That makes all optional claims inaccessible to a non-SD CWT processor.  (This is hardly a major problem in the spectrum of possibilities for backwards-compatibility.)",
       "createdAt": "2025-08-27T05:01:47Z",
-      "updatedAt": "2025-09-29T13:08:51Z",
+      "updatedAt": "2025-10-14T10:21:07Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c9f44fcb674f2b94c70d11118eafb05e0a1dc6e0",
@@ -11836,7 +11864,7 @@
       "labels": [],
       "body": "I don't think that you need \"SPICE\" in the name (it's meaningless).  And it might be better to spell out the name.",
       "createdAt": "2025-08-27T05:08:41Z",
-      "updatedAt": "2025-09-08T13:06:02Z",
+      "updatedAt": "2025-10-14T10:21:10Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c9f44fcb674f2b94c70d11118eafb05e0a1dc6e0",
@@ -11931,7 +11959,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-09-13T00:13:16Z",
-      "updatedAt": "2025-09-14T11:30:16Z",
+      "updatedAt": "2025-10-14T10:21:08Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "2e5ad36d404a4a1d3fd0763dfced11065eb260ac",
@@ -11973,7 +12001,7 @@
       "labels": [],
       "body": "Fixes #141\r\n\r\nNote that since `alg` is not included in the COSE thumbprint, other parts of the example are still correct.",
       "createdAt": "2025-09-14T11:26:38Z",
-      "updatedAt": "2025-09-15T13:14:44Z",
+      "updatedAt": "2025-10-14T10:18:29Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "2e5ad36d404a4a1d3fd0763dfced11065eb260ac",
@@ -12015,7 +12043,7 @@
       "labels": [],
       "body": "Towards #68 ",
       "createdAt": "2025-10-06T13:32:29Z",
-      "updatedAt": "2025-10-13T14:14:21Z",
+      "updatedAt": "2025-10-14T10:18:22Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "efaef8500395147c72457f7d4d3fc10d788fffc3",
@@ -12786,13 +12814,13 @@
       "labels": [],
       "body": "Recommend against AEAD algorithms with short tags. (Addresses #130)\r\n\r\nRecommend against using AES-CCM. \r\n\r\ncc: @martinthomson @selfissued ",
       "createdAt": "2025-10-13T14:54:52Z",
-      "updatedAt": "2025-10-13T14:56:56Z",
+      "updatedAt": "2025-10-15T14:44:38Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "b2941a8413248bfdbccd366a8411490e3a7a29ab",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "no-short-aead",
-      "headRefOid": "d967580807d09e226e43d165f291d7adc3df5175",
+      "headRefOid": "55e04edb752483ab295ef7ab85fe078eee8168ae",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -12838,6 +12866,119 @@
               "updatedAt": "2025-10-13T14:56:56Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Gzt9x",
+          "commit": {
+            "abbreviatedOid": "d967580"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-14T12:50:08Z",
+          "updatedAt": "2025-10-14T12:50:08Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "why not must? when is a smaller tag justified?",
+              "createdAt": "2025-10-14T12:50:08Z",
+              "updatedAt": "2025-10-14T12:50:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7GzvZ5",
+          "commit": {
+            "abbreviatedOid": "d967580"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-14T12:51:39Z",
+          "updatedAt": "2025-10-14T12:51:39Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "probably the arguments for these being SHOULDs are all similar:\r\n\r\nThese are recommendations because, they reduce optionality, improving interoperability, but some systems may already have these algorithms deployed, so we cannot mandate against them.\r\n\r\n",
+              "createdAt": "2025-10-14T12:51:39Z",
+              "updatedAt": "2025-10-14T12:51:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7GzwGD",
+          "commit": {
+            "abbreviatedOid": "d967580"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Just add some justification for why not MUST, or you will get comments during AD Review likely.",
+          "createdAt": "2025-10-14T12:52:18Z",
+          "updatedAt": "2025-10-14T12:52:18Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7HH3N_",
+          "commit": {
+            "abbreviatedOid": "d967580"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-15T14:28:37Z",
+          "updatedAt": "2025-10-15T14:28:37Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "```suggestion\r\nAs such, implementations MUST NOT use any AEAD algorithm with a tag length less than 16 octets.\r\n```",
+              "createdAt": "2025-10-15T14:28:37Z",
+              "updatedAt": "2025-10-15T14:28:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7HH3_b",
+          "commit": {
+            "abbreviatedOid": "d967580"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-15T14:29:07Z",
+          "updatedAt": "2025-10-15T14:29:08Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\nAs of this writing, implementations MUST NOT use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.\r\nImplementations using the AEGIS algorithms containing an X MUST only use the 256-bit tag variant.\r\n```",
+              "createdAt": "2025-10-15T14:29:07Z",
+              "updatedAt": "2025-10-15T14:29:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7HH563",
+          "commit": {
+            "abbreviatedOid": "d967580"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-15T14:30:27Z",
+          "updatedAt": "2025-10-15T14:30:27Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "I don't think we should ban this outright. There are legitimate (but niche) uses of CCM.",
+              "createdAt": "2025-10-15T14:30:27Z",
+              "updatedAt": "2025-10-15T14:30:27Z"
+            }
+          ]
         }
       ]
     },
@@ -12846,26 +12987,82 @@
       "id": "PR_kwDOMm_Q2s6tgT25",
       "title": "Move validation example algorithm to appendix",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/149",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses #111 by moving the example algorithm to an appendix\r\n\r\nMakes two changes to verification checks:\r\n- checks for existence of duplicate map keys after merging disclosures\r\n- mention that (because of nested disclosures) you need to repeat the matching of disclosures with their blinded claim hash each time a new blinded claim hash is added",
       "createdAt": "2025-10-13T17:12:03Z",
-      "updatedAt": "2025-10-13T17:12:20Z",
+      "updatedAt": "2025-10-15T14:25:11Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "b2941a8413248bfdbccd366a8411490e3a7a29ab",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "move-validation",
-      "headRefOid": "9bb6fb687ba4da44391d897db16551f7da16df6a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "5a6817bc3c6b36bb2130842cdb929e6a797ded75",
+      "closedAt": "2025-10-15T14:25:11Z",
+      "mergedAt": "2025-10-15T14:25:11Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "b712d9f26224713ea7fbe4f06f5959fa0c093cf4"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7Gz0oQ",
+          "commit": {
+            "abbreviatedOid": "9bb6fb6"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-14T12:56:59Z",
+          "updatedAt": "2025-10-14T12:56:59Z",
+          "comments": [
+            {
+              "originalPosition": 127,
+              "body": "This would be a good place to say that if there are digests without disclosures and the disclosures are exhausted, these digests are decoys and are removed. \r\n\r\nDoes decoy removal preserve array order? can't remember",
+              "createdAt": "2025-10-14T12:56:59Z",
+              "updatedAt": "2025-10-14T12:57:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Gz1L8",
+          "commit": {
+            "abbreviatedOid": "9bb6fb6"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-14T12:57:32Z",
+          "updatedAt": "2025-10-14T12:57:32Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7HHwYH",
+          "commit": {
+            "abbreviatedOid": "9bb6fb6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-15T14:23:41Z",
+          "updatedAt": "2025-10-15T14:23:41Z",
+          "comments": [
+            {
+              "originalPosition": 127,
+              "body": "```suggestion\r\nLikewise, if this algorithm results in any duplicate CBOR map keys, the entire SD-CWT MUST be considered invalid.\r\n\r\n> Note: If there are remaining digests without corresponding disclosures, this means that either the holder intentionally did not disclose a claim, or that the digest is a decoy digest {{decoys}}.\r\n```",
+              "createdAt": "2025-10-15T14:23:41Z",
+              "updatedAt": "2025-10-15T14:23:41Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
