@@ -706,6 +706,7 @@ The initial Verifier of the key binding token might not be able to decrypt encry
 
 This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
+(Guidance on specific algorithms is discussed in {{aead-choice}}.)
 The second header parameter (`sd_aead_encrypted_claims`) contains a list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:
 
@@ -958,7 +959,7 @@ It can be used by a library to automatically convert a Claim Set with "To be red
 This section describes the privacy considerations in accordance with the recommendations from {{RFC6973}}.
 Many of the topics discussed in {{RFC6973}} apply to SD-CWT, but are not repeated here.
 
-### Correlation
+## Correlation
 
 Presentations of the same SD-CWT to multiple Verifiers can be correlated by matching on the signature component of the COSE_Sign1.
 Signature based linkability can be mitigated by leveraging batch issuance of single-use tokens, at a credential management complexity cost.
@@ -1112,6 +1113,18 @@ The Holder has flexibility in determining the order of nested disclosures when m
 The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
 This ordering choice has no security impact on encrypted disclosures.
 However, the order can affect the runtime of the verification process.
+
+## Choice of AEAD algorithms {#aead-choice}
+
+The AEAD encrypted disclosures mechanism discussed in {{aead}} can refer to any AEAD alogithm in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
+
+When choosing an AEAD algorithm, the tag length is critical for the integrity of encrypted disclosures in SD-CWT.
+As such, implementations MUST NOT use any AEAD algorithm with a tag length less than 16 octets.
+
+Algorithms using AES-CCM are NOT RECOMMENDED.
+
+As of this writing, implementations MUST NOT use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
+Implementations using the AEGIS algorithms containing an X MUST only use the 256-bit tag variant.
 
 # IANA Considerations
 
