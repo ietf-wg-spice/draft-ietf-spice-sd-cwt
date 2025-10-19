@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-16T00:48:09.102068+00:00",
+  "timestamp": "2025-10-19T00:54:01.547942+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -12814,7 +12814,7 @@
       "labels": [],
       "body": "Recommend against AEAD algorithms with short tags. (Addresses #130)\r\n\r\nRecommend against using AES-CCM. \r\n\r\ncc: @martinthomson @selfissued ",
       "createdAt": "2025-10-13T14:54:52Z",
-      "updatedAt": "2025-10-15T14:44:38Z",
+      "updatedAt": "2025-10-17T19:51:56Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "b2941a8413248bfdbccd366a8411490e3a7a29ab",
@@ -12979,6 +12979,19 @@
               "updatedAt": "2025-10-15T14:30:27Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7HyF1L",
+          "commit": {
+            "abbreviatedOid": "55e04ed"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-17T19:51:56Z",
+          "updatedAt": "2025-10-17T19:51:56Z",
+          "comments": []
         }
       ]
     },
