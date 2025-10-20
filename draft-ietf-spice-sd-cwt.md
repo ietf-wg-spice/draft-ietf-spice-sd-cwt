@@ -46,7 +46,7 @@ author:
   -
     ins: R. Mahy
     fullname: Rohan Mahy
-    organization: Rohan Mahy Consulting Services
+    organization:
     email: "rohan.ietf@gmail.com"
 
 contributor:
@@ -1826,6 +1826,21 @@ Likewise, if this algorithm results in any duplicate CBOR map keys, the entire S
 # Document History
 
 Note: RFC Editor, please remove this entire section on publication.
+
+## draft-ietf-spice-sd-cwt-05
+
+- Added this change log (PR#150)
+- Moved non-normative validation algorithm to an appendix (PR#149)
+- Added appendix describing mapping to RATS concepts (#147)
+- Provided guidance on choice of AEAD algorithm (#148)
+- Fixed algorithm in COSE key examples (#145)
+- Updated contact information (PR#142, PR #150)
+- Removed SPICE from the title of the document (PR#139)
+- Made clear extent to which verifiers cannot process unknown claims (PR#138)
+- Sorted CBOR map keys in examples to facilitate use as test vectors (PR#135)
+- Consistently use term "tag" in context of AEAD algorithms (PR#134)
+- Improved AASVG diagram in Terminology section (PR#129)
+
 
 ## draft-ietf-spice-sd-cwt-04
 
