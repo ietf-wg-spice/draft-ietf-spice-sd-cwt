@@ -5,12 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 22 April 2026                                      Tradeverifyd
+Expires: 23 April 2026                                      Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                          Rohan Mahy Consulting Services
-                                                         19 October 2025
+                                                         20 October 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -56,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 April 2026.
+   This Internet-Draft will expire on 23 April 2026.
 
 Copyright Notice
 
@@ -162,11 +161,12 @@ Table of Contents
      E.6.  Application to SD-CWT
    Appendix F.  Sample Disclosure Matching Algorithm for Verifier
    Appendix G.  Document History
-     G.1.  draft-ietf-spice-sd-cwt-04
-     G.2.  draft-ietf-spice-sd-cwt-03
-     G.3.  draft-ietf-spice-sd-cwt-02
-     G.4.  draft-ietf-spice-sd-cwt-01
-     G.5.  draft-ietf-spice-sd-cwt-00
+     G.1.  draft-ietf-spice-sd-cwt-05
+     G.2.  draft-ietf-spice-sd-cwt-04
+     G.3.  draft-ietf-spice-sd-cwt-03
+     G.4.  draft-ietf-spice-sd-cwt-02
+     G.5.  draft-ietf-spice-sd-cwt-01
+     G.6.  draft-ietf-spice-sd-cwt-00
    Acknowledgments
    Contributors
    Authors' Addresses
@@ -2982,7 +2982,33 @@ Appendix G.  Document History
 
    Note: RFC Editor, please remove this entire section on publication.
 
-G.1.  draft-ietf-spice-sd-cwt-04
+G.1.  draft-ietf-spice-sd-cwt-05
+
+   *  Added this change log (PR#150)
+
+   *  Moved non-normative validation algorithm to an appendix (PR#149)
+
+   *  Added appendix describing mapping to RATS concepts (#147)
+
+   *  Provided guidance on choice of AEAD algorithm (#148)
+
+   *  Fixed algorithm in COSE key examples (#145)
+
+   *  Updated contact information (PR#142, PR #150)
+
+   *  Removed SPICE from the title of the document (PR#139)
+
+   *  Made clear extent to which verifiers cannot process unknown claims
+      (PR#138)
+
+   *  Sorted CBOR map keys in examples to facilitate use as test vectors
+      (PR#135)
+
+   *  Consistently use term "tag" in context of AEAD algorithms (PR#134)
+
+   *  Improved AASVG diagram in Terminology section (PR#129)
+
+G.2.  draft-ietf-spice-sd-cwt-04
 
    *  Place value before claim name in disclosures
 
@@ -3023,7 +3049,7 @@ G.1.  draft-ietf-spice-sd-cwt-04
 
    *  Fixed some references
 
-G.2.  draft-ietf-spice-sd-cwt-03
+G.3.  draft-ietf-spice-sd-cwt-03
 
    *  remove bstr encoding from sd_claims array (but not the individual
       disclosures)
@@ -3055,7 +3081,7 @@ G.2.  draft-ietf-spice-sd-cwt-03
 
    *  add optional encrypted disclosures
 
-G.3.  draft-ietf-spice-sd-cwt-02
+G.4.  draft-ietf-spice-sd-cwt-02
 
    *  KBT now includes the entire SD-CWT in the Confirmation Key CWT
       (kcwt) existing COSE protected header.  Has algorithm now
@@ -3069,7 +3095,7 @@ G.3.  draft-ietf-spice-sd-cwt-02
 
    *  Add section saying SD-CWT updates the CWT spec (RFC8392).  (PR#29)
 
-G.4.  draft-ietf-spice-sd-cwt-01
+G.5.  draft-ietf-spice-sd-cwt-01
 
    *  Added Overview section
 
@@ -3098,7 +3124,7 @@ G.4.  draft-ietf-spice-sd-cwt-01
 
    *  Updated draft metadata
 
-G.5.  draft-ietf-spice-sd-cwt-00
+G.6.  draft-ietf-spice-sd-cwt-00
 
    *  Initial working group version based on draft-prorock-spice-cose-
       sd-cwt-01.
@@ -3144,5 +3170,4 @@ Authors' Addresses
 
 
    Rohan Mahy
-   Rohan Mahy Consulting Services
    Email: rohan.ietf@gmail.com
