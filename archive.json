@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-19T00:54:01.547942+00:00",
+  "timestamp": "2025-10-21T00:49:31.816539+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2461,7 +2461,7 @@
       "id": "I_kwDOMm_Q2s7B0cb7",
       "title": "Recommend against using short tag variants of AEAD algorithms",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/130",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2472,8 +2472,8 @@
       ],
       "body": "... in AEAD encrypted disclosures section\n\n@martinthomson ",
       "createdAt": "2025-07-22T08:51:06Z",
-      "updatedAt": "2025-10-13T14:58:43Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-19T19:33:47Z",
+      "closedAt": "2025-10-19T19:33:46Z",
       "comments": [
         {
           "author": "selfissued",
@@ -2481,6 +2481,13 @@
           "body": "Is the intent to name specific examples of algorithms that it is RECOMMENDED not to use?  Or define criteria?  Or both?",
           "createdAt": "2025-09-30T13:55:53Z",
           "updatedAt": "2025-09-30T13:55:53Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "addressed via #148. closing",
+          "createdAt": "2025-10-19T19:33:46Z",
+          "updatedAt": "2025-10-19T19:33:46Z"
         }
       ]
     },
@@ -12807,24 +12814,26 @@
       "id": "PR_kwDOMm_Q2s6teyfo",
       "title": "Provide guideance on AEAD algorithm choice",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/148",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Recommend against AEAD algorithms with short tags. (Addresses #130)\r\n\r\nRecommend against using AES-CCM. \r\n\r\ncc: @martinthomson @selfissued ",
       "createdAt": "2025-10-13T14:54:52Z",
-      "updatedAt": "2025-10-17T19:51:56Z",
+      "updatedAt": "2025-10-19T19:24:08Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "b2941a8413248bfdbccd366a8411490e3a7a29ab",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "no-short-aead",
       "headRefOid": "55e04edb752483ab295ef7ab85fe078eee8168ae",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-10-19T19:23:51Z",
+      "mergedAt": "2025-10-19T19:23:51Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "4111726074bdf0a74e750da496d99f542ebed70f"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12992,6 +13001,19 @@
           "createdAt": "2025-10-17T19:51:56Z",
           "updatedAt": "2025-10-17T19:51:56Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7H88Ar",
+          "commit": {
+            "abbreviatedOid": "55e04ed"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-19T19:23:41Z",
+          "updatedAt": "2025-10-19T19:23:41Z",
+          "comments": []
         }
       ]
     },
@@ -13076,6 +13098,62 @@
           ]
         }
       ]
+    },
+    {
+      "number": 150,
+      "id": "PR_kwDOMm_Q2s6ulLiL",
+      "title": "Add change log for draft -05; updated Rohan's org",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/150",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-10-20T08:16:08Z",
+      "updatedAt": "2025-10-20T08:25:28Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "4111726074bdf0a74e750da496d99f542ebed70f",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "changelog-05",
+      "headRefOid": "6ff323ee23c511712e7c16efb2168fc162cd8871",
+      "closedAt": "2025-10-20T08:25:27Z",
+      "mergedAt": "2025-10-20T08:25:27Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "b0e8e712911c4ac6daaf75d07f71d2ebb9a0bb3f"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 151,
+      "id": "PR_kwDOMm_Q2s6ulUn9",
+      "title": "About to Submit -05",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/151",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-10-20T08:29:25Z",
+      "updatedAt": "2025-10-20T08:30:45Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "b0e8e712911c4ac6daaf75d07f71d2ebb9a0bb3f",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "submit-05",
+      "headRefOid": "2a288fe266baf29f49568b191315519173ee1747",
+      "closedAt": "2025-10-20T08:30:44Z",
+      "mergedAt": "2025-10-20T08:30:44Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "67fb3d55a1f1e60fb384908c17bedb0f411ace04"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
