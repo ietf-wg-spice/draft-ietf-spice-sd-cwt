@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-21T00:49:31.816539+00:00",
+  "timestamp": "2025-10-26T00:52:35.934753+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2876,7 +2876,7 @@
       ],
       "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
       "createdAt": "2025-09-15T12:40:25Z",
-      "updatedAt": "2025-10-14T09:20:06Z",
+      "updatedAt": "2025-10-25T16:32:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -2934,6 +2934,27 @@
           "body": "> > I propose requiring encoding of SD-CWT and KBT to use Preferred Encoding\n> \n> We discussed this in the last CBOR interim. There really is no good reason to require that.\n> \n> > and never use CBOR indeterminate length encoding.\n> \n> (Indefinite length.) That, however, can be a good thing.\n> \n> > I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n> \n> Is infinite OK?\n\nI think the semantics of infinity for exp and nbf claims should be reasonably straightforward. I think a non-finite iat makes no sense however.\n\nexp == Infinity   means it never expires\nexp == -Infinity  means it is always expired\nnbf == Infinity   means it will never become valid\nnbf == -Infinity  means it has always started to be valid\n\nof course the combinations can be a bit surreal, but here they are:\n\nexp < nbf is not valid\nexp == Infinity with nbf == Infinity  is not valid\nexp == -Infinity with nbf == -Infinity is not valid\nexp == Infinity with nbf == -Infinity is valid\n\n> > The preferred encoding is just a best practice,\n> \n> It may be, but creating a pocket of interoperability problems by making recipients assume that preferred serialization will be used does not help.\n> \n> > but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.\n> \n> I don't know about that, but there is a good motivation here to enable partial implementations on the recipient side.\n\nIt certainly makes it easier to detect duplicate map keys when there is only one valid way to express the map key.\n",
           "createdAt": "2025-10-14T09:20:06Z",
           "updatedAt": "2025-10-14T09:20:06Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Update on date fields:\n\nThe following standard claims in RFC 8392 are all of type NumericDate as defined in Section 2\n\n- 4 / \"exp\"  (Section 3.1.4)\n- 5 / \"nbf\"  (Section 3.1.5)\n- 6 / \"iat\" (Section 3.1.6)\n\nSection 2 refers to NumericDate as a JWT NumericDate, \"except that it is represented as [an untagged] CBOR numeric date (from Section 2.4.1 of [RFC7049]) instead of a JSON number\".\n\nCBOR (both RFC7049 and RFC8949) refer to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers. JSON/JWT cannot represent infinite values.\n\nSince Section 2 refers to a JWT NumericDate, I'm taking this as confirmation that these three fields can only be **_finite_** numbers.\n\nso I guess we could give a range between float'FFEFFFFFFFFFFFFF' (about 2.225 x 10^-308) and float'7FEFFFFFFFFFFFFF' (about 1.798 x 10^308) ??\n\n\n> > > I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n> > \n> > \n> > Is infinite OK?\n> \n> I think the semantics of infinity for exp and nbf claims should be reasonably straightforward. I think a non-finite iat makes no sense however.\n> \n> exp == Infinity means it never expires exp == -Infinity means it is always expired nbf == Infinity means it will never become valid nbf == -Infinity means it has always started to be valid\n> \n> of course the combinations can be a bit surreal, but here they are:\n> \n> exp < nbf is not valid exp == Infinity with nbf == Infinity is not valid exp == -Infinity with nbf == -Infinity is not valid exp == Infinity with nbf == -Infinity is valid\n> \n> > > The preferred encoding is just a best practice,\n> > \n> > \n> > It may be, but creating a pocket of interoperability problems by making recipients assume that preferred serialization will be used does not help.\n> > > but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.\n> > \n> > \n> > I don't know about that, but there is a good motivation here to enable partial implementations on the recipient side.\n> \n> It certainly makes it easier to detect duplicate map keys when there is only one valid way to express the map key.\n",
+          "createdAt": "2025-10-24T13:53:42Z",
+          "updatedAt": "2025-10-24T13:53:42Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> Since Section 2 refers to a JWT NumericDate, I'm taking this as confirmation that these three fields can only be **_finite_** numbers.\n\nRight, if the application protocol says so, that is the answer to my question.\n\nBTW, your lower range bound is off, float'FFEFFFFFFFFFFFFF' is -1.7976931348623157e+308.\nLike the upper bound, is way outside the range actually needed for any number of seconds rooted in physics we care about.\nIt is a bit bizarre to use, say, 1e308 as a replacement for positive infinity just because Infinity itself is not allowed by JWT, but that appears to be the way things are defined.\n\n(The more interesting question is the precision, which right now is about 0.24 microseconds, but will get more coarse the further we get away from the epoch (0.48 microseconds from 2038, 0.95 \u00b5s from 2106, etc.).)",
+          "createdAt": "2025-10-25T16:24:27Z",
+          "updatedAt": "2025-10-25T16:24:27Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I could add that RFC 7519 does not refer to RFC 7493, so the following JSON notation might be considered to be applicable:\n\n```\n> JSON.parse(\"1e400\")\nInfinity\n> JSON.parse(\"-1e400\")\n-Infinity\n```\n\nField day for language lawyers.\n",
+          "createdAt": "2025-10-25T16:32:10Z",
+          "updatedAt": "2025-10-25T16:32:10Z"
         }
       ]
     }
