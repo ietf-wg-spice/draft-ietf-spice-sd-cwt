@@ -4,8 +4,39 @@ import cbor2
 TO_BE_REDACTED_TAG = 58
 SD_CLAIMS = 17
 
+
 def hex2bytes(string):
     return bytes.fromhex(string)
+
+def bytes2hex(bytes):
+    import binascii
+    return binascii.hexlify(bytes).decode("utf-8")
+
+def b64u_to_bytes(b64):
+    import base64
+    return base64.urlsafe_b64decode(b64 + '==')
+
+def b64u_to_hex(b64):
+    import base64
+    return base64.urlsafe_b64decode(b64 + '==').hex()
+
+def read_salts():
+    import csv
+    salt_map = {}
+    with open('salt_list.csv', 'r') as f:
+        salts = csv.reader(f)
+        for row in salts:
+            salt_map[hex2bytes(row[0])] = hex2byte(row[1])
+    return salt_map
+
+def append_salts(salt_map):
+    import csv
+    with open('salt_list.csv', 'a') as f:
+        csvwriter = csv.writer(f)
+        for k in salt_map:
+            csvwriter.writerow(list((bytes2hex(k), bytes2hex(salt_map[k]))))
+
+
 
 # pre-used salts so the values can stay the same when the data is the same
 # hashes the rest of the disclosure (minus the salt) as the dict key
@@ -145,12 +176,13 @@ salts = {
 }
 
 
+append_salts(salts)
+
+print("Ending")
+quit()
+
 
 # ****** Generically useful functions
-
-def bytes2hex(bytes):
-    import binascii
-    return binascii.hexlify(bytes).decode("utf-8")
 
 def new_redacted_entry_tag(value):
     REDACTED_ENTRY_TAG = 60
@@ -330,22 +362,38 @@ def make_time_claims(expiration, now=None, leeway=300):
     return newdict
 
 
-def find_salt(key=None, value=None, decoy_level=0, decoy_num=0):
+# needs global salts and append_salts dicts
+def find_salt(value, key=None):
     # find an existing salt or generate one if not in "salts" dict
-    salt_index = None
-    if decoy_level == 0:
-        salt_index = sha256(cbor2.dumps([key, value]))
-    else:
-        salt_index = sha256(cbor2.dumps([decoy_level, decoy_num]))
+    salt_index = sha256(cbor2.dumps([key, value]))
     if salt_index not in salts:
         salts[salt_index] = new_salt()
         print(f'Added new salt {bytes2hex(salts[salt_index])} for {bytes2hex(salt_index)}')
     return salts[salt_index]
 
+# needs global decoy_salts and append_decoy_salts dicts
+def find_decoy_salt(decoy_index):
+    if type(decoy_index) != int:
+        raise Exception("decoy_index needs to be an int")
+    if decoy_index not in decoy_salts:
+        s = new_salt()
+        decoy_salts[decoy_index] = s
+        append_decoy_salts[decoy_index] = s
+    return decoy_salts[decoy_index]
+
+# needs global aes_keys and append_aes_keys dicts
+#def find_aes_key(salt)
+#    import secrets
+#    if type(salt) != bytes:
+#        raise Exception("salt needs to be a bytes")
+#    if salt not in aes_keys:
+#        nonce = secrets.token_bytes(16)
+#        key = secrets.token_bytes(32)
+#    return (nonce, key)
 
 def make_disclosure(salt=None, key=None, value=None):
     if salt is None:
-        salt = find_salt(key=key, value=value)
+        salt = find_salt(value=value, key=key)
     if key is None:
         if value is None:
             # decoy digest
@@ -1029,6 +1077,8 @@ if __name__ == "__main__":
     nested_kbt_edn = generate_basic_holder_kbt_edn(
         nested_presented_edn, iat=KBT_IAT, sig=nested_kbt[-64:])
     write_to_file(nested_kbt_edn, 'nested_kbt.edn')
+
+
 
 #    for s in salts:
 #        print(f'''*** Hash: {bytes2hex(s)}
