@@ -5,15 +5,14 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 2 April 2026                                          Transmute
+Expires: 6 May 2026                                         Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                          Rohan Mahy Consulting Services
-                                                       29 September 2025
+                                                         2 November 2025
 
 
-                              SPICE SD-CWT
+             Selective Disclosure CBOR Web Tokens (SD-CWT)
                      draft-ietf-spice-sd-cwt-latest
 
 Abstract
@@ -56,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 April 2026.
+   This Internet-Draft will expire on 6 May 2026.
 
 Copyright Notice
 
@@ -111,6 +110,7 @@ Table of Contents
      16.5.  Binding the KBT and the CWT
      16.6.  Covert Channels
      16.7.  Nested Disclosure Ordering
+     16.8.  Choice of AEAD algorithms
    17. IANA Considerations
      17.1.  COSE Header Parameters
        17.1.1.  sd_claims
@@ -147,12 +147,26 @@ Table of Contents
    Appendix D.  Implementation Status
      D.1.  Transmute Prototype
      D.2.  Rust Prototype
-   Appendix E.  Document History
-     E.1.  draft-ietf-spice-sd-cwt-04
-     E.2.  draft-ietf-spice-sd-cwt-03
-     E.3.  draft-ietf-spice-sd-cwt-02
-     E.4.  draft-ietf-spice-sd-cwt-01
-     E.5.  draft-ietf-spice-sd-cwt-00
+   Appendix E.  Relationship between RATS Architecture and Verifiable
+           Credentials
+     E.1.  Three-Party Verifiable Credentials Model
+     E.2.  RATS Architecture Roles
+     E.3.  Role Mappings in the Three-Party Model
+       E.3.1.  Verifiable Credential Issuer as RATS Endorser
+       E.3.2.  Verifiable Credential Holder as RATS Verifier
+       E.3.3.  Verifiable Credential Verifier as RATS Relying Party
+       E.3.4.  All Parties Can Be Attesters
+     E.4.  Comparison with RATS Interaction Models
+     E.5.  Roles That Don't Map to the Three-Party Model
+     E.6.  Application to SD-CWT
+   Appendix F.  Sample Disclosure Matching Algorithm for Verifier
+   Appendix G.  Document History
+     G.1.  draft-ietf-spice-sd-cwt-05
+     G.2.  draft-ietf-spice-sd-cwt-04
+     G.3.  draft-ietf-spice-sd-cwt-03
+     G.4.  draft-ietf-spice-sd-cwt-02
+     G.5.  draft-ietf-spice-sd-cwt-01
+     G.6.  draft-ietf-spice-sd-cwt-00
    Acknowledgments
    Contributors
    Authors' Addresses
@@ -534,12 +548,12 @@ Issuer                           Holder                         Verifier
              bb05c9d8fb61cfc230ddfdfb4616a693'
        ]
      } >>,
-     / CWT signature / h'9c9022e57adb33c853f30b6e8a590f40
-                         6ca55849d7b8cd2a2519d3aec03e61b9
-                         ef0ecd85fe96103f916f58d73cd2f775
-                         4c390401945f0683b144d3504e500f94
-                         d30433c3445417dc3c920f7a155548e9
-                         1994601827d0a46ead66ff450485e85f'
+     / CWT signature / h'ed7ff84b27e746199698a94cc19292e4
+                         b72dc4c3eb551f0ef2b9da07980c648c
+                         2bb033c337c6ed13e1bc7c5b7b7c9df9
+                         49a70239f51eca1f6d8e058b8b70bcb3
+                         b5746812a932ffb37a2e6e984957e3f6
+                         b003eb3319fbe21e97f6a3a273307424'
    ])
 
                 Figure 1: Issued SD-CWT with all disclosures
@@ -592,8 +606,8 @@ Issuer                           Holder                         Verifier
 
      / redacted_claim_keys / simple(59) : [
          / redacted inspector_license_number /
-         h'af375dc3fba1d082448642c00be7b2f7
-           bb05c9d8fb61cfc230ddfdfb4616a693'
+         h'd9df03da474fcb3c65771748e2e0608c
+           f437504ecc24f450aaeacd40dd552b3f',
          / ... next redacted claim at the same level would go here /  ],
 
       Figure 5: redacted inspector_license_number claim in the issued
@@ -657,10 +671,10 @@ Issuer                           Holder                         Verifier
        / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
        / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
      } >>,      / end of KBT payload /
-     / KBT signature / h'd895729e72a3a7c801d5a20e9daf5103
-                         27858aecbb39b8b2e4bc11cbbd625ea8
-                         c60b78da31fc9762c46b7cd61094d047
-                         5ff1f19a7496cde53ab11600a5859d10'
+     / KBT signature / h'dd49379434b25b03cd8756787ab49731
+                         580a04505439ca78ee53300dd49a00b7
+                         0e8715d015a2a6e8d88455f5850e3d93
+                         eade1366c0040c2cee1cc568322a6b93'
    ])   / end of kbt /
 
    The digests in protected parts of the issued SD-CWT and the
@@ -736,7 +750,11 @@ Issuer                           Holder                         Verifier
    salt, the disclosed value, and the name of the redacted element.  For
    Salted Disclosed Claims of items in an array, the name is omitted.
 
-   salted = salted-claim / salted-element / decoy
+   ; an array of bstr-encoded Salted Disclosed Claims
+   salted-array = [ *bstr-encoded-salted ]
+
+   bstr-encoded-salted = bstr .cbor salted-entry
+   salted-entry = salted-claim / salted-element / decoy
    salted-claim = [
      bstr .size 16,     ; 128-bit salt
      any,               ; Claim Value
@@ -749,9 +767,6 @@ Issuer                           Holder                         Verifier
    decoy = [
      bstr .size 16      ; 128-bit salt
    ]
-
-   ; a collection of Salted Disclosed Claims
-   salted-array = [ +bstr .cbor salted ]
 
    When a blinded claim is a key in a map, its blinded claim hash is
    added to a redacted_claim_keys array claim in the CWT payload that is
@@ -872,8 +887,9 @@ Issuer                           Holder                         Verifier
    sd-protected = {
       &(typ: 16) ^ => "application/sd-cwt" / TBD11,
       &(alg: 1) ^ => int,
-      &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
-      ? &(sd_aead: TBD7) ^ => uint .size 2
+      ? &(kid: 4) ^ => bstr,
+      ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
+      ? &(sd_aead: TBD7) ^ => uint .size 2,
       * key => any
    }
 
@@ -888,9 +904,9 @@ Issuer                           Holder                         Verifier
          &(iss: 1) ^ => tstr, ; "https://issuer.example"
        ? &(sub: 2) ^ => tstr, ; "https://device.example"
        ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => int,  ; 1883000000
-       ? &(nbf: 5) ^ => int,  ; 1683000000
-       ? &(iat: 6) ^ => int,  ; 1683000000
+       ? &(exp: 4) ^ => num,  ; 1883000000
+       ? &(nbf: 5) ^ => num,  ; 1683000000
+       ? &(iat: 6) ^ => num,  ; 1683000000
        ? &(cti: 7) ^ => bstr,
          &(cnf: 8) ^ => { * key => any }, ; key confirmation
        ? &(cnonce: 39) ^ => bstr,
@@ -986,9 +1002,9 @@ Issuer                           Holder                         Verifier
 
    kbt-payload = {
          &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => int,  ; 1883000000
-       ? &(nbf: 5) ^ => int,  ; 1683000000
-         &(iat: 6) ^ => int,  ; 1683000000
+       ? &(exp: 4) ^ => num,  ; 1883000000
+       ? &(nbf: 5) ^ => num,  ; 1683000000
+         &(iat: 6) ^ => num,  ; 1683000000
        ? &(cnonce: 39) ^ => bstr,
        * key => any
    }
@@ -1014,35 +1030,14 @@ Issuer                           Holder                         Verifier
    4.  Using the confirmation key, the Verifier validates the SD-KBT as
        described in Section 7.2 of [RFC8392].
 
-   5.  Finally, the Verifier MUST extract and decode the disclosed
-       claims from the sd_claims header parameter in the unprotected
-       header of the SD-CWT.  The decoded sd_claims are converted to an
-       intermediate data structure called a Digest To Disclosed Claim
-       Map that is used to transform the Presented Disclosed Claims Set
-       into a Validated Disclosed Claims Set.  The Verifier MUST compute
-       the hash of each Salted Disclosed Claim (salted), in order to
-       match each disclosed value to each entry of the Presented
-       Disclosed Claims Set.  One possible concrete representation of
-       the intermediate data structure for the Digest To Disclosed Claim
-       Map could be: { &(digested-salted-disclosed-claim) => salted }
-
-       a.  The Verifier constructs an empty cbor map called the
-           Validated Disclosed Claims Set, and initializes it with all
-           mandatory to disclose claims from the verified Presented
-           Disclosed Claims Set.
-
-       b.  Next, the Verifier performs a breadth first or depth first
-           traversal of the Presented Disclosed Claims Set and Validated
-           Disclosed Claims Set, using the Digest To Disclosed Claim Map
-           to insert claims into the Validated Disclosed Claims Set when
-           they appear in the Presented Disclosed Claims Set. By
-           performing these steps, the recipient can cryptographically
-           verify the integrity of the protected claims and verify they
-           have not been tampered with.
-
-       c.  If there remain unused claims in the Digest To Disclosed
-           Claim Map at the end of this procedure the SD-CWT MUST be
-           considered invalid.
+   5.  The Verifier MUST extract and decode the disclosed claims from
+       the sd_claims header parameter in the unprotected header of the
+       SD-CWT.  Each decoded disclosure is treated as if it is a claim
+       key or claim element at the location corresponding to its Blinded
+       Claim Hash in the payload.  If there are any disclosures that do
+       not have a corresponding Blinded Claim Hash, the entire SD-CWT is
+       invalid.  If any decoded Redacted Claim Key duplicates another
+       claim key in the same position, the entire SD-CWT is invalid.
 
           Note: A Verifier MUST be prepared to process disclosures in
           any order.  When disclosures are nested, a disclosed value
@@ -1059,6 +1054,10 @@ Issuer                           Holder                         Verifier
    8.  Further validation logic can be applied to the Validated
        Disclosed Claims Set, just as it might be applied to a validated
        CWT Claims Set.
+
+   By performing these steps, the recipient can cryptographically verify
+   the integrity of the protected claims and verify they have not been
+   tampered with.
 
 10.  Decoy Digests
 
@@ -1101,7 +1100,8 @@ Issuer                           Holder                         Verifier
    an Authenticated Encryption with Additional Data (AEAD) algorithm
    [RFC5116] registered in the IANA AEAD Algorithms registry
    (https://www.iana.org/assignments/aead-parameters/aead-
-   parameters.xhtml) . The second header parameter
+   parameters.xhtml) . (Guidance on specific algorithms is discussed in
+   Section 16.8.)  The second header parameter
    (sd_aead_encrypted_claims) contains a list of AEAD encrypted
    disclosures.  Taking the first example disclosure from above:
 
@@ -1149,14 +1149,13 @@ Issuer                           Holder                         Verifier
 
    The CDDL for AEAD encrypted disclosures is below.
 
-   aead-encrypted-array = [ +aead-encrypted ]
+   aead-encrypted-array = [ *aead-encrypted ]
    aead-encrypted = [
-     bstr,              ; nonce value
-     bstr,              ; the ciphertext output of a bstr-encoded-salted
-                        ;   with a matching salt
+     bstr .size 16,     ; 128-bit nonce
+     bstr,              ; the encryption ciphertext output of a
+                        ;   bstr-encoded-salted
      bstr               ; the corresponding authentication tag
    ]
-   ;bstr-encoded-salted = bstr .cbor salted
 
       Note: Because the encryption algorithm is in a registry that
       contains only AEAD algorithms, an attacker cannot replace the
@@ -1265,12 +1264,12 @@ Issuer                           Holder                         Verifier
                  bb05c9d8fb61cfc230ddfdfb4616a693'
            ]
          } >>,
-         / CWT signature / h'9c9022e57adb33c853f30b6e8a590f40
-                             6ca55849d7b8cd2a2519d3aec03e61b9
-                             ef0ecd85fe96103f916f58d73cd2f775
-                             4c390401945f0683b144d3504e500f94
-                             d30433c3445417dc3c920f7a155548e9
-                             1994601827d0a46ead66ff450485e85f'
+         / CWT signature / h'ed7ff84b27e746199698a94cc19292e4
+                             b72dc4c3eb551f0ef2b9da07980c648c
+                             2bb033c337c6ed13e1bc7c5b7b7c9df9
+                             49a70239f51eca1f6d8e058b8b70bcb3
+                             b5746812a932ffb37a2e6e984957e3f6
+                             b003eb3319fbe21e97f6a3a273307424'
        ]),
        / end of issuer SD-CWT /
        / typ /   16:  "application/kb+cwt",
@@ -1281,10 +1280,10 @@ Issuer                           Holder                         Verifier
        / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
        / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
      } >>,      / end of KBT payload /
-     / KBT signature / h'd895729e72a3a7c801d5a20e9daf5103
-                         27858aecbb39b8b2e4bc11cbbd625ea8
-                         c60b78da31fc9762c46b7cd61094d047
-                         5ff1f19a7496cde53ab11600a5859d10'
+     / KBT signature / h'dd49379434b25b03cd8756787ab49731
+                         580a04505439ca78ee53300dd49a00b7
+                         0e8715d015a2a6e8d88455f5850e3d93
+                         eade1366c0040c2cee1cc568322a6b93'
    ])   / end of kbt /
 
                           Figure 6: An EDN Example
@@ -1747,6 +1746,25 @@ Issuer                           Holder                         Verifier
    However, the order can affect the runtime of the verification
    process.
 
+16.8.  Choice of AEAD algorithms
+
+   The AEAD encrypted disclosures mechanism discussed in Section 11.1
+   can refer to any AEAD alogithm in the IANA AEAD Algorithms registry
+   (https://www.iana.org/assignments/aead-parameters/aead-
+   parameters.xhtml) .
+
+   When choosing an AEAD algorithm, the tag length is critical for the
+   integrity of encrypted disclosures in SD-CWT.  As such,
+   implementations MUST NOT use any AEAD algorithm with a tag length
+   less than 16 octets.
+
+   Algorithms using AES-CCM are NOT RECOMMENDED.
+
+   As of this writing, implementations MUST NOT use algorithms 3 through
+   14, 18, 19, 21, 22, 24, 25, 27, or 28.  Implementations using the
+   AEGIS algorithms containing an X MUST only use the 256-bit tag
+   variant.
+
 17.  IANA Considerations
 
 17.1.  COSE Header Parameters
@@ -2154,9 +2172,9 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "CBOR Extended Diagnostic Notation (EDN)",
               Work in Progress, Internet-Draft, draft-ietf-cbor-edn-
-              literals-18, 7 July 2025,
+              literals-19, 16 October 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              edn-literals-18>.
+              edn-literals-19>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2221,23 +2239,23 @@ Issuer                           Holder                         Verifier
 
    [I-D.draft-ietf-cbor-cde]
               Bormann, C., "CBOR Common Deterministic Encoding (CDE)",
-              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-12,
-              7 July 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-cbor-cde-12>.
+              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-13,
+              13 October 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-cde-13>.
 
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",
               Work in Progress, Internet-Draft, draft-ietf-keytrans-
-              protocol-02, 6 July 2025,
+              protocol-03, 19 October 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-
-              keytrans-protocol-02>.
+              keytrans-protocol-03>.
 
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Credentials (SD-JWT VC)", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-sd-jwt-vc-11, 15
-              September 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-sd-jwt-vc-11>.
+              Internet-Draft, draft-ietf-oauth-sd-jwt-vc-12, 20 October
+              2025, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              oauth-sd-jwt-vc-12>.
 
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
@@ -2304,8 +2322,9 @@ Appendix A.  Complete CDDL Schema
    sd-protected = {
       &(typ: 16) ^ => "application/sd-cwt" / TBD11,
       &(alg: 1) ^ => int,
-      &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
-      ? &(sd_aead: TBD7) ^ => uint .size 2
+      ? &(kid: 4) ^ => bstr,
+      ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
+      ? &(sd_aead: TBD7) ^ => uint .size 2,
       * key => any
    }
 
@@ -2331,9 +2350,9 @@ Appendix A.  Complete CDDL Schema
          &(iss: 1) ^ => tstr, ; "https://issuer.example"
        ? &(sub: 2) ^ => tstr, ; "https://device.example"
        ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => int,  ; 1883000000
-       ? &(nbf: 5) ^ => int,  ; 1683000000
-       ? &(iat: 6) ^ => int,  ; 1683000000
+       ? &(exp: 4) ^ => num,  ; 1883000000
+       ? &(nbf: 5) ^ => num,  ; 1683000000
+       ? &(iat: 6) ^ => num,  ; 1683000000
        ? &(cti: 7) ^ => bstr,
          &(cnf: 8) ^ => { * key => any }, ; key confirmation
        ? &(cnonce: 39) ^ => bstr,
@@ -2344,15 +2363,16 @@ Appendix A.  Complete CDDL Schema
 
    kbt-payload = {
          &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => int,  ; 1883000000
-       ? &(nbf: 5) ^ => int,  ; 1683000000
-         &(iat: 6) ^ => int,  ; 1683000000
+       ? &(exp: 4) ^ => num,  ; 1883000000
+       ? &(nbf: 5) ^ => num,  ; 1683000000
+         &(iat: 6) ^ => num,  ; 1683000000
        ? &(cnonce: 39) ^ => bstr,
        * key => any
    }
 
-   salted-array = [ +bstr .cbor salted ]
-   salted = salted-claim / salted-element / decoy
+   salted-array = [ *bstr-encoded-salted ]
+   bstr-encoded-salted = bstr .cbor salted-entry
+   salted-entry = salted-claim / salted-element / decoy
    salted-claim = [
      bstr .size 16,     ; 128-bit salt
      any,               ; claim value
@@ -2365,9 +2385,8 @@ Appendix A.  Complete CDDL Schema
    decoy = [
      bstr .size 16      ; 128-bit salt
    ]
-   ;bstr-encoded-salted = bstr .cbor salted
 
-   aead-encrypted-array = [ +aead-encrypted ]
+   aead-encrypted-array = [ *aead-encrypted ]
    aead-encrypted = [
      bstr .size 16,     ; 128-bit nonce
      bstr,              ; the encryption ciphertext output of a
@@ -2375,11 +2394,7 @@ Appendix A.  Complete CDDL Schema
      bstr               ; the corresponding authentication tag
    ]
 
-   header_map = {
-       * key => any
-   }
-   empty_or_serialized_map = bstr .cbor header_map / bstr .size 0
-
+   num = int / float
    key = int / text
    TBD1 = 17
    TBD2 = 18
@@ -2398,7 +2413,7 @@ Appendix A.  Complete CDDL Schema
 
    ; redacted_claim_element is to be used in CDDL payloads that contain
    ; array elements that are meant to be redacted.
-   redacted_claim_element = #6.60( bstr .size 16 )  ; #6.<TBD5>(bstr)
+   ;redacted_claim_element = #6.60( bstr .size 16 )  ; #6.<TBD5>(bstr)
    ;TBD5 = 60; CBOR tag wrapping redacted_claim_element
 
               Figure 7: A complete CDDL description of SD-CWT
@@ -2459,7 +2474,7 @@ C.1.  Subject / Holder
 
    {
      /kty/  1 : 2, /EC/
-     /alg/  3 : -9, /ESP256/
+     /alg/  3 : -7, /ES256/
      /crv/ -1 : 1, /P-256/
      /x/   -2 : h'8554eb275dcd6fbd1c7ac641aa2c90d9
                   2022fd0d3024b5af18c7cc61ad527a2d',
@@ -2704,11 +2719,296 @@ D.2.  Rust Prototype
 
    Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
 
-Appendix E.  Document History
+Appendix E.  Relationship between RATS Architecture and Verifiable
+             Credentials
+
+   This appendix describes the relationship between the Remote
+   ATtestation procedureS (RATS) architecture defined in [RFC9334] and
+   the three-party model used in verifiable credentials.
+
+E.1.  Three-Party Verifiable Credentials Model
+
+   The verifiable credentials model involves three distinct parties:
+
+   *  *Issuer*: Creates and signs credentials containing claims about a
+      subject
+
+   *  *Holder*: Controls the credential and presents it to verifiers
+      (the holder is typically the subject of the credential)
+
+   *  *Verifier*: Receives and validates presented credentials to make
+      authorization or access decisions.  In this appendix we refer to
+      this role as a *Credential Verifier*
+
+   In SD-CWT, these roles are explicitly represented: the Issuer signs
+   claims using an Assertion Key (Section 2), the Holder controls the
+   credential and creates presentations using a Confirmation Key, and
+   the Verifier validates both the Issuer's signature over the
+   credential and the Holder's signature over the presentation (key
+   binding token).
+
+E.2.  RATS Architecture Roles
+
+   The RATS architecture defines the following key roles:
+
+   *  *Attester*: Produces Evidence about its own trustworthiness and
+      operational state
+
+   *  *Endorser*: Provides Endorsements about an Attester (typically a
+      manufacturer)
+
+   *  *Reference Value Provider*: Supplies Reference Values used by
+      Verifiers to evaluate Evidence
+
+   *  *Verifier*: Appraises Evidence and produces Attestation Results.
+      In this appendix we refer to this role as a *RATS Verifier*
+
+   *  *Relying Party*: Consumes Attestation Results to make
+      authorization decisions
+
+E.3.  Role Mappings in the Three-Party Model
+
+   The mapping between RATS roles and verifiable credential roles can be
+   understood as follows:
+
+E.3.1.  Verifiable Credential Issuer as RATS Endorser
+
+   A verifiable credential Issuer functions as a RATS Endorser.  The
+   Endorser role in RATS produces Endorsements - secure statements about
+   an Attester's capabilities, identity, or trustworthiness.  Similarly,
+   a credential Issuer produces signed credentials containing claims
+   about a subject (the Holder).  Both roles:
+
+   *  Make authoritative statements about another party's attributes or
+      capabilities
+
+   *  Use cryptographic signatures to ensure integrity and authenticity
+
+   *  Are typically trusted third parties in their respective ecosystems
+
+   *  Provide information that enables downstream authorization
+      decisions
+
+   The credential issued by the Issuer serves the same function as an
+   Endorsement in RATS: it is a signed assertion about the Holder's
+   attributes that can be used by Credential Verifiers to make trust
+   decisions.
+
+E.3.2.  Verifiable Credential Holder as RATS Verifier
+
+   A verifiable credential Holder functions as a RATS Verifier.  The
+   RATS Verifier appraises Evidence and Endorsements and produces
+   Attestation Results.  In the credentials model, the Holder:
+
+   *  Receives credentials (analogous to Endorsements) from Issuers
+
+   *  Evaluates which credentials to present and which claims to
+      disclose
+
+   *  Produces presentations (analogous to Attestation Results) that are
+      sent to Credential Verifiers
+
+   *  Uses their Confirmation Key to create key binding tokens that
+      prove control
+
+   The Holder's presentation, which includes the Issuer's credential
+   plus the Holder's signature over selected disclosures, functions as
+   an Attestation Result - a processed, signed assertion derived from
+   the original credential (Endorsement).
+
+E.3.3.  Verifiable Credential Verifier as RATS Relying Party
+
+   A verifiable credential Credential Verifier functions as a RATS
+   Relying Party.  The Relying Party:
+
+   *  Consumes Attestation Results (credential presentations) to make
+      authorization decisions
+
+   *  Validates the cryptographic integrity of received assertions
+
+   *  Makes access control or authorization decisions based on the
+      claims received
+
+   *  Does not directly interact with the original Endorsement source
+      (the Issuer)
+
+   The Credential Verifier appraises the Holder's presentation in the
+   same way a Relying Party appraises Attestation Results from a RATS
+   Verifier.
+
+E.3.4.  All Parties Can Be Attesters
+
+   Importantly, any of these parties - Issuer, Holder, or Credential
+   Verifier - can simultaneously function as a RATS Attester.  The
+   Attester role in RATS is about producing Evidence about one's own
+   trustworthiness:
+
+   *  An *Issuer* may be an Attester when it needs to prove its own
+      integrity, platform state, or authorization to issue certain
+      credential types.  For example, an Issuer might provide Evidence
+      about its secure enclave or certified infrastructure when
+      establishing trust with Holders or during credential issuance.
+
+   *  A *Holder* may be an Attester when presenting credentials,
+      particularly when the presentation itself requires proof of the
+      Holder's platform integrity.  For example, a Holder might provide
+      Evidence about their device's secure boot state, firmware version,
+      or trusted execution environment alongside their credential
+      presentation.
+
+   *  A *Credential Verifier* may be an Attester when it needs to prove
+      its own trustworthiness to Holders or to upstream systems.  For
+      example, a Credential Verifier might provide Evidence about its
+      data protection capabilities, compliance certifications, or secure
+      processing environment before Holders agree to disclose sensitive
+      claims.
+
+   The Attester role is orthogonal to the three primary roles - it
+   represents the ability to produce evidence about one's own state,
+   while the Issuer/Holder/Credential Verifier roles represent the flow
+   of credentials and claims about subjects.
+
+E.4.  Comparison with RATS Interaction Models
+
+   RATS defines two interaction models:
+
+   *Passport Model*: The Attester sends Evidence to a RATS Verifier,
+   receives Attestation Results, and presents these results to Relying
+   Parties.  This maps to the three-party credentials model where the
+   Holder obtains credentials from Issuers and presents them to
+   Credential Verifiers.
+
+   *Background-Check Model*: The Attester sends Evidence to a Relying
+   Party, which forwards it to a RATS Verifier.  The RATS Verifier
+   returns results directly to the Relying Party.  This is a two-party
+   model from the Attester's perspective and does not map well to the
+   three-party credentials model, as it lacks Holder mediation and
+   control over presentations.
+
+E.5.  Roles That Don't Map to the Three-Party Model
+
+   The *Reference Value Provider* role from RATS does not have a direct
+   equivalent in the three-party verifiable credentials model.  This
+   role supplies reference values (known-good measurements or
+   configurations) that RATS Verifiers use to appraise Endorsements and
+   Evidence.  In credentials systems, equivalent functionality might be
+   provided through:
+
+   *  Trust registries that list authorized Issuers
+
+   *  Schema registries, or lists of valid claims that define credential
+      formats
+
+   *  Governance frameworks that specify validation rules
+
+   *  Revocation registries
+
+   However, these are typically considered part of the trust
+   infrastructure rather than a distinct party in the presentation
+   protocol.  The Reference Value Provider role is primarily relevant in
+   scenarios where raw Evidence must be evaluated against known-good
+   values - a pattern more common in the two-party background-check
+   model than in the three-party credentials model where Issuers have
+   already performed evaluation and produced credentials.
+
+E.6.  Application to SD-CWT
+
+   When applying RATS concepts to SD-CWT:
+
+   *  SD-CWT credentials function as Endorsements about the Holder
+      (subject)
+
+   *  The Holder's key binding token and selective disclosure act as the
+      RATS Verifier's appraisal and production of Attestation Results
+
+   *  The Credential Verifier consumes these presentations as a Relying
+      Party consumes Attestation Results
+
+   *  Any party can additionally provide Evidence about their own
+      platform or operational state (act as an Attester)
+
+   *  The three-party model with selective disclosure maps naturally to
+      the RATS passport model
+
+   *  Reference Value Provider functionality is addressed through trust
+      infrastructure and out-of-band mechanisms rather than protocol-
+      level roles
+
+Appendix F.  Sample Disclosure Matching Algorithm for Verifier
+
+   The Verifier of an SD-CWT needs to decode disclosed claims match them
+   with their redacted versions.  The following example algorithm
+   describes a way to accomplish this.
+
+   1.  The decoded sd_claims are converted to an intermediate data
+       structure called a Digest To Disclosed Claim Map that is used to
+       transform the Presented Disclosed Claims Set into a Validated
+       Disclosed Claims Set.
+
+   2.  The Verifier MUST compute the hash of each Salted Disclosed Claim
+       (salted), in order to match each disclosed value to each entry of
+       the Presented Disclosed Claims Set.
+
+      One possible concrete representation of the intermediate data
+      structure for the Digest To Disclosed Claim Map is a CBOR map with
+      the hash of the bstr-encoded-salted data structure (from the CDDL)
+      as the map key and its value as the contents of the corresponding
+      salted-entry data structure.
+
+   3.  The Verifier constructs an empty CBOR map called the Validated
+       Disclosed Claims Set, and initializes it with all mandatory to
+       disclose claims from the verified Presented Disclosed Claims Set.
+
+   4.  Next, the Verifier performs a depth-first traversal of the
+       Presented Disclosed Claims Set and Validated Disclosed Claims
+       Set, using the Digest To Disclosed Claim Map to insert claims
+       into the Validated Disclosed Claims Set when they appear in the
+       Presented Disclosed Claims Set.
+
+   5.  The Verifier repeats the fourth step if the previous iteration
+       resulted in any new Presented Disclosed Claims.
+
+   6.  If there remain unused claims in the Digest To Disclosed Claim
+       Map at the end of this procedure the SD-CWT MUST be considered
+       invalid.  Likewise, if this algorithm results in any duplicate
+       CBOR map keys, the entire SD-CWT MUST be considered invalid.
+
+      Note: If there are remaining digests without corresponding
+      disclosures, this means that either the holder intentionally did
+      not disclose a claim, or that the digest is a decoy digest
+      Section 10.
+
+Appendix G.  Document History
 
    Note: RFC Editor, please remove this entire section on publication.
 
-E.1.  draft-ietf-spice-sd-cwt-04
+G.1.  draft-ietf-spice-sd-cwt-05
+
+   *  Added this change log (PR#150)
+
+   *  Moved non-normative validation algorithm to an appendix (PR#149)
+
+   *  Added appendix describing mapping to RATS concepts (#147)
+
+   *  Provided guidance on choice of AEAD algorithm (#148)
+
+   *  Fixed algorithm in COSE key examples (#145)
+
+   *  Updated contact information (PR#142, PR #150)
+
+   *  Removed SPICE from the title of the document (PR#139)
+
+   *  Made clear extent to which verifiers cannot process unknown claims
+      (PR#138)
+
+   *  Sorted CBOR map keys in examples to facilitate use as test vectors
+      (PR#135)
+
+   *  Consistently use term "tag" in context of AEAD algorithms (PR#134)
+
+   *  Improved AASVG diagram in Terminology section (PR#129)
+
+G.2.  draft-ietf-spice-sd-cwt-04
 
    *  Place value before claim name in disclosures
 
@@ -2749,7 +3049,7 @@ E.1.  draft-ietf-spice-sd-cwt-04
 
    *  Fixed some references
 
-E.2.  draft-ietf-spice-sd-cwt-03
+G.3.  draft-ietf-spice-sd-cwt-03
 
    *  remove bstr encoding from sd_claims array (but not the individual
       disclosures)
@@ -2781,7 +3081,7 @@ E.2.  draft-ietf-spice-sd-cwt-03
 
    *  add optional encrypted disclosures
 
-E.3.  draft-ietf-spice-sd-cwt-02
+G.4.  draft-ietf-spice-sd-cwt-02
 
    *  KBT now includes the entire SD-CWT in the Confirmation Key CWT
       (kcwt) existing COSE protected header.  Has algorithm now
@@ -2795,7 +3095,7 @@ E.3.  draft-ietf-spice-sd-cwt-02
 
    *  Add section saying SD-CWT updates the CWT spec (RFC8392).  (PR#29)
 
-E.4.  draft-ietf-spice-sd-cwt-01
+G.5.  draft-ietf-spice-sd-cwt-01
 
    *  Added Overview section
 
@@ -2824,7 +3124,7 @@ E.4.  draft-ietf-spice-sd-cwt-01
 
    *  Updated draft metadata
 
-E.5.  draft-ietf-spice-sd-cwt-00
+G.6.  draft-ietf-spice-sd-cwt-00
 
    *  Initial working group version based on draft-prorock-spice-cose-
       sd-cwt-01.
@@ -2857,8 +3157,8 @@ Authors' Addresses
 
 
    Orie Steele
-   Transmute
-   Email: orie@transmute.industries
+   Tradeverifyd
+   Email: orie@or13.io
 
 
    Henk Birkholz
@@ -2870,5 +3170,4 @@ Authors' Addresses
 
 
    Rohan Mahy
-   Rohan Mahy Consulting Services
    Email: rohan.ietf@gmail.com

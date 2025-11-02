@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>SPICE SD-CWT</title>
+<title>Selective Disclosure CBOR Web Tokens (SD-CWT)</title>
 <meta content="Michael Prorock" name="author">
 <meta content="Orie Steele" name="author">
 <meta content="Henk Birkholz" name="author">
@@ -13,25 +13,24 @@
        This specification describes a data minimization technique for use with CBOR Web Tokens (CWTs).
 The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE) and CWTs. 
     " name="description">
-<meta content="xml2rfc 3.30.2" name="generator">
+<meta content="xml2rfc 3.31.0" name="generator">
 <meta content="cose" name="keyword">
 <meta content="cwt" name="keyword">
 <meta content="selective disclosure" name="keyword">
 <meta content="draft-ietf-spice-sd-cwt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.2
-    Python 3.12.11
+  xml2rfc 3.31.0
+    Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.1
-    platformdirs 4.4.0
+    platformdirs 4.5.0
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.5
-    setuptools 80.9.0
-    wcwidth 0.2.13
+    wcwidth 0.2.14
 -->
 <link href="draft-ietf-spice-sd-cwt.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1049,12 +1048,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
-<td class="center">SPICE SD-CWT</td>
-<td class="right">September 2025</td>
+<td class="center">SD-CWT</td>
+<td class="right">November 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 2 April 2026</td>
+<td class="center">Expires 6 May 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-09-29" class="published">29 September 2025</time>
+<time datetime="2025-11-02" class="published">2 November 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-04-02">2 April 2026</time></dd>
+<dd class="expires"><time datetime="2026-05-06">6 May 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1081,7 +1080,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 <div class="author">
       <div class="author-name">O. Steele</div>
-<div class="org">Transmute</div>
+<div class="org">Tradeverifyd</div>
 </div>
 <div class="author">
       <div class="author-name">H. Birkholz</div>
@@ -1089,12 +1088,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 <div class="author">
       <div class="author-name">R. Mahy</div>
-<div class="org">Rohan Mahy Consulting Services</div>
 </div>
 </dd>
 </dl>
 </div>
-<h1 id="title">SPICE SD-CWT</h1>
+<h1 id="title">Selective Disclosure CBOR Web Tokens (SD-CWT)</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This specification describes a data minimization technique for use with CBOR Web Tokens (CWTs).
@@ -1135,7 +1133,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 May 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1291,6 +1289,9 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.7">
                 <p id="section-toc.1-1.16.2.7.1"><a href="#section-16.7" class="auto internal xref">16.7</a>.  <a href="#name-nested-disclosure-ordering" class="internal xref">Nested Disclosure Ordering</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.8">
+                <p id="section-toc.1-1.16.2.8.1"><a href="#section-16.8" class="auto internal xref">16.8</a>.  <a href="#name-choice-of-aead-algorithms" class="internal xref">Choice of AEAD algorithms</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17">
@@ -1422,33 +1423,76 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23">
-            <p id="section-toc.1-1.23.1"><a href="#appendix-E" class="auto internal xref">Appendix E</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
+            <p id="section-toc.1-1.23.1"><a href="#appendix-E" class="auto internal xref">Appendix E</a>.  <a href="#name-relationship-between-rats-a" class="internal xref">Relationship between RATS Architecture and Verifiable Credentials</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23.2.1">
-                <p id="section-toc.1-1.23.2.1.1"><a href="#appendix-E.1" class="auto internal xref">E.1</a>.  <a href="#name-draft-ietf-spice-sd-cwt-04" class="internal xref">draft-ietf-spice-sd-cwt-04</a></p>
+                <p id="section-toc.1-1.23.2.1.1"><a href="#appendix-E.1" class="auto internal xref">E.1</a>.  <a href="#name-three-party-verifiable-cred" class="internal xref">Three-Party Verifiable Credentials Model</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23.2.2">
-                <p id="section-toc.1-1.23.2.2.1"><a href="#appendix-E.2" class="auto internal xref">E.2</a>.  <a href="#name-draft-ietf-spice-sd-cwt-03" class="internal xref">draft-ietf-spice-sd-cwt-03</a></p>
+                <p id="section-toc.1-1.23.2.2.1"><a href="#appendix-E.2" class="auto internal xref">E.2</a>.  <a href="#name-rats-architecture-roles" class="internal xref">RATS Architecture Roles</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23.2.3">
-                <p id="section-toc.1-1.23.2.3.1"><a href="#appendix-E.3" class="auto internal xref">E.3</a>.  <a href="#name-draft-ietf-spice-sd-cwt-02" class="internal xref">draft-ietf-spice-sd-cwt-02</a></p>
+                <p id="section-toc.1-1.23.2.3.1"><a href="#appendix-E.3" class="auto internal xref">E.3</a>.  <a href="#name-role-mappings-in-the-three-" class="internal xref">Role Mappings in the Three-Party Model</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23.2.3.2.1">
+                    <p id="section-toc.1-1.23.2.3.2.1.1"><a href="#appendix-E.3.1" class="auto internal xref">E.3.1</a>.  <a href="#name-verifiable-credential-issue" class="internal xref">Verifiable Credential Issuer as RATS Endorser</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23.2.3.2.2">
+                    <p id="section-toc.1-1.23.2.3.2.2.1"><a href="#appendix-E.3.2" class="auto internal xref">E.3.2</a>.  <a href="#name-verifiable-credential-holde" class="internal xref">Verifiable Credential Holder as RATS Verifier</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23.2.3.2.3">
+                    <p id="section-toc.1-1.23.2.3.2.3.1"><a href="#appendix-E.3.3" class="auto internal xref">E.3.3</a>.  <a href="#name-verifiable-credential-verif" class="internal xref">Verifiable Credential Verifier as RATS Relying Party</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23.2.3.2.4">
+                    <p id="section-toc.1-1.23.2.3.2.4.1"><a href="#appendix-E.3.4" class="auto internal xref">E.3.4</a>.  <a href="#name-all-parties-can-be-attester" class="internal xref">All Parties Can Be Attesters</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23.2.4">
-                <p id="section-toc.1-1.23.2.4.1"><a href="#appendix-E.4" class="auto internal xref">E.4</a>.  <a href="#name-draft-ietf-spice-sd-cwt-01" class="internal xref">draft-ietf-spice-sd-cwt-01</a></p>
+                <p id="section-toc.1-1.23.2.4.1"><a href="#appendix-E.4" class="auto internal xref">E.4</a>.  <a href="#name-comparison-with-rats-intera" class="internal xref">Comparison with RATS Interaction Models</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23.2.5">
-                <p id="section-toc.1-1.23.2.5.1"><a href="#appendix-E.5" class="auto internal xref">E.5</a>.  <a href="#name-draft-ietf-spice-sd-cwt-00" class="internal xref">draft-ietf-spice-sd-cwt-00</a></p>
+                <p id="section-toc.1-1.23.2.5.1"><a href="#appendix-E.5" class="auto internal xref">E.5</a>.  <a href="#name-roles-that-dont-map-to-the-" class="internal xref">Roles That Don't Map to the Three-Party Model</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.23.2.6">
+                <p id="section-toc.1-1.23.2.6.1"><a href="#appendix-E.6" class="auto internal xref">E.6</a>.  <a href="#name-application-to-sd-cwt" class="internal xref">Application to SD-CWT</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.24">
-            <p id="section-toc.1-1.24.1"><a href="#appendix-F" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.24.1"><a href="#appendix-F" class="auto internal xref">Appendix F</a>.  <a href="#name-sample-disclosure-matching-" class="internal xref">Sample Disclosure Matching Algorithm for Verifier</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.25">
-            <p id="section-toc.1-1.25.1"><a href="#appendix-G" class="auto internal xref"></a><a href="#name-contributors" class="internal xref">Contributors</a></p>
+            <p id="section-toc.1-1.25.1"><a href="#appendix-G" class="auto internal xref">Appendix G</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.25.2.1">
+                <p id="section-toc.1-1.25.2.1.1"><a href="#appendix-G.1" class="auto internal xref">G.1</a>.  <a href="#name-draft-ietf-spice-sd-cwt-05" class="internal xref">draft-ietf-spice-sd-cwt-05</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.25.2.2">
+                <p id="section-toc.1-1.25.2.2.1"><a href="#appendix-G.2" class="auto internal xref">G.2</a>.  <a href="#name-draft-ietf-spice-sd-cwt-04" class="internal xref">draft-ietf-spice-sd-cwt-04</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.25.2.3">
+                <p id="section-toc.1-1.25.2.3.1"><a href="#appendix-G.3" class="auto internal xref">G.3</a>.  <a href="#name-draft-ietf-spice-sd-cwt-03" class="internal xref">draft-ietf-spice-sd-cwt-03</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.25.2.4">
+                <p id="section-toc.1-1.25.2.4.1"><a href="#appendix-G.4" class="auto internal xref">G.4</a>.  <a href="#name-draft-ietf-spice-sd-cwt-02" class="internal xref">draft-ietf-spice-sd-cwt-02</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.25.2.5">
+                <p id="section-toc.1-1.25.2.5.1"><a href="#appendix-G.5" class="auto internal xref">G.5</a>.  <a href="#name-draft-ietf-spice-sd-cwt-01" class="internal xref">draft-ietf-spice-sd-cwt-01</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.25.2.6">
+                <p id="section-toc.1-1.25.2.6.1"><a href="#appendix-G.6" class="auto internal xref">G.6</a>.  <a href="#name-draft-ietf-spice-sd-cwt-00" class="internal xref">draft-ietf-spice-sd-cwt-00</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.26">
-            <p id="section-toc.1-1.26.1"><a href="#appendix-H" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.26.1"><a href="#appendix-H" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.27">
+            <p id="section-toc.1-1.27.1"><a href="#appendix-I" class="auto internal xref"></a><a href="#name-contributors" class="internal xref">Contributors</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.28">
+            <p id="section-toc.1-1.28.1"><a href="#appendix-J" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -2000,12 +2044,12 @@ After the Holder requests an SD-CWT from the Issuer, the Issuer generates the fo
           bb05c9d8fb61cfc230ddfdfb4616a693'
     ]
   } &gt;&gt;,
-  / CWT signature / h'9c9022e57adb33c853f30b6e8a590f40
-                      6ca55849d7b8cd2a2519d3aec03e61b9
-                      ef0ecd85fe96103f916f58d73cd2f775
-                      4c390401945f0683b144d3504e500f94
-                      d30433c3445417dc3c920f7a155548e9
-                      1994601827d0a46ead66ff450485e85f'
+  / CWT signature / h'ed7ff84b27e746199698a94cc19292e4
+                      b72dc4c3eb551f0ef2b9da07980c648c
+                      2bb033c337c6ed13e1bc7c5b7b7c9df9
+                      49a70239f51eca1f6d8e058b8b70bcb3
+                      b5746812a932ffb37a2e6e984957e3f6
+                      b003eb3319fbe21e97f6a3a273307424'
 ])
 </pre>
 </div>
@@ -2061,8 +2105,8 @@ Redacted claims that are array elements are handled slightly differently, as des
 <pre>
   / redacted_claim_keys / simple(59) : [
       / redacted inspector_license_number /
-      h'af375dc3fba1d082448642c00be7b2f7
-        bb05c9d8fb61cfc230ddfdfb4616a693'
+      h'd9df03da474fcb3c65771748e2e0608c
+        f437504ecc24f450aaeacd40dd552b3f',
       / ... next redacted claim at the same level would go here /  ],
 </pre>
 </div>
@@ -2121,10 +2165,10 @@ Redacted claims that are array elements are handled slightly differently, as des
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } &gt;&gt;,      / end of KBT payload /
-  / KBT signature / h'd895729e72a3a7c801d5a20e9daf5103
-                      27858aecbb39b8b2e4bc11cbbd625ea8
-                      c60b78da31fc9762c46b7cd61094d047
-                      5ff1f19a7496cde53ab11600a5859d10'
+  / KBT signature / h'dd49379434b25b03cd8756787ab49731
+                      580a04505439ca78ee53300dd49a00b7
+                      0e8715d015a2a6e8d88455f5850e3d93
+                      eade1366c0040c2cee1cc568322a6b93'
 ])   / end of kbt /
 </pre><a href="#section-4-7" class="pilcrow">¶</a>
 </div>
@@ -2181,7 +2225,11 @@ However, a Verifier with the hash cannot reconstruct the corresponding blinded c
 For Salted Disclosed Claims of items in an array, the name is omitted.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-6.1-2">
 <pre>
-salted = salted-claim / salted-element / decoy
+; an array of bstr-encoded Salted Disclosed Claims
+salted-array = [ *bstr-encoded-salted ]
+
+bstr-encoded-salted = bstr .cbor salted-entry
+salted-entry = salted-claim / salted-element / decoy
 salted-claim = [
   bstr .size 16,     ; 128-bit salt
   any,               ; Claim Value
@@ -2194,9 +2242,6 @@ salted-element = [
 decoy = [
   bstr .size 16      ; 128-bit salt
 ]
-
-; a collection of Salted Disclosed Claims
-salted-array = [ +bstr .cbor salted ]
 </pre><a href="#section-6.1-2" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
@@ -2302,8 +2347,9 @@ sd-cwt-issued = #6.18([
 sd-protected = {
    &amp;(typ: 16) ^ =&gt; "application/sd-cwt" / TBD11,
    &amp;(alg: 1) ^ =&gt; int,
-   &amp;(sd_alg: TBD2) ^ =&gt; int,        ; -16 for sha-256
-   ? &amp;(sd_aead: TBD7) ^ =&gt; uint .size 2
+   ? &amp;(kid: 4) ^ =&gt; bstr,
+   ? &amp;(sd_alg: TBD2) ^ =&gt; int,        ; -16 for sha-256
+   ? &amp;(sd_aead: TBD7) ^ =&gt; uint .size 2,
    * key =&gt; any
 }
 
@@ -2318,9 +2364,9 @@ sd-payload = {
       &amp;(iss: 1) ^ =&gt; tstr, ; "https://issuer.example"
     ? &amp;(sub: 2) ^ =&gt; tstr, ; "https://device.example"
     ? &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example/app"
-    ? &amp;(exp: 4) ^ =&gt; int,  ; 1883000000
-    ? &amp;(nbf: 5) ^ =&gt; int,  ; 1683000000
-    ? &amp;(iat: 6) ^ =&gt; int,  ; 1683000000
+    ? &amp;(exp: 4) ^ =&gt; num,  ; 1883000000
+    ? &amp;(nbf: 5) ^ =&gt; num,  ; 1683000000
+    ? &amp;(iat: 6) ^ =&gt; num,  ; 1683000000
     ? &amp;(cti: 7) ^ =&gt; bstr,
       &amp;(cnf: 8) ^ =&gt; { * key =&gt; any }, ; key confirmation
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
@@ -2403,9 +2449,9 @@ kbt-unprotected = {
 
 kbt-payload = {
       &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example/app"
-    ? &amp;(exp: 4) ^ =&gt; int,  ; 1883000000
-    ? &amp;(nbf: 5) ^ =&gt; int,  ; 1683000000
-      &amp;(iat: 6) ^ =&gt; int,  ; 1683000000
+    ? &amp;(exp: 4) ^ =&gt; num,  ; 1883000000
+    ? &amp;(nbf: 5) ^ =&gt; num,  ; 1683000000
+      &amp;(iat: 6) ^ =&gt; num,  ; 1683000000
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     * key =&gt; any
 }
@@ -2438,25 +2484,13 @@ All other claims are <span class="bcp14">OPTIONAL</span> in an SD-KBT.<a href="#
           <p id="section-9-2.4.1">Using the confirmation key, the Verifier validates the SD-KBT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-9-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-2.5">
-          <p id="section-9-2.5.1">Finally, the Verifier <span class="bcp14">MUST</span> extract and decode the disclosed claims from the <code>sd_claims</code> header parameter in the unprotected header of the SD-CWT.
- The decoded <code>sd_claims</code> are converted to an intermediate data structure called a Digest To Disclosed Claim Map that is used to transform the Presented Disclosed Claims Set into a Validated Disclosed Claims Set.
- The Verifier <span class="bcp14">MUST</span> compute the hash of each Salted Disclosed Claim (<code>salted</code>), in order to match each disclosed value to each entry of the Presented Disclosed Claims Set.
- One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map could be: <code>{ &amp;(digested-salted-disclosed-claim) =&gt; salted }</code><a href="#section-9-2.5.1" class="pilcrow">¶</a></p>
-<ol start="1" type="a" class="normal type-a" id="section-9-2.5.2">
-<li id="section-9-2.5.2.1">
-              <p id="section-9-2.5.2.1.1">The Verifier constructs an empty cbor map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.<a href="#section-9-2.5.2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li id="section-9-2.5.2.2">
-              <p id="section-9-2.5.2.2.1">Next, the Verifier performs a breadth first or depth first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.
-By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.<a href="#section-9-2.5.2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li id="section-9-2.5.2.3">
-              <p id="section-9-2.5.2.3.1">If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT <span class="bcp14">MUST</span> be considered invalid.<a href="#section-9-2.5.2.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ol>
+          <p id="section-9-2.5.1">The Verifier <span class="bcp14">MUST</span> extract and decode the disclosed claims from the <code>sd_claims</code> header parameter in the unprotected header of the SD-CWT.
+Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Blinded Claim Hash in the payload.
+If there are any disclosures that do not have a corresponding Blinded Claim Hash, the entire SD-CWT is invalid.
+If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.<a href="#section-9-2.5.1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-9-2.5.3.1">
-              <p id="section-9-2.5.3.1.1">Note: A Verifier <span class="bcp14">MUST</span> be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.<a href="#section-9-2.5.3.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-9-2.5.2.1">
+              <p id="section-9-2.5.2.1.1">Note: A Verifier <span class="bcp14">MUST</span> be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.<a href="#section-9-2.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </li>
@@ -2472,6 +2506,7 @@ By performing these steps, the recipient can cryptographically verify the integr
           <p id="section-9-3.3.1">Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.<a href="#section-9-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
+<p id="section-9-4">By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.<a href="#section-9-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="decoys">
@@ -2502,6 +2537,7 @@ Other protocols have a similar type of internal structure for the Verifier.<a hr
         </h3>
 <p id="section-11.1-1">This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (<code>sd_aead</code>) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span> registered in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .
+(Guidance on specific algorithms is discussed in <a href="#aead-choice" class="auto internal xref">Section 16.8</a>.)
 The second header parameter (<code>sd_aead_encrypted_claims</code>) contains a list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <div class="lang-cbor-diag sourcecode" id="section-11.1-2">
@@ -2545,14 +2581,13 @@ If the Verifier is able to decrypt and verify an encrypted disclosure, the decry
 <p id="section-11.1-8">The CDDL for AEAD encrypted disclosures is below.<a href="#section-11.1-8" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-11.1-9">
 <pre>
-aead-encrypted-array = [ +aead-encrypted ]
+aead-encrypted-array = [ *aead-encrypted ]
 aead-encrypted = [
-  bstr,              ; nonce value
-  bstr,              ; the ciphertext output of a bstr-encoded-salted
-                     ;   with a matching salt
+  bstr .size 16,     ; 128-bit nonce
+  bstr,              ; the encryption ciphertext output of a
+                     ;   bstr-encoded-salted
   bstr               ; the corresponding authentication tag
 ]
-;bstr-encoded-salted = bstr .cbor salted
 </pre><a href="#section-11.1-9" class="pilcrow">¶</a>
 </div>
 <ul class="normal ulEmpty">
@@ -2672,12 +2707,12 @@ which is not to be used in operational deployments.<a href="#section-12-3" class
               bb05c9d8fb61cfc230ddfdfb4616a693'
         ]
       } &gt;&gt;,
-      / CWT signature / h'9c9022e57adb33c853f30b6e8a590f40
-                          6ca55849d7b8cd2a2519d3aec03e61b9
-                          ef0ecd85fe96103f916f58d73cd2f775
-                          4c390401945f0683b144d3504e500f94
-                          d30433c3445417dc3c920f7a155548e9
-                          1994601827d0a46ead66ff450485e85f'
+      / CWT signature / h'ed7ff84b27e746199698a94cc19292e4
+                          b72dc4c3eb551f0ef2b9da07980c648c
+                          2bb033c337c6ed13e1bc7c5b7b7c9df9
+                          49a70239f51eca1f6d8e058b8b70bcb3
+                          b5746812a932ffb37a2e6e984957e3f6
+                          b003eb3319fbe21e97f6a3a273307424'
     ]),
     / end of issuer SD-CWT /
     / typ /   16:  "application/kb+cwt",
@@ -2688,10 +2723,10 @@ which is not to be used in operational deployments.<a href="#section-12-3" class
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } &gt;&gt;,      / end of KBT payload /
-  / KBT signature / h'd895729e72a3a7c801d5a20e9daf5103
-                      27858aecbb39b8b2e4bc11cbbd625ea8
-                      c60b78da31fc9762c46b7cd61094d047
-                      5ff1f19a7496cde53ab11600a5859d10'
+  / KBT signature / h'dd49379434b25b03cd8756787ab49731
+                      580a04505439ca78ee53300dd49a00b7
+                      0e8715d015a2a6e8d88455f5850e3d93
+                      eade1366c0040c2cee1cc568322a6b93'
 ])   / end of kbt /
 </pre>
 </div>
@@ -3132,6 +3167,19 @@ This is more of a concern for SD-CWT than typical CWTs, because the Holder is us
 The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
 This ordering choice has no security impact on encrypted disclosures.
 However, the order can affect the runtime of the verification process.<a href="#section-16.7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="aead-choice">
+<section id="section-16.8">
+        <h3 id="name-choice-of-aead-algorithms">
+<a href="#section-16.8" class="section-number selfRef">16.8. </a><a href="#name-choice-of-aead-algorithms" class="section-name selfRef">Choice of AEAD algorithms</a>
+        </h3>
+<p id="section-16.8-1">The AEAD encrypted disclosures mechanism discussed in <a href="#aead" class="auto internal xref">Section 11.1</a> can refer to any AEAD alogithm in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .<a href="#section-16.8-1" class="pilcrow">¶</a></p>
+<p id="section-16.8-2">When choosing an AEAD algorithm, the tag length is critical for the integrity of encrypted disclosures in SD-CWT.
+As such, implementations <span class="bcp14">MUST NOT</span> use any AEAD algorithm with a tag length less than 16 octets.<a href="#section-16.8-2" class="pilcrow">¶</a></p>
+<p id="section-16.8-3">Algorithms using AES-CCM are <span class="bcp14">NOT RECOMMENDED</span>.<a href="#section-16.8-3" class="pilcrow">¶</a></p>
+<p id="section-16.8-4">As of this writing, implementations <span class="bcp14">MUST NOT</span> use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
+Implementations using the AEGIS algorithms containing an X <span class="bcp14">MUST</span> only use the 256-bit tag variant.<a href="#section-16.8-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3734,7 +3782,7 @@ An indication of the relevant sections may also be included, but is not required
 <dd class="break"></dd>
 <dt id="I-D.ietf-cbor-edn-literals">[I-D.ietf-cbor-edn-literals]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Extended Diagnostic Notation (EDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-18</span>, <time datetime="2025-07-07" class="refDate">7 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-18">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-18</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Extended Diagnostic Notation (EDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-19</span>, <time datetime="2025-10-16" class="refDate">16 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-19">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-19</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -3799,15 +3847,15 @@ An indication of the relevant sections may also be included, but is not required
 <dl class="references">
 <dt id="I-D.draft-ietf-cbor-cde">[I-D.draft-ietf-cbor-cde]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Common Deterministic Encoding (CDE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-cde-12</span>, <time datetime="2025-07-07" class="refDate">7 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-12">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-12</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Common Deterministic Encoding (CDE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-cde-13</span>, <time datetime="2025-10-13" class="refDate">13 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-13">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-13</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-keytrans-protocol">[I-D.draft-ietf-keytrans-protocol]</dt>
         <dd>
-<span class="refAuthor">McMillion, B.</span> and <span class="refAuthor">F. Linker</span>, <span class="refTitle">"Key Transparency Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-keytrans-protocol-02</span>, <time datetime="2025-07-06" class="refDate">6 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-02">https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-02</a>&gt;</span>. </dd>
+<span class="refAuthor">McMillion, B.</span> and <span class="refAuthor">F. Linker</span>, <span class="refTitle">"Key Transparency Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-keytrans-protocol-03</span>, <time datetime="2025-10-19" class="refDate">19 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-03">https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-03</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-oauth-sd-jwt-vc">[I-D.draft-ietf-oauth-sd-jwt-vc]</dt>
         <dd>
-<span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-11</span>, <time datetime="2025-09-15" class="refDate">15 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-11">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-11</a>&gt;</span>. </dd>
+<span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-12</span>, <time datetime="2025-10-20" class="refDate">20 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-12">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-12</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-oauth-selective-disclosure-jwt">[I-D.draft-ietf-oauth-selective-disclosure-jwt]</dt>
         <dd>
@@ -3874,8 +3922,9 @@ kbt-cwt = #6.18([
 sd-protected = {
    &amp;(typ: 16) ^ =&gt; "application/sd-cwt" / TBD11,
    &amp;(alg: 1) ^ =&gt; int,
-   &amp;(sd_alg: TBD2) ^ =&gt; int,        ; -16 for sha-256
-   ? &amp;(sd_aead: TBD7) ^ =&gt; uint .size 2
+   ? &amp;(kid: 4) ^ =&gt; bstr,
+   ? &amp;(sd_alg: TBD2) ^ =&gt; int,        ; -16 for sha-256
+   ? &amp;(sd_aead: TBD7) ^ =&gt; uint .size 2,
    * key =&gt; any
 }
 
@@ -3901,9 +3950,9 @@ sd-payload = {
       &amp;(iss: 1) ^ =&gt; tstr, ; "https://issuer.example"
     ? &amp;(sub: 2) ^ =&gt; tstr, ; "https://device.example"
     ? &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example/app"
-    ? &amp;(exp: 4) ^ =&gt; int,  ; 1883000000
-    ? &amp;(nbf: 5) ^ =&gt; int,  ; 1683000000
-    ? &amp;(iat: 6) ^ =&gt; int,  ; 1683000000
+    ? &amp;(exp: 4) ^ =&gt; num,  ; 1883000000
+    ? &amp;(nbf: 5) ^ =&gt; num,  ; 1683000000
+    ? &amp;(iat: 6) ^ =&gt; num,  ; 1683000000
     ? &amp;(cti: 7) ^ =&gt; bstr,
       &amp;(cnf: 8) ^ =&gt; { * key =&gt; any }, ; key confirmation
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
@@ -3914,15 +3963,16 @@ sd-payload = {
 
 kbt-payload = {
       &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example/app"
-    ? &amp;(exp: 4) ^ =&gt; int,  ; 1883000000
-    ? &amp;(nbf: 5) ^ =&gt; int,  ; 1683000000
-      &amp;(iat: 6) ^ =&gt; int,  ; 1683000000
+    ? &amp;(exp: 4) ^ =&gt; num,  ; 1883000000
+    ? &amp;(nbf: 5) ^ =&gt; num,  ; 1683000000
+      &amp;(iat: 6) ^ =&gt; num,  ; 1683000000
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     * key =&gt; any
 }
 
-salted-array = [ +bstr .cbor salted ]
-salted = salted-claim / salted-element / decoy
+salted-array = [ *bstr-encoded-salted ]
+bstr-encoded-salted = bstr .cbor salted-entry
+salted-entry = salted-claim / salted-element / decoy
 salted-claim = [
   bstr .size 16,     ; 128-bit salt
   any,               ; claim value
@@ -3935,9 +3985,8 @@ salted-element = [
 decoy = [
   bstr .size 16      ; 128-bit salt
 ]
-;bstr-encoded-salted = bstr .cbor salted
 
-aead-encrypted-array = [ +aead-encrypted ]
+aead-encrypted-array = [ *aead-encrypted ]
 aead-encrypted = [
   bstr .size 16,     ; 128-bit nonce
   bstr,              ; the encryption ciphertext output of a
@@ -3945,11 +3994,7 @@ aead-encrypted = [
   bstr               ; the corresponding authentication tag
 ]
 
-header_map = {
-    * key =&gt; any
-}
-empty_or_serialized_map = bstr .cbor header_map / bstr .size 0
-
+num = int / float
 key = int / text
 TBD1 = 17
 TBD2 = 18
@@ -3968,7 +4013,7 @@ REDACTED_KEYS = #7.59  ; #7.&lt;TBD4&gt;
 
 ; redacted_claim_element is to be used in CDDL payloads that contain
 ; array elements that are meant to be redacted.
-redacted_claim_element = #6.60( bstr .size 16 )  ; #6.&lt;TBD5&gt;(bstr)
+;redacted_claim_element = #6.60( bstr .size 16 )  ; #6.&lt;TBD5&gt;(bstr)
 ;TBD5 = 60; CBOR tag wrapping redacted_claim_element
 
 </pre>
@@ -4050,7 +4095,7 @@ Because the entire SD-CWT is included as a claim in the SD-KBT, the disclosures 
 <pre>
 {
   /kty/  1 : 2, /EC/
-  /alg/  3 : -9, /ESP256/
+  /alg/  3 : -7, /ES256/
   /crv/ -1 : 1, /P-256/
   /x/   -2 : h'8554eb275dcd6fbd1c7ac641aa2c90d9
                2022fd0d3024b5af18c7cc61ad527a2d',
@@ -4316,194 +4361,489 @@ It is up to the individual working groups to use this information as they see fi
 </div>
 </section>
 </div>
-<div id="document-history">
+<div id="relationship-between-rats-architecture-and-verifiable-credentials">
 <section id="appendix-E">
-      <h2 id="name-document-history">
-<a href="#appendix-E" class="section-number selfRef">Appendix E. </a><a href="#name-document-history" class="section-name selfRef">Document History</a>
+      <h2 id="name-relationship-between-rats-a">
+<a href="#appendix-E" class="section-number selfRef">Appendix E. </a><a href="#name-relationship-between-rats-a" class="section-name selfRef">Relationship between RATS Architecture and Verifiable Credentials</a>
       </h2>
-<p id="appendix-E-1">Note: RFC Editor, please remove this entire section on publication.<a href="#appendix-E-1" class="pilcrow">¶</a></p>
-<div id="draft-ietf-spice-sd-cwt-04">
+<p id="appendix-E-1">This appendix describes the relationship between the Remote ATtestation procedureS (RATS) architecture defined in <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> and the three-party model used in verifiable credentials.<a href="#appendix-E-1" class="pilcrow">¶</a></p>
+<div id="three-party-verifiable-credentials-model">
 <section id="appendix-E.1">
-        <h3 id="name-draft-ietf-spice-sd-cwt-04">
-<a href="#appendix-E.1" class="section-number selfRef">E.1. </a><a href="#name-draft-ietf-spice-sd-cwt-04" class="section-name selfRef">draft-ietf-spice-sd-cwt-04</a>
+        <h3 id="name-three-party-verifiable-cred">
+<a href="#appendix-E.1" class="section-number selfRef">E.1. </a><a href="#name-three-party-verifiable-cred" class="section-name selfRef">Three-Party Verifiable Credentials Model</a>
+        </h3>
+<p id="appendix-E.1-1">The verifiable credentials model involves three distinct parties:<a href="#appendix-E.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-E.1-2.1">
+            <p id="appendix-E.1-2.1.1"><strong>Issuer</strong>: Creates and signs credentials containing claims about a subject<a href="#appendix-E.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.1-2.2">
+            <p id="appendix-E.1-2.2.1"><strong>Holder</strong>: Controls the credential and presents it to verifiers (the holder is typically the subject of the credential)<a href="#appendix-E.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.1-2.3">
+            <p id="appendix-E.1-2.3.1"><strong>Verifier</strong>: Receives and validates presented credentials to make authorization or access decisions. In this appendix we refer to this role as a <strong>Credential Verifier</strong><a href="#appendix-E.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="appendix-E.1-3">In SD-CWT, these roles are explicitly represented: the Issuer signs claims using an Assertion Key (<a href="#terminology" class="auto internal xref">Section 2</a>), the Holder controls the credential and creates presentations using a Confirmation Key, and the Verifier validates both the Issuer's signature over the credential and the Holder's signature over the presentation (key binding token).<a href="#appendix-E.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="rats-architecture-roles">
+<section id="appendix-E.2">
+        <h3 id="name-rats-architecture-roles">
+<a href="#appendix-E.2" class="section-number selfRef">E.2. </a><a href="#name-rats-architecture-roles" class="section-name selfRef">RATS Architecture Roles</a>
+        </h3>
+<p id="appendix-E.2-1">The RATS architecture defines the following key roles:<a href="#appendix-E.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-E.2-2.1">
+            <p id="appendix-E.2-2.1.1"><strong>Attester</strong>: Produces Evidence about its own trustworthiness and operational state<a href="#appendix-E.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.2-2.2">
+            <p id="appendix-E.2-2.2.1"><strong>Endorser</strong>: Provides Endorsements about an Attester (typically a manufacturer)<a href="#appendix-E.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.2-2.3">
+            <p id="appendix-E.2-2.3.1"><strong>Reference Value Provider</strong>: Supplies Reference Values used by Verifiers to evaluate Evidence<a href="#appendix-E.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.2-2.4">
+            <p id="appendix-E.2-2.4.1"><strong>Verifier</strong>: Appraises Evidence and produces Attestation Results. In this appendix we refer to this role as a <strong>RATS Verifier</strong><a href="#appendix-E.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.2-2.5">
+            <p id="appendix-E.2-2.5.1"><strong>Relying Party</strong>: Consumes Attestation Results to make authorization decisions<a href="#appendix-E.2-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="role-mappings-in-the-three-party-model">
+<section id="appendix-E.3">
+        <h3 id="name-role-mappings-in-the-three-">
+<a href="#appendix-E.3" class="section-number selfRef">E.3. </a><a href="#name-role-mappings-in-the-three-" class="section-name selfRef">Role Mappings in the Three-Party Model</a>
+        </h3>
+<p id="appendix-E.3-1">The mapping between RATS roles and verifiable credential roles can be understood as follows:<a href="#appendix-E.3-1" class="pilcrow">¶</a></p>
+<div id="verifiable-credential-issuer-as-rats-endorser">
+<section id="appendix-E.3.1">
+          <h4 id="name-verifiable-credential-issue">
+<a href="#appendix-E.3.1" class="section-number selfRef">E.3.1. </a><a href="#name-verifiable-credential-issue" class="section-name selfRef">Verifiable Credential Issuer as RATS Endorser</a>
+          </h4>
+<p id="appendix-E.3.1-1">A verifiable credential Issuer functions as a RATS Endorser. The Endorser role in RATS produces Endorsements - secure statements about an Attester's capabilities, identity, or trustworthiness. Similarly, a credential Issuer produces signed credentials containing claims about a subject (the Holder). Both roles:<a href="#appendix-E.3.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-E.3.1-2.1">
+              <p id="appendix-E.3.1-2.1.1">Make authoritative statements about another party's attributes or capabilities<a href="#appendix-E.3.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.1-2.2">
+              <p id="appendix-E.3.1-2.2.1">Use cryptographic signatures to ensure integrity and authenticity<a href="#appendix-E.3.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.1-2.3">
+              <p id="appendix-E.3.1-2.3.1">Are typically trusted third parties in their respective ecosystems<a href="#appendix-E.3.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.1-2.4">
+              <p id="appendix-E.3.1-2.4.1">Provide information that enables downstream authorization decisions<a href="#appendix-E.3.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="appendix-E.3.1-3">The credential issued by the Issuer serves the same function as an Endorsement in RATS: it is a signed assertion about the Holder's attributes that can be used by Credential Verifiers to make trust decisions.<a href="#appendix-E.3.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="verifiable-credential-holder-as-rats-verifier">
+<section id="appendix-E.3.2">
+          <h4 id="name-verifiable-credential-holde">
+<a href="#appendix-E.3.2" class="section-number selfRef">E.3.2. </a><a href="#name-verifiable-credential-holde" class="section-name selfRef">Verifiable Credential Holder as RATS Verifier</a>
+          </h4>
+<p id="appendix-E.3.2-1">A verifiable credential Holder functions as a RATS Verifier. The RATS Verifier appraises Evidence and Endorsements and produces Attestation Results. In the credentials model, the Holder:<a href="#appendix-E.3.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-E.3.2-2.1">
+              <p id="appendix-E.3.2-2.1.1">Receives credentials (analogous to Endorsements) from Issuers<a href="#appendix-E.3.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.2-2.2">
+              <p id="appendix-E.3.2-2.2.1">Evaluates which credentials to present and which claims to disclose<a href="#appendix-E.3.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.2-2.3">
+              <p id="appendix-E.3.2-2.3.1">Produces presentations (analogous to Attestation Results) that are sent to Credential Verifiers<a href="#appendix-E.3.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.2-2.4">
+              <p id="appendix-E.3.2-2.4.1">Uses their Confirmation Key to create key binding tokens that prove control<a href="#appendix-E.3.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="appendix-E.3.2-3">The Holder's presentation, which includes the Issuer's credential plus the Holder's signature over selected disclosures, functions as an Attestation Result - a processed, signed assertion derived from the original credential (Endorsement).<a href="#appendix-E.3.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="verifiable-credential-verifier-as-rats-relying-party">
+<section id="appendix-E.3.3">
+          <h4 id="name-verifiable-credential-verif">
+<a href="#appendix-E.3.3" class="section-number selfRef">E.3.3. </a><a href="#name-verifiable-credential-verif" class="section-name selfRef">Verifiable Credential Verifier as RATS Relying Party</a>
+          </h4>
+<p id="appendix-E.3.3-1">A verifiable credential Credential Verifier functions as a RATS Relying Party. The Relying Party:<a href="#appendix-E.3.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-E.3.3-2.1">
+              <p id="appendix-E.3.3-2.1.1">Consumes Attestation Results (credential presentations) to make authorization decisions<a href="#appendix-E.3.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.3-2.2">
+              <p id="appendix-E.3.3-2.2.1">Validates the cryptographic integrity of received assertions<a href="#appendix-E.3.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.3-2.3">
+              <p id="appendix-E.3.3-2.3.1">Makes access control or authorization decisions based on the claims received<a href="#appendix-E.3.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.3-2.4">
+              <p id="appendix-E.3.3-2.4.1">Does not directly interact with the original Endorsement source (the Issuer)<a href="#appendix-E.3.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="appendix-E.3.3-3">The Credential Verifier appraises the Holder's presentation in the same way a Relying Party appraises Attestation Results from a RATS Verifier.<a href="#appendix-E.3.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="all-parties-can-be-attesters">
+<section id="appendix-E.3.4">
+          <h4 id="name-all-parties-can-be-attester">
+<a href="#appendix-E.3.4" class="section-number selfRef">E.3.4. </a><a href="#name-all-parties-can-be-attester" class="section-name selfRef">All Parties Can Be Attesters</a>
+          </h4>
+<p id="appendix-E.3.4-1">Importantly, any of these parties - Issuer, Holder, or Credential Verifier - can simultaneously function as a RATS Attester. The Attester role in RATS is about producing Evidence about one's own trustworthiness:<a href="#appendix-E.3.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-E.3.4-2.1">
+              <p id="appendix-E.3.4-2.1.1">An <strong>Issuer</strong> may be an Attester when it needs to prove its own integrity, platform state, or authorization to issue certain credential types. For example, an Issuer might provide Evidence about its secure enclave or certified infrastructure when establishing trust with Holders or during credential issuance.<a href="#appendix-E.3.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.4-2.2">
+              <p id="appendix-E.3.4-2.2.1">A <strong>Holder</strong> may be an Attester when presenting credentials, particularly when the presentation itself requires proof of the Holder's platform integrity. For example, a Holder might provide Evidence about their device's secure boot state, firmware version, or trusted execution environment alongside their credential presentation.<a href="#appendix-E.3.4-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-E.3.4-2.3">
+              <p id="appendix-E.3.4-2.3.1">A <strong>Credential Verifier</strong> may be an Attester when it needs to prove its own trustworthiness to Holders or to upstream systems. For example, a Credential Verifier might provide Evidence about its data protection capabilities, compliance certifications, or secure processing environment before Holders agree to disclose sensitive claims.<a href="#appendix-E.3.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="appendix-E.3.4-3">The Attester role is orthogonal to the three primary roles - it represents the ability to produce evidence about one's own state, while the Issuer/Holder/Credential Verifier roles represent the flow of credentials and claims about subjects.<a href="#appendix-E.3.4-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="comparison-with-rats-interaction-models">
+<section id="appendix-E.4">
+        <h3 id="name-comparison-with-rats-intera">
+<a href="#appendix-E.4" class="section-number selfRef">E.4. </a><a href="#name-comparison-with-rats-intera" class="section-name selfRef">Comparison with RATS Interaction Models</a>
+        </h3>
+<p id="appendix-E.4-1">RATS defines two interaction models:<a href="#appendix-E.4-1" class="pilcrow">¶</a></p>
+<p id="appendix-E.4-2"><strong>Passport Model</strong>: The Attester sends Evidence to a RATS Verifier, receives Attestation Results, and presents these results to Relying Parties. This maps to the three-party credentials model where the Holder obtains credentials from Issuers and presents them to Credential Verifiers.<a href="#appendix-E.4-2" class="pilcrow">¶</a></p>
+<p id="appendix-E.4-3"><strong>Background-Check Model</strong>: The Attester sends Evidence to a Relying Party, which forwards it to a RATS Verifier. The RATS Verifier returns results directly to the Relying Party. This is a two-party model from the Attester's perspective and does not map well to the three-party credentials model, as it lacks Holder mediation and control over presentations.<a href="#appendix-E.4-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="roles-that-dont-map-to-the-three-party-model">
+<section id="appendix-E.5">
+        <h3 id="name-roles-that-dont-map-to-the-">
+<a href="#appendix-E.5" class="section-number selfRef">E.5. </a><a href="#name-roles-that-dont-map-to-the-" class="section-name selfRef">Roles That Don't Map to the Three-Party Model</a>
+        </h3>
+<p id="appendix-E.5-1">The <strong>Reference Value Provider</strong> role from RATS does not have a direct equivalent in the three-party verifiable credentials model. This role supplies reference values (known-good measurements or configurations) that RATS Verifiers use to appraise Endorsements and Evidence. In credentials systems, equivalent functionality might be provided through:<a href="#appendix-E.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-E.5-2.1">
+            <p id="appendix-E.5-2.1.1">Trust registries that list authorized Issuers<a href="#appendix-E.5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.5-2.2">
+            <p id="appendix-E.5-2.2.1">Schema registries, or lists of valid claims that define credential formats<a href="#appendix-E.5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.5-2.3">
+            <p id="appendix-E.5-2.3.1">Governance frameworks that specify validation rules<a href="#appendix-E.5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.5-2.4">
+            <p id="appendix-E.5-2.4.1">Revocation registries<a href="#appendix-E.5-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="appendix-E.5-3">However, these are typically considered part of the trust infrastructure rather than a distinct party in the presentation protocol. The Reference Value Provider role is primarily relevant in scenarios where raw Evidence must be evaluated against known-good values - a pattern more common in the two-party background-check model than in the three-party credentials model where Issuers have already performed evaluation and produced credentials.<a href="#appendix-E.5-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="application-to-sd-cwt">
+<section id="appendix-E.6">
+        <h3 id="name-application-to-sd-cwt">
+<a href="#appendix-E.6" class="section-number selfRef">E.6. </a><a href="#name-application-to-sd-cwt" class="section-name selfRef">Application to SD-CWT</a>
+        </h3>
+<p id="appendix-E.6-1">When applying RATS concepts to SD-CWT:<a href="#appendix-E.6-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-E.6-2.1">
+            <p id="appendix-E.6-2.1.1">SD-CWT credentials function as Endorsements about the Holder (subject)<a href="#appendix-E.6-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.6-2.2">
+            <p id="appendix-E.6-2.2.1">The Holder's key binding token and selective disclosure act as the RATS Verifier's appraisal and production of Attestation Results<a href="#appendix-E.6-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.6-2.3">
+            <p id="appendix-E.6-2.3.1">The Credential Verifier consumes these presentations as a Relying Party consumes Attestation Results<a href="#appendix-E.6-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.6-2.4">
+            <p id="appendix-E.6-2.4.1">Any party can additionally provide Evidence about their own platform or operational state (act as an Attester)<a href="#appendix-E.6-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.6-2.5">
+            <p id="appendix-E.6-2.5.1">The three-party model with selective disclosure maps naturally to the RATS passport model<a href="#appendix-E.6-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-E.6-2.6">
+            <p id="appendix-E.6-2.6.1">Reference Value Provider functionality is addressed through trust infrastructure and out-of-band mechanisms rather than protocol-level roles<a href="#appendix-E.6-2.6.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="sample-disclosure-matching-algorithm-for-verifier">
+<section id="appendix-F">
+      <h2 id="name-sample-disclosure-matching-">
+<a href="#appendix-F" class="section-number selfRef">Appendix F. </a><a href="#name-sample-disclosure-matching-" class="section-name selfRef">Sample Disclosure Matching Algorithm for Verifier</a>
+      </h2>
+<p id="appendix-F-1">The Verifier of an SD-CWT needs to decode disclosed claims match them with their redacted versions.
+The following example algorithm describes a way to accomplish this.<a href="#appendix-F-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="appendix-F-2">
+<li id="appendix-F-2.1">
+          <p id="appendix-F-2.1.1">The decoded <code>sd_claims</code> are converted to an intermediate data structure called a Digest To Disclosed Claim Map that is used to transform the Presented Disclosed Claims Set into a Validated Disclosed Claims Set.<a href="#appendix-F-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-F-2.2">
+          <p id="appendix-F-2.2.1">The Verifier <span class="bcp14">MUST</span> compute the hash of each Salted Disclosed Claim (<code>salted</code>), in order to match each disclosed value to each entry of the Presented Disclosed Claims Set.<a href="#appendix-F-2.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="appendix-F-3.1">
+          <p id="appendix-F-3.1.1">One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map is a CBOR map with the hash of the <code>bstr-encoded-salted</code> data structure (from the CDDL) as the map key and its value as the contents of the corresponding <code>salted-entry</code> data structure.<a href="#appendix-F-3.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<ol start="3" type="1" class="normal type-1" id="appendix-F-4">
+<li id="appendix-F-4.1">
+          <p id="appendix-F-4.1.1">The Verifier constructs an empty CBOR map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.<a href="#appendix-F-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-F-4.2">
+          <p id="appendix-F-4.2.1">Next, the Verifier performs a depth-first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.<a href="#appendix-F-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-F-4.3">
+          <p id="appendix-F-4.3.1">The Verifier repeats the fourth step if the previous iteration resulted in any new Presented Disclosed Claims.<a href="#appendix-F-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-F-4.4">
+          <p id="appendix-F-4.4.1">If there remain unused claims in the Digest To Disclosed Claim Map at the end of this procedure the SD-CWT <span class="bcp14">MUST</span> be considered invalid.
+Likewise, if this algorithm results in any duplicate CBOR map keys, the entire SD-CWT <span class="bcp14">MUST</span> be considered invalid.<a href="#appendix-F-4.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="appendix-F-5.1">
+          <p id="appendix-F-5.1.1">Note: If there are remaining digests without corresponding disclosures, this means that either the holder intentionally did not disclose a claim, or that the digest is a decoy digest <a href="#decoys" class="auto internal xref">Section 10</a>.<a href="#appendix-F-5.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+</section>
+</div>
+<div id="document-history">
+<section id="appendix-G">
+      <h2 id="name-document-history">
+<a href="#appendix-G" class="section-number selfRef">Appendix G. </a><a href="#name-document-history" class="section-name selfRef">Document History</a>
+      </h2>
+<p id="appendix-G-1">Note: RFC Editor, please remove this entire section on publication.<a href="#appendix-G-1" class="pilcrow">¶</a></p>
+<div id="draft-ietf-spice-sd-cwt-05">
+<section id="appendix-G.1">
+        <h3 id="name-draft-ietf-spice-sd-cwt-05">
+<a href="#appendix-G.1" class="section-number selfRef">G.1. </a><a href="#name-draft-ietf-spice-sd-cwt-05" class="section-name selfRef">draft-ietf-spice-sd-cwt-05</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-E.1-1.1">
-            <p id="appendix-E.1-1.1.1">Place value before claim name in disclosures<a href="#appendix-E.1-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-G.1-1.1">
+            <p id="appendix-G.1-1.1.1">Added this change log (PR#150)<a href="#appendix-G.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.2">
-            <p id="appendix-E.1-1.2.1">Use CBOR simple value 59 for the redacted_key_claims<a href="#appendix-E.1-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.1-1.2">
+            <p id="appendix-G.1-1.2.1">Moved non-normative validation algorithm to an appendix (PR#149)<a href="#appendix-G.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.3">
-            <p id="appendix-E.1-1.3.1">Greatly improved text around AEAD encrypted disclosures<a href="#appendix-E.1-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.1-1.3">
+            <p id="appendix-G.1-1.3.1">Added appendix describing mapping to RATS concepts (#147)<a href="#appendix-G.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.4">
-            <p id="appendix-E.1-1.4.1">Applied clarifications and corrections suggested by Mike Jones.<a href="#appendix-E.1-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.1-1.4">
+            <p id="appendix-G.1-1.4.1">Provided guidance on choice of AEAD algorithm (#148)<a href="#appendix-G.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.5">
-            <p id="appendix-E.1-1.5.1">Do not update CWT <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#appendix-E.1-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.1-1.5">
+            <p id="appendix-G.1-1.5.1">Fixed algorithm in COSE key examples (#145)<a href="#appendix-G.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.6">
-            <p id="appendix-E.1-1.6.1">Use <code>application/sd-cwt</code> media type and define <code>+sd-cwt</code> structured suffix.<a href="#appendix-E.1-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.1-1.6">
+            <p id="appendix-G.1-1.6.1">Updated contact information (PR#142, PR #150)<a href="#appendix-G.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.7">
-            <p id="appendix-E.1-1.7.1">Made SHA-256 be the default <code>sd_alg</code> value.<a href="#appendix-E.1-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.1-1.7">
+            <p id="appendix-G.1-1.7.1">Removed SPICE from the title of the document (PR#139)<a href="#appendix-G.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.8">
-            <p id="appendix-E.1-1.8.1">Created Verifiable Credential Type Identifiers registry.<a href="#appendix-E.1-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.1-1.8">
+            <p id="appendix-G.1-1.8.1">Made clear extent to which verifiers cannot process unknown claims (PR#138)<a href="#appendix-G.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.9">
-            <p id="appendix-E.1-1.9.1">Corrected places where Claim Name was used when what was meant was Claim Key.<a href="#appendix-E.1-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.1-1.9">
+            <p id="appendix-G.1-1.9.1">Sorted CBOR map keys in examples to facilitate use as test vectors (PR#135)<a href="#appendix-G.1-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.10">
-            <p id="appendix-E.1-1.10.1">Defined the To Be Redacted CBOR tag<a href="#appendix-E.1-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.1-1.10">
+            <p id="appendix-G.1-1.10.1">Consistently use term "tag" in context of AEAD algorithms (PR#134)<a href="#appendix-G.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.11">
-            <p id="appendix-E.1-1.11.1">In the SD-KBT, <code>iss</code> and <code>sub</code> are now forbidden<a href="#appendix-E.1-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.1-1.11">
+            <p id="appendix-G.1-1.11.1">Improved AASVG diagram in Terminology section (PR#129)<a href="#appendix-G.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.12">
-            <p id="appendix-E.1-1.12.1">Clarified text about <code>aud</code><a href="#appendix-E.1-1.12.1" class="pilcrow">¶</a></p>
+        </ul>
+</section>
+</div>
+<div id="draft-ietf-spice-sd-cwt-04">
+<section id="appendix-G.2">
+        <h3 id="name-draft-ietf-spice-sd-cwt-04">
+<a href="#appendix-G.2" class="section-number selfRef">G.2. </a><a href="#name-draft-ietf-spice-sd-cwt-04" class="section-name selfRef">draft-ietf-spice-sd-cwt-04</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-G.2-1.1">
+            <p id="appendix-G.2-1.1.1">Place value before claim name in disclosures<a href="#appendix-G.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.13">
-            <p id="appendix-E.1-1.13.1">Described Trust Lists<a href="#appendix-E.1-1.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.2-1.2">
+            <p id="appendix-G.2-1.2.1">Use CBOR simple value 59 for the redacted_key_claims<a href="#appendix-G.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.14">
-            <p id="appendix-E.1-1.14.1">EDN Examples are now in deterministic order<a href="#appendix-E.1-1.14.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.2-1.3">
+            <p id="appendix-G.2-1.3.1">Greatly improved text around AEAD encrypted disclosures<a href="#appendix-G.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.15">
-            <p id="appendix-E.1-1.15.1">Expressed some validation steps as a list<a href="#appendix-E.1-1.15.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.2-1.4">
+            <p id="appendix-G.2-1.4.1">Applied clarifications and corrections suggested by Mike Jones.<a href="#appendix-G.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.16">
-            <p id="appendix-E.1-1.16.1">Clarified handling of nested claims<a href="#appendix-E.1-1.16.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.2-1.5">
+            <p id="appendix-G.2-1.5.1">Do not update CWT <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#appendix-G.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.17">
-            <p id="appendix-E.1-1.17.1">Fixed the handling of the to be registered items in the CDDL; made CDDL self consistent<a href="#appendix-E.1-1.17.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.2-1.6">
+            <p id="appendix-G.2-1.6.1">Use <code>application/sd-cwt</code> media type and define <code>+sd-cwt</code> structured suffix.<a href="#appendix-G.2-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.1-1.18">
-            <p id="appendix-E.1-1.18.1">Fixed some references<a href="#appendix-E.1-1.18.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.2-1.7">
+            <p id="appendix-G.2-1.7.1">Made SHA-256 be the default <code>sd_alg</code> value.<a href="#appendix-G.2-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.8">
+            <p id="appendix-G.2-1.8.1">Created Verifiable Credential Type Identifiers registry.<a href="#appendix-G.2-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.9">
+            <p id="appendix-G.2-1.9.1">Corrected places where Claim Name was used when what was meant was Claim Key.<a href="#appendix-G.2-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.10">
+            <p id="appendix-G.2-1.10.1">Defined the To Be Redacted CBOR tag<a href="#appendix-G.2-1.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.11">
+            <p id="appendix-G.2-1.11.1">In the SD-KBT, <code>iss</code> and <code>sub</code> are now forbidden<a href="#appendix-G.2-1.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.12">
+            <p id="appendix-G.2-1.12.1">Clarified text about <code>aud</code><a href="#appendix-G.2-1.12.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.13">
+            <p id="appendix-G.2-1.13.1">Described Trust Lists<a href="#appendix-G.2-1.13.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.14">
+            <p id="appendix-G.2-1.14.1">EDN Examples are now in deterministic order<a href="#appendix-G.2-1.14.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.15">
+            <p id="appendix-G.2-1.15.1">Expressed some validation steps as a list<a href="#appendix-G.2-1.15.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.16">
+            <p id="appendix-G.2-1.16.1">Clarified handling of nested claims<a href="#appendix-G.2-1.16.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.17">
+            <p id="appendix-G.2-1.17.1">Fixed the handling of the to be registered items in the CDDL; made CDDL self consistent<a href="#appendix-G.2-1.17.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.2-1.18">
+            <p id="appendix-G.2-1.18.1">Fixed some references<a href="#appendix-G.2-1.18.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-ietf-spice-sd-cwt-03">
-<section id="appendix-E.2">
+<section id="appendix-G.3">
         <h3 id="name-draft-ietf-spice-sd-cwt-03">
-<a href="#appendix-E.2" class="section-number selfRef">E.2. </a><a href="#name-draft-ietf-spice-sd-cwt-03" class="section-name selfRef">draft-ietf-spice-sd-cwt-03</a>
+<a href="#appendix-G.3" class="section-number selfRef">G.3. </a><a href="#name-draft-ietf-spice-sd-cwt-03" class="section-name selfRef">draft-ietf-spice-sd-cwt-03</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-E.2-1.1">
-            <p id="appendix-E.2-1.1.1">remove bstr encoding from sd_claims array (but not the individual disclosures)<a href="#appendix-E.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-G.3-1.1">
+            <p id="appendix-G.3-1.1.1">remove bstr encoding from sd_claims array (but not the individual disclosures)<a href="#appendix-G.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.2">
-            <p id="appendix-E.2-1.2.1">clarify which claims are optional/mandatory<a href="#appendix-E.2-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.2">
+            <p id="appendix-G.3-1.2.1">clarify which claims are optional/mandatory<a href="#appendix-G.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.3">
-            <p id="appendix-E.2-1.3.1">correct that an SD-CWT may have zero redacted claims<a href="#appendix-E.2-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.3">
+            <p id="appendix-G.3-1.3.1">correct that an SD-CWT may have zero redacted claims<a href="#appendix-G.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.4">
-            <p id="appendix-E.2-1.4.1">improve the walkthrough of computing a disclosure<a href="#appendix-E.2-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.4">
+            <p id="appendix-G.3-1.4.1">improve the walkthrough of computing a disclosure<a href="#appendix-G.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.5">
-            <p id="appendix-E.2-1.5.1">clarify that duplicate map keys are not allowed, and how tagged keys are represented.<a href="#appendix-E.2-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.5">
+            <p id="appendix-G.3-1.5.1">clarify that duplicate map keys are not allowed, and how tagged keys are represented.<a href="#appendix-G.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.6">
-            <p id="appendix-E.2-1.6.1">added security considerations section (#42) and text about privacy and linkability risks (#43)<a href="#appendix-E.2-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.6">
+            <p id="appendix-G.3-1.6.1">added security considerations section (#42) and text about privacy and linkability risks (#43)<a href="#appendix-G.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.7">
-            <p id="appendix-E.2-1.7.1">register SD-CWT and SD-KBT as content formats in CoAP registry (#39)<a href="#appendix-E.2-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.7">
+            <p id="appendix-G.3-1.7.1">register SD-CWT and SD-KBT as content formats in CoAP registry (#39)<a href="#appendix-G.3-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.8">
-            <p id="appendix-E.2-1.8.1">updated media types registrations to have more useful contacts (#44)<a href="#appendix-E.2-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.8">
+            <p id="appendix-G.3-1.8.1">updated media types registrations to have more useful contacts (#44)<a href="#appendix-G.3-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.9">
-            <p id="appendix-E.2-1.9.1">build most of the values (signatures/salts/hashes/dates) in the examples automatically using a script that implements SD-CWT<a href="#appendix-E.2-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.9">
+            <p id="appendix-G.3-1.9.1">build most of the values (signatures/salts/hashes/dates) in the examples automatically using a script that implements SD-CWT<a href="#appendix-G.3-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.10">
-            <p id="appendix-E.2-1.10.1">regenerate all examples with correct signatures<a href="#appendix-E.2-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.10">
+            <p id="appendix-G.3-1.10.1">regenerate all examples with correct signatures<a href="#appendix-G.3-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.11">
-            <p id="appendix-E.2-1.11.1">add nested example<a href="#appendix-E.2-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.11">
+            <p id="appendix-G.3-1.11.1">add nested example<a href="#appendix-G.3-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.2-1.12">
-            <p id="appendix-E.2-1.12.1">add optional encrypted disclosures<a href="#appendix-E.2-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.3-1.12">
+            <p id="appendix-G.3-1.12.1">add optional encrypted disclosures<a href="#appendix-G.3-1.12.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-ietf-spice-sd-cwt-02">
-<section id="appendix-E.3">
+<section id="appendix-G.4">
         <h3 id="name-draft-ietf-spice-sd-cwt-02">
-<a href="#appendix-E.3" class="section-number selfRef">E.3. </a><a href="#name-draft-ietf-spice-sd-cwt-02" class="section-name selfRef">draft-ietf-spice-sd-cwt-02</a>
+<a href="#appendix-G.4" class="section-number selfRef">G.4. </a><a href="#name-draft-ietf-spice-sd-cwt-02" class="section-name selfRef">draft-ietf-spice-sd-cwt-02</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-E.3-1.1">
-            <p id="appendix-E.3-1.1.1">KBT now includes the entire SD-CWT in the Confirmation Key CWT (<code>kcwt</code>) existing COSE protected header. Has algorithm now specified in new <code>sd_alg</code> COSE protected header. No more <code>sd_hash</code> claim. (PR #34, 32)<a href="#appendix-E.3-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-G.4-1.1">
+            <p id="appendix-G.4-1.1.1">KBT now includes the entire SD-CWT in the Confirmation Key CWT (<code>kcwt</code>) existing COSE protected header. Has algorithm now specified in new <code>sd_alg</code> COSE protected header. No more <code>sd_hash</code> claim. (PR #34, 32)<a href="#appendix-G.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.3-1.2">
-            <p id="appendix-E.3-1.2.1">Introduced tags for redacted and to-be-redacted claim keys and elements. (PR#31, 28)<a href="#appendix-E.3-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.4-1.2">
+            <p id="appendix-G.4-1.2.1">Introduced tags for redacted and to-be-redacted claim keys and elements. (PR#31, 28)<a href="#appendix-G.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.3-1.3">
-            <p id="appendix-E.3-1.3.1">Updated example to be a generic inspection certificate. (PR#33)<a href="#appendix-E.3-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.4-1.3">
+            <p id="appendix-G.4-1.3.1">Updated example to be a generic inspection certificate. (PR#33)<a href="#appendix-G.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.3-1.4">
-            <p id="appendix-E.3-1.4.1">Add section saying SD-CWT updates the CWT spec (RFC8392). (PR#29)<a href="#appendix-E.3-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.4-1.4">
+            <p id="appendix-G.4-1.4.1">Add section saying SD-CWT updates the CWT spec (RFC8392). (PR#29)<a href="#appendix-G.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-ietf-spice-sd-cwt-01">
-<section id="appendix-E.4">
+<section id="appendix-G.5">
         <h3 id="name-draft-ietf-spice-sd-cwt-01">
-<a href="#appendix-E.4" class="section-number selfRef">E.4. </a><a href="#name-draft-ietf-spice-sd-cwt-01" class="section-name selfRef">draft-ietf-spice-sd-cwt-01</a>
+<a href="#appendix-G.5" class="section-number selfRef">G.5. </a><a href="#name-draft-ietf-spice-sd-cwt-01" class="section-name selfRef">draft-ietf-spice-sd-cwt-01</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-E.4-1.1">
-            <p id="appendix-E.4-1.1.1">Added Overview section<a href="#appendix-E.4-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-G.5-1.1">
+            <p id="appendix-G.5-1.1.1">Added Overview section<a href="#appendix-G.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.2">
-            <p id="appendix-E.4-1.2.1">Rewritten the main normative section<a href="#appendix-E.4-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.2">
+            <p id="appendix-G.5-1.2.1">Rewritten the main normative section<a href="#appendix-G.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.3">
-            <p id="appendix-E.4-1.3.1">Made redacted_claim_keys use an unlikely to collide claim key integer<a href="#appendix-E.4-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.3">
+            <p id="appendix-G.5-1.3.1">Made redacted_claim_keys use an unlikely to collide claim key integer<a href="#appendix-G.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.4">
-            <p id="appendix-E.4-1.4.1">Make cnonce optional (it now says <span class="bcp14">SHOULD</span>)<a href="#appendix-E.4-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.4">
+            <p id="appendix-G.5-1.4.1">Make cnonce optional (it now says <span class="bcp14">SHOULD</span>)<a href="#appendix-G.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.5">
-            <p id="appendix-E.4-1.5.1">Made most standard claims optional.<a href="#appendix-E.4-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.5">
+            <p id="appendix-G.5-1.5.1">Made most standard claims optional.<a href="#appendix-G.5-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.6">
-            <p id="appendix-E.4-1.6.1">Consistently avoid use of bare term "key" - to make crypto keys and map keys clear<a href="#appendix-E.4-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.6">
+            <p id="appendix-G.5-1.6.1">Consistently avoid use of bare term "key" - to make crypto keys and map keys clear<a href="#appendix-G.5-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.7">
-            <p id="appendix-E.4-1.7.1">Make clear issued SD-CWT can contain zero or more redactions; presented SD-CWT can disclose zero, some, or all redacted claims.<a href="#appendix-E.4-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.7">
+            <p id="appendix-G.5-1.7.1">Make clear issued SD-CWT can contain zero or more redactions; presented SD-CWT can disclose zero, some, or all redacted claims.<a href="#appendix-G.5-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.8">
-            <p id="appendix-E.4-1.8.1">Clarified use of sd_hash for issuer to holder case.<a href="#appendix-E.4-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.8">
+            <p id="appendix-G.5-1.8.1">Clarified use of sd_hash for issuer to holder case.<a href="#appendix-G.5-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.9">
-            <p id="appendix-E.4-1.9.1">Lots of editorial cleanup<a href="#appendix-E.4-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.9">
+            <p id="appendix-G.5-1.9.1">Lots of editorial cleanup<a href="#appendix-G.5-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.10">
-            <p id="appendix-E.4-1.10.1">Added Rohan as an author and Brian Campbell to Acknowledgements<a href="#appendix-E.4-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.10">
+            <p id="appendix-G.5-1.10.1">Added Rohan as an author and Brian Campbell to Acknowledgements<a href="#appendix-G.5-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.11">
-            <p id="appendix-E.4-1.11.1">Updated implementation status section to be BCP205-compatible<a href="#appendix-E.4-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.11">
+            <p id="appendix-G.5-1.11.1">Updated implementation status section to be BCP205-compatible<a href="#appendix-G.5-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-E.4-1.12">
-            <p id="appendix-E.4-1.12.1">Updated draft metadata<a href="#appendix-E.4-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-G.5-1.12">
+            <p id="appendix-G.5-1.12.1">Updated draft metadata<a href="#appendix-G.5-1.12.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="draft-ietf-spice-sd-cwt-00">
-<section id="appendix-E.5">
+<section id="appendix-G.6">
         <h3 id="name-draft-ietf-spice-sd-cwt-00">
-<a href="#appendix-E.5" class="section-number selfRef">E.5. </a><a href="#name-draft-ietf-spice-sd-cwt-00" class="section-name selfRef">draft-ietf-spice-sd-cwt-00</a>
+<a href="#appendix-G.6" class="section-number selfRef">G.6. </a><a href="#name-draft-ietf-spice-sd-cwt-00" class="section-name selfRef">draft-ietf-spice-sd-cwt-00</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-E.5-1.1">
-            <p id="appendix-E.5-1.1.1">Initial working group version based on draft-prorock-spice-cose-sd-cwt-01.<a href="#appendix-E.5-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-G.6-1.1">
+            <p id="appendix-G.6-1.1.1">Initial working group version based on draft-prorock-spice-cose-sd-cwt-01.<a href="#appendix-G.6-1.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -4511,20 +4851,20 @@ It is up to the individual working groups to use this information as they see fi
 </section>
 </div>
 <div id="acknowledgments">
-<section id="appendix-F">
+<section id="appendix-H">
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-F-1">The authors would like to thank those that have worked on similar items for
+<p id="appendix-H-1">The authors would like to thank those that have worked on similar items for
 providing selective disclosure mechanisms in JSON, especially:
 Brent Zundel, Roy Williams, Tobias Looker, Kristina Yasuda, Daniel Fett,
-Brian Campbell, Oliver Terbu, and Michael B. Jones.<a href="#appendix-F-1" class="pilcrow">¶</a></p>
-<p id="appendix-F-2">The authors would like to thank the following individuals for their contributions to this specification:
-Michael B. Jones.<a href="#appendix-F-2" class="pilcrow">¶</a></p>
+Brian Campbell, Oliver Terbu, and Michael B. Jones.<a href="#appendix-H-1" class="pilcrow">¶</a></p>
+<p id="appendix-H-2">The authors would like to thank the following individuals for their contributions to this specification:
+Michael B. Jones.<a href="#appendix-H-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="contributors">
-<section id="appendix-G">
+<section id="appendix-I">
       <h2 id="name-contributors">
 <a href="#name-contributors" class="section-name selfRef">Contributors</a>
       </h2>
@@ -4544,7 +4884,7 @@ Michael B. Jones.<a href="#appendix-F-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-H">
+<section id="appendix-J">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
@@ -4558,10 +4898,10 @@ Michael B. Jones.<a href="#appendix-F-2" class="pilcrow">¶</a></p>
 </address>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Orie Steele</span></div>
-<div dir="auto" class="left"><span class="org">Transmute</span></div>
+<div dir="auto" class="left"><span class="org">Tradeverifyd</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:orie@transmute.industries" class="email">orie@transmute.industries</a>
+<a href="mailto:orie@or13.io" class="email">orie@or13.io</a>
 </div>
 </address>
 <address class="vcard">
@@ -4579,7 +4919,6 @@ Michael B. Jones.<a href="#appendix-F-2" class="pilcrow">¶</a></p>
 </address>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Rohan Mahy</span></div>
-<div dir="auto" class="left"><span class="org">Rohan Mahy Consulting Services</span></div>
 <div class="email">
 <span>Email:</span>
 <a href="mailto:rohan.ietf@gmail.com" class="email">rohan.ietf@gmail.com</a>
