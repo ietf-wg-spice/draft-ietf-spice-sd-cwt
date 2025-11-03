@@ -4,157 +4,43 @@ import cbor2
 TO_BE_REDACTED_TAG = 58
 SD_CLAIMS = 17
 
+# ****** Generically useful functions
+
 def hex2bytes(string):
     return bytes.fromhex(string)
 
-# pre-used salts so the values can stay the same when the data is the same
-# hashes the rest of the disclosure (minus the salt) as the dict key
-salts = {
-    hex2bytes('e46eb069cb1b453700c8199c9431931dad9f7dac76098999b802e03dc8d0db2e'):
-    hex2bytes('cd99b3858f1d659f9d16039abf8c5fba'),
-
-    hex2bytes('84e6023a698dea8d7eaefeda3ec51a50a89ec6def850703720f171550e106aca'):
-    hex2bytes('c23a4d192be75dbd583be570482de8dd'),
-
-    hex2bytes('d2a4ef4cbcc59b1a9574213bfff2f63fd5f804caf8c8229e4ddbd7155dfcfa88'):
-    hex2bytes('2df7d2c105b5bf3acf9c698f3658552f'),
-
-    hex2bytes('c6fcdd752637e315c81aa612209c7f592a8238014b2f0b41eb6f69cae5bd5c04'):
-    hex2bytes('c225607427e01072bbafcce7e48049e3'),
-
-    hex2bytes('d7b86b369f670a6333e03b12071b4a6361ad3b92d51ef3187dc15d74c7c98f87'):
-    hex2bytes('1b248d469cf00b8dfa896f069f04697b'),
-
-    hex2bytes('25baa45374593ff558152aaf85b9c483667f620be3984852b6558a63a927af2f'):
-    hex2bytes('483e4b3c194df6073a9c41ca9f274067'),
-
-    hex2bytes('0ce809ed234b06848d02c6adaa8435d2b6ddb803bf161b326f40f45ff48f9c1b'):
-    hex2bytes('c4057d22ba56c3513af4c94f6c21826d'),
-
-    hex2bytes('d3870bfc39a2fbd377de1c529ab2b45078506c6c53eb0d35d4b8ddc56b1b67cd'):
-    hex2bytes('414915421ae4b3cdb2f04521a8ec8475'),
-
-    hex2bytes('15f1c68ea20b62af0ec924f62b8355e674cd254b6cbea184823dc70c573eb091'):
-    hex2bytes('29d880f7bdc161b98a6b27f7f523be51'),
-
-    hex2bytes('24e2d75288c7409cb1e803f20a2e59253dd62ccd8bde930aa50a7016d6cb62e7'):
-    hex2bytes('41c7a3cd57b26ce28049301838b5f1c4'),
-
-    hex2bytes('7abbfcaff1ce239e350f4c1dde880da50bbecf5218f0e9c67d16b5291a566dcc'):
-    hex2bytes('42423c7e05c8273dda2be4d4ec11c62c'),
-
-    hex2bytes('5af839c0c65d6eb6c59b59a9255cafd11d8d05190af123067ff733098c6df080'):
-    hex2bytes('10cc82ab0554cde23c7ec67d3237eb8a'),
-
-    hex2bytes('0159388947ab60e445baa6aee63226fa7508d428c239aa7c8b67a74c98b2d746'):
-    hex2bytes('a6c5b334512af02a0de1c83f74f81fe8'),
-
-
-    # first disclosure
-    hex2bytes('47abe6e8bfe75077c60b7941cec72a900773c75075b8229a36a550b78bd1d8cc'):
-    hex2bytes('bae611067bb823486797da1ebbb52f83'),
-
-    # second disclosures
-    hex2bytes('03b4b1f0584e3bd8e3de9c15eea95b415403989627fb0a1e22d7ebda5e20ea5e'):
-    hex2bytes('8de86a012b3043ae6e4457b9e1aaab80'),
-
-    # third disclosure
-    hex2bytes('96505eb290a053098c50f1690fff48b551e9e1cad32c7f387afcc460474de805'):
-    hex2bytes('7af7084b50badeb57d49ea34627c7a52'),
-
-    # fourth disclosure
-    hex2bytes('a4498ed1fc2e628b563428a8cbd28c164c51b0f26ed6dcc8b072cf3baf25653b'):
-    hex2bytes('ec615c3035d5a4ff2f5ae29ded683c8e'),
-
-    # fifth disclosure
-    hex2bytes('fd0d674ae67041df0ef0a1e81dda7fb5462dc7ce88c2d47c051bb73b8a7fc51b'):
-    hex2bytes('37c23d4ec4db0806601e6b6dc6670df9'),
-
-    # nested disclosure 1
-    hex2bytes('f6b0f3f2a36a4e51799cfa1a0b496c45294f155817407889345b8197827e7d4e'):
-    hex2bytes('ff220dbc9b033e5086f6d382e0760ddf'),
-
-    # nested disclosure 2
-    hex2bytes('f489a265621aa70a006e75b0579156ab5ad4893119b8a055f68bba27e19aca48'):
-    hex2bytes('52da9de5dc61b33775f9348b991d3d78'),
-
-    # nested disclosure 3
-    hex2bytes('92407c932a1254b3137f3e38ff5e9be22f5ecdb54a598d788e25f74169ad8289'):
-    hex2bytes('a965de35aa599d603fe1b7aa89490eb0'),
-
-    # nested disclosure 4
-    hex2bytes('f4f090d4ecc12ac2d96763259487ff9b93823bd6d966805d77290efc07c5058c'):
-    hex2bytes('7d2505257e7850b70295a87b3c8748e5'),
-
-    # nested disclosure 5
-    hex2bytes('90d525ff80cfbf7e2cece7bd57ca41e14a929c112cf4213de4950e2ee5993bae'):
-    hex2bytes('78b8a19cc53f1ed43f5e2751398d2704'),
-
-    # nested disclosure 6
-    hex2bytes('301837e17b8ac94bb78eea2cfb660d5329d1d5205a8da67cd9aea487a2b54066'):
-    hex2bytes('9a3bc899090435650b377199450c1fa1'),
-
-    # nested disclosure 7
-    hex2bytes('0b3ee5a4a933e652d26de80b4aa1873cdf6ddb958b1ec871faf0750db7295291'):
-    hex2bytes('5e852d2eef59c0ebeab8c08fca252cc5'),
-
-    # nested disclosure 8
-    hex2bytes('0a8c5194f17353cee813bf5379f6f6f6e4906a0a428d63c3241e28a696b7c7f3'):
-    hex2bytes('3dd46bd7dea09c9ee7dfe4e0d510129b'),
-
-    # nested disclosure 9
-    hex2bytes('a044cd2cbeb18e28b7c99c8dc9cf26014060a346a0de6be458eeafbdfed5c86b'):
-    hex2bytes('a1658ffb2a45e2684ac664bcce00c92c'),
-
-    # nested disclosure 10
-    hex2bytes('252cccd551b4b71043dfe750f51709cecca0f7dad01700cb774bf951340d7ba3'):
-    hex2bytes('2715ebca1d42af16a6d4560dc231c448'),
-
-    # nested disclosure 11
-    hex2bytes('e8053bef82eb7beec078a5af997d1b9d83c89d0209cea84901a6fa4f6f3dd64e'):
-    hex2bytes('b492ab1cfb415a31821138648c7a559a'),
-
-    # A
-    hex2bytes('0870fb80316bb20c95c7150814ffb747b09cd2944ce20888f135c98d9a4e8c3c'):
-    hex2bytes('591eb2081b05be2dcbb6f8459cc0fe51'),
-
-    # B
-    hex2bytes('c76675e719488855257e4f083dfb069ad2e8e0e367777329a5067c0c97619a39'):
-    hex2bytes('e70e23e77176fa59beb0b2559943a079'),
-
-    # C
-    hex2bytes('f3243e018b967baa332dd79489e23d33821f15fac52582d8dba3dc4fd30fe0db'):
-    hex2bytes('cbbf1cd3d1a5da83e1d92c08d566a481'),
-
-    # D
-    hex2bytes('8155d253658325854728a0a90b4eb9fec8d09d486fed92ff0146829509e43e2b'):
-    hex2bytes('d7abeb9016448caeb018b5bdbaee17de'),
-
-    # E
-    hex2bytes('76bfbc495fe772c1517e6e82949db90bb370e67349ed9c790098022a880117e2'):
-    hex2bytes('b52272341715f2a0b476e33e55ce7501'),
-
-    # F
-    hex2bytes('378e5117da83fcc15c480479b4e0851b4f6a6db433104393b3562b49418eec7c'):
-    hex2bytes('e3aa33644123fdbf819ad534653f4aaa'),
-
-    # G
-
-    hex2bytes('7955612dcba5d69d79643dec1a62a3c83b1d05727e45701107e7d7a5ea2503ed'):
-    hex2bytes('d2be8cc99c185ef10e3f91a61d2d9bf9')
-}
-
-
-
-# ****** Generically useful functions
-
-def bytes2hex(bytes):
+def bytes2hex(bstr):
     import binascii
-    return binascii.hexlify(bytes).decode("utf-8")
+    return binascii.hexlify(bstr).decode("utf-8")
 
-def new_redacted_entry_tag(value):
-    REDACTED_ENTRY_TAG = 60
-    return cbor2.CBORTag(REDACTED_ENTRY_TAG, value)
+def b64u_to_bytes(b64):
+    import base64
+    return base64.urlsafe_b64decode(b64 + '==')
+
+def bytes_to_b64u(bstr):
+    import base64
+    b = base64.urlsafe_b64encode(bstr).rstrip(b'=')
+    return b.decode('ascii')
+
+def b64u_to_hex(b64):
+    import base64
+    return base64.urlsafe_b64decode(b64 + '==').hex()
+
+def read_salts():
+    import csv
+    salt_map = {}
+    with open('salt_list.csv', 'r') as f:
+        salts = csv.reader(f)
+        for row in salts:
+            salt_map[hex2bytes(row[0])] = hex2bytes(row[1])
+    return salt_map
+
+def write_new_salts(salt_map):
+    import csv
+    with open('salt_list.csv', 'a') as f:
+        csvwriter = csv.writer(f)
+        for k in salt_map:
+            csvwriter.writerow(list((bytes2hex(k), bytes2hex(salt_map[k]))))
 
 def new_salt():
     import secrets
@@ -173,6 +59,10 @@ def write_to_file(value, filename):
         raise Exception("Can only write a bytes or str")
     with open(filename, mode) as f:
         f.write(value)
+
+def bytes_from_file(filename):
+    with open(filename, 'rb') as f:
+        return f.read()
 
 def indent(string, num_spaces=4):
     # take a multi-line string and add `num_spaces` spaces (if positive)
@@ -269,7 +159,6 @@ def pretty_by_type(thing, indent=0, newline=True):
         p += ')' + ending
         return p
 
-
 def iso_date(secs_since_epoch):
     import datetime
     t = datetime.datetime.fromtimestamp(secs_since_epoch, datetime.UTC)
@@ -318,6 +207,10 @@ def sort_keys(unsorted_dict, rfc7049=False):
 
 # ****** Functions specific to SD-CWTs
 
+def new_redacted_entry_tag(value):
+    REDACTED_ENTRY_TAG = 60
+    return cbor2.CBORTag(REDACTED_ENTRY_TAG, value)
+
 def make_time_claims(expiration, now=None, leeway=300):
     # all values should be in seconds
     if now is None:
@@ -329,23 +222,40 @@ def make_time_claims(expiration, now=None, leeway=300):
     newdict[6] = now
     return newdict
 
-
-def find_salt(key=None, value=None, decoy_level=0, decoy_num=0):
+# needs global salts and append_salts dicts
+def find_salt(value, key=None):
     # find an existing salt or generate one if not in "salts" dict
-    salt_index = None
-    if decoy_level == 0:
-        salt_index = sha256(cbor2.dumps([key, value]))
-    else:
-        salt_index = sha256(cbor2.dumps([decoy_level, decoy_num]))
+    salt_index = sha256(cbor2.dumps([key, value]))
     if salt_index not in salts:
-        salts[salt_index] = new_salt()
+        s = new_salt()
+        salts[salt_index] = s
+        append_salts[salt_index] = s
         print(f'Added new salt {bytes2hex(salts[salt_index])} for {bytes2hex(salt_index)}')
     return salts[salt_index]
 
+# needs global decoy_salts and append_decoy_salts dicts
+def find_decoy_salt(decoy_index):
+    if type(decoy_index) != int:
+        raise Exception("decoy_index needs to be an int")
+    if decoy_index not in decoy_salts:
+        s = new_salt()
+        decoy_salts[decoy_index] = s
+        append_decoy_salts[decoy_index] = s
+    return decoy_salts[decoy_index]
+
+# needs global aes_keys and append_aes_keys dicts
+#def find_aes_key(salt)
+#    import secrets
+#    if type(salt) != bytes:
+#        raise Exception("salt needs to be a bytes")
+#    if salt not in aes_keys:
+#        nonce = secrets.token_bytes(16)
+#        key = secrets.token_bytes(32)
+#    return (nonce, key)
 
 def make_disclosure(salt=None, key=None, value=None):
     if salt is None:
-        salt = find_salt(key=key, value=value)
+        salt = find_salt(value=value, key=key)
     if key is None:
         if value is None:
             # decoy digest
@@ -726,11 +636,14 @@ def generate_basic_holder_kbt_edn(issuer_cwt, iat, sig):
 if __name__ == "__main__":
     print("Generating examples for SD-CWT draft.")
     from pycose.keys import CoseKey
-    
+
     # constants for the draft
     CWT_IAT = 1725244200    # CWT issued at 01-Sep-2024 19:30 UTC
     KBT_IAT = CWT_IAT + 37  # KBT issued 37 seconds later
-    
+
+    salts = read_salts()
+    append_salts = {}
+
     to_be_redacted_payload = {
       1   : "https://issuer.example",
       2   : "https://device.example",
@@ -747,7 +660,7 @@ if __name__ == "__main__":
         cbor2.CBORTag(58, "postal_code"): "94188"
       }
     }
-    
+
     # load keys from files
     with open('../issuer_privkey.pem', 'r') as file:
         issuer_priv_pem = file.read()
@@ -1029,6 +942,8 @@ if __name__ == "__main__":
     nested_kbt_edn = generate_basic_holder_kbt_edn(
         nested_presented_edn, iat=KBT_IAT, sig=nested_kbt[-64:])
     write_to_file(nested_kbt_edn, 'nested_kbt.edn')
+
+    write_new_salts(append_salts)
 
 #    for s in salts:
 #        print(f'''*** Hash: {bytes2hex(s)}
