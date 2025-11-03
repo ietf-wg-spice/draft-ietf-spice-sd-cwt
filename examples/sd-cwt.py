@@ -9,13 +9,18 @@ SD_CLAIMS = 17
 def hex2bytes(string):
     return bytes.fromhex(string)
 
-def bytes2hex(bytes):
+def bytes2hex(bstr):
     import binascii
-    return binascii.hexlify(bytes).decode("utf-8")
+    return binascii.hexlify(bstr).decode("utf-8")
 
 def b64u_to_bytes(b64):
     import base64
     return base64.urlsafe_b64decode(b64 + '==')
+
+def bytes_to_b64u(bstr):
+    import base64
+    b = base64.urlsafe_b64encode(bstr).rstrip(b'=')
+    return b.decode('ascii')
 
 def b64u_to_hex(b64):
     import base64
@@ -54,6 +59,10 @@ def write_to_file(value, filename):
         raise Exception("Can only write a bytes or str")
     with open(filename, mode) as f:
         f.write(value)
+
+def bytes_from_file(filename):
+    with open(filename, 'rb') as f:
+        return f.read()
 
 def indent(string, num_spaces=4):
     # take a multi-line string and add `num_spaces` spaces (if positive)
@@ -150,7 +159,6 @@ def pretty_by_type(thing, indent=0, newline=True):
         p += ')' + ending
         return p
 
-
 def iso_date(secs_since_epoch):
     import datetime
     t = datetime.datetime.fromtimestamp(secs_since_epoch, datetime.UTC)
@@ -213,7 +221,6 @@ def make_time_claims(expiration, now=None, leeway=300):
     newdict[5] = now - leeway       # nbf
     newdict[6] = now
     return newdict
-
 
 # needs global salts and append_salts dicts
 def find_salt(value, key=None):
