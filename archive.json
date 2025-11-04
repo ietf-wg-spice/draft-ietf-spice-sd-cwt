@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-26T00:52:35.934753+00:00",
+  "timestamp": "2025-11-04T00:49:47.450537+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -13174,6 +13174,42 @@
         "oid": "67fb3d55a1f1e60fb384908c17bedb0f411ace04"
       },
       "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 152,
+      "id": "PR_kwDOMm_Q2s6xEcUO",
+      "title": "WIP building interop tools and test vectors",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/152",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-02T17:09:07Z",
+      "updatedAt": "2025-11-03T12:37:34Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "67fb3d55a1f1e60fb384908c17bedb0f411ace04",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "interop",
+      "headRefOid": "1ffce88ba33bc64d27a90e6682aeef93f8d71a27",
+      "closedAt": "2025-11-03T12:37:34Z",
+      "mergedAt": "2025-11-03T12:37:34Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "177434b5d7841baf513becdc1b688882904926c3"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm going to go ahead and push this since it does not change the draft or examples output, but does make it easier for folks doing interop to duplicate with deterministic salts.",
+          "createdAt": "2025-11-03T12:37:27Z",
+          "updatedAt": "2025-11-03T12:37:27Z"
+        }
+      ],
       "reviews": []
     }
   ]
