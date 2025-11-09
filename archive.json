@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-04T00:49:47.450537+00:00",
+  "timestamp": "2025-11-09T00:53:32.148299+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2876,7 +2876,7 @@
       ],
       "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
       "createdAt": "2025-09-15T12:40:25Z",
-      "updatedAt": "2025-10-25T16:32:10Z",
+      "updatedAt": "2025-11-07T15:07:27Z",
       "closedAt": null,
       "comments": [
         {
@@ -2955,6 +2955,27 @@
           "body": "I could add that RFC 7519 does not refer to RFC 7493, so the following JSON notation might be considered to be applicable:\n\n```\n> JSON.parse(\"1e400\")\nInfinity\n> JSON.parse(\"-1e400\")\n-Infinity\n```\n\nField day for language lawyers.\n",
           "createdAt": "2025-10-25T16:32:10Z",
           "updatedAt": "2025-10-25T16:32:10Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "consensus during the IETF 124 meeting:\n\n- SD-CWT and KBT as new formats can define new constraints\n    - These formats are restricted to use definite-length encoding bstrs, tstrs, arrays, and maps.\n    - A maximum of 16 levels of depth are permitted anywhere in the SD-CWT or KBT\n    - the date claims exp/nbf/iat are finite numbers\n    - if a map key anywhere in a SD-CWT or KBT contains another map, the map MUST be bstr encoded",
+          "createdAt": "2025-11-07T12:37:18Z",
+          "updatedAt": "2025-11-07T12:37:18Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On Nov 7, 2025, at 07:37, Rohan Mahy ***@***.***> wrote:\r\n> \r\n> rohanmahy left a comment (ietf-wg-spice/draft-ietf-spice-sd-cwt#146)\r\n> consensus during the IETF 124 meeting:\r\n>     \u2022 SD-CWT and KBT as new formats can define new constraints\r\n\r\nEncoding constraint:\r\n\r\n>         \u2022 These formats are restricted to use definite-length encoding bstrs, tstrs, arrays, and maps.\r\n\r\nThis is different from the others as it applies at the place where the SD-CWT is encoded (e.g., in its media type, or in any use as a byte string via embedded CBOR) \u2014 its data model might be embedded into some other data model, which doesn\u2019t put this constraint on the outer data model as this is an encoding constraint which data models don\u2019t have.\r\n\r\n\r\nThe rest are data model constraints and theoretically should be able to be said in CDDL:\r\n\r\n>         \u2022 A maximum of 16 levels of depth are permitted anywhere in the SD-CWT or KBT\r\n\r\n(Level of depth of what?  Probably need to define this.)\r\nNot very easy to say in CDDL, just add prose.\r\n\r\n>         \u2022 the date claims exp/nbf/iat are finite numbers\r\n\r\nIn CDDL, saying this exactly is currently a bit tedious; I\u2019ll provide a way to do this.\r\n\r\n(The JSON situation is a bit complicated as RFC 7519 does not reference I-JSON (RFC 7493), so the actual range of dates permitted includes, say, 1e400, which is a convenient way to say Infinity in most JSON implementations\u2026\r\nBut we can act as if RFC 7493 is used in interpreting RFC 7519, or simply say that.)\r\n\r\n>         \u2022 if a map key anywhere in a SD-CWT or KBT contains another map, the map MUST be bstr encoded\r\n\r\nWell, then it doesn\u2019t \u201ccontain\u201d a map any more.\r\nI think what you are saying is that maps cannot have keys that are or contain (further down in the tree) maps, and the designer of such a data model is guided towards using embedded CBOR (encoding the value in a byte string) for the value of the key.\r\nNot at all easy to say in CDDL, just add prose.\r\n\r\nGr\u00fc\u00dfe, Carsten\r\n\r\n",
+          "createdAt": "2025-11-07T12:57:04Z",
+          "updatedAt": "2025-11-07T12:57:04Z"
+        },
+        {
+          "author": "cyberphone",
+          "authorAssociation": "NONE",
+          "body": ">          \u2022 the date claims exp/nbf/iat are finite numbers\n> In CDDL, saying this exactly is currently a bit tedious; I\u2019ll provide a way to do this.\n\nI look forward to that!",
+          "createdAt": "2025-11-07T15:07:27Z",
+          "updatedAt": "2025-11-07T15:07:27Z"
         }
       ]
     }
@@ -13050,7 +13071,7 @@
       "labels": [],
       "body": "Addresses #111 by moving the example algorithm to an appendix\r\n\r\nMakes two changes to verification checks:\r\n- checks for existence of duplicate map keys after merging disclosures\r\n- mention that (because of nested disclosures) you need to repeat the matching of disclosures with their blinded claim hash each time a new blinded claim hash is added",
       "createdAt": "2025-10-13T17:12:03Z",
-      "updatedAt": "2025-10-15T14:25:11Z",
+      "updatedAt": "2025-11-06T20:09:56Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "b2941a8413248bfdbccd366a8411490e3a7a29ab",
@@ -13132,7 +13153,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-10-20T08:16:08Z",
-      "updatedAt": "2025-10-20T08:25:28Z",
+      "updatedAt": "2025-11-06T20:09:55Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "4111726074bdf0a74e750da496d99f542ebed70f",
@@ -13160,7 +13181,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-10-20T08:29:25Z",
-      "updatedAt": "2025-10-20T08:30:45Z",
+      "updatedAt": "2025-11-06T20:09:54Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "b0e8e712911c4ac6daaf75d07f71d2ebb9a0bb3f",
@@ -13188,7 +13209,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-11-02T17:09:07Z",
-      "updatedAt": "2025-11-03T12:37:34Z",
+      "updatedAt": "2025-11-06T20:09:53Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "67fb3d55a1f1e60fb384908c17bedb0f411ace04",
