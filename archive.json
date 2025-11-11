@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-09T00:53:32.148299+00:00",
+  "timestamp": "2025-11-11T00:51:36.951099+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1455,16 +1455,14 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [
-        "OR13"
-      ],
+      "assignees": [],
       "labels": [
-        "needs-list-review",
+        "blocked",
         "wait-for-IANA"
       ],
       "body": "Are integer values for content-type (using the CoAP registry) always preferred for efficiency, or only when using CoAP?\n\nAlso needs to update all the examples if we make this change.\n\n",
       "createdAt": "2025-05-21T00:11:06Z",
-      "updatedAt": "2025-09-18T09:55:09Z",
+      "updatedAt": "2025-11-10T14:24:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -2721,11 +2719,12 @@
         "rohanmahy"
       ],
       "labels": [
+        "blocked",
         "wait-for-IANA"
       ],
       "body": "Should be `#7.59` on https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/draft-ietf-spice-sd-cwt.md?plain=1#L571\n\n\n```\n    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],\n```\n\nWould be nice to mirror the treatment of arrays:\n\n```\n~~~ cddl\n; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax\nredacted_claim_element = #6.60( bstr )\n~~~\n```",
       "createdAt": "2025-08-18T13:41:35Z",
-      "updatedAt": "2025-10-14T09:28:25Z",
+      "updatedAt": "2025-11-10T14:25:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -2838,10 +2837,12 @@
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "We need to make its clearer how to use these tags, and relate them to whatever we decide for #143 \n\nAnd simple value 59",
       "createdAt": "2025-09-13T18:19:09Z",
-      "updatedAt": "2025-09-30T14:08:48Z",
+      "updatedAt": "2025-11-10T17:18:08Z",
       "closedAt": null,
       "comments": [
         {
@@ -2857,13 +2858,20 @@
           "body": "both, just a clearer example and better text describing the figure",
           "createdAt": "2025-09-30T14:08:48Z",
           "updatedAt": "2025-09-30T14:08:48Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Just need an example for 58, ... the others seems well covered",
+          "createdAt": "2025-11-10T17:18:08Z",
+          "updatedAt": "2025-11-10T17:18:08Z"
         }
       ]
     },
     {
       "number": 146,
       "id": "I_kwDOMm_Q2s7Lt34b",
-      "title": "Require any CBOR encoding restrictions?",
+      "title": "Require any CBOR data model and encoding restrictions",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/146",
       "state": "OPEN",
       "author": "rohanmahy",
@@ -2872,11 +2880,11 @@
         "rohanmahy"
       ],
       "labels": [
-        "blocked"
+        "ready-for-pr"
       ],
       "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
       "createdAt": "2025-09-15T12:40:25Z",
-      "updatedAt": "2025-11-07T15:07:27Z",
+      "updatedAt": "2025-11-10T14:13:33Z",
       "closedAt": null,
       "comments": [
         {
@@ -2976,6 +2984,53 @@
           "body": ">          \u2022 the date claims exp/nbf/iat are finite numbers\n> In CDDL, saying this exactly is currently a bit tedious; I\u2019ll provide a way to do this.\n\nI look forward to that!",
           "createdAt": "2025-11-07T15:07:27Z",
           "updatedAt": "2025-11-07T15:07:27Z"
+        }
+      ]
+    },
+    {
+      "number": 153,
+      "id": "I_kwDOMm_Q2s7XEbyG",
+      "title": "Add TV implementation to BCP205 Section",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/153",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "OR13"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
+      "body": "Another implementation",
+      "createdAt": "2025-11-10T14:17:18Z",
+      "updatedAt": "2025-11-10T14:19:16Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 154,
+      "id": "I_kwDOMm_Q2s7XEb-h",
+      "title": "Request IANA early allocation for SD-CWT",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/154",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinthomson",
+        "hlflanagan"
+      ],
+      "labels": [],
+      "body": "Per IETF 124 consensus.\n\n@martinthomson @hlflanagan please email Paul Wooters requesting this.",
+      "createdAt": "2025-11-10T14:17:27Z",
+      "updatedAt": "2025-11-10T14:18:35Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "blocks #137 and #77 ",
+          "createdAt": "2025-11-10T14:18:35Z",
+          "updatedAt": "2025-11-10T14:18:35Z"
         }
       ]
     }
@@ -13231,6 +13286,32 @@
           "updatedAt": "2025-11-03T12:37:27Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 155,
+      "id": "PR_kwDOMm_Q2s6ylSYE",
+      "title": "Add python implementation pointer",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/155",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Towards #153",
+      "createdAt": "2025-11-10T17:17:37Z",
+      "updatedAt": "2025-11-10T17:17:38Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "177434b5d7841baf513becdc1b688882904926c3",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "bcp-205-tv",
+      "headRefOid": "98db970c3c89e0343a298382d5e2e94607c64aed",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
