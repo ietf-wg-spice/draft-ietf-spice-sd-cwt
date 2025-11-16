@@ -1695,6 +1695,24 @@ Implementation Experience: No interop testing has been done yet. The code works 
 
 Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
 
+## Python Prototype
+
+Organization: Tradeverifyd
+
+Name: [github.com/tradeverifyd/sd-cwt](https://github.com/tradeverifyd/sd-cwt)
+
+Description: An open-source Python implementation of this specification.
+
+Maturity: Prototype
+
+Coverage: The current version does not implement decoys, but does verify the test vectors in draft-ietf-spice-sd-cwt-05.
+
+License: Apache-2.0
+
+Implementation Experience: No interop testing has been done yet. The code works as a proof of concept, but is not yet production ready.
+
+Contact: Orie Steele (orie.steele@tradeverifyd.com)
+
 # Relationship between RATS Architecture and Verifiable Credentials
 
 This appendix describes the relationship between the Remote ATtestation procedureS (RATS) architecture defined in {{?RFC9334}} and the three-party model used in verifiable credentials.
