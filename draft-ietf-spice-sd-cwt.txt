@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 7 May 2026                                         Tradeverifyd
+Expires: 20 May 2026                                        Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                         3 November 2025
+                                                        16 November 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 May 2026.
+   This Internet-Draft will expire on 20 May 2026.
 
 Copyright Notice
 
@@ -147,6 +147,7 @@ Table of Contents
    Appendix D.  Implementation Status
      D.1.  Transmute Prototype
      D.2.  Rust Prototype
+     D.3.  Python Prototype
    Appendix E.  Relationship between RATS Architecture and Verifiable
            Credentials
      E.1.  Three-Party Verifiable Credentials Model
@@ -2253,9 +2254,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Credentials (SD-JWT VC)", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-sd-jwt-vc-12, 20 October
+              Internet-Draft, draft-ietf-oauth-sd-jwt-vc-13, 6 November
               2025, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              oauth-sd-jwt-vc-12>.
+              oauth-sd-jwt-vc-13>.
 
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
@@ -2718,6 +2719,28 @@ D.2.  Rust Prototype
    code works as a proof of concept, but is not yet production ready.
 
    Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
+
+D.3.  Python Prototype
+
+   Organization: Tradeverifyd
+
+   Name: github.com/tradeverifyd/sd-cwt
+   (https://github.com/tradeverifyd/sd-cwt)
+
+   Description: An open-source Python implementation of this
+   specification.
+
+   Maturity: Prototype
+
+   Coverage: The current version does not implement decoys, but does
+   verify the test vectors in draft-ietf-spice-sd-cwt-05.
+
+   License: Apache-2.0
+
+   Implementation Experience: No interop testing has been done yet.  The
+   code works as a proof of concept, but is not yet production ready.
+
+   Contact: Orie Steele (orie.steele@tradeverifyd.com)
 
 Appendix E.  Relationship between RATS Architecture and Verifiable
              Credentials
