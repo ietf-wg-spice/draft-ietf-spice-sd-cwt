@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-11T00:51:36.951099+00:00",
+  "timestamp": "2025-11-18T00:50:41.440969+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -162,7 +162,7 @@
       ],
       "body": "do we want to support decoy digests like SD-JWT does?\r\n\r\nIf so, I left a simple hook to do so in PR #9 ",
       "createdAt": "2024-09-06T11:41:52Z",
-      "updatedAt": "2025-10-13T14:59:28Z",
+      "updatedAt": "2025-11-16T08:03:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -206,6 +206,13 @@
           "body": "What's the argument for waiting to add this?  Having a major feature reviewed earlier rather than later could increase the chances of us getting it right.",
           "createdAt": "2025-09-30T14:13:03Z",
           "updatedAt": "2025-09-30T14:13:03Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agree with @selfissued. It's time to move on this now.",
+          "createdAt": "2025-11-16T08:03:24Z",
+          "updatedAt": "2025-11-16T08:03:24Z"
         }
       ]
     },
@@ -2992,7 +2999,7 @@
       "id": "I_kwDOMm_Q2s7XEbyG",
       "title": "Add TV implementation to BCP205 Section",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/153",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3003,9 +3010,17 @@
       ],
       "body": "Another implementation",
       "createdAt": "2025-11-10T14:17:18Z",
-      "updatedAt": "2025-11-10T14:19:16Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-11-16T08:00:02Z",
+      "closedAt": "2025-11-16T08:00:01Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed via #155 ",
+          "createdAt": "2025-11-16T08:00:01Z",
+          "updatedAt": "2025-11-16T08:00:01Z"
+        }
+      ]
     },
     {
       "number": 154,
@@ -3019,10 +3034,12 @@
         "martinthomson",
         "hlflanagan"
       ],
-      "labels": [],
+      "labels": [
+        "WIP"
+      ],
       "body": "Per IETF 124 consensus.\n\n@martinthomson @hlflanagan please email Paul Wooters requesting this.",
       "createdAt": "2025-11-10T14:17:27Z",
-      "updatedAt": "2025-11-10T14:18:35Z",
+      "updatedAt": "2025-11-16T08:01:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -3031,6 +3048,13 @@
           "body": "blocks #137 and #77 ",
           "createdAt": "2025-11-10T14:18:35Z",
           "updatedAt": "2025-11-10T14:18:35Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "request sent. awaiting IANA",
+          "createdAt": "2025-11-16T08:01:13Z",
+          "updatedAt": "2025-11-16T08:01:13Z"
         }
       ]
     }
@@ -13293,20 +13317,62 @@
       "id": "PR_kwDOMm_Q2s6ylSYE",
       "title": "Add python implementation pointer",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/155",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Towards #153",
       "createdAt": "2025-11-10T17:17:37Z",
-      "updatedAt": "2025-11-10T17:17:38Z",
+      "updatedAt": "2025-11-16T07:59:34Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "177434b5d7841baf513becdc1b688882904926c3",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "bcp-205-tv",
       "headRefOid": "98db970c3c89e0343a298382d5e2e94607c64aed",
+      "closedAt": "2025-11-16T07:59:34Z",
+      "mergedAt": "2025-11-16T07:59:34Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "a62b2969cf48e3e213fa5c412513726ed30a673c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7O0leH",
+          "commit": {
+            "abbreviatedOid": "98db970"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-16T07:59:25Z",
+          "updatedAt": "2025-11-16T07:59:25Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 156,
+      "id": "PR_kwDOMm_Q2s6zzB1I",
+      "title": "WIP: interop test rig",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/156",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-17T08:04:54Z",
+      "updatedAt": "2025-11-17T08:04:54Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "a62b2969cf48e3e213fa5c412513726ed30a673c",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "interop",
+      "headRefOid": "d4cece05825204fa213d439c78f3006d7c474209",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
