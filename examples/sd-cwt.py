@@ -333,7 +333,7 @@ def redact_level(item, level, map_value=False):
                     redacted_keys.append(h)
                 elif key.tag == TO_BE_DECOY_TAG:
                     disclosure = make_disclosure(decoy_index=key.value)
-                    disclosures += disclosure
+                    disclosures.append(disclosure)
                     h = sha256(cbor2.dumps(disclosure))
                     redacted_keys.append(h)
                 else:
@@ -365,9 +365,9 @@ def redact_level(item, level, map_value=False):
                 raise Exception("to be decoy tag not allow in map values")
             if type(item.value) is not int:
                 raise Exception("decoy tag: integer index expected")
-            d = make_disclosure(decoy_index=item.value)
-            disclosures += d
-            h = sha256(cbor2.dumps(d))
+            disclosure = make_disclosure(decoy_index=item.value)
+            disclosures.append(disclosure)
+            h = sha256(cbor2.dumps(disclosure))
             redacted = new_redacted_entry_tag(h)
     else:
         redacted = item
