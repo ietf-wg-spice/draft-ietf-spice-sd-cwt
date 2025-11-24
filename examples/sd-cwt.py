@@ -49,7 +49,7 @@ def read_decoy_salts():
     with open('decoy_list.csv', 'r') as f:
         salts = csv.reader(f)
         for row in salts:
-            decoy_map[int(row[0])] = row[1]
+            decoy_map[int(row[0])] = hex2bytes(row[1])
     return decoy_map
 
 def write_new_decoy_salts(decoy_map):
@@ -304,8 +304,6 @@ def parse_disclosures(disclosures):
     return new_array
 
 
-
-
 def redact_level(item, level, map_value=False):
     # return redacted_item, disclosures
     REDACTED_KEYS_ARRAY = cbor2.CBORSimpleValue(59)
@@ -492,6 +490,7 @@ def edn_one_disclosure(disclosure, comment=None):
         edn += f"            /claim/  {val(disclosure[2])}{cmt}\n"
     elif len(disclosure) == 2:
         edn += f"            /value/  {val(disclosure[1])}{cmt}\n"
+    #else len == 1 (decoy) - so do nothing else
     edn += '        ]>>,\n'
     return edn
 
@@ -625,6 +624,43 @@ def generate_basic_holder_kbt_edn(issuer_cwt, iat, sig):
   }} >>,      / end of KBT payload /
   / KBT signature / {pretty_hex(bytes2hex(sig), 20)}
 ])   / end of kbt /'''
+
+def generate_decoy_cwt_edn(edn_disclosures, exp, nbf, iat,
+                                  thumb_fields, redacted, sig):
+    return f'''/ cose-sign1 / 18([  / issuer SD-CWT /
+  / CWT protected / << {{
+    / alg /    1  : -35, / ES384 /
+    / kid /    4  : 'https://issuer.example/cose-key3',
+    / typ /    16 : "application/sd-cwt",
+    / sd_alg / 18 : -16  / SHA256 /
+  }} >>,
+  / CWT unprotected / {{
+{edn_disclosures}  }}
+  / CWT payload / << {{
+    / iss / 1   : "https://issuer.example",
+    / sub / 2   : "https://device.example",
+    / exp / 4   : {exp},  /{iso_date(exp)}/
+    / nbf / 5   : {nbf},  /{iso_date(nbf)}/
+    / iat / 6   : {iat},  /{iso_date(iat)}/
+    / cnf / 8   : {{
+      / cose key / 1 : {{
+{thumb_fields}      }}
+    }},
+    /countries array/ 98: [
+        /redacted country == "fr" /
+        {pretty_hex(redacted[0], 8)}
+        /decoy country #1 /
+        {pretty_hex(redacted[1], 8)}
+    ],
+    / redacted_claim_keys / simple(59) : [
+        / redacted claim 500 (== true) /
+        {pretty_hex(redacted[2], 8)}
+        / decoy claim #2 /
+        {pretty_hex(redacted[3], 8)}
+    ]
+  }} >>,
+  / CWT signature / {pretty_hex(bytes2hex(sig), 20)}
+])'''
 
 
 #def make_basic_example():
@@ -943,22 +979,49 @@ if __name__ == "__main__":
         nested_presented_edn, iat=KBT_IAT, sig=nested_kbt[-64:])
     write_to_file(nested_kbt_edn, 'nested_kbt.edn')
 
-    to_be_redacted_payload[cbor2.CBORTag(TO_BE_DECOY_TAG, 2)] = None
-    to_be_redacted_payload[502].append(cbor2.CBORTag(TO_BE_DECOY_TAG, 1))
-    (pay, disc) = redact_level(to_be_redacted_payload, level=1)
-    print("Test Decoys")
-    print(pay)
-    print(disc)
+    # example for decoy digests
+    tbr_decoy_payload = {
+      1   : "https://issuer.example",
+      2   : "https://device.example",
+      98: [
+        cbor2.CBORTag(58, "fr"),
+        cbor2.CBORTag(61, 1)
+      ],
+      cbor2.CBORTag(58, 500) : True,
+      cbor2.CBORTag(61,2) : None
+    }
+    (payload, disclosures) = redact_level(tbr_decoy_payload, level=1)
+    decoy_payload = sort_keys(payload | holder_cnf | cwt_time_claims)
 
+    full_decoy_unprotected = {
+      SD_CLAIMS: disclosures
+    }
+
+    issuer_decoy_cwt = sign(cwt_protected,
+                     full_decoy_unprotected,
+                     decoy_payload,
+                     issuer_priv_key)
+    write_to_file(issuer_decoy_cwt, "decoy.cbor")
+
+    # write decoy EDN
+    decoy_comments=[
+        "France",
+        "decoy country",
+        "inspection result",
+        "decoy claim"
+    ]
+    decoded_disclosures = parse_disclosures(disclosures)
+    edn_disclosures = edn_decoded_disclosures(decoded_disclosures,
+                          comments=decoy_comments, all=True)
+    redacted = redacted_hashes_from_disclosures(disclosures)
+    decoy_edn = generate_decoy_cwt_edn(edn_disclosures,
+        exp=cwt_time_claims[4], nbf=cwt_time_claims[5], iat=cwt_time_claims[6],
+        thumb_fields=holder_thumb_edn,
+        redacted=redacted,
+        sig=issuer_decoy_cwt[-96:])
+    write_to_file(decoy_edn, "decoy.edn")
+
+    # write deterministic salts
     write_new_salts(append_salts)
     write_new_decoy_salts(append_decoy_salts)
-
-#    for s in salts:
-#        print(f'''*** Hash: {bytes2hex(s)}
-#Salt: {bytes2hex(salts[s])}
-#
-#''')
-#
-#    print('\n')
-#    print(salts)
 
