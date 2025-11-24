@@ -42,11 +42,11 @@
     },
     /countries array/ 98: [
         /redacted country == "fr" /
-        h'dc5f753b66acd89d78481039934a86cc
-          14f9959c64c4037dea3f872b9a8453f1'
+        60(h'dc5f753b66acd89d78481039934a86cc
+             14f9959c64c4037dea3f872b9a8453f1')
         /decoy country #1 /
-        h'3f80963a1246b412d6567f2a5ca446fd
-          19a01dd8cfc291bed69e8c575c5abfb8'
+        60(h'3f80963a1246b412d6567f2a5ca446fd
+             19a01dd8cfc291bed69e8c575c5abfb8')
     ],
     / redacted_claim_keys / simple(59) : [
         / redacted claim 500 (== true) /

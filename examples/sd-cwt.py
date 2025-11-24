@@ -648,9 +648,9 @@ def generate_decoy_cwt_edn(edn_disclosures, exp, nbf, iat,
     }},
     /countries array/ 98: [
         /redacted country == "fr" /
-        {pretty_hex(redacted[0], 8)}
+        60({pretty_hex(redacted[0], 11)})
         /decoy country #1 /
-        {pretty_hex(redacted[1], 8)}
+        60({pretty_hex(redacted[1], 11)})
     ],
     / redacted_claim_keys / simple(59) : [
         / redacted claim 500 (== true) /
