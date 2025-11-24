@@ -1062,7 +1062,23 @@ Issuer                           Holder                         Verifier
 
 10.  Decoy Digests
 
-   TODO: add decoy digest text.
+   An Issuer MAY add additional digests to the SD-CWT payload (including
+   nested maps and arrays within the payload) that are not associated
+   with any unblinded claim.  The purpose of such "decoy" digests is to
+   make it more difficult for an adversarial Verifier to infer private
+   information based on the number of Redacted Claim Keys or Redacted
+   Claim Elements.
+
+   The list of disclosures sent by the Issuer to the Holder contains one
+   disclosure for each decoy digest.  Each disclosure contains a single
+   element array with a per-decoy salt.
+
+   <<[ h'C1069BC056E234D64F58BAFF8A7B776B' ]>>
+
+   The Blinded Claim Hash for each disclosure is calculated using the
+   same algorithm for decoys as for Redacted Claim Keys and Redacted
+   Claim Elements.  An example issued SD-CWT containing decoy digests is
+   shown below.
 
    / cose-sign1 / 18([  / issuer SD-CWT /
      / CWT protected / << {
@@ -2513,6 +2529,9 @@ B.2.  Redaction Claims
    value.  This choice ensures that the second element in the CBOR array
    is always the value, which makes parsing faster and more efficient in
    strongly-typed programming languages.
+
+   In SD-CWT, all decoy digests are disclosed between the Issuer and the
+   Holder.  In SD-JWT, no disclosure is sent for a decoy digest.
 
 B.3.  Issuance
 

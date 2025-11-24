@@ -2517,8 +2517,18 @@ If any decoded Redacted Claim Key duplicates another claim key in the same posit
       <h2 id="name-decoy-digests">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-decoy-digests" class="section-name selfRef">Decoy Digests</a>
       </h2>
-<p id="section-10-1">TODO: add decoy digest text.<a href="#section-10-1" class="pilcrow">¶</a></p>
-<div class="breakable lang-cbor-diag sourcecode" id="section-10-2">
+<p id="section-10-1">An Issuer <span class="bcp14">MAY</span> add additional digests to the SD-CWT payload (including nested maps and arrays within the payload) that are not associated with any unblinded claim.
+The purpose of such "decoy" digests is to make it more difficult for an adversarial Verifier to infer private information based on the number of Redacted Claim Keys or Redacted Claim Elements.<a href="#section-10-1" class="pilcrow">¶</a></p>
+<p id="section-10-2">The list of disclosures sent by the Issuer to the Holder contains one disclosure for each decoy digest.
+Each disclosure contains a single element array with a per-decoy salt.<a href="#section-10-2" class="pilcrow">¶</a></p>
+<div class="lang-cbor-diag sourcecode" id="section-10-3">
+<pre>
+&lt;&lt;[ h'C1069BC056E234D64F58BAFF8A7B776B' ]&gt;&gt;
+</pre><a href="#section-10-3" class="pilcrow">¶</a>
+</div>
+<p id="section-10-4">The Blinded Claim Hash for each disclosure is calculated using the same algorithm for decoys as for Redacted Claim Keys and Redacted Claim Elements.
+An example issued SD-CWT containing decoy digests is shown below.<a href="#section-10-4" class="pilcrow">¶</a></p>
+<div class="breakable lang-cbor-diag sourcecode" id="section-10-5">
 <pre>
 / cose-sign1 / 18([  / issuer SD-CWT /
   / CWT protected / &lt;&lt; {
@@ -2586,7 +2596,7 @@ If any decoded Redacted Claim Key duplicates another claim key in the same posit
                       a0dd41e10016befa342b86233bd056fd
                       8a073949d8c02744fb06bdb8a51a980c'
 ])
-</pre><a href="#section-10-2" class="pilcrow">¶</a>
+</pre><a href="#section-10-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -4123,6 +4133,8 @@ REDACTED_KEYS = #7.59  ; #7.&lt;TBD4&gt;
 <p id="appendix-B.2-3">In SD-CWT, the order of the fields in a disclosure is salt, value, key.
 In SD-JWT the order of fields in a disclosure is salt, key, value.
 This choice ensures that the second element in the CBOR array is always the value, which makes parsing faster and more efficient in strongly-typed programming languages.<a href="#appendix-B.2-3" class="pilcrow">¶</a></p>
+<p id="appendix-B.2-4">In SD-CWT, all decoy digests are disclosed between the Issuer and the Holder.
+In SD-JWT, no disclosure is sent for a decoy digest.<a href="#appendix-B.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="issuance">
