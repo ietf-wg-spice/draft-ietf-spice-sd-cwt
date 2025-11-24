@@ -683,7 +683,18 @@ By performing these steps, the recipient can cryptographically verify the integr
 
 # Decoy Digests {#decoys}
 
-TODO: add decoy digest text.
+An Issuer MAY add additional digests to the SD-CWT payload (including nested maps and arrays within the payload) that are not associated with any unblinded claim.
+The purpose of such "decoy" digests is to make it more difficult for an adversarial Verifier to infer private information based on the number of Redacted Claim Keys or Redacted Claim Elements.
+
+The list of disclosures sent by the Issuer to the Holder contains one disclosure for each decoy digest.
+Each disclosure contains a single element array with a per-decoy salt.
+
+~~~ cbor-diag
+<<[ h'C1069BC056E234D64F58BAFF8A7B776B' ]>>
+~~~
+
+The Blinded Claim Hash for each disclosure is calculated using the same algorithm for decoys as for Redacted Claim Keys and Redacted Claim Elements.
+An example issued SD-CWT containing decoy digests is shown below.
 
 ~~~ cbor-diag
 {::include examples/decoy.edn}
@@ -1414,6 +1425,9 @@ The COSE equivalent of `...` is a CBOR tag (requested assignment 60) of the dige
 In SD-CWT, the order of the fields in a disclosure is salt, value, key.
 In SD-JWT the order of fields in a disclosure is salt, key, value.
 This choice ensures that the second element in the CBOR array is always the value, which makes parsing faster and more efficient in strongly-typed programming languages.
+
+In SD-CWT, all decoy digests are disclosed between the Issuer and the Holder.
+In SD-JWT, no disclosure is sent for a decoy digest.
 
 ## Issuance
 
