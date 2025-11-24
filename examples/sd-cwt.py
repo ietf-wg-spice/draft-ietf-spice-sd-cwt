@@ -308,12 +308,10 @@ def parse_disclosures(disclosures):
 
 def redact_level(item, level, map_value=False):
     # return redacted_item, disclosures
-    print(f"\n\nRedacting at level {level} for: {item}")
     REDACTED_KEYS_ARRAY = cbor2.CBORSimpleValue(59)
     redacted = None
     disclosures = []
     if type(item) is list:
-        print("In an array")
         redacted=[]
         for element in item:
             # replace one tagged element for another
@@ -321,7 +319,6 @@ def redact_level(item, level, map_value=False):
             redacted.append(new_item)
             disclosures += disc
     elif type(item) is dict:
-        print("In a map")
         redacted = {}
         redacted_keys = []  #redacted keys array at this level
         for key in item:
@@ -330,13 +327,11 @@ def redact_level(item, level, map_value=False):
                     # redact the value of this key
                     (new_value, disc) = redact_level(item[key], level+1, True)
                     disclosure = make_disclosure(key=key.value, value=new_value)
-                    print(f"Disclosure: {disclosure}")
                     disclosures += disc
                     disclosures.append(disclosure)
                     h = sha256(cbor2.dumps(disclosure))
                     redacted_keys.append(h)
                 elif key.tag == TO_BE_DECOY_TAG:
-                    print(f"Add decoy in map with index: {key.value}")
                     disclosure = make_disclosure(decoy_index=key.value)
                     disclosures += disclosure
                     h = sha256(cbor2.dumps(disclosure))
@@ -370,14 +365,12 @@ def redact_level(item, level, map_value=False):
                 raise Exception("to be decoy tag not allow in map values")
             if type(item.value) is not int:
                 raise Exception("decoy tag: integer index expected")
-            print(f"Add decoy not in a map with index {item.value}")
             d = make_disclosure(decoy_index=item.value)
             disclosures += d
             h = sha256(cbor2.dumps(d))
             redacted = new_redacted_entry_tag(h)
     else:
         redacted = item
-    print(f"Redacted value: {redacted}\nDisclosures: {disclosures}")
     return (redacted, disclosures)
 
 
