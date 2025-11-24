@@ -984,11 +984,11 @@ if __name__ == "__main__":
       1   : "https://issuer.example",
       2   : "https://device.example",
       98: [
-        cbor2.CBORTag(58, "fr"),
-        cbor2.CBORTag(61, 1)
+        cbor2.CBORTag(TO_BE_REDACTED_TAG, "fr"),
+        cbor2.CBORTag(TO_BE_DECOY_TAG, 1)
       ],
-      cbor2.CBORTag(58, 500) : True,
-      cbor2.CBORTag(61,2) : None
+      cbor2.CBORTag(TO_BE_REDACTED_TAG, 500) : True,
+      cbor2.CBORTag(TO_BE_DECOY_TAG,2) : None
     }
     (payload, disclosures) = redact_level(tbr_decoy_payload, level=1)
     decoy_payload = sort_keys(payload | holder_cnf | cwt_time_claims)
