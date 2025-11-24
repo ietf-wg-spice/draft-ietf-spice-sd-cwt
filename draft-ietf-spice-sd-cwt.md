@@ -683,7 +683,12 @@ By performing these steps, the recipient can cryptographically verify the integr
 
 # Decoy Digests {#decoys}
 
-**TODO**
+TODO: add decoy digest text.
+
+~~~ cbor-diag
+{::include examples/decoy.edn}
+~~~
+
 
 # Encrypted Disclosures
 
