@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 20 May 2026                                        Tradeverifyd
+Expires: 28 May 2026                                        Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                        16 November 2025
+                                                        24 November 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 May 2026.
+   This Internet-Draft will expire on 28 May 2026.
 
 Copyright Notice
 
@@ -1062,7 +1062,90 @@ Issuer                           Holder                         Verifier
 
 10.  Decoy Digests
 
-   *TODO*
+   An Issuer MAY add additional digests to the SD-CWT payload (including
+   nested maps and arrays within the payload) that are not associated
+   with any unblinded claim.  The purpose of such "decoy" digests is to
+   make it more difficult for an adversarial Verifier to infer private
+   information based on the number of Redacted Claim Keys or Redacted
+   Claim Elements.
+
+   The list of disclosures sent by the Issuer to the Holder contains one
+   disclosure for each decoy digest.  Each disclosure contains a single
+   element array with a per-decoy salt.
+
+   <<[ h'C1069BC056E234D64F58BAFF8A7B776B' ]>>
+
+   The Blinded Claim Hash for each disclosure is calculated using the
+   same algorithm for decoys as for Redacted Claim Keys and Redacted
+   Claim Elements.  An example issued SD-CWT containing decoy digests is
+   shown below.
+
+   / cose-sign1 / 18([  / issuer SD-CWT /
+     / CWT protected / << {
+       / alg /    1  : -35, / ES384 /
+       / kid /    4  : 'https://issuer.example/cose-key3',
+       / typ /    16 : "application/sd-cwt",
+       / sd_alg / 18 : -16  / SHA256 /
+     } >>,
+     / CWT unprotected / {
+       / sd_claims / 17 : [ / these are all the disclosures /
+           <<[
+               /salt/   h'2bfeab9315829fe0c82a15b2c57a47b2',
+               /value/  "fr"   / France /
+           ]>>,
+           <<[
+               /salt/   h'c1069bc056e234d64f58baff8a7b776b',
+           ]>>,
+           <<[
+               /salt/   h'b0392772caefd08178218f86f3e2b3a9',
+               /value/  true,
+               /claim/  500   / inspection result /
+           ]>>,
+           <<[
+               /salt/   h'89c41c270dd06cd3517d371c9ddf2bab',
+           ]>>,
+       ]
+     }
+     / CWT payload / << {
+       / iss / 1   : "https://issuer.example",
+       / sub / 2   : "https://device.example",
+       / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
+       / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
+       / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
+       / cnf / 8   : {
+         / cose key / 1 : {
+           / kty /  1: 2,  / EC2   /
+           / crv / -1: 1,  / P-256 /
+           / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                         2022fd0d3024b5af18c7cc61ad527a2d',
+           / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                         503f54293d87875d1e79ce4770194343'
+         }
+       },
+       /countries array/ 98: [
+           /redacted country == "fr" /
+           60(h'dc5f753b66acd89d78481039934a86cc
+                14f9959c64c4037dea3f872b9a8453f1')
+           /decoy country #1 /
+           60(h'3f80963a1246b412d6567f2a5ca446fd
+                19a01dd8cfc291bed69e8c575c5abfb8')
+       ],
+       / redacted_claim_keys / simple(59) : [
+           / redacted claim 500 (== true) /
+           h'bd0fd88127b3071ff5433eef59a5e3c5
+             f18341f25c5bd119c41fd34802a9797b'
+           / decoy claim #2 /
+           h'eeec970897a5b9108f24f44751baedab
+             b53a1f3d241ab6b60c9f309f114ecf88'
+       ]
+     } >>,
+     / CWT signature / h'544f015df266feb7af7494b7f170e0aa
+                         d51eecc528ae3a3410118e8fe33b828b
+                         1cb7f75ae98cc1b72d9410bdd401cc48
+                         2688e3f6c6582ae140f04b535c4ede51
+                         a0dd41e10016befa342b86233bd056fd
+                         8a073949d8c02744fb06bdb8a51a980c'
+   ])
 
 11.  Encrypted Disclosures
 
@@ -2446,6 +2529,9 @@ B.2.  Redaction Claims
    value.  This choice ensures that the second element in the CBOR array
    is always the value, which makes parsing faster and more efficient in
    strongly-typed programming languages.
+
+   In SD-CWT, all decoy digests are disclosed between the Issuer and the
+   Holder.  In SD-JWT, no disclosure is sent for a decoy digest.
 
 B.3.  Issuance
 
