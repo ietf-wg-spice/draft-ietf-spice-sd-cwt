@@ -2,6 +2,7 @@
 import cbor2
 
 TO_BE_REDACTED_TAG = 58
+TO_BE_DECOY_TAG = 61
 SD_CLAIMS = 17
 
 # ****** Generically useful functions
@@ -41,6 +42,22 @@ def write_new_salts(salt_map):
         csvwriter = csv.writer(f)
         for k in salt_map:
             csvwriter.writerow(list((bytes2hex(k), bytes2hex(salt_map[k]))))
+
+def read_decoy_salts():
+    import csv
+    decoy_map = {}
+    with open('decoy_list.csv', 'r') as f:
+        salts = csv.reader(f)
+        for row in salts:
+            decoy_map[int(row[0])] = row[1]
+    return decoy_map
+
+def write_new_decoy_salts(decoy_map):
+    import csv
+    with open('decoy_list.csv', 'a') as f:
+        csvwriter = csv.writer(f)
+        for i in decoy_map:
+            csvwriter.writerow(list((i, bytes2hex(decoy_map[i]))))
 
 def new_salt():
     import secrets
@@ -253,9 +270,14 @@ def find_decoy_salt(decoy_index):
 #        key = secrets.token_bytes(32)
 #    return (nonce, key)
 
-def make_disclosure(salt=None, key=None, value=None):
+def make_disclosure(salt=None, key=None, value=None, decoy_index=None):
+    if decoy_index == None and value == None:
+        raise Exception("can't make disclosure with no value nor decoy_index ")
     if salt is None:
-        salt = find_salt(value=value, key=key)
+        if decoy_index == None:
+            salt = find_salt(value=value, key=key)
+        else:
+            salt = find_decoy_salt(decoy_index)
     if key is None:
         if value is None:
             # decoy digest
@@ -282,98 +304,81 @@ def parse_disclosures(disclosures):
     return new_array
 
 
-# TBC add decoy digests
-def redact_map(map, level=1, num_decoys=0):
+
+
+def redact_level(item, level, map_value=False):
+    # return redacted_item, disclosures
+    print(f"\n\nRedacting at level {level} for: {item}")
     REDACTED_KEYS_ARRAY = cbor2.CBORSimpleValue(59)
-    # REDACTED_KEYS_ARRAY = cbor2.CBORTag(59, 0)
-    # REDACTED_KEYS_ARRAY = -65536
-    #
-    if type(map) is not dict:
-        raise Exception("Called redact_map on an object other than a dict")
-    if type(level) is not int or level < 1 or level > 16:
-        raise Exception("level is out of range: ", level)
-    
+    redacted = None
     disclosures = []
-    newmap = {}
-    
-    for key in map:
-        value = map[key]
-        if type(key) is cbor2.CBORTag and key.tag == TO_BE_REDACTED_TAG:
-            if type(value) is list:
-                (n, d) = redact_array(value, level+1) #num_decoys=num_decoys//2)
-                disclosures += d
-                disclosure = make_disclosure(key=key.value, value=n)
-            elif type(value) is dict:
-                (n, d) = redact_map(value, level+1)
-                disclosures += d
-                disclosure = make_disclosure(key=key.value, value=n)
+    if type(item) is list:
+        print("In an array")
+        redacted=[]
+        for element in item:
+            # replace one tagged element for another
+            (new_item, disc) = redact_level(element, level+1)
+            redacted.append(new_item)
+            disclosures += disc
+    elif type(item) is dict:
+        print("In a map")
+        redacted = {}
+        redacted_keys = []  #redacted keys array at this level
+        for key in item:
+            if type(key) is cbor2.CBORTag:
+                if key.tag == TO_BE_REDACTED_TAG:
+                    # redact the value of this key
+                    (new_value, disc) = redact_level(item[key], level+1, True)
+                    disclosure = make_disclosure(key=key.value, value=new_value)
+                    print(f"Disclosure: {disclosure}")
+                    disclosures += disc
+                    disclosures.append(disclosure)
+                    h = sha256(cbor2.dumps(disclosure))
+                    redacted_keys.append(h)
+                elif key.tag == TO_BE_DECOY_TAG:
+                    print(f"Add decoy in map with index: {key.value}")
+                    disclosure = make_disclosure(decoy_index=key.value)
+                    disclosures += disclosure
+                    h = sha256(cbor2.dumps(disclosure))
+                    redacted_keys.append(h)
+                else:
+                    raise Exception("other tagged map keys not allowed in CWT")
+            elif type(key) in (int, str):
+                (new_value, disc) = redact_level(item[key], level+1)
+                disclosures += disc
+                redacted[key] = new_value
             else:
-                disclosure = make_disclosure(key=key.value, value=value)
-            disclosures.append(disclosure)
-            redacted = sha256(cbor2.dumps(disclosure))
-            if REDACTED_KEYS_ARRAY not in newmap:
-                newmap[REDACTED_KEYS_ARRAY] = []
-            newmap[REDACTED_KEYS_ARRAY].append(redacted)
-        elif type(value) is list:
-            (n, d) = redact_array(value, level+1)
-            newmap[key] = n
+                raise Exception("map keys must be int or tstr")
+        if len(redacted_keys) > 0:
+            redacted[REDACTED_KEYS_ARRAY] = redacted_keys
+    elif type(item) is cbor2.CBORTag:
+        if item.tag not in (TO_BE_REDACTED_TAG, TO_BE_DECOY_TAG):
+            (new_item, disc) = redact_level(item.value, level+1)
+            redacted = cbor2.CBORTag(item.tag, new_item)
+            disclosures += disc
+        elif item.tag == TO_BE_REDACTED_TAG:
+            if map_value:
+                raise Exception("to be redacted tag not allowed in map values")
+            (new_item, disc) = redact_level(item.value, level+1)
+            d = make_disclosure(value=new_item)
+            disclosures += disc
+            disclosures.append(d)
+            h = sha256(cbor2.dumps(d))
+            redacted = new_redacted_entry_tag(h)
+        else: # TO_BE_DECOY_TAG
+            if map_value:
+                raise Exception("to be decoy tag not allow in map values")
+            if type(item.value) is not int:
+                raise Exception("decoy tag: integer index expected")
+            print(f"Add decoy not in a map with index {item.value}")
+            d = make_disclosure(decoy_index=item.value)
             disclosures += d
-        elif type(value) is dict:
-            (n, d) = redact_map(value, level+1)  # , num_decoys=num_decoys//2)
-            newmap[key] = n
-            disclosures += d
-        else:
-            newmap[key] = value
-    
-    # add num_decoys here
-    #for i in range(num_decoys):
-    #    disclosure = make_disclosure()
-    #    disclosures.append(disclosure)
-    #    redacted = sha256(cbor2.dumps(disclosure))
-    #    if REDACTED_KEYS_ARRAY not in newmap:
-    #        newmap[REDACTED_KEYS_ARRAY] = []
-    #    newmap[REDACTED_KEYS_ARRAY].append(redacted)
-    
-    return (newmap, disclosures)
-
-
-# TBC add decoy digests
-def redact_array(array, level):
-    if type(array) is not list:
-        raise Exception("Called redact_array on an object other than a list")
-    if type(level) is not int or level < 1 or level > 16:
-        raise Exception("level is out of range: ", level)
-    
-    disclosures = []
-    newarray = []
-    
-    for entry in array:
-        if type(entry) is cbor2.CBORTag and entry.tag == TO_BE_REDACTED_TAG:
-            if type(entry.value) is list:
-                (n, d) = redact_array(entry.value, level+1) #num_decoys//2
-                disclosures += d
-                disclosure = make_disclosure(value=n)
-            elif type(entry.value) is dict:
-                (n, d) = redact_map(entry.value, level+1)
-                disclosures += d
-                disclosure = make_disclosure(value=n)
-            else:
-                disclosure = make_disclosure(value=entry.value)
-            disclosures.append(disclosure)
-            redacted = sha256(cbor2.dumps(disclosure))
-            newarray.append(new_redacted_entry_tag(redacted))
-        elif type(entry) is list:
-            (n, d) = redact_array(entry, level+1)
-            newarray.append(n)
-            disclosures += d
-        elif type(entry) is dict:
-            (n, d) = redact_map(entry, level+1) #, num_decoys=num_decoys//2)
-            newarray.append(n)
-            disclosures += d
-        else:
-            newarray.append(entry)
-    
-    return (newarray, disclosures)
+            h = sha256(cbor2.dumps(d))
+            redacted = new_redacted_entry_tag(h)
+    else:
+        redacted = item
+    print(f"Redacted value: {redacted}\nDisclosures: {disclosures}")
+    return (redacted, disclosures)
 
 
 def cnf_from_key(cosekey):
@@ -643,6 +648,8 @@ if __name__ == "__main__":
 
     salts = read_salts()
     append_salts = {}
+    decoy_salts = read_decoy_salts()
+    append_decoy_salts = {}
 
     to_be_redacted_payload = {
       1   : "https://issuer.example",
@@ -674,7 +681,7 @@ if __name__ == "__main__":
     cwt_time_claims = make_time_claims(3600*24, CWT_IAT) # one day expiration
     
     # redact payload for primary example
-    (payload, disclosures) = redact_map(to_be_redacted_payload)
+    (payload, disclosures) = redact_level(to_be_redacted_payload, level=1)
     
     # generate/save pretty-printed disclosures from primary example
     example_comments=[
@@ -841,7 +848,7 @@ if __name__ == "__main__":
     }
     
     # redact payload for nested example
-    (payload, disclosures) = redact_map(tbr_nested_payload, 1)
+    (payload, disclosures) = redact_level(tbr_nested_payload, level=1)
         
     # make nested-cwt
     payload |= holder_cnf | cwt_time_claims
@@ -943,7 +950,15 @@ if __name__ == "__main__":
         nested_presented_edn, iat=KBT_IAT, sig=nested_kbt[-64:])
     write_to_file(nested_kbt_edn, 'nested_kbt.edn')
 
+    to_be_redacted_payload[cbor2.CBORTag(TO_BE_DECOY_TAG, 2)] = None
+    to_be_redacted_payload[502].append(cbor2.CBORTag(TO_BE_DECOY_TAG, 1))
+    (pay, disc) = redact_level(to_be_redacted_payload, level=1)
+    print("Test Decoys")
+    print(pay)
+    print(disc)
+
     write_new_salts(append_salts)
+    write_new_decoy_salts(append_decoy_salts)
 
 #    for s in salts:
 #        print(f'''*** Hash: {bytes2hex(s)}
