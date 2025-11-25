@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-18T00:50:41.440969+00:00",
+  "timestamp": "2025-11-25T00:49:49.629820+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -150,20 +150,19 @@
       "id": "I_kwDOMm_Q2s6Vnz3a",
       "title": "Support Decoy Digests",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/11",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
-        "chore"
+        "has-PR"
       ],
       "body": "do we want to support decoy digests like SD-JWT does?\r\n\r\nIf so, I left a simple hook to do so in PR #9 ",
       "createdAt": "2024-09-06T11:41:52Z",
-      "updatedAt": "2025-11-16T08:03:24Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-24T16:06:11Z",
+      "closedAt": "2025-11-24T16:06:11Z",
       "comments": [
         {
           "author": "OR13",
@@ -213,6 +212,13 @@
           "body": "Agree with @selfissued. It's time to move on this now.",
           "createdAt": "2025-11-16T08:03:24Z",
           "updatedAt": "2025-11-16T08:03:24Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Resolved via #157 ",
+          "createdAt": "2025-11-24T16:06:11Z",
+          "updatedAt": "2025-11-24T16:06:11Z"
         }
       ]
     },
@@ -2838,7 +2844,7 @@
     {
       "number": 144,
       "id": "I_kwDOMm_Q2s7LfJU4",
-      "title": "Better examples for tag 58 and 60",
+      "title": "Better examples for tag 58 and 60, and 61",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/144",
       "state": "OPEN",
       "author": "OR13",
@@ -2849,7 +2855,7 @@
       ],
       "body": "We need to make its clearer how to use these tags, and relate them to whatever we decide for #143 \n\nAnd simple value 59",
       "createdAt": "2025-09-13T18:19:09Z",
-      "updatedAt": "2025-11-10T17:18:08Z",
+      "updatedAt": "2025-11-24T14:10:30Z",
       "closedAt": null,
       "comments": [
         {
@@ -2891,7 +2897,7 @@
       ],
       "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
       "createdAt": "2025-09-15T12:40:25Z",
-      "updatedAt": "2025-11-10T14:13:33Z",
+      "updatedAt": "2025-11-24T16:44:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -2991,6 +2997,20 @@
           "body": ">          \u2022 the date claims exp/nbf/iat are finite numbers\n> In CDDL, saying this exactly is currently a bit tedious; I\u2019ll provide a way to do this.\n\nI look forward to that!",
           "createdAt": "2025-11-07T15:07:27Z",
           "updatedAt": "2025-11-07T15:07:27Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Top posting:\n\n\n#### No controversy\n\nSD-CWT and KBT as new formats can define new constraints:\n\n- These formats are restricted to use definite-length encoding bstrs, tstrs, arrays, and maps.\n- The date claims exp/nbf/iat are finite numbers\n\n#### Discussion\n\n- A maximum of 16 levels of depth are permitted anywhere in the SD-CWT or KBT\n- If a map key anywhere in a SD-CWT or KBT contains another map, the map MUST be bstr encoded\n\n#### Proposal\n\n- Selective disclosure of deeply nested structures (exceeding depth 16), is NOT RECOMMENDED as it could lead to resource exhaustion vulnerabilities. ((( do in prose text ))) \n- Selective disclosure processing described in this document requires map keys to be restricted to one of the following types: integer, byte string, text string, tags (described within this document) (Integer | text | bytes), and the one simple value we describe in this document. ((( please lets do this one in CDDL )))\n\n",
+          "createdAt": "2025-11-24T14:40:31Z",
+          "updatedAt": "2025-11-24T14:41:27Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On Nov 24, 2025, at 15:40, Orie Steele ***@***.***> wrote:\r\n> \r\n> \r\n> OR13\r\n>  left a comment \r\n> (ietf-wg-spice/draft-ietf-spice-sd-cwt#146)\r\n>  <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/146#issuecomment-3571128695>\r\n> Top posting:\r\n> \r\n> No controversy\r\n> \r\n> SD-CWT and KBT as new formats can define new constraints:\r\n> \r\n> These formats are restricted to use definite-length encoding bstrs, tstrs, arrays, and maps.\r\nThis is an encoding constraint (known as definite-length-only for short; there is no need to list the major types that CBOR supports indefinite-length encoding for).\r\n> The date claims exp/nbf/iat are finite numbers\r\nThis is a data model constraint.\r\nThe encoding is not constrained, but certain choices are simply not available in the data model.\r\nMakes sense, even though 1e308 is still a pretty large number.\r\n> Discussion\r\n> \r\n> A maximum of 16 levels of depth are permitted anywhere in the SD-CWT or KBT\r\n(Also a data model constraint.  Please define \u201clevel of depth\u201d.)\r\n> If a map key anywhere in a SD-CWT or KBT contains another map, the map MUST be bstr encoded\r\nThis is termed as a data model constraint.\r\nSee below for a better constraint.\r\n> Proposal\r\n> \r\n> Selective disclosure of deeply nested structures (exceeding depth 16), is NOT RECOMMENDED as it could lead to resource exhaustion vulnerabilities.\r\nThere is a whole body of work around \u201carbitrary limitations\u201d, which I\u2019m not going to recite.\r\nClearly, any implementation needs to be able to stop processing when its resources are not sufficient.\r\nIdentifying some guidance what should, at a minimum, be supported, is difficult; I\u2019m not sure I understand why this would be about some measure of depth only.\r\nGenerally speaking, the tuning for minimum support could be a parameter with different values for different applications or implementations.\r\n> Selective disclosure processing described in this document requires map keys to be restricted to one of the following types: integer, byte string, text string, tags (described within this document) (Integer | text | bytes), and the one simple value we describe in this document.\r\nI don\u2019t understand why tags and simple values need to be constrained in the data model, and I can\u2019t parse \"(described within this document) (Integer | text | bytes)\".\r\nBut that may simply be lack of knowledge on my part, please just explain.\r\n\r\nGr\u00fc\u00dfe, Carsten\r\n\r\n",
+          "createdAt": "2025-11-24T16:44:10Z",
+          "updatedAt": "2025-11-24T16:44:10Z"
         }
       ]
     },
@@ -3057,6 +3077,22 @@
           "updatedAt": "2025-11-16T08:01:13Z"
         }
       ]
+    },
+    {
+      "number": 158,
+      "id": "I_kwDOMm_Q2s7aH-Y6",
+      "title": "Define separate tag for \"insert a decoy digest here\"?",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/158",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In #157 I defined a tag internally used by the sd-cwt.py script to mark a location that will be replaced by a decoy digest.\n\nDo we want to add this as generically useful to the draft?",
+      "createdAt": "2025-11-24T15:57:59Z",
+      "updatedAt": "2025-11-24T15:57:59Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -13324,7 +13360,7 @@
       "labels": [],
       "body": "Towards #153",
       "createdAt": "2025-11-10T17:17:37Z",
-      "updatedAt": "2025-11-16T07:59:34Z",
+      "updatedAt": "2025-11-24T09:13:01Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "177434b5d7841baf513becdc1b688882904926c3",
@@ -13379,6 +13415,88 @@
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 157,
+      "id": "PR_kwDOMm_Q2s61J6Up",
+      "title": "Add Decoy Digests",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/157",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Added Decoy Digests (addresses #11 )\r\n- Also refactored core redaction function (redact_map and redact_array) to handle recursion into nested tags. \r\n- Generated example CBOR and EDN documents. Verify that these are identical \r\n- Include new text about decoy digests in the draft\r\n- Callout the small change between decoys in SD-JWT and SD-CWT in that section\r\n",
+      "createdAt": "2025-11-24T10:01:17Z",
+      "updatedAt": "2025-11-24T16:05:01Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "a62b2969cf48e3e213fa5c412513726ed30a673c",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "decoys",
+      "headRefOid": "989b6be6cbbb2969f421d89b1d88fe6071f2f4b3",
+      "closedAt": "2025-11-24T16:05:01Z",
+      "mergedAt": "2025-11-24T16:05:01Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "6043470dd0d83bd4f3806b38fa34322c7c0fa83a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7Qpml2",
+          "commit": {
+            "abbreviatedOid": "fd7d7e9"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-24T14:07:56Z",
+          "updatedAt": "2025-11-24T14:07:57Z",
+          "comments": [
+            {
+              "originalPosition": 299,
+              "body": "use your variables, defined above.",
+              "createdAt": "2025-11-24T14:07:56Z",
+              "updatedAt": "2025-11-24T14:07:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7QrrpW",
+          "commit": {
+            "abbreviatedOid": "fd7d7e9"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-24T15:54:24Z",
+          "updatedAt": "2025-11-24T15:54:25Z",
+          "comments": [
+            {
+              "originalPosition": 299,
+              "body": "done",
+              "createdAt": "2025-11-24T15:54:24Z",
+              "updatedAt": "2025-11-24T15:54:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Qr1Vd",
+          "commit": {
+            "abbreviatedOid": "989b6be"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-24T16:04:18Z",
+          "updatedAt": "2025-11-24T16:04:18Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
