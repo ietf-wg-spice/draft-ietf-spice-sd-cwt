@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-25T00:49:49.629820+00:00",
+  "timestamp": "2025-11-27T00:50:28.049793+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3091,6 +3091,22 @@
       "body": "In #157 I defined a tag internally used by the sd-cwt.py script to mark a location that will be replaced by a decoy digest.\n\nDo we want to add this as generically useful to the draft?",
       "createdAt": "2025-11-24T15:57:59Z",
       "updatedAt": "2025-11-24T15:57:59Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 159,
+      "id": "I_kwDOMm_Q2s7aTIhm",
+      "title": "refactor sd-cwt.py to support multiple hash algorithms",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/159",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-25T10:29:35Z",
+      "updatedAt": "2025-11-25T10:29:35Z",
       "closedAt": null,
       "comments": []
     }
