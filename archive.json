@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-27T00:50:28.049793+00:00",
+  "timestamp": "2025-11-30T00:57:49.500265+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -13513,6 +13513,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 160,
+      "id": "PR_kwDOMm_Q2s62IfCZ",
+      "title": "Address early IANA feedback about the escalation process",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/160",
+      "state": "OPEN",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Feedback received in \"[IANA #1423659] Early review: draft-ietf-spice-glue-id-01 (IETF 123)\" said:\r\n\r\n> 4) A note about the mailing list: this states that IANA should escalate if the experts miss the two-week deadline, but because IANA doesn\u2019t monitor expert review mailing lists, the requester would have to be aware that they need to contact us in order to get the request escalated. It might be useful to either point this out or tell requesters to write to IANA, and have IANA send it to the list with the experts in copy, so we can track/ping. (This issue is also being pointed out to the draft-ietf-spice-sd-cwt authors.)\r\n\r\nI also applied this fix in https://github.com/ietf-wg-spice/draft-ietf-spice-glue-id/pull/39/.\r\n",
+      "createdAt": "2025-11-29T14:52:43Z",
+      "updatedAt": "2025-11-29T14:52:43Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "6043470dd0d83bd4f3806b38fa34322c7c0fa83a",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "mbj-escalation",
+      "headRefOid": "01a84105936ccfe3578d1d6e0e6ebfc59f9acbc0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
