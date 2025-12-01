@@ -1355,8 +1355,8 @@ Within the review period, the Designated Experts will either approve or deny
 the registration request, communicating this decision to the review list and IANA.
 Denials should include an explanation and, if applicable,
 suggestions as to how to make the request successful.
-The IANA escalation process is followed when the Designated Experts
-are not responsive within 14 days.
+The IANA escalation process can be initiated by the party requesting registration
+when the Designated Experts are not responsive within 14 days.
 
 Criteria that should be applied by the Designated Experts includes
 determining whether the proposed registration duplicates existing functionality,
@@ -1863,6 +1863,10 @@ Likewise, if this algorithm results in any duplicate CBOR map keys, the entire S
 # Document History
 
 Note: RFC Editor, please remove this entire section on publication.
+
+## draft-ietf-spice-sd-cwt-06
+
+- Addressed early IANA feedback about the escalation process.
 
 ## draft-ietf-spice-sd-cwt-05
 
