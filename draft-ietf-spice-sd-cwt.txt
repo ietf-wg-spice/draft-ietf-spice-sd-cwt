@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 28 May 2026                                        Tradeverifyd
+Expires: 4 June 2026                                        Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                        24 November 2025
+                                                         1 December 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 May 2026.
+   This Internet-Draft will expire on 4 June 2026.
 
 Copyright Notice
 
@@ -162,12 +162,13 @@ Table of Contents
      E.6.  Application to SD-CWT
    Appendix F.  Sample Disclosure Matching Algorithm for Verifier
    Appendix G.  Document History
-     G.1.  draft-ietf-spice-sd-cwt-05
-     G.2.  draft-ietf-spice-sd-cwt-04
-     G.3.  draft-ietf-spice-sd-cwt-03
-     G.4.  draft-ietf-spice-sd-cwt-02
-     G.5.  draft-ietf-spice-sd-cwt-01
-     G.6.  draft-ietf-spice-sd-cwt-00
+     G.1.  draft-ietf-spice-sd-cwt-06
+     G.2.  draft-ietf-spice-sd-cwt-05
+     G.3.  draft-ietf-spice-sd-cwt-04
+     G.4.  draft-ietf-spice-sd-cwt-03
+     G.5.  draft-ietf-spice-sd-cwt-02
+     G.6.  draft-ietf-spice-sd-cwt-01
+     G.7.  draft-ietf-spice-sd-cwt-00
    Acknowledgments
    Contributors
    Authors' Addresses
@@ -2193,8 +2194,9 @@ Issuer                           Holder                         Verifier
    or deny the registration request, communicating this decision to the
    review list and IANA.  Denials should include an explanation and, if
    applicable, suggestions as to how to make the request successful.
-   The IANA escalation process is followed when the Designated Experts
-   are not responsive within 14 days.
+   The IANA escalation process can be initiated by the party requesting
+   registration when the Designated Experts are not responsive within 14
+   days.
 
    Criteria that should be applied by the Designated Experts includes
    determining whether the proposed registration duplicates existing
@@ -3091,7 +3093,11 @@ Appendix G.  Document History
 
    Note: RFC Editor, please remove this entire section on publication.
 
-G.1.  draft-ietf-spice-sd-cwt-05
+G.1.  draft-ietf-spice-sd-cwt-06
+
+   *  Addressed early IANA feedback about the escalation process.
+
+G.2.  draft-ietf-spice-sd-cwt-05
 
    *  Added this change log (PR#150)
 
@@ -3117,7 +3123,7 @@ G.1.  draft-ietf-spice-sd-cwt-05
 
    *  Improved AASVG diagram in Terminology section (PR#129)
 
-G.2.  draft-ietf-spice-sd-cwt-04
+G.3.  draft-ietf-spice-sd-cwt-04
 
    *  Place value before claim name in disclosures
 
@@ -3158,7 +3164,7 @@ G.2.  draft-ietf-spice-sd-cwt-04
 
    *  Fixed some references
 
-G.3.  draft-ietf-spice-sd-cwt-03
+G.4.  draft-ietf-spice-sd-cwt-03
 
    *  remove bstr encoding from sd_claims array (but not the individual
       disclosures)
@@ -3190,7 +3196,7 @@ G.3.  draft-ietf-spice-sd-cwt-03
 
    *  add optional encrypted disclosures
 
-G.4.  draft-ietf-spice-sd-cwt-02
+G.5.  draft-ietf-spice-sd-cwt-02
 
    *  KBT now includes the entire SD-CWT in the Confirmation Key CWT
       (kcwt) existing COSE protected header.  Has algorithm now
@@ -3204,7 +3210,7 @@ G.4.  draft-ietf-spice-sd-cwt-02
 
    *  Add section saying SD-CWT updates the CWT spec (RFC8392).  (PR#29)
 
-G.5.  draft-ietf-spice-sd-cwt-01
+G.6.  draft-ietf-spice-sd-cwt-01
 
    *  Added Overview section
 
@@ -3233,7 +3239,7 @@ G.5.  draft-ietf-spice-sd-cwt-01
 
    *  Updated draft metadata
 
-G.6.  draft-ietf-spice-sd-cwt-00
+G.7.  draft-ietf-spice-sd-cwt-00
 
    *  Initial working group version based on draft-prorock-spice-cose-
       sd-cwt-01.
