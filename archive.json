@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-30T00:57:49.500265+00:00",
+  "timestamp": "2025-12-02T00:52:35.521379+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2893,11 +2893,12 @@
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr"
+        "ready-for-pr",
+        "next-stretch"
       ],
       "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
       "createdAt": "2025-09-15T12:40:25Z",
-      "updatedAt": "2025-11-24T16:44:10Z",
+      "updatedAt": "2025-12-01T14:08:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -3107,6 +3108,24 @@
       "body": "",
       "createdAt": "2025-11-25T10:29:35Z",
       "updatedAt": "2025-11-25T10:29:35Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 161,
+      "id": "I_kwDOMm_Q2s7bayv1",
+      "title": "CWT Claims in Headers",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/161",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "OR13"
+      ],
+      "labels": [],
+      "body": "We need text to describe that when https://www.rfc-editor.org/rfc/rfc9597.html is used, redaction processing may start in the map references by label 15.\n\nWe should describe that it is possible to do redaction in both payload and header label 15.",
+      "createdAt": "2025-12-01T14:20:24Z",
+      "updatedAt": "2025-12-01T14:27:31Z",
       "closedAt": null,
       "comments": []
     }
@@ -13519,26 +13538,55 @@
       "id": "PR_kwDOMm_Q2s62IfCZ",
       "title": "Address early IANA feedback about the escalation process",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/160",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Feedback received in \"[IANA #1423659] Early review: draft-ietf-spice-glue-id-01 (IETF 123)\" said:\r\n\r\n> 4) A note about the mailing list: this states that IANA should escalate if the experts miss the two-week deadline, but because IANA doesn\u2019t monitor expert review mailing lists, the requester would have to be aware that they need to contact us in order to get the request escalated. It might be useful to either point this out or tell requesters to write to IANA, and have IANA send it to the list with the experts in copy, so we can track/ping. (This issue is also being pointed out to the draft-ietf-spice-sd-cwt authors.)\r\n\r\nI also applied this fix in https://github.com/ietf-wg-spice/draft-ietf-spice-glue-id/pull/39/.\r\n",
       "createdAt": "2025-11-29T14:52:43Z",
-      "updatedAt": "2025-11-29T14:52:43Z",
+      "updatedAt": "2025-12-01T14:05:36Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "6043470dd0d83bd4f3806b38fa34322c7c0fa83a",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "mbj-escalation",
       "headRefOid": "01a84105936ccfe3578d1d6e0e6ebfc59f9acbc0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-12-01T14:05:35Z",
+      "mergedAt": "2025-12-01T14:05:35Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "26f20db378662d508a3a47533daee9b2daf6e3cf"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7SHdS7",
+          "commit": {
+            "abbreviatedOid": "01a8410"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-12-01T14:05:10Z",
+          "updatedAt": "2025-12-01T14:05:10Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7SHdnW",
+          "commit": {
+            "abbreviatedOid": "01a8410"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-12-01T14:05:30Z",
+          "updatedAt": "2025-12-01T14:05:30Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
