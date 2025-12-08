@@ -98,8 +98,8 @@ TBD7 = 20
 
 ;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements
 
-TBD11 = 298
-TBD12 = 299
+TBD11 = 66
+TBD12 = 67
 
 ; REDACTED_KEYS is to be used in CDDL payloads that are meant to
 ; convey that a map key is redacted.
