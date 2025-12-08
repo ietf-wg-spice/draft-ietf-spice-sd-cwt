@@ -1200,7 +1200,10 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-allowed-types-of-cbor-map-k" class="internal xref">Allowed types of CBOR map keys</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
-                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-security-remarks" class="internal xref">Security remarks</a></p>
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-duplicate-map-key-detection" class="internal xref">Duplicate map key detection</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-security-remarks" class="internal xref">Security remarks</a></p>
 </li>
             </ul>
 </li>
@@ -2216,9 +2219,15 @@ Decoders of SD-CWT and SD-KBT <span class="bcp14">MUST</span> reject any SD-CWT 
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-date-values-for-standard-da" class="section-name selfRef">Date values for standard date claims</a>
         </h3>
 <p id="section-5.2-1">The standard CWT claims <code>exp</code>, <code>nbf</code>, and <code>iat</code> <span class="bcp14">MUST</span> be limited to finite numbers.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2-2">In <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, these three claims are of type NumericDate.
-Section 2 of the same spec refers to NumericDate as a JWT NumericDate, "except that it is represented as [an untagged] CBOR numeric date (from <span><a href="https://rfc-editor.org/rfc/rfc7049#section-2.4.1" class="relref">Section 2.4.1</a> of [<a href="#RFC7049" class="cite xref">RFC7049</a>]</span>) instead of a JSON number".<a href="#section-5.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.2-3">CBOR (both <span>[<a href="#RFC7049" class="cite xref">RFC7049</a>]</span> and <span>[<a href="#RFC8949" class="cite xref">RFC8949</a>]</span>) refer to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers. Neither JSON nor JWT can represent infinite values.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-5.2-2.1">
+            <p id="section-5.2-2.1.1">In <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, these three claims are of type <code>NumericDate</code>.
+Section 2 of the same spec refers to <code>NumericDate</code> as a JWT <code>NumericDate</code>, "except that it is represented as [an untagged] CBOR numeric date (from <span><a href="https://rfc-editor.org/rfc/rfc7049#section-2.4.1" class="relref">Section 2.4.1</a> of [<a href="#RFC7049" class="cite xref">RFC7049</a>]</span>) instead of a JSON number".
+In CBOR, a NumericDate can be represented as an unsigned integer, a negative integer, or a floating point value.
+CBOR (both <span>[<a href="#RFC7049" class="cite xref">RFC7049</a>]</span> and <span>[<a href="#RFC8949" class="cite xref">RFC8949</a>]</span>) refers to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
+Neither JSON <span>[<a href="#RFC8259" class="cite xref">RFC8259</a>]</span> nor JWT <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> can represent infinite values.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 <div id="allowed-types-of-cbor-map-keys">
@@ -2226,35 +2235,211 @@ Section 2 of the same spec refers to NumericDate as a JWT NumericDate, "except t
         <h3 id="name-allowed-types-of-cbor-map-k">
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-allowed-types-of-cbor-map-k" class="section-name selfRef">Allowed types of CBOR map keys</a>
         </h3>
-<p id="section-5.3-1">The CBOR Web Token Specification (Section 1.1 of <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>), uses text strings, negative integers, and unsigned integers as map keys.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">An SD-CWT Payload Map is typically the payload of an SD-CWT. <span>[<a href="#RFC9597" class="cite xref">RFC9597</a>]</span> also defines the <code>CWT Claims</code> COSE Header Parameter (value 13) that can appear in the protected header; it <span class="bcp14">MAY</span> contain a CBOR map with additional claims that are treated as if they were in the SD-CWT payload.
-In addition, the SD-KBT contains an SD-CWT embedded in the <code>kcwt</code> COSE Header Parameter (value 15) in the SD-KBT protected header.
-Maps that are not contained in an SD-CWT Payload Map <span class="bcp14">MUST</span> only contain map keys that are integers or text strings.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
-<p id="section-5.3-3">SD-CWT Paylad Maps <span class="bcp14">MAY</span> also contain the CBOR simple value registered in this specification in <a href="#simple59" class="auto internal xref">Section 17.2</a>.
-In SD-CWTs exchanged between the Holder and the Issuer, map keys <span class="bcp14">MAY</span> also consist of the To Be Redacted tag (defined in <a href="#tbr-tag" class="auto internal xref">Section 14</a>), containing an integer or text string; or a To Be Decoy tag (defined in TBD), containing a positive integer.
-These tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
-<p id="section-5.3-4">Implementations <span class="bcp14">MUST NOT</span> send multiple map keys in the same CBOR map with the same CBOR Preferred Encoding.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+<p id="section-5.3-1">According to Section 1.1 of the CBOR Web Token Specification <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, "CBOR uses text strings, negative integers, and unsigned integers as map keys."
+Section 1.5 of CBOR Object Signing and Encryption (COSE): Structures and Process <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> states: "In COSE, we use text strings, negative integers, and unsigned integers as map keys."
+While a CBOR map key can contain any CBOR type, this statement implies that CWT map keys only contain those types.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">An SD-CWT payload is typically its COSE payload.
+<span>[<a href="#RFC9597" class="cite xref">RFC9597</a>]</span> also defines the <code>CWT Claims</code> COSE Header Parameter (value 13) that can appear in the protected header; it <span class="bcp14">MAY</span> contain a CBOR map with additional claims that are treated as if they were in the SD-CWT payload.
+Both of these maps are described as an SD-CWT Payload Map.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.3-5.1">
-            <p id="section-5.3-5.1.1">As with CWTs, CBOR maps used in an SD-CWT or SD-KBT also cannot have duplicate map keys.<a href="#section-5.3-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-5.3-3.1">
+            <p id="section-5.3-3.1.1">Note that <code>CWT Claims</code> is a separate CBOR map from the COSE payload and <span class="bcp14">MAY</span> contain the same Claim Keys as the COSE payload CBOR map.<a href="#section-5.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-5.3-6">The SD-KBT does not allow map keys at any level that are not integers or text strings, except for values inside its contained SD-CWT.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
-<p id="section-5.3-7">Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.<a href="#section-5.3-7" class="pilcrow">¶</a></p>
-<p id="section-5.3-8">Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
+<p id="section-5.3-4">This specification extends CWT to allow a few additional types (TBD) that <span class="bcp14">MAY</span> be present in SD-CWT Payload Maps. It also clarifies which CBOR types are allowed inside map keys in SD-KBT and SD-CWT:<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-5.1">
+            <p id="section-5.3-5.1.1">The SD-KBT protected header <code>kcwt</code> Header Parameter exclusively contains:<a href="#section-5.3-5.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-5.1.2.1">
+                <p id="section-5.3-5.1.2.1.1">a single valid SD-CWT<a href="#section-5.3-5.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-5.3-5.2">
+            <p id="section-5.3-5.2.1">The SD-KBT payload map; unprotected header map; and protected header map (excluding the <code>kcwt</code> Header Parameter) exclusively contain map keys (at any level of depth) with the following map key types:<a href="#section-5.3-5.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-5.2.2.1">
+                <p id="section-5.3-5.2.2.1.1">unsigned integers<a href="#section-5.3-5.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.2.2.2">
+                <p id="section-5.3-5.2.2.2.1">negative integers<a href="#section-5.3-5.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.2.2.3">
+                <p id="section-5.3-5.2.2.3.1">text strings with a length no greater than 255 octets<a href="#section-5.3-5.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-5.3-5.3">
+            <p id="section-5.3-5.3.1">The SD-CWT unprotected header map; and the protected header map (excluding the <code>CWT Claims</code> Header Parameter) exclusively contain map keys (at any level of depth) with the following map key types:<a href="#section-5.3-5.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-5.3.2.1">
+                <p id="section-5.3-5.3.2.1.1">unsigned integers<a href="#section-5.3-5.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.3.2.2">
+                <p id="section-5.3-5.3.2.2.1">negative integers<a href="#section-5.3-5.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.3.2.3">
+                <p id="section-5.3-5.3.2.3.1">text strings with a length no greater than 255 octets<a href="#section-5.3-5.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-5.3-5.4">
+            <p id="section-5.3-5.4.1">The SD-CWT Payload Maps at the first level of depth, exclusively contain maps keys with the following map key types:<a href="#section-5.3-5.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-5.4.2.1">
+                <p id="section-5.3-5.4.2.1.1">unsigned integers;<a href="#section-5.3-5.4.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.4.2.2">
+                <p id="section-5.3-5.4.2.2.1">negative integers;<a href="#section-5.3-5.4.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.4.2.3">
+                <p id="section-5.3-5.4.2.3.1">text strings with a length no greater than 255 octets;<a href="#section-5.3-5.4.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.4.2.4">
+                <p id="section-5.3-5.4.2.4.1">the simple value TBD4; or<a href="#section-5.3-5.4.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.4.2.5">
+                <p id="section-5.3-5.4.2.5.1">when the payload is communicated between the Holder and the Issuer:<a href="#section-5.3-5.4.2.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-5.4.2.5.2.1">
+                    <p id="section-5.3-5.4.2.5.2.1.1">the To Be Decoy tag (TBD) containing a positive integer, or<a href="#section-5.3-5.4.2.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-5.3-5.4.2.5.2.2">
+                    <p id="section-5.3-5.4.2.5.2.2.1">the To Be Redacted tag <a href="#tbr-tag" class="auto internal xref">Section 14</a> containing:<a href="#section-5.3-5.4.2.5.2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-5.4.2.5.2.2.2.1">
+                        <p id="section-5.3-5.4.2.5.2.2.2.1.1">an unsigned integer,<a href="#section-5.3-5.4.2.5.2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                      <li class="normal" id="section-5.3-5.4.2.5.2.2.2.2">
+                        <p id="section-5.3-5.4.2.5.2.2.2.2.1">a negative integer, or<a href="#section-5.3-5.4.2.5.2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                      <li class="normal" id="section-5.3-5.4.2.5.2.2.2.3">
+                        <p id="section-5.3-5.4.2.5.2.2.2.3.1">a text strings with a length no greater than 255 octets.<a href="#section-5.3-5.4.2.5.2.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                    </ul>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-5.3-5.5">
+            <p id="section-5.3-5.5.1">The SD-CWT Payload Maps at greater than the first level of depth, exclusively contain maps keys<a href="#section-5.3-5.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-5.5.2.1">
+                <p id="section-5.3-5.5.2.1.1">unsigned integers;<a href="#section-5.3-5.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.5.2.2">
+                <p id="section-5.3-5.5.2.2.1">negative integers;<a href="#section-5.3-5.5.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.5.2.3">
+                <p id="section-5.3-5.5.2.3.1">text strings with a length no greater than 255 octets;<a href="#section-5.3-5.5.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.5.2.4">
+                <p id="section-5.3-5.5.2.4.1">the simple value TBD4; or<a href="#section-5.3-5.5.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-5.5.2.5">
+                <p id="section-5.3-5.5.2.5.1">when the payload is communicated between the Holder and the Issuer:<a href="#section-5.3-5.5.2.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-5.5.2.5.2.1">
+                    <p id="section-5.3-5.5.2.5.2.1.1">the To Be Decoy tag (TBD) containing a positive integer, or<a href="#section-5.3-5.5.2.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-5.3-5.5.2.5.2.2">
+                    <p id="section-5.3-5.5.2.5.2.2.1">the To Be Redacted tag <a href="#tbr-tag" class="auto internal xref">Section 14</a> containing:<a href="#section-5.3-5.5.2.5.2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-5.5.2.5.2.2.2.1">
+                        <p id="section-5.3-5.5.2.5.2.2.2.1.1">an unsigned integer,<a href="#section-5.3-5.5.2.5.2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                      <li class="normal" id="section-5.3-5.5.2.5.2.2.2.2">
+                        <p id="section-5.3-5.5.2.5.2.2.2.2.1">a negative integer, or<a href="#section-5.3-5.5.2.5.2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                      <li class="normal" id="section-5.3-5.5.2.5.2.2.2.3">
+                        <p id="section-5.3-5.5.2.5.2.2.2.3.1">a text strings with a length no greater than 255 octets.<a href="#section-5.3-5.5.2.5.2.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                    </ul>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-5.3-6">In other words an SD-CWT Payload Map conforms to the <code>sd_cwt_payload_map</code> CDDL definition.
+The decoded contents of the SD-KBT payload, the SD-KBT unprotected header, and the SD-CWT unprotected header conform to <code>safe_map</code>.
+The contents of the SD-KBT protected header conforms to <code>{ &amp;(kcwt: 15) ^ =&gt; sd-cwt-issued, * label =&gt; safe_value }</code>.
+The contents of the SD-CWT protected header conforms to <code>{ &amp;(CWT_Claims: 13) ^ =&gt; sd-cwt-payload_map, * label =&gt; safe_value }</code>.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-5.3-7">
+<pre>
+safe_map = { * label =&gt; safe_value }
+
+safe_value = (
+  int / tstr / bstr /
+  [ * safe_value ] /
+  safe_map /
+  #6.&lt;safe_tag&gt;(safe_value) / #7.&lt;safe_simple&gt; / float
+)
+
+sd_cwt_payload_map = { * sd_cwt_label =&gt; sd_cwt_value }
+
+sd_cwt_label = label /
+               #7.59 /
+               #6.58(label) /    ; only from Holder to Issuer
+               #6.61(int .gt 0)  ; only from Holder to Issuer
+
+sd_cwt_value = (
+  int / tstr / bstr /
+  [ * sd_cwt_value ] /
+  sd_cwt_payload_map /
+  #6.&lt;safe_tag&gt;(sd_cwt_value) / #7.&lt;safe_simple&gt; / float
+)
+
+safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
+safe_simple =  0..23 / 32..58 / 60..255   ; exclude redacted keys array
+MAX_u64 = 18446744073709551615            ; 2^64 - 1
+</pre><a href="#section-5.3-7" class="pilcrow">¶</a>
+</div>
+<p id="section-5.3-8">SD-CWT Paylad Maps <span class="bcp14">MAY</span> also contain the CBOR simple value registered in this specification in <a href="#simple59" class="auto internal xref">Section 17.2</a>.
+In SD-CWTs exchanged between the Holder and the Issuer, map keys <span class="bcp14">MAY</span> also consist of the To Be Redacted tag (defined in <a href="#tbr-tag" class="auto internal xref">Section 14</a>), containing an integer or text string; or a To Be Decoy tag (defined in TBD), containing a positive integer.
+These tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
+<p id="section-5.3-9">Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.<a href="#section-5.3-9" class="pilcrow">¶</a></p>
+<p id="section-5.3-10">Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
 Instead, the tag provides additional information about the tagged Claim Key and the corresponding (untagged) value.
-Multiple levels of tags in a map key are not permitted.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
+Multiple levels of tags in a map key are not permitted.<a href="#section-5.3-10" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="duplicate-map-key-detection">
+<section id="section-5.4">
+        <h3 id="name-duplicate-map-key-detection">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-duplicate-map-key-detection" class="section-name selfRef">Duplicate map key detection</a>
+        </h3>
+<p id="section-5.4-1">Implementations <span class="bcp14">MUST NOT</span> send multiple map keys inside the same CBOR map having the same CBOR Preferred Encoding (see <span><a href="https://rfc-editor.org/rfc/rfc8949#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span>).
+This applies to any map anywhere in an SD-CWT or an SD-KBT.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-5.4-2.1">
+            <p id="section-5.4-2.1.1">Note that it is not necessary to actually encode the map keys using Preferred Encoding to satisfy this requirement.<a href="#section-5.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-5.4-3">Likewise a single SD-CWT claim set <span class="bcp14">MUST NOT</span> contain a map (at any level of depth) with both a map key <code>k</code>, and <code>k</code> tagged with the To Be Redacted tag (see <a href="#tbr-tag" class="auto internal xref">Section 14</a>).
+Map keys and their To Be Redacted tagged verison are considered duplicate map keys for the purposes of this specification.<a href="#section-5.4-3" class="pilcrow">¶</a></p>
+<p id="section-5.4-4">For example, if the map below is contained inside a payload, it is invalid because the map key 500 and the map key 58(500) cannot both be present.<a href="#section-5.4-4" class="pilcrow">¶</a></p>
+<div class="lang-cbor-diag sourcecode" id="section-5.4-5">
+<pre>
+{
+  500: "ABCD-123456",     # map key 500
+  58(500): "DEFG-456789"  # to be redacted tag containing 500
+}
+</pre><a href="#section-5.4-5" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
 <div id="security-remarks">
-<section id="section-5.4">
+<section id="section-5.5">
         <h3 id="name-security-remarks">
-<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-security-remarks" class="section-name selfRef">Security remarks</a>
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-security-remarks" class="section-name selfRef">Security remarks</a>
         </h3>
-<p id="section-5.4-1">Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is <span class="bcp14">NOT RECOMMENDED</span> as it could lead to resource exhaustion vulnerabilities.
-A level of depth is defined as TBD.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
-<p id="section-5.4-2">Variability in serialization requirements impacts privacy.
-See <a href="#security" class="auto internal xref">Section 16</a> for more details on the privacy impact of serialization and profiling.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
+<p id="section-5.5-1">Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is <span class="bcp14">NOT RECOMMENDED</span> as it could lead to resource exhaustion vulnerabilities.
+A level of depth is defined as TBD.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+<p id="section-5.5-2">Variability in serialization can be exploited to impact privacy.
+See <a href="#security" class="auto internal xref">Section 16</a> for more details on the privacy impact of serialization and profiling.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3932,10 +4117,6 @@ An indication of the relevant sections may also be included, but is not required
         <dd>
 <span class="refAuthor">McGrew, D.</span>, <span class="refTitle">"An Interface and Algorithms for Authenticated Encryption"</span>, <span class="seriesInfo">RFC 5116</span>, <span class="seriesInfo">DOI 10.17487/RFC5116</span>, <time datetime="2008-01" class="refDate">January 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5116">https://www.rfc-editor.org/rfc/rfc5116</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC7049">[RFC7049]</dt>
-        <dd>
-<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Concise Binary Object Representation (CBOR)"</span>, <span class="seriesInfo">RFC 7049</span>, <span class="seriesInfo">DOI 10.17487/RFC7049</span>, <time datetime="2013-10" class="refDate">October 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7049">https://www.rfc-editor.org/rfc/rfc7049</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC7515">[RFC7515]</dt>
         <dd>
 <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">N. Sakimura</span>, <span class="refTitle">"JSON Web Signature (JWS)"</span>, <span class="seriesInfo">RFC 7515</span>, <span class="seriesInfo">DOI 10.17487/RFC7515</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7515">https://www.rfc-editor.org/rfc/rfc7515</a>&gt;</span>. </dd>
@@ -4013,6 +4194,10 @@ An indication of the relevant sections may also be included, but is not required
         <dd>
 <span class="refAuthor">Cooper, A.</span>, <span class="refAuthor">Tschofenig, H.</span>, <span class="refAuthor">Aboba, B.</span>, <span class="refAuthor">Peterson, J.</span>, <span class="refAuthor">Morris, J.</span>, <span class="refAuthor">Hansen, M.</span>, and <span class="refAuthor">R. Smith</span>, <span class="refTitle">"Privacy Considerations for Internet Protocols"</span>, <span class="seriesInfo">RFC 6973</span>, <span class="seriesInfo">DOI 10.17487/RFC6973</span>, <time datetime="2013-07" class="refDate">July 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6973">https://www.rfc-editor.org/rfc/rfc6973</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7049">[RFC7049]</dt>
+        <dd>
+<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Concise Binary Object Representation (CBOR)"</span>, <span class="seriesInfo">RFC 7049</span>, <span class="seriesInfo">DOI 10.17487/RFC7049</span>, <time datetime="2013-10" class="refDate">October 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7049">https://www.rfc-editor.org/rfc/rfc7049</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7252">[RFC7252]</dt>
         <dd>
 <span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Hartke, K.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"The Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7252</span>, <span class="seriesInfo">DOI 10.17487/RFC7252</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7252">https://www.rfc-editor.org/rfc/rfc7252</a>&gt;</span>. </dd>
@@ -4020,6 +4205,10 @@ An indication of the relevant sections may also be included, but is not required
 <dt id="RFC8126">[RFC8126]</dt>
         <dd>
 <span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8259">[RFC8259]</dt>
+        <dd>
+<span class="refAuthor">Bray, T., Ed.</span>, <span class="refTitle">"The JavaScript Object Notation (JSON) Data Interchange Format"</span>, <span class="seriesInfo">STD 90</span>, <span class="seriesInfo">RFC 8259</span>, <span class="seriesInfo">DOI 10.17487/RFC8259</span>, <time datetime="2017-12" class="refDate">December 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8259">https://www.rfc-editor.org/rfc/rfc8259</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9162">[RFC9162]</dt>
         <dd>
