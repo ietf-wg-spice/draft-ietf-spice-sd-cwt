@@ -1319,7 +1319,7 @@ IANA is requested to register the following entries in the [IANA "CoAP Content-F
 | application/kb+cwt | - | TBD12 | {{kbt}} of this specification |
 {: align="left" title="New CoAP Content Formats"}
 
-If possible, TBD11 and TBD12 should be assigned in the 256..9999 range.
+If possible, TBD11 (suggested value 66) and TBD12 (suggested value 67) should be assigned in the 0..255 range.
 
 ## Verifiable Credential Type Identifiers {#vct-registry}
 
