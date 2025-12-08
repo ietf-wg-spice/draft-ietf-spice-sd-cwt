@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 4 June 2026                                        Tradeverifyd
+Expires: 11 June 2026                                       Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                         1 December 2025
+                                                         8 December 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 June 2026.
+   This Internet-Draft will expire on 11 June 2026.
 
 Copyright Notice
 
@@ -2145,8 +2145,8 @@ Issuer                           Holder                         Verifier
 
                     Table 1: New CoAP Content Formats
 
-   If possible, TBD11 and TBD12 should be assigned in the 256..9999
-   range.
+   If possible, TBD11 (suggested value 66) and TBD12 (suggested value
+   67) should be assigned in the 0..255 range.
 
 17.8.  Verifiable Credential Type Identifiers
 
@@ -2489,8 +2489,8 @@ Appendix A.  Complete CDDL Schema
 
    ;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements
 
-   TBD11 = 298
-   TBD12 = 299
+   TBD11 = 66
+   TBD12 = 67
 
    ; REDACTED_KEYS is to be used in CDDL payloads that are meant to
    ; convey that a map key is redacted.
