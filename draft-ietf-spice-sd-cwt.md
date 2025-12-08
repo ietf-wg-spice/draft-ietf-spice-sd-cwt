@@ -409,8 +409,30 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 
 # Differences from the CBOR Web Token Specification {#cwt-diffs}
 
+## Definite Length CBOR Required
+
+Encoders of SD-CWT and SD-KBT MUST NOT send indefinite length CBOR.
+Decoders of SD-CWT and SD-KBT MUST reject any SD-CWT or SD-KBT received containing indefinite length CBOR.
+
+## Allowed types of CBOR map keys
+
 The CBOR Web Token Specification (Section 1.1 of {{!RFC8392}}), uses text strings, negative integers, and unsigned integers as map keys.
-This specification also allows the CBOR simple value registered in this specification in {{simple59}}, and CBOR tagged integers and text strings as map keys.
+
+An SD-CWT Payload Map is typically the payload of an SD-CWT. {{?RFC9597}} also defines a COSE Header Parameter (` `) that can appear in the protected header; it MAY contain a CBOR map with additional claims that are treated as if they were in the SD-CWT payload.
+In addition, the SD-KBT contains an SD-CWT embedded in the `kcwt` COSE Header Parameter in the SD-KBT protected header.
+Maps that are not contained in an SD-CWT Payload Map MUST only contain map keys that are integers or text strings.
+
+SD-CWT Paylad Maps MAY also contain the CBOR simple value registered in this specification in {{simple59}}.
+In SD-CWTs exchanged between the Holder and the Issuer, map keys MAY also consist of the To Be Redacted tag (defined in {{}}), containing an integer or text string; or a To Be Decoy tag (defined in {{}}), containing a positive integer.
+These tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.
+
+Implementations MUST NOT send multiple map keys in the same CBOR map with the same CBOR Preferred Encoding.
+
+The SD-KBT does not allow map keys at any level that are not integers or text strings, except for values inside its contained SD-CWT.
+
+, in the value of the SD-CWT protected header number 15) MAY contain
+In SD-CWTs exchanged between the Issuer and the Holder, map keys MAY also
+, and CBOR tagged integers and text strings as map keys.
 As in CWTs, CBOR maps used in an SD-CWT or SD-KBT also cannot have duplicate keys.
 (An integer or text string map key is a distinct key from a tagged map key that wraps the corresponding integer or text string value).
 
