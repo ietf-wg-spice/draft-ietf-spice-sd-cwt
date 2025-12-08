@@ -414,32 +414,105 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 Encoders of SD-CWT and SD-KBT MUST NOT send indefinite length CBOR.
 Decoders of SD-CWT and SD-KBT MUST reject any SD-CWT or SD-KBT received containing indefinite length CBOR.
 
+
 ## Date values for standard date claims
 
 The standard CWT claims `exp`, `nbf`, and `iat` MUST be limited to finite numbers.
 
-In {{!RFC8392}}, these three claims are of type NumericDate.
-Section 2 of the same spec refers to NumericDate as a JWT NumericDate, "except that it is represented as [an untagged] CBOR numeric date (from {{Section 2.4.1 of !RFC7049}}) instead of a JSON number".
+> In {{!RFC8392}}, these three claims are of type `NumericDate`.
+Section 2 of the same spec refers to `NumericDate` as a JWT `NumericDate`, "except that it is represented as [an untagged] CBOR numeric date (from {{Section 2.4.1 of ?RFC7049}}) instead of a JSON number".
+In CBOR, a NumericDate can be represented as an unsigned integer, a negative integer, or a floating point value.
+CBOR (both {{?RFC7049}} and {{!RFC8949}}) refers to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
+Neither JSON {{?RFC8259}} nor JWT {{?RFC7519}} can represent infinite values.
 
-CBOR (both {{!RFC7049}} and {{!RFC8949}}) refer to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers. Neither JSON nor JWT can represent infinite values.
 
 ## Allowed types of CBOR map keys
 
-The CBOR Web Token Specification (Section 1.1 of {{!RFC8392}}), uses text strings, negative integers, and unsigned integers as map keys.
+According to Section 1.1 of the CBOR Web Token Specification {{!RFC8392}}, "CBOR uses text strings, negative integers, and unsigned integers as map keys."
+Section 1.5 of CBOR Object Signing and Encryption (COSE): Structures and Process {{!RFC9052}} states: "In COSE, we use text strings, negative integers, and unsigned integers as map keys."
+While a CBOR map key can contain any CBOR type, this statement implies that CWT map keys only contain those types.
 
-An SD-CWT Payload Map is typically the payload of an SD-CWT. {{?RFC9597}} also defines the `CWT Claims` COSE Header Parameter (value 13) that can appear in the protected header; it MAY contain a CBOR map with additional claims that are treated as if they were in the SD-CWT payload.
-In addition, the SD-KBT contains an SD-CWT embedded in the `kcwt` COSE Header Parameter (value 15) in the SD-KBT protected header.
-Maps that are not contained in an SD-CWT Payload Map MUST only contain map keys that are integers or text strings.
+An SD-CWT payload is typically its COSE payload.
+{{?RFC9597}} also defines the `CWT Claims` COSE Header Parameter (value 13) that can appear in the protected header; it MAY contain a CBOR map with additional claims that are treated as if they were in the SD-CWT payload.
+Both of these maps are described as an SD-CWT Payload Map.
+
+> Note that `CWT Claims` is a separate CBOR map from the COSE payload and MAY contain the same Claim Keys as the COSE payload CBOR map.
+
+This specification extends CWT to allow a few additional types (TBD) that MAY be present in SD-CWT Payload Maps. It also clarifies which CBOR types are allowed inside map keys in SD-KBT and SD-CWT:
+
+- The SD-KBT protected header `kcwt` Header Parameter exclusively contains:
+  - a single valid SD-CWT
+- The SD-KBT payload map; unprotected header map; and protected header map (excluding the `kcwt` Header Parameter) exclusively contain map keys (at any level of depth) with the following map key types:
+  - unsigned integers
+  - negative integers
+  - text strings with a length no greater than 255 octets
+- The SD-CWT unprotected header map; and the protected header map (excluding the `CWT Claims` Header Parameter) exclusively contain map keys (at any level of depth) with the following map key types:
+  - unsigned integers
+  - negative integers
+  - text strings with a length no greater than 255 octets
+- The SD-CWT Payload Maps at the first level of depth, exclusively contain maps keys with the following map key types:
+  - unsigned integers;
+  - negative integers;
+  - text strings with a length no greater than 255 octets;
+  - the simple value TBD4; or
+  - when the payload is communicated between the Holder and the Issuer:
+    - the To Be Decoy tag (TBD) containing a positive integer, or
+    - the To Be Redacted tag {{tbr-tag}} containing:
+      - an unsigned integer,
+      - a negative integer, or
+      - a text strings with a length no greater than 255 octets.
+- The SD-CWT Payload Maps at greater than the first level of depth, exclusively contain maps keys
+  - unsigned integers;
+  - negative integers;
+  - text strings with a length no greater than 255 octets;
+  - the simple value TBD4; or
+  - when the payload is communicated between the Holder and the Issuer:
+    - the To Be Decoy tag (TBD) containing a positive integer, or
+    - the To Be Redacted tag {{tbr-tag}} containing:
+      - an unsigned integer,
+      - a negative integer, or
+      - a text strings with a length no greater than 255 octets.
+
+In other words an SD-CWT Payload Map conforms to the `sd_cwt_payload_map` CDDL definition.
+The decoded contents of the SD-KBT payload, the SD-KBT unprotected header, and the SD-CWT unprotected header conform to `safe_map`.
+The contents of the SD-KBT protected header conforms to `{ &(kcwt: 15) ^ => sd-cwt-issued, * label => safe_value }`.
+The contents of the SD-CWT protected header conforms to `{ &(CWT_Claims: 13) ^ => sd-cwt-payload_map, * label => safe_value }`.
+
+~~~ cddl
+safe_map = { * label => safe_value }
+
+safe_value = (
+  int / tstr / bstr /
+  [ * safe_value ] /
+  safe_map /
+  #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
+)
+
+sd_cwt_payload_map = { * sd_cwt_label => sd_cwt_value }
+
+sd_cwt_label = label /
+               #7.59 /
+               #6.58(label) /    ; only from Holder to Issuer
+               #6.61(int .gt 0)  ; only from Holder to Issuer
+
+sd_cwt_value = (
+  int / tstr / bstr /
+  [ * sd_cwt_value ] /
+  sd_cwt_payload_map /
+  #6.<safe_tag>(sd_cwt_value) / #7.<safe_simple> / float
+)
+
+safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
+safe_simple =  0..23 / 32..58 / 60..255   ; exclude redacted keys array
+MAX_u64 = 18446744073709551615            ; 2^64 - 1
+~~~
+
+
 
 SD-CWT Paylad Maps MAY also contain the CBOR simple value registered in this specification in {{simple59}}.
 In SD-CWTs exchanged between the Holder and the Issuer, map keys MAY also consist of the To Be Redacted tag (defined in {{tbr-tag}}), containing an integer or text string; or a To Be Decoy tag (defined in TBD), containing a positive integer.
 These tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.
 
-Implementations MUST NOT send multiple map keys in the same CBOR map with the same CBOR Preferred Encoding.
-
-> As with CWTs, CBOR maps used in an SD-CWT or SD-KBT also cannot have duplicate map keys.
-
-The SD-KBT does not allow map keys at any level that are not integers or text strings, except for values inside its contained SD-CWT.
 
 Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
 
@@ -447,12 +520,32 @@ Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
 Instead, the tag provides additional information about the tagged Claim Key and the corresponding (untagged) value.
 Multiple levels of tags in a map key are not permitted.
 
+## Duplicate map key detection
+
+Implementations MUST NOT send multiple map keys inside the same CBOR map having the same CBOR Preferred Encoding (see {{Section 4.1 of !RFC8949}}).
+This applies to any map anywhere in an SD-CWT or an SD-KBT.
+
+> Note that it is not necessary to actually encode the map keys using Preferred Encoding to satisfy this requirement.
+
+Likewise a single SD-CWT claim set MUST NOT contain a map (at any level of depth) with both a map key `k`, and `k` tagged with the To Be Redacted tag (see {{tbr-tag}}).
+Map keys and their To Be Redacted tagged verison are considered duplicate map keys for the purposes of this specification.
+
+For example, if the map below is contained inside a payload, it is invalid because the map key 500 and the map key 58(500) cannot both be present.
+
+~~~ cbor-diag
+{
+  500: "ABCD-123456",     # map key 500
+  58(500): "DEFG-456789"  # to be redacted tag containing 500
+}
+~~~
+
+
 ## Security remarks
 
 Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is NOT RECOMMENDED as it could lead to resource exhaustion vulnerabilities.
 A level of depth is defined as TBD.
 
-Variability in serialization requirements impacts privacy.
+Variability in serialization can be exploited to impact privacy.
 See {{security}} for more details on the privacy impact of serialization and profiling.
 
 # SD-CWT Definition {#sd-cwt-definition}
