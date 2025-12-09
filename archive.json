@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-02T00:52:35.521379+00:00",
+  "timestamp": "2025-12-09T00:52:41.647553+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -13585,6 +13585,275 @@
           "createdAt": "2025-12-01T14:05:30Z",
           "updatedAt": "2025-12-01T14:05:30Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 162,
+      "id": "PR_kwDOMm_Q2s63rtcY",
+      "title": "Put CoAP Content Types in 0..255 range",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/162",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "put `application/sd-cwt` and `application/sd-kbt` in the 0..255 range of CoAP Content Types.\r\n\r\nUsing the suggested values of 66 and 67 would place them next to `application/cwt`.\r\n",
+      "createdAt": "2025-12-08T13:36:55Z",
+      "updatedAt": "2025-12-08T14:50:08Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "26f20db378662d508a3a47533daee9b2daf6e3cf",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "coap-range",
+      "headRefOid": "30bd7980862549a1d0bcfa294080b9d19d4d9b5b",
+      "closedAt": "2025-12-08T14:50:08Z",
+      "mergedAt": "2025-12-08T14:50:08Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "7abf3a9c20b6e035c70420c5f04e78867c20cb6b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7TufMF",
+          "commit": {
+            "abbreviatedOid": "30bd798"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-12-08T13:48:11Z",
+          "updatedAt": "2025-12-08T13:48:11Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 163,
+      "id": "PR_kwDOMm_Q2s63sG4P",
+      "title": "Cbor encoding",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/163",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-12-08T14:09:06Z",
+      "updatedAt": "2025-12-08T22:57:26Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "26f20db378662d508a3a47533daee9b2daf6e3cf",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "cbor-encoding",
+      "headRefOid": "c5aa91bdf246b3879444a0b633dce59efa8978b0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7Tu35s",
+          "commit": {
+            "abbreviatedOid": "804073b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-08T14:10:49Z",
+          "updatedAt": "2025-12-08T14:10:49Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\nThe standard CWT claims `exp`, `nbf`, and `iat` MUST be finite numbers.\r\n```",
+              "createdAt": "2025-12-08T14:10:49Z",
+              "updatedAt": "2025-12-08T14:10:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Tu6uW",
+          "commit": {
+            "abbreviatedOid": "804073b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-08T14:13:44Z",
+          "updatedAt": "2025-12-08T14:13:45Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "```suggestion\r\nVariability in serialization, can be exploited to impact privacy.\r\n```",
+              "createdAt": "2025-12-08T14:13:44Z",
+              "updatedAt": "2025-12-08T14:13:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7T29mV",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-08T22:47:32Z",
+          "updatedAt": "2025-12-08T22:47:32Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "I don't love the term \"SD-CWT Payload Map\"...\r\n\r\nI would prefer:\r\n\r\nSD-CWT Claims, a CBOR Map, which MAY be present in the COSE Header under label 13, or in the COSE Object payload.\r\n\r\nTo distinguish the map that is signed by the issuer in contrast to the map that is recovered from the verification process, it can be helpful to prefix SD-CWT Claims as \"Issuer Signed SD-CWT Claims\" or \"Verified SD-CWT Claims\".\r\n\r\n\"Verified SD-CWT Claims\" are meant to be equivalent to CWT Claims, in the sense that downstream processors treat them both as CBOR maps, with equivalent restrictions on map keys.\r\n",
+              "createdAt": "2025-12-08T22:47:32Z",
+              "updatedAt": "2025-12-08T22:47:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7T2-bO",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-08T22:48:39Z",
+          "updatedAt": "2025-12-08T22:48:40Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "Good quote to keep, but needs to be related to SD-CWT, given we are not inheriting the normative language here.",
+              "createdAt": "2025-12-08T22:48:40Z",
+              "updatedAt": "2025-12-08T22:48:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7T2_HV",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-08T22:49:49Z",
+          "updatedAt": "2025-12-08T22:49:49Z",
+          "comments": [
+            {
+              "originalPosition": 37,
+              "body": "extends implies updates... the specification offers an alternative to CWT Claims with additional capabilities.",
+              "createdAt": "2025-12-08T22:49:49Z",
+              "updatedAt": "2025-12-08T22:49:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7T3A3G",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-08T22:52:20Z",
+          "updatedAt": "2025-12-08T22:52:20Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "```suggestion\r\n  - when the payload is communicated to the Issuer, prior to issuance:\r\n```",
+              "createdAt": "2025-12-08T22:52:20Z",
+              "updatedAt": "2025-12-08T22:52:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7T3CaO",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-08T22:53:56Z",
+          "updatedAt": "2025-12-08T22:53:56Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "This can be internal to the issuer, prior to issuance... for example a database query yielding a data structure for the \"to be issued\" claimset... in fact \"to be issued sd-cwt claims is a cbor map with the following requirements\", might be better framing",
+              "createdAt": "2025-12-08T22:53:56Z",
+              "updatedAt": "2025-12-08T22:53:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7T3DxR",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-08T22:55:45Z",
+          "updatedAt": "2025-12-08T22:55:46Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "```suggestion\r\n  - when the claims have yet to be issued:\r\n```",
+              "createdAt": "2025-12-08T22:55:46Z",
+              "updatedAt": "2025-12-08T22:55:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7T3EUo",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-08T22:56:31Z",
+          "updatedAt": "2025-12-08T22:56:31Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "claims here could also be replaced to key, value pairs in the cbor map",
+              "createdAt": "2025-12-08T22:56:31Z",
+              "updatedAt": "2025-12-08T22:56:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7T3FAB",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-08T22:57:25Z",
+          "updatedAt": "2025-12-08T22:57:26Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "```suggestion\r\nIn other words an SD-CWT Payload Map conforms to the `sd_cwt_disclosable_map` CDDL definition.\r\n```\r\n\r\nPerhaps... given that the map is possibly not a claimset, and possibly not found in a cose object payload",
+              "createdAt": "2025-12-08T22:57:25Z",
+              "updatedAt": "2025-12-08T22:57:26Z"
+            }
+          ]
         }
       ]
     }
