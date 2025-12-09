@@ -436,8 +436,8 @@ the uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format val
 or a value declaring that the object is a more specific kind of SD-CWT,
 such as a content type value using the `+sd-cwt` structured suffix.
 
-An SD-CWT is an extension of a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
-It is not required to contain any blinded claims.
+An SD-CWT is an extension of a CWT that contains at least one blinded claim (each expressed as a Blinded Claim Hash) in the CWT Claims Set, at the root level or in any arrays or maps inside that Claims Set.
+If the CWT Claims Set contains no blinded claims, the `+sd-cwt` structured suffix MUST NOT be used, and the `+cwt` structured suffix SHOULD be used instead, unless the cbor map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.
 
 Optionally the salted Claim Values (and often Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
 If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` header parameter in the unprotected header is an empty array.
