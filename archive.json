@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-09T00:52:41.647553+00:00",
+  "timestamp": "2025-12-11T00:54:28.535049+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -13642,7 +13642,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-12-08T14:09:06Z",
-      "updatedAt": "2025-12-08T22:57:26Z",
+      "updatedAt": "2025-12-09T14:53:21Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "26f20db378662d508a3a47533daee9b2daf6e3cf",
@@ -13852,6 +13852,161 @@
               "body": "```suggestion\r\nIn other words an SD-CWT Payload Map conforms to the `sd_cwt_disclosable_map` CDDL definition.\r\n```\r\n\r\nPerhaps... given that the map is possibly not a claimset, and possibly not found in a cose object payload",
               "createdAt": "2025-12-08T22:57:25Z",
               "updatedAt": "2025-12-08T22:57:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7UD_zN",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-09T14:40:20Z",
+          "updatedAt": "2025-12-09T14:40:20Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "I agree with Orie here.",
+              "createdAt": "2025-12-09T14:40:20Z",
+              "updatedAt": "2025-12-09T14:40:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7UECdi",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-09T14:42:32Z",
+          "updatedAt": "2025-12-09T14:42:32Z",
+          "comments": [
+            {
+              "originalPosition": 37,
+              "body": "I agree.  We should not imply that we are updating CWT.",
+              "createdAt": "2025-12-09T14:42:32Z",
+              "updatedAt": "2025-12-09T14:42:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7UEFbT",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-09T14:44:49Z",
+          "updatedAt": "2025-12-09T14:44:49Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "Agreed",
+              "createdAt": "2025-12-09T14:44:49Z",
+              "updatedAt": "2025-12-09T14:44:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7UEHD2",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-09T14:46:01Z",
+          "updatedAt": "2025-12-09T14:46:02Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "Yes",
+              "createdAt": "2025-12-09T14:46:02Z",
+              "updatedAt": "2025-12-09T14:46:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7UEP9g",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-09T14:53:21Z",
+          "updatedAt": "2025-12-09T14:53:21Z",
+          "comments": [
+            {
+              "originalPosition": 129,
+              "body": "```suggestion\nLikewise, a single SD-CWT claim set MUST NOT contain a map (at any level of depth) with both a map key `k`, and `k` tagged with the To Be Redacted tag (see {{tbr-tag}}).\n```",
+              "createdAt": "2025-12-09T14:53:21Z",
+              "updatedAt": "2025-12-09T14:53:21Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 164,
+      "id": "PR_kwDOMm_Q2s637B9t",
+      "title": "Add text about suffix use",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/164",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-12-09T13:42:46Z",
+      "updatedAt": "2025-12-09T15:30:11Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "7abf3a9c20b6e035c70420c5f04e78867c20cb6b",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "suffix-caution",
+      "headRefOid": "f266e83288309cd834d8cf6f401803c0efa45bdd",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We might event want to frame the entire draft a bit differently:\r\n\r\nSelective Disclosure for COSE Secured CBOR Maps.\r\nCompatible with CWT, when the CBOR Map is a CWT Claimset (when specific semantics are assigned to certain integer keys).\r\nSemantics are signaled by the use of the media type in the protected header, +sd-cwt implies that the media type is a specific type of CBOR web token.\r\n\r\nIf there is a CBOR map with colliding or different semantics for the integers used in CWT Claim Keys, a different media type, not using +sd-cwt as a suffix should be used.",
+          "createdAt": "2025-12-09T13:48:18Z",
+          "updatedAt": "2025-12-09T13:48:18Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7UFAKJ",
+          "commit": {
+            "abbreviatedOid": "f266e83"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-09T15:30:11Z",
+          "updatedAt": "2025-12-09T15:30:11Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "> unless the cbor map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.\n\nThis is too vague and permissive.  For instance, illegal values, such as `\"exp\": true` contain claim keys with different semantics, but that doesn't mean that using +sd-cwt is appropriate.\n\nThis should be stated positively, saying to use +sd-cwt when the data structure is a legal SD CWT and not a legal CWT.",
+              "createdAt": "2025-12-09T15:30:11Z",
+              "updatedAt": "2025-12-09T15:30:11Z"
             }
           ]
         }
