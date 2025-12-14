@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 11 June 2026                                       Tradeverifyd
+Expires: 17 June 2026                                       Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                         8 December 2025
+                                                        14 December 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 June 2026.
+   This Internet-Draft will expire on 17 June 2026.
 
 Copyright Notice
 
@@ -2606,24 +2606,24 @@ Appendix A.  Complete CDDL Schema
       ? &(kid: 4) ^ => bstr,
       ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
       ? &(sd_aead: TBD7) ^ => uint .size 2,
-      * key => any
+      * label => safe_value
    }
 
    kbt-protected = {
       &(typ: 16) ^ => "application/kb+cwt" / TBD12,
       &(alg: 1) ^ => int,
       &(kcwt: 13) ^ => sd-cwt-issued,
-      * key => any
+      * label => safe_value
    }
 
    sd-unprotected = {
       ? &(sd_claims: TBD1) ^ => salted-array,
       ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
-      * key => any
+      * label => safe_value
    }
 
    kbt-unprotected = {
-      * key => any
+      * label => safe_value
    }
 
    sd-payload = {
@@ -2635,11 +2635,11 @@ Appendix A.  Complete CDDL Schema
        ? &(nbf: 5) ^ => num,  ; 1683000000
        ? &(iat: 6) ^ => num,  ; 1683000000
        ? &(cti: 7) ^ => bstr,
-         &(cnf: 8) ^ => { * key => any }, ; key confirmation
+         &(cnf: 8) ^ => safe_map, ; key confirmation
        ? &(cnonce: 39) ^ => bstr,
        ;
        ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],
-       * key => any
+       * sd_cwt_label => sd_cwt_value
    }
 
    kbt-payload = {
@@ -2648,8 +2648,36 @@ Appendix A.  Complete CDDL Schema
        ? &(nbf: 5) ^ => num,  ; 1683000000
          &(iat: 6) ^ => num,  ; 1683000000
        ? &(cnonce: 39) ^ => bstr,
-       * key => any
+       * label => safe_value
    }
+
+   safe_map = { * label => safe_value }
+
+   safe_value =
+     int / tstr / bstr /
+     [ * safe_value ] /
+     safe_map /
+     #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
+
+   sd_cwt_claim_map = { * sd_cwt_label => sd_cwt_value }
+
+   sd_cwt_label = label /
+                  #7.59 /
+                  #6.58(label) /    ; only from Holder to Issuer
+                  #6.61(int .gt 0)  ; only from Holder to Issuer
+
+   sd_cwt_value =
+     int / tstr / bstr /
+     [ * sd_cwt_value ] /
+     sd_cwt_claim_map /
+     #6.<safe_tag>(sd_cwt_value) / #7.<safe_simple> / float
+
+   label = int / tstr .size (1..255)
+   safe_tag = 1..57 / 59..60 / 62..MAX_u64  ; exclude to be redacted
+                                            ;     and to be decoy
+   safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
+   MAX_u64 = 18446744073709551615           ; 2^64 - 1
+
 
    salted-array = [ *bstr-encoded-salted ]
    bstr-encoded-salted = bstr .cbor salted-entry
@@ -2676,7 +2704,6 @@ Appendix A.  Complete CDDL Schema
    ]
 
    num = int / float
-   key = int / text
    TBD1 = 17
    TBD2 = 18
    TBD6 = 19
