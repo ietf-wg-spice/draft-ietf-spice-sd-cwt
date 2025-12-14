@@ -1194,7 +1194,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-definite-length-cbor-requir" class="internal xref">Definite Length CBOR Required</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-date-values-for-standard-da" class="internal xref">Date values for standard date claims</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-finite-values-for-standard-" class="internal xref">Finite values for standard date claims</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-allowed-types-of-cbor-map-k" class="internal xref">Allowed types of CBOR map keys</a></p>
@@ -2216,10 +2216,10 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 Decoders of SD-CWT and SD-KBT <span class="bcp14">MUST</span> reject any SD-CWT or SD-KBT received containing indefinite length CBOR.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="date-values-for-standard-date-claims">
+<div id="finite-values-for-standard-date-claims">
 <section id="section-5.2">
-        <h3 id="name-date-values-for-standard-da">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-date-values-for-standard-da" class="section-name selfRef">Date values for standard date claims</a>
+        <h3 id="name-finite-values-for-standard-">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-finite-values-for-standard-" class="section-name selfRef">Finite values for standard date claims</a>
         </h3>
 <p id="section-5.2-1">The standard CWT claims <code>exp</code>, <code>nbf</code>, and <code>iat</code> <span class="bcp14">MUST</span> be finite numbers.
 For the avoidance of doubt, not a number (NaN) values and positive and negative infinity are not acceptable in those claims.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
@@ -2243,8 +2243,8 @@ Neither JSON <span>[<a href="#RFC8259" class="cite xref">RFC8259</a>]</span> nor
 Section 1.5 of CBOR Object Signing and Encryption (COSE): Structures and Process <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> states: "In COSE, we use text strings, negative integers, and unsigned integers as map keys."
 While a CBOR map key can contain any CBOR type, this statement implies that CWT map keys only contain those types.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2">An SD-CWT payload is typically its COSE payload.
-<span>[<a href="#RFC9597" class="cite xref">RFC9597</a>]</span> also defines the <code>CWT Claims</code> COSE Header Parameter (value 13) that can appear in the protected header; it <span class="bcp14">MAY</span> contain a CBOR map with additional claims that are treated as if they were in the SD-CWT payload.
-Both of these maps are described as an SD-CWT Payload Map.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC9597" class="cite xref">RFC9597</a>]</span> also defines the <code>CWT Claims</code> COSE Header Parameter (value 15) that can appear in the protected headers; if it exists, it contains a CBOR map with additional claims that are treated as if they were in the SD-CWT payload.
+Both of these maps are described as SD-CWT Claims Maps.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-5.3-3.1">
             <p id="section-5.3-3.1.1">Note that <code>CWT Claims</code> is a separate CBOR map from the COSE payload and can contain the same Claim Keys as the COSE payload CBOR map.
@@ -2252,117 +2252,82 @@ The same claim key could be present in both maps and could have different values
 Neither, one, or both could be redacted, and if both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.<a href="#section-5.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-5.3-4">An SD-CWT is a format based on CWT.
-It allows some additional types inside map keys to indicate values that were or should be redacted.
-This specification also includes some constraints on SD-CWTs and SD-KBTs to improve robustness.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+<p id="section-5.3-4">In addition to map keys that are valid in CWT, SD-CWT Claims Maps <span class="bcp14">MAY</span> contain the CBOR simple value registered in this specification in <a href="#simple59" class="auto internal xref">Section 17.2</a>.
+In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys <span class="bcp14">MAY</span> also consist of the To Be Redacted tag (defined in <a href="#tbr-tag" class="auto internal xref">Section 14</a>), containing an integer or text string; or a To Be Decoy tag (defined in TBD), containing a positive integer.
+These two tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+<p id="section-5.3-5">The following list summarizes the map key constraints on SD-CWTs and SD-KBTs:<a href="#section-5.3-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.3-5.1">
-            <p id="section-5.3-5.1.1">The SD-KBT protected header <code>kcwt</code> Header Parameter exclusively contains:<a href="#section-5.3-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.3-6.1">
+            <p id="section-5.3-6.1.1">The SD-KBT protected headers <code>kcwt</code> Header Parameter exclusively contains:<a href="#section-5.3-6.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.3-5.1.2.1">
-                <p id="section-5.3-5.1.2.1.1">a single valid SD-CWT<a href="#section-5.3-5.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.3-6.1.2.1">
+                <p id="section-5.3-6.1.2.1.1">a single valid SD-CWT<a href="#section-5.3-6.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-5.3-5.2">
-            <p id="section-5.3-5.2.1">The SD-KBT payload map; unprotected header map; and protected header map (excluding the <code>kcwt</code> Header Parameter) exclusively contain map keys (at any level of depth) with the following map key types:<a href="#section-5.3-5.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.3-6.2">
+            <p id="section-5.3-6.2.1">The SD-KBT protected headers <span class="bcp14">MUST NOT</span> contain a <code>CWT Claims</code> Header Parameter.<a href="#section-5.3-6.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-6.3">
+            <p id="section-5.3-6.3.1">The SD-KBT payload map; unprotected headers map; and protected headers map (excluding the <code>kcwt</code> Header Parameter) exclusively contain map keys (at any level of depth) with the following map key types:<a href="#section-5.3-6.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.3-5.2.2.1">
-                <p id="section-5.3-5.2.2.1.1">unsigned integers<a href="#section-5.3-5.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.3-6.3.2.1">
+                <p id="section-5.3-6.3.2.1.1">unsigned integers<a href="#section-5.3-6.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-5.3-5.2.2.2">
-                <p id="section-5.3-5.2.2.2.1">negative integers<a href="#section-5.3-5.2.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-5.3-6.3.2.2">
+                <p id="section-5.3-6.3.2.2.1">negative integers<a href="#section-5.3-6.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-5.3-5.2.2.3">
-                <p id="section-5.3-5.2.2.3.1">text strings with a length no greater than 255 octets<a href="#section-5.3-5.2.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-5.3-6.3.2.3">
+                <p id="section-5.3-6.3.2.3.1">text strings with a length no greater than 255 octets<a href="#section-5.3-6.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-5.3-5.3">
-            <p id="section-5.3-5.3.1">The SD-CWT unprotected header map; and the protected header map (excluding the <code>CWT Claims</code> Header Parameter) exclusively contain map keys (at any level of depth) with the following map key types:<a href="#section-5.3-5.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.3-6.4">
+            <p id="section-5.3-6.4.1">The SD-CWT unprotected headers map; and the protected headers map (excluding the <code>CWT Claims</code> Header Parameter) exclusively contain map keys (at any level of depth) with the following map key types:<a href="#section-5.3-6.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.3-5.3.2.1">
-                <p id="section-5.3-5.3.2.1.1">unsigned integers<a href="#section-5.3-5.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.3-6.4.2.1">
+                <p id="section-5.3-6.4.2.1.1">unsigned integers<a href="#section-5.3-6.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-5.3-5.3.2.2">
-                <p id="section-5.3-5.3.2.2.1">negative integers<a href="#section-5.3-5.3.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-5.3-6.4.2.2">
+                <p id="section-5.3-6.4.2.2.1">negative integers<a href="#section-5.3-6.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-5.3-5.3.2.3">
-                <p id="section-5.3-5.3.2.3.1">text strings with a length no greater than 255 octets<a href="#section-5.3-5.3.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-5.3-6.4.2.3">
+                <p id="section-5.3-6.4.2.3.1">text strings with a length no greater than 255 octets<a href="#section-5.3-6.4.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-5.3-5.4">
-            <p id="section-5.3-5.4.1">The SD-CWT Payload Maps at the first level of depth, exclusively contain maps keys with the following map key types:<a href="#section-5.3-5.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-5.3-6.5">
+            <p id="section-5.3-6.5.1">The SD-CWT Claims Maps at any level of depth, exclusively contain maps keys with the following map key types:<a href="#section-5.3-6.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.3-5.4.2.1">
-                <p id="section-5.3-5.4.2.1.1">unsigned integers;<a href="#section-5.3-5.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.3-6.5.2.1">
+                <p id="section-5.3-6.5.2.1.1">unsigned integers;<a href="#section-5.3-6.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-5.3-5.4.2.2">
-                <p id="section-5.3-5.4.2.2.1">negative integers;<a href="#section-5.3-5.4.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-5.3-6.5.2.2">
+                <p id="section-5.3-6.5.2.2.1">negative integers;<a href="#section-5.3-6.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-5.3-5.4.2.3">
-                <p id="section-5.3-5.4.2.3.1">text strings with a length no greater than 255 octets;<a href="#section-5.3-5.4.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-5.3-6.5.2.3">
+                <p id="section-5.3-6.5.2.3.1">text strings with a length no greater than 255 octets;<a href="#section-5.3-6.5.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-5.3-5.4.2.4">
-                <p id="section-5.3-5.4.2.4.1">the simple value TBD4; or<a href="#section-5.3-5.4.2.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-5.3-6.5.2.4">
+                <p id="section-5.3-6.5.2.4.1">the simple value TBD4; or<a href="#section-5.3-6.5.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-5.3-5.4.2.5">
-                <p id="section-5.3-5.4.2.5.1">when disclosable claims are communicated to the Issuer, prior to issuance:<a href="#section-5.3-5.4.2.5.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-5.3-6.5.2.5">
+                <p id="section-5.3-6.5.2.5.1">when disclosable claims are communicated to the Issuer, prior to issuance:<a href="#section-5.3-6.5.2.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.3-5.4.2.5.2.1">
-                    <p id="section-5.3-5.4.2.5.2.1.1">the To Be Decoy tag (TBD) containing a positive integer, or<a href="#section-5.3-5.4.2.5.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.3-6.5.2.5.2.1">
+                    <p id="section-5.3-6.5.2.5.2.1.1">the To Be Decoy tag (TBD) containing a positive integer, or<a href="#section-5.3-6.5.2.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                  <li class="normal" id="section-5.3-5.4.2.5.2.2">
-                    <p id="section-5.3-5.4.2.5.2.2.1">the To Be Redacted tag <a href="#tbr-tag" class="auto internal xref">Section 14</a> containing:<a href="#section-5.3-5.4.2.5.2.2.1" class="pilcrow">¶</a></p>
+                  <li class="normal" id="section-5.3-6.5.2.5.2.2">
+                    <p id="section-5.3-6.5.2.5.2.2.1">the To Be Redacted tag <a href="#tbr-tag" class="auto internal xref">Section 14</a> containing:<a href="#section-5.3-6.5.2.5.2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.3-5.4.2.5.2.2.2.1">
-                        <p id="section-5.3-5.4.2.5.2.2.2.1.1">an unsigned integer,<a href="#section-5.3-5.4.2.5.2.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.3-6.5.2.5.2.2.2.1">
+                        <p id="section-5.3-6.5.2.5.2.2.2.1.1">an unsigned integer,<a href="#section-5.3-6.5.2.5.2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                      <li class="normal" id="section-5.3-5.4.2.5.2.2.2.2">
-                        <p id="section-5.3-5.4.2.5.2.2.2.2.1">a negative integer, or<a href="#section-5.3-5.4.2.5.2.2.2.2.1" class="pilcrow">¶</a></p>
+                      <li class="normal" id="section-5.3-6.5.2.5.2.2.2.2">
+                        <p id="section-5.3-6.5.2.5.2.2.2.2.1">a negative integer, or<a href="#section-5.3-6.5.2.5.2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                      <li class="normal" id="section-5.3-5.4.2.5.2.2.2.3">
-                        <p id="section-5.3-5.4.2.5.2.2.2.3.1">a text strings with a length no greater than 255 octets.<a href="#section-5.3-5.4.2.5.2.2.2.3.1" class="pilcrow">¶</a></p>
-</li>
-                    </ul>
-</li>
-                </ul>
-</li>
-            </ul>
-</li>
-          <li class="normal" id="section-5.3-5.5">
-            <p id="section-5.3-5.5.1">The SD-CWT Payload Maps at greater than the first level of depth, exclusively contain maps keys<a href="#section-5.3-5.5.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.3-5.5.2.1">
-                <p id="section-5.3-5.5.2.1.1">unsigned integers;<a href="#section-5.3-5.5.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-5.3-5.5.2.2">
-                <p id="section-5.3-5.5.2.2.1">negative integers;<a href="#section-5.3-5.5.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-5.3-5.5.2.3">
-                <p id="section-5.3-5.5.2.3.1">text strings with a length no greater than 255 octets;<a href="#section-5.3-5.5.2.3.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-5.3-5.5.2.4">
-                <p id="section-5.3-5.5.2.4.1">the simple value TBD4; or<a href="#section-5.3-5.5.2.4.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-5.3-5.5.2.5">
-                <p id="section-5.3-5.5.2.5.1">when disclosable claims are communicated between the Holder and the Issuer, prior to issuance:<a href="#section-5.3-5.5.2.5.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.3-5.5.2.5.2.1">
-                    <p id="section-5.3-5.5.2.5.2.1.1">the To Be Decoy tag (TBD) containing a positive integer, or<a href="#section-5.3-5.5.2.5.2.1.1" class="pilcrow">¶</a></p>
-</li>
-                  <li class="normal" id="section-5.3-5.5.2.5.2.2">
-                    <p id="section-5.3-5.5.2.5.2.2.1">the To Be Redacted tag <a href="#tbr-tag" class="auto internal xref">Section 14</a> containing:<a href="#section-5.3-5.5.2.5.2.2.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.3-5.5.2.5.2.2.2.1">
-                        <p id="section-5.3-5.5.2.5.2.2.2.1.1">an unsigned integer,<a href="#section-5.3-5.5.2.5.2.2.2.1.1" class="pilcrow">¶</a></p>
-</li>
-                      <li class="normal" id="section-5.3-5.5.2.5.2.2.2.2">
-                        <p id="section-5.3-5.5.2.5.2.2.2.2.1">a negative integer, or<a href="#section-5.3-5.5.2.5.2.2.2.2.1" class="pilcrow">¶</a></p>
-</li>
-                      <li class="normal" id="section-5.3-5.5.2.5.2.2.2.3">
-                        <p id="section-5.3-5.5.2.5.2.2.2.3.1">a text strings with a length no greater than 255 octets.<a href="#section-5.3-5.5.2.5.2.2.2.3.1" class="pilcrow">¶</a></p>
+                      <li class="normal" id="section-5.3-6.5.2.5.2.2.2.3">
+                        <p id="section-5.3-6.5.2.5.2.2.2.3.1">a text strings with a length no greater than 255 octets.<a href="#section-5.3-6.5.2.5.2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
                     </ul>
 </li>
@@ -2371,11 +2336,11 @@ This specification also includes some constraints on SD-CWTs and SD-KBTs to impr
             </ul>
 </li>
         </ul>
-<p id="section-5.3-6">In other words an SD-CWT Payload Map conforms to the <code>sd_cwt_payload_map</code> CDDL definition.
-The decoded contents of the SD-KBT payload, the SD-KBT unprotected header, and the SD-CWT unprotected header conform to <code>safe_map</code>.
-The contents of the SD-KBT protected header conforms to <code>{ &amp;(kcwt: 15) ^ =&gt; sd-cwt-issued, * label =&gt; safe_value }</code>.
-The contents of the SD-CWT protected header conforms to <code>{ &amp;(CWT_Claims: 13) ^ =&gt; sd-cwt-payload_map, * label =&gt; safe_value }</code>.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-5.3-7">
+<p id="section-5.3-7">In other words, the decoded contents of the SD-KBT payload, the SD-KBT unprotected header, and the SD-CWT unprotected header conform to <code>safe_map</code>.
+An SD-CWT Claims Map conforms to the <code>sd_cwt_payload_map</code> CDDL definition.
+The contents of the SD-KBT protected headers map contains a <code>kcwt</code> Header Parameter whose value is an <code>sd-cwt-issued</code>, and other Header Parameters whose values conforms to <code>safe_value</code>.
+The contents of the SD-CWT protected headers map can contain a <code>CWT Claims</code> Header Parameter whose value conforms to <code>sd-cwt-payload_map</code>, and other Header Parameters  whose values conforms to <code>safe_value</code>.<a href="#section-5.3-7" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-5.3-8">
 <pre>
 safe_map = { * label =&gt; safe_value }
 
@@ -2402,11 +2367,8 @@ label = int / tstr .size (1..255)
 safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
 safe_simple =  0..23 / 32..58 / 60..255   ; exclude redacted keys array
 MAX_u64 = 18446744073709551615            ; 2^64 - 1
-</pre><a href="#section-5.3-7" class="pilcrow">¶</a>
+</pre><a href="#section-5.3-8" class="pilcrow">¶</a>
 </div>
-<p id="section-5.3-8">SD-CWT Paylad Maps <span class="bcp14">MAY</span> also contain the CBOR simple value registered in this specification in <a href="#simple59" class="auto internal xref">Section 17.2</a>.
-In SD-CWTs exchanged between the Holder and the Issuer, map keys <span class="bcp14">MAY</span> also consist of the To Be Redacted tag (defined in <a href="#tbr-tag" class="auto internal xref">Section 14</a>), containing an integer or text string; or a To Be Decoy tag (defined in TBD), containing a positive integer.
-These tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
 <p id="section-5.3-9">Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.<a href="#section-5.3-9" class="pilcrow">¶</a></p>
 <p id="section-5.3-10">Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
 Instead, the tag provides additional information about the tagged Claim Key and the corresponding (untagged) value.
