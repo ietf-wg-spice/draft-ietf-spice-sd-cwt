@@ -460,7 +460,7 @@ This specification also includes some constraints on SD-CWTs and SD-KBTs to impr
   - negative integers;
   - text strings with a length no greater than 255 octets;
   - the simple value TBD4; or
-  - when the payload is communicated to the Issuer, prior to issuance:
+  - when disclosable claims are communicated to the Issuer, prior to issuance:
     - the To Be Decoy tag (TBD) containing a positive integer, or
     - the To Be Redacted tag {{tbr-tag}} containing:
       - an unsigned integer,
@@ -486,12 +486,11 @@ The contents of the SD-CWT protected header conforms to `{ &(CWT_Claims: 13) ^ =
 ~~~ cddl
 safe_map = { * label => safe_value }
 
-safe_value = (
+safe_value =
   int / tstr / bstr /
   [ * safe_value ] /
   safe_map /
   #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
-)
 
 sd_cwt_payload_map = { * sd_cwt_label => sd_cwt_value }
 
@@ -500,13 +499,13 @@ sd_cwt_label = label /
                #6.58(label) /    ; only from Holder to Issuer
                #6.61(int .gt 0)  ; only from Holder to Issuer
 
-sd_cwt_value = (
+sd_cwt_value =
   int / tstr / bstr /
   [ * sd_cwt_value ] /
   sd_cwt_payload_map /
   #6.<safe_tag>(sd_cwt_value) / #7.<safe_simple> / float
-)
 
+label = int / tstr .size (1..255)
 safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
 safe_simple =  0..23 / 32..58 / 60..255   ; exclude redacted keys array
 MAX_u64 = 18446744073709551615            ; 2^64 - 1
