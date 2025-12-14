@@ -4260,6 +4260,7 @@ sd-protected = {
    &amp;(typ: 16) ^ =&gt; "application/sd-cwt" / TBD11,
    &amp;(alg: 1) ^ =&gt; int,
    ? &amp;(kid: 4) ^ =&gt; bstr,
+   ? &amp;(CWT_Claims: 15) ^ =&gt; sd_cwt_claim_map,
    ? &amp;(sd_alg: TBD2) ^ =&gt; int,        ; -16 for sha-256
    ? &amp;(sd_aead: TBD7) ^ =&gt; uint .size 2,
    * label =&gt; safe_value
