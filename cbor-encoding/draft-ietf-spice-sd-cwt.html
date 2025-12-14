@@ -2426,7 +2426,7 @@ or a value declaring that the object is a more specific kind of SD-CWT,
 such as a content type value using the <code>+sd-cwt</code> structured suffix.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
 Unlike CWT, SD-CWT requires key binding.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that payload.
+<p id="section-6-3">An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
 It is not required to contain any blinded claims.<a href="#section-6-3" class="pilcrow">¶</a></p>
 <p id="section-6-4">Optionally the salted Claim Values (and often Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the <code>sd_claims</code> header parameter in the unprotected header of the CWT (the disclosures).
 If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the <code>sd_claims</code> header parameter in the unprotected header is an empty array.<a href="#section-6-4" class="pilcrow">¶</a></p>
@@ -2438,7 +2438,7 @@ However, a Verifier with the hash cannot reconstruct the corresponding blinded c
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-use-of-structured-suffixes" class="section-name selfRef">Use of Structured Suffixes</a>
         </h3>
 <p id="section-6.1-1">Any type which contains the <code>+sd-cwt</code> structured suffix <span class="bcp14">MUST</span> be a legal SD-CWT.
-A type which is a legal CWT and does not contain any blinded claims <span class="bcp14">SHOULD</span> use the <code>+cwt</code> structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+A type that is a legal CWT and does not contain any blinded claims <span class="bcp14">SHOULD</span> use the <code>+cwt</code> structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="blinded-claims">

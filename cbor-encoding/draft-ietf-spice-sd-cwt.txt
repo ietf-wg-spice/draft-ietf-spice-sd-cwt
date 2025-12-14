@@ -903,7 +903,7 @@ Issuer                           Holder                         Verifier
 
    An SD-CWT can contain blinded claims (each expressed as a Blinded
    Claim Hash), at the root level or in any arrays or maps inside that
-   payload.  It is not required to contain any blinded claims.
+   claim set.  It is not required to contain any blinded claims.
 
    Optionally the salted Claim Values (and often Claim Keys) for the
    corresponding Blinded Claim Hash are disclosed in the sd_claims
@@ -920,7 +920,7 @@ Issuer                           Holder                         Verifier
 6.1.  Use of Structured Suffixes
 
    Any type which contains the +sd-cwt structured suffix MUST be a legal
-   SD-CWT.  A type which is a legal CWT and does not contain any blinded
+   SD-CWT.  A type that is a legal CWT and does not contain any blinded
    claims SHOULD use the +cwt structure suffix instead, unless the CBOR
    map being secured contains claim keys with different semantics than
    those registered in the CBOR Web Token Claims IANA registry.
