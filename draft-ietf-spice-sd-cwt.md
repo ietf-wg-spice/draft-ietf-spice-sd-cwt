@@ -417,7 +417,8 @@ Decoders of SD-CWT and SD-KBT MUST reject any SD-CWT or SD-KBT received containi
 
 ## Date values for standard date claims
 
-The standard CWT claims `exp`, `nbf`, and `iat` MUST be limited to finite numbers.
+The standard CWT claims `exp`, `nbf`, and `iat` MUST be finite numbers.
+For the avoidance of doubt, not a number (NaN) values and positive and negative infinity are not acceptable in those claims.
 
 > In {{!RFC8392}}, these three claims are of type `NumericDate`.
 Section 2 of the same spec refers to `NumericDate` as a JWT `NumericDate`, "except that it is represented as [an untagged] CBOR numeric date (from {{Section 2.4.1 of ?RFC7049}}) instead of a JSON number".
@@ -436,9 +437,13 @@ An SD-CWT payload is typically its COSE payload.
 {{?RFC9597}} also defines the `CWT Claims` COSE Header Parameter (value 13) that can appear in the protected header; it MAY contain a CBOR map with additional claims that are treated as if they were in the SD-CWT payload.
 Both of these maps are described as an SD-CWT Payload Map.
 
-> Note that `CWT Claims` is a separate CBOR map from the COSE payload and MAY contain the same Claim Keys as the COSE payload CBOR map.
+> Note that `CWT Claims` is a separate CBOR map from the COSE payload and can contain the same Claim Keys as the COSE payload CBOR map.
+The same claim key could be present in both maps and could have different values in those maps.
+Neither, one, or both could be redacted, and if both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.
 
-This specification extends CWT to allow a few additional types (TBD) that MAY be present in SD-CWT Payload Maps. It also clarifies which CBOR types are allowed inside map keys in SD-KBT and SD-CWT:
+An SD-CWT is a format based on CWT.
+It allows some additional types inside map keys to indicate values that were or should be redacted.
+This specification also includes some constraints on SD-CWTs and SD-KBTs to improve robustness.
 
 - The SD-KBT protected header `kcwt` Header Parameter exclusively contains:
   - a single valid SD-CWT
@@ -455,7 +460,7 @@ This specification extends CWT to allow a few additional types (TBD) that MAY be
   - negative integers;
   - text strings with a length no greater than 255 octets;
   - the simple value TBD4; or
-  - when the payload is communicated between the Holder and the Issuer:
+  - when the payload is communicated to the Issuer, prior to issuance:
     - the To Be Decoy tag (TBD) containing a positive integer, or
     - the To Be Redacted tag {{tbr-tag}} containing:
       - an unsigned integer,
@@ -466,7 +471,7 @@ This specification extends CWT to allow a few additional types (TBD) that MAY be
   - negative integers;
   - text strings with a length no greater than 255 octets;
   - the simple value TBD4; or
-  - when the payload is communicated between the Holder and the Issuer:
+  - when disclosable claims are communicated between the Holder and the Issuer, prior to issuance:
     - the To Be Decoy tag (TBD) containing a positive integer, or
     - the To Be Redacted tag {{tbr-tag}} containing:
       - an unsigned integer,
@@ -527,7 +532,7 @@ This applies to any map anywhere in an SD-CWT or an SD-KBT.
 
 > Note that it is not necessary to actually encode the map keys using Preferred Encoding to satisfy this requirement.
 
-Likewise a single SD-CWT claim set MUST NOT contain a map (at any level of depth) with both a map key `k`, and `k` tagged with the To Be Redacted tag (see {{tbr-tag}}).
+Likewise, a single SD-CWT claim set MUST NOT contain a map (at any level of depth) with both a map key `k`, and `k` tagged with the To Be Redacted tag (see {{tbr-tag}}).
 Map keys and their To Be Redacted tagged verison are considered duplicate map keys for the purposes of this specification.
 
 For example, if the map below is contained inside a payload, it is invalid because the map key 500 and the map key 58(500) cannot both be present.
