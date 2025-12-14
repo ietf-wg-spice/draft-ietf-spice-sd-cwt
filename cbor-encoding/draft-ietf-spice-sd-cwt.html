@@ -1211,7 +1211,10 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-sd-cwt-definition" class="internal xref">SD-CWT Definition</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-types-of-blinded-claims" class="internal xref">Types of Blinded Claims</a></p>
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-use-of-structured-suffixes" class="internal xref">Use of Structured Suffixes</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-types-of-blinded-claims" class="internal xref">Types of Blinded Claims</a></p>
 </li>
             </ul>
 </li>
@@ -2122,7 +2125,7 @@ d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
 <a href="#name-sha-256-hash-of-inspector_l" class="selfRef">SHA-256 hash of inspector_license_number disclosure</a>
           </figcaption></figure>
 <p id="section-3.2-9">Finally, since this redacted claim is a map key and value, the Blinded Claim Hash is placed in a <code>redacted_claim_keys</code> array in the SD-CWT payload at the same level of hierarchy as the original claim.
-Redacted claims that are array elements are handled slightly differently, as described in <a href="#blinded-claims" class="auto internal xref">Section 6.1</a>.<a href="#section-3.2-9" class="pilcrow">¶</a></p>
+Redacted claims that are array elements are handled slightly differently, as described in <a href="#blinded-claims" class="auto internal xref">Section 6.2</a>.<a href="#section-3.2-9" class="pilcrow">¶</a></p>
 <span id="name-redacted-inspector_license_"></span><figure id="figure-5">
           <div class="lang-cbor-diag sourcecode" id="section-3.2-10.1">
 <pre>
@@ -2305,7 +2308,7 @@ This specification also includes some constraints on SD-CWTs and SD-KBTs to impr
                 <p id="section-5.3-5.4.2.4.1">the simple value TBD4; or<a href="#section-5.3-5.4.2.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3-5.4.2.5">
-                <p id="section-5.3-5.4.2.5.1">when the payload is communicated to the Issuer, prior to issuance:<a href="#section-5.3-5.4.2.5.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3-5.4.2.5.1">when disclosable claims are communicated to the Issuer, prior to issuance:<a href="#section-5.3-5.4.2.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3-5.4.2.5.2.1">
                     <p id="section-5.3-5.4.2.5.2.1.1">the To Be Decoy tag (TBD) containing a positive integer, or<a href="#section-5.3-5.4.2.5.2.1.1" class="pilcrow">¶</a></p>
@@ -2376,12 +2379,11 @@ The contents of the SD-CWT protected header conforms to <code>{ &amp;(CWT_Claims
 <pre>
 safe_map = { * label =&gt; safe_value }
 
-safe_value = (
+safe_value =
   int / tstr / bstr /
   [ * safe_value ] /
   safe_map /
   #6.&lt;safe_tag&gt;(safe_value) / #7.&lt;safe_simple&gt; / float
-)
 
 sd_cwt_payload_map = { * sd_cwt_label =&gt; sd_cwt_value }
 
@@ -2390,13 +2392,13 @@ sd_cwt_label = label /
                #6.58(label) /    ; only from Holder to Issuer
                #6.61(int .gt 0)  ; only from Holder to Issuer
 
-sd_cwt_value = (
+sd_cwt_value =
   int / tstr / bstr /
   [ * sd_cwt_value ] /
   sd_cwt_payload_map /
   #6.&lt;safe_tag&gt;(sd_cwt_value) / #7.&lt;safe_simple&gt; / float
-)
 
+label = int / tstr .size (1..255)
 safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
 safe_simple =  0..23 / 32..58 / 60..255   ; exclude redacted keys array
 MAX_u64 = 18446744073709551615            ; 2^64 - 1
@@ -2460,20 +2462,31 @@ This value <span class="bcp14">MAY</span> be the string content type value <code
 the uint Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> content-format value TBD11,
 or a value declaring that the object is a more specific kind of SD-CWT,
 such as a content type value using the <code>+sd-cwt</code> structured suffix.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">An SD-CWT is an extension of a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
-It is not required to contain any blinded claims.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">Optionally the salted Claim Values (and often Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the <code>sd_claims</code> header parameter in the unprotected header of the CWT (the disclosures).
-If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the <code>sd_claims</code> header parameter in the unprotected header is an empty array.<a href="#section-6-3" class="pilcrow">¶</a></p>
-<p id="section-6-4">Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
-However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.<a href="#section-6-4" class="pilcrow">¶</a></p>
-<div id="blinded-claims">
+<p id="section-6-2">An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
+Unlike CWT, SD-CWT requires key binding.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that payload.
+It is not required to contain any blinded claims.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">Optionally the salted Claim Values (and often Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the <code>sd_claims</code> header parameter in the unprotected header of the CWT (the disclosures).
+If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the <code>sd_claims</code> header parameter in the unprotected header is an empty array.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-5">Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
+However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.<a href="#section-6-5" class="pilcrow">¶</a></p>
+<div id="use-of-structured-suffixes">
 <section id="section-6.1">
-        <h3 id="name-types-of-blinded-claims">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-types-of-blinded-claims" class="section-name selfRef">Types of Blinded Claims</a>
+        <h3 id="name-use-of-structured-suffixes">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-use-of-structured-suffixes" class="section-name selfRef">Use of Structured Suffixes</a>
         </h3>
-<p id="section-6.1-1">Salted Disclosed Claims for named claims are structured as a 128-bit salt, the disclosed value, and the name of the redacted element.
-For Salted Disclosed Claims of items in an array, the name is omitted.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-6.1-2">
+<p id="section-6.1-1">Any type which contains the <code>+sd-cwt</code> structured suffix <span class="bcp14">MUST</span> be a legal SD-CWT.
+A type which is a legal CWT and does not contain any blinded claims <span class="bcp14">SHOULD</span> use the <code>+cwt</code> structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="blinded-claims">
+<section id="section-6.2">
+        <h3 id="name-types-of-blinded-claims">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-types-of-blinded-claims" class="section-name selfRef">Types of Blinded Claims</a>
+        </h3>
+<p id="section-6.2-1">Salted Disclosed Claims for named claims are structured as a 128-bit salt, the disclosed value, and the name of the redacted element.
+For Salted Disclosed Claims of items in an array, the name is omitted.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-6.2-2">
 <pre>
 ; an array of bstr-encoded Salted Disclosed Claims
 salted-array = [ *bstr-encoded-salted ]
@@ -2492,21 +2505,21 @@ salted-element = [
 decoy = [
   bstr .size 16      ; 128-bit salt
 ]
-</pre><a href="#section-6.1-2" class="pilcrow">¶</a>
+</pre><a href="#section-6.2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-6.1-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
-The <code>redacted_claim_keys</code> key is the CBOR simple type TBD4 registered for that purpose (with the requested value of 59).<a href="#section-6.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).<a href="#section-6.1-4" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-6.1-5">
+<p id="section-6.2-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
+The <code>redacted_claim_keys</code> key is the CBOR simple type TBD4 registered for that purpose (with the requested value of 59).<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.2-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).<a href="#section-6.2-4" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-6.2-5">
 <pre>
 ; redacted_claim_element = #6.&lt;TBD5&gt;( bstr ) -- RFC 9682 syntax
 redacted_claim_element = #6.60( bstr )
-</pre><a href="#section-6.1-5" class="pilcrow">¶</a>
+</pre><a href="#section-6.2-5" class="pilcrow">¶</a>
 </div>
-<p id="section-6.1-6">Blinded claims can be nested. For example, both individual keys in the <code>inspection_location</code> claim, and the entire <code>inspection_location</code> element can be separately blinded.
-An example nested claim is shown in <a href="#nesting" class="auto internal xref">Section 13.2</a>.<a href="#section-6.1-6" class="pilcrow">¶</a></p>
-<p id="section-6.1-7">Finally, an Issuer <span class="bcp14">MAY</span> create decoy digests, which look like blinded claim hashes but have only a salt.
-Decoy digests are discussed in <a href="#decoys" class="auto internal xref">Section 10</a>.<a href="#section-6.1-7" class="pilcrow">¶</a></p>
+<p id="section-6.2-6">Blinded claims can be nested. For example, both individual keys in the <code>inspection_location</code> claim, and the entire <code>inspection_location</code> element can be separately blinded.
+An example nested claim is shown in <a href="#nesting" class="auto internal xref">Section 13.2</a>.<a href="#section-6.2-6" class="pilcrow">¶</a></p>
+<p id="section-6.2-7">Finally, an Issuer <span class="bcp14">MAY</span> create decoy digests, which look like blinded claim hashes but have only a salt.
+Decoy digests are discussed in <a href="#decoys" class="auto internal xref">Section 10</a>.<a href="#section-6.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3653,7 +3666,7 @@ Implementations using the AEGIS algorithms containing an X <span class="bcp14">M
             <p id="section-17.2-2.2.1">Semantics: This value as a map key indicates that the Claim Value is an array of redacted Claim Keys at the same level as the map key.<a href="#section-17.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-17.2-2.3">
-            <p id="section-17.2-2.3.1">Specification Document(s): <a href="#blinded-claims" class="auto internal xref">Section 6.1</a> of this specification<a href="#section-17.2-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-17.2-2.3.1">Specification Document(s): <a href="#blinded-claims" class="auto internal xref">Section 6.2</a> of this specification<a href="#section-17.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -3703,7 +3716,7 @@ Implementations using the AEGIS algorithms containing an X <span class="bcp14">M
               <p id="section-17.3.2-2.3.1">Semantics: A selective disclosure redacted (array) claim element.<a href="#section-17.3.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-17.3.2-2.4">
-              <p id="section-17.3.2-2.4.1">Specification Document(s): <a href="#blinded-claims" class="auto internal xref">Section 6.1</a> of this specification<a href="#section-17.3.2-2.4.1" class="pilcrow">¶</a></p>
+              <p id="section-17.3.2-2.4.1">Specification Document(s): <a href="#blinded-claims" class="auto internal xref">Section 6.2</a> of this specification<a href="#section-17.3.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>

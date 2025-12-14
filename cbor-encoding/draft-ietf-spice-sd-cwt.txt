@@ -87,7 +87,8 @@ Table of Contents
      5.4.  Duplicate map key detection
      5.5.  Security remarks
    6.  SD-CWT Definition
-     6.1.  Types of Blinded Claims
+     6.1.  Use of Structured Suffixes
+     6.2.  Types of Blinded Claims
    7.  SD-CWT Issuance
      7.1.  Issuer Generation
      7.2.  Holder Validation
@@ -609,7 +610,7 @@ Issuer                           Holder                         Verifier
    Blinded Claim Hash is placed in a redacted_claim_keys array in the
    SD-CWT payload at the same level of hierarchy as the original claim.
    Redacted claims that are array elements are handled slightly
-   differently, as described in Section 6.1.
+   differently, as described in Section 6.2.
 
      / redacted_claim_keys / simple(59) : [
          / redacted inspector_license_number /
@@ -781,8 +782,8 @@ Issuer                           Holder                         Verifier
 
       -  the simple value TBD4; or
 
-      -  when the payload is communicated to the Issuer, prior to
-         issuance:
+      -  when disclosable claims are communicated to the Issuer, prior
+         to issuance:
 
          o  the To Be Decoy tag (TBD) containing a positive integer, or
 
@@ -829,12 +830,11 @@ Issuer                           Holder                         Verifier
 
    safe_map = { * label => safe_value }
 
-   safe_value = (
+   safe_value =
      int / tstr / bstr /
      [ * safe_value ] /
      safe_map /
      #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
-   )
 
    sd_cwt_payload_map = { * sd_cwt_label => sd_cwt_value }
 
@@ -843,13 +843,13 @@ Issuer                           Holder                         Verifier
                   #6.58(label) /    ; only from Holder to Issuer
                   #6.61(int .gt 0)  ; only from Holder to Issuer
 
-   sd_cwt_value = (
+   sd_cwt_value =
      int / tstr / bstr /
      [ * sd_cwt_value ] /
      sd_cwt_payload_map /
      #6.<safe_tag>(sd_cwt_value) / #7.<safe_simple> / float
-   )
 
+   label = int / tstr .size (1..255)
    safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
    safe_simple =  0..23 / 32..58 / 60..255   ; exclude redacted keys array
    MAX_u64 = 18446744073709551615            ; 2^64 - 1
@@ -917,10 +917,14 @@ Issuer                           Holder                         Verifier
    that the object is a more specific kind of SD-CWT, such as a content
    type value using the +sd-cwt structured suffix.
 
-   An SD-CWT is an extension of a CWT that can contain blinded claims
-   (each expressed as a Blinded Claim Hash) in the CWT payload, at the
-   root level or in any arrays or maps inside that payload.  It is not
-   required to contain any blinded claims.
+   An SD-CWT is a format based on CWT, but it allows some additional
+   types in maps to indicate values that were or should be redacted, and
+   includes some additional constraints to improve robustness.  Unlike
+   CWT, SD-CWT requires key binding.
+
+   An SD-CWT can contain blinded claims (each expressed as a Blinded
+   Claim Hash), at the root level or in any arrays or maps inside that
+   payload.  It is not required to contain any blinded claims.
 
    Optionally the salted Claim Values (and often Claim Keys) for the
    corresponding Blinded Claim Hash are disclosed in the sd_claims
@@ -934,7 +938,15 @@ Issuer                           Holder                         Verifier
    Verifier with the hash cannot reconstruct the corresponding blinded
    claim without disclosure of the Salted Disclosed Claim.
 
-6.1.  Types of Blinded Claims
+6.1.  Use of Structured Suffixes
+
+   Any type which contains the +sd-cwt structured suffix MUST be a legal
+   SD-CWT.  A type which is a legal CWT and does not contain any blinded
+   claims SHOULD use the +cwt structure suffix instead, unless the CBOR
+   map being secured contains claim keys with different semantics than
+   those registered in the CBOR Web Token Claims IANA registry.
+
+6.2.  Types of Blinded Claims
 
    Salted Disclosed Claims for named claims are structured as a 128-bit
    salt, the disclosed value, and the name of the redacted element.  For
@@ -2130,7 +2142,7 @@ Issuer                           Holder                         Verifier
       is an array of redacted Claim Keys at the same level as the map
       key.
 
-   *  Specification Document(s): Section 6.1 of this specification
+   *  Specification Document(s): Section 6.2 of this specification
 
 17.3.  CBOR Tags
 
@@ -2163,7 +2175,7 @@ Issuer                           Holder                         Verifier
 
    *  Semantics: A selective disclosure redacted (array) claim element.
 
-   *  Specification Document(s): Section 6.1 of this specification
+   *  Specification Document(s): Section 6.2 of this specification
 
 17.4.  CBOR Web Token (CWT) Claims
 
