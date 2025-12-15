@@ -409,23 +409,186 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 
 # Differences from the CBOR Web Token Specification {#cwt-diffs}
 
-The CBOR Web Token Specification (Section 1.1 of {{!RFC8392}}), uses text strings, negative integers, and unsigned integers as map keys.
-This specification also allows the CBOR simple value registered in this specification in {{simple59}}, and CBOR tagged integers and text strings as map keys.
-As in CWTs, CBOR maps used in an SD-CWT or SD-KBT also cannot have duplicate keys.
-(An integer or text string map key is a distinct key from a tagged map key that wraps the corresponding integer or text string value).
+The following subsections discuss differences between CWT and SD-CWT or clarify ambiguities in CWT.
+Some of these changes are necessary to enable the new functionality of SD-CWT, while some constraints were made in the interest of more robustness.
 
->When sorted, map keys in CBOR are arranged in bytewise lexicographic order of the key's deterministic encodings (see Section 4.2.1 of {{RFC8949}}).
->So, an integer key of 3 is represented in hex as `03`, an integer key of -2 is represented in hex as `21`, and a tag of 60 wrapping a 3 is represented in hex as `D8 3C 03`
+> Variability in serialization can also be exploited to impact privacy.
+See {{security}} for more details on the privacy impact of serialization and profiling.
+
+## Definite Length CBOR Required
+
+Encoders of SD-CWT and SD-KBT MUST NOT send indefinite length CBOR.
+Decoders of SD-CWT and SD-KBT MUST reject any SD-CWT or SD-KBT received containing indefinite length CBOR.
+
+
+## Finite values for standard date claims
+
+The standard CWT claims `exp`, `nbf`, and `iat` MUST be finite numbers.
+For the avoidance of doubt, not a number (NaN) values and positive and negative infinity are not acceptable in those claims.
+
+> In {{!RFC8392}}, these three claims are of type `NumericDate`.
+Section 2 of the same spec refers to `NumericDate` as a JWT `NumericDate`, "except that it is represented as [an untagged] CBOR numeric date (from {{Section 2.4.1 of ?RFC7049}}) instead of a JSON number".
+In CBOR, a NumericDate can be represented as an unsigned integer, a negative integer, or a floating point value.
+CBOR (both {{?RFC7049}} and {{!RFC8949}}) refers to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
+Neither JSON {{?RFC8259}} nor JWT {{?RFC7519}} can represent infinite values.
+
+
+## Allowed types of CBOR map keys
+
+According to Section 1.1 of the CBOR Web Token Specification {{!RFC8392}}, "CBOR uses text strings, negative integers, and unsigned integers as map keys."
+Section 1.5 of CBOR Object Signing and Encryption (COSE): Structures and Process {{!RFC9052}} states: "In COSE, we use text strings, negative integers, and unsigned integers as map keys."
+While a CBOR map key can contain any CBOR type, this statement implies that CWT map keys only contain those types.
+
+An SD-CWT payload is typically its COSE payload.
+{{?RFC9597}} also defines the `CWT Claims` COSE Header Parameter (value 15) that can appear in the protected headers; if it exists, it contains a CBOR map with additional claims that are treated as if they were in the SD-CWT payload.
+Both of these maps are described as SD-CWT Claims Maps.
+
+> Note that `CWT Claims` is a separate CBOR map from the COSE payload and can contain the same Claim Keys as the COSE payload CBOR map.
+
+The same valid CWT claim keys could be present in both SD-CWT Claims Maps, but if so, they MUST have the same unblinded value.
+Neither, one, or both could be redacted.
+If both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.
+
+In addition to map keys that are valid in CWT, SD-CWT Claims Maps MAY contain the CBOR simple value registered in this specification in {{simple59}}.
+In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys MAY also consist of the To Be Redacted tag (defined in {{tbr-tag}}), containing an integer or text string; or a To Be Decoy tag (defined in TBD), containing a positive integer.
+These two tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.
+
+The following list summarizes the map key constraints on SD-CWTs and SD-KBTs:
+
+- The SD-KBT protected headers `kcwt` Header Parameter exclusively contains:
+  - a single valid SD-CWT
+- The SD-KBT protected headers MUST NOT contain a `CWT Claims` Header Parameter.
+- The SD-KBT payload map; unprotected headers map; and protected headers map (excluding the `kcwt` Header Parameter) exclusively contain map keys (at any level of depth) with the following map key types:
+  - unsigned integers
+  - negative integers
+  - text strings with a length no greater than 255 octets
+- The SD-CWT unprotected headers map; and the protected headers map (excluding the `CWT Claims` Header Parameter) exclusively contain map keys (at any level of depth) with the following map key types:
+  - unsigned integers
+  - negative integers
+  - text strings with a length no greater than 255 octets
+- The SD-CWT Claims Maps at any level of depth, exclusively contain maps keys with the following map key types:
+  - unsigned integers;
+  - negative integers;
+  - text strings with a length no greater than 255 octets;
+  - the simple value TBD4; or
+  - when disclosable claims are communicated to the Issuer, prior to issuance:
+    - the To Be Decoy tag (TBD) containing a positive integer, or
+    - the To Be Redacted tag {{tbr-tag}} containing:
+      - an unsigned integer,
+      - a negative integer, or
+      - a text strings with a length no greater than 255 octets.
+
+In other words, there are exactly three places that can contain map keys (including values that might contain nested maps) with the SD-CWT values that are not allowed in a CWT:
+
+- in the payload Claims Map of an SD-CWT
+- in the `CWT Claims` Header Parameter Claims Map in the protected headers of an SD-CWT
+- in the `kcwt` Header Parameter of an SD-KBT (in one of the embedded SD-CWT Claims Maps).
+
+All the other Header Parameters, and the KBT payload need to contain values valid in a CWT.
+These values are represented by the `safe-value` CDDL type.
+
+
+~~~ cddl
+safe_map = { * label => safe_value }
+
+safe_value =
+  int / tstr / bstr /
+  [ * safe_value ] /
+  safe_map /
+  #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
+
+sd_cwt_claims_map = { * sd_cwt_label => sd_cwt_value }
+
+sd_cwt_label = label /
+               #7.59 /
+               #6.58(label) /    ; only from Holder to Issuer
+               #6.61(int .gt 0)  ; only from Holder to Issuer
+
+sd_cwt_value =
+  int / tstr / bstr /
+  [ * sd_cwt_value ] /
+  sd_cwt_claims_map /
+  #6.<safe_tag>(sd_cwt_value) / #7.<safe_simple> / float
+
+label = int / tstr .size (1..255)
+safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
+safe_simple =  0..23 / 32..58 / 60..255   ; exclude redacted keys array
+MAX_u64 = 18446744073709551615            ; 2^64 - 1
+~~~
 
 Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
 
 Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
 Instead, the tag provides additional information about the tagged Claim Key and the corresponding (untagged) value.
-Multiple levels of tags in a key are not permitted.
+Multiple levels of tags in a map key are not permitted.
 
-Variability in serialization requirements impacts privacy.
+## Duplicate map key detection
 
-See {{security}} for more details on the privacy impact of serialization and profiling.
+Implementations MUST NOT send multiple map keys inside the same CBOR map having the same CBOR Preferred Encoding (see {{Section 4.1 of !RFC8949}}).
+This applies to any map anywhere in an SD-CWT or an SD-KBT.
+
+> Note that it is not necessary to actually encode the map keys using Preferred Encoding to satisfy this requirement.
+
+Likewise, a single SD-CWT claim set MUST NOT contain a map (at any level of depth) with both a map key `k`, and `k` tagged with the To Be Redacted tag (see {{tbr-tag}}).
+Map keys and their To Be Redacted tagged verison are considered duplicate map keys for the purposes of this specification.
+
+For example, if the map below is contained inside a payload, it is invalid because the map key 500 and the map key 58(500) cannot both be present.
+
+~~~ cbor-diag
+{
+  500: "ABCD-123456",     # map key 500
+  58(500): "DEFG-456789"  # to be redacted tag containing 500
+}
+~~~
+
+## Level of Nesting of Claims
+
+Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is NOT RECOMMENDED as it could lead to resource exhaustion vulnerabilities.
+
+The individual map key / value pairs in a Claim Set is defined as the "top level", or level 1.
+For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.
+
+For example, considering the following abbreviated document, the following table shows the level of depth of the corresponding values:
+
+| Level | Value                  |
+|:------|:-----------------------|
+| 1     | https://issuer.example |
+| 2     | 1549560720             |
+| 3     | DCBA-101777            |
+| 4     | us                     |
+| 5     | 27315                  |
+
+~~~ cbor-diag
+{                                   # contents are level 1
+  1: "https://issuer.example",
+  ...
+  502: 1(1549560720),               # tagged value is level 2
+  504: [                            # contents are level 2
+    {                               # contents are level 3
+      ...
+      501: "DCBA-101777",
+      503: {                        # contents are level 4
+        1: "us",
+        ...
+      },
+      505: 4(                       # decimal fraction tag
+        [                           #   273.15
+          -2,
+          27315                     # level 5
+        ]
+      )
+    },
+    ...
+  ]
+}
+~~~
+
+The contents of the top-level claims map are level 1.
+The contents of the array for map key 504 are level 2.
+The contents if the map inside that array are level 3 (ex: the value of map key 505).
+The value of tag 4 is at level 4.
+The values in the array inside tag 4 is at level 5.
+
 
 # SD-CWT Definition {#sd-cwt-definition}
 
@@ -436,7 +599,10 @@ the uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format val
 or a value declaring that the object is a more specific kind of SD-CWT,
 such as a content type value using the `+sd-cwt` structured suffix.
 
-An SD-CWT is an extension of a CWT that can contain blinded claims (each expressed as a Blinded Claim Hash) in the CWT payload, at the root level or in any arrays or maps inside that payload.
+An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
+Unlike CWT, SD-CWT requires key binding.
+
+An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
 It is not required to contain any blinded claims.
 
 Optionally the salted Claim Values (and often Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
@@ -444,6 +610,11 @@ If there are no disclosures (and when no Blinded Claims Hash is present in the p
 
 Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
 However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.
+
+## Use of Structured Suffixes
+
+Any type which contains the `+sd-cwt` structured suffix MUST be a legal SD-CWT.
+A type that is a legal CWT and does not contain any blinded claims SHOULD use the `+cwt` structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.
 
 
 ## Types of Blinded Claims {#blinded-claims}
