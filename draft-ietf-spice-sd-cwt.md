@@ -478,10 +478,15 @@ The following list summarizes the map key constraints on SD-CWTs and SD-KBTs:
       - a negative integer, or
       - a text strings with a length no greater than 255 octets.
 
-In other words, the decoded contents of the SD-KBT payload, the SD-KBT unprotected header, and the SD-CWT unprotected header conform to `safe_map`.
-An SD-CWT Claims Map conforms to the `sd_cwt_payload_map` CDDL definition.
-The contents of the SD-KBT protected headers map contains a `kcwt` Header Parameter whose value is an `sd-cwt-issued`, and other Header Parameters whose values conforms to `safe_value`.
-The contents of the SD-CWT protected headers map can contain a `CWT Claims` Header Parameter whose value conforms to `sd-cwt-payload_map`, and other Header Parameters  whose values conforms to `safe_value`.
+In other words, there are exactly three places that can contain map keys (including values that might contain nested maps) with the SD-CWT values that are not allowed in a CWT:
+
+- in the payload Claims Map of an SD-CWT
+- in the `CWT Claims` Header Parameter Claims Map in the protected headers of an SD-CWT
+- in the `kcwt` Header Parameter of an SD-KBT (in one of the embedded SD-CWT Claims Maps).
+
+All the other Header Parameters, and the KBT payload need to contain values valid in a CWT.
+These values are represented by the `safe-value` CDDL type.
+
 
 ~~~ cddl
 safe_map = { * label => safe_value }
