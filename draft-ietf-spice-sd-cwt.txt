@@ -80,15 +80,15 @@ Table of Contents
      3.1.  A CWT without Selective Disclosure
      3.2.  Holder gets an SD-CWT from the Issuer
    4.  Holder prepares an SD-CWT for a Verifier
-   5.  Differences from the CBOR Web Token Specification
-     5.1.  Definite Length CBOR Required
-     5.2.  Finite values for standard date claims
-     5.3.  Allowed types of CBOR map keys
-     5.4.  Duplicate map key detection
-     5.5.  Level of Nesting of Claims
-   6.  SD-CWT Definition
-     6.1.  Use of Structured Suffixes
-     6.2.  Types of Blinded Claims
+   5.  SD-CWT Definition
+     5.1.  Types of Blinded Claims
+     5.2.  Use of Structured Suffixes
+   6.  Differences from the CBOR Web Token Specification
+     6.1.  Definite Length CBOR Required
+     6.2.  Finite values for standard date claims
+     6.3.  Allowed types of CBOR map keys
+     6.4.  Duplicate map key detection
+     6.5.  Level of Nesting of Claims
    7.  SD-CWT Issuance
      7.1.  Issuer Generation
      7.2.  Holder Validation
@@ -610,7 +610,7 @@ Issuer                           Holder                         Verifier
    Blinded Claim Hash is placed in a redacted_claim_keys array in the
    SD-CWT payload at the same level of hierarchy as the original claim.
    Redacted claims that are array elements are handled slightly
-   differently, as described in Section 6.2.
+   differently, as described in Section 5.1.
 
      / redacted_claim_keys / simple(59) : [
          / redacted inspector_license_number /
@@ -692,7 +692,93 @@ Issuer                           Holder                         Verifier
    signature in the SW-KBT, the Verifier has assurance that the Holder
    included the sent list of disclosures.
 
-5.  Differences from the CBOR Web Token Specification
+5.  SD-CWT Definition
+
+   SD-CWT is modeled after SD-JWT, with adjustments to align with
+   conventions in CBOR, COSE, and CWT.  An SD-CWT MUST include the
+   protected header parameter typ [RFC9596] with a value declaring that
+   the object is an SD-CWT.  This value MAY be the string content type
+   value application/sd-cwt, the uint Constrained Application Protocol
+   (CoAP) [RFC7252] content-format value TBD11, or a value declaring
+   that the object is a more specific kind of SD-CWT, such as a content
+   type value using the +sd-cwt structured suffix.
+
+   An SD-CWT is a format based on CWT, but it allows some additional
+   types in maps to indicate values that were or should be redacted, and
+   includes some additional constraints to improve robustness.  Unlike
+   CWT, SD-CWT requires key binding.
+
+   An SD-CWT can contain blinded claims (each expressed as a Blinded
+   Claim Hash), at the root level or in any arrays or maps inside that
+   claim set.  It is not required to contain any blinded claims.
+
+   Optionally the salted Claim Values (and often Claim Keys) for the
+   corresponding Blinded Claim Hash are disclosed in the sd_claims
+   header parameter in the unprotected header of the CWT (the
+   disclosures).  If there are no disclosures (and when no Blinded
+   Claims Hash is present in the payload) the sd_claims header parameter
+   in the unprotected header is an empty array.
+
+   Any party with a Salted Disclosed Claim can generate its hash, find
+   that hash in the CWT payload, and unblind the content.  However, a
+   Verifier with the hash cannot reconstruct the corresponding blinded
+   claim without disclosure of the Salted Disclosed Claim.
+
+5.1.  Types of Blinded Claims
+
+   Salted Disclosed Claims for named claims are structured as a 128-bit
+   salt, the disclosed value, and the name of the redacted element.  For
+   Salted Disclosed Claims of items in an array, the name is omitted.
+
+   ; an array of bstr-encoded Salted Disclosed Claims
+   salted-array = [ *bstr-encoded-salted ]
+
+   bstr-encoded-salted = bstr .cbor salted-entry
+   salted-entry = salted-claim / salted-element / decoy
+   salted-claim = [
+     bstr .size 16,     ; 128-bit salt
+     any,               ; Claim Value
+     (int / text)       ; Claim Key
+   ]
+   salted-element = [
+     bstr .size 16,     ; 128-bit salt
+     any                ; Claim Value
+   ]
+   decoy = [
+     bstr .size 16      ; 128-bit salt
+   ]
+
+   When a blinded claim is a key in a map, its blinded claim hash is
+   added to a redacted_claim_keys array claim in the CWT payload that is
+   at the same level of hierarchy as the key being blinded.  The
+   redacted_claim_keys key is the CBOR simple type TBD4 registered for
+   that purpose (with the requested value of 59).
+
+   When blinding an individual item in an array, the value of the item
+   is replaced with the digested salted hash as a CBOR byte string,
+   wrapped with the CBOR tag TBD5 (requested tag number 60).
+
+   ; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax
+   redacted_claim_element = #6.60( bstr )
+
+   Blinded claims can be nested.  For example, both individual keys in
+   the inspection_location claim, and the entire inspection_location
+   element can be separately blinded.  An example nested claim is shown
+   in Section 13.2.
+
+   Finally, an Issuer MAY create decoy digests, which look like blinded
+   claim hashes but have only a salt.  Decoy digests are discussed in
+   Section 10.
+
+5.2.  Use of Structured Suffixes
+
+   Any type which contains the +sd-cwt structured suffix MUST be a legal
+   SD-CWT.  A type that is a legal CWT and does not contain any blinded
+   claims SHOULD use the +cwt structure suffix instead, unless the CBOR
+   map being secured contains claim keys with different semantics than
+   those registered in the CBOR Web Token Claims IANA registry.
+
+6.  Differences from the CBOR Web Token Specification
 
    The following subsections discuss differences between CWT and SD-CWT
    or clarify ambiguities in CWT.  Some of these changes are necessary
@@ -703,13 +789,13 @@ Issuer                           Holder                         Verifier
       privacy.  See Section 16 for more details on the privacy impact of
       serialization and profiling.
 
-5.1.  Definite Length CBOR Required
+6.1.  Definite Length CBOR Required
 
    Encoders of SD-CWT and SD-KBT MUST NOT send indefinite length CBOR.
    Decoders of SD-CWT and SD-KBT MUST reject any SD-CWT or SD-KBT
    received containing indefinite length CBOR.
 
-5.2.  Finite values for standard date claims
+6.2.  Finite values for standard date claims
 
    The standard CWT claims exp, nbf, and iat MUST be finite numbers.
    For the avoidance of doubt, not a number (NaN) values and positive
@@ -726,7 +812,7 @@ Issuer                           Holder                         Verifier
       infinite numbers.  Neither JSON [RFC8259] nor JWT [RFC7519] can
       represent infinite values.
 
-5.3.  Allowed types of CBOR map keys
+6.3.  Allowed types of CBOR map keys
 
    According to Section 1.1 of the CBOR Web Token Specification
    [RFC8392], "CBOR uses text strings, negative integers, and unsigned
@@ -866,7 +952,7 @@ Issuer                           Holder                         Verifier
    tagged Claim Key and the corresponding (untagged) value.  Multiple
    levels of tags in a map key are not permitted.
 
-5.4.  Duplicate map key detection
+6.4.  Duplicate map key detection
 
    Implementations MUST NOT send multiple map keys inside the same CBOR
    map having the same CBOR Preferred Encoding (see Section 4.1 of
@@ -891,7 +977,7 @@ Issuer                           Holder                         Verifier
      58(500): "DEFG-456789"  # to be redacted tag containing 500
    }
 
-5.5.  Level of Nesting of Claims
+6.5.  Level of Nesting of Claims
 
    Selective disclosure of deeply nested structures (exceeding a depth
    of 16 levels), is NOT RECOMMENDED as it could lead to resource
@@ -951,92 +1037,6 @@ Issuer                           Holder                         Verifier
    value of tag 4 is at level 4.  The values in the array inside tag 4
    is at level 5.
 
-6.  SD-CWT Definition
-
-   SD-CWT is modeled after SD-JWT, with adjustments to align with
-   conventions in CBOR, COSE, and CWT.  An SD-CWT MUST include the
-   protected header parameter typ [RFC9596] with a value declaring that
-   the object is an SD-CWT.  This value MAY be the string content type
-   value application/sd-cwt, the uint Constrained Application Protocol
-   (CoAP) [RFC7252] content-format value TBD11, or a value declaring
-   that the object is a more specific kind of SD-CWT, such as a content
-   type value using the +sd-cwt structured suffix.
-
-   An SD-CWT is a format based on CWT, but it allows some additional
-   types in maps to indicate values that were or should be redacted, and
-   includes some additional constraints to improve robustness.  Unlike
-   CWT, SD-CWT requires key binding.
-
-   An SD-CWT can contain blinded claims (each expressed as a Blinded
-   Claim Hash), at the root level or in any arrays or maps inside that
-   claim set.  It is not required to contain any blinded claims.
-
-   Optionally the salted Claim Values (and often Claim Keys) for the
-   corresponding Blinded Claim Hash are disclosed in the sd_claims
-   header parameter in the unprotected header of the CWT (the
-   disclosures).  If there are no disclosures (and when no Blinded
-   Claims Hash is present in the payload) the sd_claims header parameter
-   in the unprotected header is an empty array.
-
-   Any party with a Salted Disclosed Claim can generate its hash, find
-   that hash in the CWT payload, and unblind the content.  However, a
-   Verifier with the hash cannot reconstruct the corresponding blinded
-   claim without disclosure of the Salted Disclosed Claim.
-
-6.1.  Use of Structured Suffixes
-
-   Any type which contains the +sd-cwt structured suffix MUST be a legal
-   SD-CWT.  A type that is a legal CWT and does not contain any blinded
-   claims SHOULD use the +cwt structure suffix instead, unless the CBOR
-   map being secured contains claim keys with different semantics than
-   those registered in the CBOR Web Token Claims IANA registry.
-
-6.2.  Types of Blinded Claims
-
-   Salted Disclosed Claims for named claims are structured as a 128-bit
-   salt, the disclosed value, and the name of the redacted element.  For
-   Salted Disclosed Claims of items in an array, the name is omitted.
-
-   ; an array of bstr-encoded Salted Disclosed Claims
-   salted-array = [ *bstr-encoded-salted ]
-
-   bstr-encoded-salted = bstr .cbor salted-entry
-   salted-entry = salted-claim / salted-element / decoy
-   salted-claim = [
-     bstr .size 16,     ; 128-bit salt
-     any,               ; Claim Value
-     (int / text)       ; Claim Key
-   ]
-   salted-element = [
-     bstr .size 16,     ; 128-bit salt
-     any                ; Claim Value
-   ]
-   decoy = [
-     bstr .size 16      ; 128-bit salt
-   ]
-
-   When a blinded claim is a key in a map, its blinded claim hash is
-   added to a redacted_claim_keys array claim in the CWT payload that is
-   at the same level of hierarchy as the key being blinded.  The
-   redacted_claim_keys key is the CBOR simple type TBD4 registered for
-   that purpose (with the requested value of 59).
-
-   When blinding an individual item in an array, the value of the item
-   is replaced with the digested salted hash as a CBOR byte string,
-   wrapped with the CBOR tag TBD5 (requested tag number 60).
-
-   ; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax
-   redacted_claim_element = #6.60( bstr )
-
-   Blinded claims can be nested.  For example, both individual keys in
-   the inspection_location claim, and the entire inspection_location
-   element can be separately blinded.  An example nested claim is shown
-   in Section 13.2.
-
-   Finally, an Issuer MAY create decoy digests, which look like blinded
-   claim hashes but have only a salt.  Decoy digests are discussed in
-   Section 10.
-
 7.  SD-CWT Issuance
 
    How the Holder communicates to the Issuer to request a CWT or an SD-
@@ -1077,7 +1077,7 @@ Issuer                           Holder                         Verifier
 7.1.  Issuer Generation
 
    The Issuer follows all the requirements of generating a valid SD-CWT,
-   largely a CWT extended by Section 5.  The Issuer MUST implement
+   largely a CWT extended by Section 6.  The Issuer MUST implement
    COSE_Sign1 using an appropriate fully-specified asymmetric signature
    algorithm (for example, ESP256 or Ed25519).
 
@@ -2187,7 +2187,7 @@ Issuer                           Holder                         Verifier
       is an array of redacted Claim Keys at the same level as the map
       key.
 
-   *  Specification Document(s): Section 6.2 of this specification
+   *  Specification Document(s): Section 5.1 of this specification
 
 17.3.  CBOR Tags
 
@@ -2220,7 +2220,7 @@ Issuer                           Holder                         Verifier
 
    *  Semantics: A selective disclosure redacted (array) claim element.
 
-   *  Specification Document(s): Section 6.2 of this specification
+   *  Specification Document(s): Section 5.1 of this specification
 
 17.4.  CBOR Web Token (CWT) Claims
 
@@ -2272,7 +2272,7 @@ Issuer                           Holder                         Verifier
 
    *  Interoperability considerations: n/a
 
-   *  Published specification: Section 6 of this specification
+   *  Published specification: Section 5 of this specification
 
    *  Applications that use this media type: TBD
 
@@ -2358,7 +2358,7 @@ Issuer                           Holder                         Verifier
 
    *  +suffix: +sd-cwt
 
-   *  References: Section 6 of this specification
+   *  References: Section 5 of this specification
 
    *  Encoding considerations: binary
 
@@ -2381,7 +2381,7 @@ Issuer                           Holder                         Verifier
    +====================+================+=======+====================+
    | Content-Type       | Content Coding | ID    | Reference          |
    +====================+================+=======+====================+
-   | application/sd-cwt | -              | TBD11 | Section 6 of this  |
+   | application/sd-cwt | -              | TBD11 | Section 5 of this  |
    |                    |                |       | specification      |
    +--------------------+----------------+-------+--------------------+
    | application/kb+cwt | -              | TBD12 | Section 8.1 of     |
