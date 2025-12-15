@@ -409,6 +409,12 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 
 # Differences from the CBOR Web Token Specification {#cwt-diffs}
 
+The following subsections discuss differences between CWT and SD-CWT or clarify ambiguities in CWT.
+Some of these changes are necessary to enable the new functionality of SD-CWT, while some constraints were made in the interest of more robustness.
+
+> Variability in serialization can also be exploited to impact privacy.
+See {{security}} for more details on the privacy impact of serialization and profiling.
+
 ## Definite Length CBOR Required
 
 Encoders of SD-CWT and SD-KBT MUST NOT send indefinite length CBOR.
@@ -528,14 +534,46 @@ For example, if the map below is contained inside a payload, it is invalid becau
 }
 ~~~
 
-
-## Security remarks
+## Level of Nesting of Claims
 
 Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is NOT RECOMMENDED as it could lead to resource exhaustion vulnerabilities.
-A level of depth is defined as TBD.
 
-Variability in serialization can be exploited to impact privacy.
-See {{security}} for more details on the privacy impact of serialization and profiling.
+The individual map key / value pairs in a Claim Set is defined as the "top level", or level 1.
+For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.
+
+For example, considering the following abbreviated document, the following table shows the level of depth of the corresponding values:
+
+| Level | Value                  |
+|:------|:-----------------------|
+| 1     | https://issuer.example |
+| 2     | 1549560720             |
+| 3     | DCBA-101777            |
+| 4     | us                     |
+| 5     | 27315                  |
+
+~~~ cbor-diag
+{                                   # contents are level 1
+  1: "https://issuer.example",
+  ...
+  502: 1(1549560720),               # tagged value is level 2
+  504: [                            # contents are level 2
+    {                               # contents are level 3
+      ...
+      501: "DCBA-101777",
+      503: {                        # contents are level 4
+        1: "us",
+        ...
+      },
+      505: 4([                      # decimal fraction 273.15
+        -2,                         # level 5
+        27315
+      ])
+    },
+    ...
+  ]
+}
+~~~
+
 
 # SD-CWT Definition {#sd-cwt-definition}
 
