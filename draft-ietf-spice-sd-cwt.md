@@ -497,7 +497,7 @@ safe_value =
   safe_map /
   #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-sd_cwt_payload_map = { * sd_cwt_label => sd_cwt_value }
+sd_cwt_claims_map = { * sd_cwt_label => sd_cwt_value }
 
 sd_cwt_label = label /
                #7.59 /
@@ -507,7 +507,7 @@ sd_cwt_label = label /
 sd_cwt_value =
   int / tstr / bstr /
   [ * sd_cwt_value ] /
-  sd_cwt_payload_map /
+  sd_cwt_claims_map /
   #6.<safe_tag>(sd_cwt_value) / #7.<safe_simple> / float
 
 label = int / tstr .size (1..255)

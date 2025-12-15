@@ -18,7 +18,7 @@ sd-protected = {
    &(typ: 16) ^ => "application/sd-cwt" / TBD11,
    &(alg: 1) ^ => int,
    ? &(kid: 4) ^ => bstr,
-   ? &(CWT_Claims: 15) ^ => sd_cwt_claim_map,
+   ? &(CWT_Claims: 15) ^ => sd_cwt_claims_map,
    ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
    ? &(sd_aead: TBD7) ^ => uint .size 2,
    * label => safe_value
@@ -74,7 +74,7 @@ safe_value =
   safe_map /
   #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-sd_cwt_claim_map = { * sd_cwt_label => sd_cwt_value }
+sd_cwt_claims_map = { * sd_cwt_label => sd_cwt_value }
 
 sd_cwt_label = label /
                #7.59 /
@@ -84,7 +84,7 @@ sd_cwt_label = label /
 sd_cwt_value =
   int / tstr / bstr /
   [ * sd_cwt_value ] /
-  sd_cwt_claim_map /
+  sd_cwt_claims_map /
   #6.<safe_tag>(sd_cwt_value) / #7.<safe_simple> / float
 
 label = int / tstr .size (1..255)
