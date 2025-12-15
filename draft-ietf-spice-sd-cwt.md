@@ -571,15 +571,23 @@ For example, considering the following abbreviated document, the following table
         1: "us",
         ...
       },
-      505: 4([                      # decimal fraction 273.15
-        -2,                         # level 5
-        27315
-      ])
+      505: 4(                       # decimal fraction tag
+        [                           #   273.15
+          -2,
+          27315                     # level 5
+        ]
+      )
     },
     ...
   ]
 }
 ~~~
+
+The contents of the top-level claims map are level 1.
+The contents of the array for map key 504 are level 2.
+The contents if the map inside that array are level 3 (ex: the value of map key 505).
+The value of tag 4 is at level 4.
+The values in the array inside tag 4 is at level 5.
 
 
 # SD-CWT Definition {#sd-cwt-definition}
