@@ -444,8 +444,10 @@ An SD-CWT payload is typically its COSE payload.
 Both of these maps are described as SD-CWT Claims Maps.
 
 > Note that `CWT Claims` is a separate CBOR map from the COSE payload and can contain the same Claim Keys as the COSE payload CBOR map.
-The same claim key could be present in both maps and could have different values in those maps.
-Neither, one, or both could be redacted, and if both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.
+
+The same valid CWT claim keys could be present in both SD-CWT Claims Maps, but if so, they MUST have the same unblinded value.
+Neither, one, or both could be redacted.
+If both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.
 
 In addition to map keys that are valid in CWT, SD-CWT Claims Maps MAY contain the CBOR simple value registered in this specification in {{simple59}}.
 In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys MAY also consist of the To Be Redacted tag (defined in {{tbr-tag}}), containing an integer or text string; or a To Be Decoy tag (defined in TBD), containing a positive integer.
