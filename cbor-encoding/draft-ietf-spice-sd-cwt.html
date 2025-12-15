@@ -1053,7 +1053,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 17 June 2026</td>
+<td class="center">Expires 18 June 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-12-14" class="published">14 December 2025</time>
+<time datetime="2025-12-15" class="published">15 December 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-06-17">17 June 2026</time></dd>
+<dd class="expires"><time datetime="2026-06-18">18 June 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1133,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 17 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 18 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1203,7 +1203,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
                 <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-duplicate-map-key-detection" class="internal xref">Duplicate map key detection</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
-                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-security-remarks" class="internal xref">Security remarks</a></p>
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-level-of-nesting-of-claims" class="internal xref">Level of Nesting of Claims</a></p>
 </li>
             </ul>
 </li>
@@ -2207,6 +2207,14 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
       <h2 id="name-differences-from-the-cbor-w">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-differences-from-the-cbor-w" class="section-name selfRef">Differences from the CBOR Web Token Specification</a>
       </h2>
+<p id="section-5-1">The following subsections discuss differences between CWT and SD-CWT or clarify ambiguities in CWT.
+Some of these changes are necessary to enable the new functionality of SD-CWT, while some constraints were made in the interest of more robustness.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-5-2.1">
+          <p id="section-5-2.1.1">Variability in serialization can also be exploited to impact privacy.
+See <a href="#security" class="auto internal xref">Section 16</a> for more details on the privacy impact of serialization and profiling.<a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
 <div id="definite-length-cbor-required">
 <section id="section-5.1">
         <h3 id="name-definite-length-cbor-requir">
@@ -2400,15 +2408,70 @@ Map keys and their To Be Redacted tagged verison are considered duplicate map ke
 </div>
 </section>
 </div>
-<div id="security-remarks">
+<div id="level-of-nesting-of-claims">
 <section id="section-5.5">
-        <h3 id="name-security-remarks">
-<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-security-remarks" class="section-name selfRef">Security remarks</a>
+        <h3 id="name-level-of-nesting-of-claims">
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-level-of-nesting-of-claims" class="section-name selfRef">Level of Nesting of Claims</a>
         </h3>
-<p id="section-5.5-1">Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is <span class="bcp14">NOT RECOMMENDED</span> as it could lead to resource exhaustion vulnerabilities.
-A level of depth is defined as TBD.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
-<p id="section-5.5-2">Variability in serialization can be exploited to impact privacy.
-See <a href="#security" class="auto internal xref">Section 16</a> for more details on the privacy impact of serialization and profiling.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
+<p id="section-5.5-1">Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is <span class="bcp14">NOT RECOMMENDED</span> as it could lead to resource exhaustion vulnerabilities.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+<p id="section-5.5-2">The individual map key / value pairs in a Claim Set is defined as the "top level", or level 1.
+For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
+<p id="section-5.5-3">For example, considering the following abbreviated document, the following table shows the level of depth of the corresponding values:<a href="#section-5.5-3" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Level</th>
+              <th class="text-left" rowspan="1" colspan="1">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">1</td>
+              <td class="text-left" rowspan="1" colspan="1">https://issuer.example</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">2</td>
+              <td class="text-left" rowspan="1" colspan="1">1549560720</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">3</td>
+              <td class="text-left" rowspan="1" colspan="1">DCBA-101777</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">4</td>
+              <td class="text-left" rowspan="1" colspan="1">us</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">5</td>
+              <td class="text-left" rowspan="1" colspan="1">27315</td>
+            </tr>
+          </tbody>
+        </table>
+<div class="lang-cbor-diag sourcecode" id="section-5.5-5">
+<pre>
+{                                   # contents are level 1
+  1: "https://issuer.example",
+  ...
+  502: 1(1549560720),               # tagged value is level 2
+  504: [                            # contents are level 2
+    {                               # contents are level 3
+      ...
+      501: "DCBA-101777",
+      503: {                        # contents are level 4
+        1: "us",
+        ...
+      },
+      505: 4([                      # decimal fraction 273.15
+        -2,                         # level 5
+        27315
+      ])
+    },
+    ...
+  ]
+}
+</pre><a href="#section-5.5-5" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
 </section>
@@ -3923,9 +3986,9 @@ Implementations using the AEGIS algorithms containing an X <span class="bcp14">M
 <a href="#section-17.7" class="section-number selfRef">17.7. </a><a href="#name-content-formats" class="section-name selfRef">Content-Formats</a>
         </h3>
 <p id="section-17.7-1">IANA is requested to register the following entries in the <a href="https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats">IANA "CoAP Content-Formats" registry</a>:<a href="#section-17.7-1" class="pilcrow">¶</a></p>
-<span id="name-new-coap-content-formats"></span><table class="left" id="table-1">
+<span id="name-new-coap-content-formats"></span><table class="left" id="table-2">
           <caption>
-<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#table-2" class="selfRef">Table 2</a>:
 <a href="#name-new-coap-content-formats" class="selfRef">New CoAP Content Formats</a>
           </caption>
 <thead>
@@ -3965,8 +4028,8 @@ Implementations using the AEGIS algorithms containing an X <span class="bcp14">M
 It registers identifiers for the type of the SD-CWT Claims Set.<a href="#section-17.8-1" class="pilcrow">¶</a></p>
 <p id="section-17.8-2">It enables short integers in the range 0-65535 to be used as <code>vct</code> Claim Values, similarly to how CoAP Content-Formats (<span><a href="https://rfc-editor.org/rfc/rfc7252#section-12.3" class="relref">Section 12.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>) enable short integers to be used as <code>typ</code> header parameter <span>[<a href="#RFC9596" class="cite xref">RFC9596</a>]</span> values.<a href="#section-17.8-2" class="pilcrow">¶</a></p>
 <p id="section-17.8-3">The registration procedures for numbers in specific ranges are as described below:<a href="#section-17.8-3" class="pilcrow">¶</a></p>
-<table class="center" id="table-2">
-          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<table class="center" id="table-3">
+          <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Range</th>

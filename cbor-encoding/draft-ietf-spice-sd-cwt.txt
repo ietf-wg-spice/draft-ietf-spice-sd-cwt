@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 17 June 2026                                       Tradeverifyd
+Expires: 18 June 2026                                       Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                        14 December 2025
+                                                        15 December 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 June 2026.
+   This Internet-Draft will expire on 18 June 2026.
 
 Copyright Notice
 
@@ -85,7 +85,7 @@ Table of Contents
      5.2.  Finite values for standard date claims
      5.3.  Allowed types of CBOR map keys
      5.4.  Duplicate map key detection
-     5.5.  Security remarks
+     5.5.  Level of Nesting of Claims
    6.  SD-CWT Definition
      6.1.  Use of Structured Suffixes
      6.2.  Types of Blinded Claims
@@ -694,6 +694,15 @@ Issuer                           Holder                         Verifier
 
 5.  Differences from the CBOR Web Token Specification
 
+   The following subsections discuss differences between CWT and SD-CWT
+   or clarify ambiguities in CWT.  Some of these changes are necessary
+   to enable the new functionality of SD-CWT, while some constraints
+   were made in the interest of more robustness.
+
+      Variability in serialization can also be exploited to impact
+      privacy.  See Section 16 for more details on the privacy impact of
+      serialization and profiling.
+
 5.1.  Definite Length CBOR Required
 
    Encoders of SD-CWT and SD-KBT MUST NOT send indefinite length CBOR.
@@ -875,15 +884,57 @@ Issuer                           Holder                         Verifier
      58(500): "DEFG-456789"  # to be redacted tag containing 500
    }
 
-5.5.  Security remarks
+5.5.  Level of Nesting of Claims
 
    Selective disclosure of deeply nested structures (exceeding a depth
    of 16 levels), is NOT RECOMMENDED as it could lead to resource
-   exhaustion vulnerabilities.  A level of depth is defined as TBD.
+   exhaustion vulnerabilities.
 
-   Variability in serialization can be exploited to impact privacy.  See
-   Section 16 for more details on the privacy impact of serialization
-   and profiling.
+   The individual map key / value pairs in a Claim Set is defined as the
+   "top level", or level 1.  For each value that is an array, a map, or
+   a tagged item, each of the elements of the array, each value
+   corresponding to each map key in the map, and the tagged item are at
+   the next level of depth.
+
+   For example, considering the following abbreviated document, the
+   following table shows the level of depth of the corresponding values:
+
+                    +=======+========================+
+                    | Level | Value                  |
+                    +=======+========================+
+                    | 1     | https://issuer.example |
+                    +-------+------------------------+
+                    | 2     | 1549560720             |
+                    +-------+------------------------+
+                    | 3     | DCBA-101777            |
+                    +-------+------------------------+
+                    | 4     | us                     |
+                    +-------+------------------------+
+                    | 5     | 27315                  |
+                    +-------+------------------------+
+
+                                 Table 1
+
+   {                                   # contents are level 1
+     1: "https://issuer.example",
+     ...
+     502: 1(1549560720),               # tagged value is level 2
+     504: [                            # contents are level 2
+       {                               # contents are level 3
+         ...
+         501: "DCBA-101777",
+         503: {                        # contents are level 4
+           1: "us",
+           ...
+         },
+         505: 4([                      # decimal fraction 273.15
+           -2,                         # level 5
+           27315
+         ])
+       },
+       ...
+     ]
+   }
 
 6.  SD-CWT Definition
 
@@ -2322,7 +2373,7 @@ Issuer                           Holder                         Verifier
    |                    |                |       | this specification |
    +--------------------+----------------+-------+--------------------+
 
-                    Table 1: New CoAP Content Formats
+                    Table 2: New CoAP Content Formats
 
    If possible, TBD11 and TBD12 should be assigned in the 256..9999
    range.
@@ -2353,7 +2404,7 @@ Issuer                           Holder                         Verifier
           | 65000-65535 | Experimental Use (no operational use) |
           +-------------+---------------------------------------+
 
-                                  Table 2
+                                  Table 3
 
    Values in the Specification Required [RFC8126] range are registered
    after a two-week review period on the spice-ext-review@ietf.org
