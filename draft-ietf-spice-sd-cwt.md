@@ -407,6 +407,76 @@ The issued SD-CWT is placed in the `kcwt` (Confirmation Key CWT) protected heade
 The digests in protected parts of the issued SD-CWT and the disclosures hashed in unprotected header of the `issuer_sd_cwt` are used together by the Verifier to confirm the disclosed claims.
 Since the unprotected header of the included SD-CWT is covered by the signature in the SW-KBT, the Verifier has assurance that the Holder included the sent list of disclosures.
 
+
+# SD-CWT Definition {#sd-cwt-definition}
+
+SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
+An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with a value declaring that the object is an SD-CWT.
+This value MAY be the string content type value `application/sd-cwt`,
+the uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value TBD11,
+or a value declaring that the object is a more specific kind of SD-CWT,
+such as a content type value using the `+sd-cwt` structured suffix.
+
+An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
+Unlike CWT, SD-CWT requires key binding.
+
+An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
+It is not required to contain any blinded claims.
+
+Optionally the salted Claim Values (and often Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
+If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` header parameter in the unprotected header is an empty array.
+
+Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
+However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.
+
+
+## Types of Blinded Claims {#blinded-claims}
+
+Salted Disclosed Claims for named claims are structured as a 128-bit salt, the disclosed value, and the name of the redacted element.
+For Salted Disclosed Claims of items in an array, the name is omitted.
+
+~~~ cddl
+; an array of bstr-encoded Salted Disclosed Claims
+salted-array = [ *bstr-encoded-salted ]
+
+bstr-encoded-salted = bstr .cbor salted-entry
+salted-entry = salted-claim / salted-element / decoy
+salted-claim = [
+  bstr .size 16,     ; 128-bit salt
+  any,               ; Claim Value
+  (int / text)       ; Claim Key
+]
+salted-element = [
+  bstr .size 16,     ; 128-bit salt
+  any                ; Claim Value
+]
+decoy = [
+  bstr .size 16      ; 128-bit salt
+]
+~~~
+
+When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
+The `redacted_claim_keys` key is the CBOR simple type TBD4 registered for that purpose (with the requested value of 59).
+
+When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).
+
+~~~ cddl
+; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax
+redacted_claim_element = #6.60( bstr )
+~~~
+
+Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
+An example nested claim is shown in {{nesting}}.
+
+Finally, an Issuer MAY create decoy digests, which look like blinded claim hashes but have only a salt.
+Decoy digests are discussed in {{decoys}}.
+
+## Use of Structured Suffixes
+
+Any type which contains the `+sd-cwt` structured suffix MUST be a legal SD-CWT.
+A type that is a legal CWT and does not contain any blinded claims SHOULD use the `+cwt` structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.
+
+
 # Differences from the CBOR Web Token Specification {#cwt-diffs}
 
 The following subsections discuss differences between CWT and SD-CWT or clarify ambiguities in CWT.
@@ -522,6 +592,7 @@ Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
 Instead, the tag provides additional information about the tagged Claim Key and the corresponding (untagged) value.
 Multiple levels of tags in a map key are not permitted.
 
+
 ## Duplicate map key detection
 
 Implementations MUST NOT send multiple map keys inside the same CBOR map having the same CBOR Preferred Encoding (see {{Section 4.1 of !RFC8949}}).
@@ -540,6 +611,7 @@ For example, if the map below is contained inside a payload, it is invalid becau
   58(500): "DEFG-456789"  # to be redacted tag containing 500
 }
 ~~~
+
 
 ## Level of Nesting of Claims
 
@@ -589,74 +661,6 @@ The contents if the map inside that array are level 3 (ex: the value of map key 
 The value of tag 4 is at level 4.
 The values in the array inside tag 4 is at level 5.
 
-
-# SD-CWT Definition {#sd-cwt-definition}
-
-SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
-An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with a value declaring that the object is an SD-CWT.
-This value MAY be the string content type value `application/sd-cwt`,
-the uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value TBD11,
-or a value declaring that the object is a more specific kind of SD-CWT,
-such as a content type value using the `+sd-cwt` structured suffix.
-
-An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
-Unlike CWT, SD-CWT requires key binding.
-
-An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
-It is not required to contain any blinded claims.
-
-Optionally the salted Claim Values (and often Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
-If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` header parameter in the unprotected header is an empty array.
-
-Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
-However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.
-
-## Use of Structured Suffixes
-
-Any type which contains the `+sd-cwt` structured suffix MUST be a legal SD-CWT.
-A type that is a legal CWT and does not contain any blinded claims SHOULD use the `+cwt` structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.
-
-
-## Types of Blinded Claims {#blinded-claims}
-
-Salted Disclosed Claims for named claims are structured as a 128-bit salt, the disclosed value, and the name of the redacted element.
-For Salted Disclosed Claims of items in an array, the name is omitted.
-
-~~~ cddl
-; an array of bstr-encoded Salted Disclosed Claims
-salted-array = [ *bstr-encoded-salted ]
-
-bstr-encoded-salted = bstr .cbor salted-entry
-salted-entry = salted-claim / salted-element / decoy
-salted-claim = [
-  bstr .size 16,     ; 128-bit salt
-  any,               ; Claim Value
-  (int / text)       ; Claim Key
-]
-salted-element = [
-  bstr .size 16,     ; 128-bit salt
-  any                ; Claim Value
-]
-decoy = [
-  bstr .size 16      ; 128-bit salt
-]
-~~~
-
-When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
-The `redacted_claim_keys` key is the CBOR simple type TBD4 registered for that purpose (with the requested value of 59).
-
-When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).
-
-~~~ cddl
-; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax
-redacted_claim_element = #6.60( bstr )
-~~~
-
-Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
-An example nested claim is shown in {{nesting}}.
-
-Finally, an Issuer MAY create decoy digests, which look like blinded claim hashes but have only a salt.
-Decoy digests are discussed in {{decoys}}.
 
 # SD-CWT Issuance {#sd-cwt-issuance}
 
