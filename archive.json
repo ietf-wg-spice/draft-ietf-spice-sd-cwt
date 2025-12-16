@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-11T00:54:28.535049+00:00",
+  "timestamp": "2025-12-16T00:54:45.232527+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1468,14 +1468,16 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
-        "blocked",
-        "wait-for-IANA"
+        "ready-for-pr",
+        "next-stretch"
       ],
       "body": "Are integer values for content-type (using the CoAP registry) always preferred for efficiency, or only when using CoAP?\n\nAlso needs to update all the examples if we make this change.\n\n",
       "createdAt": "2025-05-21T00:11:06Z",
-      "updatedAt": "2025-11-10T14:24:39Z",
+      "updatedAt": "2025-12-15T22:30:55Z",
       "closedAt": null,
       "comments": [
         {
@@ -1491,6 +1493,20 @@
           "body": "Let's wait for IANA to early assign the values, then we can change the text and examples to use the new values",
           "createdAt": "2025-06-25T13:54:24Z",
           "updatedAt": "2025-06-25T13:54:24Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "These have been registered!\napplication/sd-cwt  ==> 293\napplication/sd+kbt ==> 294\n\n",
+          "createdAt": "2025-12-15T21:39:32Z",
+          "updatedAt": "2025-12-15T21:39:32Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "On Dec 15, 2025, at 22:39, Rohan Mahy ***@***.***> wrote:\r\n> \r\n> application/sd+kbt ==> 294\r\n\r\napplication/kb+cwt (TEMPORARY - registered                    [https://www.iana.org/assignments/provisional-standard-media-types] 294         [draft-ietf-spice-sd-cwt-05]\r\n\r\nGr\u00fc\u00dfe, Carsten\r\n\r\n",
+          "createdAt": "2025-12-15T22:30:55Z",
+          "updatedAt": "2025-12-15T22:30:55Z"
         }
       ]
     },
@@ -2886,20 +2902,19 @@
       "id": "I_kwDOMm_Q2s7Lt34b",
       "title": "Require any CBOR data model and encoding restrictions",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/146",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
-        "next-stretch"
+        "has-PR"
       ],
       "body": "I was talking with a friend about pen-testing. \n\nI propose requiring encoding of SD-CWT and KBT to use Preferred Encoding and never use CBOR indeterminate length encoding. I also propose that time claims (exp, nbf, and iat) be rejected that contain any type of NaN.\n\nThe preferred encoding is just a best practice, but indeterminate length is a place that can cause security the kind of bugs that trigger vulnerabilities for zero benefit.",
       "createdAt": "2025-09-15T12:40:25Z",
-      "updatedAt": "2025-12-01T14:08:05Z",
-      "closedAt": null,
+      "updatedAt": "2025-12-15T18:07:55Z",
+      "closedAt": "2025-12-15T18:07:55Z",
       "comments": [
         {
           "author": "OR13",
@@ -3012,6 +3027,13 @@
           "body": "On Nov 24, 2025, at 15:40, Orie Steele ***@***.***> wrote:\r\n> \r\n> \r\n> OR13\r\n>  left a comment \r\n> (ietf-wg-spice/draft-ietf-spice-sd-cwt#146)\r\n>  <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/146#issuecomment-3571128695>\r\n> Top posting:\r\n> \r\n> No controversy\r\n> \r\n> SD-CWT and KBT as new formats can define new constraints:\r\n> \r\n> These formats are restricted to use definite-length encoding bstrs, tstrs, arrays, and maps.\r\nThis is an encoding constraint (known as definite-length-only for short; there is no need to list the major types that CBOR supports indefinite-length encoding for).\r\n> The date claims exp/nbf/iat are finite numbers\r\nThis is a data model constraint.\r\nThe encoding is not constrained, but certain choices are simply not available in the data model.\r\nMakes sense, even though 1e308 is still a pretty large number.\r\n> Discussion\r\n> \r\n> A maximum of 16 levels of depth are permitted anywhere in the SD-CWT or KBT\r\n(Also a data model constraint.  Please define \u201clevel of depth\u201d.)\r\n> If a map key anywhere in a SD-CWT or KBT contains another map, the map MUST be bstr encoded\r\nThis is termed as a data model constraint.\r\nSee below for a better constraint.\r\n> Proposal\r\n> \r\n> Selective disclosure of deeply nested structures (exceeding depth 16), is NOT RECOMMENDED as it could lead to resource exhaustion vulnerabilities.\r\nThere is a whole body of work around \u201carbitrary limitations\u201d, which I\u2019m not going to recite.\r\nClearly, any implementation needs to be able to stop processing when its resources are not sufficient.\r\nIdentifying some guidance what should, at a minimum, be supported, is difficult; I\u2019m not sure I understand why this would be about some measure of depth only.\r\nGenerally speaking, the tuning for minimum support could be a parameter with different values for different applications or implementations.\r\n> Selective disclosure processing described in this document requires map keys to be restricted to one of the following types: integer, byte string, text string, tags (described within this document) (Integer | text | bytes), and the one simple value we describe in this document.\r\nI don\u2019t understand why tags and simple values need to be constrained in the data model, and I can\u2019t parse \"(described within this document) (Integer | text | bytes)\".\r\nBut that may simply be lack of knowledge on my part, please just explain.\r\n\r\nGr\u00fc\u00dfe, Carsten\r\n\r\n",
           "createdAt": "2025-11-24T16:44:10Z",
           "updatedAt": "2025-11-24T16:44:10Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Address in #163 ",
+          "createdAt": "2025-12-15T18:05:27Z",
+          "updatedAt": "2025-12-15T18:05:27Z"
         }
       ]
     },
@@ -3087,11 +3109,16 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "ready-for-pr",
+        "next-stretch"
+      ],
       "body": "In #157 I defined a tag internally used by the sd-cwt.py script to mark a location that will be replaced by a decoy digest.\n\nDo we want to add this as generically useful to the draft?",
       "createdAt": "2025-11-24T15:57:59Z",
-      "updatedAt": "2025-11-24T15:57:59Z",
+      "updatedAt": "2025-12-15T21:32:33Z",
       "closedAt": null,
       "comments": []
     },
@@ -3116,7 +3143,7 @@
       "id": "I_kwDOMm_Q2s7bayv1",
       "title": "CWT Claims in Headers",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/161",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3125,9 +3152,61 @@
       "labels": [],
       "body": "We need text to describe that when https://www.rfc-editor.org/rfc/rfc9597.html is used, redaction processing may start in the map references by label 15.\n\nWe should describe that it is possible to do redaction in both payload and header label 15.",
       "createdAt": "2025-12-01T14:20:24Z",
-      "updatedAt": "2025-12-01T14:27:31Z",
+      "updatedAt": "2025-12-15T18:07:44Z",
+      "closedAt": "2025-12-15T18:07:44Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #163 ",
+          "createdAt": "2025-12-15T18:04:31Z",
+          "updatedAt": "2025-12-15T18:04:31Z"
+        }
+      ]
+    },
+    {
+      "number": 165,
+      "id": "I_kwDOMm_Q2s7eXZjG",
+      "title": "Split sd-cwt-issued and preissued",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/165",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "has-PR"
+      ],
+      "body": "I'd like to split this into two:\n\n```\nissued-sd-cwt-label = label / REDACTED_KEYS\npreissuance-label = label / #6.<TO_BE_REDACTED>(label) / #6.<TO_BE_DECOY>(int .gt 0)\n```\n\nwith the associated map productions:\n\n- `safe-map` and `safe-value`\n- `issued-map` and `issued-value`\n- `preissuance-map` and `preissuance-value`\n",
+      "createdAt": "2025-12-15T14:23:14Z",
+      "updatedAt": "2025-12-15T21:32:50Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 166,
+      "id": "I_kwDOMm_Q2s7eayH4",
+      "title": "move the # SD-CWT Definition before the # Differences",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/166",
+      "state": "CLOSED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "move the # SD-CWT Definition before the # Differences ... section and move ## Use of Structured Suffixes to be the last subsection in that section",
+      "createdAt": "2025-12-15T18:07:01Z",
+      "updatedAt": "2025-12-15T18:14:01Z",
+      "closedAt": "2025-12-15T18:14:01Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Done in #167 ",
+          "createdAt": "2025-12-15T18:14:01Z",
+          "updatedAt": "2025-12-15T18:14:01Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -13635,25 +13714,49 @@
       "id": "PR_kwDOMm_Q2s63sG4P",
       "title": "Cbor encoding",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/163",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-12-08T14:09:06Z",
-      "updatedAt": "2025-12-09T14:53:21Z",
+      "updatedAt": "2025-12-15T18:07:29Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "26f20db378662d508a3a47533daee9b2daf6e3cf",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "cbor-encoding",
-      "headRefOid": "c5aa91bdf246b3879444a0b633dce59efa8978b0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "8c168bfa6aafc82736404e484a0b9b855bbd19a8",
+      "closedAt": "2025-12-15T18:07:28Z",
+      "mergedAt": "2025-12-15T18:07:28Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "9bf2e51241e75cfb098e425e644e2724c872f911"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "OK, I think this is ready for a second review. In addition to what I've done here, I propose the following:\r\n\r\n[x] `sd_cwt_payload_map` ==> `sd_cwt_claims_map` - I am open to other terms, but as this is getting messy, I propose we merge this and then change the name everywhere.\r\n[x] finish the TBD on defining nesting in a separate PR\r\n\r\n- define the To Be Decoy tag separately (there is a separate issue for this already) \r\n- move the `# SD-CWT Definition` before the `# Differences ...` section and move `## Use of Structured Suffixes` to be the last subsection in that section (also in a separate PR to avoid hard to read diffs)\r\n- split preissuance and issued SD-CWT",
+          "createdAt": "2025-12-14T12:12:25Z",
+          "updatedAt": "2025-12-15T18:06:19Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@selfissued if a claim is in both claim sets (with the same unblinded\r\nvalue), what happens if we redact one or both copies?\r\n\r\nif we redact both, they probably each need a different salt and therefore\r\nwill have a redacted keys (simple 59) \"claim\" which is different in the two\r\nclaim sets.\r\nShould it be possible to redact the claim in only one claim set?\r\n\r\nOn Sun, 14 Dec 2025, 22:06 Michael B. Jones, ***@***.***>\r\nwrote:\r\n\r\n> ***@***.**** commented on this pull request.\r\n> ------------------------------\r\n>\r\n> In draft-ietf-spice-sd-cwt.md\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/163#discussion_r2617490093>\r\n> :\r\n>\r\n> > +The same claim key could be present in both maps and could have different values in those maps.\r\n> +Neither, one, or both could be redacted, and if both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.\r\n>\r\n> https://www.rfc-editor.org/rfc/rfc9597.html#name-representation says:\r\n>\r\n> In cases where CWT claims are present both in the payload and the header\r\n> of a CWT, an application receiving such a structure MUST verify that their\r\n> values are identical, unless the application defines other specific\r\n> processing rules for these claims.\r\n>\r\n> We seem to be looser than RFC 9597 in that we're not repeating that text\r\n> about verifying that claims appearing twice MUST be identical. I'd advocate\r\n> repeating the sentence above in SD-CWT.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/163#pullrequestreview-3575854869>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPVOJWLX5SRH4KMRBZ34BXGPDAVCNFSM6AAAAACOMFSYLWVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTKNZVHA2TIOBWHE>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***\r\n> com>\r\n>\r\n",
+          "createdAt": "2025-12-15T05:21:32Z",
+          "updatedAt": "2025-12-15T05:21:32Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is large, we should address follow ups separately, in small PRs",
+          "createdAt": "2025-12-15T14:33:35Z",
+          "updatedAt": "2025-12-15T14:33:35Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s7Tu35s",
@@ -13954,6 +14057,358 @@
               "updatedAt": "2025-12-09T14:53:21Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VFWW7",
+          "commit": {
+            "abbreviatedOid": "5d586b2"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T10:13:15Z",
+          "updatedAt": "2025-12-14T10:13:15Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\r\nFor the avoidance of doubt, not a number (NaN) values and positive and negative infinity are not acceptable in those claims.\r\n\r\n```",
+              "createdAt": "2025-12-14T10:13:15Z",
+              "updatedAt": "2025-12-14T10:13:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VFXI5",
+          "commit": {
+            "abbreviatedOid": "5d586b2"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T10:20:49Z",
+          "updatedAt": "2025-12-14T10:20:49Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "```suggestion\r\n> Note that `CWT Claims` is a separate CBOR map from the COSE payload and can contain the same Claim Keys as the COSE payload CBOR map.\r\nThe same claim key could be present in both maps and could have different values in those maps.\r\nNeither, one, or both could be redacted, and if both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.\r\n```",
+              "createdAt": "2025-12-14T10:20:49Z",
+              "updatedAt": "2025-12-14T10:20:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VFYm4",
+          "commit": {
+            "abbreviatedOid": "5d586b2"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T10:24:45Z",
+          "updatedAt": "2025-12-14T10:24:45Z",
+          "comments": [
+            {
+              "originalPosition": 37,
+              "body": "```suggestion\r\nAn SD-CWT is a format based on CWT.\r\nIt allows some additional types inside map keys to indicate values that were or should be redacted.\r\nThis specification also includes some constraints on SD-CWTs and SD-KBTs to improve robustness.\r\n```",
+              "createdAt": "2025-12-14T10:24:45Z",
+              "updatedAt": "2025-12-14T10:27:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VFZc5",
+          "commit": {
+            "abbreviatedOid": "5d586b2"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T10:31:03Z",
+          "updatedAt": "2025-12-14T10:31:04Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "```suggestion\r\n  - when disclosable claims are communicated between the Holder and the Issuer, prior to issuance:\r\n```",
+              "createdAt": "2025-12-14T10:31:03Z",
+              "updatedAt": "2025-12-14T10:31:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VFZe8",
+          "commit": {
+            "abbreviatedOid": "5d586b2"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T10:31:24Z",
+          "updatedAt": "2025-12-14T10:31:24Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "I made an alternate proposal. ",
+              "createdAt": "2025-12-14T10:31:24Z",
+              "updatedAt": "2025-12-14T10:31:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VFZva",
+          "commit": {
+            "abbreviatedOid": "20db398"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T10:34:24Z",
+          "updatedAt": "2025-12-14T10:34:24Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "If I get some time before the editor's meeting, I'll try to rewrite this. I'm still struggling to make the new language fit. I don't have any objection to a different name, just that this language is a bit fiddly.",
+              "createdAt": "2025-12-14T10:34:24Z",
+              "updatedAt": "2025-12-14T10:34:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VFZ00",
+          "commit": {
+            "abbreviatedOid": "20db398"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T10:35:09Z",
+          "updatedAt": "2025-12-14T10:35:10Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "I may remove the reference to the CDDL here or have a new name for the type.",
+              "createdAt": "2025-12-14T10:35:09Z",
+              "updatedAt": "2025-12-14T10:35:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VIQpQ",
+          "commit": {
+            "abbreviatedOid": "e90f80a"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T18:34:36Z",
+          "updatedAt": "2025-12-14T18:34:36Z",
+          "comments": [
+            {
+              "originalPosition": 160,
+              "body": "```suggestion\nA type that is a legal CWT and does not contain any blinded claims SHOULD use the `+cwt` structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.\n```",
+              "createdAt": "2025-12-14T18:34:36Z",
+              "updatedAt": "2025-12-14T18:34:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VIVyk",
+          "commit": {
+            "abbreviatedOid": "e90f80a"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I conditionally approve this PR, once these TBD references are filled in\n\n> To Be Decoy tag (defined in TBD)\n> A level of depth is defined as TBD.\n\nThe first missing reference occurs twice in the specification.",
+          "createdAt": "2025-12-14T19:16:18Z",
+          "updatedAt": "2025-12-14T19:16:18Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VIokg",
+          "commit": {
+            "abbreviatedOid": "e90f80a"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T20:37:53Z",
+          "updatedAt": "2025-12-14T20:37:53Z",
+          "comments": [
+            {
+              "originalPosition": 149,
+              "body": "```suggestion\r\nAn SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.\r\n```",
+              "createdAt": "2025-12-14T20:37:53Z",
+              "updatedAt": "2025-12-14T20:37:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VIpYw",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T20:39:59Z",
+          "updatedAt": "2025-12-14T20:40:00Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "replaced with Claims Map.  does that work?",
+              "createdAt": "2025-12-14T20:40:00Z",
+              "updatedAt": "2025-12-14T20:40:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VIpqT",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T20:40:43Z",
+          "updatedAt": "2025-12-14T20:40:43Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "I get your point. I think this is good now. ",
+              "createdAt": "2025-12-14T20:40:43Z",
+              "updatedAt": "2025-12-14T20:40:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VIp6J",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T20:41:10Z",
+          "updatedAt": "2025-12-14T20:41:10Z",
+          "comments": [
+            {
+              "originalPosition": 37,
+              "body": "Rewrote paragraph",
+              "createdAt": "2025-12-14T20:41:10Z",
+              "updatedAt": "2025-12-14T20:41:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VIqK_",
+          "commit": {
+            "abbreviatedOid": "c5aa91b"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T20:41:52Z",
+          "updatedAt": "2025-12-14T20:41:52Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "Mentioned in my proposal below:\r\nhttps://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/163#issuecomment-3650836472",
+              "createdAt": "2025-12-14T20:41:52Z",
+              "updatedAt": "2025-12-14T20:41:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VIzcV",
+          "commit": {
+            "abbreviatedOid": "e0ffd3e"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-14T21:06:36Z",
+          "updatedAt": "2025-12-14T21:06:36Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "https://www.rfc-editor.org/rfc/rfc9597.html#name-representation says:\n> In cases where CWT claims are present both in the payload and the header of a CWT, an application receiving such a structure MUST verify that their values are identical, unless the application defines other specific processing rules for these claims.\n\nWe seem to be looser than RFC 9597 in that we're not repeating that text about verifying that claims appearing twice MUST be identical.  I'd advocate repeating the sentence above in SD-CWT.",
+              "createdAt": "2025-12-14T21:06:36Z",
+              "updatedAt": "2025-12-14T21:06:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VNrpL",
+          "commit": {
+            "abbreviatedOid": "917c7d3"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-15T09:06:44Z",
+          "updatedAt": "2025-12-15T14:05:46Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "@selfissued\r\nThere are three \"interesting\" cases.\r\n\r\nIf I want to redact any claims which are in one claim set but not the other, at least the redacted keys claim will have to be different.\r\n\r\nIf I have a claim which exists in both and I want it redacted in both places, it will need to have a different salt and therefore a different Blinded Claim Hash.\r\n\r\nIs there any reason to redact a claim in one claim set and not in the other?",
+              "createdAt": "2025-12-15T09:06:44Z",
+              "updatedAt": "2025-12-15T14:05:46Z"
+            },
+            {
+              "originalPosition": 72,
+              "body": "I'd like to split this into two:\r\n\r\n```\r\nissued-sd-cwt-label = label / REDACTED_KEYS\r\npreissuance-label = label / #6.<TO_BE_REDACTED>(label) / #6.<TO_BE_DECOY>(int .gt 0)\r\n```\r\n\r\nwith the associated map productions:\r\n\r\n- `safe-map` and `safe-value`\r\n- `issued-map` and `issued-value`\r\n- `preissuance-map` and `preissuance-value`\r\n",
+              "createdAt": "2025-12-15T09:22:47Z",
+              "updatedAt": "2025-12-15T14:05:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VSpCR",
+          "commit": {
+            "abbreviatedOid": "917c7d3"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-15T14:18:27Z",
+          "updatedAt": "2025-12-15T14:18:27Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "we are specifying three places where you can have extra stuff that wasn't in CWT:\r\n\r\n- in the payload of an SD-CWT\r\n- in CWT Claims of an SD-CWT\r\n- in the kcwt of an SD-KBT\r\n\r\nall the other Header Parameters need to be comply with the restrictions of CWT. All CWT-compatible values are `safe-value`",
+              "createdAt": "2025-12-15T14:18:27Z",
+              "updatedAt": "2025-12-15T14:18:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7VS9bE",
+          "commit": {
+            "abbreviatedOid": "917c7d3"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-12-15T14:32:53Z",
+          "updatedAt": "2025-12-15T14:32:53Z",
+          "comments": []
         }
       ]
     },
@@ -14011,6 +14466,60 @@
           ]
         }
       ]
+    },
+    {
+      "number": 167,
+      "id": "PR_kwDOMm_Q2s64_Cou",
+      "title": "Swap sections 5 and 6",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/167",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-12-15T18:13:38Z",
+      "updatedAt": "2025-12-15T18:14:09Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "9bf2e51241e75cfb098e425e644e2724c872f911",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "move-differences",
+      "headRefOid": "8af125f2ed85b59cf8e99552385e2acc7c497a7d",
+      "closedAt": "2025-12-15T18:14:09Z",
+      "mergedAt": "2025-12-15T18:14:09Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "46eba96608fa47f101a60ae742f2ee949ede524f"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 168,
+      "id": "PR_kwDOMm_Q2s65BIId",
+      "title": "split definitions into issued cwt and preissuance maps",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/168",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\r\n- split sd_cwt_claim_map into two maps/values/labels\r\n- Also moved subsection on `+sd-cwt` under `# Differences`\r\n- run CDDL validation against all examples\r\n\r\nAddresses #165 \r\n ",
+      "createdAt": "2025-12-15T21:32:11Z",
+      "updatedAt": "2025-12-15T21:32:12Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "46eba96608fa47f101a60ae742f2ee949ede524f",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "split-preissued",
+      "headRefOid": "354169fac1eadcb3d55eadae4a19df23b5641363",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
