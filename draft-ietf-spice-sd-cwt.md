@@ -471,11 +471,6 @@ An example nested claim is shown in {{nesting}}.
 Finally, an Issuer MAY create decoy digests, which look like blinded claim hashes but have only a salt.
 Decoy digests are discussed in {{decoys}}.
 
-## Use of Structured Suffixes
-
-Any type which contains the `+sd-cwt` structured suffix MUST be a legal SD-CWT.
-A type that is a legal CWT and does not contain any blinded claims SHOULD use the `+cwt` structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.
-
 
 # Differences from the CBOR Web Token Specification {#cwt-diffs}
 
@@ -559,6 +554,7 @@ These values are represented by the `safe-value` CDDL type.
 
 
 ~~~ cddl
+; CWT claim legal values only
 safe_map = { * label => safe_value }
 
 safe_value =
@@ -567,18 +563,31 @@ safe_value =
   safe_map /
   #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-sd_cwt_claims_map = { * sd_cwt_label => sd_cwt_value }
+; legal values in issued SD-CWT
+issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-sd_cwt_label = label /
-               #7.59 /
-               #6.58(label) /    ; only from Holder to Issuer
-               #6.61(int .gt 0)  ; only from Holder to Issuer
+issued_sd_cwt_label = label / REDACTED_KEYS
 
-sd_cwt_value =
+sd_cwt_issued_value =
   int / tstr / bstr /
-  [ * sd_cwt_value ] /
-  sd_cwt_claims_map /
-  #6.<safe_tag>(sd_cwt_value) / #7.<safe_simple> / float
+  [ * issued_sd_cwt_value ] /
+  issued_sd_cwt_map /
+  #6.<safe_tag>(issued_sd_cwt_value) / #7.<safe_simple> / float
+
+
+; legal values in claim set sent to Issuer
+preissuance_label = label /
+                    #6.<TO_BE_REDACTED>(label) /
+                    #6.<TO_BE_DECOY>(int .gt 0)
+
+preissuance_map = { * preissuance_label => preissuance_value }
+
+preissuance_value =
+  int / tstr / bstr /
+  [ * preissuance_value ] /
+  preissuance_map /
+  #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float
+
 
 label = int / tstr .size (1..255)
 safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
@@ -661,6 +670,11 @@ The contents if the map inside that array are level 3 (ex: the value of map key 
 The value of tag 4 is at level 4.
 The values in the array inside tag 4 is at level 5.
 
+## Use of Structured Suffixes
+
+Any type which contains the `+sd-cwt` structured suffix MUST be a legal SD-CWT.
+A type that is a legal CWT and does not contain any blinded claims SHOULD use the `+cwt` structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.
+
 
 # SD-CWT Issuance {#sd-cwt-issuance}
 
@@ -724,15 +738,16 @@ sd-protected = {
    &(typ: 16) ^ => "application/sd-cwt" / TBD11,
    &(alg: 1) ^ => int,
    ? &(kid: 4) ^ => bstr,
+   ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
    ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
    ? &(sd_aead: TBD7) ^ => uint .size 2,
-   * key => any
+   * label => safe_value
 }
 
 sd-unprotected = {
    ? &(sd_claims: TBD1) ^ => salted-array,
    ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
-   * key => any
+   * label => safe_value
 }
 
 sd-payload = {
@@ -744,11 +759,11 @@ sd-payload = {
     ? &(nbf: 5) ^ => num,  ; 1683000000
     ? &(iat: 6) ^ => num,  ; 1683000000
     ? &(cti: 7) ^ => bstr,
-      &(cnf: 8) ^ => { * key => any }, ; key confirmation
+      &(cnf: 8) ^ => safe_map, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
     ;
     ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],
-    * key => any
+    * issued_sd_cwt_label => issued_sd_cwt_value
 }
 ~~~
 
@@ -804,11 +819,11 @@ kbt-protected = {
    &(typ: 16) ^ => "application/kb+cwt" / TBD12,
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
-   * key => any
+   * label => safe_value
 }
 
 kbt-unprotected = {
-   * key => any
+   * label => safe_value
 }
 
 kbt-payload = {
@@ -817,7 +832,7 @@ kbt-payload = {
     ? &(nbf: 5) ^ => num,  ; 1683000000
       &(iat: 6) ^ => num,  ; 1683000000
     ? &(cnonce: 39) ^ => bstr,
-    * key => any
+    * label => safe_value
 }
 ~~~
 
