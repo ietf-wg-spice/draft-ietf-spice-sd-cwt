@@ -554,7 +554,7 @@ These values are represented by the `safe-value` CDDL type.
 
 
 ~~~ cddl
-; CWT legal values only
+; CWT claim legal values only
 safe_map = { * label => safe_value }
 
 safe_value =
