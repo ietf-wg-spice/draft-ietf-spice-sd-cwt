@@ -413,7 +413,7 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
 An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with a value declaring that the object is an SD-CWT.
 This value MAY be the string content type value `application/sd-cwt`,
-the uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value TBD11,
+the uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value 293,
 or a value declaring that the object is a more specific kind of SD-CWT,
 such as a content type value using the `+sd-cwt` structured suffix.
 
@@ -568,9 +568,11 @@ issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
 issued_sd_cwt_label = label / REDACTED_KEYS
 
-sd_cwt_issued_value =
+issued_array_element = redacted_claim_element / issued_sd_cwt_value
+
+issued_sd_cwt_value =
   int / tstr / bstr /
-  [ * issued_sd_cwt_value ] /
+  [ * issued_array_element ] /
   issued_sd_cwt_map /
   #6.<safe_tag>(issued_sd_cwt_value) / #7.<safe_simple> / float
 
@@ -590,9 +592,11 @@ preissuance_value =
 
 
 label = int / tstr .size (1..255)
-safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
-safe_simple =  0..23 / 32..58 / 60..255   ; exclude redacted keys array
-MAX_u64 = 18446744073709551615            ; 2^64 - 1
+safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
+                                         ;     to be redacted,
+                                         ;     and to be decoy
+safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
+MAX_u64 = 18446744073709551615           ; 2^64 - 1
 ~~~
 
 Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
@@ -735,7 +739,7 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd-cwt" / TBD11,
+   &(typ: 16) ^ => 293 / "application/sd-cwt",
    &(alg: 1) ^ => int,
    ? &(kid: 4) ^ => bstr,
    ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
@@ -793,7 +797,7 @@ Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in 
 
 The `aud` claim MUST be included and MUST correspond to the Verifier.
 The SD-KBT payload MUST contain the `iat` (issued at) claim.
-The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the uint value of TBD12.
+The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the uint value of 294.
 
 The SD-KBT provides the following assurances to the Verifier:
 
@@ -816,7 +820,7 @@ kbt-cwt = #6.18([
 ])
 
 kbt-protected = {
-   &(typ: 16) ^ => "application/kb+cwt" / TBD12,
+   &(typ: 16) ^ => 294 / "application/kb+cwt",
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
    * label => safe_value
@@ -1505,11 +1509,10 @@ IANA is requested to add the following entry to the [IANA "Structured Syntax Suf
 IANA is requested to register the following entries in the [IANA "CoAP Content-Formats" registry](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats):
 
 | Content-Type | Content Coding | ID | Reference |
-| application/sd-cwt | - | TBD11 | {{sd-cwt-definition}} of this specification |
-| application/kb+cwt | - | TBD12 | {{kbt}} of this specification |
+| application/sd-cwt | - | 293 | {{sd-cwt-definition}} of this specification |
+| application/kb+cwt | - | 294 | {{kbt}} of this specification |
 {: align="left" title="New CoAP Content Formats"}
 
-If possible, TBD11 (suggested value 66) and TBD12 (suggested value 67) should be assigned in the 0..255 range.
 
 ## Verifiable Credential Type Identifiers {#vct-registry}
 

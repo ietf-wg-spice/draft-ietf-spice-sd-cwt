@@ -15,7 +15,7 @@ kbt-cwt = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd-cwt" / TBD11,
+   &(typ: 16) ^ => 293 / "application/sd-cwt",
    &(alg: 1) ^ => int,
    ? &(kid: 4) ^ => bstr,
    ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
@@ -25,7 +25,7 @@ sd-protected = {
 }
 
 kbt-protected = {
-   &(typ: 16) ^ => "application/kb+cwt" / TBD12,
+   &(typ: 16) ^ => 294 / "application/kb+cwt",
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
    * label => safe_value
@@ -80,9 +80,11 @@ issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
 issued_sd_cwt_label = label / REDACTED_KEYS
 
+issued_array_element = redacted_claim_element / issued_sd_cwt_value
+
 issued_sd_cwt_value =
   int / tstr / bstr /
-  [ * issued_sd_cwt_value ] /
+  [ * issued_array_element ] /
   issued_sd_cwt_map /
   #6.<safe_tag>(issued_sd_cwt_value) / #7.<safe_simple> / float
 
@@ -91,7 +93,6 @@ issued_sd_cwt_value =
 preissuance_label = label /
                     #6.<TO_BE_REDACTED>(label) /
                     #6.<TO_BE_DECOY>(int .gt 0)
-
 
 preissuance_map = { * preissuance_label => preissuance_value }
 
@@ -103,7 +104,8 @@ preissuance_value =
 
 
 label = int / tstr .size (1..255)
-safe_tag = 1..57 / 59..60 / 62..MAX_u64  ; exclude to be redacted
+safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
+                                         ;     to be redacted,
                                          ;     and to be decoy
 safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
 MAX_u64 = 18446744073709551615           ; 2^64 - 1
@@ -141,9 +143,6 @@ TBD7 = 20
 
 ;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements
 
-TBD11 = 66
-TBD12 = 67
-
 TO_BE_REDACTED = 58  ; CBOR tag wrapping to-be-redacted keys or elements
 TO_BE_DECOY = 61     ; CBOR tag indicating a decoy value to be inserted
 
@@ -154,5 +153,5 @@ REDACTED_KEYS = #7.59  ; #7.<TBD4>
 
 ; redacted_claim_element is to be used in CDDL payloads that contain
 ; array elements that are meant to be redacted.
-;redacted_claim_element = #6.60( bstr .size 16 )  ; #6.<TBD5>(bstr)
+redacted_claim_element = #6.60( bstr .size 16 )  ; #6.<TBD5>(bstr)
 ;TBD5 = 60; CBOR tag wrapping redacted_claim_element
