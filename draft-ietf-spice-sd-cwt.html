@@ -1053,7 +1053,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 18 June 2026</td>
+<td class="center">Expires 19 June 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-12-15" class="published">15 December 2025</time>
+<time datetime="2025-12-16" class="published">16 December 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-06-18">18 June 2026</time></dd>
+<dd class="expires"><time datetime="2026-06-19">19 June 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1133,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 18 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1193,9 +1193,6 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-types-of-blinded-claims" class="internal xref">Types of Blinded Claims</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-use-of-structured-suffixes" class="internal xref">Use of Structured Suffixes</a></p>
-</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
@@ -1215,6 +1212,9 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5">
                 <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-level-of-nesting-of-claims" class="internal xref">Level of Nesting of Claims</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.6">
+                <p id="section-toc.1-1.6.2.6.1"><a href="#section-6.6" class="auto internal xref">6.6</a>.  <a href="#name-use-of-structured-suffixes" class="internal xref">Use of Structured Suffixes</a></p>
 </li>
             </ul>
 </li>
@@ -2264,15 +2264,6 @@ An example nested claim is shown in <a href="#nesting" class="auto internal xref
 Decoy digests are discussed in <a href="#decoys" class="auto internal xref">Section 10</a>.<a href="#section-5.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="use-of-structured-suffixes">
-<section id="section-5.2">
-        <h3 id="name-use-of-structured-suffixes">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-use-of-structured-suffixes" class="section-name selfRef">Use of Structured Suffixes</a>
-        </h3>
-<p id="section-5.2-1">Any type which contains the <code>+sd-cwt</code> structured suffix <span class="bcp14">MUST</span> be a legal SD-CWT.
-A type that is a legal CWT and does not contain any blinded claims <span class="bcp14">SHOULD</span> use the <code>+cwt</code> structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
-</section>
-</div>
 </section>
 </div>
 <div id="cwt-diffs">
@@ -2434,6 +2425,7 @@ These two tags provide a way for the Holder to indicate specific claims to be re
 These values are represented by the <code>safe-value</code> CDDL type.<a href="#section-6.3-10" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-6.3-11">
 <pre>
+; CWT claim legal values only
 safe_map = { * label =&gt; safe_value }
 
 safe_value =
@@ -2442,18 +2434,31 @@ safe_value =
   safe_map /
   #6.&lt;safe_tag&gt;(safe_value) / #7.&lt;safe_simple&gt; / float
 
-sd_cwt_claims_map = { * sd_cwt_label =&gt; sd_cwt_value }
+; legal values in issued SD-CWT
+issued_sd_cwt_map = { * issued_sd_cwt_label =&gt; issued_sd_cwt_value }
 
-sd_cwt_label = label /
-               #7.59 /
-               #6.58(label) /    ; only from Holder to Issuer
-               #6.61(int .gt 0)  ; only from Holder to Issuer
+issued_sd_cwt_label = label / REDACTED_KEYS
 
-sd_cwt_value =
+sd_cwt_issued_value =
   int / tstr / bstr /
-  [ * sd_cwt_value ] /
-  sd_cwt_claims_map /
-  #6.&lt;safe_tag&gt;(sd_cwt_value) / #7.&lt;safe_simple&gt; / float
+  [ * issued_sd_cwt_value ] /
+  issued_sd_cwt_map /
+  #6.&lt;safe_tag&gt;(issued_sd_cwt_value) / #7.&lt;safe_simple&gt; / float
+
+
+; legal values in claim set sent to Issuer
+preissuance_label = label /
+                    #6.&lt;TO_BE_REDACTED&gt;(label) /
+                    #6.&lt;TO_BE_DECOY&gt;(int .gt 0)
+
+preissuance_map = { * preissuance_label =&gt; preissuance_value }
+
+preissuance_value =
+  int / tstr / bstr /
+  [ * preissuance_value ] /
+  preissuance_map /
+  #6.&lt;safe_tag&gt;(preissuance_value) / #7.&lt;safe_simple&gt; / float
+
 
 label = int / tstr .size (1..255)
 safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
@@ -2565,6 +2570,15 @@ The value of tag 4 is at level 4.
 The values in the array inside tag 4 is at level 5.<a href="#section-6.5-6" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="use-of-structured-suffixes">
+<section id="section-6.6">
+        <h3 id="name-use-of-structured-suffixes">
+<a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-use-of-structured-suffixes" class="section-name selfRef">Use of Structured Suffixes</a>
+        </h3>
+<p id="section-6.6-1">Any type which contains the <code>+sd-cwt</code> structured suffix <span class="bcp14">MUST</span> be a legal SD-CWT.
+A type that is a legal CWT and does not contain any blinded claims <span class="bcp14">SHOULD</span> use the <code>+cwt</code> structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="sd-cwt-issuance">
@@ -2654,15 +2668,16 @@ sd-protected = {
    &amp;(typ: 16) ^ =&gt; "application/sd-cwt" / TBD11,
    &amp;(alg: 1) ^ =&gt; int,
    ? &amp;(kid: 4) ^ =&gt; bstr,
+   ? &amp;(CWT_Claims: 15) ^ =&gt; issued_sd_cwt_map,
    ? &amp;(sd_alg: TBD2) ^ =&gt; int,        ; -16 for sha-256
    ? &amp;(sd_aead: TBD7) ^ =&gt; uint .size 2,
-   * key =&gt; any
+   * label =&gt; safe_value
 }
 
 sd-unprotected = {
    ? &amp;(sd_claims: TBD1) ^ =&gt; salted-array,
    ? &amp;(sd_aead_encrypted_claims: TBD6) ^ =&gt; aead-encrypted-array,
-   * key =&gt; any
+   * label =&gt; safe_value
 }
 
 sd-payload = {
@@ -2674,11 +2689,11 @@ sd-payload = {
     ? &amp;(nbf: 5) ^ =&gt; num,  ; 1683000000
     ? &amp;(iat: 6) ^ =&gt; num,  ; 1683000000
     ? &amp;(cti: 7) ^ =&gt; bstr,
-      &amp;(cnf: 8) ^ =&gt; { * key =&gt; any }, ; key confirmation
+      &amp;(cnf: 8) ^ =&gt; safe_map, ; key confirmation
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     ;
     ? &amp;(redacted_claim_keys: REDACTED_KEYS) ^ =&gt; [ * bstr ],
-    * key =&gt; any
+    * issued_sd_cwt_label =&gt; issued_sd_cwt_value
 }
 </pre><a href="#section-7.2-5" class="pilcrow">¶</a>
 </div>
@@ -2746,11 +2761,11 @@ kbt-protected = {
    &amp;(typ: 16) ^ =&gt; "application/kb+cwt" / TBD12,
    &amp;(alg: 1) ^ =&gt; int,
    &amp;(kcwt: 13) ^ =&gt; sd-cwt-issued,
-   * key =&gt; any
+   * label =&gt; safe_value
 }
 
 kbt-unprotected = {
-   * key =&gt; any
+   * label =&gt; safe_value
 }
 
 kbt-payload = {
@@ -2759,7 +2774,7 @@ kbt-payload = {
     ? &amp;(nbf: 5) ^ =&gt; num,  ; 1683000000
       &amp;(iat: 6) ^ =&gt; num,  ; 1683000000
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
-    * key =&gt; any
+    * label =&gt; safe_value
 }
 </pre><a href="#section-8.1-9" class="pilcrow">¶</a>
 </div>
@@ -4321,7 +4336,7 @@ sd-protected = {
    &amp;(typ: 16) ^ =&gt; "application/sd-cwt" / TBD11,
    &amp;(alg: 1) ^ =&gt; int,
    ? &amp;(kid: 4) ^ =&gt; bstr,
-   ? &amp;(CWT_Claims: 15) ^ =&gt; sd_cwt_claims_map,
+   ? &amp;(CWT_Claims: 15) ^ =&gt; issued_sd_cwt_map,
    ? &amp;(sd_alg: TBD2) ^ =&gt; int,        ; -16 for sha-256
    ? &amp;(sd_aead: TBD7) ^ =&gt; uint .size 2,
    * label =&gt; safe_value
@@ -4357,7 +4372,7 @@ sd-payload = {
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     ;
     ? &amp;(redacted_claim_keys: REDACTED_KEYS) ^ =&gt; [ * bstr ],
-    * sd_cwt_label =&gt; sd_cwt_value
+    * issued_sd_cwt_label =&gt; issued_sd_cwt_value
 }
 
 kbt-payload = {
@@ -4369,6 +4384,7 @@ kbt-payload = {
     * label =&gt; safe_value
 }
 
+; CWT legal values only
 safe_map = { * label =&gt; safe_value }
 
 safe_value =
@@ -4377,18 +4393,32 @@ safe_value =
   safe_map /
   #6.&lt;safe_tag&gt;(safe_value) / #7.&lt;safe_simple&gt; / float
 
-sd_cwt_claims_map = { * sd_cwt_label =&gt; sd_cwt_value }
+; legal values in issued SD-CWT
+issued_sd_cwt_map = { * issued_sd_cwt_label =&gt; issued_sd_cwt_value }
 
-sd_cwt_label = label /
-               #7.59 /
-               #6.58(label) /    ; only from Holder to Issuer
-               #6.61(int .gt 0)  ; only from Holder to Issuer
+issued_sd_cwt_label = label / REDACTED_KEYS
 
-sd_cwt_value =
+issued_sd_cwt_value =
   int / tstr / bstr /
-  [ * sd_cwt_value ] /
-  sd_cwt_claims_map /
-  #6.&lt;safe_tag&gt;(sd_cwt_value) / #7.&lt;safe_simple&gt; / float
+  [ * issued_sd_cwt_value ] /
+  issued_sd_cwt_map /
+  #6.&lt;safe_tag&gt;(issued_sd_cwt_value) / #7.&lt;safe_simple&gt; / float
+
+
+; legal values in claim set sent to Issuer
+preissuance_label = label /
+                    #6.&lt;TO_BE_REDACTED&gt;(label) /
+                    #6.&lt;TO_BE_DECOY&gt;(int .gt 0)
+
+
+preissuance_map = { * preissuance_label =&gt; preissuance_value }
+
+preissuance_value =
+  int / tstr / bstr /
+  [ * preissuance_value ] /
+  preissuance_map /
+  #6.&lt;safe_tag&gt;(preissuance_value) / #7.&lt;safe_simple&gt; / float
+
 
 label = int / tstr .size (1..255)
 safe_tag = 1..57 / 59..60 / 62..MAX_u64  ; exclude to be redacted
@@ -4432,6 +4462,9 @@ TBD7 = 20
 TBD11 = 66
 TBD12 = 67
 
+TO_BE_REDACTED = 58  ; CBOR tag wrapping to-be-redacted keys or elements
+TO_BE_DECOY = 61     ; CBOR tag indicating a decoy value to be inserted
+
 ; REDACTED_KEYS is to be used in CDDL payloads that are meant to
 ; convey that a map key is redacted.
 REDACTED_KEYS = #7.59  ; #7.&lt;TBD4&gt;
@@ -4441,7 +4474,6 @@ REDACTED_KEYS = #7.59  ; #7.&lt;TBD4&gt;
 ; array elements that are meant to be redacted.
 ;redacted_claim_element = #6.60( bstr .size 16 )  ; #6.&lt;TBD5&gt;(bstr)
 ;TBD5 = 60; CBOR tag wrapping redacted_claim_element
-
 </pre>
 </div>
 <figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:

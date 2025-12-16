@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 18 June 2026                                       Tradeverifyd
+Expires: 19 June 2026                                       Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                        15 December 2025
+                                                        16 December 2025
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 June 2026.
+   This Internet-Draft will expire on 19 June 2026.
 
 Copyright Notice
 
@@ -82,13 +82,13 @@ Table of Contents
    4.  Holder prepares an SD-CWT for a Verifier
    5.  SD-CWT Definition
      5.1.  Types of Blinded Claims
-     5.2.  Use of Structured Suffixes
    6.  Differences from the CBOR Web Token Specification
      6.1.  Definite Length CBOR Required
      6.2.  Finite values for standard date claims
      6.3.  Allowed types of CBOR map keys
      6.4.  Duplicate map key detection
      6.5.  Level of Nesting of Claims
+     6.6.  Use of Structured Suffixes
    7.  SD-CWT Issuance
      7.1.  Issuer Generation
      7.2.  Holder Validation
@@ -770,14 +770,6 @@ Issuer                           Holder                         Verifier
    claim hashes but have only a salt.  Decoy digests are discussed in
    Section 10.
 
-5.2.  Use of Structured Suffixes
-
-   Any type which contains the +sd-cwt structured suffix MUST be a legal
-   SD-CWT.  A type that is a legal CWT and does not contain any blinded
-   claims SHOULD use the +cwt structure suffix instead, unless the CBOR
-   map being secured contains claim keys with different semantics than
-   those registered in the CBOR Web Token Claims IANA registry.
-
 6.  Differences from the CBOR Web Token Specification
 
    The following subsections discuss differences between CWT and SD-CWT
@@ -917,6 +909,7 @@ Issuer                           Holder                         Verifier
    values valid in a CWT.  These values are represented by the safe-
    value CDDL type.
 
+   ; CWT claim legal values only
    safe_map = { * label => safe_value }
 
    safe_value =
@@ -925,18 +918,31 @@ Issuer                           Holder                         Verifier
      safe_map /
      #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-   sd_cwt_claims_map = { * sd_cwt_label => sd_cwt_value }
+   ; legal values in issued SD-CWT
+   issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-   sd_cwt_label = label /
-                  #7.59 /
-                  #6.58(label) /    ; only from Holder to Issuer
-                  #6.61(int .gt 0)  ; only from Holder to Issuer
+   issued_sd_cwt_label = label / REDACTED_KEYS
 
-   sd_cwt_value =
+   sd_cwt_issued_value =
      int / tstr / bstr /
-     [ * sd_cwt_value ] /
-     sd_cwt_claims_map /
-     #6.<safe_tag>(sd_cwt_value) / #7.<safe_simple> / float
+     [ * issued_sd_cwt_value ] /
+     issued_sd_cwt_map /
+     #6.<safe_tag>(issued_sd_cwt_value) / #7.<safe_simple> / float
+
+
+   ; legal values in claim set sent to Issuer
+   preissuance_label = label /
+                       #6.<TO_BE_REDACTED>(label) /
+                       #6.<TO_BE_DECOY>(int .gt 0)
+
+   preissuance_map = { * preissuance_label => preissuance_value }
+
+   preissuance_value =
+     int / tstr / bstr /
+     [ * preissuance_value ] /
+     preissuance_map /
+     #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float
+
 
    label = int / tstr .size (1..255)
    safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
@@ -1037,6 +1043,14 @@ Issuer                           Holder                         Verifier
    value of tag 4 is at level 4.  The values in the array inside tag 4
    is at level 5.
 
+6.6.  Use of Structured Suffixes
+
+   Any type which contains the +sd-cwt structured suffix MUST be a legal
+   SD-CWT.  A type that is a legal CWT and does not contain any blinded
+   claims SHOULD use the +cwt structure suffix instead, unless the CBOR
+   map being secured contains claim keys with different semantics than
+   those registered in the CBOR Web Token Claims IANA registry.
+
 7.  SD-CWT Issuance
 
    How the Holder communicates to the Issuer to request a CWT or an SD-
@@ -1135,15 +1149,16 @@ Issuer                           Holder                         Verifier
       &(typ: 16) ^ => "application/sd-cwt" / TBD11,
       &(alg: 1) ^ => int,
       ? &(kid: 4) ^ => bstr,
+      ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
       ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
       ? &(sd_aead: TBD7) ^ => uint .size 2,
-      * key => any
+      * label => safe_value
    }
 
    sd-unprotected = {
       ? &(sd_claims: TBD1) ^ => salted-array,
       ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
-      * key => any
+      * label => safe_value
    }
 
    sd-payload = {
@@ -1155,11 +1170,11 @@ Issuer                           Holder                         Verifier
        ? &(nbf: 5) ^ => num,  ; 1683000000
        ? &(iat: 6) ^ => num,  ; 1683000000
        ? &(cti: 7) ^ => bstr,
-         &(cnf: 8) ^ => { * key => any }, ; key confirmation
+         &(cnf: 8) ^ => safe_map, ; key confirmation
        ? &(cnonce: 39) ^ => bstr,
        ;
        ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],
-       * key => any
+       * issued_sd_cwt_label => issued_sd_cwt_value
    }
 
 8.  SD-CWT Presentation
@@ -1240,11 +1255,11 @@ Issuer                           Holder                         Verifier
       &(typ: 16) ^ => "application/kb+cwt" / TBD12,
       &(alg: 1) ^ => int,
       &(kcwt: 13) ^ => sd-cwt-issued,
-      * key => any
+      * label => safe_value
    }
 
    kbt-unprotected = {
-      * key => any
+      * label => safe_value
    }
 
    kbt-payload = {
@@ -1253,7 +1268,7 @@ Issuer                           Holder                         Verifier
        ? &(nbf: 5) ^ => num,  ; 1683000000
          &(iat: 6) ^ => num,  ; 1683000000
        ? &(cnonce: 39) ^ => bstr,
-       * key => any
+       * label => safe_value
    }
 
    The SD-KBT payload MAY include a cnonce claim.  If included, the
@@ -2667,7 +2682,7 @@ Appendix A.  Complete CDDL Schema
       &(typ: 16) ^ => "application/sd-cwt" / TBD11,
       &(alg: 1) ^ => int,
       ? &(kid: 4) ^ => bstr,
-      ? &(CWT_Claims: 15) ^ => sd_cwt_claims_map,
+      ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
       ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
       ? &(sd_aead: TBD7) ^ => uint .size 2,
       * label => safe_value
@@ -2703,7 +2718,7 @@ Appendix A.  Complete CDDL Schema
        ? &(cnonce: 39) ^ => bstr,
        ;
        ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],
-       * sd_cwt_label => sd_cwt_value
+       * issued_sd_cwt_label => issued_sd_cwt_value
    }
 
    kbt-payload = {
@@ -2715,6 +2730,7 @@ Appendix A.  Complete CDDL Schema
        * label => safe_value
    }
 
+   ; CWT legal values only
    safe_map = { * label => safe_value }
 
    safe_value =
@@ -2723,18 +2739,32 @@ Appendix A.  Complete CDDL Schema
      safe_map /
      #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-   sd_cwt_claims_map = { * sd_cwt_label => sd_cwt_value }
+   ; legal values in issued SD-CWT
+   issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-   sd_cwt_label = label /
-                  #7.59 /
-                  #6.58(label) /    ; only from Holder to Issuer
-                  #6.61(int .gt 0)  ; only from Holder to Issuer
+   issued_sd_cwt_label = label / REDACTED_KEYS
 
-   sd_cwt_value =
+   issued_sd_cwt_value =
      int / tstr / bstr /
-     [ * sd_cwt_value ] /
-     sd_cwt_claims_map /
-     #6.<safe_tag>(sd_cwt_value) / #7.<safe_simple> / float
+     [ * issued_sd_cwt_value ] /
+     issued_sd_cwt_map /
+     #6.<safe_tag>(issued_sd_cwt_value) / #7.<safe_simple> / float
+
+
+   ; legal values in claim set sent to Issuer
+   preissuance_label = label /
+                       #6.<TO_BE_REDACTED>(label) /
+                       #6.<TO_BE_DECOY>(int .gt 0)
+
+
+   preissuance_map = { * preissuance_label => preissuance_value }
+
+   preissuance_value =
+     int / tstr / bstr /
+     [ * preissuance_value ] /
+     preissuance_map /
+     #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float
+
 
    label = int / tstr .size (1..255)
    safe_tag = 1..57 / 59..60 / 62..MAX_u64  ; exclude to be redacted
@@ -2777,6 +2807,9 @@ Appendix A.  Complete CDDL Schema
 
    TBD11 = 66
    TBD12 = 67
+
+   TO_BE_REDACTED = 58  ; CBOR tag wrapping to-be-redacted keys or elements
+   TO_BE_DECOY = 61     ; CBOR tag indicating a decoy value to be inserted
 
    ; REDACTED_KEYS is to be used in CDDL payloads that are meant to
    ; convey that a map key is redacted.
