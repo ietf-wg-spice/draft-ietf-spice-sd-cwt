@@ -413,7 +413,7 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
 An SD-CWT MUST include the protected header parameter `typ` {{!RFC9596}} with a value declaring that the object is an SD-CWT.
 This value MAY be the string content type value `application/sd-cwt`,
-the uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value TBD11,
+the uint Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value 293,
 or a value declaring that the object is a more specific kind of SD-CWT,
 such as a content type value using the `+sd-cwt` structured suffix.
 
@@ -456,13 +456,14 @@ decoy = [
 ~~~
 
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
-The `redacted_claim_keys` key is the CBOR simple type TBD4 registered for that purpose (with the requested value of 59).
+The `redacted_claim_keys` key is the CBOR simple value 59 registered for that purpose.
 
-When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).
+When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
 
 ~~~ cddl
-; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax
-redacted_claim_element = #6.60( bstr )
+; redacted_claim_element is used in CDDL payloads that contain
+; array elements that are meant to be redacted.
+redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
@@ -535,10 +536,10 @@ The following list summarizes the map key constraints on SD-CWTs and SD-KBTs:
   - unsigned integers;
   - negative integers;
   - text strings with a length no greater than 255 octets;
-  - the simple value TBD4; or
+  - the simple value 59; or
   - when disclosable claims are communicated to the Issuer, prior to issuance:
-    - the To Be Decoy tag (TBD) containing a positive integer, or
-    - the To Be Redacted tag {{tbr-tag}} containing:
+    - the To Be Decoy tag 61 (TBD) containing a positive integer, or
+    - the To Be Redacted tag 58 {{tbr-tag}} containing:
       - an unsigned integer,
       - a negative integer, or
       - a text strings with a length no greater than 255 octets.
@@ -566,11 +567,13 @@ safe_value =
 ; legal values in issued SD-CWT
 issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-issued_sd_cwt_label = label / REDACTED_KEYS
+issued_sd_cwt_label = label / redacted_claim_keys
 
-sd_cwt_issued_value =
+issued_array_element = redacted_claim_element / issued_sd_cwt_value
+
+issued_sd_cwt_value =
   int / tstr / bstr /
-  [ * issued_sd_cwt_value ] /
+  [ * issued_array_element ] /
   issued_sd_cwt_map /
   #6.<safe_tag>(issued_sd_cwt_value) / #7.<safe_simple> / float
 
@@ -590,9 +593,11 @@ preissuance_value =
 
 
 label = int / tstr .size (1..255)
-safe_tag = 1..57 / 59 / 60 / 62..MAX_u64  ; exclude to be redacted and decoy
-safe_simple =  0..23 / 32..58 / 60..255   ; exclude redacted keys array
-MAX_u64 = 18446744073709551615            ; 2^64 - 1
+safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
+                                         ;     to be redacted,
+                                         ;     and to be decoy
+safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
+MAX_u64 = 18446744073709551615           ; 2^64 - 1
 ~~~
 
 Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
@@ -735,7 +740,7 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => "application/sd-cwt" / TBD11,
+   &(typ: 16) ^ => 293 / "application/sd-cwt",
    &(alg: 1) ^ => int,
    ? &(kid: 4) ^ => bstr,
    ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
@@ -760,9 +765,10 @@ sd-payload = {
     ? &(iat: 6) ^ => num,  ; 1683000000
     ? &(cti: 7) ^ => bstr,
       &(cnf: 8) ^ => safe_map, ; key confirmation
+    ? &(vct: 11) ^ => bstr,
     ? &(cnonce: 39) ^ => bstr,
     ;
-    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],
+    ? &(redacted_claim_keys: redacted_claim_keys) ^ => [ * bstr ],
     * issued_sd_cwt_label => issued_sd_cwt_value
 }
 ~~~
@@ -793,7 +799,7 @@ Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in 
 
 The `aud` claim MUST be included and MUST correspond to the Verifier.
 The SD-KBT payload MUST contain the `iat` (issued at) claim.
-The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the uint value of TBD12.
+The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the uint value of 294.
 
 The SD-KBT provides the following assurances to the Verifier:
 
@@ -816,7 +822,7 @@ kbt-cwt = #6.18([
 ])
 
 kbt-protected = {
-   &(typ: 16) ^ => "application/kb+cwt" / TBD12,
+   &(typ: 16) ^ => 294 / "application/kb+cwt",
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
    * label => safe_value
@@ -1344,7 +1350,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_claims
 * Label: TBD1 (requested assignment 17)
-* Value Type: bstr
+* Value Type: [ *bstr ]
 * Value Registry: (empty)
 * Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{sd-cwt-preparation}} of this specification
@@ -1366,7 +1372,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead_encrypted_claims
 * Label: TBD6 (requested assignment 19)
-* Value Type: bstr
+* Value Type: [ *bstr ]
 * Value Registry: (empty)
 * Description: A list of AEAD encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{aead}} of this specification
@@ -1377,7 +1383,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead
 * Label: TBD7 (requested assignment 20)
-* Value Type: int
+* Value Type: uint16
 * Value Registry: IANA AEAD Algorithm number
 * Description: The AEAD algorithm used for encrypting disclosures.
 * Reference: {{aead}} of this specification
@@ -1386,7 +1392,7 @@ The following completed registration template per RFC8152 is provided:
 
 IANA is requested to add the following entry to the [IANA "CBOR Simple Values" registry](https://www.iana.org/assignments/cbor-simple-values#simple):
 
-* Value: TBD4 (requested assignment 59)
+* Value: 59
 * Semantics: This value as a map key indicates that the Claim Value is an array of redacted Claim Keys at the same level as the map key.
 * Specification Document(s): {{blinded-claims}} of this specification
 
@@ -1398,16 +1404,16 @@ IANA is requested to add the following entries to the [IANA "CBOR Tags" registry
 
 The array claim element, or map key and value inside the "To be redacted" tag is intended to be redacted using selective disclosure.
 
-* Tag: TBD3 (requested assignment 58)
+* Tag: 58
 * Data Item: (any)
-* Semantics: An array claim element, or map key and value intended to be redacted.
+* Semantics: An array claim element intended to be redacted, or a map key whose key and value are intended to be redacted.
 * Specification Document(s): {{tbr-tag}} of this specification
 
 ### Redacted Claim Element Tag
 
 The byte string inside the tag is a selective disclosure redacted claim element of an array.
 
-* Tag: TBD5 (requested assignment 60)
+* Tag: 60
 * Data Item: byte string
 * Semantics: A selective disclosure redacted (array) claim element.
 * Specification Document(s): {{blinded-claims}} of this specification
@@ -1423,7 +1429,7 @@ The following completed registration template per RFC8392 is provided:
 * Claim Name: vct
 * Claim Description: Verifiable credential type
 * JWT Claim Name: vct
-* Claim Key: TBD6 (request assignment 11)
+* Claim Key: 11
 * Claim Value Type(s): bstr
 * Change Controller: IETF
 * Specification Document(s): {{cred-types}} of this specification
@@ -1505,11 +1511,10 @@ IANA is requested to add the following entry to the [IANA "Structured Syntax Suf
 IANA is requested to register the following entries in the [IANA "CoAP Content-Formats" registry](https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats):
 
 | Content-Type | Content Coding | ID | Reference |
-| application/sd-cwt | - | TBD11 | {{sd-cwt-definition}} of this specification |
-| application/kb+cwt | - | TBD12 | {{kbt}} of this specification |
+| application/sd-cwt | - | 293 | {{sd-cwt-definition}} of this specification |
+| application/kb+cwt | - | 294 | {{kbt}} of this specification |
 {: align="left" title="New CoAP Content Formats"}
 
-If possible, TBD11 (suggested value 66) and TBD12 (suggested value 67) should be assigned in the 0..255 range.
 
 ## Verifiable Credential Type Identifiers {#vct-registry}
 
