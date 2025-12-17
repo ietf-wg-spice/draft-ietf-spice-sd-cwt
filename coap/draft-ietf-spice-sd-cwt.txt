@@ -2131,7 +2131,7 @@ Issuer                           Holder                         Verifier
 
    *  Label: TBD1 (requested assignment 17)
 
-   *  Value Type: bstr
+   *  Value Type: [ *bstr ]
 
    *  Value Registry: (empty)
 
@@ -2167,7 +2167,7 @@ Issuer                           Holder                         Verifier
 
    *  Label: TBD6 (requested assignment 19)
 
-   *  Value Type: bstr
+   *  Value Type: [ *bstr ]
 
    *  Value Registry: (empty)
 
@@ -2186,7 +2186,7 @@ Issuer                           Holder                         Verifier
 
    *  Label: TBD7 (requested assignment 20)
 
-   *  Value Type: int
+   *  Value Type: uint16
 
    *  Value Registry: IANA AEAD Algorithm number
 
@@ -2223,8 +2223,8 @@ Issuer                           Holder                         Verifier
 
    *  Data Item: (any)
 
-   *  Semantics: An array claim element, or map key and value intended
-      to be redacted.
+   *  Semantics: An array claim element intended to be redacted, or a
+      map key whose key and value are intended to be redacted.
 
    *  Specification Document(s): Section 14 of this specification
 
