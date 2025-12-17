@@ -529,7 +529,7 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
   / CWT protected / << {{
     / alg /    1  : -35, / ES384 /
     / kid /    4  : 'https://issuer.example/cose-key3',
-    / typ /    16 : "application/sd-cwt",
+    / typ /    16 : 293, # application/sd-cwt
     / sd_alg / 18 : -16  / SHA256 /
   }} >>,
   / CWT unprotected / {{
@@ -578,7 +578,7 @@ def generate_nested_cwt_edn(edn_disclosures, exp, nbf, iat,
   / CWT protected / << {{
     / alg /    1  : -35, / ES384 /
     / kid /    4  : 'https://issuer.example/cose-key3',
-    / typ /    16 : "application/sd-cwt",
+    / typ /    16 : 293, # application/sd-cwt
     / sd_alg / 18 : -16  / SHA256 /
   }} >>,
   / CWT unprotected / {{
@@ -614,7 +614,7 @@ def generate_basic_holder_kbt_edn(issuer_cwt, iat, sig):
   / KBT protected / << {{
     / alg /    1:  -7, / ES256 /
     / kcwt /  13:  {cwt},\n    / end of issuer SD-CWT /
-    / typ /   16:  "application/kb+cwt",
+    / typ /   16:  294   # application/kb+cwt,
   }} >>,     / end of KBT protected header /
   / KBT unprotected / {{}},
   / KBT payload / << {{
@@ -631,7 +631,7 @@ def generate_decoy_cwt_edn(edn_disclosures, exp, nbf, iat,
   / CWT protected / << {{
     / alg /    1  : -35, / ES384 /
     / kid /    4  : 'https://issuer.example/cose-key3',
-    / typ /    16 : "application/sd-cwt",
+    / typ /    16 : 293, # application/sd-cwt
     / sd_alg / 18 : -16  / SHA256 /
   }} >>,
   / CWT unprotected / {{
@@ -752,7 +752,7 @@ if __name__ == "__main__":
     cwt_protected = {
       1 : -35,                                 # alg = ES384
       4 : b'https://issuer.example/cose-key3', # kid
-      16: "application/sd-cwt",                # typ
+      16: 293,                                 # typ = SD-CWT
       18: -16,                                 # sd_alg = SHA256
     }
     issuer_cwt = sign(cwt_protected,
@@ -810,7 +810,7 @@ if __name__ == "__main__":
     kbt_protected = {
         1  : -7,                                  # alg = ES256
         13 : cbor2.loads(presentation_cwt),       # kcwt
-        16 : "application/kb+cwt"                 # typ
+        16 : 294                                  # typ = KBT
     }
     
     kbt_payload = {
