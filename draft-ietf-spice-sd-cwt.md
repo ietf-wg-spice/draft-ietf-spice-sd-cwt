@@ -1404,7 +1404,7 @@ The array claim element, or map key and value inside the "To be redacted" tag is
 
 * Tag: TBD3 (requested assignment 58)
 * Data Item: (any)
-* Semantics: An array claim element, or map key and value intended to be redacted.
+* Semantics: An array claim element intended to be redacted, or a map key whose key and value are intended to be redacted.
 * Specification Document(s): {{tbr-tag}} of this specification
 
 ### Redacted Claim Element Tag
