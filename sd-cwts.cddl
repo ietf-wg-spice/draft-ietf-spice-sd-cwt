@@ -53,7 +53,7 @@ sd-payload = {
       &(cnf: 8) ^ => safe_map, ; key confirmation
     ? &(cnonce: 39) ^ => bstr,
     ;
-    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],
+    ? &(redacted_claim_keys: redacted_claim_keys) ^ => [ * bstr ],
     * issued_sd_cwt_label => issued_sd_cwt_value
 }
 
@@ -78,7 +78,7 @@ safe_value =
 ; legal values in issued SD-CWT
 issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-issued_sd_cwt_label = label / REDACTED_KEYS
+issued_sd_cwt_label = label / redacted_claim_keys
 
 issued_array_element = redacted_claim_element / issued_sd_cwt_value
 
@@ -109,6 +109,7 @@ safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
                                          ;     and to be decoy
 safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
 MAX_u64 = 18446744073709551615           ; 2^64 - 1
+num = int / float
 
 
 salted-array = [ *bstr-encoded-salted ]
@@ -135,23 +136,19 @@ aead-encrypted = [
   bstr               ; the corresponding authentication tag
 ]
 
-num = int / float
 TBD1 = 17
 TBD2 = 18
 TBD6 = 19
 TBD7 = 20
 
-;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements
-
 TO_BE_REDACTED = 58  ; CBOR tag wrapping to-be-redacted keys or elements
 TO_BE_DECOY = 61     ; CBOR tag indicating a decoy value to be inserted
 
-; REDACTED_KEYS is to be used in CDDL payloads that are meant to
-; convey that a map key is redacted.
-REDACTED_KEYS = #7.59  ; #7.<TBD4>
-;TBD4 = 59          ; for CBOR simple value 59
+; redacted_claim_keys is used as a map key. The corresponding value is
+; an array of Blinded Claim Hashes whose corresponding unblinded map keys
+; and values are in the same map.
+redacted_claim_keys = #7.59  ; for CBOR simple value 59
 
-; redacted_claim_element is to be used in CDDL payloads that contain
+; redacted_claim_element is used in CDDL payloads that contain
 ; array elements that are meant to be redacted.
-redacted_claim_element = #6.60( bstr .size 16 )  ; #6.<TBD5>(bstr)
-;TBD5 = 60; CBOR tag wrapping redacted_claim_element
+redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
