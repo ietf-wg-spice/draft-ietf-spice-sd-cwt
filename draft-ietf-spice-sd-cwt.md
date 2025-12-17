@@ -1348,7 +1348,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_claims
 * Label: TBD1 (requested assignment 17)
-* Value Type: bstr
+* Value Type: [ *bstr ]
 * Value Registry: (empty)
 * Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{sd-cwt-preparation}} of this specification
@@ -1370,7 +1370,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead_encrypted_claims
 * Label: TBD6 (requested assignment 19)
-* Value Type: bstr
+* Value Type: [ *bstr ]
 * Value Registry: (empty)
 * Description: A list of AEAD encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{aead}} of this specification
@@ -1381,7 +1381,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead
 * Label: TBD7 (requested assignment 20)
-* Value Type: int
+* Value Type: uint16
 * Value Registry: IANA AEAD Algorithm number
 * Description: The AEAD algorithm used for encrypting disclosures.
 * Reference: {{aead}} of this specification
