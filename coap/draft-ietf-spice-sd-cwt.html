@@ -2695,6 +2695,7 @@ sd-payload = {
     ? &amp;(iat: 6) ^ =&gt; num,  ; 1683000000
     ? &amp;(cti: 7) ^ =&gt; bstr,
       &amp;(cnf: 8) ^ =&gt; safe_map, ; key confirmation
+    ? &amp;(vct: 11) ^ =&gt; bstr,
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     ;
     ? &amp;(redacted_claim_keys: redacted_claim_keys) ^ =&gt; [ * bstr ],
@@ -4373,6 +4374,7 @@ sd-payload = {
     ? &amp;(iat: 6) ^ =&gt; num,  ; 1683000000
     ? &amp;(cti: 7) ^ =&gt; bstr,
       &amp;(cnf: 8) ^ =&gt; safe_map, ; key confirmation
+    ? &amp;(vct: 11) ^ =&gt; bstr,
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     ;
     ? &amp;(redacted_claim_keys: redacted_claim_keys) ^ =&gt; [ * bstr ],
