@@ -765,6 +765,7 @@ sd-payload = {
     ? &(iat: 6) ^ => num,  ; 1683000000
     ? &(cti: 7) ^ => bstr,
       &(cnf: 8) ^ => safe_map, ; key confirmation
+    ? &(vct: 11) ^ => bstr,
     ? &(cnonce: 39) ^ => bstr,
     ;
     ? &(redacted_claim_keys: redacted_claim_keys) ^ => [ * bstr ],
