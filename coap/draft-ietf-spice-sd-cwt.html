@@ -2250,12 +2250,13 @@ decoy = [
 </pre><a href="#section-5.1-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.1-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
-The <code>redacted_claim_keys</code> key is the CBOR simple type TBD4 registered for that purpose (with the requested value of 59).<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag TBD5 (requested tag number 60).<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+The <code>redacted_claim_keys</code> key is the CBOR simple value 59 registered for that purpose.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-5.1-5">
 <pre>
-; redacted_claim_element = #6.&lt;TBD5&gt;( bstr ) -- RFC 9682 syntax
-redacted_claim_element = #6.60( bstr )
+; redacted_claim_element is used in CDDL payloads that contain
+; array elements that are meant to be redacted.
+redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
 </pre><a href="#section-5.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-5.1-6">Blinded claims can be nested. For example, both individual keys in the <code>inspection_location</code> claim, and the entire <code>inspection_location</code> element can be separately blinded.
@@ -2382,16 +2383,16 @@ These two tags provide a way for the Holder to indicate specific claims to be re
                 <p id="section-6.3-7.5.2.3.1">text strings with a length no greater than 255 octets;<a href="#section-6.3-7.5.2.3.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-6.3-7.5.2.4">
-                <p id="section-6.3-7.5.2.4.1">the simple value TBD4; or<a href="#section-6.3-7.5.2.4.1" class="pilcrow">¶</a></p>
+                <p id="section-6.3-7.5.2.4.1">the simple value 59; or<a href="#section-6.3-7.5.2.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-6.3-7.5.2.5">
                 <p id="section-6.3-7.5.2.5.1">when disclosable claims are communicated to the Issuer, prior to issuance:<a href="#section-6.3-7.5.2.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-7.5.2.5.2.1">
-                    <p id="section-6.3-7.5.2.5.2.1.1">the To Be Decoy tag (TBD) containing a positive integer, or<a href="#section-6.3-7.5.2.5.2.1.1" class="pilcrow">¶</a></p>
+                    <p id="section-6.3-7.5.2.5.2.1.1">the To Be Decoy tag 61 (TBD) containing a positive integer, or<a href="#section-6.3-7.5.2.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
                   <li class="normal" id="section-6.3-7.5.2.5.2.2">
-                    <p id="section-6.3-7.5.2.5.2.2.1">the To Be Redacted tag <a href="#tbr-tag" class="auto internal xref">Section 14</a> containing:<a href="#section-6.3-7.5.2.5.2.2.1" class="pilcrow">¶</a></p>
+                    <p id="section-6.3-7.5.2.5.2.2.1">the To Be Redacted tag 58 <a href="#tbr-tag" class="auto internal xref">Section 14</a> containing:<a href="#section-6.3-7.5.2.5.2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-7.5.2.5.2.2.2.1">
                         <p id="section-6.3-7.5.2.5.2.2.2.1.1">an unsigned integer,<a href="#section-6.3-7.5.2.5.2.2.2.1.1" class="pilcrow">¶</a></p>
@@ -2437,7 +2438,7 @@ safe_value =
 ; legal values in issued SD-CWT
 issued_sd_cwt_map = { * issued_sd_cwt_label =&gt; issued_sd_cwt_value }
 
-issued_sd_cwt_label = label / REDACTED_KEYS
+issued_sd_cwt_label = label / redacted_claim_keys
 
 issued_array_element = redacted_claim_element / issued_sd_cwt_value
 
@@ -2696,7 +2697,7 @@ sd-payload = {
       &amp;(cnf: 8) ^ =&gt; safe_map, ; key confirmation
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     ;
-    ? &amp;(redacted_claim_keys: REDACTED_KEYS) ^ =&gt; [ * bstr ],
+    ? &amp;(redacted_claim_keys: redacted_claim_keys) ^ =&gt; [ * bstr ],
     * issued_sd_cwt_label =&gt; issued_sd_cwt_value
 }
 </pre><a href="#section-7.2-5" class="pilcrow">¶</a>
@@ -3722,7 +3723,7 @@ Implementations using the AEGIS algorithms containing an X <span class="bcp14">M
 <p id="section-17.2-1">IANA is requested to add the following entry to the <a href="https://www.iana.org/assignments/cbor-simple-values#simple">IANA "CBOR Simple Values" registry</a>:<a href="#section-17.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-17.2-2.1">
-            <p id="section-17.2-2.1.1">Value: TBD4 (requested assignment 59)<a href="#section-17.2-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-17.2-2.1.1">Value: 59<a href="#section-17.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-17.2-2.2">
             <p id="section-17.2-2.2.1">Semantics: This value as a map key indicates that the Claim Value is an array of redacted Claim Keys at the same level as the map key.<a href="#section-17.2-2.2.1" class="pilcrow">¶</a></p>
@@ -3747,7 +3748,7 @@ Implementations using the AEGIS algorithms containing an X <span class="bcp14">M
 <p id="section-17.3.1-1">The array claim element, or map key and value inside the "To be redacted" tag is intended to be redacted using selective disclosure.<a href="#section-17.3.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-17.3.1-2.1">
-              <p id="section-17.3.1-2.1.1">Tag: TBD3 (requested assignment 58)<a href="#section-17.3.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-17.3.1-2.1.1">Tag: 58<a href="#section-17.3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-17.3.1-2.2">
               <p id="section-17.3.1-2.2.1">Data Item: (any)<a href="#section-17.3.1-2.2.1" class="pilcrow">¶</a></p>
@@ -3769,7 +3770,7 @@ Implementations using the AEGIS algorithms containing an X <span class="bcp14">M
 <p id="section-17.3.2-1">The byte string inside the tag is a selective disclosure redacted claim element of an array.<a href="#section-17.3.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-17.3.2-2.1">
-              <p id="section-17.3.2-2.1.1">Tag: TBD5 (requested assignment 60)<a href="#section-17.3.2-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-17.3.2-2.1.1">Tag: 60<a href="#section-17.3.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-17.3.2-2.2">
               <p id="section-17.3.2-2.2.1">Data Item: byte string<a href="#section-17.3.2-2.2.1" class="pilcrow">¶</a></p>
@@ -3808,7 +3809,7 @@ Implementations using the AEGIS algorithms containing an X <span class="bcp14">M
               <p id="section-17.4.1-2.3.1">JWT Claim Name: vct<a href="#section-17.4.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-17.4.1-2.4">
-              <p id="section-17.4.1-2.4.1">Claim Key: TBD6 (request assignment 11)<a href="#section-17.4.1-2.4.1" class="pilcrow">¶</a></p>
+              <p id="section-17.4.1-2.4.1">Claim Key: 11<a href="#section-17.4.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-17.4.1-2.5">
               <p id="section-17.4.1-2.5.1">Claim Value Type(s): bstr<a href="#section-17.4.1-2.5.1" class="pilcrow">¶</a></p>
@@ -4374,7 +4375,7 @@ sd-payload = {
       &amp;(cnf: 8) ^ =&gt; safe_map, ; key confirmation
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     ;
-    ? &amp;(redacted_claim_keys: REDACTED_KEYS) ^ =&gt; [ * bstr ],
+    ? &amp;(redacted_claim_keys: redacted_claim_keys) ^ =&gt; [ * bstr ],
     * issued_sd_cwt_label =&gt; issued_sd_cwt_value
 }
 
@@ -4399,7 +4400,7 @@ safe_value =
 ; legal values in issued SD-CWT
 issued_sd_cwt_map = { * issued_sd_cwt_label =&gt; issued_sd_cwt_value }
 
-issued_sd_cwt_label = label / REDACTED_KEYS
+issued_sd_cwt_label = label / redacted_claim_keys
 
 issued_array_element = redacted_claim_element / issued_sd_cwt_value
 
@@ -4430,6 +4431,7 @@ safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
                                          ;     and to be decoy
 safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
 MAX_u64 = 18446744073709551615           ; 2^64 - 1
+num = int / float
 
 
 salted-array = [ *bstr-encoded-salted ]
@@ -4456,26 +4458,22 @@ aead-encrypted = [
   bstr               ; the corresponding authentication tag
 ]
 
-num = int / float
 TBD1 = 17
 TBD2 = 18
 TBD6 = 19
 TBD7 = 20
 
-;TBD3 = 58;  CBOR tag wrapping to-be-redacted keys or elements
-
 TO_BE_REDACTED = 58  ; CBOR tag wrapping to-be-redacted keys or elements
 TO_BE_DECOY = 61     ; CBOR tag indicating a decoy value to be inserted
 
-; REDACTED_KEYS is to be used in CDDL payloads that are meant to
-; convey that a map key is redacted.
-REDACTED_KEYS = #7.59  ; #7.&lt;TBD4&gt;
-;TBD4 = 59          ; for CBOR simple value 59
+; redacted_claim_keys is used as a map key. The corresponding value is
+; an array of Blinded Claim Hashes whose corresponding unblinded map keys
+; and values are in the same map.
+redacted_claim_keys = #7.59  ; for CBOR simple value 59
 
-; redacted_claim_element is to be used in CDDL payloads that contain
+; redacted_claim_element is used in CDDL payloads that contain
 ; array elements that are meant to be redacted.
-redacted_claim_element = #6.60( bstr .size 16 )  ; #6.&lt;TBD5&gt;(bstr)
-;TBD5 = 60; CBOR tag wrapping redacted_claim_element
+redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
 </pre>
 </div>
 <figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
