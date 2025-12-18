@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-16T00:54:45.232527+00:00",
+  "timestamp": "2025-12-18T00:50:45.851304+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1477,7 +1477,7 @@
       ],
       "body": "Are integer values for content-type (using the CoAP registry) always preferred for efficiency, or only when using CoAP?\n\nAlso needs to update all the examples if we make this change.\n\n",
       "createdAt": "2025-05-21T00:11:06Z",
-      "updatedAt": "2025-12-15T22:30:55Z",
+      "updatedAt": "2025-12-17T10:31:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -1497,9 +1497,9 @@
         {
           "author": "rohanmahy",
           "authorAssociation": "COLLABORATOR",
-          "body": "These have been registered!\napplication/sd-cwt  ==> 293\napplication/sd+kbt ==> 294\n\n",
+          "body": "These have been registered!\napplication/sd-cwt  ==> 293\napplication/kb+cwt ==> 294\n\n",
           "createdAt": "2025-12-15T21:39:32Z",
-          "updatedAt": "2025-12-15T21:39:32Z"
+          "updatedAt": "2025-12-16T20:22:51Z"
         },
         {
           "author": "cabo",
@@ -1507,6 +1507,20 @@
           "body": "On Dec 15, 2025, at 22:39, Rohan Mahy ***@***.***> wrote:\r\n> \r\n> application/sd+kbt ==> 294\r\n\r\napplication/kb+cwt (TEMPORARY - registered                    [https://www.iana.org/assignments/provisional-standard-media-types] 294         [draft-ietf-spice-sd-cwt-05]\r\n\r\nGr\u00fc\u00dfe, Carsten\r\n\r\n",
           "createdAt": "2025-12-15T22:30:55Z",
           "updatedAt": "2025-12-15T22:30:55Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> On Dec 15, 2025, at 22:39, Rohan Mahy ***@***.***> wrote:\n> \n>  application/sd+kbt ==> 294\n> application/kb+cwt (TEMPORARY - registered                    [https://www.iana.org/assignments/provisional-standard-media-types] 294         [draft-ietf-spice-sd-cwt-05]\n> \n> Gr\u00fc\u00dfe, Carsten\n\nThanks Carsten. sorry, I was tired, I shouldn't be working on IETF so late.",
+          "createdAt": "2025-12-16T20:23:55Z",
+          "updatedAt": "2025-12-16T20:23:55Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in WIP PR #169 ",
+          "createdAt": "2025-12-17T10:31:57Z",
+          "updatedAt": "2025-12-17T10:31:57Z"
         }
       ]
     },
@@ -3082,7 +3096,7 @@
       ],
       "body": "Per IETF 124 consensus.\n\n@martinthomson @hlflanagan please email Paul Wooters requesting this.",
       "createdAt": "2025-11-10T14:17:27Z",
-      "updatedAt": "2025-11-16T08:01:13Z",
+      "updatedAt": "2025-12-17T10:34:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -3098,6 +3112,13 @@
           "body": "request sent. awaiting IANA",
           "createdAt": "2025-11-16T08:01:13Z",
           "updatedAt": "2025-11-16T08:01:13Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Status update. Early creation of the registry in 17.8 is not possible. Early assignments for all other sections except 17.1 and 17.6 are complete. Assignments in 17.1 may use some values in the 1+1 range instead of the 1+0 range.\n\nSee also PR #169 ",
+          "createdAt": "2025-12-17T10:34:55Z",
+          "updatedAt": "2025-12-17T10:34:55Z"
         }
       ]
     },
@@ -3169,7 +3190,7 @@
       "id": "I_kwDOMm_Q2s7eXZjG",
       "title": "Split sd-cwt-issued and preissued",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/165",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3180,9 +3201,17 @@
       ],
       "body": "I'd like to split this into two:\n\n```\nissued-sd-cwt-label = label / REDACTED_KEYS\npreissuance-label = label / #6.<TO_BE_REDACTED>(label) / #6.<TO_BE_DECOY>(int .gt 0)\n```\n\nwith the associated map productions:\n\n- `safe-map` and `safe-value`\n- `issued-map` and `issued-value`\n- `preissuance-map` and `preissuance-value`\n",
       "createdAt": "2025-12-15T14:23:14Z",
-      "updatedAt": "2025-12-15T21:32:50Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-12-16T14:37:13Z",
+      "closedAt": "2025-12-16T14:37:13Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "addressed in #168 ",
+          "createdAt": "2025-12-16T14:37:13Z",
+          "updatedAt": "2025-12-16T14:37:13Z"
+        }
+      ]
     },
     {
       "number": 166,
@@ -14417,21 +14446,21 @@
       "id": "PR_kwDOMm_Q2s637B9t",
       "title": "Add text about suffix use",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/164",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-12-09T13:42:46Z",
-      "updatedAt": "2025-12-09T15:30:11Z",
+      "updatedAt": "2025-12-16T07:30:54Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7abf3a9c20b6e035c70420c5f04e78867c20cb6b",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "suffix-caution",
       "headRefOid": "f266e83288309cd834d8cf6f401803c0efa45bdd",
-      "closedAt": null,
+      "closedAt": "2025-12-16T07:30:54Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -14442,6 +14471,13 @@
           "body": "We might event want to frame the entire draft a bit differently:\r\n\r\nSelective Disclosure for COSE Secured CBOR Maps.\r\nCompatible with CWT, when the CBOR Map is a CWT Claimset (when specific semantics are assigned to certain integer keys).\r\nSemantics are signaled by the use of the media type in the protected header, +sd-cwt implies that the media type is a specific type of CBOR web token.\r\n\r\nIf there is a CBOR map with colliding or different semantics for the integers used in CWT Claim Keys, a different media type, not using +sd-cwt as a suffix should be used.",
           "createdAt": "2025-12-09T13:48:18Z",
           "updatedAt": "2025-12-09T13:48:18Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@OR13 I think this is already fixed when we merged #163.  I'm going to close this one, but feel free to reopen if you don't like the text. I also proposed moving it to the end of the the Differences with CWT section",
+          "createdAt": "2025-12-16T07:30:54Z",
+          "updatedAt": "2025-12-16T07:30:54Z"
         }
       ],
       "reviews": [
@@ -14500,26 +14536,123 @@
       "id": "PR_kwDOMm_Q2s65BIId",
       "title": "split definitions into issued cwt and preissuance maps",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/168",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "\r\n- split sd_cwt_claim_map into two maps/values/labels\r\n- Also moved subsection on `+sd-cwt` under `# Differences`\r\n- run CDDL validation against all examples\r\n\r\nAddresses #165 \r\n ",
       "createdAt": "2025-12-15T21:32:11Z",
-      "updatedAt": "2025-12-15T21:32:12Z",
+      "updatedAt": "2025-12-16T14:36:33Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "46eba96608fa47f101a60ae742f2ee949ede524f",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "split-preissued",
-      "headRefOid": "354169fac1eadcb3d55eadae4a19df23b5641363",
+      "headRefOid": "86af1b8f2e6f3c8a0225c12cd8467851d8a7208c",
+      "closedAt": "2025-12-16T14:36:33Z",
+      "mergedAt": "2025-12-16T14:36:33Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "6b41f9b576b9d03ee80865cd8da9a21403cc4d65"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7VklBs",
+          "commit": {
+            "abbreviatedOid": "354169f"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-16T13:39:04Z",
+          "updatedAt": "2025-12-16T13:39:04Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\r\n; CWT claim legal values only\r\n```",
+              "createdAt": "2025-12-16T13:39:04Z",
+              "updatedAt": "2025-12-16T13:39:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Vkn2T",
+          "commit": {
+            "abbreviatedOid": "354169f"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-12-16T13:41:53Z",
+          "updatedAt": "2025-12-16T13:41:53Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 169,
+      "id": "PR_kwDOMm_Q2s65VqML",
+      "title": "Use values assigned by IANA",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/169",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- [ ] modify text as requested by IANA expert reviewers for section 17.1\r\n- [x] modify text as requested by IANA expert reviewers for section 17.3 \r\n- [x] change CDDL to use CoAP values assigned by IANA\r\n- [x] change script to use CoAP values to generate examples\r\n- [ ] regenerate all examples to use the CoAP values instead of strings in the `typ` header parameter. \r\n- [ ] retest all example CBOR against their EDN and the CDDL\r\n- [x] add optional vct claim to CDDL\r\n- [ ] if available in time, update CDDL to reflect any changes to early assignment of tags (assigned), simple value (assigned), and COSE header parameters (waiting)",
+      "createdAt": "2025-12-17T10:28:25Z",
+      "updatedAt": "2025-12-17T20:39:13Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "6b41f9b576b9d03ee80865cd8da9a21403cc4d65",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "coap",
+      "headRefOid": "bd72bd47acfd358c8b2a120c68cedc686de4f3b5",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@selfissued I realized that the only place tag 60 is allowed is in an array\r\ninside an issued claims map. Since we now have a detailed enough CDDL to\r\nsay that, I made that change too and forgot to add the comment to the PR.\r\nSorry about that\r\n\r\nOn Wed, 17 Dec 2025, 19:27 Michael B. Jones, ***@***.***>\r\nwrote:\r\n\r\n> ***@***.**** approved this pull request.\r\n>\r\n> LGTM\r\n>\r\n> One question: Why was 60 (redacted_claim_element) removed from the\r\n> safe_tag list? That may be correct, but it's an actual change, and not just\r\n> using values assigned by IANA.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/169#pullrequestreview-3589077953>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPTP7RI7H434VPWJC6D4CGOBXAVCNFSM6AAAAACPJPKT72VHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTKOBZGA3TOOJVGM>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***\r\n> com>\r\n>\r\n",
+          "createdAt": "2025-12-17T20:39:13Z",
+          "updatedAt": "2025-12-17T20:39:13Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7V7PvB",
+          "commit": {
+            "abbreviatedOid": "bd72bd4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM\n\nOne question:  Why was 60 (redacted_claim_element) removed from the safe_tag list?  That may be correct, but it's an actual change, and not just using values assigned by IANA.",
+          "createdAt": "2025-12-17T18:27:18Z",
+          "updatedAt": "2025-12-17T18:27:18Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7V7p9y",
+          "commit": {
+            "abbreviatedOid": "bd72bd4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-12-17T18:52:06Z",
+          "updatedAt": "2025-12-17T18:52:06Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
