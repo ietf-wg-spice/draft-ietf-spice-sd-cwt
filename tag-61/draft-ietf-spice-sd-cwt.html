@@ -2335,7 +2335,7 @@ Both of these maps are described as SD-CWT Claims Maps.<a href="#section-6.3-2" 
 Neither, one, or both could be redacted.
 If both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 <p id="section-6.3-5">In addition to map keys that are valid in CWT, SD-CWT Claims Maps <span class="bcp14">MAY</span> contain the CBOR simple value registered in this specification in <a href="#simple59" class="auto internal xref">Section 17.2</a>.
-In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys <span class="bcp14">MAY</span> also consist of the To Be Redacted tag (defined in <a href="#tbr-tag" class="auto internal xref">Section 11.1</a>), containing an integer or text string; or a To Be Decoy tag (defined in TBD), containing a positive integer.
+In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys <span class="bcp14">MAY</span> also consist of the To Be Redacted tag (defined in <a href="#tbr-tag" class="auto internal xref">Section 11.1</a>), containing an integer or text string; or a To Be Decoy tag (defined in <a href="#tb-decoy-tag" class="auto internal xref">Section 11.2</a>), containing a positive integer.
 These two tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.<a href="#section-6.3-5" class="pilcrow">¶</a></p>
 <p id="section-6.3-6">The following list summarizes the map key constraints on SD-CWTs and SD-KBTs:<a href="#section-6.3-6" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -2516,7 +2516,7 @@ Map keys and their To Be Redacted tagged verison are considered duplicate map ke
 <a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-level-of-nesting-of-claims" class="section-name selfRef">Level of Nesting of Claims</a>
         </h3>
 <p id="section-6.5-1">Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is <span class="bcp14">NOT RECOMMENDED</span> as it could lead to resource exhaustion vulnerabilities.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
-<p id="section-6.5-2">The individual map key / value pairs in a Claim Set is defined as the "top level", or level 1.
+<p id="section-6.5-2">The individual map key / value pairs in a Claim Set are defined as the "top level", or level 1.
 For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
 <p id="section-6.5-3">For example, considering the following abbreviated document, the following table shows the level of depth of the corresponding values:<a href="#section-6.5-3" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
@@ -2578,9 +2578,9 @@ For each value that is an array, a map, or a tagged item, each of the elements o
 </div>
 <p id="section-6.5-6">The contents of the top-level claims map are level 1.
 The contents of the array for map key 504 are level 2.
-The contents if the map inside that array are level 3 (ex: the value of map key 505).
+The contents of the map inside that array are level 3 (ex: the value of map key 505).
 The value of tag 4 is at level 4.
-The values in the array inside tag 4 is at level 5.<a href="#section-6.5-6" class="pilcrow">¶</a></p>
+The values in the array inside tag 4 are at level 5.<a href="#section-6.5-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="use-of-structured-suffixes">

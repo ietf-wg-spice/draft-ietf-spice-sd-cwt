@@ -836,9 +836,9 @@ Issuer                           Holder                         Verifier
    Section 17.2.  In SD-CWTs exchanged between the Holder and the Issuer
    prior to issuance, map keys MAY also consist of the To Be Redacted
    tag (defined in Section 11.1), containing an integer or text string;
-   or a To Be Decoy tag (defined in TBD), containing a positive integer.
-   These two tags provide a way for the Holder to indicate specific
-   claims to be redacted or decoys to be inserted.
+   or a To Be Decoy tag (defined in Section 11.2), containing a positive
+   integer.  These two tags provide a way for the Holder to indicate
+   specific claims to be redacted or decoys to be inserted.
 
    The following list summarizes the map key constraints on SD-CWTs and
    SD-KBTs:
@@ -997,9 +997,9 @@ Issuer                           Holder                         Verifier
    of 16 levels), is NOT RECOMMENDED as it could lead to resource
    exhaustion vulnerabilities.
 
-   The individual map key / value pairs in a Claim Set is defined as the
-   "top level", or level 1.  For each value that is an array, a map, or
-   a tagged item, each of the elements of the array, each value
+   The individual map key / value pairs in a Claim Set are defined as
+   the "top level", or level 1.  For each value that is an array, a map,
+   or a tagged item, each of the elements of the array, each value
    corresponding to each map key in the map, and the tagged item are at
    the next level of depth.
 
@@ -1046,10 +1046,10 @@ Issuer                           Holder                         Verifier
    }
 
    The contents of the top-level claims map are level 1.  The contents
-   of the array for map key 504 are level 2.  The contents if the map
+   of the array for map key 504 are level 2.  The contents of the map
    inside that array are level 3 (ex: the value of map key 505).  The
    value of tag 4 is at level 4.  The values in the array inside tag 4
-   is at level 5.
+   are at level 5.
 
 6.6.  Use of Structured Suffixes
 
