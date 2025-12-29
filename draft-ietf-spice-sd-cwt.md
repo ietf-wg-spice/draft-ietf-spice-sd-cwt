@@ -801,7 +801,7 @@ Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in 
 The `aud` claim MUST be included and MUST correspond to the Verifier.
 The SD-KBT payload MUST contain the `iat` (issued at) claim.
 The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the uint value of 294.
-The Holder SHOULD use the value 294 instead of `application/sd-cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).
+The Holder SHOULD use the value 294 instead of `application/kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).
 
 
 The SD-KBT provides the following assurances to the Verifier:
