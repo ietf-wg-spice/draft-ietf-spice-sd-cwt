@@ -931,10 +931,12 @@ In order to indicate a location that should contain a decoy digest {{decoys}} in
 This tag can be used by a library to automatically a) add a decoy digest at a particular location in an array, or at a particular level in a map; and b) create the corresponding Salted Disclosed Claims.
 The value inside is a positive integer that MUST be unique for each decoy location within the SD-CWT.
 The integer could be used to look up the salt for the decoy deterministically, but does not impose any ordering.
+When a decoy digest is requested in a map, the map value is always `null`.
 
 In the example fragment below, the transit countries claim contains an array of countries.
 The Claim Elements array contains Germany (de) and the Philippines (ph).
 The Holder wants to redact each country, but add decoys to obfuscate the number of component origin countries.
+The example fragment also shows two decoy digests in the same map.
 
 ~~~ cbor-diag
 {
@@ -944,7 +946,9 @@ The Holder wants to redact each country, but add decoys to obfuscate the number 
     58("ph"),
     61(1),
     61(2)
-  ]
+  ],
+  61(3): null,  # add a decoy in this map
+  61(4): null,  # add a second decoy in the same map
   ...
 }
 ~~~
