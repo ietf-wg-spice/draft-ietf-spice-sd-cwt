@@ -5,6 +5,12 @@ TO_BE_REDACTED_TAG = 58
 TO_BE_DECOY_TAG = 61
 SD_CLAIMS = 17
 
+class Hash:
+    SHA256 = -16
+    SHA384 = -43
+    SHA512 = -44
+    SHA512_256 = -17
+
 # ****** Generically useful functions
 
 def hex2bytes(string):
@@ -66,6 +72,31 @@ def new_salt():
 def sha256(bytes):
     import hashlib
     return hashlib.sha256(bytes).digest()
+
+def sha384(bytes):
+    import hashlib
+    return hashlib.sha384(bytes).digest()
+
+def sha512(bytes):
+    import hashlib
+    return hashlib.sha512(bytes).digest()
+
+def sha512_256(bytes):
+    import hashlib
+    return hashlib.sha512(bytes).digest()[0:32]
+
+def sd_hash(b, hash_alg=Hash.SHA256):
+    match hash_alg:
+        case Hash.SHA256:
+            return sha256(b)
+        case Hash.SHA384:
+            return sha384(b)
+        case Hash.SHA512:
+            return sha512(b)
+        case Hash.SHA512_256:
+            return sha512_256(b)
+        case _:
+            raise Exception("unknown hash algorithm")
 
 def write_to_file(value, filename):
     if isinstance(value, bytes):
@@ -304,7 +335,7 @@ def parse_disclosures(disclosures):
     return new_array
 
 
-def redact_level(item, level, map_value=False):
+def redact_level(item, level, map_value=False, hash_alg=Hash.SHA256):
     # return redacted_item, disclosures
     REDACTED_KEYS_ARRAY = cbor2.CBORSimpleValue(59)
     redacted = None
@@ -327,12 +358,12 @@ def redact_level(item, level, map_value=False):
                     disclosure = make_disclosure(key=key.value, value=new_value)
                     disclosures += disc
                     disclosures.append(disclosure)
-                    h = sha256(cbor2.dumps(disclosure))
+                    h = sd_hash(cbor2.dumps(disclosure), hash_alg=hash_alg)
                     redacted_keys.append(h)
                 elif key.tag == TO_BE_DECOY_TAG:
                     disclosure = make_disclosure(decoy_index=key.value)
                     disclosures.append(disclosure)
-                    h = sha256(cbor2.dumps(disclosure))
+                    h = sd_hash(cbor2.dumps(disclosure), hash_alg=hash_alg)
                     redacted_keys.append(h)
                 else:
                     raise Exception("other tagged map keys not allowed in CWT")
@@ -356,7 +387,7 @@ def redact_level(item, level, map_value=False):
             d = make_disclosure(value=new_item)
             disclosures += disc
             disclosures.append(d)
-            h = sha256(cbor2.dumps(d))
+            h = sd_hash(cbor2.dumps(d), hash_alg=hash_alg)
             redacted = new_redacted_entry_tag(h)
         else: # TO_BE_DECOY_TAG
             if map_value:
@@ -365,7 +396,7 @@ def redact_level(item, level, map_value=False):
                 raise Exception("decoy tag: integer index expected")
             disclosure = make_disclosure(decoy_index=item.value)
             disclosures.append(disclosure)
-            h = sha256(cbor2.dumps(disclosure))
+            h = sd_hash(cbor2.dumps(disclosure), hash_alg=hash_alg)
             redacted = new_redacted_entry_tag(h)
     else:
         redacted = item
@@ -508,11 +539,11 @@ def edn_decoded_disclosures(disclosures, comments=[], all=False):
     return edn
 
 
-def redacted_hashes_from_disclosures(disclosures):
+def redacted_hashes_from_disclosures(disclosures, hash_alg=Hash.SHA256):
     # an array of the redacted SHA hex strings in same order as the disclosures
     redacted = []
     for d in disclosures:
-        redacted.append(bytes2hex(sha256(cbor2.dumps(d))))
+        redacted.append(bytes2hex(sd_hash(cbor2.dumps(d), hash_alg=hash_alg)))
     return redacted
 
 
