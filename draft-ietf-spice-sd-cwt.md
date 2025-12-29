@@ -99,7 +99,7 @@ SD-CWT operates on CWT Claims Sets as described in {{!RFC8392}}.
 CWT Claims Sets contain Claim Keys and Claim Values.
 SD-CWT enables Issuers to mark certain Claim Keys or Claim Values mandatory or optional for a Holder of a CWT to disclose.
 A Verifier that does not understand selective disclosure at all can only act on unblinded claims sent by the Holder; it will ignore Blinded Claims representing array items, and will fail to process any SD-CWT containing Blinded Claims that represent map keys.
-optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
+Optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
 However, Claim Keys and Claim Values that are not understood remain ignored, as described in {{Section 3 of !RFC8392}}.
 
 ## High-Level Flow
@@ -516,7 +516,7 @@ Neither, one, or both could be redacted.
 If both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.
 
 In addition to map keys that are valid in CWT, SD-CWT Claims Maps MAY contain the CBOR simple value registered in this specification in {{simple59}}.
-In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys MAY also consist of the To Be Redacted tag (defined in {{tbr-tag}}), containing an integer or text string; or a To Be Decoy tag (defined in TBD), containing a positive integer.
+In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys MAY also consist of the To Be Redacted tag (defined in {{tbr-tag}}), containing an integer or text string; or a To Be Decoy tag (defined in {{tb-decoy-tag}}), containing a positive integer.
 These two tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.
 
 The following list summarizes the map key constraints on SD-CWTs and SD-KBTs:
@@ -532,13 +532,13 @@ The following list summarizes the map key constraints on SD-CWTs and SD-KBTs:
   - unsigned integers
   - negative integers
   - text strings with a length no greater than 255 octets
-- The SD-CWT Claims Maps at any level of depth, exclusively contain maps keys with the following map key types:
+- The SD-CWT Claims Maps at any level of depth, exclusively contain map keys with the following map key types:
   - unsigned integers;
   - negative integers;
   - text strings with a length no greater than 255 octets;
   - the simple value 59; or
   - when disclosable claims are communicated to the Issuer, prior to issuance:
-    - the To Be Decoy tag 61 (TBD) containing a positive integer, or
+    - the To Be Decoy tag 61 {{tb-decoy-tag}} containing a positive integer, or
     - the To Be Redacted tag 58 {{tbr-tag}} containing:
       - an unsigned integer,
       - a negative integer, or
@@ -631,7 +631,7 @@ For example, if the map below is contained inside a payload, it is invalid becau
 
 Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is NOT RECOMMENDED as it could lead to resource exhaustion vulnerabilities.
 
-The individual map key / value pairs in a Claim Set is defined as the "top level", or level 1.
+The individual map key / value pairs in a Claim Set are defined as the "top level", or level 1.
 For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.
 
 For example, considering the following abbreviated document, the following table shows the level of depth of the corresponding values:
@@ -671,9 +671,9 @@ For example, considering the following abbreviated document, the following table
 
 The contents of the top-level claims map are level 1.
 The contents of the array for map key 504 are level 2.
-The contents if the map inside that array are level 3 (ex: the value of map key 505).
+The contents of the map inside that array are level 3 (ex: the value of map key 505).
 The value of tag 4 is at level 4.
-The values in the array inside tag 4 is at level 5.
+The values in the array inside tag 4 are at level 5.
 
 ## Use of Structured Suffixes
 
@@ -894,6 +894,63 @@ An example issued SD-CWT containing decoy digests is shown below.
 
 ~~~ cbor-diag
 {::include examples/decoy.edn}
+~~~
+
+
+# Tags Used Before SD-CWT Issuance
+
+This section describes the semantics of two CBOR tags that are (optionally) only used to convey information to the Issuer about disclosures to create.
+
+## To Be Redacted Tag Definition {#tbr-tag}
+
+In order to indicate specific claims that must be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
+The tag can be used by a library to automatically convert a Claim Set with "To Be Redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
+
+When used on an element in an array, the value to be redacted is present inside the tag.
+When used on a map key and value, the tag is placed around the map key, while the map value remains.
+
+Examples in this draft use the To Be Redacted tag in order to distinguish their pre-issued, post-issued, and post-presented representations in EDN and CDDL.
+The snippet of EDN shown below shows one mechanism to communicate to the Issuer to redact the inspector license number claim, and two of the inspection dates in our primary example.
+
+~~~ cbor-diag
+{
+  ...
+  58(501): "ABCD-123456",   # redact inspector license number claim
+  /inspection dates/ 502: [
+    58(1549560720),         # redact 07-Feb-2019
+    58(1612560720),         # redact 04-Feb-2021
+    1674004740              # don't redact 17-Jan-2023
+  ]
+  ...
+}
+~~~
+
+## To Be Decoy {#tb-decoy-tag}
+
+In order to indicate a location that should contain a decoy digest {{decoys}} in the issued SD-CWT, this specification defines a new CBOR tag "To Be Decoy".
+This tag can be used by a library to automatically a) add a decoy digest at a particular location in an array, or at a particular level in a map; and b) create the corresponding Salted Disclosed Claims.
+The value inside is a positive integer that MUST be unique for each decoy location within the SD-CWT.
+The integer could be used to look up the salt for the decoy deterministically, but does not impose any ordering.
+When a decoy digest is requested in a map, the map value is always `null`.
+
+In the example fragment below, the transit countries claim contains an array of countries.
+The Claim Elements array contains Germany (de) and the Philippines (ph).
+The Holder wants to redact each country, but add decoys to obfuscate the number of component origin countries.
+The example fragment also shows two decoy digests in the same map.
+
+~~~ cbor-diag
+{
+  ...
+  /component origin countries/ 607: [
+    58("de"),
+    58("ph"),
+    61(1),
+    61(2)
+  ],
+  61(3): null,  # add a decoy in this map
+  61(4): null,  # add a second decoy in the same map
+  ...
+}
 ~~~
 
 
@@ -1161,10 +1218,6 @@ After applying the disclosures of the nested structure above, the disclosed Clai
 }
 ~~~
 
-# To Be Redacted Tag Definition {#tbr-tag}
-
-In order to indicate specific claims that should be redacted in a Claim Set, this specification defines a new CBOR tag "To be redacted".
-It can be used by a library to automatically convert a Claim Set with "To be redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
 
 # Privacy Considerations {#privacy}
 
