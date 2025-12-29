@@ -516,7 +516,7 @@ Neither, one, or both could be redacted.
 If both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.
 
 In addition to map keys that are valid in CWT, SD-CWT Claims Maps MAY contain the CBOR simple value registered in this specification in {{simple59}}.
-In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys MAY also consist of the To Be Redacted tag (defined in {{tbr-tag}}), containing an integer or text string; or a To Be Decoy tag (defined in TBD), containing a positive integer.
+In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys MAY also consist of the To Be Redacted tag (defined in {{tbr-tag}}), containing an integer or text string; or a To Be Decoy tag (defined in {{tb-decoy-tag}}), containing a positive integer.
 These two tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.
 
 The following list summarizes the map key constraints on SD-CWTs and SD-KBTs:
@@ -631,7 +631,7 @@ For example, if the map below is contained inside a payload, it is invalid becau
 
 Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is NOT RECOMMENDED as it could lead to resource exhaustion vulnerabilities.
 
-The individual map key / value pairs in a Claim Set is defined as the "top level", or level 1.
+The individual map key / value pairs in a Claim Set are defined as the "top level", or level 1.
 For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.
 
 For example, considering the following abbreviated document, the following table shows the level of depth of the corresponding values:
@@ -671,9 +671,9 @@ For example, considering the following abbreviated document, the following table
 
 The contents of the top-level claims map are level 1.
 The contents of the array for map key 504 are level 2.
-The contents if the map inside that array are level 3 (ex: the value of map key 505).
+The contents of the map inside that array are level 3 (ex: the value of map key 505).
 The value of tag 4 is at level 4.
-The values in the array inside tag 4 is at level 5.
+The values in the array inside tag 4 are at level 5.
 
 ## Use of Structured Suffixes
 
