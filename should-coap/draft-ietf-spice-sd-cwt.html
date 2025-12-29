@@ -2745,7 +2745,7 @@ Therefore, the <code>sub</code> and <code>iss</code> of an SD-KBT are implied fr
 <p id="section-8.1-4">The <code>aud</code> claim <span class="bcp14">MUST</span> be included and <span class="bcp14">MUST</span> correspond to the Verifier.
 The SD-KBT payload <span class="bcp14">MUST</span> contain the <code>iat</code> (issued at) claim.
 The protected header of the SD-KBT <span class="bcp14">MUST</span> include the <code>typ</code> header parameter with the value <code>application/kb+cwt</code> or the uint value of 294.
-The Holder <span class="bcp14">SHOULD</span> use the value 294 instead of <code>application/sd-cwt</code>, as the CBOR representation is considerably smaller (3 bytes versus of 19).<a href="#section-8.1-4" class="pilcrow">¶</a></p>
+The Holder <span class="bcp14">SHOULD</span> use the value 294 instead of <code>application/kb+cwt</code>, as the CBOR representation is considerably smaller (3 bytes versus of 19).<a href="#section-8.1-4" class="pilcrow">¶</a></p>
 <p id="section-8.1-5">The SD-KBT provides the following assurances to the Verifier:<a href="#section-8.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.1-6.1">
