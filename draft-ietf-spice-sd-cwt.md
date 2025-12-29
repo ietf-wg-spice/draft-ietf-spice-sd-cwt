@@ -903,13 +903,13 @@ This section describes the semantics of two CBOR tags that are (optionally) only
 
 ## To Be Redacted Tag Definition {#tbr-tag}
 
-In order to indicate specific claims that should be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
+In order to indicate specific claims that must be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
 The tag can be used by a library to automatically convert a Claim Set with "To Be Redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
 
 When used on an element in an array, the value to be redacted is present inside the tag.
 When used on a map key and value, the tag is placed around the map key, while the map value remains.
 
-The To Be Redacted tag is used by the software that generates the examples in this draft.
+Examples in this draft use the To Be Redacted tag in order to distinguish their pre-issued, post-issued, and post-presented representations in EDN and CDDL.
 The snippet of EDN shown below shows one mechanism to communicate to the Issuer to redact the inspector license number claim, and two of the inspection dates in our primary example.
 
 ~~~ cbor-diag
