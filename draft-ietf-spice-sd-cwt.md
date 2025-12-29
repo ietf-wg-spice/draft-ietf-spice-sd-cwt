@@ -927,7 +927,7 @@ The snippet of EDN shown below shows one mechanism to communicate to the Issuer 
 
 ## To Be Decoy {#tb-decoy-tag}
 
-In order to indicate a location that should contain a decoy digest {{#decoys}} in the issued SD-CWT, this specification defines a new CBOR tag "To Be Decoy".
+In order to indicate a location that should contain a decoy digest {{decoys}} in the issued SD-CWT, this specification defines a new CBOR tag "To Be Decoy".
 This tag can be used by a library to automatically a) add a decoy digest at a particular location in an array, or at a particular level in a map; and b) create the corresponding Salted Disclosed Claims.
 The value inside is a positive integer that MUST be unique for each decoy location within the SD-CWT.
 The integer could be used to look up the salt for the decoy deterministically, but does not impose any ordering.
