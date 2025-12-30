@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-28T01:01:06.285196+00:00",
+  "timestamp": "2025-12-30T00:54:28.996837+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -102,6 +102,11 @@
       "name": "WIP",
       "description": "",
       "color": "fda1f7"
+    },
+    {
+      "name": "ready-to-close?",
+      "description": null,
+      "color": "aaaaaa"
     }
   ],
   "issues": [
@@ -1472,12 +1477,11 @@
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
-        "next-stretch"
+        "has-PR"
       ],
       "body": "Are integer values for content-type (using the CoAP registry) always preferred for efficiency, or only when using CoAP?\n\nAlso needs to update all the examples if we make this change.\n\n",
       "createdAt": "2025-05-21T00:11:06Z",
-      "updatedAt": "2025-12-17T10:31:57Z",
+      "updatedAt": "2025-12-29T18:06:09Z",
       "closedAt": null,
       "comments": [
         {
@@ -1521,6 +1525,13 @@
           "body": "Addressed in WIP PR #169 ",
           "createdAt": "2025-12-17T10:31:57Z",
           "updatedAt": "2025-12-17T10:31:57Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Related to #171 \n\nFinally, the original intent of this issue is addressed directly in the short PR #172",
+          "createdAt": "2025-12-29T16:48:19Z",
+          "updatedAt": "2025-12-29T16:48:19Z"
         }
       ]
     },
@@ -2541,14 +2552,15 @@
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
-        "OR13"
+        "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr"
+        "ready-for-pr",
+        "next-stretch"
       ],
       "body": "There should be a section about how time claims (iat, exp, nbf) should be set in the SD-KBT depending of the ones present in the SD-CWT it wraps.\nThe general rule of thumb should be that the KBT should be shorter-lived than the token it wraps, in order to prevent illegal state from occurring.\n\nWhich translates to:\n1. `sd_kbt.exp <= sd_cwt.exp`\n2. `sd_kbt.nbf >= sd_cwt.nbf`\n3. `sd_kbt.iat >= sd_cwt.iat`\n\nAmong those lemmas, only the third one should be included in [section 9](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-9). The two other should be recommended in [section 8](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-8)",
       "createdAt": "2025-07-22T16:54:01Z",
-      "updatedAt": "2025-10-02T12:10:04Z",
+      "updatedAt": "2025-12-29T18:04:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -2571,6 +2583,13 @@
           "body": "Mike,\nsince we have two related tokens and key binding is mandatory we are in a\ndifferent situation than SD-JWT, where the key binding is optional and is not itself a JWT.",
           "createdAt": "2025-09-30T15:08:33Z",
           "updatedAt": "2025-10-02T12:10:04Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@OR13 , I'll take this one this week, if you can do a PR for Issue #170 ",
+          "createdAt": "2025-12-29T17:37:39Z",
+          "updatedAt": "2025-12-29T17:37:39Z"
         }
       ]
     },
@@ -2629,11 +2648,12 @@
         "OR13"
       ],
       "labels": [
-        "ready-for-pr"
+        "has-PR",
+        "ready-to-close?"
       ],
       "body": "Coming back to [Differences from the CBOR Web Token Specification](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-differences-from-the-cbor-w) to realize that even though at first they was a reason to bend RFC-8392 because the `redacted_claim_keys` was proposed as a tag first. Since it's settled that it's going to be a simple type, I do not see the reason to continue allowing tagged integers or text strings.",
       "createdAt": "2025-07-23T11:01:50Z",
-      "updatedAt": "2025-10-14T09:40:52Z",
+      "updatedAt": "2025-12-29T17:36:26Z",
       "closedAt": null,
       "comments": [
         {
@@ -2712,6 +2732,13 @@
           "body": "> > Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.\n> \n> Which could be problematic since the \"redacted_claim_keys\" is a simple value, part of the payload, authenticated by the Issuer. So if it is trimmed, the Verifier cannot anymore verify the signature of the SD-CWT by the Issuer.\n\nI don't think this is saying anything new. It's just say that you can't hand an invalid CWT to a strict CWT-only Verifier; however you could use SD-CWT to generate a CWT with no redacted key claims and a CWT-only Verifier will process it just fine. (That applies to maps at arbitrary depth.)\n\nI also envisioned that the Verifier might consist of an SD-CWT compatible processor, which generates a regular CWT claim set and hands it to the logic that deals with claims, which doesn't need to see any tagged or simple value keys.",
           "createdAt": "2025-10-14T09:40:52Z",
           "updatedAt": "2025-10-14T09:40:52Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@beltram please take a look at the latest [CDDL](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-complete-cddl-schema), and [section 6.3](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-allowed-types-of-cbor-map-k) of the editor's copy.\n\nI think it now makes it very clear what is allowed in:\n- a KBT (`safe_label`/`safe_value`/`safe_map`), \n- an issued CWT (`issued_sd_cwt_label`/`issued_sd_cwt_value`/`issued_sd_cwt_map`),\n- instructions to the Issuer pre-issuance (`preissuance_label`/`preissuance_value`/`preissuance_map`).",
+          "createdAt": "2025-12-29T17:36:08Z",
+          "updatedAt": "2025-12-29T17:36:08Z"
         }
       ]
     },
@@ -2755,20 +2782,19 @@
       "id": "I_kwDOMm_Q2s7Gh_YN",
       "title": "We are missing the definition for redacted claim keys",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/137",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "blocked",
-        "wait-for-IANA"
+        "has-PR"
       ],
       "body": "Should be `#7.59` on https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/draft-ietf-spice-sd-cwt.md?plain=1#L571\n\n\n```\n    ? &(redacted_claim_keys: REDACTED_KEYS) ^ => [ * bstr ],\n```\n\nWould be nice to mirror the treatment of arrays:\n\n```\n~~~ cddl\n; redacted_claim_element = #6.<TBD5>( bstr ) -- RFC 9682 syntax\nredacted_claim_element = #6.60( bstr )\n~~~\n```",
       "createdAt": "2025-08-18T13:41:35Z",
-      "updatedAt": "2025-11-10T14:25:14Z",
-      "closedAt": null,
+      "updatedAt": "2025-12-29T17:26:44Z",
+      "closedAt": "2025-12-29T17:26:43Z",
       "comments": [
         {
           "author": "selfissued",
@@ -2783,6 +2809,20 @@
           "body": "This is defined [here](https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/b2941a8413248bfdbccd366a8411490e3a7a29ab/sd-cwts.cddl#L106) as`REDACTED_KEYS = #7.59 ; #7.<TBD4>`\n\nThe CDDL validator our tooling is using does not support the CDDL extensions in RFC 9682, hence why we are using the integer values here.\n\nThis problem will go away once we have early IANA registrations. I'll rewrite the CDDL at that time to be cleaner",
           "createdAt": "2025-10-14T09:28:25Z",
           "updatedAt": "2025-10-14T09:28:25Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is unblocked now. IANA assigned simple value 59.\nAlso our CDDL validation tools now support the RFC 9682 notation.\n\nThis should be addressed in PR #169 ",
+          "createdAt": "2025-12-29T13:37:00Z",
+          "updatedAt": "2025-12-29T13:37:00Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed.",
+          "createdAt": "2025-12-29T17:26:44Z",
+          "updatedAt": "2025-12-29T17:26:44Z"
         }
       ]
     },
@@ -2879,13 +2919,16 @@
       "state": "OPEN",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
-        "ready-for-pr"
+        "has-PR",
+        "ready-to-close?"
       ],
       "body": "We need to make its clearer how to use these tags, and relate them to whatever we decide for #143 \n\nAnd simple value 59",
       "createdAt": "2025-09-13T18:19:09Z",
-      "updatedAt": "2025-11-24T14:10:30Z",
+      "updatedAt": "2025-12-29T17:28:23Z",
       "closedAt": null,
       "comments": [
         {
@@ -2908,6 +2951,13 @@
           "body": "Just need an example for 58, ... the others seems well covered",
           "createdAt": "2025-11-10T17:18:08Z",
           "updatedAt": "2025-11-10T17:18:08Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi @OR13 I think we can close this now with #171 ",
+          "createdAt": "2025-12-29T16:33:07Z",
+          "updatedAt": "2025-12-29T16:33:07Z"
         }
       ]
     },
@@ -3127,7 +3177,7 @@
       "id": "I_kwDOMm_Q2s7aH-Y6",
       "title": "Define separate tag for \"insert a decoy digest here\"?",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/158",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3139,25 +3189,41 @@
       ],
       "body": "In #157 I defined a tag internally used by the sd-cwt.py script to mark a location that will be replaced by a decoy digest.\n\nDo we want to add this as generically useful to the draft?",
       "createdAt": "2025-11-24T15:57:59Z",
-      "updatedAt": "2025-12-15T21:32:33Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-12-29T16:33:53Z",
+      "closedAt": "2025-12-29T16:33:53Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "addressed by #171 ",
+          "createdAt": "2025-12-29T16:33:53Z",
+          "updatedAt": "2025-12-29T16:33:53Z"
+        }
+      ]
     },
     {
       "number": 159,
       "id": "I_kwDOMm_Q2s7aTIhm",
       "title": "refactor sd-cwt.py to support multiple hash algorithms",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/159",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-11-25T10:29:35Z",
-      "updatedAt": "2025-11-25T10:29:35Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-12-29T17:20:57Z",
+      "closedAt": "2025-12-29T17:20:57Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "addressed in #173 ",
+          "createdAt": "2025-12-29T17:20:57Z",
+          "updatedAt": "2025-12-29T17:20:57Z"
+        }
+      ]
     },
     {
       "number": 161,
@@ -3245,11 +3311,59 @@
       "state": "OPEN",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "OR13"
+      ],
+      "labels": [
+        "ready-for-pr",
+        "next-stretch"
+      ],
       "body": "When an array element is not disclosed, what value MUST be presented in the downstream \"verified claim set\" ?\n\nSuggest null.",
       "createdAt": "2025-12-25T20:07:37Z",
-      "updatedAt": "2025-12-25T20:07:37Z",
+      "updatedAt": "2025-12-29T18:05:11Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think this depends on the schema / data model. In an homogenous array, you can probably just omit the undisclosed element. In a heterogeneous array, you could use null or undefined, or throw away the entire array.\n\n",
+          "createdAt": "2025-12-29T12:49:08Z",
+          "updatedAt": "2025-12-29T12:49:08Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "If order is important, you should redact the whole array.\nThere is information leakage if order is preserved, and redacted elements are visible to the verifier.",
+          "createdAt": "2025-12-29T14:16:42Z",
+          "updatedAt": "2025-12-29T14:16:42Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "default behavior should be to change the size of the array, some structures may require the array to stay the same size, and use order to convey information, such as priority, for those cases, implementations MUST replace the redacted elements with nulls.",
+          "createdAt": "2025-12-29T14:18:41Z",
+          "updatedAt": "2025-12-29T14:18:41Z"
+        }
+      ]
+    },
+    {
+      "number": 174,
+      "id": "I_kwDOMm_Q2s7glyNf",
+      "title": "Adjust COSE header parameters and regenerate examples",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/174",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "blocked",
+        "wait-for-IANA"
+      ],
+      "body": "Currently the examples do not match the draft, since we are waiting for likely IANA changes to the COSE header parameters.\n\n[ ] update CDDL and draft to reflect any changes to early assignment of COSE header parameters (waiting for IANA Expert)\n[ ] regenerate all examples to use the CoAP values instead of strings in the typ header parameter.\n[ ] retest all example CBOR against their EDN and the CDDL",
+      "createdAt": "2025-12-29T18:00:10Z",
+      "updatedAt": "2025-12-29T18:00:37Z",
       "closedAt": null,
       "comments": []
     }
@@ -14614,24 +14728,26 @@
       "id": "PR_kwDOMm_Q2s65VqML",
       "title": "Use values assigned by IANA",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/169",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "- [ ] modify text as requested by IANA expert reviewers for section 17.1\r\n- [x] modify text as requested by IANA expert reviewers for section 17.3 \r\n- [x] change CDDL to use CoAP values assigned by IANA\r\n- [x] change script to use CoAP values to generate examples\r\n- [ ] regenerate all examples to use the CoAP values instead of strings in the `typ` header parameter. \r\n- [ ] retest all example CBOR against their EDN and the CDDL\r\n- [x] add optional vct claim to CDDL\r\n- [ ] if available in time, update CDDL to reflect any changes to early assignment of tags (assigned), simple value (assigned), and COSE header parameters (waiting)",
+      "body": "- [x] modify text as requested by IANA expert reviewers for section 17.1\r\n- [x] modify text as requested by IANA expert reviewers for section 17.3 \r\n- [x] change CDDL to use CoAP values assigned by IANA\r\n- [x] change script to use CoAP values to generate examples\r\n- [x] add optional vct claim to CDDL\r\n- [ ] if available in time, update CDDL to reflect any changes to early assignment of tags (assigned), simple value (assigned), and COSE header parameters (waiting)\n- [ ] regenerate all examples to use the CoAP values instead of strings in the `typ` header parameter. \r\n- [ ] retest all example CBOR against their EDN and the CDDL\r\n",
       "createdAt": "2025-12-17T10:28:25Z",
-      "updatedAt": "2025-12-17T20:39:13Z",
+      "updatedAt": "2025-12-29T14:08:10Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "6b41f9b576b9d03ee80865cd8da9a21403cc4d65",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "coap",
       "headRefOid": "bd72bd47acfd358c8b2a120c68cedc686de4f3b5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-12-29T14:08:10Z",
+      "mergedAt": "2025-12-29T14:08:10Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "ff66f9670a945d03e68b67f565aa9aa622fc6f04"
+      },
       "comments": [
         {
           "author": "rohanmahy",
@@ -14669,6 +14785,184 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 171,
+      "id": "PR_kwDOMm_Q2s661-1g",
+      "title": "Add text defining the To Be Decoy tag",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/171",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Create new section for both tags used before issuance\r\n- Add text defining the To Be Decoy tag\r\n- Give examples of To Be Redacted and To Be Decoy tags\r\n- move new section immediately after Decoy Digests section\r\n\r\nAddresses #158 and #144 ",
+      "createdAt": "2025-12-29T15:58:38Z",
+      "updatedAt": "2025-12-29T16:32:31Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "ff66f9670a945d03e68b67f565aa9aa622fc6f04",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "tag-61",
+      "headRefOid": "906e474f5ce4a97427470e25a6f4cb549815fb61",
+      "closedAt": "2025-12-29T16:32:31Z",
+      "mergedAt": "2025-12-29T16:32:31Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "c29b9f727f39a17fbdf668161fba9cce8cc64c8c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7XizrT",
+          "commit": {
+            "abbreviatedOid": "e624c5a"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-29T16:08:19Z",
+          "updatedAt": "2025-12-29T16:08:20Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "```suggestion\r\nIn order to indicate specific claims that must be redacted in a Claim Set, this specification defines a new CBOR tag \"To Be Redacted\".\r\n```",
+              "createdAt": "2025-12-29T16:08:20Z",
+              "updatedAt": "2025-12-29T16:08:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Xi1Iy",
+          "commit": {
+            "abbreviatedOid": "e624c5a"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-29T16:10:51Z",
+          "updatedAt": "2025-12-29T16:10:51Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "```suggestion\r\nExamples in this draft use the To Be Redacted tag in order to distinguish their pre-issued, post-issued, and post-presented representations in EDN and CDDL.\r\n```",
+              "createdAt": "2025-12-29T16:10:51Z",
+              "updatedAt": "2025-12-29T16:10:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Xi1Ys",
+          "commit": {
+            "abbreviatedOid": "e624c5a"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-12-29T16:11:20Z",
+          "updatedAt": "2025-12-29T16:11:20Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 172,
+      "id": "PR_kwDOMm_Q2s662XQL",
+      "title": "SHOULD use CoAP format numbers instead of full media type strings",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/172",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Alternatively, we could make it a MUST.",
+      "createdAt": "2025-12-29T16:47:31Z",
+      "updatedAt": "2025-12-29T20:08:38Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c29b9f727f39a17fbdf668161fba9cce8cc64c8c",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "should-coap",
+      "headRefOid": "9bb73488cf52b46b1d959deee5e7a87dc17344e5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7XjuHU",
+          "commit": {
+            "abbreviatedOid": "c213b5f"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-29T18:19:32Z",
+          "updatedAt": "2025-12-29T18:19:33Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "```suggestion\r\nThe Holder SHOULD use the value 294 instead of `application/kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).\r\n```",
+              "createdAt": "2025-12-29T18:19:32Z",
+              "updatedAt": "2025-12-29T18:19:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Xkdnq",
+          "commit": {
+            "abbreviatedOid": "9bb7348"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-12-29T20:08:38Z",
+          "updatedAt": "2025-12-29T20:08:38Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 173,
+      "id": "PR_kwDOMm_Q2s662lHT",
+      "title": "make sd-cwt.py more hash agnostic",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/173",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "address #159 \r\n\r\nstill only uses SHA256, but is capable of using another algorithm at the lowest levels.",
+      "createdAt": "2025-12-29T17:19:50Z",
+      "updatedAt": "2025-12-29T17:20:41Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c29b9f727f39a17fbdf668161fba9cce8cc64c8c",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "hash-agnostic",
+      "headRefOid": "fb9770ef4cf2309d848182e046264619adbadc8c",
+      "closedAt": "2025-12-29T17:20:40Z",
+      "mergedAt": "2025-12-29T17:20:40Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "ca15c40817e087d111c89c0629e8ff94fdebb4ad"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merging since it is a tool only change",
+          "createdAt": "2025-12-29T17:20:35Z",
+          "updatedAt": "2025-12-29T17:20:35Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
