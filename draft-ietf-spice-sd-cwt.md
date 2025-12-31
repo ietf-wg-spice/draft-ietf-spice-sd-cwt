@@ -850,7 +850,7 @@ The SD-KBT payload MAY include a `cnonce` claim.
 If included, the `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
 All other claims are OPTIONAL in an SD-KBT.
 
-# SD-KBT and SD-CWT Verifier Validation {#validation}
+# SD-KBT and SD-CWT Verifier Validation {#binding-validation}
 
 The exact order of the following steps MAY be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
 
@@ -1390,7 +1390,7 @@ Extra care should be taken in case the SD-CWT subject claim is redacted.
 Likewise, Holders and Verifiers MUST verify that the "iss" claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.
 
 Finally, the Verifier MUST verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not.
-Specific tests for time claims are described in steps 3 and 6 of {{validation}}.
+Specific tests for time claims are described in steps 3 and 6 of {{binding-validation}}.
 Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.
 
 ## Covert Channels
