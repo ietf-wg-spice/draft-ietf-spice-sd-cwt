@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-30T00:54:28.996837+00:00",
+  "timestamp": "2026-01-01T01:01:13.988374+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -1470,7 +1470,7 @@
       "id": "I_kwDOMm_Q2s63fjDK",
       "title": "SHOULD use CoAP values instead of application/sd-cwt and application/sd-kbt?",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/77",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1481,8 +1481,8 @@
       ],
       "body": "Are integer values for content-type (using the CoAP registry) always preferred for efficiency, or only when using CoAP?\n\nAlso needs to update all the examples if we make this change.\n\n",
       "createdAt": "2025-05-21T00:11:06Z",
-      "updatedAt": "2025-12-29T18:06:09Z",
-      "closedAt": null,
+      "updatedAt": "2025-12-30T16:25:09Z",
+      "closedAt": "2025-12-30T16:25:09Z",
       "comments": [
         {
           "author": "cabo",
@@ -1532,6 +1532,13 @@
           "body": "Related to #171 \n\nFinally, the original intent of this issue is addressed directly in the short PR #172",
           "createdAt": "2025-12-29T16:48:19Z",
           "updatedAt": "2025-12-29T16:48:19Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #172 ",
+          "createdAt": "2025-12-30T16:25:09Z",
+          "updatedAt": "2025-12-30T16:25:09Z"
         }
       ]
     },
@@ -2555,12 +2562,11 @@
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
-        "next-stretch"
+        "has-PR"
       ],
       "body": "There should be a section about how time claims (iat, exp, nbf) should be set in the SD-KBT depending of the ones present in the SD-CWT it wraps.\nThe general rule of thumb should be that the KBT should be shorter-lived than the token it wraps, in order to prevent illegal state from occurring.\n\nWhich translates to:\n1. `sd_kbt.exp <= sd_cwt.exp`\n2. `sd_kbt.nbf >= sd_cwt.nbf`\n3. `sd_kbt.iat >= sd_cwt.iat`\n\nAmong those lemmas, only the third one should be included in [section 9](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-9). The two other should be recommended in [section 8](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-8)",
       "createdAt": "2025-07-22T16:54:01Z",
-      "updatedAt": "2025-12-29T18:04:58Z",
+      "updatedAt": "2025-12-31T13:22:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -14873,24 +14879,26 @@
       "id": "PR_kwDOMm_Q2s662XQL",
       "title": "SHOULD use CoAP format numbers instead of full media type strings",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/172",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Alternatively, we could make it a MUST.",
       "createdAt": "2025-12-29T16:47:31Z",
-      "updatedAt": "2025-12-29T20:08:38Z",
+      "updatedAt": "2025-12-30T16:24:09Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c29b9f727f39a17fbdf668161fba9cce8cc64c8c",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "should-coap",
       "headRefOid": "9bb73488cf52b46b1d959deee5e7a87dc17344e5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-12-30T16:24:09Z",
+      "mergedAt": "2025-12-30T16:24:09Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "35b413cde34b34739f4bf1fdf1933e146d086e12"
+      },
       "comments": [],
       "reviews": [
         {
@@ -14963,6 +14971,46 @@
         }
       ],
       "reviews": []
+    },
+    {
+      "number": 175,
+      "id": "PR_kwDOMm_Q2s67Gx1J",
+      "title": "Add time claims verification rules and security considerations",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/175",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses #131 ",
+      "createdAt": "2025-12-31T13:21:43Z",
+      "updatedAt": "2025-12-31T18:27:02Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "35b413cde34b34739f4bf1fdf1933e146d086e12",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "time-claims",
+      "headRefOid": "f1e07ea61f01ff0e9b63f111e0a9c1b7cd87dfaf",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7X2EzS",
+          "commit": {
+            "abbreviatedOid": "f1e07ea"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good.\n\nI'll note that this is missing the history entry describing this change.",
+          "createdAt": "2025-12-31T18:27:02Z",
+          "updatedAt": "2025-12-31T18:27:02Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
