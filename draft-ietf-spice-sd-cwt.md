@@ -803,6 +803,7 @@ The SD-KBT payload MUST contain the `iat` (issued at) claim.
 The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the uint value of 294.
 The Holder SHOULD use the value 294 instead of `application/kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).
 
+The SD-KBT MUST NOT be valid for any time period when its contained SD-CWT is invalid.
 
 The SD-KBT provides the following assurances to the Verifier:
 
@@ -849,7 +850,7 @@ The SD-KBT payload MAY include a `cnonce` claim.
 If included, the `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
 All other claims are OPTIONAL in an SD-KBT.
 
-# SD-KBT and SD-CWT Verifier Validation
+# SD-KBT and SD-CWT Verifier Validation {#binding-validation}
 
 The exact order of the following steps MAY be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
 
@@ -859,23 +860,42 @@ The exact order of the following steps MAY be changed, as long as all checks are
 
 2. Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of !RFC8392}}.
 
-3. The Verifier extracts the confirmation key from the `cnf` claim in the SD-CWT payload.
+3. The Verifier checks the time claims in the SD-CWT as follows:
 
-4. Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
+- `nbf` <= `iat` (if both exist)
+- `nbf` <  `exp` (if both exist)
+- `iat` <  `exp` (if both exist)
 
-5. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
+{:start="4"}
+4. The Verifier extracts the confirmation key from the `cnf` claim in the SD-CWT payload.
+
+5. Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
+
+6. The Verifier checks the time claims in the SD-KBT as follows:
+
+- `nbf` in the SD-KBT <= `iat` in the SD-KBT (if both exist)
+- `iat` in the SD-KBT <  `exp` in the SD-KBT (if both exist)
+- `exp` in the SD-KBT <= `exp` in the SD-CWT (if both exist)
+- `nbf` in the SD-KBT >= `nbf` in the SD-CWT (if both exist)
+- `iat` in the SD-KBT >= `iat` in the SD-CWT (if both exist)
+- `nbf` in the SD-KBT <= `exp` in the SD-CWT (if both exist)
+- `iat` in the SD-KBT <  `exp` in the SD-CWT (if both exist)
+- `iat` in the SD-KBT >= `nbf` in the SD-CWT (if both exist)
+
+{:start="7"}
+7. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
 Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Blinded Claim Hash in the payload.
 If there are any disclosures that do not have a corresponding Blinded Claim Hash, the entire SD-CWT is invalid.
 If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.
 
     > Note: A Verifier MUST be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.
 
-{:start="6"}
-6. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
+{:start="8"}
+8. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
 
-7. Otherwise, the SD-CWT is considered valid, and the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
+9. Otherwise, the SD-CWT is considered valid, and the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
 
-8. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
+10. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
 
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
 
@@ -1368,6 +1388,10 @@ All three are represented by the confirmation (public) key in the SD-CWT.
 As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT "iss" and "sub" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
 Extra care should be taken in case the SD-CWT subject claim is redacted.
 Likewise, Holders and Verifiers MUST verify that the "iss" claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.
+
+Finally, the Verifier MUST verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not.
+Specific tests for time claims are described in steps 3 and 6 of {{binding-validation}}.
+Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.
 
 ## Covert Channels
 
