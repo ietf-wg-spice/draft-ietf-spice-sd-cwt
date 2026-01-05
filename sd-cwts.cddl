@@ -129,7 +129,7 @@ decoy = [
   bstr .size 16      ; 128-bit salt
 ]
 
-aead-encrypted-array = [ *aead-encrypted ]
+aead-encrypted-array = [ +aead-encrypted ]
 aead-encrypted = [
   bstr .size 16,     ; 128-bit nonce
   bstr,              ; the encryption ciphertext output of a

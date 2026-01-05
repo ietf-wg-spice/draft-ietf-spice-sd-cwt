@@ -999,7 +999,7 @@ The initial Verifier of the key binding token might not be able to decrypt encry
 This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
 (Guidance on specific algorithms is discussed in {{aead-choice}}.)
-The second header parameter (`sd_aead_encrypted_claims`) contains a list of AEAD encrypted disclosures.
+The second header parameter (`sd_aead_encrypted_claims`), if present, contains a non-empty list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:
 
 ~~~ cbor-diag
@@ -1037,7 +1037,7 @@ Details of key management are left to profiles of the specific protocols that ma
 The CDDL for AEAD encrypted disclosures is below.
 
 ~~~ cddl
-aead-encrypted-array = [ *aead-encrypted ]
+aead-encrypted-array = [ +aead-encrypted ]
 aead-encrypted = [
   bstr .size 16,     ; 128-bit nonce
   bstr,              ; the encryption ciphertext output of a
