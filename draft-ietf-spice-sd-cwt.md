@@ -387,6 +387,7 @@ Redacted claims that are array elements are handled slightly differently, as des
 # Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
 
 When the Holder wants to send an SD-CWT and disclose none, some, or all of the redacted values, it makes a list of the values to disclose and puts them in `sd_claims` header parameter in the unprotected header.
+If the Holder does not disclose any claims, it MUST omit the `sd_claims` header parameter.
 
 For example, Alice decides to disclose to a Verifier the `inspector_license_number` claim (ABCD-123456), the `region` claim (California), and the earliest date element in the `inspection_dates` array (7-Feb-2019).
 
@@ -425,7 +426,7 @@ An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), a
 It is not required to contain any blinded claims.
 
 Optionally the salted Claim Values (and often Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
-If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` header parameter in the unprotected header is an empty array.
+If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` header parameter is not present in the unprotected header.
 
 Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
 However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.
@@ -438,7 +439,7 @@ For Salted Disclosed Claims of items in an array, the name is omitted.
 
 ~~~ cddl
 ; an array of bstr-encoded Salted Disclosed Claims
-salted-array = [ *bstr-encoded-salted ]
+salted-array = [ +bstr-encoded-salted ]
 
 bstr-encoded-salted = bstr .cbor salted-entry
 salted-entry = salted-claim / salted-element / decoy
@@ -691,8 +692,8 @@ This specification defines the format of an SD-CWT communicated between an Issue
 The protected header MAY contain the `sd_alg` header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 If no `sd_alg` header parameter is present, the default hash function SHA-256 is used.
 
-The unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
-If there are no disclosures, the `sd_claims` header parameter value is an empty array.
+If no Salted Disclosed Claims or Decoys are present, the unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
+If there are no disclosures, the `sd_claims` header parameter value is omitted.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
 
 In an SD-CWT, either the subject `sub` / 2 claim MUST be present, or the redacted form of the subject MUST be present.
@@ -745,14 +746,14 @@ sd-protected = {
    &(alg: 1) ^ => int,
    ? &(kid: 4) ^ => bstr,
    ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
-   ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
-   ? &(sd_aead: TBD7) ^ => uint .size 2,
+   ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
+   ? &(sd_aead: 172) ^ => uint .size 2,
    * label => safe_value
 }
 
 sd-unprotected = {
-   &(sd_claims: TBD1) ^ => salted-array,
-   ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
+   ? &(sd_claims: 17) ^ => salted-array,
+   ? &(sd_aead_encrypted_claims: 172) ^ => aead-encrypted-array,
    * label => safe_value
 }
 
@@ -780,6 +781,7 @@ When issuing an SD-CWT to a Holder, the Issuer includes all the Salted Disclosed
 
 By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
 If the Holder wishes to disclose any blinded claims, it includes that subset of its Salted Disclosed Claims in the `sd_claims` header parameter of the unprotected header.
+If there is nothing to be disclosed, the `sd_claims` header parameter is omitted.
 
 An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder chooses the subset of disclosures included in the `sd_claims` header parameter.
 
@@ -1429,8 +1431,8 @@ IANA is requested to add the following entries to the [IANA "COSE Header Paramet
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_claims
-* Label: TBD1 (requested assignment 17)
-* Value Type: [ *bstr ]
+* Label: 17
+* Value Type: [ +bstr ]
 * Value Registry: (empty)
 * Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{sd-cwt-preparation}} of this specification
@@ -1440,7 +1442,7 @@ The following completed registration template per RFC8152 is provided:
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_alg
-* Label: TBD2 (requested assignment 170)
+* Label: 170
 * Value Type: int
 * Value Registry: IANA COSE Algorithms
 * Description: The hash algorithm used for redacting disclosures.
@@ -1451,7 +1453,7 @@ The following completed registration template per RFC8152 is provided:
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead_encrypted_claims
-* Label: TBD6 (requested assignment 171)
+* Label: 171
 * Value Type: [ +[bstr,bstr,bstr] ]
 * Value Registry: (empty)
 * Description: A list of AEAD encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
@@ -1462,7 +1464,7 @@ The following completed registration template per RFC8152 is provided:
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead
-* Label: TBD7 (requested assignment 172)
+* Label: 172
 * Value Type: uint .size 2
 * Value Registry: IANA AEAD Algorithm number
 * Description: The AEAD algorithm used for encrypting disclosures.
@@ -2142,6 +2144,7 @@ Note: RFC Editor, please remove this entire section on publication.
 ## draft-ietf-spice-sd-cwt-06
 
 - Addressed early IANA feedback about the escalation process.
+- Instead of an empty array, `sd_claims` is now omitted if empty
 
 ## draft-ietf-spice-sd-cwt-05
 

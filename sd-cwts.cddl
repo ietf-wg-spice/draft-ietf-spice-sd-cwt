@@ -32,7 +32,7 @@ kbt-protected = {
 }
 
 sd-unprotected = {
-   &(sd_claims: 17) ^ => salted-array,
+   ? &(sd_claims: 17) ^ => salted-array,
    ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
    * label => safe_value
 }
@@ -113,7 +113,7 @@ MAX_u64 = 18446744073709551615           ; 2^64 - 1
 num = int / float
 
 
-salted-array = [ *bstr-encoded-salted ]
+salted-array = [ +bstr-encoded-salted ]
 bstr-encoded-salted = bstr .cbor salted-entry
 salted-entry = salted-claim / salted-element / decoy
 salted-claim = [
