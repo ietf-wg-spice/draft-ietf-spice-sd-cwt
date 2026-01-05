@@ -1440,7 +1440,7 @@ The following completed registration template per RFC8152 is provided:
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_alg
-* Label: TBD2 (requested assignment 18)
+* Label: TBD2 (requested assignment 170)
 * Value Type: int
 * Value Registry: IANA COSE Algorithms
 * Description: The hash algorithm used for redacting disclosures.
@@ -1451,8 +1451,8 @@ The following completed registration template per RFC8152 is provided:
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead_encrypted_claims
-* Label: TBD6 (requested assignment 19)
-* Value Type: [ *bstr ]
+* Label: TBD6 (requested assignment 171)
+* Value Type: [ +[bstr,bstr,bstr] ]
 * Value Registry: (empty)
 * Description: A list of AEAD encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{aead}} of this specification
@@ -1462,8 +1462,8 @@ The following completed registration template per RFC8152 is provided:
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead
-* Label: TBD7 (requested assignment 20)
-* Value Type: uint16
+* Label: TBD7 (requested assignment 172)
+* Value Type: uint .size 2
 * Value Registry: IANA AEAD Algorithm number
 * Description: The AEAD algorithm used for encrypting disclosures.
 * Reference: {{aead}} of this specification
