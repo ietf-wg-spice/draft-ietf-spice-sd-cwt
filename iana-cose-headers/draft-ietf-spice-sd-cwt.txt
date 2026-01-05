@@ -3517,9 +3517,39 @@ Appendix G.  Document History
 
 G.1.  draft-ietf-spice-sd-cwt-06
 
-   *  Addressed early IANA feedback about the escalation process.
+   *  Refactored deterministic draft generation code (PR#152).
+
+   *  Added pointer to a Python implementation (PR#155).
+
+   *  Added decoy digests (PR#157).
+
+   *  Addressed early IANA feedback about the escalation process
+      (PR#160).
+
+   *  Used the CoAP Content Type in the examples instead of the text
+      strings "application/sd-cwt" and "application/kb+cwt" (PR#162).
+
+   *  Added a section on specific CBOR encoding and data model
+      considerations (PR#163).
+
+   *  Swapped the order of Sections 5 and 6 (PR#167).
+
+   *  Split the CDDL definitions for payload maps in Issued CWT and pre-
+      issued (PR#168).
+
+   *  Used the IANA early assigned values in the draft (PR#169).
+
+   *  Defined the To Be Decoy tag (PR#171).
+
+   *  Made use of the CoAP Content Type a SHOULD (PR#172).
+
+   *  Made the draft generation code agnostic to hash algorithm (PR#173)
+
+   *  Added time claim verification rules and security considerations
+      (PR#175)
 
    *  Instead of an empty array, sd_claims is now omitted if empty
+      (PR#176)
 
 G.2.  draft-ietf-spice-sd-cwt-05
 
