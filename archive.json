@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-01T01:01:13.988374+00:00",
+  "timestamp": "2026-01-06T00:55:36.234184+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -2555,7 +2555,7 @@
       "id": "I_kwDOMm_Q2s7B6x61",
       "title": "relation between time claims",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/131",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -2566,8 +2566,8 @@
       ],
       "body": "There should be a section about how time claims (iat, exp, nbf) should be set in the SD-KBT depending of the ones present in the SD-CWT it wraps.\nThe general rule of thumb should be that the KBT should be shorter-lived than the token it wraps, in order to prevent illegal state from occurring.\n\nWhich translates to:\n1. `sd_kbt.exp <= sd_cwt.exp`\n2. `sd_kbt.nbf >= sd_cwt.nbf`\n3. `sd_kbt.iat >= sd_cwt.iat`\n\nAmong those lemmas, only the third one should be included in [section 9](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-9). The two other should be recommended in [section 8](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#section-8)",
       "createdAt": "2025-07-22T16:54:01Z",
-      "updatedAt": "2025-12-31T13:22:52Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-05T10:45:25Z",
+      "closedAt": "2026-01-05T10:45:24Z",
       "comments": [
         {
           "author": "OR13",
@@ -2596,6 +2596,13 @@
           "body": "@OR13 , I'll take this one this week, if you can do a PR for Issue #170 ",
           "createdAt": "2025-12-29T17:37:39Z",
           "updatedAt": "2025-12-29T17:37:39Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #175 ",
+          "createdAt": "2026-01-05T10:45:25Z",
+          "updatedAt": "2026-01-05T10:45:25Z"
         }
       ]
     },
@@ -2647,7 +2654,7 @@
       "id": "I_kwDOMm_Q2s7CET01",
       "title": "allowing tagged map keys",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/133",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "beltram",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -2659,8 +2666,8 @@
       ],
       "body": "Coming back to [Differences from the CBOR Web Token Specification](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-differences-from-the-cbor-w) to realize that even though at first they was a reason to bend RFC-8392 because the `redacted_claim_keys` was proposed as a tag first. Since it's settled that it's going to be a simple type, I do not see the reason to continue allowing tagged integers or text strings.",
       "createdAt": "2025-07-23T11:01:50Z",
-      "updatedAt": "2025-12-29T17:36:26Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-05T14:55:18Z",
+      "closedAt": "2026-01-05T14:55:18Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -2745,6 +2752,20 @@
           "body": "@beltram please take a look at the latest [CDDL](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-complete-cddl-schema), and [section 6.3](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/draft-ietf-spice-sd-cwt.html#name-allowed-types-of-cbor-map-k) of the editor's copy.\n\nI think it now makes it very clear what is allowed in:\n- a KBT (`safe_label`/`safe_value`/`safe_map`), \n- an issued CWT (`issued_sd_cwt_label`/`issued_sd_cwt_value`/`issued_sd_cwt_map`),\n- instructions to the Issuer pre-issuance (`preissuance_label`/`preissuance_value`/`preissuance_map`).",
           "createdAt": "2025-12-29T17:36:08Z",
           "updatedAt": "2025-12-29T17:36:08Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@beltram we think this is done, can we close?",
+          "createdAt": "2026-01-05T14:30:01Z",
+          "updatedAt": "2026-01-05T14:30:13Z"
+        },
+        {
+          "author": "beltram",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Yes it is much clearer thank you. We can close this one.",
+          "createdAt": "2026-01-05T14:55:18Z",
+          "updatedAt": "2026-01-05T14:55:18Z"
         }
       ]
     },
@@ -2922,7 +2943,7 @@
       "id": "I_kwDOMm_Q2s7LfJU4",
       "title": "Better examples for tag 58 and 60, and 61",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/144",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2934,8 +2955,8 @@
       ],
       "body": "We need to make its clearer how to use these tags, and relate them to whatever we decide for #143 \n\nAnd simple value 59",
       "createdAt": "2025-09-13T18:19:09Z",
-      "updatedAt": "2025-12-29T17:28:23Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-05T14:27:17Z",
+      "closedAt": "2026-01-05T14:27:17Z",
       "comments": [
         {
           "author": "selfissued",
@@ -2964,6 +2985,13 @@
           "body": "Hi @OR13 I think we can close this now with #171 ",
           "createdAt": "2025-12-29T16:33:07Z",
           "updatedAt": "2025-12-29T16:33:07Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is done.",
+          "createdAt": "2026-01-05T14:27:17Z",
+          "updatedAt": "2026-01-05T14:27:17Z"
         }
       ]
     },
@@ -3326,7 +3354,7 @@
       ],
       "body": "When an array element is not disclosed, what value MUST be presented in the downstream \"verified claim set\" ?\n\nSuggest null.",
       "createdAt": "2025-12-25T20:07:37Z",
-      "updatedAt": "2025-12-29T18:05:11Z",
+      "updatedAt": "2026-01-05T14:29:18Z",
       "closedAt": null,
       "comments": [
         {
@@ -3349,6 +3377,13 @@
           "body": "default behavior should be to change the size of the array, some structures may require the array to stay the same size, and use order to convey information, such as priority, for those cases, implementations MUST replace the redacted elements with nulls.",
           "createdAt": "2025-12-29T14:18:41Z",
           "updatedAt": "2025-12-29T14:18:41Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "we talked about this on list, sd-jwt removed elements, does not replace them with nulls... we need to say:\n\nThe verified claimset MUST NOT contain redacted elements, be they decoys or redacted claims.",
+          "createdAt": "2026-01-05T14:29:18Z",
+          "updatedAt": "2026-01-05T14:29:18Z"
         }
       ]
     },
@@ -3364,12 +3399,12 @@
         "rohanmahy"
       ],
       "labels": [
-        "blocked",
-        "wait-for-IANA"
+        "has-PR",
+        "WIP"
       ],
       "body": "Currently the examples do not match the draft, since we are waiting for likely IANA changes to the COSE header parameters.\n\n[ ] update CDDL and draft to reflect any changes to early assignment of COSE header parameters (waiting for IANA Expert)\n[ ] regenerate all examples to use the CoAP values instead of strings in the typ header parameter.\n[ ] retest all example CBOR against their EDN and the CDDL",
       "createdAt": "2025-12-29T18:00:10Z",
-      "updatedAt": "2025-12-29T18:00:37Z",
+      "updatedAt": "2026-01-05T14:37:19Z",
       "closedAt": null,
       "comments": []
     }
@@ -14977,24 +15012,26 @@
       "id": "PR_kwDOMm_Q2s67Gx1J",
       "title": "Add time claims verification rules and security considerations",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/175",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses #131 ",
       "createdAt": "2025-12-31T13:21:43Z",
-      "updatedAt": "2025-12-31T18:27:02Z",
+      "updatedAt": "2026-01-05T10:44:29Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "35b413cde34b34739f4bf1fdf1933e146d086e12",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "time-claims",
       "headRefOid": "f1e07ea61f01ff0e9b63f111e0a9c1b7cd87dfaf",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-01-05T10:44:29Z",
+      "mergedAt": "2026-01-05T10:44:29Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "4f4a89000276e0c7becce6fa6ff7208833ef757f"
+      },
       "comments": [],
       "reviews": [
         {
@@ -15009,6 +15046,66 @@
           "createdAt": "2025-12-31T18:27:02Z",
           "updatedAt": "2025-12-31T18:27:02Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 176,
+      "id": "PR_kwDOMm_Q2s67gzDj",
+      "title": "Update IANA COSE headers based on discussions with IANA expert",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/176",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update IANA COSE headers with the following values:\r\n- sd_claims = 17\r\n- sd_alg = 170\r\n- sd_aead_encrypted_claims = 171\r\n- sd_aead = 172\r\n\r\nMake sd_claims non-optional in SD-CWT unprotected header. It contains an empty array if there are no disclosures - discuss?\r\n\r\nMake sd_aead_encrypted_claims optional and must have at least 1 item. - discuss?\r\n\r\n\r\nFYI: @cabo ",
+      "createdAt": "2026-01-05T11:06:29Z",
+      "updatedAt": "2026-01-05T21:38:50Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "4f4a89000276e0c7becce6fa6ff7208833ef757f",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "iana-cose-headers",
+      "headRefOid": "c74de3a6e94ada76ba096d7d3a21371ec94510b6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7YMJs0",
+          "commit": {
+            "abbreviatedOid": "03258d2"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-05T14:24:33Z",
+          "updatedAt": "2026-01-05T14:24:33Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7YRpVs",
+          "commit": {
+            "abbreviatedOid": "c74de3a"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "(Quick look, need to run some tools tomorrow.)",
+          "createdAt": "2026-01-05T21:37:03Z",
+          "updatedAt": "2026-01-05T21:38:50Z",
+          "comments": [
+            {
+              "originalPosition": 52,
+              "body": "```suggestion\r\n   ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,\r\n```",
+              "createdAt": "2026-01-05T21:37:03Z",
+              "updatedAt": "2026-01-05T21:38:50Z"
+            }
+          ]
         }
       ]
     }
