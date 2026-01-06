@@ -753,7 +753,7 @@ sd-protected = {
 
 sd-unprotected = {
    ? &(sd_claims: 17) ^ => salted-array,
-   ? &(sd_aead_encrypted_claims: 172) ^ => aead-encrypted-array,
+   ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
    * label => safe_value
 }
 
