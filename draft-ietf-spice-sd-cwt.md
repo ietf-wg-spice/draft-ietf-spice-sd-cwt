@@ -495,7 +495,7 @@ The standard CWT claims `exp`, `nbf`, and `iat` MUST be finite numbers.
 For the avoidance of doubt, not a number (NaN) values and positive and negative infinity are not acceptable in those claims.
 
 > In {{!RFC8392}}, these three claims are of type `NumericDate`.
-Section 2 of the same spec refers to `NumericDate` as a JWT `NumericDate`, "except that it is represented as [an untagged] CBOR numeric date (from {{Section 2.4.1 of ?RFC7049}}) instead of a JSON number".
+Section 2 of the same spec refers to `NumericDate` as a JWT `NumericDate`, "except that it is represented as \[an untagged] CBOR numeric date (from {{Section 2.4.1 of ?RFC7049}}) instead of a JSON number".
 In CBOR, a NumericDate can be represented as an unsigned integer, a negative integer, or a floating point value.
 CBOR (both {{?RFC7049}} and {{!RFC8949}}) refers to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
 Neither JSON {{?RFC8259}} nor JWT {{?RFC7519}} can represent infinite values.
@@ -1432,7 +1432,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_claims
 * Label: 17
-* Value Type: [ +bstr ]
+* Value Type: `[ +bstr ]`
 * Value Registry: (empty)
 * Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{sd-cwt-preparation}} of this specification
@@ -1443,7 +1443,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_alg
 * Label: 170
-* Value Type: int
+* Value Type: `int`
 * Value Registry: IANA COSE Algorithms
 * Description: The hash algorithm used for redacting disclosures.
 * Reference: {{sd-cwt-issuance}} of this specification
@@ -1454,7 +1454,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead_encrypted_claims
 * Label: 171
-* Value Type: [ +[bstr,bstr,bstr] ]
+* Value Type: `[ +[bstr,bstr,bstr] ]`
 * Value Registry: (empty)
 * Description: A list of AEAD encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{aead}} of this specification
@@ -1465,7 +1465,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead
 * Label: 172
-* Value Type: uint .size 2
+* Value Type: `uint .size 2`
 * Value Registry: IANA AEAD Algorithm number
 * Description: The AEAD algorithm used for encrypting disclosures.
 * Reference: {{aead}} of this specification
