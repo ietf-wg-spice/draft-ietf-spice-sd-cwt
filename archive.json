@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-06T00:55:36.234184+00:00",
+  "timestamp": "2026-01-08T00:55:43.574517+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -15059,20 +15059,28 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Update IANA COSE headers with the following values:\r\n- sd_claims = 17\r\n- sd_alg = 170\r\n- sd_aead_encrypted_claims = 171\r\n- sd_aead = 172\r\n\r\nMake sd_claims non-optional in SD-CWT unprotected header. It contains an empty array if there are no disclosures - discuss?\r\n\r\nMake sd_aead_encrypted_claims optional and must have at least 1 item. - discuss?\r\n\r\n\r\nFYI: @cabo ",
+      "body": "Update IANA COSE headers with the following values:\r\n- sd_claims = 17\r\n- sd_alg = 170\r\n- sd_aead_encrypted_claims = 171\r\n- sd_aead = 172\r\n\r\nBoth sd_claims and sd_aead_encrypted_claims are optional in SD-CWT unprotected headers. Change the cardinality so they cannot have empty arrays. The whole header is omitted if it has no content.\r\n\r\n- [ ] update sd-cwt.py\r\n- [ ] regenerate the examples\r\n- [ ] make sure the CDDL compiles\r\n- [ ] make sure the CBOR examples validate with the CDDL\r\n- [ ] make sure the EDN matches the corresponding CBOR\r\n\r\nFYI: @cabo ",
       "createdAt": "2026-01-05T11:06:29Z",
-      "updatedAt": "2026-01-05T21:38:50Z",
+      "updatedAt": "2026-01-06T07:40:49Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "4f4a89000276e0c7becce6fa6ff7208833ef757f",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "iana-cose-headers",
-      "headRefOid": "c74de3a6e94ada76ba096d7d3a21371ec94510b6",
+      "headRefOid": "bb47426a40922121a3d399eb901d52485f9c89c3",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> (Quick look, need to run some tools tomorrow.)\r\n\r\nI'll regenerate all the examples and validate the CBOR files against the CDDL before I merge",
+          "createdAt": "2026-01-06T07:40:11Z",
+          "updatedAt": "2026-01-06T07:40:11Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s7YMJs0",
