@@ -2,8 +2,8 @@
   / CWT protected / << {
     / alg /    1  : -35, / ES384 /
     / kid /    4  : 'https://issuer.example/cose-key3',
-    / typ /    16 : "application/sd-cwt",
-    / sd_alg / 18 : -16  / SHA256 /
+    / typ /    16 : 293, # application/sd-cwt
+    / sd_alg / 170 : -16  / SHA256 /
   } >>,
   / CWT unprotected / {
     / sd_claims / 17 : [ / these are all the disclosures /
@@ -131,7 +131,7 @@
                      }   / inspection 17-Jan-2023 /
         ]>>,
     ]
-  }
+  },
   / CWT payload / << {
     / iss / 1   : "https://issuer.example",
     / sub / 2   : "https://device.example",
@@ -160,10 +160,10 @@
            d0aa00433c30aede18380bfa98d781dc')
     ]
   } >>,
-  / CWT signature / h'035322cfc2f66bb5beab30ad560df124
-                      aaee14cfe949be91065403b2c9020320
-                      2a1f8abb3b9b7c4c95ab670279002413
-                      7958f9b8b2286ea9cdd79b8117270cde
-                      fdf63ee6ba95d9c43ae3ecf8c4842205
-                      c7d2fa509af53eb25cda229962b1856f'
+  / CWT signature / h'413d8e017bd26e47eb6dd69317a4312b
+                      b84c81a37496d19fa6aa73e16d9441ca
+                      ee0bfdbe37d0b2d945e22115842c75ec
+                      324cb0c9c80cad22b1575bafa577e1d7
+                      77e3d35c26dbc239dc0141d386cbcc96
+                      e0d2d309714d0a38a8aee77456e1a852'
 ])
