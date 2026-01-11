@@ -2264,9 +2264,17 @@ The <code>redacted_claim_keys</code> key is the CBOR simple value 59 registered 
 <p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-5.1-5">
 <pre>
+; redacted_claim_keys is used as a map key. The corresponding value is
+; an array of Blinded Claim Hashes whose corresponding unblinded map keys
+; and values are in the same map.
+redacted_claim_keys = #7.59  ; CBOR simple value 59
+
+; CBOR tag for wrapping a redacted element in an array
+REDACTED_ELEMENT_TAGNUM = 60
+
 ; redacted_claim_element is used in CDDL payloads that contain
 ; array elements that are meant to be redacted.
-redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
+redacted_claim_element = #6.&lt;REDACTED_ELEMENT_TAGNUM&gt;( bstr )
 </pre><a href="#section-5.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-5.1-6">Blinded claims can be nested. For example, both individual keys in the <code>inspection_location</code> claim, and the entire <code>inspection_location</code> element can be separately blinded.
@@ -2434,7 +2442,7 @@ These two tags provide a way for the Holder to indicate specific claims to be re
         </ul>
 <p id="section-6.3-10">All the other Header Parameters, and the KBT payload need to contain values valid in a CWT.
 These values are represented by the <code>safe-value</code> CDDL type.<a href="#section-6.3-10" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-6.3-11">
+<div class="breakable lang-cddl sourcecode" id="section-6.3-11">
 <pre>
 ; CWT claim legal values only
 safe_map = { * label =&gt; safe_value }
@@ -2445,10 +2453,12 @@ safe_value =
   safe_map /
   #6.&lt;safe_tag&gt;(safe_value) / #7.&lt;safe_simple&gt; / float
 
-; legal values in issued SD-CWT
-issued_sd_cwt_map = { * issued_sd_cwt_label =&gt; issued_sd_cwt_value }
 
-issued_sd_cwt_label = label / redacted_claim_keys
+; legal values in issued SD-CWT
+issued_sd_cwt_map = {
+    ? redacted_claim_keys ^ =&gt; [ * bstr ],
+    * label =&gt; issued_sd_cwt_value
+}
 
 issued_array_element = redacted_claim_element / issued_sd_cwt_value
 
@@ -2461,8 +2471,8 @@ issued_sd_cwt_value =
 
 ; legal values in claim set sent to Issuer
 preissuance_label = label /
-                    #6.&lt;TO_BE_REDACTED&gt;(label) /
-                    #6.&lt;TO_BE_DECOY&gt;(int .gt 0)
+                    #6.&lt;TO_BE_REDACTED_TAGNUM&gt;(label) /
+                    #6.&lt;TO_BE_DECOY_TAGNUM&gt;(int .gt 0)
 
 preissuance_map = { * preissuance_label =&gt; preissuance_value }
 
@@ -2472,13 +2482,17 @@ preissuance_value =
   preissuance_map /
   #6.&lt;safe_tag&gt;(preissuance_value) / #7.&lt;safe_simple&gt; / float
 
+; CBOR tag number for wrapping to-be-redacted keys or elements
+TO_BE_REDACTED_TAGNUM = 58
+; CBOR tag number for indicating a decoy value is to be inserted here
+TO_BE_DECOY_TAGNUM = 61
 
 label = int / tstr .size (1..255)
-safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
-                                         ;     to be redacted,
-                                         ;     and to be decoy
+safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
+                     TO_BE_DECOY_TAGNUM /
+                     REDACTED_ELEMENT_TAGNUM)
 safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-MAX_u64 = 18446744073709551615           ; 2^64 - 1
+num = int / float
 </pre><a href="#section-6.3-11" class="pilcrow">¶</a>
 </div>
 <p id="section-6.3-12">Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.<a href="#section-6.3-12" class="pilcrow">¶</a></p>
@@ -2708,8 +2722,8 @@ sd-payload = {
     ? &amp;(vct: 11) ^ =&gt; bstr,
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     ;
-    ? &amp;(redacted_claim_keys: redacted_claim_keys) ^ =&gt; [ * bstr ],
-    * issued_sd_cwt_label =&gt; issued_sd_cwt_value
+    ? redacted_claim_keys ^ =&gt; [ * bstr ],
+    * label =&gt; issued_sd_cwt_value
 }
 </pre><a href="#section-7.2-5" class="pilcrow">¶</a>
 </div>
@@ -4511,7 +4525,7 @@ kbt-payload = {
     * label =&gt; safe_value
 }
 
-; CWT legal values only
+; CWT claim legal values only
 safe_map = { * label =&gt; safe_value }
 
 safe_value =
@@ -4519,6 +4533,7 @@ safe_value =
   [ * safe_value ] /
   safe_map /
   #6.&lt;safe_tag&gt;(safe_value) / #7.&lt;safe_simple&gt; / float
+
 
 ; legal values in issued SD-CWT
 issued_sd_cwt_map = {
@@ -4562,12 +4577,12 @@ bstr-encoded-salted = bstr .cbor salted-entry
 salted-entry = salted-claim / salted-element / decoy
 salted-claim = [
   bstr .size 16,     ; 128-bit salt
-  any,               ; claim value
-  (int / text)       ; claim name
+  any,               ; Claim Value
+  (int / text)       ; Claim Key
 ]
 salted-element = [
   bstr .size 16,     ; 128-bit salt
-  any                ; claim value
+  any                ; Claim Value
 ]
 decoy = [
   bstr .size 16      ; 128-bit salt
@@ -5264,6 +5279,9 @@ Likewise, if this algorithm results in any duplicate CBOR map keys, the entire S
 </li>
           <li class="normal" id="appendix-G.1-1.14">
             <p id="appendix-G.1-1.14.1">Instead of an empty array, <code>sd_claims</code> is now omitted if empty (PR#176)<a href="#appendix-G.1-1.14.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.1-1.15">
+            <p id="appendix-G.1-1.15.1">Update the COSE header values to use their newly assigned values (also PR#176)<a href="#appendix-G.1-1.15.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
