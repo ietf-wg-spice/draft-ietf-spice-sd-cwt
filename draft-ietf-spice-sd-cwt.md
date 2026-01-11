@@ -2157,6 +2157,7 @@ Note: RFC Editor, please remove this entire section on publication.
 - Made the draft generation code agnostic to hash algorithm (PR#173)
 - Added time claim verification rules and security considerations (PR#175)
 - Instead of an empty array, `sd_claims` is now omitted if empty (PR#176)
+- Update the COSE header values to use their newly assigned values (also PR#176)
 
 
 ## draft-ietf-spice-sd-cwt-05
