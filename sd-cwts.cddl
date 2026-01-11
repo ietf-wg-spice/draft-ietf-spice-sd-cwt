@@ -67,7 +67,7 @@ kbt-payload = {
     * label => safe_value
 }
 
-; CWT legal values only
+; CWT claim legal values only
 safe_map = { * label => safe_value }
 
 safe_value =
@@ -75,6 +75,7 @@ safe_value =
   [ * safe_value ] /
   safe_map /
   #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
+
 
 ; legal values in issued SD-CWT
 issued_sd_cwt_map = { 
@@ -118,12 +119,12 @@ bstr-encoded-salted = bstr .cbor salted-entry
 salted-entry = salted-claim / salted-element / decoy
 salted-claim = [
   bstr .size 16,     ; 128-bit salt
-  any,               ; claim value
-  (int / text)       ; claim name
+  any,               ; Claim Value
+  (int / text)       ; Claim Key
 ]
 salted-element = [
   bstr .size 16,     ; 128-bit salt
-  any                ; claim value
+  any                ; Claim Value
 ]
 decoy = [
   bstr .size 16      ; 128-bit salt

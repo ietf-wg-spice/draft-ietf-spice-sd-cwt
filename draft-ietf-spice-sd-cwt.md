@@ -463,9 +463,17 @@ The `redacted_claim_keys` key is the CBOR simple value 59 registered for that pu
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
 
 ~~~ cddl
+; redacted_claim_keys is used as a map key. The corresponding value is
+; an array of Blinded Claim Hashes whose corresponding unblinded map keys
+; and values are in the same map.
+redacted_claim_keys = #7.59  ; CBOR simple value 59
+
+; CBOR tag for wrapping a redacted element in an array
+REDACTED_ELEMENT_TAGNUM = 60
+
 ; redacted_claim_element is used in CDDL payloads that contain
 ; array elements that are meant to be redacted.
-redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
+redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
@@ -566,10 +574,12 @@ safe_value =
   safe_map /
   #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-; legal values in issued SD-CWT
-issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-issued_sd_cwt_label = label / redacted_claim_keys
+; legal values in issued SD-CWT
+issued_sd_cwt_map = {
+    ? redacted_claim_keys ^ => [ * bstr ],
+    * label => issued_sd_cwt_value
+}
 
 issued_array_element = redacted_claim_element / issued_sd_cwt_value
 
@@ -582,8 +592,8 @@ issued_sd_cwt_value =
 
 ; legal values in claim set sent to Issuer
 preissuance_label = label /
-                    #6.<TO_BE_REDACTED>(label) /
-                    #6.<TO_BE_DECOY>(int .gt 0)
+                    #6.<TO_BE_REDACTED_TAGNUM>(label) /
+                    #6.<TO_BE_DECOY_TAGNUM>(int .gt 0)
 
 preissuance_map = { * preissuance_label => preissuance_value }
 
@@ -593,13 +603,17 @@ preissuance_value =
   preissuance_map /
   #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float
 
+; CBOR tag number for wrapping to-be-redacted keys or elements
+TO_BE_REDACTED_TAGNUM = 58
+; CBOR tag number for indicating a decoy value is to be inserted here
+TO_BE_DECOY_TAGNUM = 61
 
 label = int / tstr .size (1..255)
-safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
-                                         ;     to be redacted,
-                                         ;     and to be decoy
+safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
+                     TO_BE_DECOY_TAGNUM /
+                     REDACTED_ELEMENT_TAGNUM)
 safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-MAX_u64 = 18446744073709551615           ; 2^64 - 1
+num = int / float
 ~~~
 
 Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
@@ -770,8 +784,8 @@ sd-payload = {
     ? &(vct: 11) ^ => bstr,
     ? &(cnonce: 39) ^ => bstr,
     ;
-    ? &(redacted_claim_keys: redacted_claim_keys) ^ => [ * bstr ],
-    * issued_sd_cwt_label => issued_sd_cwt_value
+    ? redacted_claim_keys ^ => [ * bstr ],
+    * label => issued_sd_cwt_value
 }
 ~~~
 
