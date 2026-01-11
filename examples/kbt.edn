@@ -5,8 +5,8 @@
       / CWT protected / << {
         / alg /    1  : -35, / ES384 /
         / kid /    4  : 'https://issuer.example/cose-key3',
-        / typ /    16 : "application/sd-cwt",
-        / sd_alg / 18 : -16  / SHA256 /
+        / typ /    16 : 293, # application/sd-cwt
+        / sd_alg / 170 : -16  / SHA256 /
       } >>,
       / CWT unprotected / {
         / sd_claims / 17 : [ / these are the disclosures /
@@ -25,7 +25,7 @@
                 /claim/  "region"   / region=California /
             ]>>,
         ]
-      }
+      },
       / CWT payload / << {
         / iss / 1   : "https://issuer.example",
         / sub / 2   : "https://device.example",
@@ -69,15 +69,15 @@
               bb05c9d8fb61cfc230ddfdfb4616a693'
         ]
       } >>,
-      / CWT signature / h'ed7ff84b27e746199698a94cc19292e4
-                          b72dc4c3eb551f0ef2b9da07980c648c
-                          2bb033c337c6ed13e1bc7c5b7b7c9df9
-                          49a70239f51eca1f6d8e058b8b70bcb3
-                          b5746812a932ffb37a2e6e984957e3f6
-                          b003eb3319fbe21e97f6a3a273307424'
+      / CWT signature / h'536b3797c8f396d6dc4fedfa54fa605f
+                          be897df02267ede5b40b257cba5eb2b3
+                          cbf7d4f5733e0ca2e77783d860b8d74a
+                          2b98878930be6c8e3d1de63df909d484
+                          2a800f9d377fa41e9bd5f72743c06cfb
+                          1e5d59892fac51a806cd4caf6cb30cce'
     ]),
     / end of issuer SD-CWT /
-    / typ /   16:  "application/kb+cwt",
+    / typ /   16:  294   # application/kb+cwt,
   } >>,     / end of KBT protected header /
   / KBT unprotected / {},
   / KBT payload / << {
@@ -85,8 +85,8 @@
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } >>,      / end of KBT payload /
-  / KBT signature / h'dd49379434b25b03cd8756787ab49731
-                      580a04505439ca78ee53300dd49a00b7
-                      0e8715d015a2a6e8d88455f5850e3d93
-                      eade1366c0040c2cee1cc568322a6b93'
+  / KBT signature / h'67116f888eab35fe82c171db146262c9
+                      922fb3d4fd769641c80569e3c6010f90
+                      251fa2b1dd335bc6bd8314603f57fd03
+                      af7ddb5eb4cce1e59ac07d11dfdce742'
 ])   / end of kbt /
