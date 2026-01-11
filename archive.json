@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-08T00:55:43.574517+00:00",
+  "timestamp": "2026-01-11T01:01:24.928726+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -15061,13 +15061,13 @@
       "labels": [],
       "body": "Update IANA COSE headers with the following values:\r\n- sd_claims = 17\r\n- sd_alg = 170\r\n- sd_aead_encrypted_claims = 171\r\n- sd_aead = 172\r\n\r\nBoth sd_claims and sd_aead_encrypted_claims are optional in SD-CWT unprotected headers. Change the cardinality so they cannot have empty arrays. The whole header is omitted if it has no content.\r\n\r\n- [ ] update sd-cwt.py\r\n- [ ] regenerate the examples\r\n- [ ] make sure the CDDL compiles\r\n- [ ] make sure the CBOR examples validate with the CDDL\r\n- [ ] make sure the EDN matches the corresponding CBOR\r\n\r\nFYI: @cabo ",
       "createdAt": "2026-01-05T11:06:29Z",
-      "updatedAt": "2026-01-06T07:40:49Z",
+      "updatedAt": "2026-01-08T09:24:24Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "4f4a89000276e0c7becce6fa6ff7208833ef757f",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "iana-cose-headers",
-      "headRefOid": "bb47426a40922121a3d399eb901d52485f9c89c3",
+      "headRefOid": "01b162c5ad5380535bfd86e92ffcca08c09e5496",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -15079,6 +15079,41 @@
           "body": "> (Quick look, need to run some tools tomorrow.)\r\n\r\nI'll regenerate all the examples and validate the CBOR files against the CDDL before I merge",
           "createdAt": "2026-01-06T07:40:11Z",
           "updatedAt": "2026-01-06T07:40:11Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Why does\r\n\r\n~~~ cddl\r\n...\r\n  #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float\r\n\r\n safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,\r\n                                         ;     to be redacted,\r\n                                         ;     and to be decoy\r\n~~~\r\n\r\nnot include 60?\r\n\r\nAlso, is tag 0 not safe?\r\n\r\n(I'm not sure I understand the various nestings being used here...)\r\n\r\nMaybe simply\r\n\r\n``` cddl\r\nsafe_tag = (uint .ne TO_BE_REDACTED) .ne TO_BE_DECOY\r\n; or even better\r\nsafe_tag = uint .ne (TO_BE_REDACTED / TO_BE_DECOY)\r\n```\r\n\r\nOh, and the `TO_BE_` prefixes are now no longer needed.",
+          "createdAt": "2026-01-08T05:46:58Z",
+          "updatedAt": "2026-01-08T06:06:55Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Why does\r\n> \r\n> ```\r\n> ...\r\n>   #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float\r\n> \r\n>  safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,\r\n>                                          ;     to be redacted,\r\n>                                          ;     and to be decoy\r\n> ```\r\n> \r\n> not include 60?\r\n\r\ntag 60 is included explicitly in issued_array_element (which is the only place it is allowed to appear).\r\n\r\n> Also, is tag 0 not safe?\r\n\r\nright. good catch. tag 0 is safe.\r\n\r\n> (I'm not sure I understand the various nestings being used here...)\r\n> \r\n> Maybe simply\r\n> \r\n> ```\r\n> safe_tag = (uint .ne TO_BE_REDACTED) .ne TO_BE_DECOY\r\n> ; or even better\r\n> safe_tag = uint .ne (TO_BE_REDACTED / TO_BE_DECOY)\r\n> ```\r\n\r\nOK, it would be clearer using `.ne`. The lines needs to get moved around a bit, but what do you think?\r\n```\r\nsafe_tag = uint .ne (REDACTED_ELEMENT_TAGNUM / TO_BE_REDACTED / TO_BE_DECOY)\r\nREDACTED_ELEMENT_TAGNUM = 60\r\nredacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr .size 16 )\r\n```\r\n\r\n> Oh, and the `TO_BE_` prefixes are now no longer needed.\r\n\r\nTO_BE is still needed. It isn't \"to be done by IANA\" it is \"Hey Issuer, here is something I want you to redact, and here is a place I'd like you to add a decoy please\" as in this is a thing To Be Redacted or To Be turned into a Decoy by the Issuer.",
+          "createdAt": "2026-01-08T08:56:14Z",
+          "updatedAt": "2026-01-08T08:56:14Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "OK, I see that I'm more confused than I thought.\r\nTag 60 is:\r\n\r\n60                              byte string            A selective disclosure redacted (array) claim element. (TEMPORARY - registered   [draft-ietf-spice-sd-cwt-05, Section 6.1]\r\n                                                       2025-12-09, expires 2026-12-09)\r\n\r\nDidn't notice this.\r\n\r\nTag 61 is:\r\n\r\n61                              CBOR Web Token (CWT)   CBOR Web Token (CWT)                                                             [RFC8392][Michael_B._Jones]\r\n\r\nSo it doesn't seem we can do: \r\n\r\nTO_BE_DECOY = 61     ; CBOR tag indicating a decoy value to be inserted\r\n\r\n?\r\n",
+          "createdAt": "2026-01-08T09:14:04Z",
+          "updatedAt": "2026-01-08T09:14:04Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We can ask for another value instead of 61 (example 62 or 88).\r\nthanks,\r\n-rohan\r\n\r\nOn Thu, Jan 8, 2026 at 10:14\u202fAM cabo ***@***.***> wrote:\r\n\r\n> *cabo* left a comment (ietf-wg-spice/draft-ietf-spice-sd-cwt#176)\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/176#issuecomment-3722931087>\r\n>\r\n> OK, I see that I'm more confused than I thought.\r\n> Tag 60 is:\r\n>\r\n> 60 byte string A selective disclosure redacted (array) claim element.\r\n> (TEMPORARY - registered [draft-ietf-spice-sd-cwt-05, Section 6.1]\r\n> 2025-12-09, expires 2026-12-09)\r\n>\r\n> Didn't notice this.\r\n>\r\n> Tag 61 is:\r\n>\r\n> 61 CBOR Web Token (CWT) CBOR Web Token (CWT) [RFC8392][Michael_B._Jones]\r\n>\r\n> So it doesn't seem we can do:\r\n>\r\n> TO_BE_DECOY = 61 ; CBOR tag indicating a decoy value to be inserted\r\n>\r\n> ?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/176#issuecomment-3722931087>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPTFCHZ5A7S6EUTWK6D4FYNXHAVCNFSM6AAAAACQWYPONWVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZTOMRSHEZTCMBYG4>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2026-01-08T09:17:46Z",
+          "updatedAt": "2026-01-08T09:17:46Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "59 is free\r\n",
+          "createdAt": "2026-01-08T09:24:24Z",
+          "updatedAt": "2026-01-08T09:24:24Z"
         }
       ],
       "reviews": [
@@ -15114,8 +15149,57 @@
               "updatedAt": "2026-01-05T21:38:50Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Y0by-",
+          "commit": {
+            "abbreviatedOid": "bb47426"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-08T04:42:48Z",
+          "updatedAt": "2026-01-08T04:42:48Z",
+          "comments": []
         }
       ]
+    },
+    {
+      "number": 177,
+      "id": "PR_kwDOMm_Q2s68C5NH",
+      "title": "Fix bracket warnings",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/177",
+      "state": "MERGED",
+      "author": "cabo",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-08T06:01:31Z",
+      "updatedAt": "2026-01-08T08:44:55Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "iana-cose-headers",
+      "baseRefOid": "bb47426a40922121a3d399eb901d52485f9c89c3",
+      "headRepository": "cabo/draft-ietf-spice-sd-cwt",
+      "headRefName": "fix-bracket-warnings",
+      "headRefOid": "68c1776ecf4bb656de5d825a691c5417bd14143b",
+      "closedAt": "2026-01-08T08:44:34Z",
+      "mergedAt": "2026-01-08T08:44:34Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "01b162c5ad5380535bfd86e92ffcca08c09e5496"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "thanks!",
+          "createdAt": "2026-01-08T08:44:55Z",
+          "updatedAt": "2026-01-08T08:44:55Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
