@@ -129,6 +129,7 @@ Table of Contents
      17.3.  CBOR Tags
        17.3.1.  To Be Redacted Tag
        17.3.2.  Redacted Claim Element Tag
+       17.3.3.  To Be Decoy Tag
      17.4.  CBOR Web Token (CWT) Claims
        17.4.1.  vct
      17.5.  Media Types
@@ -897,7 +898,7 @@ Issuer                           Holder                         Verifier
       -  when disclosable claims are communicated to the Issuer, prior
          to issuance:
 
-         o  the To Be Decoy tag 61 Section 11.2 containing a positive
+         o  the To Be Decoy tag 62 Section 11.2 containing a positive
             integer, or
 
          o  the To Be Redacted tag 58 Section 11.1 containing:
@@ -965,7 +966,7 @@ Issuer                           Holder                         Verifier
    ; CBOR tag number for wrapping to-be-redacted keys or elements
    TO_BE_REDACTED_TAGNUM = 58
    ; CBOR tag number for indicating a decoy value is to be inserted here
-   TO_BE_DECOY_TAGNUM = 61
+   TO_BE_DECOY_TAGNUM = 62
 
    label = int / tstr .size (1..255)
    safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
@@ -1530,11 +1531,11 @@ Issuer                           Holder                         Verifier
      /component origin countries/ 607: [
        58("de"),
        58("ph"),
-       61(1),
-       61(2)
+       62(1),      # add two decoys in this array
+       62(2)
      ],
-     61(3): null,  # add a decoy in this map
-     61(4): null,  # add a second decoy in the same map
+     62(3): null,  # add a decoy in this map
+     62(4): null,  # add a second decoy in the same map
      ...
    }
 
@@ -2365,6 +2366,20 @@ Issuer                           Holder                         Verifier
 
    *  Specification Document(s): Section 5.1 of this specification
 
+17.3.3.  To Be Decoy Tag
+
+   The positive integer inside the tag is a unique number to indicate a
+   specific decoy instance among all the instances in the document.
+
+   *  Tag: 62 (requested)
+
+   *  Data Item: uint .gt 0
+
+   *  Semantics: A marker of a location in a map or an array where a
+      decoy is intended to be inserted.
+
+   *  Specification Document(s): Section 11.2 of this specification
+
 17.4.  CBOR Web Token (CWT) Claims
 
    IANA is requested to add the following entry to the IANA "CWT Claims"
@@ -2930,7 +2945,7 @@ Appendix A.  Complete CDDL Schema
    ; CBOR tag number for wrapping to-be-redacted keys or elements
    TO_BE_REDACTED_TAGNUM = 58
    ; CBOR tag number for indicating a decoy value is to be inserted here
-   TO_BE_DECOY_TAGNUM = 61
+   TO_BE_DECOY_TAGNUM = 62
    ; CBOR tag for wrapping a redacted element in an array
    REDACTED_ELEMENT_TAGNUM = 60
 
