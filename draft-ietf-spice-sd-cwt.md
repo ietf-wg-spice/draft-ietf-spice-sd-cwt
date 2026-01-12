@@ -548,7 +548,7 @@ The following list summarizes the map key constraints on SD-CWTs and SD-KBTs:
   - text strings with a length no greater than 255 octets;
   - the simple value 59; or
   - when disclosable claims are communicated to the Issuer, prior to issuance:
-    - the To Be Decoy tag 61 {{tb-decoy-tag}} containing a positive integer, or
+    - the To Be Decoy tag 62 {{tb-decoy-tag}} containing a positive integer, or
     - the To Be Redacted tag 58 {{tbr-tag}} containing:
       - an unsigned integer,
       - a negative integer, or
@@ -606,7 +606,7 @@ preissuance_value =
 ; CBOR tag number for wrapping to-be-redacted keys or elements
 TO_BE_REDACTED_TAGNUM = 58
 ; CBOR tag number for indicating a decoy value is to be inserted here
-TO_BE_DECOY_TAGNUM = 61
+TO_BE_DECOY_TAGNUM = 62
 
 label = int / tstr .size (1..255)
 safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
@@ -983,11 +983,11 @@ The example fragment also shows two decoy digests in the same map.
   /component origin countries/ 607: [
     58("de"),
     58("ph"),
-    61(1),
-    61(2)
+    62(1),      # add two decoys in this array
+    62(2)
   ],
-  61(3): null,  # add a decoy in this map
-  61(4): null,  # add a second decoy in the same map
+  62(3): null,  # add a decoy in this map
+  62(4): null,  # add a second decoy in the same map
   ...
 }
 ~~~
@@ -1513,6 +1513,16 @@ The byte string inside the tag is a selective disclosure redacted claim element 
 * Data Item: byte string
 * Semantics: A selective disclosure redacted (array) claim element.
 * Specification Document(s): {{blinded-claims}} of this specification
+
+### To Be Decoy Tag
+
+The positive integer inside the tag is a unique number to indicate a specific decoy instance among all the instances in the document.
+
+* Tag: 62 (requested)
+* Data Item: `uint .gt 0`
+* Semantics: A marker of a location in a map or an array where a decoy is intended to be inserted.
+* Specification Document(s): {{tb-decoy-tag}} of this specification
+
 
 ## CBOR Web Token (CWT) Claims
 

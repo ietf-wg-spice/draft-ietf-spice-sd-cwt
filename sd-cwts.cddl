@@ -141,7 +141,7 @@ aead-encrypted = [
 ; CBOR tag number for wrapping to-be-redacted keys or elements
 TO_BE_REDACTED_TAGNUM = 58
 ; CBOR tag number for indicating a decoy value is to be inserted here
-TO_BE_DECOY_TAGNUM = 61
+TO_BE_DECOY_TAGNUM = 62
 ; CBOR tag for wrapping a redacted element in an array
 REDACTED_ELEMENT_TAGNUM = 60
 
