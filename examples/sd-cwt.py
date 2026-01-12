@@ -2,7 +2,7 @@
 import cbor2
 
 TO_BE_REDACTED_TAG = 58
-TO_BE_DECOY_TAG = 61
+TO_BE_DECOY_TAG = 62
 SD_CLAIMS = 17
 
 class Hash:
