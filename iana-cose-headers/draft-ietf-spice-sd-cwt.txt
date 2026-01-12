@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 15 July 2026                                       Tradeverifyd
+Expires: 16 July 2026                                       Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                         11 January 2026
+                                                         12 January 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 July 2026.
+   This Internet-Draft will expire on 16 July 2026.
 
 Copyright Notice
 
@@ -1599,7 +1599,7 @@ Issuer                           Holder                         Verifier
    sd_aead_encrypted_claims header parameter in the unprotected headers
    of the SD-CWT.
 
-   / sd_aead_encrypted_claims / 19 : [ / AEAD encrypted disclosures /
+   / sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
        [
            / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
            / ciphertext / h'208cda279ca86444681503830469b705
