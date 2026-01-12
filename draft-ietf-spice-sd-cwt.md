@@ -387,6 +387,7 @@ Redacted claims that are array elements are handled slightly differently, as des
 # Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
 
 When the Holder wants to send an SD-CWT and disclose none, some, or all of the redacted values, it makes a list of the values to disclose and puts them in `sd_claims` header parameter in the unprotected header.
+If the Holder does not disclose any claims, it MUST omit the `sd_claims` header parameter.
 
 For example, Alice decides to disclose to a Verifier the `inspector_license_number` claim (ABCD-123456), the `region` claim (California), and the earliest date element in the `inspection_dates` array (7-Feb-2019).
 
@@ -425,7 +426,7 @@ An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), a
 It is not required to contain any blinded claims.
 
 Optionally the salted Claim Values (and often Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
-If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` header parameter in the unprotected header is an empty array.
+If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` header parameter is not present in the unprotected header.
 
 Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
 However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.
@@ -438,7 +439,7 @@ For Salted Disclosed Claims of items in an array, the name is omitted.
 
 ~~~ cddl
 ; an array of bstr-encoded Salted Disclosed Claims
-salted-array = [ *bstr-encoded-salted ]
+salted-array = [ +bstr-encoded-salted ]
 
 bstr-encoded-salted = bstr .cbor salted-entry
 salted-entry = salted-claim / salted-element / decoy
@@ -462,9 +463,17 @@ The `redacted_claim_keys` key is the CBOR simple value 59 registered for that pu
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
 
 ~~~ cddl
+; redacted_claim_keys is used as a map key. The corresponding value is
+; an array of Blinded Claim Hashes whose corresponding unblinded map keys
+; and values are in the same map.
+redacted_claim_keys = #7.59  ; CBOR simple value 59
+
+; CBOR tag for wrapping a redacted element in an array
+REDACTED_ELEMENT_TAGNUM = 60
+
 ; redacted_claim_element is used in CDDL payloads that contain
 ; array elements that are meant to be redacted.
-redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
+redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
@@ -494,7 +503,7 @@ The standard CWT claims `exp`, `nbf`, and `iat` MUST be finite numbers.
 For the avoidance of doubt, not a number (NaN) values and positive and negative infinity are not acceptable in those claims.
 
 > In {{!RFC8392}}, these three claims are of type `NumericDate`.
-Section 2 of the same spec refers to `NumericDate` as a JWT `NumericDate`, "except that it is represented as [an untagged] CBOR numeric date (from {{Section 2.4.1 of ?RFC7049}}) instead of a JSON number".
+Section 2 of the same spec refers to `NumericDate` as a JWT `NumericDate`, "except that it is represented as \[an untagged] CBOR numeric date (from {{Section 2.4.1 of ?RFC7049}}) instead of a JSON number".
 In CBOR, a NumericDate can be represented as an unsigned integer, a negative integer, or a floating point value.
 CBOR (both {{?RFC7049}} and {{!RFC8949}}) refers to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
 Neither JSON {{?RFC8259}} nor JWT {{?RFC7519}} can represent infinite values.
@@ -565,10 +574,12 @@ safe_value =
   safe_map /
   #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-; legal values in issued SD-CWT
-issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-issued_sd_cwt_label = label / redacted_claim_keys
+; legal values in issued SD-CWT
+issued_sd_cwt_map = {
+    ? redacted_claim_keys ^ => [ * bstr ],
+    * label => issued_sd_cwt_value
+}
 
 issued_array_element = redacted_claim_element / issued_sd_cwt_value
 
@@ -581,8 +592,8 @@ issued_sd_cwt_value =
 
 ; legal values in claim set sent to Issuer
 preissuance_label = label /
-                    #6.<TO_BE_REDACTED>(label) /
-                    #6.<TO_BE_DECOY>(int .gt 0)
+                    #6.<TO_BE_REDACTED_TAGNUM>(label) /
+                    #6.<TO_BE_DECOY_TAGNUM>(int .gt 0)
 
 preissuance_map = { * preissuance_label => preissuance_value }
 
@@ -592,13 +603,17 @@ preissuance_value =
   preissuance_map /
   #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float
 
+; CBOR tag number for wrapping to-be-redacted keys or elements
+TO_BE_REDACTED_TAGNUM = 58
+; CBOR tag number for indicating a decoy value is to be inserted here
+TO_BE_DECOY_TAGNUM = 61
 
 label = int / tstr .size (1..255)
-safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
-                                         ;     to be redacted,
-                                         ;     and to be decoy
+safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
+                     TO_BE_DECOY_TAGNUM /
+                     REDACTED_ELEMENT_TAGNUM)
 safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-MAX_u64 = 18446744073709551615           ; 2^64 - 1
+num = int / float
 ~~~
 
 Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
@@ -691,8 +706,8 @@ This specification defines the format of an SD-CWT communicated between an Issue
 The protected header MAY contain the `sd_alg` header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 If no `sd_alg` header parameter is present, the default hash function SHA-256 is used.
 
-The unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
-If there are no disclosures, the `sd_claims` header parameter value is an empty array.
+If no Salted Disclosed Claims or Decoys are present, the unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
+If there are no disclosures, the `sd_claims` header parameter value is omitted.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
 
 In an SD-CWT, either the subject `sub` / 2 claim MUST be present, or the redacted form of the subject MUST be present.
@@ -745,14 +760,14 @@ sd-protected = {
    &(alg: 1) ^ => int,
    ? &(kid: 4) ^ => bstr,
    ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
-   ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
-   ? &(sd_aead: TBD7) ^ => uint .size 2,
+   ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
+   ? &(sd_aead: 172) ^ => uint .size 2,
    * label => safe_value
 }
 
 sd-unprotected = {
-   ? &(sd_claims: TBD1) ^ => salted-array,
-   ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
+   ? &(sd_claims: 17) ^ => salted-array,
+   ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
    * label => safe_value
 }
 
@@ -769,8 +784,8 @@ sd-payload = {
     ? &(vct: 11) ^ => bstr,
     ? &(cnonce: 39) ^ => bstr,
     ;
-    ? &(redacted_claim_keys: redacted_claim_keys) ^ => [ * bstr ],
-    * issued_sd_cwt_label => issued_sd_cwt_value
+    ? redacted_claim_keys ^ => [ * bstr ],
+    * label => issued_sd_cwt_value
 }
 ~~~
 
@@ -780,6 +795,7 @@ When issuing an SD-CWT to a Holder, the Issuer includes all the Salted Disclosed
 
 By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
 If the Holder wishes to disclose any blinded claims, it includes that subset of its Salted Disclosed Claims in the `sd_claims` header parameter of the unprotected header.
+If there is nothing to be disclosed, the `sd_claims` header parameter is omitted.
 
 An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder chooses the subset of disclosures included in the `sd_claims` header parameter.
 
@@ -999,7 +1015,7 @@ The initial Verifier of the key binding token might not be able to decrypt encry
 This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
 (Guidance on specific algorithms is discussed in {{aead-choice}}.)
-The second header parameter (`sd_aead_encrypted_claims`) contains a list of AEAD encrypted disclosures.
+The second header parameter (`sd_aead_encrypted_claims`), if present, contains a non-empty list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:
 
 ~~~ cbor-diag
@@ -1014,7 +1030,7 @@ The nonce (`nonce`), the encryption algorithm's ciphertext (`ciphertext`) and au
 The resulting array is placed in the `sd_aead_encrypted_claims` header parameter in the unprotected headers of the SD-CWT.
 
 ~~~ cbor-diag
-/ sd_aead_encrypted_claims / 19 : [ / AEAD encrypted disclosures /
+/ sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
     [
         / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
         / ciphertext / h'208cda279ca86444681503830469b705
@@ -1037,7 +1053,7 @@ Details of key management are left to profiles of the specific protocols that ma
 The CDDL for AEAD encrypted disclosures is below.
 
 ~~~ cddl
-aead-encrypted-array = [ *aead-encrypted ]
+aead-encrypted-array = [ +aead-encrypted ]
 aead-encrypted = [
   bstr .size 16,     ; 128-bit nonce
   bstr,              ; the encryption ciphertext output of a
@@ -1429,8 +1445,8 @@ IANA is requested to add the following entries to the [IANA "COSE Header Paramet
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_claims
-* Label: TBD1 (requested assignment 17)
-* Value Type: [ *bstr ]
+* Label: 17
+* Value Type: `[ +bstr ]`
 * Value Registry: (empty)
 * Description: A list of selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{sd-cwt-preparation}} of this specification
@@ -1440,8 +1456,8 @@ The following completed registration template per RFC8152 is provided:
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_alg
-* Label: TBD2 (requested assignment 18)
-* Value Type: int
+* Label: 170
+* Value Type: `int`
 * Value Registry: IANA COSE Algorithms
 * Description: The hash algorithm used for redacting disclosures.
 * Reference: {{sd-cwt-issuance}} of this specification
@@ -1451,8 +1467,8 @@ The following completed registration template per RFC8152 is provided:
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead_encrypted_claims
-* Label: TBD6 (requested assignment 19)
-* Value Type: [ *bstr ]
+* Label: 171
+* Value Type: `[ +[bstr,bstr,bstr] ]`
 * Value Registry: (empty)
 * Description: A list of AEAD encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{aead}} of this specification
@@ -1462,8 +1478,8 @@ The following completed registration template per RFC8152 is provided:
 The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead
-* Label: TBD7 (requested assignment 20)
-* Value Type: uint16
+* Label: 172
+* Value Type: `uint .size 2`
 * Value Registry: IANA AEAD Algorithm number
 * Description: The AEAD algorithm used for encrypting disclosures.
 * Reference: {{aead}} of this specification
@@ -2141,7 +2157,22 @@ Note: RFC Editor, please remove this entire section on publication.
 
 ## draft-ietf-spice-sd-cwt-06
 
-- Addressed early IANA feedback about the escalation process.
+- Refactored deterministic draft generation code (PR#152).
+- Added pointer to a Python implementation (PR#155).
+- Added decoy digests (PR#157).
+- Addressed early IANA feedback about the escalation process (PR#160).
+- Used the CoAP Content Type in the examples instead of the text strings "application/sd-cwt" and "application/kb+cwt" (PR#162).
+- Added a section on specific CBOR encoding and data model considerations (PR#163).
+- Swapped the order of Sections 5 and 6 (PR#167).
+- Split the CDDL definitions for payload maps in Issued CWT and pre-issued (PR#168).
+- Used the IANA early assigned values in the draft (PR#169).
+- Defined the To Be Decoy tag (PR#171).
+- Made use of the CoAP Content Type a SHOULD (PR#172).
+- Made the draft generation code agnostic to hash algorithm (PR#173)
+- Added time claim verification rules and security considerations (PR#175)
+- Instead of an empty array, `sd_claims` is now omitted if empty (PR#176)
+- Update the COSE header values to use their newly assigned values (also PR#176)
+
 
 ## draft-ietf-spice-sd-cwt-05
 

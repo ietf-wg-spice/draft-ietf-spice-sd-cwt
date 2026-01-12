@@ -6,7 +6,7 @@
            /  with Holder's choice of disclosures   /
            /  in the SD-CWT unprotected header  *** /,
     / end of issuer SD-CWT /
-    / typ /   16:  "application/kb+cwt",
+    / typ /   16:  294   # application/kb+cwt,
   } >>,     / end of KBT protected header /
   / KBT unprotected / {},
   / KBT payload / << {
@@ -14,8 +14,8 @@
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } >>,      / end of KBT payload /
-  / KBT signature / h'dd49379434b25b03cd8756787ab49731
-                      580a04505439ca78ee53300dd49a00b7
-                      0e8715d015a2a6e8d88455f5850e3d93
-                      eade1366c0040c2cee1cc568322a6b93'
+  / KBT signature / h'67116f888eab35fe82c171db146262c9
+                      922fb3d4fd769641c80569e3c6010f90
+                      251fa2b1dd335bc6bd8314603f57fd03
+                      af7ddb5eb4cce1e59ac07d11dfdce742'
 ])   / end of kbt /
