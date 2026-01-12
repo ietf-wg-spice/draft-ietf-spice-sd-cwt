@@ -1030,7 +1030,7 @@ The nonce (`nonce`), the encryption algorithm's ciphertext (`ciphertext`) and au
 The resulting array is placed in the `sd_aead_encrypted_claims` header parameter in the unprotected headers of the SD-CWT.
 
 ~~~ cbor-diag
-/ sd_aead_encrypted_claims / 19 : [ / AEAD encrypted disclosures /
+/ sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
     [
         / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
         / ciphertext / h'208cda279ca86444681503830469b705
