@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 9 July 2026                                        Tradeverifyd
+Expires: 16 July 2026                                       Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                          5 January 2026
+                                                         12 January 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 July 2026.
+   This Internet-Draft will expire on 16 July 2026.
 
 Copyright Notice
 
@@ -485,8 +485,8 @@ Issuer                           Holder                         Verifier
      / CWT protected / << {
        / alg /    1  : -35, / ES384 /
        / kid /    4  : 'https://issuer.example/cose-key3',
-       / typ /    16 : "application/sd-cwt",
-       / sd_alg / 18 : -16  / SHA256 /
+       / typ /    16 : 293, # application/sd-cwt
+       / sd_alg / 170 : -16  / SHA256 /
      } >>,
      / CWT unprotected / {
        / sd_claims / 17 : [ / these are all the disclosures /
@@ -514,7 +514,7 @@ Issuer                           Holder                         Verifier
                /claim/  "postal_code"
            ]>>,
        ]
-     }
+     },
      / CWT payload / << {
        / iss / 1   : "https://issuer.example",
        / sub / 2   : "https://device.example",
@@ -558,12 +558,12 @@ Issuer                           Holder                         Verifier
              bb05c9d8fb61cfc230ddfdfb4616a693'
        ]
      } >>,
-     / CWT signature / h'ed7ff84b27e746199698a94cc19292e4
-                         b72dc4c3eb551f0ef2b9da07980c648c
-                         2bb033c337c6ed13e1bc7c5b7b7c9df9
-                         49a70239f51eca1f6d8e058b8b70bcb3
-                         b5746812a932ffb37a2e6e984957e3f6
-                         b003eb3319fbe21e97f6a3a273307424'
+     / CWT signature / h'536b3797c8f396d6dc4fedfa54fa605f
+                         be897df02267ede5b40b257cba5eb2b3
+                         cbf7d4f5733e0ca2e77783d860b8d74a
+                         2b98878930be6c8e3d1de63df909d484
+                         2a800f9d377fa41e9bd5f72743c06cfb
+                         1e5d59892fac51a806cd4caf6cb30cce'
    ])
 
                 Figure 1: Issued SD-CWT with all disclosures
@@ -628,7 +628,8 @@ Issuer                           Holder                         Verifier
    When the Holder wants to send an SD-CWT and disclose none, some, or
    all of the redacted values, it makes a list of the values to disclose
    and puts them in sd_claims header parameter in the unprotected
-   header.
+   header.  If the Holder does not disclose any claims, it MUST omit the
+   sd_claims header parameter.
 
    For example, Alice decides to disclose to a Verifier the
    inspector_license_number claim (ABCD-123456), the region claim
@@ -673,7 +674,7 @@ Issuer                           Holder                         Verifier
               /  with Holder's choice of disclosures   /
               /  in the SD-CWT unprotected header  *** /,
        / end of issuer SD-CWT /
-       / typ /   16:  "application/kb+cwt",
+       / typ /   16:  294   # application/kb+cwt,
      } >>,     / end of KBT protected header /
      / KBT unprotected / {},
      / KBT payload / << {
@@ -681,10 +682,10 @@ Issuer                           Holder                         Verifier
        / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
        / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
      } >>,      / end of KBT payload /
-     / KBT signature / h'dd49379434b25b03cd8756787ab49731
-                         580a04505439ca78ee53300dd49a00b7
-                         0e8715d015a2a6e8d88455f5850e3d93
-                         eade1366c0040c2cee1cc568322a6b93'
+     / KBT signature / h'67116f888eab35fe82c171db146262c9
+                         922fb3d4fd769641c80569e3c6010f90
+                         251fa2b1dd335bc6bd8314603f57fd03
+                         af7ddb5eb4cce1e59ac07d11dfdce742'
    ])   / end of kbt /
 
    The digests in protected parts of the issued SD-CWT and the
@@ -721,7 +722,7 @@ Issuer                           Holder                         Verifier
    header parameter in the unprotected header of the CWT (the
    disclosures).  If there are no disclosures (and when no Blinded
    Claims Hash is present in the payload) the sd_claims header parameter
-   in the unprotected header is an empty array.
+   is not present in the unprotected header.
 
    Any party with a Salted Disclosed Claim can generate its hash, find
    that hash in the CWT payload, and unblind the content.  However, a
@@ -735,7 +736,7 @@ Issuer                           Holder                         Verifier
    Salted Disclosed Claims of items in an array, the name is omitted.
 
    ; an array of bstr-encoded Salted Disclosed Claims
-   salted-array = [ *bstr-encoded-salted ]
+   salted-array = [ +bstr-encoded-salted ]
 
    bstr-encoded-salted = bstr .cbor salted-entry
    salted-entry = salted-claim / salted-element / decoy
@@ -762,9 +763,17 @@ Issuer                           Holder                         Verifier
    is replaced with the digested salted hash as a CBOR byte string,
    wrapped with the CBOR tag 60.
 
+   ; redacted_claim_keys is used as a map key. The corresponding value is
+   ; an array of Blinded Claim Hashes whose corresponding unblinded map keys
+   ; and values are in the same map.
+   redacted_claim_keys = #7.59  ; CBOR simple value 59
+
+   ; CBOR tag for wrapping a redacted element in an array
+   REDACTED_ELEMENT_TAGNUM = 60
+
    ; redacted_claim_element is used in CDDL payloads that contain
    ; array elements that are meant to be redacted.
-   redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
+   redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
 
    Blinded claims can be nested.  For example, both individual keys in
    the inspection_location claim, and the entire inspection_location
@@ -924,10 +933,12 @@ Issuer                           Holder                         Verifier
      safe_map /
      #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-   ; legal values in issued SD-CWT
-   issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-   issued_sd_cwt_label = label / redacted_claim_keys
+   ; legal values in issued SD-CWT
+   issued_sd_cwt_map = {
+       ? redacted_claim_keys ^ => [ * bstr ],
+       * label => issued_sd_cwt_value
+   }
 
    issued_array_element = redacted_claim_element / issued_sd_cwt_value
 
@@ -940,8 +951,8 @@ Issuer                           Holder                         Verifier
 
    ; legal values in claim set sent to Issuer
    preissuance_label = label /
-                       #6.<TO_BE_REDACTED>(label) /
-                       #6.<TO_BE_DECOY>(int .gt 0)
+                       #6.<TO_BE_REDACTED_TAGNUM>(label) /
+                       #6.<TO_BE_DECOY_TAGNUM>(int .gt 0)
 
    preissuance_map = { * preissuance_label => preissuance_value }
 
@@ -951,13 +962,17 @@ Issuer                           Holder                         Verifier
      preissuance_map /
      #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float
 
+   ; CBOR tag number for wrapping to-be-redacted keys or elements
+   TO_BE_REDACTED_TAGNUM = 58
+   ; CBOR tag number for indicating a decoy value is to be inserted here
+   TO_BE_DECOY_TAGNUM = 61
 
    label = int / tstr .size (1..255)
-   safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
-                                            ;     to be redacted,
-                                            ;     and to be decoy
+   safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
+                        TO_BE_DECOY_TAGNUM /
+                        REDACTED_ELEMENT_TAGNUM)
    safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-   MAX_u64 = 18446744073709551615           ; 2^64 - 1
+   num = int / float
 
    Note that Holders presenting to a Verifier that does not support this
    specification would need to present a CWT without tagged map keys or
@@ -1077,12 +1092,13 @@ Issuer                           Holder                         Verifier
    hash the Salted Disclosed Claims.  If no sd_alg header parameter is
    present, the default hash function SHA-256 is used.
 
-   The unprotected header MUST contain the sd_claims header parameter
-   with a Salted Disclosed Claim for every blinded claim hash present
-   anywhere in the payload, and any decoys (see Section 10).  If there
-   are no disclosures, the sd_claims header parameter value is an empty
-   array.  The payload also MUST include a key confirmation element
-   (cnf) [RFC8747] for the Holder's public key.
+   If no Salted Disclosed Claims or Decoys are present, the unprotected
+   header MUST contain the sd_claims header parameter with a Salted
+   Disclosed Claim for every blinded claim hash present anywhere in the
+   payload, and any decoys (see Section 10).  If there are no
+   disclosures, the sd_claims header parameter value is omitted.  The
+   payload also MUST include a key confirmation element (cnf) [RFC8747]
+   for the Holder's public key.
 
    In an SD-CWT, either the subject sub / 2 claim MUST be present, or
    the redacted form of the subject MUST be present.  The iss / 1 claim
@@ -1160,14 +1176,14 @@ Issuer                           Holder                         Verifier
       &(alg: 1) ^ => int,
       ? &(kid: 4) ^ => bstr,
       ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
-      ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
-      ? &(sd_aead: TBD7) ^ => uint .size 2,
+      ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
+      ? &(sd_aead: 172) ^ => uint .size 2,
       * label => safe_value
    }
 
    sd-unprotected = {
-      ? &(sd_claims: TBD1) ^ => salted-array,
-      ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
+      ? &(sd_claims: 17) ^ => salted-array,
+      ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
       * label => safe_value
    }
 
@@ -1184,8 +1200,8 @@ Issuer                           Holder                         Verifier
        ? &(vct: 11) ^ => bstr,
        ? &(cnonce: 39) ^ => bstr,
        ;
-       ? &(redacted_claim_keys: redacted_claim_keys) ^ => [ * bstr ],
-       * issued_sd_cwt_label => issued_sd_cwt_value
+       ? redacted_claim_keys ^ => [ * bstr ],
+       * label => issued_sd_cwt_value
    }
 
 8.  SD-CWT Presentation
@@ -1197,7 +1213,8 @@ Issuer                           Holder                         Verifier
    disclose none, some, or all of its blinded claims.  If the Holder
    wishes to disclose any blinded claims, it includes that subset of its
    Salted Disclosed Claims in the sd_claims header parameter of the
-   unprotected header.
+   unprotected header.  If there is nothing to be disclosed, the
+   sd_claims header parameter is omitted.
 
    An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT
    issued to a Holder, except the Holder chooses the subset of
@@ -1387,8 +1404,8 @@ Issuer                           Holder                         Verifier
      / CWT protected / << {
        / alg /    1  : -35, / ES384 /
        / kid /    4  : 'https://issuer.example/cose-key3',
-       / typ /    16 : "application/sd-cwt",
-       / sd_alg / 18 : -16  / SHA256 /
+       / typ /    16 : 293, # application/sd-cwt
+       / sd_alg / 170 : -16  / SHA256 /
      } >>,
      / CWT unprotected / {
        / sd_claims / 17 : [ / these are all the disclosures /
@@ -1408,7 +1425,7 @@ Issuer                           Holder                         Verifier
                /salt/   h'89c41c270dd06cd3517d371c9ddf2bab',
            ]>>,
        ]
-     }
+     },
      / CWT payload / << {
        / iss / 1   : "https://issuer.example",
        / sub / 2   : "https://device.example",
@@ -1442,12 +1459,12 @@ Issuer                           Holder                         Verifier
              b53a1f3d241ab6b60c9f309f114ecf88'
        ]
      } >>,
-     / CWT signature / h'544f015df266feb7af7494b7f170e0aa
-                         d51eecc528ae3a3410118e8fe33b828b
-                         1cb7f75ae98cc1b72d9410bdd401cc48
-                         2688e3f6c6582ae140f04b535c4ede51
-                         a0dd41e10016befa342b86233bd056fd
-                         8a073949d8c02744fb06bdb8a51a980c'
+     / CWT signature / h'fd0b7edae0fa5bd429f07809762a32c5
+                         c160c089091a5c3abbee91710fa388d8
+                         3c1ad6a5a3d219c4265b9f89aef1f511
+                         ff362cbbea6f46bae08978822b672aa5
+                         75cd6fc519394af2a883c394faf16ac1
+                         781afb01f626bdd6fee1205a29dcc203'
    ])
 
 11.  Tags Used Before SD-CWT Issuance
@@ -1560,8 +1577,9 @@ Issuer                           Holder                         Verifier
    (https://www.iana.org/assignments/aead-parameters/aead-
    parameters.xhtml) . (Guidance on specific algorithms is discussed in
    Section 16.8.)  The second header parameter
-   (sd_aead_encrypted_claims) contains a list of AEAD encrypted
-   disclosures.  Taking the first example disclosure from above:
+   (sd_aead_encrypted_claims), if present, contains a non-empty list of
+   AEAD encrypted disclosures.  Taking the first example disclosure from
+   above:
 
            <<[
                /salt/   h'bae611067bb823486797da1ebbb52f83',
@@ -1581,7 +1599,7 @@ Issuer                           Holder                         Verifier
    sd_aead_encrypted_claims header parameter in the unprotected headers
    of the SD-CWT.
 
-   / sd_aead_encrypted_claims / 19 : [ / AEAD encrypted disclosures /
+   / sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
        [
            / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
            / ciphertext / h'208cda279ca86444681503830469b705
@@ -1607,7 +1625,7 @@ Issuer                           Holder                         Verifier
 
    The CDDL for AEAD encrypted disclosures is below.
 
-   aead-encrypted-array = [ *aead-encrypted ]
+   aead-encrypted-array = [ +aead-encrypted ]
    aead-encrypted = [
      bstr .size 16,     ; 128-bit nonce
      bstr,              ; the encryption ciphertext output of a
@@ -1658,8 +1676,8 @@ Issuer                           Holder                         Verifier
          / CWT protected / << {
            / alg /    1  : -35, / ES384 /
            / kid /    4  : 'https://issuer.example/cose-key3',
-           / typ /    16 : "application/sd-cwt",
-           / sd_alg / 18 : -16  / SHA256 /
+           / typ /    16 : 293, # application/sd-cwt
+           / sd_alg / 170 : -16  / SHA256 /
          } >>,
          / CWT unprotected / {
            / sd_claims / 17 : [ / these are the disclosures /
@@ -1678,7 +1696,7 @@ Issuer                           Holder                         Verifier
                    /claim/  "region"   / region=California /
                ]>>,
            ]
-         }
+         },
          / CWT payload / << {
            / iss / 1   : "https://issuer.example",
            / sub / 2   : "https://device.example",
@@ -1722,15 +1740,15 @@ Issuer                           Holder                         Verifier
                  bb05c9d8fb61cfc230ddfdfb4616a693'
            ]
          } >>,
-         / CWT signature / h'ed7ff84b27e746199698a94cc19292e4
-                             b72dc4c3eb551f0ef2b9da07980c648c
-                             2bb033c337c6ed13e1bc7c5b7b7c9df9
-                             49a70239f51eca1f6d8e058b8b70bcb3
-                             b5746812a932ffb37a2e6e984957e3f6
-                             b003eb3319fbe21e97f6a3a273307424'
+         / CWT signature / h'536b3797c8f396d6dc4fedfa54fa605f
+                             be897df02267ede5b40b257cba5eb2b3
+                             cbf7d4f5733e0ca2e77783d860b8d74a
+                             2b98878930be6c8e3d1de63df909d484
+                             2a800f9d377fa41e9bd5f72743c06cfb
+                             1e5d59892fac51a806cd4caf6cb30cce'
        ]),
        / end of issuer SD-CWT /
-       / typ /   16:  "application/kb+cwt",
+       / typ /   16:  294   # application/kb+cwt,
      } >>,     / end of KBT protected header /
      / KBT unprotected / {},
      / KBT payload / << {
@@ -1738,10 +1756,10 @@ Issuer                           Holder                         Verifier
        / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
        / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
      } >>,      / end of KBT payload /
-     / KBT signature / h'dd49379434b25b03cd8756787ab49731
-                         580a04505439ca78ee53300dd49a00b7
-                         0e8715d015a2a6e8d88455f5850e3d93
-                         eade1366c0040c2cee1cc568322a6b93'
+     / KBT signature / h'67116f888eab35fe82c171db146262c9
+                         922fb3d4fd769641c80569e3c6010f90
+                         251fa2b1dd335bc6bd8314603f57fd03
+                         af7ddb5eb4cce1e59ac07d11dfdce742'
    ])   / end of kbt /
 
                           Figure 6: An EDN Example
@@ -2235,9 +2253,9 @@ Issuer                           Holder                         Verifier
 
    *  Name: sd_claims
 
-   *  Label: TBD1 (requested assignment 17)
+   *  Label: 17
 
-   *  Value Type: [ *bstr ]
+   *  Value Type: [ +bstr ]
 
    *  Value Registry: (empty)
 
@@ -2254,7 +2272,7 @@ Issuer                           Holder                         Verifier
 
    *  Name: sd_alg
 
-   *  Label: TBD2 (requested assignment 18)
+   *  Label: 170
 
    *  Value Type: int
 
@@ -2271,9 +2289,9 @@ Issuer                           Holder                         Verifier
 
    *  Name: sd_aead_encrypted_claims
 
-   *  Label: TBD6 (requested assignment 19)
+   *  Label: 171
 
-   *  Value Type: [ *bstr ]
+   *  Value Type: [ +[bstr,bstr,bstr] ]
 
    *  Value Registry: (empty)
 
@@ -2290,9 +2308,9 @@ Issuer                           Holder                         Verifier
 
    *  Name: sd_aead
 
-   *  Label: TBD7 (requested assignment 20)
+   *  Label: 172
 
-   *  Value Type: uint16
+   *  Value Type: uint .size 2
 
    *  Value Registry: IANA AEAD Algorithm number
 
@@ -2790,8 +2808,8 @@ Appendix A.  Complete CDDL Schema
       &(alg: 1) ^ => int,
       ? &(kid: 4) ^ => bstr,
       ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
-      ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
-      ? &(sd_aead: TBD7) ^ => uint .size 2,
+      ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
+      ? &(sd_aead: 172) ^ => uint .size 2,
       * label => safe_value
    }
 
@@ -2803,8 +2821,8 @@ Appendix A.  Complete CDDL Schema
    }
 
    sd-unprotected = {
-      ? &(sd_claims: TBD1) ^ => salted-array,
-      ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
+      ? &(sd_claims: 17) ^ => salted-array,
+      ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
       * label => safe_value
    }
 
@@ -2825,8 +2843,8 @@ Appendix A.  Complete CDDL Schema
        ? &(vct: 11) ^ => bstr,
        ? &(cnonce: 39) ^ => bstr,
        ;
-       ? &(redacted_claim_keys: redacted_claim_keys) ^ => [ * bstr ],
-       * issued_sd_cwt_label => issued_sd_cwt_value
+       ? redacted_claim_keys ^ => [ * bstr ],
+       * label => issued_sd_cwt_value
    }
 
    kbt-payload = {
@@ -2838,7 +2856,7 @@ Appendix A.  Complete CDDL Schema
        * label => safe_value
    }
 
-   ; CWT legal values only
+   ; CWT claim legal values only
    safe_map = { * label => safe_value }
 
    safe_value =
@@ -2847,10 +2865,12 @@ Appendix A.  Complete CDDL Schema
      safe_map /
      #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-   ; legal values in issued SD-CWT
-   issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-   issued_sd_cwt_label = label / redacted_claim_keys
+   ; legal values in issued SD-CWT
+   issued_sd_cwt_map = {
+       ? redacted_claim_keys ^ => [ * bstr ],
+       * label => issued_sd_cwt_value
+   }
 
    issued_array_element = redacted_claim_element / issued_sd_cwt_value
 
@@ -2863,8 +2883,8 @@ Appendix A.  Complete CDDL Schema
 
    ; legal values in claim set sent to Issuer
    preissuance_label = label /
-                       #6.<TO_BE_REDACTED>(label) /
-                       #6.<TO_BE_DECOY>(int .gt 0)
+                       #6.<TO_BE_REDACTED_TAGNUM>(label) /
+                       #6.<TO_BE_DECOY_TAGNUM>(int .gt 0)
 
    preissuance_map = { * preissuance_label => preissuance_value }
 
@@ -2876,31 +2896,30 @@ Appendix A.  Complete CDDL Schema
 
 
    label = int / tstr .size (1..255)
-   safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
-                                            ;     to be redacted,
-                                            ;     and to be decoy
+   safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
+                        TO_BE_DECOY_TAGNUM /
+                        REDACTED_ELEMENT_TAGNUM)
    safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-   MAX_u64 = 18446744073709551615           ; 2^64 - 1
    num = int / float
 
 
-   salted-array = [ *bstr-encoded-salted ]
+   salted-array = [ +bstr-encoded-salted ]
    bstr-encoded-salted = bstr .cbor salted-entry
    salted-entry = salted-claim / salted-element / decoy
    salted-claim = [
      bstr .size 16,     ; 128-bit salt
-     any,               ; claim value
-     (int / text)       ; claim name
+     any,               ; Claim Value
+     (int / text)       ; Claim Key
    ]
    salted-element = [
      bstr .size 16,     ; 128-bit salt
-     any                ; claim value
+     any                ; Claim Value
    ]
    decoy = [
      bstr .size 16      ; 128-bit salt
    ]
 
-   aead-encrypted-array = [ *aead-encrypted ]
+   aead-encrypted-array = [ +aead-encrypted ]
    aead-encrypted = [
      bstr .size 16,     ; 128-bit nonce
      bstr,              ; the encryption ciphertext output of a
@@ -2908,22 +2927,21 @@ Appendix A.  Complete CDDL Schema
      bstr               ; the corresponding authentication tag
    ]
 
-   TBD1 = 17
-   TBD2 = 18
-   TBD6 = 19
-   TBD7 = 20
-
-   TO_BE_REDACTED = 58  ; CBOR tag wrapping to-be-redacted keys or elements
-   TO_BE_DECOY = 61     ; CBOR tag indicating a decoy value to be inserted
+   ; CBOR tag number for wrapping to-be-redacted keys or elements
+   TO_BE_REDACTED_TAGNUM = 58
+   ; CBOR tag number for indicating a decoy value is to be inserted here
+   TO_BE_DECOY_TAGNUM = 61
+   ; CBOR tag for wrapping a redacted element in an array
+   REDACTED_ELEMENT_TAGNUM = 60
 
    ; redacted_claim_keys is used as a map key. The corresponding value is
    ; an array of Blinded Claim Hashes whose corresponding unblinded map keys
    ; and values are in the same map.
-   redacted_claim_keys = #7.59  ; for CBOR simple value 59
+   redacted_claim_keys = #7.59  ; CBOR simple value 59
 
    ; redacted_claim_element is used in CDDL payloads that contain
    ; array elements that are meant to be redacted.
-   redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
+   redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
 
               Figure 7: A complete CDDL description of SD-CWT
 
@@ -3518,7 +3536,42 @@ Appendix G.  Document History
 
 G.1.  draft-ietf-spice-sd-cwt-06
 
-   *  Addressed early IANA feedback about the escalation process.
+   *  Refactored deterministic draft generation code (PR#152).
+
+   *  Added pointer to a Python implementation (PR#155).
+
+   *  Added decoy digests (PR#157).
+
+   *  Addressed early IANA feedback about the escalation process
+      (PR#160).
+
+   *  Used the CoAP Content Type in the examples instead of the text
+      strings "application/sd-cwt" and "application/kb+cwt" (PR#162).
+
+   *  Added a section on specific CBOR encoding and data model
+      considerations (PR#163).
+
+   *  Swapped the order of Sections 5 and 6 (PR#167).
+
+   *  Split the CDDL definitions for payload maps in Issued CWT and pre-
+      issued (PR#168).
+
+   *  Used the IANA early assigned values in the draft (PR#169).
+
+   *  Defined the To Be Decoy tag (PR#171).
+
+   *  Made use of the CoAP Content Type a SHOULD (PR#172).
+
+   *  Made the draft generation code agnostic to hash algorithm (PR#173)
+
+   *  Added time claim verification rules and security considerations
+      (PR#175)
+
+   *  Instead of an empty array, sd_claims is now omitted if empty
+      (PR#176)
+
+   *  Update the COSE header values to use their newly assigned values
+      (also PR#176)
 
 G.2.  draft-ietf-spice-sd-cwt-05
 
