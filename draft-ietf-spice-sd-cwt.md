@@ -909,8 +909,13 @@ If any decoded Redacted Claim Key duplicates another claim key in the same posit
 {:start="8"}
 8. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
 
-9. Otherwise, the SD-CWT is considered valid, and the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
+9. Otherwise, the SD-CWT is considered valid.
+Once any remaining redacted elements (either redacted claims or decoys) are deleted, the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
 
+    > Note: Undisclosed Redacted Claim Elements will be removed from the Validated Disclosed Claims Set, changing the length of the array.
+    > If the semantics of the position of items in the array is important, the issuer should instead disclose or redact the entire array.
+
+{:start="10"}
 10. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
 
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
