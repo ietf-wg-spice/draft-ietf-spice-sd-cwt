@@ -977,7 +977,7 @@ Issuer                           Holder                         Verifier
                         TO_BE_DECOY_TAGNUM /
                         REDACTED_ELEMENT_TAGNUM)
    safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-   time = int / float53
+   secs = int / float53
    float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 
    Note that Holders presenting to a Verifier that does not support this
@@ -1198,9 +1198,9 @@ Issuer                           Holder                         Verifier
          &(iss: 1) ^ => tstr, ; "https://issuer.example"
        ? &(sub: 2) ^ => tstr, ; "https://device.example"
        ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => time, ; 1883000000
-       ? &(nbf: 5) ^ => time, ; 1683000000
-       ? &(iat: 6) ^ => time, ; 1683000000
+       ? &(exp: 4) ^ => secs, ; 1883000000
+       ? &(nbf: 5) ^ => secs, ; 1683000000
+       ? &(iat: 6) ^ => secs, ; 1683000000
        ? &(cti: 7) ^ => bstr,
          &(cnf: 8) ^ => safe_map, ; key confirmation
        ? &(vct: 11) ^ => bstr,
@@ -1303,9 +1303,9 @@ Issuer                           Holder                         Verifier
 
    kbt-payload = {
          &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => time, ; 1883000000
-       ? &(nbf: 5) ^ => time, ; 1683000000
-         &(iat: 6) ^ => time, ; 1683000000
+       ? &(exp: 4) ^ => secs, ; 1883000000
+       ? &(nbf: 5) ^ => secs, ; 1683000000
+         &(iat: 6) ^ => secs, ; 1683000000
        ? &(cnonce: 39) ^ => bstr,
        * label => safe_value
    }
@@ -2862,9 +2862,9 @@ Appendix A.  Complete CDDL Schema
          &(iss: 1) ^ => tstr, ; "https://issuer.example"
        ? &(sub: 2) ^ => tstr, ; "https://device.example"
        ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => time, ; 1883000000
-       ? &(nbf: 5) ^ => time, ; 1683000000
-       ? &(iat: 6) ^ => time, ; 1683000000
+       ? &(exp: 4) ^ => secs, ; 1883000000
+       ? &(nbf: 5) ^ => secs, ; 1683000000
+       ? &(iat: 6) ^ => secs, ; 1683000000
        ? &(cti: 7) ^ => bstr,
          &(cnf: 8) ^ => safe_map, ; key confirmation
        ? &(vct: 11) ^ => bstr,
@@ -2927,7 +2927,7 @@ Appendix A.  Complete CDDL Schema
                         TO_BE_DECOY_TAGNUM /
                         REDACTED_ELEMENT_TAGNUM)
    safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-   time = int / float53
+   secs = int / float53
    float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 
    salted-array = [ +bstr-encoded-salted ]
@@ -3599,6 +3599,17 @@ G.1.  draft-ietf-spice-sd-cwt-06
 
    *  Update the COSE header values to use their newly assigned values
       (also PR#176)
+
+   *  Fix some kramdown-xml bracket errors (PR#177)
+
+   *  Add IANA Considerations for To Be Decoy tag (PR#180)
+
+   *  Clarify that remaining redacted claims are removed in validated
+      claim set (PR#181)
+
+   *  Restrict floating point dates to -2^53 to 2^53 (PR#182)
+
+   *  Rename CDDL production using a standard prelude name (PR#183)
 
 G.2.  draft-ietf-spice-sd-cwt-05
 
