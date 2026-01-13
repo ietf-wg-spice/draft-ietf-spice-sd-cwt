@@ -4554,9 +4554,9 @@ sd-payload = {
 
 kbt-payload = {
       &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example/app"
-    ? &amp;(exp: 4) ^ =&gt; num,  ; 1883000000
-    ? &amp;(nbf: 5) ^ =&gt; num,  ; 1683000000
-      &amp;(iat: 6) ^ =&gt; num,  ; 1683000000
+    ? &amp;(exp: 4) ^ =&gt; secs,  ; 1883000000
+    ? &amp;(nbf: 5) ^ =&gt; secs,  ; 1683000000
+      &amp;(iat: 6) ^ =&gt; secs,  ; 1683000000
     ? &amp;(cnonce: 39) ^ =&gt; bstr,
     * label =&gt; safe_value
 }

@@ -2876,9 +2876,9 @@ Appendix A.  Complete CDDL Schema
 
    kbt-payload = {
          &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => num,  ; 1883000000
-       ? &(nbf: 5) ^ => num,  ; 1683000000
-         &(iat: 6) ^ => num,  ; 1683000000
+       ? &(exp: 4) ^ => secs,  ; 1883000000
+       ? &(nbf: 5) ^ => secs,  ; 1683000000
+         &(iat: 6) ^ => secs,  ; 1683000000
        ? &(cnonce: 39) ^ => bstr,
        * label => safe_value
    }
