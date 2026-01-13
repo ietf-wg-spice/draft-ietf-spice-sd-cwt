@@ -46,9 +46,9 @@ sd-payload = {
       &(iss: 1) ^ => tstr, ; "https://issuer.example"
     ? &(sub: 2) ^ => tstr, ; "https://device.example"
     ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-    ? &(exp: 4) ^ => num,  ; 1883000000
-    ? &(nbf: 5) ^ => num,  ; 1683000000
-    ? &(iat: 6) ^ => num,  ; 1683000000
+    ? &(exp: 4) ^ => time, ; 1883000000
+    ? &(nbf: 5) ^ => time, ; 1683000000
+    ? &(iat: 6) ^ => time, ; 1683000000
     ? &(cti: 7) ^ => bstr,
       &(cnf: 8) ^ => safe_map, ; key confirmation
     ? &(vct: 11) ^ => bstr,
@@ -111,8 +111,8 @@ safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
                      TO_BE_DECOY_TAGNUM / 
                      REDACTED_ELEMENT_TAGNUM)
 safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-num = int / float
-
+time = int / float53
+float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 
 salted-array = [ +bstr-encoded-salted ]
 bstr-encoded-salted = bstr .cbor salted-entry
