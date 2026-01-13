@@ -614,7 +614,7 @@ safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
                      TO_BE_DECOY_TAGNUM /
                      REDACTED_ELEMENT_TAGNUM)
 safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-time = int / float53
+secs = int / float53
 float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 ~~~
 
@@ -778,9 +778,9 @@ sd-payload = {
       &(iss: 1) ^ => tstr, ; "https://issuer.example"
     ? &(sub: 2) ^ => tstr, ; "https://device.example"
     ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-    ? &(exp: 4) ^ => time, ; 1883000000
-    ? &(nbf: 5) ^ => time, ; 1683000000
-    ? &(iat: 6) ^ => time, ; 1683000000
+    ? &(exp: 4) ^ => secs, ; 1883000000
+    ? &(nbf: 5) ^ => secs, ; 1683000000
+    ? &(iat: 6) ^ => secs, ; 1683000000
     ? &(cti: 7) ^ => bstr,
       &(cnf: 8) ^ => safe_map, ; key confirmation
     ? &(vct: 11) ^ => bstr,
@@ -856,9 +856,9 @@ kbt-unprotected = {
 
 kbt-payload = {
       &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-    ? &(exp: 4) ^ => time, ; 1883000000
-    ? &(nbf: 5) ^ => time, ; 1683000000
-      &(iat: 6) ^ => time, ; 1683000000
+    ? &(exp: 4) ^ => secs, ; 1883000000
+    ? &(nbf: 5) ^ => secs, ; 1683000000
+      &(iat: 6) ^ => secs, ; 1683000000
     ? &(cnonce: 39) ^ => bstr,
     * label => safe_value
 }
@@ -2189,6 +2189,11 @@ Note: RFC Editor, please remove this entire section on publication.
 - Added time claim verification rules and security considerations (PR#175)
 - Instead of an empty array, `sd_claims` is now omitted if empty (PR#176)
 - Update the COSE header values to use their newly assigned values (also PR#176)
+- Fix some kramdown-xml bracket errors (PR#177)
+- Add IANA Considerations for To Be Decoy tag (PR#180)
+- Clarify that remaining redacted claims are removed in validated claim set (PR#181)
+- Restrict floating point dates to -2^53 to 2^53 (PR#182)
+- Rename CDDL production using a standard prelude name (PR#183)
 
 
 ## draft-ietf-spice-sd-cwt-05
