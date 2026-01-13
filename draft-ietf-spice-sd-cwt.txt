@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 16 July 2026                                       Tradeverifyd
+Expires: 17 July 2026                                       Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                         12 January 2026
+                                                         13 January 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 July 2026.
+   This Internet-Draft will expire on 17 July 2026.
 
 Copyright Notice
 
@@ -1369,9 +1369,16 @@ Issuer                           Holder                         Verifier
        the SD-CWT or the SD-KBT contains a value that does not
        correspond to the intended recipient.
 
-   9.  Otherwise, the SD-CWT is considered valid, and the Validated
-       Disclosed Claims Set is now a CWT Claims Set with no claims
-       marked for redaction.
+   9.  Otherwise, the SD-CWT is considered valid.  Once any remaining
+       redacted elements (either redacted claims or decoys) are deleted,
+       the Validated Disclosed Claims Set is now a CWT Claims Set with
+       no claims marked for redaction.
+
+          Note: Undisclosed Redacted Claim Elements will be removed from
+          the Validated Disclosed Claims Set, changing the length of the
+          array.  If the semantics of the position of items in the array
+          is important, the issuer should instead disclose or redact the
+          entire array.
 
    10. Further validation logic can be applied to the Validated
        Disclosed Claims Set, just as it might be applied to a validated

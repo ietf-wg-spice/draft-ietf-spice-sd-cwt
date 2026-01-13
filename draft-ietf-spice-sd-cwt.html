@@ -1053,7 +1053,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 16 July 2026</td>
+<td class="center">Expires 17 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-12" class="published">12 January 2026</time>
+<time datetime="2026-01-13" class="published">13 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-16">16 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-17">17 July 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1133,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 17 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2904,13 +2904,22 @@ If any decoded Redacted Claim Key duplicates another claim key in the same posit
           <p id="section-9-7.1.1">A Verifier <span class="bcp14">MUST</span> reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.<a href="#section-9-7.1.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-7.2">
-          <p id="section-9-7.2.1">Otherwise, the SD-CWT is considered valid, and the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.<a href="#section-9-7.2.1" class="pilcrow">¶</a></p>
+          <p id="section-9-7.2.1">Otherwise, the SD-CWT is considered valid.
+Once any remaining redacted elements (either redacted claims or decoys) are deleted, the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.<a href="#section-9-7.2.1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-9-7.2.2.1">
+              <p id="section-9-7.2.2.1.1">Note: Undisclosed Redacted Claim Elements will be removed from the Validated Disclosed Claims Set, changing the length of the array.
+If the semantics of the position of items in the array is important, the issuer should instead disclose or redact the entire array.<a href="#section-9-7.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-9-7.3">
-          <p id="section-9-7.3.1">Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.<a href="#section-9-7.3.1" class="pilcrow">¶</a></p>
+          </ul>
 </li>
       </ol>
-<p id="section-9-8">By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.<a href="#section-9-8" class="pilcrow">¶</a></p>
+<ol start="10" type="1" class="normal type-1" id="section-9-8">
+<li id="section-9-8.1">
+          <p id="section-9-8.1.1">Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.<a href="#section-9-8.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<p id="section-9-9">By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.<a href="#section-9-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="decoys">
