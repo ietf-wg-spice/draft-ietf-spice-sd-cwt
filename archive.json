@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-11T01:01:24.928726+00:00",
+  "timestamp": "2026-01-13T00:51:50.963884+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3392,7 +3392,7 @@
       "id": "I_kwDOMm_Q2s7glyNf",
       "title": "Adjust COSE header parameters and regenerate examples",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/174",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3404,9 +3404,127 @@
       ],
       "body": "Currently the examples do not match the draft, since we are waiting for likely IANA changes to the COSE header parameters.\n\n[ ] update CDDL and draft to reflect any changes to early assignment of COSE header parameters (waiting for IANA Expert)\n[ ] regenerate all examples to use the CoAP values instead of strings in the typ header parameter.\n[ ] retest all example CBOR against their EDN and the CDDL",
       "createdAt": "2025-12-29T18:00:10Z",
-      "updatedAt": "2026-01-05T14:37:19Z",
+      "updatedAt": "2026-01-12T22:14:55Z",
+      "closedAt": "2026-01-12T22:14:55Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #176 ",
+          "createdAt": "2026-01-12T22:14:55Z",
+          "updatedAt": "2026-01-12T22:14:55Z"
+        }
+      ]
+    },
+    {
+      "number": 178,
+      "id": "I_kwDOMm_Q2s7ijrCa",
+      "title": "Sensible date ranges for exp/nbf/iat",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/178",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [],
+      "body": "I was thinking about number ranges in the date fields:\n\n- We already have a rule limiting us to finite dates\n- There is no use to have iat/nbf/exp dates in the past for an SD-CWT. Basically any CWT claims date before the SD-CWT exists makes no sense.\n- Also it doesn't make sense to use a float for a date past 2^53, since the float will be less precise than the corresponding integer types.\n- However most implementations can't handle dates even that large. I couldn't even find a calculator that would convert 9007199254740992 (2^53) into a date. The [largest date Javascript can convert](https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_toutcstring) is 8640000000000 (less than 2^43) = Sat, 13 Sep 275760 00:00:00 GMT. It seems like someone chose the date arbitrarily.\n- Most software is going to have some difficulty if they try to display a date with a year beyond 4 digits.\n\nSo, I propose the following range of dates for the exp/nbf/iat claims in SD-CWT:\n\n```\n; from 22-Aug-2024 00:00:00 until 31-Dec-9999 23:59:59 UTC\nsd-cwt-claim-date = 1724284800..253402300799 / 1724284800.0..253402300799.999\n```\n\notherwise\n\n```\n; from publication of draft-ietf-spice-sd-cwt-00\n; until the largest data JavaScript can display\n; (22-Aug-2024 00:00:00 until 13-Sep-275760 00:00:00 UTC)\nsd-cwt-claim-date = 1724284800..8640000000000 / 1724284800.0..8640000000000.0\n```",
+      "createdAt": "2026-01-11T09:15:39Z",
+      "updatedAt": "2026-01-12T22:49:13Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Note: if you don't want something to expire, just don't set an exp at all.",
+          "createdAt": "2026-01-12T14:28:18Z",
+          "updatedAt": "2026-01-12T14:28:18Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "lets do all 9s",
+          "createdAt": "2026-01-12T14:29:50Z",
+          "updatedAt": "2026-01-12T14:29:50Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Semantically, \"nbf\" in the past is fine.  If for instance, you have short-lived SD-CWTs that are instances of a logical credential that keeps getting renewed, they might all have the same \"nbf\" but their \"iat\" values will march into the future.  Think of a credential representing my Ph.D. from CMU where the \"nbf\" may be a date in 1992, whereas the \"iat\" is the current time.\n\nThat said, I'm going to push back on the whole concept of this issue.  The base claims are already defined.  It provides very little value for SD-CWT to profile them to restrict their ranges, and arguably, does some harm by introducing unnecessary code.  There's no reason to give an incentive for implementations to check for and reject dates beyond 31-Dec-9999.  It's useless code.",
+          "createdAt": "2026-01-12T17:18:59Z",
+          "updatedAt": "2026-01-12T17:18:59Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't disagree in general for CWTs or JWTs or certs with your assertion about nbf going back far in living memory. However, specifically for SD-CWT the token contains a COSE confirmation key which is unlikely to have existed before this draft was published.\n\nBack to the problem that caused me to write this issue, we already have consensus to reject + and -infinity and NaNs. With the CDDL that we have, we need an actual range of floats to say via CDDL that non-finite values are invalid.\n\nFinally, I think there is another subtle difference here. Saying that a generic implementation is free to reject dates ridiculously in the future, does not require them to do so. When we put CDDL in our specs we aren't requiring a CDDL validator in our implementations. Realistically for the moment, we're providing guidance about sensible values that can be inspected by a human or a computer post-facto.\n\n\n",
+          "createdAt": "2026-01-12T22:10:34Z",
+          "updatedAt": "2026-01-12T22:10:34Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> we need an actual range of floats to say via CDDL that non-finite values are invalid.\n\nTo me, that sounds like a CDDL deficiency.  We shouldn't have to introduce an artificial range of values in our spec to work around this.\n\nWhat we put in specs matters.  If we introduce an artificial range of numbers, some developers will write (useless) code to check for them.\n\nThe only range I'm comfortable with, if we're going to introduce one at all, is from the minimum negative integer representable as an IEEE double-precision float without loss of precision to the maximum positive integer representable as an IEEE double-precision float without loss of precision:  -2^53 .. 2^53 - 1.",
+          "createdAt": "2026-01-12T22:49:13Z",
+          "updatedAt": "2026-01-12T22:49:13Z"
+        }
+      ]
+    },
+    {
+      "number": 179,
+      "id": "I_kwDOMm_Q2s7ij1xG",
+      "title": "TO_BE_DECOY requested tag value is taken",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/179",
+      "state": "CLOSED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "has-PR"
+      ],
+      "body": "tag 61 is already assigned. (FYI: @selfissued ) \n\ntag 59 is available and was suggested by @cabo . It has the advantage of being in a range with tag 58 and tag 60. It has the disadvantage of sharing the number of the simple value assignment and so could be confusing.\n\nother options could be tag 62 or tag 88.\n",
+      "createdAt": "2026-01-11T10:00:57Z",
+      "updatedAt": "2026-01-12T22:14:10Z",
+      "closedAt": "2026-01-12T22:14:10Z",
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Lets avoid using the same numbers as other values we have requested (59), lets try to keep integer labels unique in the context of sd-cwt if we can",
+          "createdAt": "2026-01-12T14:08:04Z",
+          "updatedAt": "2026-01-12T14:08:04Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "So let's go for 62 then?",
+          "createdAt": "2026-01-12T14:35:18Z",
+          "updatedAt": "2026-01-12T14:35:18Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "62 works for me.  I'd update the draft and then request the early assignment.",
+          "createdAt": "2026-01-12T14:38:56Z",
+          "updatedAt": "2026-01-12T14:38:56Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "PR #180 now available for review",
+          "createdAt": "2026-01-12T16:31:21Z",
+          "updatedAt": "2026-01-12T16:31:21Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #180 ",
+          "createdAt": "2026-01-12T22:14:10Z",
+          "updatedAt": "2026-01-12T22:14:10Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -15054,31 +15172,33 @@
       "id": "PR_kwDOMm_Q2s67gzDj",
       "title": "Update IANA COSE headers based on discussions with IANA expert",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/176",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Update IANA COSE headers with the following values:\r\n- sd_claims = 17\r\n- sd_alg = 170\r\n- sd_aead_encrypted_claims = 171\r\n- sd_aead = 172\r\n\r\nBoth sd_claims and sd_aead_encrypted_claims are optional in SD-CWT unprotected headers. Change the cardinality so they cannot have empty arrays. The whole header is omitted if it has no content.\r\n\r\n- [ ] update sd-cwt.py\r\n- [ ] regenerate the examples\r\n- [ ] make sure the CDDL compiles\r\n- [ ] make sure the CBOR examples validate with the CDDL\r\n- [ ] make sure the EDN matches the corresponding CBOR\r\n\r\nFYI: @cabo ",
+      "body": "Update IANA COSE headers with the following values:\r\n- sd_claims = 17\r\n- sd_alg = 170\r\n- sd_aead_encrypted_claims = 171\r\n- sd_aead = 172\r\n\r\nBoth sd_claims and sd_aead_encrypted_claims are optional in SD-CWT unprotected headers. Change the cardinality so they cannot have empty arrays. The whole header is omitted if it has no content.\r\n\r\n- [x] update sd-cwt.py\r\n- [x] regenerate the examples\r\n- [x] make sure the CDDL compiles\r\n- [x] make sure the CBOR examples validate with the CDDL\r\n- [x] make sure the EDN matches the corresponding CBOR\r\n- [x] make the CDDL snippets in the draft match the CDDL file in the repo (which is used for the complete CDDL in the Appendix)\r\n\r\nFYI: @cabo ",
       "createdAt": "2026-01-05T11:06:29Z",
-      "updatedAt": "2026-01-08T09:24:24Z",
+      "updatedAt": "2026-01-12T14:23:33Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "4f4a89000276e0c7becce6fa6ff7208833ef757f",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "iana-cose-headers",
-      "headRefOid": "01b162c5ad5380535bfd86e92ffcca08c09e5496",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "9b130b6625e66db34a33c38451778172a98e4151",
+      "closedAt": "2026-01-12T14:23:22Z",
+      "mergedAt": "2026-01-12T14:23:22Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "99bed04a6e0d1caaa5239dcbfe97a850f8d8062e"
+      },
       "comments": [
         {
           "author": "rohanmahy",
           "authorAssociation": "COLLABORATOR",
-          "body": "> (Quick look, need to run some tools tomorrow.)\r\n\r\nI'll regenerate all the examples and validate the CBOR files against the CDDL before I merge",
+          "body": "> (Quick look, need to run some tools tomorrow.)\r\n\r\nI'll regenerate all the examples and validate the CBOR files against the CDDL before I merge\r\n\r\nUPDATE: Done. There was a .size 16 I needed to remove from the CDDL and I corrected some other imperfections while I was under the hood. ",
           "createdAt": "2026-01-06T07:40:11Z",
-          "updatedAt": "2026-01-06T07:40:11Z"
+          "updatedAt": "2026-01-11T08:59:46Z"
         },
         {
           "author": "cabo",
@@ -15114,6 +15234,20 @@
           "body": "59 is free\r\n",
           "createdAt": "2026-01-08T09:24:24Z",
           "updatedAt": "2026-01-08T09:24:24Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> 59 is free\r\n\r\nSince the number 59 is also used as the simple value for a map key with an array of redacted claims, I am hesitant to confuse the readers of the spec the register the same \"non-trivial\" number in two different contexts. I think we will need to ask the WG about this. 62 or 88 would both be fine IMO. ",
+          "createdAt": "2026-01-11T08:58:29Z",
+          "updatedAt": "2026-01-11T08:58:29Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The COSE values are updated. The examples are regenerated and the CDDL validates, EDN compares to the CBOR.\r\n\r\nI think the only remaining thing here is the tag assignment for TO_BE_DECOY, which could be handled in another PR. It does not impact any of the examples generated in the draft (the script needs to be touched and the draft, but the example CBOR/EDN should not change as a result). I've created an issue #179 to that effect.\r\n\r\n@cabo could we merge this please and finalize the early assignments of COSE headers 17, 170, 171, and 172 please?",
+          "createdAt": "2026-01-11T10:01:33Z",
+          "updatedAt": "2026-01-11T10:01:33Z"
         }
       ],
       "reviews": [
@@ -15162,6 +15296,19 @@
           "createdAt": "2026-01-08T04:42:48Z",
           "updatedAt": "2026-01-08T04:42:48Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Zni9C",
+          "commit": {
+            "abbreviatedOid": "9b130b6"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-12T14:22:55Z",
+          "updatedAt": "2026-01-12T14:22:55Z",
+          "comments": []
         }
       ]
     },
@@ -15200,6 +15347,88 @@
         }
       ],
       "reviews": []
+    },
+    {
+      "number": 180,
+      "id": "PR_kwDOMm_Q2s68vUM_",
+      "title": "Add IANA considerations for To Be Decoy tag",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/180",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Add missing IANA considerations for To Be Decoy tag\r\n- requesting value 62, since 61 is taken, per discussion in #179 \r\n- will update draft and then request early assignment\r\n\r\n@cabo",
+      "createdAt": "2026-01-12T16:30:15Z",
+      "updatedAt": "2026-01-12T22:13:41Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "99bed04a6e0d1caaa5239dcbfe97a850f8d8062e",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "tag62",
+      "headRefOid": "1dd6ad8d9a906f493c002442d4f9d638e40f7d62",
+      "closedAt": "2026-01-12T22:13:41Z",
+      "mergedAt": "2026-01-12T22:13:41Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "ea93174f1f3ac56436c954fdb0a489c7af5a0780"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7Zqmc4",
+          "commit": {
+            "abbreviatedOid": "1dd6ad8"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-12T17:11:13Z",
+          "updatedAt": "2026-01-12T17:11:13Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7ZqsKt",
+          "commit": {
+            "abbreviatedOid": "1dd6ad8"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "Apart from not specifying (in the IANA section) what \"unique\" means, this looks fine to me.\r\n\r\n(I'm also not sure that \"unique for each decoy location within the SD-CWT\" actually means what that sentence in #tb-decoy-tag is trying to say; I'll leave that to the native English speakers.)",
+          "createdAt": "2026-01-12T17:17:02Z",
+          "updatedAt": "2026-01-12T17:28:30Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "Unique within what?\r\nProbably not the universe...\r\n",
+              "createdAt": "2026-01-12T17:17:02Z",
+              "updatedAt": "2026-01-12T17:28:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7Zu5S0",
+          "commit": {
+            "abbreviatedOid": "1dd6ad8"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T22:13:14Z",
+          "updatedAt": "2026-01-12T22:13:14Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "unique among all the instances in the document. I tried the sentence with the two phrases swapped and it didn't sound as clear. YMMV?",
+              "createdAt": "2026-01-12T22:13:14Z",
+              "updatedAt": "2026-01-12T22:13:14Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
