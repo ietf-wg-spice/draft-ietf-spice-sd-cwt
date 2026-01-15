@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-13T00:51:50.963884+00:00",
+  "timestamp": "2026-01-15T00:54:00.389230+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3342,20 +3342,19 @@
       "id": "I_kwDOMm_Q2s7gQIW7",
       "title": "Use of null in redacted array elements",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/170",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "OR13"
       ],
       "labels": [
-        "ready-for-pr",
-        "next-stretch"
+        "has-PR"
       ],
       "body": "When an array element is not disclosed, what value MUST be presented in the downstream \"verified claim set\" ?\n\nSuggest null.",
       "createdAt": "2025-12-25T20:07:37Z",
-      "updatedAt": "2026-01-05T14:29:18Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-13T22:23:24Z",
+      "closedAt": "2026-01-13T22:23:24Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -3384,6 +3383,20 @@
           "body": "we talked about this on list, sd-jwt removed elements, does not replace them with nulls... we need to say:\n\nThe verified claimset MUST NOT contain redacted elements, be they decoys or redacted claims.",
           "createdAt": "2026-01-05T14:29:18Z",
           "updatedAt": "2026-01-05T14:29:18Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "please see PR #181 ",
+          "createdAt": "2026-01-13T17:59:06Z",
+          "updatedAt": "2026-01-13T17:59:06Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #181 ",
+          "createdAt": "2026-01-13T22:23:24Z",
+          "updatedAt": "2026-01-13T22:23:24Z"
         }
       ]
     },
@@ -3421,17 +3434,19 @@
       "id": "I_kwDOMm_Q2s7ijrCa",
       "title": "Sensible date ranges for exp/nbf/iat",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/178",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
-      "labels": [],
+      "labels": [
+        "has-PR"
+      ],
       "body": "I was thinking about number ranges in the date fields:\n\n- We already have a rule limiting us to finite dates\n- There is no use to have iat/nbf/exp dates in the past for an SD-CWT. Basically any CWT claims date before the SD-CWT exists makes no sense.\n- Also it doesn't make sense to use a float for a date past 2^53, since the float will be less precise than the corresponding integer types.\n- However most implementations can't handle dates even that large. I couldn't even find a calculator that would convert 9007199254740992 (2^53) into a date. The [largest date Javascript can convert](https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_toutcstring) is 8640000000000 (less than 2^43) = Sat, 13 Sep 275760 00:00:00 GMT. It seems like someone chose the date arbitrarily.\n- Most software is going to have some difficulty if they try to display a date with a year beyond 4 digits.\n\nSo, I propose the following range of dates for the exp/nbf/iat claims in SD-CWT:\n\n```\n; from 22-Aug-2024 00:00:00 until 31-Dec-9999 23:59:59 UTC\nsd-cwt-claim-date = 1724284800..253402300799 / 1724284800.0..253402300799.999\n```\n\notherwise\n\n```\n; from publication of draft-ietf-spice-sd-cwt-00\n; until the largest data JavaScript can display\n; (22-Aug-2024 00:00:00 until 13-Sep-275760 00:00:00 UTC)\nsd-cwt-claim-date = 1724284800..8640000000000 / 1724284800.0..8640000000000.0\n```",
       "createdAt": "2026-01-11T09:15:39Z",
-      "updatedAt": "2026-01-12T22:49:13Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-13T22:23:07Z",
+      "closedAt": "2026-01-13T22:23:06Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -3467,6 +3482,27 @@
           "body": "> we need an actual range of floats to say via CDDL that non-finite values are invalid.\n\nTo me, that sounds like a CDDL deficiency.  We shouldn't have to introduce an artificial range of values in our spec to work around this.\n\nWhat we put in specs matters.  If we introduce an artificial range of numbers, some developers will write (useless) code to check for them.\n\nThe only range I'm comfortable with, if we're going to introduce one at all, is from the minimum negative integer representable as an IEEE double-precision float without loss of precision to the maximum positive integer representable as an IEEE double-precision float without loss of precision:  -2^53 .. 2^53 - 1.",
           "createdAt": "2026-01-12T22:49:13Z",
           "updatedAt": "2026-01-12T22:49:13Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm ok with -2^53..2^53, but with two points:\n- if you don't want your SD-CWT (or CWT) to expire, for the love of all that is good in the world, don't put some random date in the very far future\u2014just don't include an expiration at all.\n- I'd like to make it clear that applications are free to reject credentials with dates that make no sense to the application.",
+          "createdAt": "2026-01-13T13:38:00Z",
+          "updatedAt": "2026-01-13T13:39:19Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> Back to the problem that caused me to write this issue, we already have consensus to reject + and -infinity and NaNs. With the CDDL that we have, we need an actual range of floats to say via CDDL that non-finite values are invalid.\n\nPlease help yourself from https://github.com/cbor-wg/cddl/wiki/Useful-CDDL#number-ranges\n\nfloat-finite = float64-finite\nfloat64-finite = f64-lowest .. f64-max\nf64-lowest = -0x1.fffffffffffffp+1023; approx. -1.7976931348623157e+308\nf64-max = 0x1.fffffffffffffp1023; approx. 1.7976931348623157e+308\n\n(Note that f64-lowest is different from f64-min, which is conventionally the smallest value larger than 0.0)",
+          "createdAt": "2026-01-13T17:39:28Z",
+          "updatedAt": "2026-01-13T17:39:28Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #182 ",
+          "createdAt": "2026-01-13T22:23:06Z",
+          "updatedAt": "2026-01-13T22:23:06Z"
         }
       ]
     },
@@ -3525,6 +3561,25 @@
           "updatedAt": "2026-01-12T22:14:10Z"
         }
       ]
+    },
+    {
+      "number": 184,
+      "id": "I_kwDOMm_Q2s7jJJRV",
+      "title": "Request additional IANA Early allocation for To Be Decoy tag",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/184",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinthomson",
+        "hlflanagan"
+      ],
+      "labels": [],
+      "body": "Request additional IANA Early allocation for To Be Decoy tag\nas discussed in Section 17.3.3",
+      "createdAt": "2026-01-13T22:26:28Z",
+      "updatedAt": "2026-01-13T22:42:31Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -15429,6 +15484,146 @@
           ]
         }
       ]
+    },
+    {
+      "number": 181,
+      "id": "PR_kwDOMm_Q2s68_Mqk",
+      "title": "Issue 170",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/181",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-13T17:57:54Z",
+      "updatedAt": "2026-01-13T21:15:58Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "ea93174f1f3ac56436c954fdb0a489c7af5a0780",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "no-redacted",
+      "headRefOid": "9072a6048f91ae97a50e1789520309e47d045261",
+      "closedAt": "2026-01-13T21:15:58Z",
+      "mergedAt": "2026-01-13T21:15:58Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "6f0dfea5a39a7530c61babb89fa9be2151b4c63b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7Z_ZcS",
+          "commit": {
+            "abbreviatedOid": "9072a60"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-13T18:39:05Z",
+          "updatedAt": "2026-01-13T18:39:05Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 182,
+      "id": "PR_kwDOMm_Q2s68_aHZ",
+      "title": "restrict floating point dates to -2^53..2^53",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/182",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "addresses Issue #178 ",
+      "createdAt": "2026-01-13T18:17:44Z",
+      "updatedAt": "2026-01-14T04:23:16Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "ea93174f1f3ac56436c954fdb0a489c7af5a0780",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue178",
+      "headRefOid": "2ff6933e6d21d51b341203de232ff4b69429aafa",
+      "closedAt": "2026-01-13T21:16:06Z",
+      "mergedAt": "2026-01-13T21:16:05Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "c2533d2402bed2fdf8aa0dde36e6d702e901d50c"
+      },
+      "comments": [
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Worse, if your assumption is that this value is due to constraints on IEEE 754 doubles, the low value is ALSO 2^53-1, because of the way that floating point works. See also `Number.MAX_SAFE_INTEGER` and `Number.MIN_SAFE_INTEGER` in your JavaScript console of choice.",
+          "createdAt": "2026-01-14T00:28:30Z",
+          "updatedAt": "2026-01-14T00:28:30Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The constants in the draft are floating point numbers, not integers.\r\nI just run the JavaScript program:\r\n\r\n\r\n```\r\nconst a = 9007199254740991.0;\r\nconsole.log(a);\r\nconst b = 9007199254740992.0;\r\nconsole.log(b);\r\nconst c = 9007199254740993.0;\r\nconsole.log(c);\r\nconst d = 9007199254740994.0;\r\nconsole.log(d);\r\nconst w = -9007199254740991.0;\r\nconsole.log(w);\r\nconst x = -9007199254740992.0;\r\nconsole.log(x);\r\nconst y = -9007199254740993.0;\r\nconsole.log(y);\r\nconst z = -9007199254740994.0;\r\nconsole.log(z);\r\n```\r\n\r\nThe results\r\n\r\n```\r\n9007199254740991\r\n9007199254740992\r\n9007199254740992\r\n9007199254740994\r\n-9007199254740991\r\n-9007199254740992\r\n-9007199254740992\r\n-9007199254740994\r\n```\r\n\r\nAFAIK this confirms that the values in the draft are correct.\r\nThanks,\r\n-rohan\r\n\r\n\r\nOn Wed, 14 Jan 2026, 01:28 Martin Thomson, ***@***.***> wrote:\r\n\r\n> *martinthomson* left a comment (ietf-wg-spice/draft-ietf-spice-sd-cwt#182)\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/182#issuecomment-3747139478>\r\n>\r\n> Worse, if your assumption is that this value is due to constraints on IEEE\r\n> 754 doubles, the low value is ALSO 2^53-1, because of the way that floating\r\n> point works. See also Number.MAX_SAFE_INTEGER and Number.MIN_SAFE_INTEGER\r\n> in your JavaScript console of choice.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/182#issuecomment-3747139478>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPQKJUGSOMJKUPXDUQD4GWEUHAVCNFSM6AAAAACRSMSFJCVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZTONBXGEZTSNBXHA>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2026-01-14T04:23:16Z",
+          "updatedAt": "2026-01-14T04:23:16Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7Z_Xn-",
+          "commit": {
+            "abbreviatedOid": "2ff6933"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-13T18:36:42Z",
+          "updatedAt": "2026-01-13T18:36:42Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7aDey7",
+          "commit": {
+            "abbreviatedOid": "2ff6933"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Guys - you have an off-by-one error in this PR.  The largest such integer is 2^53-1 = 9007199254740991.  This needs to be corrected.\n\nI would have caught this before it was merged if it weren't created and merged the same day!",
+          "createdAt": "2026-01-13T23:53:55Z",
+          "updatedAt": "2026-01-13T23:53:55Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 183,
+      "id": "PR_kwDOMm_Q2s69CKD7",
+      "title": "Fix conflict with CDDL prelude",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/183",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Fix conflict with CDDL prelude: s/time/secs/ \r\n- add missing items in changelog",
+      "createdAt": "2026-01-13T22:22:26Z",
+      "updatedAt": "2026-01-13T22:22:33Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c2533d2402bed2fdf8aa0dde36e6d702e901d50c",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "fix-time",
+      "headRefOid": "83d989017a0688c7ba962ab6118b523394e983ad",
+      "closedAt": "2026-01-13T22:22:33Z",
+      "mergedAt": "2026-01-13T22:22:33Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "ad53e43a24fa1f50a0cf8e90f92794abe4602e44"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
