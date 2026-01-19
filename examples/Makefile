@@ -1,43 +1,52 @@
-cbor = issuer_cwt.cbor kbt.cbor nested_issuer_cwt.cbor nested_cwt.cbor nested_kbt.cbor decoy.cbor
-edn  = issuer_cwt.edn kbt.edn nested_issuer_cwt.edn nested_cwt.edn nested_kbt.cbor decoy.cbor
-manual-edn = first-disclosure.edn first-redacted.edn chosen-disclosures.edn
-manual-cbor = first-disclosure.cborseq
-primary = $(edn)  first-blinded-hash.txt
+noext = issuer_cwt kbt nested_issuer_cwt nested_cwt nested_kbt decoy
+cbor = $(noext:=.cbor)
+compare-edn = $(cbor:cbor=edn)
+other-edn = first-disclosure first-redacted chosen_disclosures elided-kbt
+direct-edn = $(compare-edn) $(other-edn:=.edn) chosen_nested_disclosures.edn
+other-direct = first-disclosure.cborseq first-blinded-hash.txt
+pygenerated = $(direct-edn) $(cbor) $(other-direct)
 keys = ../holder_privkey.pem ../issuer_privkey.pem
-generated = $(cbor) $(edn) first-blinded-hash.txt
-CDDL_RUBY = /opt/homebrew/opt/ruby/lib/ruby/gems/bin/cddl
+#cddl = #split into sections
+full-cddl = ../sd-cwts.cddl
+
+SED = gsed
+CDDL_RUBY = cddl #/opt/homebrew/opt/ruby/lib/ruby/gems/bin/cddl
 CDDL_RS = "${HOME}/.cargo/bin/cddl"
 
-help:
-	echo 'To rebuild the examples, run:'
-	echo '    python3 sd-cwt.py && make first-disclosure.pretty'
+all: build validate-cbor validate-edn
 
-all: $(primary)
-
-$(primary): sd-cwt.py first-disclosure.pretty $(keys)
+# This construction only runs sd-cwt.py once, but requires make version 4.x
+${pygenerated} &: sd-cwt.py salt_list.csv decoy_list.csv $(keys)
 	python3 sd-cwt.py
 
-# Section 3.2
 first-disclosure.pretty: first-disclosure.cborseq
 	cbor2pretty.rb $< > $@
 	# This sed command replaces the comment after the salt with a comment just say "16-byte salt"
 	# Note: using pipe character as a sed delimiter below
-	gsed -i -r -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
+	${SED} -i -r -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
 
-validate: validate-cddl validate-edn
+#encrypted.edn: enc_disc.py
+#	python3 enc_disc.py
+#	touch encrypted.edn
 
-validate-cddl: ../sd-cwts.cddl $(cbor)
-	$CDDL_RS compile-cddl --cddl ../sd-cwts.cddl
-	for c in $(cbor); do $CDDL_RUBY ../sd-cwts.cddl validate $${c}; done
+.PHONY: build
 
-validate-edn: validate issuer_cwt.edn kbt.edn nested.edn
-	compare_edn_to_cbor.sh issuer_cwt.edn
-	compare_edn_to_cbor.sh kbt.edn
-	compare_edn_to_cbor.sh nested_issuer_cwt.edn
-	compare_edn_to_cbor.sh nested_cwt.edn
-	compare_edn_to_cbor.sh nested_kbt.edn
-	compare_edn_to_cbor.sh decoy.edn
+build: $(pygenerated) first-disclosure.pretty #encrypted.edn
+
+.PHONY: validate-cddl
+validate-cbor: $(full-cddl) $(cbor)
+	${CDDL_RS} compile-cddl --cddl ${full-cddl}
+	for c in $(cbor); do ${CDDL_RUBY} ${full-cddl} validate $${c}; done
+
+validate-progs = compare_edn_to_cbor.sh edn2cbor
+.PHONY: validate-edn
+validate-edn: $(compare-edn) $(cbor) $(validate-progs)
+	for e in ${compare-edn}; do ./compare_edn_to_cbor.sh $${e}; done
 	echo "Manually verify elided-kbt.edn"
+
+.PHONY: clean
+clean:
+	rm *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
 
 
 # Building the SD-CWT draft has the following logical dependencies:
