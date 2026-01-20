@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-18T01:00:29.755630+00:00",
+  "timestamp": "2026-01-20T00:55:10.990701+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3168,7 +3168,7 @@
       "id": "I_kwDOMm_Q2s7XEb-h",
       "title": "Request IANA early allocation for SD-CWT",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/154",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3180,8 +3180,8 @@
       ],
       "body": "Per IETF 124 consensus.\n\n@martinthomson @hlflanagan please email Paul Wooters requesting this.",
       "createdAt": "2025-11-10T14:17:27Z",
-      "updatedAt": "2025-12-17T10:34:56Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-18T17:45:25Z",
+      "closedAt": "2026-01-18T17:45:25Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -3203,6 +3203,13 @@
           "body": "Status update. Early creation of the registry in 17.8 is not possible. Early assignments for all other sections except 17.1 and 17.6 are complete. Assignments in 17.1 may use some values in the 1+1 range instead of the 1+0 range.\n\nSee also PR #169 ",
           "createdAt": "2025-12-17T10:34:55Z",
           "updatedAt": "2025-12-17T10:34:55Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "originally requested allocations completed. Closing. See also #184 ",
+          "createdAt": "2026-01-18T17:45:25Z",
+          "updatedAt": "2026-01-18T17:45:25Z"
         }
       ]
     },
@@ -3574,10 +3581,12 @@
         "martinthomson",
         "hlflanagan"
       ],
-      "labels": [],
-      "body": "Request additional IANA Early allocation for To Be Decoy tag\nas discussed in Section 17.3.3",
+      "labels": [
+        "WIP"
+      ],
+      "body": "Request additional IANA Early allocation for To Be Decoy tag\nas discussed in Section 17.3.3\n\nNo changes expected to the draft.",
       "createdAt": "2026-01-13T22:26:28Z",
-      "updatedAt": "2026-01-13T22:42:31Z",
+      "updatedAt": "2026-01-18T17:46:12Z",
       "closedAt": null,
       "comments": []
     }
@@ -15622,6 +15631,32 @@
       "mergeCommit": {
         "oid": "ad53e43a24fa1f50a0cf8e90f92794abe4602e44"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 185,
+      "id": "PR_kwDOMm_Q2s6-GlqP",
+      "title": "Rewrite Makefile in /examples",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/185",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Makefile in examples now regenerates the correct files and validates them.\r\n\r\nTODO:\r\n\r\n- [ ] split cddl into snippets and concatenate them\r\n- [ ] make enc-disc.py generate encrypted disclosures in draft\r\n- [ ] make this fail if tools aren't installed\r\n- [ ] make main Makefile depend on output of this\r\n- [ ] make cargo tool optional?\r\n- [ ] use correct version of sed\r\n- [ ] test if make is version 4.x\r\n- [ ] does I-D template CI used make version 4.x?",
+      "createdAt": "2026-01-20T00:07:17Z",
+      "updatedAt": "2026-01-20T00:08:07Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "fix-makefile",
+      "headRefOid": "d3e63ce9c8846e94c20097e48f1d45b48d7064ab",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
