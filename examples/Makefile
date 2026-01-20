@@ -28,7 +28,7 @@ endif
 
 # Check for Rust cddl program in ~/.cargo/bin
 ifeq ($(shell command -v "${HOME}/.cargo/bin/cddl" 2>/dev/null),)
-    CDDL_RS := 
+    undefine CDDL_RS
 else
     CDDL_RS := "${HOME}/.cargo/bin/cddl"
 endif
@@ -47,6 +47,8 @@ endif
 #	@echo "Printing system variables..."
 #	@echo "Make version: $(MAKE_VERSION)"
 #	@echo "Sed: ${SED}"
+#	@echo "Rust CDDL tool ${CDDL_RS}"
+
 
 
 all: build validate-cbor validate-edn
@@ -71,7 +73,10 @@ build: $(pygenerated) first-disclosure.pretty #encrypted.edn
 
 .PHONY: validate-cddl
 validate-cbor: $(full-cddl) $(cbor)
+ifdef CDDL_RS
+	# only run the Rust CDDL verification tool if it is installed
 	${CDDL_RS} compile-cddl --cddl ${full-cddl}
+endif
 	for c in $(cbor); do ${CDDL_RUBY} ${full-cddl} validate $${c}; done
 
 validate-progs = compare_edn_to_cbor.sh edn2cbor
