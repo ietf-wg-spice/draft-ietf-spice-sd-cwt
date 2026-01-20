@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 20 June 2026                                       Tradeverifyd
+Expires: 24 July 2026                                       Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                        17 December 2025
+                                                         20 January 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,11 +55,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 June 2026.
+   This Internet-Draft will expire on 24 July 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -96,13 +96,15 @@ Table of Contents
      8.1.  Creating a Key Binding Token
    9.  SD-KBT and SD-CWT Verifier Validation
    10. Decoy Digests
-   11. Encrypted Disclosures
-     11.1.  AEAD Encrypted Disclosures Mechanism
-   12. Credential Types
-   13. Examples
-     13.1.  Minimal Spanning Example
-     13.2.  Nested Example
-   14. To Be Redacted Tag Definition
+   11. Tags Used Before SD-CWT Issuance
+     11.1.  To Be Redacted Tag Definition
+     11.2.  To Be Decoy
+   12. Encrypted Disclosures
+     12.1.  AEAD Encrypted Disclosures Mechanism
+   13. Credential Types
+   14. Examples
+     14.1.  Minimal Spanning Example
+     14.2.  Nested Example
    15. Privacy Considerations
      15.1.  Correlation
      15.2.  Determinism
@@ -127,6 +129,7 @@ Table of Contents
      17.3.  CBOR Tags
        17.3.1.  To Be Redacted Tag
        17.3.2.  Redacted Claim Element Tag
+       17.3.3.  To Be Decoy Tag
      17.4.  CBOR Web Token (CWT) Claims
        17.4.1.  vct
      17.5.  Media Types
@@ -210,8 +213,8 @@ Table of Contents
    understand selective disclosure at all can only act on unblinded
    claims sent by the Holder; it will ignore Blinded Claims representing
    array items, and will fail to process any SD-CWT containing Blinded
-   Claims that represent map keys. optional Claim Keys, whether they are
-   disclosed or not, can only be processed by a Verifier that
+   Claims that represent map keys.  Optional Claim Keys, whether they
+   are disclosed or not, can only be processed by a Verifier that
    understands this specification.  However, Claim Keys and Claim Values
    that are not understood remain ignored, as described in Section 3 of
    [RFC8392].
@@ -483,8 +486,8 @@ Issuer                           Holder                         Verifier
      / CWT protected / << {
        / alg /    1  : -35, / ES384 /
        / kid /    4  : 'https://issuer.example/cose-key3',
-       / typ /    16 : "application/sd-cwt",
-       / sd_alg / 18 : -16  / SHA256 /
+       / typ /    16 : 293, # application/sd-cwt
+       / sd_alg / 170 : -16  / SHA256 /
      } >>,
      / CWT unprotected / {
        / sd_claims / 17 : [ / these are all the disclosures /
@@ -512,7 +515,7 @@ Issuer                           Holder                         Verifier
                /claim/  "postal_code"
            ]>>,
        ]
-     }
+     },
      / CWT payload / << {
        / iss / 1   : "https://issuer.example",
        / sub / 2   : "https://device.example",
@@ -556,12 +559,12 @@ Issuer                           Holder                         Verifier
              bb05c9d8fb61cfc230ddfdfb4616a693'
        ]
      } >>,
-     / CWT signature / h'ed7ff84b27e746199698a94cc19292e4
-                         b72dc4c3eb551f0ef2b9da07980c648c
-                         2bb033c337c6ed13e1bc7c5b7b7c9df9
-                         49a70239f51eca1f6d8e058b8b70bcb3
-                         b5746812a932ffb37a2e6e984957e3f6
-                         b003eb3319fbe21e97f6a3a273307424'
+     / CWT signature / h'536b3797c8f396d6dc4fedfa54fa605f
+                         be897df02267ede5b40b257cba5eb2b3
+                         cbf7d4f5733e0ca2e77783d860b8d74a
+                         2b98878930be6c8e3d1de63df909d484
+                         2a800f9d377fa41e9bd5f72743c06cfb
+                         1e5d59892fac51a806cd4caf6cb30cce'
    ])
 
                 Figure 1: Issued SD-CWT with all disclosures
@@ -626,7 +629,8 @@ Issuer                           Holder                         Verifier
    When the Holder wants to send an SD-CWT and disclose none, some, or
    all of the redacted values, it makes a list of the values to disclose
    and puts them in sd_claims header parameter in the unprotected
-   header.
+   header.  If the Holder does not disclose any claims, it MUST omit the
+   sd_claims header parameter.
 
    For example, Alice decides to disclose to a Verifier the
    inspector_license_number claim (ABCD-123456), the region claim
@@ -671,7 +675,7 @@ Issuer                           Holder                         Verifier
               /  with Holder's choice of disclosures   /
               /  in the SD-CWT unprotected header  *** /,
        / end of issuer SD-CWT /
-       / typ /   16:  "application/kb+cwt",
+       / typ /   16:  294   # application/kb+cwt,
      } >>,     / end of KBT protected header /
      / KBT unprotected / {},
      / KBT payload / << {
@@ -679,10 +683,10 @@ Issuer                           Holder                         Verifier
        / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
        / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
      } >>,      / end of KBT payload /
-     / KBT signature / h'dd49379434b25b03cd8756787ab49731
-                         580a04505439ca78ee53300dd49a00b7
-                         0e8715d015a2a6e8d88455f5850e3d93
-                         eade1366c0040c2cee1cc568322a6b93'
+     / KBT signature / h'67116f888eab35fe82c171db146262c9
+                         922fb3d4fd769641c80569e3c6010f90
+                         251fa2b1dd335bc6bd8314603f57fd03
+                         af7ddb5eb4cce1e59ac07d11dfdce742'
    ])   / end of kbt /
 
    The digests in protected parts of the issued SD-CWT and the
@@ -701,7 +705,9 @@ Issuer                           Holder                         Verifier
    value application/sd-cwt, the uint Constrained Application Protocol
    (CoAP) [RFC7252] content-format value 293, or a value declaring that
    the object is a more specific kind of SD-CWT, such as a content type
-   value using the +sd-cwt structured suffix.
+   value using the +sd-cwt structured suffix.  The Issuer SHOULD use the
+   value 293 instead of application/sd-cwt, as the CBOR representation
+   is considerably smaller (3 bytes versus of 19).
 
    An SD-CWT is a format based on CWT, but it allows some additional
    types in maps to indicate values that were or should be redacted, and
@@ -717,7 +723,7 @@ Issuer                           Holder                         Verifier
    header parameter in the unprotected header of the CWT (the
    disclosures).  If there are no disclosures (and when no Blinded
    Claims Hash is present in the payload) the sd_claims header parameter
-   in the unprotected header is an empty array.
+   is not present in the unprotected header.
 
    Any party with a Salted Disclosed Claim can generate its hash, find
    that hash in the CWT payload, and unblind the content.  However, a
@@ -731,7 +737,7 @@ Issuer                           Holder                         Verifier
    Salted Disclosed Claims of items in an array, the name is omitted.
 
    ; an array of bstr-encoded Salted Disclosed Claims
-   salted-array = [ *bstr-encoded-salted ]
+   salted-array = [ +bstr-encoded-salted ]
 
    bstr-encoded-salted = bstr .cbor salted-entry
    salted-entry = salted-claim / salted-element / decoy
@@ -758,14 +764,22 @@ Issuer                           Holder                         Verifier
    is replaced with the digested salted hash as a CBOR byte string,
    wrapped with the CBOR tag 60.
 
+   ; redacted_claim_keys is used as a map key. The corresponding value is
+   ; an array of Blinded Claim Hashes whose corresponding unblinded map keys
+   ; and values are in the same map.
+   redacted_claim_keys = #7.59  ; CBOR simple value 59
+
+   ; CBOR tag for wrapping a redacted element in an array
+   REDACTED_ELEMENT_TAGNUM = 60
+
    ; redacted_claim_element is used in CDDL payloads that contain
    ; array elements that are meant to be redacted.
-   redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
+   redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
 
    Blinded claims can be nested.  For example, both individual keys in
    the inspection_location claim, and the entire inspection_location
    element can be separately blinded.  An example nested claim is shown
-   in Section 13.2.
+   in Section 14.2.
 
    Finally, an Issuer MAY create decoy digests, which look like blinded
    claim hashes but have only a salt.  Decoy digests are discussed in
@@ -805,6 +819,10 @@ Issuer                           Holder                         Verifier
       infinite numbers.  Neither JSON [RFC8259] nor JWT [RFC7519] can
       represent infinite values.
 
+   As IEEE double-precision floating point numbers smaller than -(2^53)
+   and larger than 2^53 are no longer as precise as CBOR integers, use
+   of floating point values outside this range are FORBIDDEN.
+
 6.3.  Allowed types of CBOR map keys
 
    According to Section 1.1 of the CBOR Web Token Specification
@@ -833,10 +851,10 @@ Issuer                           Holder                         Verifier
    contain the CBOR simple value registered in this specification in
    Section 17.2.  In SD-CWTs exchanged between the Holder and the Issuer
    prior to issuance, map keys MAY also consist of the To Be Redacted
-   tag (defined in Section 14), containing an integer or text string; or
-   a To Be Decoy tag (defined in TBD), containing a positive integer.
-   These two tags provide a way for the Holder to indicate specific
-   claims to be redacted or decoys to be inserted.
+   tag (defined in Section 11.1), containing an integer or text string;
+   or a To Be Decoy tag (defined in Section 11.2), containing a positive
+   integer.  These two tags provide a way for the Holder to indicate
+   specific claims to be redacted or decoys to be inserted.
 
    The following list summarizes the map key constraints on SD-CWTs and
    SD-KBTs:
@@ -871,7 +889,7 @@ Issuer                           Holder                         Verifier
       -  text strings with a length no greater than 255 octets
 
    *  The SD-CWT Claims Maps at any level of depth, exclusively contain
-      maps keys with the following map key types:
+      map keys with the following map key types:
 
       -  unsigned integers;
 
@@ -884,10 +902,10 @@ Issuer                           Holder                         Verifier
       -  when disclosable claims are communicated to the Issuer, prior
          to issuance:
 
-         o  the To Be Decoy tag 61 (TBD) containing a positive integer,
-            or
+         o  the To Be Decoy tag 62 Section 11.2 containing a positive
+            integer, or
 
-         o  the To Be Redacted tag 58 Section 14 containing:
+         o  the To Be Redacted tag 58 Section 11.1 containing:
 
             +  an unsigned integer,
 
@@ -920,10 +938,12 @@ Issuer                           Holder                         Verifier
      safe_map /
      #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-   ; legal values in issued SD-CWT
-   issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-   issued_sd_cwt_label = label / redacted_claim_keys
+   ; legal values in issued SD-CWT
+   issued_sd_cwt_map = {
+       ? redacted_claim_keys ^ => [ * bstr ],
+       * label => issued_sd_cwt_value
+   }
 
    issued_array_element = redacted_claim_element / issued_sd_cwt_value
 
@@ -936,8 +956,8 @@ Issuer                           Holder                         Verifier
 
    ; legal values in claim set sent to Issuer
    preissuance_label = label /
-                       #6.<TO_BE_REDACTED>(label) /
-                       #6.<TO_BE_DECOY>(int .gt 0)
+                       #6.<TO_BE_REDACTED_TAGNUM>(label) /
+                       #6.<TO_BE_DECOY_TAGNUM>(int .gt 0)
 
    preissuance_map = { * preissuance_label => preissuance_value }
 
@@ -947,13 +967,18 @@ Issuer                           Holder                         Verifier
      preissuance_map /
      #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float
 
+   ; CBOR tag number for wrapping to-be-redacted keys or elements
+   TO_BE_REDACTED_TAGNUM = 58
+   ; CBOR tag number for indicating a decoy value is to be inserted here
+   TO_BE_DECOY_TAGNUM = 62
 
    label = int / tstr .size (1..255)
-   safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
-                                            ;     to be redacted,
-                                            ;     and to be decoy
+   safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
+                        TO_BE_DECOY_TAGNUM /
+                        REDACTED_ELEMENT_TAGNUM)
    safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-   MAX_u64 = 18446744073709551615           ; 2^64 - 1
+   secs = int / float53
+   float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 
    Note that Holders presenting to a Verifier that does not support this
    specification would need to present a CWT without tagged map keys or
@@ -976,7 +1001,7 @@ Issuer                           Holder                         Verifier
 
    Likewise, a single SD-CWT claim set MUST NOT contain a map (at any
    level of depth) with both a map key k, and k tagged with the To Be
-   Redacted tag (see Section 14).  Map keys and their To Be Redacted
+   Redacted tag (see Section 11.1).  Map keys and their To Be Redacted
    tagged verison are considered duplicate map keys for the purposes of
    this specification.
 
@@ -995,9 +1020,9 @@ Issuer                           Holder                         Verifier
    of 16 levels), is NOT RECOMMENDED as it could lead to resource
    exhaustion vulnerabilities.
 
-   The individual map key / value pairs in a Claim Set is defined as the
-   "top level", or level 1.  For each value that is an array, a map, or
-   a tagged item, each of the elements of the array, each value
+   The individual map key / value pairs in a Claim Set are defined as
+   the "top level", or level 1.  For each value that is an array, a map,
+   or a tagged item, each of the elements of the array, each value
    corresponding to each map key in the map, and the tagged item are at
    the next level of depth.
 
@@ -1044,10 +1069,10 @@ Issuer                           Holder                         Verifier
    }
 
    The contents of the top-level claims map are level 1.  The contents
-   of the array for map key 504 are level 2.  The contents if the map
+   of the array for map key 504 are level 2.  The contents of the map
    inside that array are level 3 (ex: the value of map key 505).  The
    value of tag 4 is at level 4.  The values in the array inside tag 4
-   is at level 5.
+   are at level 5.
 
 6.6.  Use of Structured Suffixes
 
@@ -1073,12 +1098,13 @@ Issuer                           Holder                         Verifier
    hash the Salted Disclosed Claims.  If no sd_alg header parameter is
    present, the default hash function SHA-256 is used.
 
-   The unprotected header MUST contain the sd_claims header parameter
-   with a Salted Disclosed Claim for every blinded claim hash present
-   anywhere in the payload, and any decoys (see Section 10).  If there
-   are no disclosures, the sd_claims header parameter value is an empty
-   array.  The payload also MUST include a key confirmation element
-   (cnf) [RFC8747] for the Holder's public key.
+   If no Salted Disclosed Claims or Decoys are present, the unprotected
+   header MUST contain the sd_claims header parameter with a Salted
+   Disclosed Claim for every blinded claim hash present anywhere in the
+   payload, and any decoys (see Section 10).  If there are no
+   disclosures, the sd_claims header parameter value is omitted.  The
+   payload also MUST include a key confirmation element (cnf) [RFC8747]
+   for the Holder's public key.
 
    In an SD-CWT, either the subject sub / 2 claim MUST be present, or
    the redacted form of the subject MUST be present.  The iss / 1 claim
@@ -1130,7 +1156,7 @@ Issuer                           Holder                         Verifier
       privacy policies;
 
    *  every blinded claim hash (some of which may be nested as in
-      Section 13.2) has a corresponding Salted Disclosed Claim, and vice
+      Section 14.2) has a corresponding Salted Disclosed Claim, and vice
       versa;
 
    *  the values of the Salted Disclosed Claims when placed in their
@@ -1156,14 +1182,14 @@ Issuer                           Holder                         Verifier
       &(alg: 1) ^ => int,
       ? &(kid: 4) ^ => bstr,
       ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
-      ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
-      ? &(sd_aead: TBD7) ^ => uint .size 2,
+      ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
+      ? &(sd_aead: 172) ^ => uint .size 2,
       * label => safe_value
    }
 
    sd-unprotected = {
-      ? &(sd_claims: TBD1) ^ => salted-array,
-      ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
+      ? &(sd_claims: 17) ^ => salted-array,
+      ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
       * label => safe_value
    }
 
@@ -1172,16 +1198,16 @@ Issuer                           Holder                         Verifier
          &(iss: 1) ^ => tstr, ; "https://issuer.example"
        ? &(sub: 2) ^ => tstr, ; "https://device.example"
        ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => num,  ; 1883000000
-       ? &(nbf: 5) ^ => num,  ; 1683000000
-       ? &(iat: 6) ^ => num,  ; 1683000000
+       ? &(exp: 4) ^ => secs, ; 1883000000
+       ? &(nbf: 5) ^ => secs, ; 1683000000
+       ? &(iat: 6) ^ => secs, ; 1683000000
        ? &(cti: 7) ^ => bstr,
          &(cnf: 8) ^ => safe_map, ; key confirmation
        ? &(vct: 11) ^ => bstr,
        ? &(cnonce: 39) ^ => bstr,
        ;
-       ? &(redacted_claim_keys: redacted_claim_keys) ^ => [ * bstr ],
-       * issued_sd_cwt_label => issued_sd_cwt_value
+       ? redacted_claim_keys ^ => [ * bstr ],
+       * label => issued_sd_cwt_value
    }
 
 8.  SD-CWT Presentation
@@ -1193,7 +1219,8 @@ Issuer                           Holder                         Verifier
    disclose none, some, or all of its blinded claims.  If the Holder
    wishes to disclose any blinded claims, it includes that subset of its
    Salted Disclosed Claims in the sd_claims header parameter of the
-   unprotected header.
+   unprotected header.  If there is nothing to be disclosed, the
+   sd_claims header parameter is omitted.
 
    An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT
    issued to a Holder, except the Holder chooses the subset of
@@ -1227,7 +1254,12 @@ Issuer                           Holder                         Verifier
    The aud claim MUST be included and MUST correspond to the Verifier.
    The SD-KBT payload MUST contain the iat (issued at) claim.  The
    protected header of the SD-KBT MUST include the typ header parameter
-   with the value application/kb+cwt or the uint value of 294.
+   with the value application/kb+cwt or the uint value of 294.  The
+   Holder SHOULD use the value 294 instead of application/kb+cwt, as the
+   CBOR representation is considerably smaller (3 bytes versus of 19).
+
+   The SD-KBT MUST NOT be valid for any time period when its contained
+   SD-CWT is invalid.
 
    The SD-KBT provides the following assurances to the Verifier:
 
@@ -1271,9 +1303,9 @@ Issuer                           Holder                         Verifier
 
    kbt-payload = {
          &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => num,  ; 1883000000
-       ? &(nbf: 5) ^ => num,  ; 1683000000
-         &(iat: 6) ^ => num,  ; 1683000000
+       ? &(exp: 4) ^ => secs, ; 1883000000
+       ? &(nbf: 5) ^ => secs, ; 1683000000
+         &(iat: 6) ^ => secs, ; 1683000000
        ? &(cnonce: 39) ^ => bstr,
        * label => safe_value
    }
@@ -1293,13 +1325,39 @@ Issuer                           Holder                         Verifier
    2.  Next, the Verifier must validate the SD-CWT as described in
        Section 7.2 of [RFC8392].
 
-   3.  The Verifier extracts the confirmation key from the cnf claim in
+   3.  The Verifier checks the time claims in the SD-CWT as follows:
+
+   *  nbf <= iat (if both exist)
+
+   *  nbf < exp (if both exist)
+
+   *  iat < exp (if both exist)
+
+   4.  The Verifier extracts the confirmation key from the cnf claim in
        the SD-CWT payload.
 
-   4.  Using the confirmation key, the Verifier validates the SD-KBT as
+   5.  Using the confirmation key, the Verifier validates the SD-KBT as
        described in Section 7.2 of [RFC8392].
 
-   5.  The Verifier MUST extract and decode the disclosed claims from
+   6.  The Verifier checks the time claims in the SD-KBT as follows:
+
+   *  nbf in the SD-KBT <= iat in the SD-KBT (if both exist)
+
+   *  iat in the SD-KBT < exp in the SD-KBT (if both exist)
+
+   *  exp in the SD-KBT <= exp in the SD-CWT (if both exist)
+
+   *  nbf in the SD-KBT >= nbf in the SD-CWT (if both exist)
+
+   *  iat in the SD-KBT >= iat in the SD-CWT (if both exist)
+
+   *  nbf in the SD-KBT <= exp in the SD-CWT (if both exist)
+
+   *  iat in the SD-KBT < exp in the SD-CWT (if both exist)
+
+   *  iat in the SD-KBT >= nbf in the SD-CWT (if both exist)
+
+   7.  The Verifier MUST extract and decode the disclosed claims from
        the sd_claims header parameter in the unprotected header of the
        SD-CWT.  Each decoded disclosure is treated as if it is a claim
        key or claim element at the location corresponding to its Blinded
@@ -1312,15 +1370,22 @@ Issuer                           Holder                         Verifier
           any order.  When disclosures are nested, a disclosed value
           could appear before the disclosure of its parent.
 
-   6.  A Verifier MUST reject the SD-CWT if the audience claim in either
+   8.  A Verifier MUST reject the SD-CWT if the audience claim in either
        the SD-CWT or the SD-KBT contains a value that does not
        correspond to the intended recipient.
 
-   7.  Otherwise, the SD-CWT is considered valid, and the Validated
-       Disclosed Claims Set is now a CWT Claims Set with no claims
-       marked for redaction.
+   9.  Otherwise, the SD-CWT is considered valid.  Once any remaining
+       redacted elements (either redacted claims or decoys) are deleted,
+       the Validated Disclosed Claims Set is now a CWT Claims Set with
+       no claims marked for redaction.
 
-   8.  Further validation logic can be applied to the Validated
+          Note: Undisclosed Redacted Claim Elements will be removed from
+          the Validated Disclosed Claims Set, changing the length of the
+          array.  If the semantics of the position of items in the array
+          is important, the issuer should instead disclose or redact the
+          entire array.
+
+   10. Further validation logic can be applied to the Validated
        Disclosed Claims Set, just as it might be applied to a validated
        CWT Claims Set.
 
@@ -1352,8 +1417,8 @@ Issuer                           Holder                         Verifier
      / CWT protected / << {
        / alg /    1  : -35, / ES384 /
        / kid /    4  : 'https://issuer.example/cose-key3',
-       / typ /    16 : "application/sd-cwt",
-       / sd_alg / 18 : -16  / SHA256 /
+       / typ /    16 : 293, # application/sd-cwt
+       / sd_alg / 170 : -16  / SHA256 /
      } >>,
      / CWT unprotected / {
        / sd_claims / 17 : [ / these are all the disclosures /
@@ -1373,7 +1438,7 @@ Issuer                           Holder                         Verifier
                /salt/   h'89c41c270dd06cd3517d371c9ddf2bab',
            ]>>,
        ]
-     }
+     },
      / CWT payload / << {
        / iss / 1   : "https://issuer.example",
        / sub / 2   : "https://device.example",
@@ -1407,15 +1472,86 @@ Issuer                           Holder                         Verifier
              b53a1f3d241ab6b60c9f309f114ecf88'
        ]
      } >>,
-     / CWT signature / h'544f015df266feb7af7494b7f170e0aa
-                         d51eecc528ae3a3410118e8fe33b828b
-                         1cb7f75ae98cc1b72d9410bdd401cc48
-                         2688e3f6c6582ae140f04b535c4ede51
-                         a0dd41e10016befa342b86233bd056fd
-                         8a073949d8c02744fb06bdb8a51a980c'
+     / CWT signature / h'fd0b7edae0fa5bd429f07809762a32c5
+                         c160c089091a5c3abbee91710fa388d8
+                         3c1ad6a5a3d219c4265b9f89aef1f511
+                         ff362cbbea6f46bae08978822b672aa5
+                         75cd6fc519394af2a883c394faf16ac1
+                         781afb01f626bdd6fee1205a29dcc203'
    ])
 
-11.  Encrypted Disclosures
+11.  Tags Used Before SD-CWT Issuance
+
+   This section describes the semantics of two CBOR tags that are
+   (optionally) only used to convey information to the Issuer about
+   disclosures to create.
+
+11.1.  To Be Redacted Tag Definition
+
+   In order to indicate specific claims that must be redacted in a Claim
+   Set, this specification defines a new CBOR tag "To Be Redacted".  The
+   tag can be used by a library to automatically convert a Claim Set
+   with "To Be Redacted" tags into a) a new Claim Set containing
+   Redacted Claim Keys and Redacted Claim Elements replacing the tagged
+   claim keys or claim elements, and b) a set of corresponding Salted
+   Disclosed Claims.
+
+   When used on an element in an array, the value to be redacted is
+   present inside the tag.  When used on a map key and value, the tag is
+   placed around the map key, while the map value remains.
+
+   Examples in this draft use the To Be Redacted tag in order to
+   distinguish their pre-issued, post-issued, and post-presented
+   representations in EDN and CDDL.  The snippet of EDN shown below
+   shows one mechanism to communicate to the Issuer to redact the
+   inspector license number claim, and two of the inspection dates in
+   our primary example.
+
+   {
+     ...
+     58(501): "ABCD-123456",   # redact inspector license number claim
+     /inspection dates/ 502: [
+       58(1549560720),         # redact 07-Feb-2019
+       58(1612560720),         # redact 04-Feb-2021
+       1674004740              # don't redact 17-Jan-2023
+     ]
+     ...
+   }
+
+11.2.  To Be Decoy
+
+   In order to indicate a location that should contain a decoy digest
+   Section 10 in the issued SD-CWT, this specification defines a new
+   CBOR tag "To Be Decoy".  This tag can be used by a library to
+   automatically a) add a decoy digest at a particular location in an
+   array, or at a particular level in a map; and b) create the
+   corresponding Salted Disclosed Claims.  The value inside is a
+   positive integer that MUST be unique for each decoy location within
+   the SD-CWT.  The integer could be used to look up the salt for the
+   decoy deterministically, but does not impose any ordering.  When a
+   decoy digest is requested in a map, the map value is always null.
+
+   In the example fragment below, the transit countries claim contains
+   an array of countries.  The Claim Elements array contains Germany
+   (de) and the Philippines (ph).  The Holder wants to redact each
+   country, but add decoys to obfuscate the number of component origin
+   countries.  The example fragment also shows two decoy digests in the
+   same map.
+
+   {
+     ...
+     /component origin countries/ 607: [
+       58("de"),
+       58("ph"),
+       62(1),      # add two decoys in this array
+       62(2)
+     ],
+     62(3): null,  # add a decoy in this map
+     62(4): null,  # add a second decoy in the same map
+     ...
+   }
+
+12.  Encrypted Disclosures
 
    The RATS architecture [RFC9334] defines a model where the Verifier is
    split into separate entities, with an initial verifier called an
@@ -1445,7 +1581,7 @@ Issuer                           Holder                         Verifier
    decrypt encrypted disclosures and MAY decide to forward them to an
    inner Verifier that can decrypt them.
 
-11.1.  AEAD Encrypted Disclosures Mechanism
+12.1.  AEAD Encrypted Disclosures Mechanism
 
    This section defines two new COSE Header Parameters.  If present in
    the protected headers, the first header parameter (sd_aead) specifies
@@ -1454,8 +1590,9 @@ Issuer                           Holder                         Verifier
    (https://www.iana.org/assignments/aead-parameters/aead-
    parameters.xhtml) . (Guidance on specific algorithms is discussed in
    Section 16.8.)  The second header parameter
-   (sd_aead_encrypted_claims) contains a list of AEAD encrypted
-   disclosures.  Taking the first example disclosure from above:
+   (sd_aead_encrypted_claims), if present, contains a non-empty list of
+   AEAD encrypted disclosures.  Taking the first example disclosure from
+   above:
 
            <<[
                /salt/   h'bae611067bb823486797da1ebbb52f83',
@@ -1475,7 +1612,7 @@ Issuer                           Holder                         Verifier
    sd_aead_encrypted_claims header parameter in the unprotected headers
    of the SD-CWT.
 
-   / sd_aead_encrypted_claims / 19 : [ / AEAD encrypted disclosures /
+   / sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
        [
            / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
            / ciphertext / h'208cda279ca86444681503830469b705
@@ -1501,7 +1638,7 @@ Issuer                           Holder                         Verifier
 
    The CDDL for AEAD encrypted disclosures is below.
 
-   aead-encrypted-array = [ *aead-encrypted ]
+   aead-encrypted-array = [ +aead-encrypted ]
    aead-encrypted = [
      bstr .size 16,     ; 128-bit nonce
      bstr,              ; the encryption ciphertext output of a
@@ -1514,7 +1651,7 @@ Issuer                           Holder                         Verifier
       algorithm or the message, without a decryption verification
       failure.
 
-12.  Credential Types
+13.  Credential Types
 
    This specification defines the CWT claim vct (for Verifiable
    Credential Type).  The vct value is an identifier for the type of the
@@ -1538,9 +1675,9 @@ Issuer                           Holder                         Verifier
    to the JOSE-based verifiable credentials claim (vct) described in
    Section 3.2.2.1.1 of [I-D.draft-ietf-oauth-sd-jwt-vc].
 
-13.  Examples
+14.  Examples
 
-13.1.  Minimal Spanning Example
+14.1.  Minimal Spanning Example
 
    The following example contains claims needed to demonstrate redaction
    of key-value pairs and array elements.
@@ -1552,8 +1689,8 @@ Issuer                           Holder                         Verifier
          / CWT protected / << {
            / alg /    1  : -35, / ES384 /
            / kid /    4  : 'https://issuer.example/cose-key3',
-           / typ /    16 : "application/sd-cwt",
-           / sd_alg / 18 : -16  / SHA256 /
+           / typ /    16 : 293, # application/sd-cwt
+           / sd_alg / 170 : -16  / SHA256 /
          } >>,
          / CWT unprotected / {
            / sd_claims / 17 : [ / these are the disclosures /
@@ -1572,7 +1709,7 @@ Issuer                           Holder                         Verifier
                    /claim/  "region"   / region=California /
                ]>>,
            ]
-         }
+         },
          / CWT payload / << {
            / iss / 1   : "https://issuer.example",
            / sub / 2   : "https://device.example",
@@ -1616,15 +1753,15 @@ Issuer                           Holder                         Verifier
                  bb05c9d8fb61cfc230ddfdfb4616a693'
            ]
          } >>,
-         / CWT signature / h'ed7ff84b27e746199698a94cc19292e4
-                             b72dc4c3eb551f0ef2b9da07980c648c
-                             2bb033c337c6ed13e1bc7c5b7b7c9df9
-                             49a70239f51eca1f6d8e058b8b70bcb3
-                             b5746812a932ffb37a2e6e984957e3f6
-                             b003eb3319fbe21e97f6a3a273307424'
+         / CWT signature / h'536b3797c8f396d6dc4fedfa54fa605f
+                             be897df02267ede5b40b257cba5eb2b3
+                             cbf7d4f5733e0ca2e77783d860b8d74a
+                             2b98878930be6c8e3d1de63df909d484
+                             2a800f9d377fa41e9bd5f72743c06cfb
+                             1e5d59892fac51a806cd4caf6cb30cce'
        ]),
        / end of issuer SD-CWT /
-       / typ /   16:  "application/kb+cwt",
+       / typ /   16:  294   # application/kb+cwt,
      } >>,     / end of KBT protected header /
      / KBT unprotected / {},
      / KBT payload / << {
@@ -1632,15 +1769,15 @@ Issuer                           Holder                         Verifier
        / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
        / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
      } >>,      / end of KBT payload /
-     / KBT signature / h'dd49379434b25b03cd8756787ab49731
-                         580a04505439ca78ee53300dd49a00b7
-                         0e8715d015a2a6e8d88455f5850e3d93
-                         eade1366c0040c2cee1cc568322a6b93'
+     / KBT signature / h'67116f888eab35fe82c171db146262c9
+                         922fb3d4fd769641c80569e3c6010f90
+                         251fa2b1dd335bc6bd8314603f57fd03
+                         af7ddb5eb4cce1e59ac07d11dfdce742'
    ])   / end of kbt /
 
                           Figure 6: An EDN Example
 
-13.2.  Nested Example
+14.2.  Nested Example
 
    Instead of the structure from the previous example, imagine that the
    payload contains an inspection history log with the following
@@ -1807,16 +1944,6 @@ Issuer                           Holder                         Verifier
            }
        ]
    }
-
-14.  To Be Redacted Tag Definition
-
-   In order to indicate specific claims that should be redacted in a
-   Claim Set, this specification defines a new CBOR tag "To be
-   redacted".  It can be used by a library to automatically convert a
-   Claim Set with "To be redacted" tags into a) a new Claim Set
-   containing Redacted Claim Keys and Redacted Claim Elements replacing
-   the tagged claim keys or claim elements, and b) a set of
-   corresponding Salted Disclosed Claims.
 
 15.  Privacy Considerations
 
@@ -2079,6 +2206,13 @@ Issuer                           Holder                         Verifier
    corresponds to the Issuer and the key described in the protected
    header of the SD-CWT.
 
+   Finally, the Verifier MUST verify that the time claims in both the
+   SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not
+   valid for any period of time when the SD-CWT is not.  Specific tests
+   for time claims are described in steps 3 and 6 of Section 9.
+   Likewise, if there is a notion of SD-CWT revocation, an SD-KBT
+   containing a revoked SD-CWT is not valid.
+
 16.6.  Covert Channels
 
    Any data element that is supplied by the Issuer, and that appears
@@ -2100,7 +2234,7 @@ Issuer                           Holder                         Verifier
 
 16.8.  Choice of AEAD algorithms
 
-   The AEAD encrypted disclosures mechanism discussed in Section 11.1
+   The AEAD encrypted disclosures mechanism discussed in Section 12.1
    can refer to any AEAD alogithm in the IANA AEAD Algorithms registry
    (https://www.iana.org/assignments/aead-parameters/aead-
    parameters.xhtml) .
@@ -2132,9 +2266,9 @@ Issuer                           Holder                         Verifier
 
    *  Name: sd_claims
 
-   *  Label: TBD1 (requested assignment 17)
+   *  Label: 17
 
-   *  Value Type: [ *bstr ]
+   *  Value Type: [ +bstr ]
 
    *  Value Registry: (empty)
 
@@ -2151,7 +2285,7 @@ Issuer                           Holder                         Verifier
 
    *  Name: sd_alg
 
-   *  Label: TBD2 (requested assignment 18)
+   *  Label: 170
 
    *  Value Type: int
 
@@ -2168,9 +2302,9 @@ Issuer                           Holder                         Verifier
 
    *  Name: sd_aead_encrypted_claims
 
-   *  Label: TBD6 (requested assignment 19)
+   *  Label: 171
 
-   *  Value Type: [ *bstr ]
+   *  Value Type: [ +[bstr,bstr,bstr] ]
 
    *  Value Registry: (empty)
 
@@ -2178,7 +2312,7 @@ Issuer                           Holder                         Verifier
       claims, which were originally redacted, then later disclosed at
       the discretion of the sender.
 
-   *  Reference: Section 11.1 of this specification
+   *  Reference: Section 12.1 of this specification
 
 17.1.4.  sd_aead
 
@@ -2187,15 +2321,15 @@ Issuer                           Holder                         Verifier
 
    *  Name: sd_aead
 
-   *  Label: TBD7 (requested assignment 20)
+   *  Label: 172
 
-   *  Value Type: uint16
+   *  Value Type: uint .size 2
 
    *  Value Registry: IANA AEAD Algorithm number
 
    *  Description: The AEAD algorithm used for encrypting disclosures.
 
-   *  Reference: Section 11.1 of this specification
+   *  Reference: Section 12.1 of this specification
 
 17.2.  CBOR Simple Values
 
@@ -2229,7 +2363,7 @@ Issuer                           Holder                         Verifier
    *  Semantics: An array claim element intended to be redacted, or a
       map key whose key and value are intended to be redacted.
 
-   *  Specification Document(s): Section 14 of this specification
+   *  Specification Document(s): Section 11.1 of this specification
 
 17.3.2.  Redacted Claim Element Tag
 
@@ -2243,6 +2377,20 @@ Issuer                           Holder                         Verifier
    *  Semantics: A selective disclosure redacted (array) claim element.
 
    *  Specification Document(s): Section 5.1 of this specification
+
+17.3.3.  To Be Decoy Tag
+
+   The positive integer inside the tag is a unique number to indicate a
+   specific decoy instance among all the instances in the document.
+
+   *  Tag: 62 (requested)
+
+   *  Data Item: uint .gt 0
+
+   *  Semantics: A marker of a location in a map or an array where a
+      decoy is intended to be inserted.
+
+   *  Specification Document(s): Section 11.2 of this specification
 
 17.4.  CBOR Web Token (CWT) Claims
 
@@ -2267,7 +2415,7 @@ Issuer                           Holder                         Verifier
 
    *  Change Controller: IETF
 
-   *  Specification Document(s): Section 12 of this specification
+   *  Specification Document(s): Section 13 of this specification
 
 17.5.  Media Types
 
@@ -2687,8 +2835,8 @@ Appendix A.  Complete CDDL Schema
       &(alg: 1) ^ => int,
       ? &(kid: 4) ^ => bstr,
       ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
-      ? &(sd_alg: TBD2) ^ => int,        ; -16 for sha-256
-      ? &(sd_aead: TBD7) ^ => uint .size 2,
+      ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
+      ? &(sd_aead: 172) ^ => uint .size 2,
       * label => safe_value
    }
 
@@ -2700,8 +2848,8 @@ Appendix A.  Complete CDDL Schema
    }
 
    sd-unprotected = {
-      ? &(sd_claims: TBD1) ^ => salted-array,
-      ? &(sd_aead_encrypted_claims: TBD6) ^ => aead-encrypted-array,
+      ? &(sd_claims: 17) ^ => salted-array,
+      ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
       * label => safe_value
    }
 
@@ -2714,28 +2862,28 @@ Appendix A.  Complete CDDL Schema
          &(iss: 1) ^ => tstr, ; "https://issuer.example"
        ? &(sub: 2) ^ => tstr, ; "https://device.example"
        ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => num,  ; 1883000000
-       ? &(nbf: 5) ^ => num,  ; 1683000000
-       ? &(iat: 6) ^ => num,  ; 1683000000
+       ? &(exp: 4) ^ => secs, ; 1883000000
+       ? &(nbf: 5) ^ => secs, ; 1683000000
+       ? &(iat: 6) ^ => secs, ; 1683000000
        ? &(cti: 7) ^ => bstr,
          &(cnf: 8) ^ => safe_map, ; key confirmation
        ? &(vct: 11) ^ => bstr,
        ? &(cnonce: 39) ^ => bstr,
        ;
-       ? &(redacted_claim_keys: redacted_claim_keys) ^ => [ * bstr ],
-       * issued_sd_cwt_label => issued_sd_cwt_value
+       ? redacted_claim_keys ^ => [ * bstr ],
+       * label => issued_sd_cwt_value
    }
 
    kbt-payload = {
          &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => num,  ; 1883000000
-       ? &(nbf: 5) ^ => num,  ; 1683000000
-         &(iat: 6) ^ => num,  ; 1683000000
+       ? &(exp: 4) ^ => secs,  ; 1883000000
+       ? &(nbf: 5) ^ => secs,  ; 1683000000
+         &(iat: 6) ^ => secs,  ; 1683000000
        ? &(cnonce: 39) ^ => bstr,
        * label => safe_value
    }
 
-   ; CWT legal values only
+   ; CWT claim legal values only
    safe_map = { * label => safe_value }
 
    safe_value =
@@ -2744,10 +2892,12 @@ Appendix A.  Complete CDDL Schema
      safe_map /
      #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
 
-   ; legal values in issued SD-CWT
-   issued_sd_cwt_map = { * issued_sd_cwt_label => issued_sd_cwt_value }
 
-   issued_sd_cwt_label = label / redacted_claim_keys
+   ; legal values in issued SD-CWT
+   issued_sd_cwt_map = {
+       ? redacted_claim_keys ^ => [ * bstr ],
+       * label => issued_sd_cwt_value
+   }
 
    issued_array_element = redacted_claim_element / issued_sd_cwt_value
 
@@ -2760,8 +2910,8 @@ Appendix A.  Complete CDDL Schema
 
    ; legal values in claim set sent to Issuer
    preissuance_label = label /
-                       #6.<TO_BE_REDACTED>(label) /
-                       #6.<TO_BE_DECOY>(int .gt 0)
+                       #6.<TO_BE_REDACTED_TAGNUM>(label) /
+                       #6.<TO_BE_DECOY_TAGNUM>(int .gt 0)
 
    preissuance_map = { * preissuance_label => preissuance_value }
 
@@ -2773,31 +2923,30 @@ Appendix A.  Complete CDDL Schema
 
 
    label = int / tstr .size (1..255)
-   safe_tag = 1..57 / 59 / 62..MAX_u64      ; exclude redacted element,
-                                            ;     to be redacted,
-                                            ;     and to be decoy
+   safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
+                        TO_BE_DECOY_TAGNUM /
+                        REDACTED_ELEMENT_TAGNUM)
    safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-   MAX_u64 = 18446744073709551615           ; 2^64 - 1
-   num = int / float
+   secs = int / float53
+   float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 
-
-   salted-array = [ *bstr-encoded-salted ]
+   salted-array = [ +bstr-encoded-salted ]
    bstr-encoded-salted = bstr .cbor salted-entry
    salted-entry = salted-claim / salted-element / decoy
    salted-claim = [
      bstr .size 16,     ; 128-bit salt
-     any,               ; claim value
-     (int / text)       ; claim name
+     any,               ; Claim Value
+     (int / text)       ; Claim Key
    ]
    salted-element = [
      bstr .size 16,     ; 128-bit salt
-     any                ; claim value
+     any                ; Claim Value
    ]
    decoy = [
      bstr .size 16      ; 128-bit salt
    ]
 
-   aead-encrypted-array = [ *aead-encrypted ]
+   aead-encrypted-array = [ +aead-encrypted ]
    aead-encrypted = [
      bstr .size 16,     ; 128-bit nonce
      bstr,              ; the encryption ciphertext output of a
@@ -2805,22 +2954,21 @@ Appendix A.  Complete CDDL Schema
      bstr               ; the corresponding authentication tag
    ]
 
-   TBD1 = 17
-   TBD2 = 18
-   TBD6 = 19
-   TBD7 = 20
-
-   TO_BE_REDACTED = 58  ; CBOR tag wrapping to-be-redacted keys or elements
-   TO_BE_DECOY = 61     ; CBOR tag indicating a decoy value to be inserted
+   ; CBOR tag number for wrapping to-be-redacted keys or elements
+   TO_BE_REDACTED_TAGNUM = 58
+   ; CBOR tag number for indicating a decoy value is to be inserted here
+   TO_BE_DECOY_TAGNUM = 62
+   ; CBOR tag for wrapping a redacted element in an array
+   REDACTED_ELEMENT_TAGNUM = 60
 
    ; redacted_claim_keys is used as a map key. The corresponding value is
    ; an array of Blinded Claim Hashes whose corresponding unblinded map keys
    ; and values are in the same map.
-   redacted_claim_keys = #7.59  ; for CBOR simple value 59
+   redacted_claim_keys = #7.59  ; CBOR simple value 59
 
    ; redacted_claim_element is used in CDDL payloads that contain
    ; array elements that are meant to be redacted.
-   redacted_claim_element = #6.60( bstr .size 16 ) ; tag 60
+   redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
 
               Figure 7: A complete CDDL description of SD-CWT
 
@@ -3415,7 +3563,53 @@ Appendix G.  Document History
 
 G.1.  draft-ietf-spice-sd-cwt-06
 
-   *  Addressed early IANA feedback about the escalation process.
+   *  Refactored deterministic draft generation code (PR#152).
+
+   *  Added pointer to a Python implementation (PR#155).
+
+   *  Added decoy digests (PR#157).
+
+   *  Addressed early IANA feedback about the escalation process
+      (PR#160).
+
+   *  Used the CoAP Content Type in the examples instead of the text
+      strings "application/sd-cwt" and "application/kb+cwt" (PR#162).
+
+   *  Added a section on specific CBOR encoding and data model
+      considerations (PR#163).
+
+   *  Swapped the order of Sections 5 and 6 (PR#167).
+
+   *  Split the CDDL definitions for payload maps in Issued CWT and pre-
+      issued (PR#168).
+
+   *  Used the IANA early assigned values in the draft (PR#169).
+
+   *  Defined the To Be Decoy tag (PR#171).
+
+   *  Made use of the CoAP Content Type a SHOULD (PR#172).
+
+   *  Made the draft generation code agnostic to hash algorithm (PR#173)
+
+   *  Added time claim verification rules and security considerations
+      (PR#175)
+
+   *  Instead of an empty array, sd_claims is now omitted if empty
+      (PR#176)
+
+   *  Update the COSE header values to use their newly assigned values
+      (also PR#176)
+
+   *  Fix some kramdown-xml bracket errors (PR#177)
+
+   *  Add IANA Considerations for To Be Decoy tag (PR#180)
+
+   *  Clarify that remaining redacted claims are removed in validated
+      claim set (PR#181)
+
+   *  Restrict floating point dates to -2^53 to 2^53 (PR#182)
+
+   *  Rename CDDL production using a standard prelude name (PR#183)
 
 G.2.  draft-ietf-spice-sd-cwt-05
 
