@@ -9,9 +9,45 @@ keys = ../holder_privkey.pem ../issuer_privkey.pem
 #cddl = #split into sections
 full-cddl = ../sd-cwts.cddl
 
-SED = gsed
-CDDL_RUBY = cddl #/opt/homebrew/opt/ruby/lib/ruby/gems/bin/cddl
-CDDL_RS = "${HOME}/.cargo/bin/cddl"
+# Check make version (must be 4.0 or higher)
+ifeq ($(filter 4.%,$(MAKE_VERSION)),)
+    $(error This Makefile requires GNU Make 4.0 or higher. Current version: $(MAKE_VERSION))
+endif
+
+# Check for Ruby cddl program in PATH
+ifeq ($(shell command -v cddl 2>/dev/null),)
+    $(error Required program 'cddl' not found in PATH)
+else
+    CDDL_RUBY := cddl
+endif
+
+# Check for Ruby cbor2pretty.rb program in PATH
+ifeq ($(shell command -v cbor2pretty.rb 2>/dev/null),)
+    $(error Required program 'cbor2pretty.rb' not found in PATH)
+endif
+
+# Check for Rust cddl program in ~/.cargo/bin
+ifeq ($(shell command -v "${HOME}/.cargo/bin/cddl" 2>/dev/null),)
+    CDDL_RS := 
+else
+    CDDL_RS := "${HOME}/.cargo/bin/cddl"
+endif
+
+# Check for GNU sed and set SED variable
+ifeq ($(shell sed --version >/dev/null 2>&1 && echo yes),yes)
+    SED := sed
+else ifeq ($(shell command -v gsed 2>/dev/null),)
+    $(error GNU sed must be installed. Install 'sed' (GNU version) or 'gsed')
+else
+    SED := gsed
+endif
+
+#.PHONY: vars
+#vars:
+#	@echo "Printing system variables..."
+#	@echo "Make version: $(MAKE_VERSION)"
+#	@echo "Sed: ${SED}"
+
 
 all: build validate-cbor validate-edn
 
