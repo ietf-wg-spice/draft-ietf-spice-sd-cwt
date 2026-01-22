@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-20T00:55:10.990701+00:00",
+  "timestamp": "2026-01-22T00:55:57.919008+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -15644,15 +15644,15 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Makefile in examples now regenerates the correct files and validates them.\r\n\r\nTODO:\r\n\r\n- [ ] split cddl into snippets and concatenate them\r\n- [ ] make enc-disc.py generate encrypted disclosures in draft\r\n- [ ] make this fail if tools aren't installed\r\n- [ ] make main Makefile depend on output of this\r\n- [ ] make cargo tool optional?\r\n- [ ] use correct version of sed\r\n- [ ] test if make is version 4.x\r\n- [ ] does I-D template CI used make version 4.x?",
+      "body": "Makefile in examples now regenerates the correct files and validates them.\r\n\r\nTODO:\r\n\r\n- [ ] split cddl into snippets and concatenate them\r\n- [ ] make enc-disc.py generate encrypted disclosures in draft\r\n- [x] make this fail if tools aren't installed\r\n- [ ] make main Makefile depend on output of this\r\n- [x] make cargo tool optional?\r\n- [x] use correct version of sed\r\n- [x] test if make is version 4.x\r\n- [x] does I-D template CI used make version 4.x?",
       "createdAt": "2026-01-20T00:07:17Z",
-      "updatedAt": "2026-01-20T00:08:07Z",
+      "updatedAt": "2026-01-20T13:00:41Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "fix-makefile",
-      "headRefOid": "d3e63ce9c8846e94c20097e48f1d45b48d7064ab",
+      "headRefOid": "024af57b270cf96d4b7cfdd5fa811130bbdf07bc",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
