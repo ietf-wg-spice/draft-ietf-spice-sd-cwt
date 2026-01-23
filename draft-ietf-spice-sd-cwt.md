@@ -1353,6 +1353,7 @@ Holders face risks of being coerced into disclosing more claims than necessary. 
 3. Irreversibility: Disclosed claims cannot be withdrawn. This permanent exposure risk MUST be considered in any disclosure decision.
 
 Mitigation Measures:
+
 1. Verifiers SHOULD demonstrate eligibility to receive claims
 2. Holders MUST conduct risk assessments when Verifier eligibility cannot be established
 3. Trust lists maintained by trusted parties can help identify authorized Verifiers
@@ -1378,7 +1379,6 @@ The following non-exhaustive list of questions and considerations should guide t
     6. Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
 
 3. Holder questions:
-
     0. What steps has the Holder taken to improve their operation security regarding presenting credentials to verifiers?
     1. How can the Holder be convinced the Verifier that received presentations is legitimate?
     2. How can the Holder be convinced the Verifier will not share, sell, leak, or otherwise disclose the Holder's presentations or Issuer or Holder signed material?
