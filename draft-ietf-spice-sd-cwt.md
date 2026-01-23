@@ -1335,6 +1335,7 @@ Beyond key compromise, attacks targeting the provisioning and binding between is
 An attacker who can manipulate these bindings could substitute their own keys for legitimate issuer keys, enabling credential forgery while appearing to be a trusted issuer.
 
 Certificate transparency, as described in {{-CT}}, or key transparency, as described in {{-KT}}, can help detect and prevent such attacks by:
+
 - Enabling public observation of all issued certificates or key bindings
 - Detecting unauthorized or fraudulent bindings between verification keys and Issuer identifiers
 - Providing cryptographic proof of inclusion for legitimate keys
