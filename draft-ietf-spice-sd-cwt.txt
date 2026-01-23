@@ -2064,7 +2064,7 @@ Issuer                           Holder                         Verifier
 
 16.2.  Disclosure Coercion and Over-identification
 
-   The Security Considerations from Section 10.2. of
+   The Security Considerations from Section 10.2 of
    [I-D.draft-ietf-oauth-selective-disclosure-jwt] apply, with
    additional attention to disclosure coercion risks.  Holders face
    risks of being coerced into disclosing more claims than necessary.
