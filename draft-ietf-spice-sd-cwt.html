@@ -30,7 +30,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
-    wcwidth 0.2.14
+    wcwidth 0.3.0
 -->
 <link href="draft-ietf-spice-sd-cwt.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -571,6 +571,7 @@ aside, blockquote {
 }
 blockquote {
   margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
 }
 cite {
   display: block;
@@ -641,7 +642,7 @@ a.pilcrow {
   }
 }
 @media not print {
-  :hover > a.pilcrow {
+  :hover > a.pilcrow, a.pilcrow:focus {
     opacity: 1;
   }
   a.pilcrow[href]:hover {
@@ -1053,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 17 July 2026</td>
+<td class="center">Expires 27 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-13" class="published">13 January 2026</time>
+<time datetime="2026-01-23" class="published">23 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-17">17 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-27">27 July 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1134,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 17 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 27 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -3477,9 +3478,12 @@ Many of the topics discussed in <span>[<a href="#RFC6973" class="cite xref">RFC6
 <a href="#section-15.1" class="section-number selfRef">15.1. </a><a href="#name-correlation" class="section-name selfRef">Correlation</a>
         </h3>
 <p id="section-15.1-1">Presentations of the same SD-CWT to multiple Verifiers can be correlated by matching on the signature component of the COSE_Sign1.
-Signature based linkability can be mitigated by leveraging batch issuance of single-use tokens, at a credential management complexity cost.
-Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.
-For example, a high precision issuance time might match the issuance of only a few credentials for a given Issuer, and as such, any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.<a href="#section-15.1-1" class="pilcrow">¶</a></p>
+That is, SD-CWT does not naturally provide Verifier-Verifier unlinkability.
+Signature based linkability can be mitigated by issuing multiple single-use tokens, at a credential management complexity cost.<a href="#section-15.1-1" class="pilcrow">¶</a></p>
+<p id="section-15.1-2">Any presentation of an SD-CWT can be correlated with its issuance if an Issuer and Verifier cooperate.
+That is, SD-CWT cannot provide Verifier-Issuer unlinkability.<a href="#section-15.1-2" class="pilcrow">¶</a></p>
+<p id="section-15.1-3">Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.
+For example, a high precision issuance time might match the issuance of only a few credentials for a given Issuer, and as such, any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.<a href="#section-15.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="determinism">
