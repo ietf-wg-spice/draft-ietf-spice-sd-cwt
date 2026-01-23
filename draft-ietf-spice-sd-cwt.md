@@ -1299,18 +1299,21 @@ The privacy implications of selective disclosure vary significantly across diffe
 The mandatory and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.
 
 For example, a passport credential contains highly sensitive personal information where even partial disclosure can have significant privacy implications:
+
 - Revealing citizenship status may expose an individual to discrimination
 - Date of birth combined with any other attribute enables age-based profiling
 - Biometric data, even if selectively disclosed, presents irreversible privacy risks
 - The mere possession of a passport from certain countries can be sensitive information
 
 In contrast, a legal entity certificate has fundamentally different privacy considerations:
+
 - The entity's legal name and registration number are often public information
 - Business addresses and contact details may already be in public registries
 - Authorized signatories' names might be required for legal validity
 - The primary concern is often business confidentiality rather than personal privacy
 
 These differences mean that:
+
 - Passport credentials should minimize mandatory disclosures and maximize holder control over optional elements
 - Legal entity certificates might reasonably require disclosure of more fields to establish business legitimacy
 - The granularity of selective disclosure should match the credential type's privacy sensitivity
@@ -1318,6 +1321,7 @@ These differences mean that:
 
 Several distinct credential types might be applicable to a given use case, each with unique privacy trade-offs.
 Issuers MUST perform a comprehensive privacy and confidentiality assessment for each credential type they intend to issue, considering:
+
 - The sensitivity spectrum of contained attributes
 - Likely disclosure scenarios and their privacy impacts
 - Correlation risks when attributes are combined
@@ -1336,6 +1340,7 @@ Beyond key compromise, attacks targeting the provisioning and binding between is
 An attacker who can manipulate these bindings could substitute their own keys for legitimate issuer keys, enabling credential forgery while appearing to be a trusted issuer.
 
 Certificate transparency, as described in {{-CT}}, or key transparency, as described in {{-KT}}, can help detect and prevent such attacks by:
+
 - Enabling public observation of all issued certificates or key bindings
 - Detecting unauthorized or fraudulent bindings between verification keys and Issuer identifiers
 - Providing cryptographic proof of inclusion for legitimate keys
@@ -1353,6 +1358,7 @@ Holders face risks of being coerced into disclosing more claims than necessary. 
 3. Irreversibility: Disclosed claims cannot be withdrawn. This permanent exposure risk MUST be considered in any disclosure decision.
 
 Mitigation Measures:
+
 1. Verifiers SHOULD demonstrate eligibility to receive claims
 2. Holders MUST conduct risk assessments when Verifier eligibility cannot be established
 3. Trust lists maintained by trusted parties can help identify authorized Verifiers
@@ -1378,7 +1384,6 @@ The following non-exhaustive list of questions and considerations should guide t
     6. Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
 
 3. Holder questions:
-
     0. What steps has the Holder taken to improve their operation security regarding presenting credentials to verifiers?
     1. How can the Holder be convinced the Verifier that received presentations is legitimate?
     2. How can the Holder be convinced the Verifier will not share, sell, leak, or otherwise disclose the Holder's presentations or Issuer or Holder signed material?
