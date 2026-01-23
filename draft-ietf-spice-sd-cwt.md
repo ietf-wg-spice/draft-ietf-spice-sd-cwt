@@ -1273,7 +1273,12 @@ Many of the topics discussed in {{RFC6973}} apply to SD-CWT, but are not repeate
 ## Correlation
 
 Presentations of the same SD-CWT to multiple Verifiers can be correlated by matching on the signature component of the COSE_Sign1.
-Signature based linkability can be mitigated by leveraging batch issuance of single-use tokens, at a credential management complexity cost.
+That is, SD-CWT does not naturally provide Verifier-Verifier unlinkability.
+Signature based linkability can be mitigated by issuing multiple single-use tokens, at a credential management complexity cost.
+
+Any presentation of an SD-CWT can be correlated with its issuance if an Issuer and Verifier cooperate.
+That is, SD-CWT cannot provide Verifier-Issuer unlinkability.
+
 Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.
 For example, a high precision issuance time might match the issuance of only a few credentials for a given Issuer, and as such, any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
 
