@@ -1345,7 +1345,7 @@ Verifiers SHOULD leverage transparency mechanisms where available to validate th
 
 ## Disclosure Coercion and Over-identification {#disclosure-coercion}
 
-The Security Considerations from {{Section 10.2. of -SD-JWT}} apply, with additional attention to disclosure coercion risks.
+The Security Considerations from {{Section 10.2 of -SD-JWT}} apply, with additional attention to disclosure coercion risks.
 Holders face risks of being coerced into disclosing more claims than necessary. This threat warrants special attention because:
 
 1. Verifier Trust: Holders MUST be able to verify that a Verifier will handle disclosed claims appropriately and only for stated purposes.
