@@ -3512,28 +3512,70 @@ SD-CWTs with audience claims that do not correspond to the intended recipients <
         </h3>
 <p id="section-15.4-1">The privacy implications of selective disclosure vary significantly across different credential types due to their inherent characteristics and intended use cases.
 The mandatory and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.<a href="#section-15.4-1" class="pilcrow">¶</a></p>
-<p id="section-15.4-2">For example, a passport credential contains highly sensitive personal information where even partial disclosure can have significant privacy implications:
-- Revealing citizenship status may expose an individual to discrimination
-- Date of birth combined with any other attribute enables age-based profiling
-- Biometric data, even if selectively disclosed, presents irreversible privacy risks
-- The mere possession of a passport from certain countries can be sensitive information<a href="#section-15.4-2" class="pilcrow">¶</a></p>
-<p id="section-15.4-3">In contrast, a legal entity certificate has fundamentally different privacy considerations:
-- The entity's legal name and registration number are often public information
-- Business addresses and contact details may already be in public registries
-- Authorized signatories' names might be required for legal validity
-- The primary concern is often business confidentiality rather than personal privacy<a href="#section-15.4-3" class="pilcrow">¶</a></p>
-<p id="section-15.4-4">These differences mean that:
-- Passport credentials should minimize mandatory disclosures and maximize holder control over optional elements
-- Legal entity certificates might reasonably require disclosure of more fields to establish business legitimacy
-- The granularity of selective disclosure should match the credential type's privacy sensitivity
-- Default disclosure sets must be carefully calibrated to each credential's risk profile<a href="#section-15.4-4" class="pilcrow">¶</a></p>
-<p id="section-15.4-5">Several distinct credential types might be applicable to a given use case, each with unique privacy trade-offs.
-Issuers <span class="bcp14">MUST</span> perform a comprehensive privacy and confidentiality assessment for each credential type they intend to issue, considering:
-- The sensitivity spectrum of contained attributes
-- Likely disclosure scenarios and their privacy impacts
-- Correlation risks when attributes are combined
-- Long-term privacy implications of disclosed information
-- Cultural and jurisdictional privacy expectations<a href="#section-15.4-5" class="pilcrow">¶</a></p>
+<p id="section-15.4-2">For example, a passport credential contains highly sensitive personal information where even partial disclosure can have significant privacy implications:<a href="#section-15.4-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-15.4-3.1">
+            <p id="section-15.4-3.1.1">Revealing citizenship status may expose an individual to discrimination<a href="#section-15.4-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-3.2">
+            <p id="section-15.4-3.2.1">Date of birth combined with any other attribute enables age-based profiling<a href="#section-15.4-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-3.3">
+            <p id="section-15.4-3.3.1">Biometric data, even if selectively disclosed, presents irreversible privacy risks<a href="#section-15.4-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-3.4">
+            <p id="section-15.4-3.4.1">The mere possession of a passport from certain countries can be sensitive information<a href="#section-15.4-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-15.4-4">In contrast, a legal entity certificate has fundamentally different privacy considerations:<a href="#section-15.4-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-15.4-5.1">
+            <p id="section-15.4-5.1.1">The entity's legal name and registration number are often public information<a href="#section-15.4-5.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-5.2">
+            <p id="section-15.4-5.2.1">Business addresses and contact details may already be in public registries<a href="#section-15.4-5.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-5.3">
+            <p id="section-15.4-5.3.1">Authorized signatories' names might be required for legal validity<a href="#section-15.4-5.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-5.4">
+            <p id="section-15.4-5.4.1">The primary concern is often business confidentiality rather than personal privacy<a href="#section-15.4-5.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-15.4-6">These differences mean that:<a href="#section-15.4-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-15.4-7.1">
+            <p id="section-15.4-7.1.1">Passport credentials should minimize mandatory disclosures and maximize holder control over optional elements<a href="#section-15.4-7.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-7.2">
+            <p id="section-15.4-7.2.1">Legal entity certificates might reasonably require disclosure of more fields to establish business legitimacy<a href="#section-15.4-7.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-7.3">
+            <p id="section-15.4-7.3.1">The granularity of selective disclosure should match the credential type's privacy sensitivity<a href="#section-15.4-7.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-7.4">
+            <p id="section-15.4-7.4.1">Default disclosure sets must be carefully calibrated to each credential's risk profile<a href="#section-15.4-7.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-15.4-8">Several distinct credential types might be applicable to a given use case, each with unique privacy trade-offs.
+Issuers <span class="bcp14">MUST</span> perform a comprehensive privacy and confidentiality assessment for each credential type they intend to issue, considering:<a href="#section-15.4-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-15.4-9.1">
+            <p id="section-15.4-9.1.1">The sensitivity spectrum of contained attributes<a href="#section-15.4-9.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-9.2">
+            <p id="section-15.4-9.2.1">Likely disclosure scenarios and their privacy impacts<a href="#section-15.4-9.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-9.3">
+            <p id="section-15.4-9.3.1">Correlation risks when attributes are combined<a href="#section-15.4-9.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-9.4">
+            <p id="section-15.4-9.4.1">Long-term privacy implications of disclosed information<a href="#section-15.4-9.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.4-9.5">
+            <p id="section-15.4-9.5.1">Cultural and jurisdictional privacy expectations<a href="#section-15.4-9.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 </section>
@@ -3553,12 +3595,22 @@ Issuers <span class="bcp14">MUST</span> perform a comprehensive privacy and conf
 Compromise of the Issuer's signing key would enable an attacker to forge credentials for any subject, potentially undermining the entire trust model of the credential system.
 Beyond key compromise, attacks targeting the provisioning and binding between issuer names and their cryptographic key material pose significant risks.
 An attacker who can manipulate these bindings could substitute their own keys for legitimate issuer keys, enabling credential forgery while appearing to be a trusted issuer.<a href="#section-16.1-1" class="pilcrow">¶</a></p>
-<p id="section-16.1-2">Certificate transparency, as described in <span>[<a href="#RFC9162" class="cite xref">RFC9162</a>]</span>, or key transparency, as described in <span>[<a href="#I-D.draft-ietf-keytrans-protocol" class="cite xref">I-D.draft-ietf-keytrans-protocol</a>]</span>, can help detect and prevent such attacks by:
-- Enabling public observation of all issued certificates or key bindings
-- Detecting unauthorized or fraudulent bindings between verification keys and Issuer identifiers
-- Providing cryptographic proof of inclusion for legitimate keys
-- Creating an append-only audit trail that makes key substitution attacks discoverable<a href="#section-16.1-2" class="pilcrow">¶</a></p>
-<p id="section-16.1-3">Verifiers <span class="bcp14">SHOULD</span> leverage transparency mechanisms where available to validate that the issuer's keys have not been compromised or fraudulently substituted.<a href="#section-16.1-3" class="pilcrow">¶</a></p>
+<p id="section-16.1-2">Certificate transparency, as described in <span>[<a href="#RFC9162" class="cite xref">RFC9162</a>]</span>, or key transparency, as described in <span>[<a href="#I-D.draft-ietf-keytrans-protocol" class="cite xref">I-D.draft-ietf-keytrans-protocol</a>]</span>, can help detect and prevent such attacks by:<a href="#section-16.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.1-3.1">
+            <p id="section-16.1-3.1.1">Enabling public observation of all issued certificates or key bindings<a href="#section-16.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-16.1-3.2">
+            <p id="section-16.1-3.2.1">Detecting unauthorized or fraudulent bindings between verification keys and Issuer identifiers<a href="#section-16.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-16.1-3.3">
+            <p id="section-16.1-3.3.1">Providing cryptographic proof of inclusion for legitimate keys<a href="#section-16.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-16.1-3.4">
+            <p id="section-16.1-3.4.1">Creating an append-only audit trail that makes key substitution attacks discoverable<a href="#section-16.1-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-16.1-4">Verifiers <span class="bcp14">SHOULD</span> leverage transparency mechanisms where available to validate that the issuer's keys have not been compromised or fraudulently substituted.<a href="#section-16.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="disclosure-coercion">
@@ -3579,11 +3631,19 @@ Holders face risks of being coerced into disclosing more claims than necessary. 
             <p id="section-16.2-2.3.1">Irreversibility: Disclosed claims cannot be withdrawn. This permanent exposure risk <span class="bcp14">MUST</span> be considered in any disclosure decision.<a href="#section-16.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-16.2-3">Mitigation Measures:
-1. Verifiers <span class="bcp14">SHOULD</span> demonstrate eligibility to receive claims
-2. Holders <span class="bcp14">MUST</span> conduct risk assessments when Verifier eligibility cannot be established
-3. Trust lists maintained by trusted parties can help identify authorized Verifiers<a href="#section-16.2-3" class="pilcrow">¶</a></p>
-<p id="section-16.2-4">Without proper safeguards (such as Verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.<a href="#section-16.2-4" class="pilcrow">¶</a></p>
+<p id="section-16.2-3">Mitigation Measures:<a href="#section-16.2-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-16.2-4">
+<li id="section-16.2-4.1">
+            <p id="section-16.2-4.1.1">Verifiers <span class="bcp14">SHOULD</span> demonstrate eligibility to receive claims<a href="#section-16.2-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-16.2-4.2">
+            <p id="section-16.2-4.2.1">Holders <span class="bcp14">MUST</span> conduct risk assessments when Verifier eligibility cannot be established<a href="#section-16.2-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-16.2-4.3">
+            <p id="section-16.2-4.3.1">Trust lists maintained by trusted parties can help identify authorized Verifiers<a href="#section-16.2-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<p id="section-16.2-5">Without proper safeguards (such as Verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.<a href="#section-16.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="threat-model-development-guidance">

@@ -2000,36 +2000,62 @@ Issuer                           Holder                         Verifier
 
    For example, a passport credential contains highly sensitive personal
    information where even partial disclosure can have significant
-   privacy implications: - Revealing citizenship status may expose an
-   individual to discrimination - Date of birth combined with any other
-   attribute enables age-based profiling - Biometric data, even if
-   selectively disclosed, presents irreversible privacy risks - The mere
-   possession of a passport from certain countries can be sensitive
-   information
+   privacy implications:
+
+   *  Revealing citizenship status may expose an individual to
+      discrimination
+
+   *  Date of birth combined with any other attribute enables age-based
+      profiling
+
+   *  Biometric data, even if selectively disclosed, presents
+      irreversible privacy risks
+
+   *  The mere possession of a passport from certain countries can be
+      sensitive information
 
    In contrast, a legal entity certificate has fundamentally different
-   privacy considerations: - The entity's legal name and registration
-   number are often public information - Business addresses and contact
-   details may already be in public registries - Authorized signatories'
-   names might be required for legal validity - The primary concern is
-   often business confidentiality rather than personal privacy
+   privacy considerations:
 
-   These differences mean that: - Passport credentials should minimize
-   mandatory disclosures and maximize holder control over optional
-   elements - Legal entity certificates might reasonably require
-   disclosure of more fields to establish business legitimacy - The
-   granularity of selective disclosure should match the credential
-   type's privacy sensitivity - Default disclosure sets must be
-   carefully calibrated to each credential's risk profile
+   *  The entity's legal name and registration number are often public
+      information
+
+   *  Business addresses and contact details may already be in public
+      registries
+
+   *  Authorized signatories' names might be required for legal validity
+
+   *  The primary concern is often business confidentiality rather than
+      personal privacy
+
+   These differences mean that:
+
+   *  Passport credentials should minimize mandatory disclosures and
+      maximize holder control over optional elements
+
+   *  Legal entity certificates might reasonably require disclosure of
+      more fields to establish business legitimacy
+
+   *  The granularity of selective disclosure should match the
+      credential type's privacy sensitivity
+
+   *  Default disclosure sets must be carefully calibrated to each
+      credential's risk profile
 
    Several distinct credential types might be applicable to a given use
    case, each with unique privacy trade-offs.  Issuers MUST perform a
    comprehensive privacy and confidentiality assessment for each
-   credential type they intend to issue, considering: - The sensitivity
-   spectrum of contained attributes - Likely disclosure scenarios and
-   their privacy impacts - Correlation risks when attributes are
-   combined - Long-term privacy implications of disclosed information -
-   Cultural and jurisdictional privacy expectations
+   credential type they intend to issue, considering:
+
+   *  The sensitivity spectrum of contained attributes
+
+   *  Likely disclosure scenarios and their privacy impacts
+
+   *  Correlation risks when attributes are combined
+
+   *  Long-term privacy implications of disclosed information
+
+   *  Cultural and jurisdictional privacy expectations
 
 16.  Security Considerations
 
@@ -2051,12 +2077,18 @@ Issuer                           Holder                         Verifier
 
    Certificate transparency, as described in [RFC9162], or key
    transparency, as described in [I-D.draft-ietf-keytrans-protocol], can
-   help detect and prevent such attacks by: - Enabling public
-   observation of all issued certificates or key bindings - Detecting
-   unauthorized or fraudulent bindings between verification keys and
-   Issuer identifiers - Providing cryptographic proof of inclusion for
-   legitimate keys - Creating an append-only audit trail that makes key
-   substitution attacks discoverable
+   help detect and prevent such attacks by:
+
+   *  Enabling public observation of all issued certificates or key
+      bindings
+
+   *  Detecting unauthorized or fraudulent bindings between verification
+      keys and Issuer identifiers
+
+   *  Providing cryptographic proof of inclusion for legitimate keys
+
+   *  Creating an append-only audit trail that makes key substitution
+      attacks discoverable
 
    Verifiers SHOULD leverage transparency mechanisms where available to
    validate that the issuer's keys have not been compromised or
@@ -2082,10 +2114,15 @@ Issuer                           Holder                         Verifier
        permanent exposure risk MUST be considered in any disclosure
        decision.
 
-   Mitigation Measures: 1.  Verifiers SHOULD demonstrate eligibility to
-   receive claims 2.  Holders MUST conduct risk assessments when
-   Verifier eligibility cannot be established 3.  Trust lists maintained
-   by trusted parties can help identify authorized Verifiers
+   Mitigation Measures:
+
+   1.  Verifiers SHOULD demonstrate eligibility to receive claims
+
+   2.  Holders MUST conduct risk assessments when Verifier eligibility
+       cannot be established
+
+   3.  Trust lists maintained by trusted parties can help identify
+       authorized Verifiers
 
    Without proper safeguards (such as Verifier trust lists), Holders
    remain vulnerable to over-identification and long-term misuse of
