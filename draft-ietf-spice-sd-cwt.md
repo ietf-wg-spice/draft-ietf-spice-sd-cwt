@@ -377,12 +377,14 @@ The digest value is included in the payload in a `redacted_claim_keys` field for
 {: title="SHA-256 hash of inspector_license_number disclosure"}
 
 Finally, since this redacted claim is a map key and value, the Blinded Claim Hash is placed in a `redacted_claim_keys` array in the SD-CWT payload at the same level of hierarchy as the original claim.
-Redacted claims that are array elements are handled slightly differently, as described in {{blinded-claims}}.
 
 ~~~ cbor-diag
 {::include examples/first-redacted.edn}
 ~~~
 {: title="redacted inspector_license_number claim in the issued CWT payload"}
+
+Redacted claims that are array elements are handled slightly differently, as described in {{blinded-claims}}.
+
 
 # Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
 
