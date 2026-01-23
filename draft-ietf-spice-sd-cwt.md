@@ -476,7 +476,9 @@ REDACTED_ELEMENT_TAGNUM = 60
 redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
 ~~~
 
-Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
+Blinded claims can be nested.
+When blinded claims are nested the outer Salted Disclosed Claim contains a blinded claim hash.
+For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
 An example nested claim is shown in {{nesting}}.
 
 Finally, an Issuer MAY create decoy digests, which look like blinded claim hashes but have only a salt.
