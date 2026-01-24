@@ -1404,7 +1404,10 @@ The following non-exhaustive list of questions and considerations should guide t
 
 ## Random Numbers
 
-Each salt used to protect disclosed claims MUST be generated independently from the salts of other claims. The salts MUST be generated from a source of entropy that is acceptable to the Issuer.
+Each salt used to protect disclosed claims MUST be generated independently.
+Identical salt values, or values that can be correlated, might allow a Verifier to recover blinded values that were not disclosed.
+
+The salts MUST be generated using fresh randomness or from a source that has outputs cannot be predicted by any potential Verifier.
 Poor choice of salts can lead to brute force attacks that can reveal redacted claims.
 
 ## Binding the KBT and the CWT
