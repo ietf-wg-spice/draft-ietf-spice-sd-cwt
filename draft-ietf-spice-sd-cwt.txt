@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 27 July 2026                                       Tradeverifyd
+Expires: 28 July 2026                                       Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                         23 January 2026
+                                                         24 January 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 July 2026.
+   This Internet-Draft will expire on 28 July 2026.
 
 Copyright Notice
 
@@ -2218,9 +2218,13 @@ Issuer                           Holder                         Verifier
 16.4.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
-   independently from the salts of other claims.  The salts MUST be
-   generated from a source of entropy that is acceptable to the Issuer.
-   Poor choice of salts can lead to brute force attacks that can reveal
+   independently.  Identical salt values, or values that can be
+   correlated, might allow a Verifier to recover blinded values that
+   were not disclosed.
+
+   The salts MUST be generated using fresh randomness or from a source
+   that has outputs cannot be predicted by any potential Verifier.  Poor
+   choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
 16.5.  Binding the KBT and the CWT
