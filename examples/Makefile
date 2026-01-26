@@ -1,14 +1,16 @@
 MAKEFLAGS += --no-builtin-rules
 
-noext = issuer_cwt kbt nested_issuer_cwt nested_cwt nested_kbt decoy
-cbor = $(noext:=.cbor)
+cbor-noext = issuer_cwt kbt nested_issuer_cwt nested_cwt nested_kbt decoy
+cbor = $(cbor-noext:=.cbor)
 compare-edn = $(cbor:cbor=edn)
 other-edn = first-disclosure first-redacted chosen-disclosures elided-kbt
 direct-edn = $(compare-edn) $(other-edn:=.edn) chosen-nested-disclosures.edn
 other-direct = first-disclosure.cborseq first-blinded-hash.txt
 pygenerated = $(direct-edn) $(cbor) $(other-direct)
 keys = ../holder_privkey.pem ../issuer_privkey.pem
-#cddl = #split into sections
+cddl = ../header.cddl ../main-sd-cwt.cddl ../kbt.cddl ../preissued.cddl \
+       ../legal-values.cddl ../salted-array.cddl ../aead.cddl \
+       ../redacted-simple-tag.cddl
 full-cddl = ../sd-cwts.cddl
 
 # Check make version (must be 4.0 or higher)
@@ -85,6 +87,9 @@ build: $(pygenerated) first-disclosure.pretty #encrypted.edn
 
 .PHONY: validate
 validate: validate-cbor validate-edn
+
+${full-cddl}: $(cddl)
+	cat $^ > ${full-cddl}
 
 .PHONY: validate-cddl
 validate-cbor: $(full-cddl) $(cbor)
