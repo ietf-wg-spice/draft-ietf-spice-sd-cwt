@@ -1,0 +1,51 @@
+; CWT claim legal values only
+safe_map = { * label => safe_value }
+
+safe_value =
+  int / tstr / bstr /
+  [ * safe_value ] /
+  safe_map /
+  #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
+
+
+; legal values in issued SD-CWT
+issued_sd_cwt_map = {
+    ? redacted_claim_keys ^ => [ * bstr ],
+    * label => issued_sd_cwt_value
+}
+
+issued_array_element = redacted_claim_element / issued_sd_cwt_value
+
+issued_sd_cwt_value =
+  int / tstr / bstr /
+  [ * issued_array_element ] /
+  issued_sd_cwt_map /
+  #6.<safe_tag>(issued_sd_cwt_value) / #7.<safe_simple> / float
+
+
+; legal values in claim set sent to Issuer
+preissuance_label = label /
+                    #6.<TO_BE_REDACTED_TAGNUM>(label) /
+                    #6.<TO_BE_DECOY_TAGNUM>(int .gt 0)
+
+preissuance_map = { * preissuance_label => preissuance_value }
+
+preissuance_value =
+  int / tstr / bstr /
+  [ * preissuance_value ] /
+  preissuance_map /
+  #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float
+
+; CBOR tag number for wrapping to-be-redacted keys or elements
+TO_BE_REDACTED_TAGNUM = 58
+; CBOR tag number for indicating a decoy value is to be inserted here
+TO_BE_DECOY_TAGNUM = 62
+
+label = int / tstr .size (1..255)
+safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
+                     TO_BE_DECOY_TAGNUM /
+                     REDACTED_ELEMENT_TAGNUM)
+safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
+secs = int / float53
+float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
+

@@ -1,0 +1,40 @@
+sd-cwt-issued = #6.18([
+   protected: bstr .cbor sd-protected,
+   sd-unprotected,
+   payload: bstr .cbor sd-payload,
+   signature: bstr
+])
+
+sd-protected = {
+   &(typ: 16) ^ => 293 / "application/sd-cwt",
+   &(alg: 1) ^ => int,
+   ? &(kid: 4) ^ => bstr,
+   ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
+   ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
+   ? &(sd_aead: 172) ^ => uint .size 2,
+   * label => safe_value
+}
+
+sd-unprotected = {
+   ? &(sd_claims: 17) ^ => salted-array,
+   ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
+   * label => safe_value
+}
+
+sd-payload = {
+    ; standard claims
+      &(iss: 1) ^ => tstr, ; "https://issuer.example"
+    ? &(sub: 2) ^ => tstr, ; "https://device.example"
+    ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
+    ? &(exp: 4) ^ => secs, ; 1883000000
+    ? &(nbf: 5) ^ => secs, ; 1683000000
+    ? &(iat: 6) ^ => secs, ; 1683000000
+    ? &(cti: 7) ^ => bstr,
+      &(cnf: 8) ^ => safe_map, ; key confirmation
+    ? &(vct: 11) ^ => bstr,
+    ? &(cnonce: 39) ^ => bstr,
+    ;
+    ? redacted_claim_keys ^ => [ * bstr ],
+    * label => issued_sd_cwt_value
+}
+
