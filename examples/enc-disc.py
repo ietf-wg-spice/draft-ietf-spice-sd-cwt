@@ -11,6 +11,16 @@ def bytes2hex(bytes):
 def hex2bytes(string):
     return bytes.fromhex(string)
 
+def write_to_file(value, filename):
+    if isinstance(value, bytes):
+        mode = 'wb'
+    elif isinstance(value, str):
+        mode = 'w'
+    else:
+        raise Exception("Can only write a bytes or str")
+    with open(filename, mode) as f:
+        f.write(value)
+
 def pretty_hex(hex_str, indent=0):
     # takes a string of hex digits and returns an h'' EDN string
     # with at most 32 hex digits per line/row, indented `indent` spaces 
@@ -49,7 +59,8 @@ def decrypt_disclosure(key, nonce, ciphertext, tag):
     return bytes(out)
 
 nonce = hex2bytes('95d0040fe650e5baf51c907c31be15dc')
-key = hex2bytes('a061c27a3273721e210d031863ad81b6')
+hex_key = 'a061c27a3273721e210d031863ad81b6'
+key = hex2bytes(hex_key)
 salt = hex2bytes('bae611067bb823486797da1ebbb52f83')
 salted_array = [salt, "ABCD-123456", 501]
 plaintext = cbor2.dumps(cbor2.dumps(salted_array))
@@ -57,20 +68,23 @@ plaintext = cbor2.dumps(cbor2.dumps(salted_array))
 
 encrypted_array = [nonce, ciphertext, tag]
 enc_disclosure = cbor2.dumps(cbor2.dumps(encrypted_array))
-print(f'''key = {pretty_hex(bytes2hex(key), 6)}
 
-encrypted_array = [
+edn = f'''[
     / nonce /      {pretty_hex(bytes2hex(nonce), 19)},
     / ciphertext / {pretty_hex(bytes2hex(ciphertext), 19)},
     / tag /        {pretty_hex(bytes2hex(tag), 19)}
-]
+],'''
 
-encrypted_disclosure = {bytes2hex(enc_disclosure)}
-''')
+#print(f'''length of plaintext = {len(plaintext)}\n''')
+#print(f'''key = {hex_key}\n''')
+#print(f'''encrypted_array = {edn}\n''')
+#print(f'''encrypted_disclosure = {bytes2hex(enc_disclosure)}''')
 
 test_plaintext = decrypt_disclosure(key, nonce, ciphertext, tag)
 if test_plaintext == plaintext:
     print("OK")
+    write_to_file(hex_key, "aead-key.txt")
+    write_to_file(edn, "aead-claim-array.edn")
 else:
     print("FAIL")
 

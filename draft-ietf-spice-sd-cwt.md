@@ -899,20 +899,20 @@ The AEAD ciphertext consists of its encryption algorithm's ciphertext and its au
 The nonce (`nonce`), the encryption algorithm's ciphertext (`ciphertext`) and authentication tag (`tag`) are put in an array.
 The resulting array is placed in the `sd_aead_encrypted_claims` header parameter in the unprotected headers of the SD-CWT.
 
+Given the AEAD encryption key:
+
+~~~
+{::include examples/aead-key.txt}
+~~~
+
+A valid AEAD encrypted disclosure for that first disclosure is:
+
 ~~~ cbor-diag
 / sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
-    [
-        / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
-        / ciphertext / h'208cda279ca86444681503830469b705
-                         89654084156c9e65ca02f9ac40cd62b5
-                         a2470d',
-        / tag /        h'1c6e732977453ab2cacbfd578bd238c0'
-    ],
+{::include examples/aead-claim-array.edn}
     ...
 ]
 ~~~
-
-> In the example above, the key in hex is `a061c27a3273721e210d031863ad81b6`.
 
 The blinded claim hash is still over the unencrypted disclosure.
 The receiver of an AEAD encrypted disclosure locates the appropriate key by looking up the authentication tag.
