@@ -78,12 +78,11 @@ first-disclosure.pretty: first-disclosure.cborseq
 	# Note: using pipe character as a sed delimiter below
 	${SED} -i -r -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
 
-#encrypted.edn: enc_disc.py
-#	python3 enc_disc.py
-#	touch encrypted.edn
+aead-key.txt aead-claim-array.edn &: enc-disc.py
+	${PYTHON} enc-disc.py
 
 .PHONY: build
-build: $(pygenerated) first-disclosure.pretty #encrypted.edn
+build: $(pygenerated) first-disclosure.pretty aead-key.txt aead-claim-array.edn
 
 .PHONY: validate
 validate: validate-cbor validate-edn
@@ -110,56 +109,22 @@ clean:
 	rm *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
 
 
-# Building the SD-CWT draft has the following logical dependencies:
+# Beware the following manual build steps if something major changes:
 # 
-#   Section 3.1: unredacted-payload.edn -> edn2cbor; 
-#        py: unredact (strip tags) from to_be_redacted_payload
-#        py: generate unredacted-payload.cbor 
-#        byte compare the two files
+#   Section 3.1:
+#        the example claimset is manual. If it diverges from the claimset
+#        used in examples/sd-cwt.py, the generated examples will be wrong
 #
-#   Section 3.2: py:generate disclosures.edn, redacted_payload.edn
-#        py: generate issuer-cwt.edn
-#        edn2cbor and compare with issuer-cwt.cbor
+#   Section 14.2: nested disclosures examples (all three)
+#        the example claimset is manual. If it diverges from the claimset
+#        used in examples/sd-cwt.py, the generated examples will be wrong
 #
-#        py: first-disclosure.edn
+#        The sample claims (the second example in the section)
+#        is manually pasted in from the sd_claims COSE Header parameter
+#        from the examples/issued_cwt.edn
 #
-#        cbor2pretty: first-disclosure.cbor first-disclosure.pretty
+#        the example resulting claimset is also manual.
 #
-#        py: first-blinded-hash.txt
-#
-#        py: first-redacted.edn
-#
-#   Section 4:
-#        py: chosen-disclosures.edn
-#
-#        py: elided-kwt.edn
-#
-#   Section 6.1:
-#        2 small snippets of CDDL (manually updated)
-#
-#   Section 7.2:
-#        large snippet of CDDL for SD-CWT (manually updated)
-#
-#   Section 8.1:
-#        large snippet of CDDL for KBT (manually updated)
-#
-#   Section 10: decoy digest
-#        py: generate issued disclosures from nested example
-#        py: generate redactions from nested exampled
-#
-#
-#   Section 12.1: full basic example
-#	py: generate CBOR basic example
-#       edn2cbor annotated EDN used in draft and compare
-#
-#   Section 12.2: nested example
-#       py: generate CBOR nested example
-#       edn2cbor annotated EDN used in draft and compare
-#
-#   Appendix A: full CDDL
-#       validate CDDL against all four full CBOR instance docs
 #
 #   Appendix C: keys
-#       (later) convert pem keys to all the other formats shown
-
-
+#       manually convert pem keys to all the other formats shown
