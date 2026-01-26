@@ -1,4 +1,5 @@
 LIBDIR := lib
+DEPS_FILES := .examples.dep
 include $(LIBDIR)/main.mk
 
 $(LIBDIR)/main.mk:
