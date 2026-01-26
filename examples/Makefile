@@ -1,8 +1,10 @@
+MAKEFLAGS += --no-builtin-rules
+
 noext = issuer_cwt kbt nested_issuer_cwt nested_cwt nested_kbt decoy
 cbor = $(noext:=.cbor)
 compare-edn = $(cbor:cbor=edn)
-other-edn = first-disclosure first-redacted chosen_disclosures elided-kbt
-direct-edn = $(compare-edn) $(other-edn:=.edn) chosen_nested_disclosures.edn
+other-edn = first-disclosure first-redacted chosen-disclosures elided-kbt
+direct-edn = $(compare-edn) $(other-edn:=.edn) chosen-nested-disclosures.edn
 other-direct = first-disclosure.cborseq first-blinded-hash.txt
 pygenerated = $(direct-edn) $(cbor) $(other-direct)
 keys = ../holder_privkey.pem ../issuer_privkey.pem
@@ -14,11 +16,10 @@ ifeq ($(filter 4.%,$(MAKE_VERSION)),)
     $(error This Makefile requires GNU Make 4.0 or higher. Current version: $(MAKE_VERSION))
 endif
 
+CDDL_RUBY := cddl
 # Check for Ruby cddl program in PATH
 ifeq ($(shell command -v cddl 2>/dev/null),)
     $(error Required program 'cddl' not found in PATH)
-else
-    CDDL_RUBY := cddl
 endif
 
 # Check for Ruby cbor2pretty.rb program in PATH
@@ -26,21 +27,28 @@ ifeq ($(shell command -v cbor2pretty.rb 2>/dev/null),)
     $(error Required program 'cbor2pretty.rb' not found in PATH)
 endif
 
+CDDL_RS := "${HOME}/.cargo/bin/cddl"
 # Check for Rust cddl program in ~/.cargo/bin
-ifeq ($(shell command -v "${HOME}/.cargo/bin/cddl" 2>/dev/null),)
-    undefine CDDL_RS
-else
-    CDDL_RS := "${HOME}/.cargo/bin/cddl"
-endif
+#ifeq ($(shell command -v "${HOME}/.cargo/bin/cddl" 2>/dev/null),)
+#    undefine CDDL_RS
+#else
+#    CDDL_RS := "${HOME}/.cargo/bin/cddl"
+#endif
 
 # Check for GNU sed and set SED variable
-ifeq ($(shell sed --version >/dev/null 2>&1 && echo yes),yes)
-    SED := sed
-else ifeq ($(shell command -v gsed 2>/dev/null),)
+#ifeq ($(shell sed --version >/dev/null 2>&1 && echo yes),yes)
+#    SED := sed
+#else ifeq ($(shell command -v gsed 2>/dev/null),)
+#    $(error GNU sed must be installed. Install 'sed' (GNU version) or 'gsed')
+#else
+#    SED := gsed
+#endif
+
+SED := gsed
+ifneq ($(shell ${SED} --version >/dev/null 2>&1 && echo yes),yes)
     $(error GNU sed must be installed. Install 'sed' (GNU version) or 'gsed')
-else
-    SED := gsed
 endif
+
 
 #.PHONY: vars
 #vars:
@@ -49,16 +57,21 @@ endif
 #	@echo "Sed: ${SED}"
 #	@echo "Rust CDDL tool ${CDDL_RS}"
 
+PYTHON := python3
+CBOR2PRETTY := cbor2pretty.rb
+#CDDL_RUBY := ../lib/.gems/bin/cddl
+#CBOR2PRETTY := ../lib/.gems/bin/cbor2pretty.rb
+#PYTHON := ../lib/.venvs/bin/python3
 
-
-all: build validate-cbor validate-edn
+.PHONY: all
+all: build
 
 # This construction only runs sd-cwt.py once, but requires make version 4.x
 ${pygenerated} &: sd-cwt.py salt_list.csv decoy_list.csv $(keys)
-	python3 sd-cwt.py
+	${PYTHON} sd-cwt.py
 
 first-disclosure.pretty: first-disclosure.cborseq
-	cbor2pretty.rb $< > $@
+	${CBOR2PRETTY} $< > $@
 	# This sed command replaces the comment after the salt with a comment just say "16-byte salt"
 	# Note: using pipe character as a sed delimiter below
 	${SED} -i -r -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
@@ -68,8 +81,10 @@ first-disclosure.pretty: first-disclosure.cborseq
 #	touch encrypted.edn
 
 .PHONY: build
-
 build: $(pygenerated) first-disclosure.pretty #encrypted.edn
+
+.PHONY: validate
+validate: validate-cbor validate-edn
 
 .PHONY: validate-cddl
 validate-cbor: $(full-cddl) $(cbor)
