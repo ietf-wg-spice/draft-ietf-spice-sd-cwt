@@ -439,22 +439,7 @@ For Salted Disclosed Claims of items in an array, the name is omitted.
 
 ~~~ cddl
 ; an array of bstr-encoded Salted Disclosed Claims
-salted-array = [ +bstr-encoded-salted ]
-
-bstr-encoded-salted = bstr .cbor salted-entry
-salted-entry = salted-claim / salted-element / decoy
-salted-claim = [
-  bstr .size 16,     ; 128-bit salt
-  any,               ; Claim Value
-  (int / text)       ; Claim Key
-]
-salted-element = [
-  bstr .size 16,     ; 128-bit salt
-  any                ; Claim Value
-]
-decoy = [
-  bstr .size 16      ; 128-bit salt
-]
+{::include ./salted-array.cddl}
 ~~~
 
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
@@ -463,17 +448,7 @@ The `redacted_claim_keys` key is the CBOR simple value 59 registered for that pu
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
 
 ~~~ cddl
-; redacted_claim_keys is used as a map key. The corresponding value is
-; an array of Blinded Claim Hashes whose corresponding unblinded map keys
-; and values are in the same map.
-redacted_claim_keys = #7.59  ; CBOR simple value 59
-
-; CBOR tag for wrapping a redacted element in an array
-REDACTED_ELEMENT_TAGNUM = 60
-
-; redacted_claim_element is used in CDDL payloads that contain
-; array elements that are meant to be redacted.
-redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
+{::include ./redacted-simple-tag.cddl}
 ~~~
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
@@ -566,56 +541,7 @@ These values are represented by the `safe-value` CDDL type.
 
 
 ~~~ cddl
-; CWT claim legal values only
-safe_map = { * label => safe_value }
-
-safe_value =
-  int / tstr / bstr /
-  [ * safe_value ] /
-  safe_map /
-  #6.<safe_tag>(safe_value) / #7.<safe_simple> / float
-
-
-; legal values in issued SD-CWT
-issued_sd_cwt_map = {
-    ? redacted_claim_keys ^ => [ * bstr ],
-    * label => issued_sd_cwt_value
-}
-
-issued_array_element = redacted_claim_element / issued_sd_cwt_value
-
-issued_sd_cwt_value =
-  int / tstr / bstr /
-  [ * issued_array_element ] /
-  issued_sd_cwt_map /
-  #6.<safe_tag>(issued_sd_cwt_value) / #7.<safe_simple> / float
-
-
-; legal values in claim set sent to Issuer
-preissuance_label = label /
-                    #6.<TO_BE_REDACTED_TAGNUM>(label) /
-                    #6.<TO_BE_DECOY_TAGNUM>(int .gt 0)
-
-preissuance_map = { * preissuance_label => preissuance_value }
-
-preissuance_value =
-  int / tstr / bstr /
-  [ * preissuance_value ] /
-  preissuance_map /
-  #6.<safe_tag>(preissuance_value) / #7.<safe_simple> / float
-
-; CBOR tag number for wrapping to-be-redacted keys or elements
-TO_BE_REDACTED_TAGNUM = 58
-; CBOR tag number for indicating a decoy value is to be inserted here
-TO_BE_DECOY_TAGNUM = 62
-
-label = int / tstr .size (1..255)
-safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
-                     TO_BE_DECOY_TAGNUM /
-                     REDACTED_ELEMENT_TAGNUM)
-safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
-secs = int / float53
-float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
+{::include ./legal-values.cddl}
 ~~~
 
 Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
@@ -750,45 +676,7 @@ Holder verifies the following:
 The following informative CDDL is provided to describe the syntax for SD-CWT issuance. A complete CDDL schema is in {{cddl}}.
 
 ~~~ cddl
-sd-cwt-issued = #6.18([
-   protected: bstr .cbor sd-protected,
-   sd-unprotected,
-   payload: bstr .cbor sd-payload,
-   signature: bstr
-])
-
-sd-protected = {
-   &(typ: 16) ^ => 293 / "application/sd-cwt",
-   &(alg: 1) ^ => int,
-   ? &(kid: 4) ^ => bstr,
-   ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
-   ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
-   ? &(sd_aead: 172) ^ => uint .size 2,
-   * label => safe_value
-}
-
-sd-unprotected = {
-   ? &(sd_claims: 17) ^ => salted-array,
-   ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
-   * label => safe_value
-}
-
-sd-payload = {
-    ; standard claims
-      &(iss: 1) ^ => tstr, ; "https://issuer.example"
-    ? &(sub: 2) ^ => tstr, ; "https://device.example"
-    ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-    ? &(exp: 4) ^ => secs, ; 1883000000
-    ? &(nbf: 5) ^ => secs, ; 1683000000
-    ? &(iat: 6) ^ => secs, ; 1683000000
-    ? &(cti: 7) ^ => bstr,
-      &(cnf: 8) ^ => safe_map, ; key confirmation
-    ? &(vct: 11) ^ => bstr,
-    ? &(cnonce: 39) ^ => bstr,
-    ;
-    ? redacted_claim_keys ^ => [ * bstr ],
-    * label => issued_sd_cwt_value
-}
+{::include ./main-sd-cwt.cddl}
 ~~~
 
 # SD-CWT Presentation
@@ -836,32 +724,7 @@ Confirmation is established according to {{!RFC8747}}, using the `cnf` claim in 
 The Holder signs the SD-KBT using the key specified in the `cnf` claim in the SD-CWT. This proves possession of the Holder's private key.
 
 ~~~ cddl
-kbt-cwt = #6.18([
-   protected: bstr .cbor kbt-protected,
-   kbt-unprotected,
-   payload: bstr .cbor kbt-payload,
-   signature: bstr
-])
-
-kbt-protected = {
-   &(typ: 16) ^ => 294 / "application/kb+cwt",
-   &(alg: 1) ^ => int,
-   &(kcwt: 13) ^ => sd-cwt-issued,
-   * label => safe_value
-}
-
-kbt-unprotected = {
-   * label => safe_value
-}
-
-kbt-payload = {
-      &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-    ? &(exp: 4) ^ => secs, ; 1883000000
-    ? &(nbf: 5) ^ => secs, ; 1683000000
-      &(iat: 6) ^ => secs, ; 1683000000
-    ? &(cnonce: 39) ^ => bstr,
-    * label => safe_value
-}
+{::include ./kbt.cddl}
 ~~~
 
 The SD-KBT payload MAY include a `cnonce` claim.
@@ -1060,13 +923,7 @@ Details of key management are left to profiles of the specific protocols that ma
 The CDDL for AEAD encrypted disclosures is below.
 
 ~~~ cddl
-aead-encrypted-array = [ +aead-encrypted ]
-aead-encrypted = [
-  bstr .size 16,     ; 128-bit nonce
-  bstr,              ; the encryption ciphertext output of a
-                     ;   bstr-encoded-salted
-  bstr               ; the corresponding authentication tag
-]
+{::include ./aead.cddl}
 ~~~
 
 > Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.
@@ -1708,7 +1565,14 @@ No initial values are provided for the registry.
 # Complete CDDL Schema {#cddl}
 
 ~~~~~~~~~~ cddl
-{::include ./sd-cwts.cddl}
+{::include ./header.cddl}
+{::include ./main-sd-cwt.cddl}
+{::include ./kbt.cddl}
+{::include ./preissued.cddl}
+{::include ./legal-values.cddl}
+{::include ./salted-array.cddl}
+{::include ./aead.cddl}
+{::include ./redacted-simple-tag.cddl}
 ~~~~~~~~~~
 {: #cddl-schema title="A complete CDDL description of SD-CWT"}
 

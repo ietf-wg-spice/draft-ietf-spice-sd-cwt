@@ -1,0 +1,8 @@
+aead-encrypted-array = [ +aead-encrypted ]
+aead-encrypted = [
+  bstr .size 16,     ; 128-bit nonce
+  bstr,              ; the encryption ciphertext output of a
+                     ;   bstr-encoded-salted
+  bstr               ; the corresponding authentication tag
+]
+
