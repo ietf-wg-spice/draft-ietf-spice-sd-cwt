@@ -46,7 +46,7 @@ CDDL_RS := "${HOME}/.cargo/bin/cddl"
 #    SED := gsed
 #endif
 
-SED := gsed
+SED := sed
 ifneq ($(shell ${SED} --version >/dev/null 2>&1 && echo yes),yes)
     $(error GNU sed must be installed. Install 'sed' (GNU version) or 'gsed')
 endif
