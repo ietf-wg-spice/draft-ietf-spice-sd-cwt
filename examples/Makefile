@@ -64,7 +64,7 @@ CBOR2PRETTY := cbor2pretty.rb
 CDDL_RS := ../lib/.cargo/bin/cddl
 CDDL_RUBY := ../lib/.gems/bin/cddl
 CBOR2PRETTY := ../lib/.gems/bin/cbor2pretty.rb
-PYTHON := ../lib/.venvs/bin/python3
+PYTHON := ../lib/.venv/bin/python3
 
 .PHONY: all
 all: build
