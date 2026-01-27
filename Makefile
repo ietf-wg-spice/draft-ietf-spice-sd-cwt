@@ -42,7 +42,7 @@ local-sources := examples/decoy_list.csv \
                  examples/compare_edn_to_cbor.sh
 
 ${includes} &: $(local-sources)
-	(cd examples && $(MAKE))
+	$(MAKE) -C examples
 
 .PHONY: validate
 validate:

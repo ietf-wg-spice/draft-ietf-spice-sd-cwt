@@ -60,11 +60,16 @@ endif
 #	@echo "Sed: ${SED}"
 #	@echo "Rust CDDL tool ${CDDL_RS}"
 
-CBOR2PRETTY := cbor2pretty.rb
-CDDL_RS := ../lib/.cargo/bin/cddl
-CDDL_RUBY := ../lib/.gems/bin/cddl
-CBOR2PRETTY := ../lib/.gems/bin/cbor2pretty.rb
-PYTHON := ../lib/.venv/bin/python3
+ifeq (true,$(CI))
+    PYTHON := ${VENV}/python3
+else
+#   If not set, manually set BUNDLE_PATH to the full path of ../lib/.gems
+    PYTHON := ../lib/.venv/bin/python3
+endif
+CDDL_RS := ${BUNDLE_PATH}/../.cargo/bin/cddl
+CDDL_RUBY := ${BUNDLE_PATH}/bin/cddl
+CBOR2PRETTY := ${BUNDLE_PATH}/bin/cbor2pretty.rb
+
 
 .PHONY: all
 all: build
