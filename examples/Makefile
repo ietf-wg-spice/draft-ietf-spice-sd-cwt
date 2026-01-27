@@ -61,7 +61,7 @@ endif
 #	@echo "Rust CDDL tool ${CDDL_RS}"
 
 ifeq (true,$(CI))
-    PYTHON := /github/workspace/lib/.venv/bin/python3
+    PYTHON := python3
 else
 #   If not set, manually set BUNDLE_PATH to the full path of ../lib/.gems
     PYTHON := ../lib/.venv/bin/python3
