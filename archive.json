@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-25T01:02:08.007725+00:00",
+  "timestamp": "2026-01-27T00:59:25.177454+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3831,7 +3831,7 @@
       ],
       "body": "For [this requirement](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-4-1):\n\n> If the Holder does not disclose any claims, it MUST omit the sd_claims header parameter.\n\nWhat happens if the Holder provides an empty `sd_claims`?  My sense is that this is not an interoperability requirement, but simply good sense.  If it were empty, the Verifier won't explode.  If it should, then you need a MUST-strength requirement on the Verifier, not the Holder.\n\nYou might instead say:\n\n> If the Holder has no optional \\[check my word choice?] claims to disclose, it can omit the sd_claims header parameter.\n",
       "createdAt": "2026-01-23T00:45:10Z",
-      "updatedAt": "2026-01-23T07:57:13Z",
+      "updatedAt": "2026-01-26T07:38:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -3840,6 +3840,13 @@
           "body": "This choice was intentional, to allow only one way to represent \"no claims\". The grammar and the text are all consistent there. \n\nMarking wont-fix.",
           "createdAt": "2026-01-23T07:57:13Z",
           "updatedAt": "2026-01-23T07:57:13Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "The issue is to point out the lack of requirement on the receiver as much as it was to ask anout the empty array. What do you do if an empty array arrives?",
+          "createdAt": "2026-01-26T07:38:52Z",
+          "updatedAt": "2026-01-26T07:38:52Z"
         }
       ]
     },
@@ -4123,7 +4130,7 @@
       ],
       "body": "My understanding is that confirmation keys are optional, but [this says otherwise](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-7-3):\n\n> The payload also MUST include a key confirmation element (cnf) [[RFC8747](https://www.rfc-editor.org/rfc/rfc8747)] for the Holder's public key.\n\nIs that a good idea?  Confirmation keys serve a purpose, but not all applications need them.  Shouldn't this statement be conditional instead?",
       "createdAt": "2026-01-23T01:54:48Z",
-      "updatedAt": "2026-01-23T06:23:42Z",
+      "updatedAt": "2026-01-26T11:04:07Z",
       "closedAt": null,
       "comments": [
         {
@@ -4139,6 +4146,20 @@
           "body": "The authors of this specification consider bearer tokens one of the original sins of the Internet.\n\n**\u00a1\u00a1\u00a1THOU SHALL/MUST USE CONFIRMATION TOKENS!!!**\n\nI think it would be unwise to introduce this in section 1 since it is not normative and there is no definition of it yet (confirmation is used 3 times in the Terminology section).\n\nIf you would like stronger wording of confirmation being required early in Section 3, I'm sure we can come up with something.",
           "createdAt": "2026-01-23T06:22:45Z",
           "updatedAt": "2026-01-23T06:22:45Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "There is a problem in that the definition of what an SD-CWT is doesn\u2019t really share that structure. And making it clear why it has that structure is important. I minted think that this is an opinionated position that is justified, and not much explanation is needed, but it needs to explain why it is twice as big and complex as a JWT.",
+          "createdAt": "2026-01-26T07:26:05Z",
+          "updatedAt": "2026-01-26T07:26:05Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@martinthomson, sorry I didn't understand the previous comment what you mean by \"that structure\". The structure of a regular CWT? of an SD-JWT? something else?",
+          "createdAt": "2026-01-26T11:04:07Z",
+          "updatedAt": "2026-01-26T11:04:07Z"
         }
       ]
     },
@@ -4269,7 +4290,7 @@
       "labels": [],
       "body": "[This](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-11.1-1) uses a lowercase \"must\":\n\n> In order to indicate specific claims that must be redacted in a Claim Set, this specification defines a new CBOR tag \"To Be Redacted\". \n\nIt's also not a direct statement of requirement on any entity (in the passive voice).\n\nSo the question is, can an Issuer ignore this instruction?  What does it do if it doesn't want to allow something to be blinded?\n\nPresumably the sensible thing to do is say that the issuance fails, but that would be on the expectation that the Holder wouldn't accept the resulting SD-CWT.  But there might be cases where the Holder might simply prefer those fields be redacted and would still be able to use them.  After all, they will be disclosing those values to some Verifiers.  In that case, if they can't selectively disclose, they might be OK asking for another SD-CWT without that field.\n\nI don't know what the answer is, but would appreciate if it could be specified.\n\n",
       "createdAt": "2026-01-23T02:19:13Z",
-      "updatedAt": "2026-01-23T07:18:07Z",
+      "updatedAt": "2026-01-26T11:06:06Z",
       "closedAt": null,
       "comments": [
         {
@@ -4278,6 +4299,20 @@
           "body": "My use of non-normative must here was intentional. I don't think we want to specify this. We want to specify the semantics of the tag and not get involved in the natural tug-of-war between Issuers and Holders. Note that Holders already have an extreme remedy if Issuers generate something they don't like. They can choose not to present the issued credentials.",
           "createdAt": "2026-01-23T06:28:28Z",
           "updatedAt": "2026-01-23T06:28:28Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Whatever you might think, the word is burned for use in RFCs. But more critically, this is not about a must (or MUST), it is about what the Holder requests of the Issuer.",
+          "createdAt": "2026-01-26T07:27:45Z",
+          "updatedAt": "2026-01-26T07:27:45Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@martinthomson \nhow about s/must/the Holder would like to be/ ?",
+          "createdAt": "2026-01-26T11:06:06Z",
+          "updatedAt": "2026-01-26T11:06:06Z"
         }
       ]
     },
@@ -4289,11 +4324,13 @@
       "state": "OPEN",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [],
       "body": "I don't see the point of [all this](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-11.2-1):\n\n> The value inside is a positive integer that MUST be unique for each decoy location within the SD-CWT. The integer could be used to look up the salt for the decoy deterministically, but does not impose any ordering.\n\nI can't see any reason for this to be unique, or for there to be any value there at all. So the value could just as easily be `null`.\n\nThe same paragraph also says:\n\n> This tag can be used by a library to automatically\n\nA library?  As run by the Holder or the Issuer or both?  I think that the Holder is generally the one to put this in place.",
       "createdAt": "2026-01-23T02:29:50Z",
-      "updatedAt": "2026-01-23T07:14:53Z",
+      "updatedAt": "2026-01-26T12:17:01Z",
       "closedAt": null,
       "comments": [
         {
@@ -4302,6 +4339,13 @@
           "body": "TL;DR: preventing duplicate map keys, and implementer experience.\n\nWhen to be decoy is present in a key, it could be present multiple times. If there were nothing distinct in it you would have an invalid CBOR document (duplicate map keys). \n\nNext, the Holder may need a way to refer to the decoys during preissuance. A distinct integer is a simple way to do that.\n\nI thought about making it optional for array element claims and relaxing the uniqueness scope but it was more complicated to explain and I actually twice bit myself when moving claims around inside a document. Besides, having a unique integer turns out to be super useful for deterministic nonce use in test vectors.\n\n>A library? As run by the Holder or the Issuer or both? I think that the Holder is generally the one to put this in place.\n\ns/A library/A Holder library/",
           "createdAt": "2026-01-23T07:14:53Z",
           "updatedAt": "2026-01-23T07:14:53Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Ok, that is not obvious, so say it. And explain the scope over which uniqueness is needed. The text right now implies global scope, which this does not require. Suggesting that array items use 0 always and map keys use a counter might be sensible.",
+          "createdAt": "2026-01-26T07:31:38Z",
+          "updatedAt": "2026-01-26T07:31:38Z"
         }
       ]
     },
@@ -4335,7 +4379,7 @@
       "labels": [],
       "body": "Regarding [this note](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-12.1-10.1.1):\n\n> Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.\n\nThis is not right because it assumes that the registry will only ever contain AEADs that are strong enough to resist forgery.  The claim you make here should be that *if the AEAD algorithm provides sufficient protection against forgery* and attacker cannot produce a forged item.\n\nBut this makes no real sense.  The content, if it is to be usable in any way needs to be decryptable.  At that point, you can check the integrity of the content using the hash.\n\nSo why then do you have an AEAD algorithm as opposed to using a simpler cipher?  AES-CTR could work almost as well.\n\nOf the cuff, I can't think of a concrete reason to include a tag, other than the simple and pragmatic one: it is easier to specify the use of an AEAD than it is to specify how to use an unauthenticated cipher.",
       "createdAt": "2026-01-23T03:33:20Z",
-      "updatedAt": "2026-01-23T07:41:41Z",
+      "updatedAt": "2026-01-26T15:49:55Z",
       "closedAt": null,
       "comments": [
         {
@@ -4351,6 +4395,20 @@
           "body": "I want to split this into two topics. \n\nThe first is to ask if there is any good reason to use something _other_ than AEAD or any reason to use CCM or short tags. The answer here in emphatically NO. There is no good reason to use unauthenticated encryption, CCM, or short tags. AEAD is widely available, it is well understood, it has a good IANA registry which isn't populated with cooky crap, and even if the tags turn out not to be necessary, it will prevent an enormous waste of resources every 6 months of so for the next 20 years when some troll pops up and claims that this isn't secure because it isn't authenticated or it uses short tags.\n\nNow, why is the tag useful? Because it prevents an attacker overwhelming a verifier with more than the minimum amount of work to do to identify it as junk. An attacker sends an SD-CWT with 32 encrypted claims without authentication. Since claims can be nested, the verifier needs to decrypt ALL of them in case a claim they need to find is inside. Only then do they realize they have garbage. With a tag, they fail early.  Yes, I should write this down in the document.\n\nThe second is if I misstated things in this text. Someone please help me fix the text. ",
           "createdAt": "2026-01-23T07:41:41Z",
           "updatedAt": "2026-01-23T07:41:41Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I don\u2019t find the argument convincing. Specification writers come dead last in the priority of constituencies, so if CTR works (it does) then you can save the 16 bytes. The performance argument is bogus (running GCM is marginally faster than SHA-256, but not if tou run both and you have to lookup the has anyway).\n\nAs for which ciphers? AES-CTR and ChaCha20 are fine. No need for more right now.",
+          "createdAt": "2026-01-26T07:36:48Z",
+          "updatedAt": "2026-01-26T07:36:48Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Seems like we are really just talking about the need for tags.\n\nThe protocol flow for the attacks is:\n\nissuer -> holder - mallory1 - disclosures to verifier + disclosures to gateway -> gateway - mallory2 -> verifier\n\nTo the argument that the rest of the verification procedure can substitute for a tag... it makes me a bit nervous.\nWhile computing the disclosure integrity is straight forwards, it has the salt and hash function as parameters.\nI worry about making generic statements about relative strength compared to tags, without that being more pinned down.\n\nI think the strongest argument for tags is failing as early as possible, to protect inner code from garbled mess.\nLets say we removed the AEAD restriction, and someone used CTR with COSE:\n\n- https://datatracker.ietf.org/doc/rfc9459/\n\nI worry that the holder software and gateway, might be implemented in such a way, that natural retry logic leads to mallory getting a decryption oracle of some kind, from the gateway.\n\nI'd prefer to not have to describe this scenario in detail in security considerations.\n\n",
+          "createdAt": "2026-01-26T15:49:55Z",
+          "updatedAt": "2026-01-26T15:49:55Z"
         }
       ]
     },
@@ -4423,10 +4481,12 @@
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "[Section 15.2](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-15.2) points out the potential for there to be a covert channel.\n\nIf the Holder requests a signature using the described issuance process, it would seem like there are a few things that might happen:\n\n1. The Holder is able to alter encoding to sneak in a secret message.  The Issuer will always pass this along.\n2. Any secret message generated by the Holder is always erased by the Issuer.  But the Issuer can add a secret message.\n3. Both Holder and Issuer can add messages that will make it through.\n4. Both Holder and Issuer can add messages that will make it through, but there is no guarantee that the Issuer won't erase any message added by the Holder.\n\nI get the impression that the answer is (4).  Because an Issuer will likely copy choices made by the Holder, but they are allowed to re-encode in ways that might destroy the steganographic message.\n\nIt might pay to say this explicitly (or whatever the actual truth is).",
       "createdAt": "2026-01-23T03:50:57Z",
-      "updatedAt": "2026-01-23T09:21:07Z",
+      "updatedAt": "2026-01-26T11:00:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -4442,6 +4502,13 @@
           "body": "it is #4\r\n\r\nOn Fri, 23 Jan 2026, 04:51 Martin Thomson, ***@***.***> wrote:\r\n\r\n> *martinthomson* created an issue\r\n> (ietf-wg-spice/draft-ietf-spice-sd-cwt#224)\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/224>\r\n>\r\n> Section 15.2\r\n> <https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-15.2>\r\n> points out the potential for there to be a covert channel.\r\n>\r\n> If the Holder requests a signature using the described issuance process,\r\n> it would seem like there are a few things that might happen:\r\n>\r\n>    1. The Holder is able to alter encoding to sneak in a secret message.\r\n>    The Issuer will always pass this along.\r\n>    2. Any secret message generated by the Holder is always erased by the\r\n>    Issuer. But the Issuer can add a secret message.\r\n>    3. Both Holder and Issuer can add messages that will make it through.\r\n>    4. Both Holder and Issuer can add messages that will make it through,\r\n>    but there is no guarantee that the Issuer won't erase any message added by\r\n>    the Holder.\r\n>\r\n> I get the impression that the answer is (4). Because an Issuer will likely\r\n> copy choices made by the Holder, but they are allowed to re-encode in ways\r\n> that might destroy the steganographic message.\r\n>\r\n> It might pay to say this explicitly (or whatever the actual truth is).\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/224>, or\r\n> unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPWFLNZGNQMSPUCIRU34IGLDNAVCNFSM6AAAAACSTZBEQWVHI2DSMVQWIX3LMV43ASLTON2WKOZTHA2DKNRZGY3TMOI>\r\n> .\r\n> You are receiving this because you are subscribed to this thread.Message\r\n> ID: ***@***.***>\r\n>\r\n",
           "createdAt": "2026-01-23T09:21:07Z",
           "updatedAt": "2026-01-23T09:21:07Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "A great opportunity to write that into the draft then.",
+          "createdAt": "2026-01-26T07:39:29Z",
+          "updatedAt": "2026-01-26T07:39:29Z"
         }
       ]
     },
@@ -4568,6 +4635,25 @@
       "body": "This looks like good information for an informational document that the RATS WG can take up (or not).  As it is, very little of this content is relevant to this document or the SPICE WG (except tangentially).  I don't think this should be carried into a published RFC.",
       "createdAt": "2026-01-23T05:08:40Z",
       "updatedAt": "2026-01-23T08:03:54Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 234,
+      "id": "I_kwDOMm_Q2s7lsLgA",
+      "title": "Please put in figure numbers; don\u2019t leave citable figures unnumbered.",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/234",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "ready-for-pr",
+        "chore"
+      ],
+      "body": "I think this is as simple as adding some footers to the various figures / `~~~` blocks",
+      "createdAt": "2026-01-25T17:11:45Z",
+      "updatedAt": "2026-01-26T12:26:05Z",
       "closedAt": null,
       "comments": []
     }
@@ -16625,21 +16711,35 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Makefile in examples now regenerates the correct files and validates them.\r\n\r\nTODO:\r\n\r\n- [ ] split cddl into snippets and concatenate them\r\n- [ ] make enc-disc.py generate encrypted disclosures in draft\r\n- [x] make this fail if tools aren't installed\r\n- [ ] make main Makefile depend on output of this\r\n- [x] make cargo tool optional?\r\n- [x] use correct version of sed\r\n- [x] test if make is version 4.x\r\n- [x] does I-D template CI used make version 4.x?",
+      "body": "Makefile in examples now regenerates the correct files and validates them.\r\n\r\nTODO:\r\n\r\n- [x] split cddl into snippets and concatenate them (after merging PR #235 )\r\n- [x] make enc-disc.py generate encrypted disclosures in draft\r\n- [x] make this fail if tools aren't installed\r\n- [ ] make main Makefile depend on output of this\r\n- [x] make cargo tool optional?\r\n- [x] use correct version of sed\r\n- [x] test if make is version 4.x\r\n- [x] does I-D template CI used make version 4.x?",
       "createdAt": "2026-01-20T00:07:17Z",
-      "updatedAt": "2026-01-20T13:00:41Z",
+      "updatedAt": "2026-01-26T18:08:47Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "fix-makefile",
-      "headRefOid": "024af57b270cf96d4b7cfdd5fa811130bbdf07bc",
+      "headRefOid": "0d343b9da222c069c2b760ed830f3479f775fc61",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7c-SbK",
+          "commit": {
+            "abbreviatedOid": "0d343b9"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "I assume that this is just tooling restructuring and doesn't change the normative spec contents but it's hard to actually know.\n\nIs there a URL at which I can view the rendered version of this PR?",
+          "createdAt": "2026-01-26T18:08:47Z",
+          "updatedAt": "2026-01-26T18:08:47Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 196,
@@ -16756,7 +16856,7 @@
       "labels": [],
       "body": "I think that this is more precise.",
       "createdAt": "2026-01-23T01:06:35Z",
-      "updatedAt": "2026-01-23T14:02:51Z",
+      "updatedAt": "2026-01-26T18:14:45Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
@@ -16861,6 +16961,19 @@
               "updatedAt": "2026-01-23T14:02:52Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7c-ZpX",
+          "commit": {
+            "abbreviatedOid": "4af592c"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I agree with @rohanmahy that the proposed changed text is more awkward than the original.  Let's not do this.",
+          "createdAt": "2026-01-26T18:14:45Z",
+          "updatedAt": "2026-01-26T18:14:45Z",
+          "comments": []
         }
       ]
     },
@@ -16876,7 +16989,7 @@
       "labels": [],
       "body": "...when it is first introduced.",
       "createdAt": "2026-01-23T01:16:15Z",
-      "updatedAt": "2026-01-23T13:48:31Z",
+      "updatedAt": "2026-01-26T18:12:00Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
@@ -16908,6 +17021,39 @@
               "updatedAt": "2026-01-23T13:48:44Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7c1Gf9",
+          "commit": {
+            "abbreviatedOid": "240d2fb"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-26T07:41:25Z",
+          "updatedAt": "2026-01-26T07:41:26Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Each nesting level only has two though: inner and outer. Out whatever terms you like. Pointing at the claim by hash might help make it clear",
+              "createdAt": "2026-01-26T07:41:26Z",
+              "updatedAt": "2026-01-26T07:41:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7c-WOG",
+          "commit": {
+            "abbreviatedOid": "240d2fb"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Removing the example about `inspection_location` actually makes this text less comprehensible - not more.  I would not do that.",
+          "createdAt": "2026-01-26T18:12:00Z",
+          "updatedAt": "2026-01-26T18:12:00Z",
+          "comments": []
         }
       ]
     },
@@ -16925,7 +17071,7 @@
       ],
       "body": "It doesn't seem to serve any real purpose and was quite distracting. The obvious inference from the preceding text was that this was the value that all decoys have to use.  Which would be silly, because every salt value needs to be unique.",
       "createdAt": "2026-01-23T01:26:21Z",
-      "updatedAt": "2026-01-23T22:47:40Z",
+      "updatedAt": "2026-01-26T18:16:22Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
@@ -16964,6 +17110,19 @@
           "body": "",
           "createdAt": "2026-01-23T01:53:00Z",
           "updatedAt": "2026-01-23T01:53:01Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7c-biJ",
+          "commit": {
+            "abbreviatedOid": "ac5915a"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I agree with @rohanmahy that this example should remain.\n\nI believe that we should close this PR without merging it so as to retain the example.",
+          "createdAt": "2026-01-26T18:16:22Z",
+          "updatedAt": "2026-01-26T18:16:22Z",
           "comments": []
         }
       ]
@@ -17176,6 +17335,42 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 235,
+      "id": "PR_kwDOMm_Q2s6_ZrnF",
+      "title": "Split CDDL into multiple files",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/235",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Split the CDDL into the individual fragments referenced in the draft. These are all concatenated together in the Appendix.\r\n- Also added the sd-cwt-preissued top level type with this definition:\r\n\r\n```\r\nsd-cwt-preissued = #6.18([\r\n   protected: bstr .cbor sd-protected,\r\n   sd-unprotected,\r\n   payload: bstr .cbor preissuance_map,\r\n   signature: bstr\r\n])\r\n```\r\n\r\nSince this is a preissuance claimset, it does not need to have any of the standard claims yet, and even the confirmation key might be known to the issuer or communicated out-of-band, so the payload is just a bstr-encoded preissuance_map",
+      "createdAt": "2026-01-26T16:20:30Z",
+      "updatedAt": "2026-01-26T16:22:21Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "9625c9dabd09b33b4bbcb40775edc2b65350f0dd",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "split-cddl",
+      "headRefOid": "822b3f3ece357567c873bf192b825c41daee6c75",
+      "closedAt": "2026-01-26T16:22:21Z",
+      "mergedAt": "2026-01-26T16:22:21Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "e7c129c1c2bf9d61996609237a01152f46d3b5a8"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm going to merge this and cherry pick https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/235/commits/822b3f3ece357567c873bf192b825c41daee6c75  into the Makefile PR",
+          "createdAt": "2026-01-26T16:21:18Z",
+          "updatedAt": "2026-01-26T16:22:02Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
