@@ -18,18 +18,18 @@ ifeq ($(filter 4.%,$(MAKE_VERSION)),)
     $(error This Makefile requires GNU Make 4.0 or higher. Current version: $(MAKE_VERSION))
 endif
 
-CDDL_RUBY := cddl
+#CDDL_RUBY := cddl
 # Check for Ruby cddl program in PATH
-ifeq ($(shell command -v cddl 2>/dev/null),)
-    $(error Required program 'cddl' not found in PATH)
-endif
+#ifeq ($(shell command -v cddl 2>/dev/null),)
+#    $(error Required program 'cddl' not found in PATH)
+#endif
 
 # Check for Ruby cbor2pretty.rb program in PATH
-ifeq ($(shell command -v cbor2pretty.rb 2>/dev/null),)
-    $(error Required program 'cbor2pretty.rb' not found in PATH)
-endif
+#ifeq ($(shell command -v cbor2pretty.rb 2>/dev/null),)
+#    $(error Required program 'cbor2pretty.rb' not found in PATH)
+#endif
 
-CDDL_RS := "${HOME}/.cargo/bin/cddl"
+#CDDL_RS := "${HOME}/.cargo/bin/cddl"
 # Check for Rust cddl program in ~/.cargo/bin
 #ifeq ($(shell command -v "${HOME}/.cargo/bin/cddl" 2>/dev/null),)
 #    undefine CDDL_RS
@@ -38,19 +38,20 @@ CDDL_RS := "${HOME}/.cargo/bin/cddl"
 #endif
 
 # Check for GNU sed and set SED variable
-#ifeq ($(shell sed --version >/dev/null 2>&1 && echo yes),yes)
-#    SED := sed
-#else ifeq ($(shell command -v gsed 2>/dev/null),)
-#    $(error GNU sed must be installed. Install 'sed' (GNU version) or 'gsed')
-#else
-#    SED := gsed
-#endif
-
-SED := sed
-ifneq ($(shell ${SED} --version >/dev/null 2>&1 && echo yes),yes)
+ifeq ($(shell sed --version >/dev/null 2>&1 && echo yes),yes)
+    SED := sed
+else ifeq ($(shell command -v gsed 2>/dev/null),)
     $(error GNU sed must be installed. Install 'sed' (GNU version) or 'gsed')
+else
+    SED := gsed
 endif
 
+#SED := gsed
+#ifneq ($(shell ${SED} --version >/dev/null 2>&1 && echo yes),yes)
+#    $(error GNU sed must be installed. Install 'sed' (GNU version) or 'gsed')
+#endif
+
+#PYTHON := python3
 
 #.PHONY: vars
 #vars:
@@ -59,11 +60,11 @@ endif
 #	@echo "Sed: ${SED}"
 #	@echo "Rust CDDL tool ${CDDL_RS}"
 
-PYTHON := python3
 CBOR2PRETTY := cbor2pretty.rb
-#CDDL_RUBY := ../lib/.gems/bin/cddl
-#CBOR2PRETTY := ../lib/.gems/bin/cbor2pretty.rb
-#PYTHON := ../lib/.venvs/bin/python3
+CDDL_RS := ../lib/.cargo/bin/cddl
+CDDL_RUBY := ../lib/.gems/bin/cddl
+CBOR2PRETTY := ../lib/.gems/bin/cbor2pretty.rb
+PYTHON := ../lib/.venvs/bin/python3
 
 .PHONY: all
 all: build
