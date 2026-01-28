@@ -309,8 +309,9 @@ This diagram relates the terminology specific to selective disclosure and redact
 ## A CWT without Selective Disclosure
 
 Below is the payload, or claims set, of a standard CWT not using selective disclosure.
-It consists of standard CWT claims, the Holder confirmation key, and five specific custom claims. The payload is shown below in EDN {{!I-D.ietf-cbor-edn-literals}}.
-Note that some of the CWT claim map keys shown in the examples are fictitious and do not have registered integer keys.
+It consists of standard CWT claims, the Holder confirmation key, and five fictitious example claims.
+The payload is shown below in EDN {{!I-D.ietf-cbor-edn-literals}}.
+Note that the fictitious map keys shown in the examples do not have IANA registered integer keys.
 
 ~~~ cbor-diag
 {
