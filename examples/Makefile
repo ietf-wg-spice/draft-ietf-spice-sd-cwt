@@ -112,11 +112,11 @@ validate-edn: $(compare-edn) $(cbor) $(validate-progs)
 
 .PHONY: clean
 clean:
-	rm *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
+	-rm -f *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
 
 
 # Beware the following manual build steps if something major changes:
-# 
+#
 #   Section 3.1:
 #        the example claimset is manual. If it diverges from the claimset
 #        used in examples/sd-cwt.py, the generated examples will be wrong

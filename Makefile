@@ -44,6 +44,9 @@ local-sources := examples/decoy_list.csv \
 ${includes} &: $(local-sources)
 	$(MAKE) -C examples
 
+clean::
+	$(MAKE) -C examples clean
+
 .PHONY: validate
 validate:
 	@echo running $(MAKE) in examples/ directory
