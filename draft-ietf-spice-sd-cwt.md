@@ -668,6 +668,7 @@ Holder verifies the following:
 - the hash algorithm identified by the `sd_alg` header parameter in the protected headers is supported by the Holder;
 - if a `cnonce` is present, it was provided by the Holder to this Issuer and is still fresh;
 - there are no unblinded claims about the subject that violate its privacy policies;
+- any place where the cardinality of claims needs to be protected have sufficient decoys ({{decoys}});
 - every blinded claim hash (some of which may be nested as in {{nesting}}) has a corresponding Salted Disclosed Claim, and vice versa;
 - the values of the Salted Disclosed Claims when placed in their unblinded context in the payload are acceptable to the Holder.
 
