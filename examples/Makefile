@@ -18,6 +18,9 @@ ifeq ($(filter 4.%,$(MAKE_VERSION)),)
     $(error This Makefile requires GNU Make 4.0 or higher. Current version: $(MAKE_VERSION))
 endif
 
+BUNDLE_PATH ?= $(realpath $(CURDIR)/../lib/.gems)
+$(info BUNDLE_PATH = ${BUNDLE_PATH})
+
 #CDDL_RUBY := cddl
 # Check for Ruby cddl program in PATH
 #ifeq ($(shell command -v cddl 2>/dev/null),)
@@ -46,37 +49,18 @@ else
     SED := gsed
 endif
 
-#SED := gsed
-#ifneq ($(shell ${SED} --version >/dev/null 2>&1 && echo yes),yes)
-#    $(error GNU sed must be installed. Install 'sed' (GNU version) or 'gsed')
-#endif
-
-#PYTHON := python3
-
-#.PHONY: vars
-#vars:
-#	@echo "Printing system variables..."
-#	@echo "Make version: $(MAKE_VERSION)"
-#	@echo "Sed: ${SED}"
-#	@echo "Rust CDDL tool ${CDDL_RS}"
-
-ifeq (true,$(CI))
-    PYTHON := python3
-else
-#   If not set, manually set BUNDLE_PATH to the full path of ../lib/.gems
-    PYTHON := ../lib/.venv/bin/python3
-endif
 CDDL_RS := ${BUNDLE_PATH}/../.cargo/bin/cddl
 CDDL_RUBY := ${BUNDLE_PATH}/bin/cddl
 CBOR2PRETTY := ${BUNDLE_PATH}/bin/cbor2pretty.rb
 
+python ?= ../lib/.venv/bin/python3
 
 .PHONY: all
 all: build
 
 # This construction only runs sd-cwt.py once, but requires make version 4.x
 ${pygenerated} &: sd-cwt.py salt_list.csv decoy_list.csv $(keys)
-	${PYTHON} sd-cwt.py
+	${python} sd-cwt.py
 
 first-disclosure.pretty: first-disclosure.cborseq
 	${CBOR2PRETTY} $< > $@
@@ -85,7 +69,7 @@ first-disclosure.pretty: first-disclosure.cborseq
 	${SED} -i -r -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
 
 aead-key.txt aead-claim-array.edn &: enc-disc.py
-	${PYTHON} enc-disc.py
+	${python} enc-disc.py
 
 .PHONY: build
 build: $(pygenerated) first-disclosure.pretty aead-key.txt aead-claim-array.edn
