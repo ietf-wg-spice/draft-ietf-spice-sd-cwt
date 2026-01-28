@@ -1159,6 +1159,9 @@ Issuer                           Holder                         Verifier
    *  there are no unblinded claims about the subject that violate its
       privacy policies;
 
+   *  any place where the cardinality of claims needs to be protected
+      have sufficient decoys (Section 10);
+
    *  every blinded claim hash (some of which may be nested as in
       Section 14.2) has a corresponding Salted Disclosed Claim, and vice
       versa;
