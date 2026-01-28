@@ -1042,11 +1042,11 @@ Verifiers start unblinding claims for which they have blinded claim hashes. They
         /value/  {
                      1: "us",
                      simple(59): [
-                     h'2470fb9175b062c347ab3c3a19776d02
-                       476112a17cd7cfc9416664bc058c220b',
-                     h'cf397a08917528624ca3b332c9edcc54
-                       a72c9411dd5983f68017ce160f709f52'
-                 ]
+                         h'2470fb9175b062c347ab3c3a19776d02
+                           476112a17cd7cfc9416664bc058c220b',
+                         h'cf397a08917528624ca3b332c9edcc54
+                           a72c9411dd5983f68017ce160f709f52'
+                     ]
                  },
         /claim/  503   / San Francisco location /
     ]>>,
@@ -1061,11 +1061,11 @@ Verifiers start unblinding claims for which they have blinded claim hashes. They
                      500: true,
                      502: 1549560720,
                      simple(59): [
-                     h'7257a8697dfa40221079b00fb65fe587
-                       c310e6ca3da1aa33b090335de66ec810',
-                     h'c24c646b52fecd773c6ea01c6caa5a73
-                       422b85d3afa5900fa998336d83a88025'
-                 ]
+                         h'7257a8697dfa40221079b00fb65fe587
+                           c310e6ca3da1aa33b090335de66ec810',
+                         h'c24c646b52fecd773c6ea01c6caa5a73
+                           422b85d3afa5900fa998336d83a88025'
+                     ]
                  }   / inspection 7-Feb-2019 /
     ]>>,
     <<[
@@ -1078,11 +1078,11 @@ Verifiers start unblinding claims for which they have blinded claim hashes. They
         /value/  {
                      1: "us",
                      simple(59): [
-                     h'1b89717167f39d51eec08b13baeda570
-                       eff5d0aedaa1d7d0821185c33634a5a0',
-                     h'49412884fa1e3787c17d1320bdd48f6e
-                       0e5365da010cde0571d4a7effd13cc2a'
-                 ]
+                         h'1b89717167f39d51eec08b13baeda570
+                           eff5d0aedaa1d7d0821185c33634a5a0',
+                         h'49412884fa1e3787c17d1320bdd48f6e
+                           0e5365da010cde0571d4a7effd13cc2a'
+                     ]
                  },
         /claim/  503   / Denver location /
     ]>>,
