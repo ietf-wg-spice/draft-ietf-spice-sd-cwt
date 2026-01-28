@@ -26,7 +26,7 @@ issued_sd_cwt_value =
 ; legal values in claim set sent to Issuer
 preissuance_label = label /
                     #6.<TO_BE_REDACTED_TAGNUM>(label) /
-                    #6.<TO_BE_DECOY_TAGNUM>(int .gt 0)
+                    #6.<TO_BE_DECOY_TAGNUM>(uint .gt 0)
 
 preissuance_map = { * preissuance_label => preissuance_value }
 
