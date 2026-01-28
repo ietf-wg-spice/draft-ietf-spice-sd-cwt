@@ -60,12 +60,6 @@ endif
 #	@echo "Sed: ${SED}"
 #	@echo "Rust CDDL tool ${CDDL_RS}"
 
-ifeq (true,$(CI))
-    PYTHON := python3
-else
-#   If not set, manually set BUNDLE_PATH to the full path of ../lib/.gems
-    PYTHON := ../lib/.venv/bin/python3
-endif
 CDDL_RS := ${BUNDLE_PATH}/../.cargo/bin/cddl
 CDDL_RUBY := ${BUNDLE_PATH}/bin/cddl
 CBOR2PRETTY := ${BUNDLE_PATH}/bin/cbor2pretty.rb
@@ -76,7 +70,7 @@ all: build
 
 # This construction only runs sd-cwt.py once, but requires make version 4.x
 ${pygenerated} &: sd-cwt.py salt_list.csv decoy_list.csv $(keys)
-	${PYTHON} sd-cwt.py
+	${python} sd-cwt.py
 
 first-disclosure.pretty: first-disclosure.cborseq
 	${CBOR2PRETTY} $< > $@
@@ -85,7 +79,7 @@ first-disclosure.pretty: first-disclosure.cborseq
 	${SED} -i -r -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
 
 aead-key.txt aead-claim-array.edn &: enc-disc.py
-	${PYTHON} enc-disc.py
+	${python} enc-disc.py
 
 .PHONY: build
 build: $(pygenerated) first-disclosure.pretty aead-key.txt aead-claim-array.edn
@@ -112,11 +106,11 @@ validate-edn: $(compare-edn) $(cbor) $(validate-progs)
 
 .PHONY: clean
 clean:
-	rm *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
+	-rm -f *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
 
 
 # Beware the following manual build steps if something major changes:
-# 
+#
 #   Section 3.1:
 #        the example claimset is manual. If it diverges from the claimset
 #        used in examples/sd-cwt.py, the generated examples will be wrong
