@@ -483,7 +483,7 @@ In CBOR, a NumericDate can be represented as an unsigned integer, a negative int
 CBOR (both {{?RFC7049}} and {{!RFC8949}}) refers to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
 Neither JSON {{?RFC8259}} nor JWT {{?RFC7519}} can represent infinite values.
 
-As IEEE double-precision floating point numbers smaller than -(2^53) and larger than 2^53 are no longer as precise as CBOR integers, use of floating point values outside this range are FORBIDDEN.
+As IEEE double-precision floating point numbers smaller than -(2^53) and larger than 2^53 are no longer as precise as CBOR integers, use of floating point numbers smaller than -(2^53) and larger than 2^53 is FORBIDDEN.
 
 ## Allowed types of CBOR map keys
 
