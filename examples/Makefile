@@ -97,6 +97,7 @@ validate-edn: $(compare-edn) $(cbor) $(validate-progs)
 .PHONY: clean
 clean:
 	-rm -f *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
+	-rm -f ../sd-cwts.cddl
 
 
 # Beware the following manual build steps if something major changes:
