@@ -2497,7 +2497,10 @@ label = int / tstr .size (1..255)
 safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
                      TO_BE_DECOY_TAGNUM /
                      REDACTED_ELEMENT_TAGNUM)
-safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
+
+; exclude reserved simple values (24 through 31) from Table 4 of
+; RFC 8949, and redacted keys array
+safe_simple =  0..23 / 32..58 / 60..255
 secs = int / float53
 float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 
@@ -4688,7 +4691,10 @@ label = int / tstr .size (1..255)
 safe_tag = uint .ne (TO_BE_REDACTED_TAGNUM /
                      TO_BE_DECOY_TAGNUM /
                      REDACTED_ELEMENT_TAGNUM)
-safe_simple =  0..23 / 32..58 / 60..255  ; exclude redacted keys array
+
+; exclude reserved simple values (24 through 31) from Table 4 of
+; RFC 8949, and redacted keys array
+safe_simple =  0..23 / 32..58 / 60..255
 secs = int / float53
 float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 
