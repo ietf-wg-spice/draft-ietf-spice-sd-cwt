@@ -821,7 +821,8 @@ Issuer                           Holder                         Verifier
 
    As IEEE double-precision floating point numbers smaller than -(2^53)
    and larger than 2^53 are no longer as precise as CBOR integers, use
-   of floating point values outside this range are FORBIDDEN.
+   of floating point numbers smaller than -(2^53) and larger than 2^53
+   is FORBIDDEN.
 
 6.3.  Allowed types of CBOR map keys
 
