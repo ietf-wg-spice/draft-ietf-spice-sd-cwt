@@ -23,25 +23,23 @@ endif
 .SECONDARY: $(drafts_xml)
 
 includes := examples/issuer_cwt.edn \
-	    examples/first-disclosure.edn \
-	    examples/first-disclosure.pretty \
-	    examples/first-blinded-hash.txt \
-	    examples/first-redacted.edn \
-	    examples/chosen-disclosures.edn \
-	    examples/elided-kbt.edn \
-	    examples/decoy.edn \
-	    examples/aead-key.txt \
-	    examples/aead-claim-array.edn \
-	    examples/kbt.edn
+            examples/first-disclosure.edn \
+            examples/first-disclosure.pretty \
+            examples/first-blinded-hash.txt \
+            examples/first-redacted.edn \
+            examples/chosen-disclosures.edn \
+            examples/elided-kbt.edn \
+            examples/decoy.edn \
+            examples/aead-key.txt \
+            examples/aead-claim-array.edn \
+            examples/kbt.edn
 
 local-sources := examples/decoy_list.csv \
-		 examples/salt_list.csv \
-		 examples/sd-cwt.py \
-		 examples/enc-disc.py \
-		 examples/edn2cbor \
-		 examples/compare_edn_to_cbor.sh
-
-draft-ietf-spice-sd-cwt.xml: ${includes}
+                 examples/salt_list.csv \
+                 examples/sd-cwt.py \
+                 examples/enc-disc.py \
+                 examples/edn2cbor \
+                 examples/compare_edn_to_cbor.sh
 
 ${includes} &: $(local-sources)
 	$(MAKE) -C examples
