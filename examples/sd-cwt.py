@@ -514,9 +514,6 @@ def edn_one_disclosure(disclosure, comment=None):
     edn = '        <<[\n'
     edn += f"            /salt/   h'{bytes2hex(disclosure[0])}',\n"
     if len(disclosure) == 3:
-        if disclosure[2] == 500:
-            print(disclosure[1])
-            print(type(disclosure[1]))
         edn += f"            /value/  {val(disclosure[1])},\n"
         edn += f"            /claim/  {val(disclosure[2])}{cmt}\n"
     elif len(disclosure) == 2:
@@ -914,11 +911,11 @@ if __name__ == "__main__":
     payload |= holder_cnf | cwt_time_claims
     
     # help figure out which disclosures to include
-    for d in disclosures:
-        disc_array = cbor2.loads(d)
-        print(f'''
-{disc_array}
-''')
+#    for d in disclosures:
+#        disc_array = cbor2.loads(d)
+#        print(f'''
+#{disc_array}
+#''')
 
     full_nested_unprotected = {
       SD_CLAIMS: disclosures

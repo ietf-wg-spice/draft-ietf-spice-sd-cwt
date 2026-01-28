@@ -1,95 +1,121 @@
-cbor = issuer_cwt.cbor kbt.cbor nested_issuer_cwt.cbor nested_cwt.cbor nested_kbt.cbor decoy.cbor
-edn  = issuer_cwt.edn kbt.edn nested_issuer_cwt.edn nested_cwt.edn nested_kbt.cbor decoy.cbor
-manual-edn = first-disclosure.edn first-redacted.edn chosen-disclosures.edn
-manual-cbor = first-disclosure.cborseq
-primary = $(edn)  first-blinded-hash.txt
+MAKEFLAGS += --no-builtin-rules
+
+cbor-noext = issuer_cwt kbt nested_issuer_cwt nested_cwt nested_kbt decoy
+cbor = $(cbor-noext:=.cbor)
+compare-edn = $(cbor:cbor=edn)
+other-edn = first-disclosure first-redacted chosen-disclosures elided-kbt
+direct-edn = $(compare-edn) $(other-edn:=.edn) chosen-nested-disclosures.edn
+other-direct = first-disclosure.cborseq first-blinded-hash.txt
+pygenerated = $(direct-edn) $(cbor) $(other-direct)
 keys = ../holder_privkey.pem ../issuer_privkey.pem
-generated = $(cbor) $(edn) first-blinded-hash.txt
-CDDL_RUBY = /opt/homebrew/opt/ruby/lib/ruby/gems/bin/cddl
-CDDL_RS = "${HOME}/.cargo/bin/cddl"
+cddl = ../header.cddl ../main-sd-cwt.cddl ../kbt.cddl ../preissued.cddl \
+       ../legal-values.cddl ../salted-array.cddl ../aead.cddl \
+       ../redacted-simple-tag.cddl
+full-cddl = ../sd-cwts.cddl
 
-help:
-	echo 'To rebuild the examples, run:'
-	echo '    python3 sd-cwt.py && make first-disclosure.pretty'
+# Check make version (must be 4.0 or higher)
+ifeq ($(filter 4.%,$(MAKE_VERSION)),)
+    $(error This Makefile requires GNU Make 4.0 or higher. Current version: $(MAKE_VERSION))
+endif
 
-all: $(primary)
+BUNDLE_PATH ?= $(realpath $(CURDIR)/../lib/.gems)
+$(info BUNDLE_PATH = ${BUNDLE_PATH})
 
-$(primary): sd-cwt.py first-disclosure.pretty $(keys)
-	python3 sd-cwt.py
+#CDDL_RUBY := cddl
+# Check for Ruby cddl program in PATH
+#ifeq ($(shell command -v cddl 2>/dev/null),)
+#    $(error Required program 'cddl' not found in PATH)
+#endif
 
-# Section 3.2
+# Check for Ruby cbor2pretty.rb program in PATH
+#ifeq ($(shell command -v cbor2pretty.rb 2>/dev/null),)
+#    $(error Required program 'cbor2pretty.rb' not found in PATH)
+#endif
+
+#CDDL_RS := "${HOME}/.cargo/bin/cddl"
+# Check for Rust cddl program in ~/.cargo/bin
+#ifeq ($(shell command -v "${HOME}/.cargo/bin/cddl" 2>/dev/null),)
+#    undefine CDDL_RS
+#else
+#    CDDL_RS := "${HOME}/.cargo/bin/cddl"
+#endif
+
+# Check for GNU sed and set SED variable
+ifeq ($(shell sed --version >/dev/null 2>&1 && echo yes),yes)
+    SED := sed
+else ifeq ($(shell command -v gsed 2>/dev/null),)
+    $(error GNU sed must be installed. Install 'sed' (GNU version) or 'gsed')
+else
+    SED := gsed
+endif
+
+CDDL_RS := ${BUNDLE_PATH}/../.cargo/bin/cddl
+CDDL_RUBY := ${BUNDLE_PATH}/bin/cddl
+CBOR2PRETTY := ${BUNDLE_PATH}/bin/cbor2pretty.rb
+
+python ?= ../lib/.venv/bin/python3
+
+.PHONY: all
+all: build
+
+# This construction only runs sd-cwt.py once, but requires make version 4.x
+${pygenerated} &: sd-cwt.py salt_list.csv decoy_list.csv $(keys)
+	${python} sd-cwt.py
+
 first-disclosure.pretty: first-disclosure.cborseq
-	cbor2pretty.rb $< > $@
+	${CBOR2PRETTY} $< > $@
 	# This sed command replaces the comment after the salt with a comment just say "16-byte salt"
 	# Note: using pipe character as a sed delimiter below
-	gsed -i -r -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
+	${SED} -i -r -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
 
-validate: validate-cddl validate-edn
+aead-key.txt aead-claim-array.edn &: enc-disc.py
+	${python} enc-disc.py
 
-validate-cddl: ../sd-cwts.cddl $(cbor)
-	$CDDL_RS compile-cddl --cddl ../sd-cwts.cddl
-	for c in $(cbor); do $CDDL_RUBY ../sd-cwts.cddl validate $${c}; done
+.PHONY: build
+build: $(pygenerated) first-disclosure.pretty aead-key.txt aead-claim-array.edn
 
-validate-edn: validate issuer_cwt.edn kbt.edn nested.edn
-	compare_edn_to_cbor.sh issuer_cwt.edn
-	compare_edn_to_cbor.sh kbt.edn
-	compare_edn_to_cbor.sh nested_issuer_cwt.edn
-	compare_edn_to_cbor.sh nested_cwt.edn
-	compare_edn_to_cbor.sh nested_kbt.edn
-	compare_edn_to_cbor.sh decoy.edn
+.PHONY: validate
+validate: validate-cbor validate-edn
+
+${full-cddl}: $(cddl)
+	cat $^ > ${full-cddl}
+
+.PHONY: validate-cddl
+validate-cbor: $(full-cddl) $(cbor)
+ifdef CDDL_RS
+	# only run the Rust CDDL verification tool if it is installed
+	${CDDL_RS} compile-cddl --cddl ${full-cddl}
+endif
+	for c in $(cbor); do ${CDDL_RUBY} ${full-cddl} validate $${c}; done
+
+validate-progs = compare_edn_to_cbor.sh edn2cbor
+.PHONY: validate-edn
+validate-edn: $(compare-edn) $(cbor) $(validate-progs)
+	for e in ${compare-edn}; do ./compare_edn_to_cbor.sh $${e}; done
 	echo "Manually verify elided-kbt.edn"
 
+.PHONY: clean
+clean:
+	-rm -f *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
+	-rm -f ../sd-cwts.cddl
 
-# Building the SD-CWT draft has the following logical dependencies:
-# 
-#   Section 3.1: unredacted-payload.edn -> edn2cbor; 
-#        py: unredact (strip tags) from to_be_redacted_payload
-#        py: generate unredacted-payload.cbor 
-#        byte compare the two files
+
+# Beware the following manual build steps if something major changes:
 #
-#   Section 3.2: py:generate disclosures.edn, redacted_payload.edn
-#        py: generate issuer-cwt.edn
-#        edn2cbor and compare with issuer-cwt.cbor
+#   Section 3.1:
+#        the example claimset is manual. If it diverges from the claimset
+#        used in examples/sd-cwt.py, the generated examples will be wrong
 #
-#        py: first-disclosure.edn
+#   Section 14.2: nested disclosures examples (all three)
+#        the example claimset is manual. If it diverges from the claimset
+#        used in examples/sd-cwt.py, the generated examples will be wrong
 #
-#        cbor2pretty: first-disclosure.cbor first-disclosure.pretty
+#        The sample claims (the second example in the section)
+#        is manually pasted in from the sd_claims COSE Header parameter
+#        from the examples/issued_cwt.edn
 #
-#        py: first-blinded-hash.txt
+#        the example resulting claimset is also manual.
 #
-#        py: first-redacted.edn
-#
-#   Section 4:
-#        py: chosen-disclosures.edn
-#
-#        py: elided-kwt.edn
-#
-#   Section 6.1:
-#        2 small snippets of CDDL (manually updated)
-#
-#   Section 7.2:
-#        large snippet of CDDL for SD-CWT (manually updated)
-#
-#   Section 8.1:
-#        large snippet of CDDL for KBT (manually updated)
-#
-#   Section 10: decoy digest
-#        py: generate issued disclosures from nested example
-#        py: generate redactions from nested exampled
-#
-#
-#   Section 12.1: full basic example
-#	py: generate CBOR basic example
-#       edn2cbor annotated EDN used in draft and compare
-#
-#   Section 12.2: nested example
-#       py: generate CBOR nested example
-#       edn2cbor annotated EDN used in draft and compare
-#
-#   Appendix A: full CDDL
-#       validate CDDL against all four full CBOR instance docs
 #
 #   Appendix C: keys
-#       (later) convert pem keys to all the other formats shown
-
-
+#       manually convert pem keys to all the other formats shown
