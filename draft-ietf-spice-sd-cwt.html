@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 1 August 2026</td>
+<td class="center">Expires 2 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-28" class="published">28 January 2026</time>
+<time datetime="2026-01-29" class="published">29 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-01">1 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-02">2 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1134,7 +1134,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 2 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1636,96 +1636,99 @@ However, the following guidance is generally recommended, regardless of protocol
 "<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">This specification uses terms from CWT <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, COSE <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> <span>[<a href="#RFC9053" class="cite xref">RFC9053</a>]</span>
-and JWT <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
-<p id="section-2-3">The terms Claim Name, Claim Key, and Claim Value are defined in <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-2-3" class="pilcrow">¶</a></p>
-<p id="section-2-4">This specification defines the following new terms:<a href="#section-2-4" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-2-5">
-        <dt id="section-2-5.1">Selective Disclosure CBOR Web Token (SD-CWT):</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.2">
-          <p id="section-2-5.2.1">A CWT with claims enabling selective disclosure with key binding.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+<p id="section-2-2">The CBOR examples in this document are shown in CBOR Extended Diagnostic Notation (EDN) <span>[<a href="#I-D.ietf-cbor-edn-literals" class="cite xref">I-D.ietf-cbor-edn-literals</a>]</span>.
+EDN resembles JSON, but it can contain comments, and it can represent all native CBOR types, including byte strings, tagged values, and CBOR simple values.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3">Data model constraints are described using the Concise Data Definition Language (CDDL) <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span>.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">This specification uses terms from CWT <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, COSE <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> <span>[<a href="#RFC9053" class="cite xref">RFC9053</a>]</span>
+and JWT <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-5">The terms Claim Name, Claim Key, and Claim Value are defined in <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-6">This specification defines the following new terms:<a href="#section-2-6" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-7">
+        <dt id="section-2-7.1">Selective Disclosure CBOR Web Token (SD-CWT):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.2">
+          <p id="section-2-7.2.1">A CWT with claims enabling selective disclosure with key binding.<a href="#section-2-7.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.3">Selective Disclosure Key Binding Token (SD-CWT-KBT):</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.4">
-          <p id="section-2-5.4.1">A CWT used to demonstrate possession of a confirmation method, associated with an SD-CWT.<a href="#section-2-5.4.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.3">Selective Disclosure Key Binding Token (SD-CWT-KBT):</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.4">
+          <p id="section-2-7.4.1">A CWT used to demonstrate possession of a confirmation method, associated with an SD-CWT.<a href="#section-2-7.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.5">Assertion Key:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.6">
-          <p id="section-2-5.6.1">A key used by the Issuer to sign a Claim Values.<a href="#section-2-5.6.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.5">Assertion Key:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.6">
+          <p id="section-2-7.6.1">A key used by the Issuer to sign a Claim Values.<a href="#section-2-7.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.7">Confirmation Key:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.8">
-          <p id="section-2-5.8.1">A key used by the Holder to sign a Selected Salted Disclosed Claims.<a href="#section-2-5.8.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.7">Confirmation Key:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.8">
+          <p id="section-2-7.8.1">A key used by the Holder to sign a Selected Salted Disclosed Claims.<a href="#section-2-7.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.9">Issuer:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.10">
-          <p id="section-2-5.10.1">An entity that produces a Selective Disclosure CBOR Web Token by signing a Claim Values with an Assertion Key.<a href="#section-2-5.10.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.9">Issuer:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.10">
+          <p id="section-2-7.10.1">An entity that produces a Selective Disclosure CBOR Web Token by signing a Claim Values with an Assertion Key.<a href="#section-2-7.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.11">Holder:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.12">
-          <p id="section-2-5.12.1">An entity that presents a Selective Disclosure Key Binding Token, containing a Selective Disclosure CBOR Web Token and Selected Salted Disclosed Claims signed with a Confirmation Key.<a href="#section-2-5.12.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.11">Holder:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.12">
+          <p id="section-2-7.12.1">An entity that presents a Selective Disclosure Key Binding Token, containing a Selective Disclosure CBOR Web Token and Selected Salted Disclosed Claims signed with a Confirmation Key.<a href="#section-2-7.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.13">Verifier:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.14">
-          <p id="section-2-5.14.1">An entity that validates a Partial or Full Disclosure by a Holder.<a href="#section-2-5.14.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.13">Verifier:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.14">
+          <p id="section-2-7.14.1">An entity that validates a Partial or Full Disclosure by a Holder.<a href="#section-2-7.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.15">Partial Disclosure:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.16">
-          <p id="section-2-5.16.1">When a subset of the original claims, protected by the Issuer, are disclosed by the Holder.<a href="#section-2-5.16.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.15">Partial Disclosure:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.16">
+          <p id="section-2-7.16.1">When a subset of the original claims, protected by the Issuer, are disclosed by the Holder.<a href="#section-2-7.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.17">Full Disclosure:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.18">
-          <p id="section-2-5.18.1">When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no blinded claims (when all claims are marked as mandatory to disclose by the Issuer) is considered a Full Disclosure.<a href="#section-2-5.18.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.17">Full Disclosure:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.18">
+          <p id="section-2-7.18.1">When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no blinded claims (when all claims are marked as mandatory to disclose by the Issuer) is considered a Full Disclosure.<a href="#section-2-7.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.19">Salted Disclosed Claim:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.20">
-          <p id="section-2-5.20.1">A salted claim disclosed in the unprotected header of an SD-CWT.<a href="#section-2-5.20.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.19">Salted Disclosed Claim:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.20">
+          <p id="section-2-7.20.1">A salted claim disclosed in the unprotected header of an SD-CWT.<a href="#section-2-7.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.21">Blinded Claim Hash:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.22">
-          <p id="section-2-5.22.1">A hash digest of a Salted Disclosed Claim.<a href="#section-2-5.22.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.21">Blinded Claim Hash:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.22">
+          <p id="section-2-7.22.1">A hash digest of a Salted Disclosed Claim.<a href="#section-2-7.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.23">Blinded Claim:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.24">
-          <p id="section-2-5.24.1">Any Redacted Claim Key or Redacted Claim Element that has been replaced in the
-CWT payload by a Blinded Claim Hash.<a href="#section-2-5.24.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.23">Blinded Claim:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.24">
+          <p id="section-2-7.24.1">Any Redacted Claim Key or Redacted Claim Element that has been replaced in the
+CWT payload by a Blinded Claim Hash.<a href="#section-2-7.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.25">Redacted Claim Key:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.26">
-          <p id="section-2-5.26.1">The hash of a claim redacted from a map data structure.<a href="#section-2-5.26.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.25">Redacted Claim Key:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.26">
+          <p id="section-2-7.26.1">The hash of a claim redacted from a map data structure.<a href="#section-2-7.26.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.27">Redacted Claim Element:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.28">
-          <p id="section-2-5.28.1">The hash of an element redacted from an array data structure.<a href="#section-2-5.28.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.27">Redacted Claim Element:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.28">
+          <p id="section-2-7.28.1">The hash of an element redacted from an array data structure.<a href="#section-2-7.28.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.29">Presented Disclosed Claims Set:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.30">
-          <p id="section-2-5.30.1">The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.<a href="#section-2-5.30.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.29">Presented Disclosed Claims Set:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.30">
+          <p id="section-2-7.30.1">The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.<a href="#section-2-7.30.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.31">Validated Disclosed Claims Set:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.32">
-          <p id="section-2-5.32.1">The CBOR map containing all mandatory to disclose claims signed by the Issuer, all selectively disclosed claims presented by the Holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.<a href="#section-2-5.32.1" class="pilcrow">¶</a></p>
+<dt id="section-2-7.31">Validated Disclosed Claims Set:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.32">
+          <p id="section-2-7.32.1">The CBOR map containing all mandatory to disclose claims signed by the Issuer, all selectively disclosed claims presented by the Holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.<a href="#section-2-7.32.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
-<p id="section-2-6">The following diagram explains the relationships between the terminology used in this specification.<a href="#section-2-6" class="pilcrow">¶</a></p>
-<div id="section-2-7">
-        <div class="alignLeft art-svg artwork" id="section-2-7.1">
+<p id="section-2-8">The following diagram explains the relationships between the terminology used in this specification.<a href="#section-2-8" class="pilcrow">¶</a></p>
+<div id="section-2-9">
+        <div class="alignLeft art-svg artwork" id="section-2-9.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="392" viewBox="0 0 392 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
             <path d="M 8,112 L 8,160" fill="none" stroke="black"></path>
             <path d="M 8,288 L 8,400" fill="none" stroke="black"></path>
@@ -1812,12 +1815,12 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-5.24.1" class="pilcrow">
               <text x="200" y="548">Claim</text>
               <text x="240" y="548">Set</text>
             </g>
-          </svg><a href="#section-2-7.1" class="pilcrow">¶</a>
+          </svg><a href="#section-2-9.1" class="pilcrow">¶</a>
 </div>
 </div>
-<p id="section-2-8">This diagram relates the terminology specific to selective disclosure and redaction.<a href="#section-2-8" class="pilcrow">¶</a></p>
-<div id="section-2-9">
-        <div class="alignLeft art-svg artwork" id="section-2-9.1">
+<p id="section-2-10">This diagram relates the terminology specific to selective disclosure and redaction.<a href="#section-2-10" class="pilcrow">¶</a></p>
+<div id="section-2-11">
+        <div class="alignLeft art-svg artwork" id="section-2-11.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="880" width="360" viewBox="0 0 360 880" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
             <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
             <path d="M 8,144 L 8,176" fill="none" stroke="black"></path>
@@ -1938,7 +1941,7 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-5.24.1" class="pilcrow">
               <text x="88" y="852">Value</text>
               <text x="160" y="852">(recovered)</text>
             </g>
-          </svg><a href="#section-2-9.1" class="pilcrow">¶</a>
+          </svg><a href="#section-2-11.1" class="pilcrow">¶</a>
 </div>
 </div>
 </section>
@@ -1953,9 +1956,10 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-5.24.1" class="pilcrow">
         <h3 id="name-a-cwt-without-selective-dis">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-a-cwt-without-selective-dis" class="section-name selfRef">A CWT without Selective Disclosure</a>
         </h3>
-<p id="section-3.1-1">Below is the payload of a standard CWT not using selective disclosure.
-It consists of standard CWT claims, the Holder confirmation key, and five specific custom claims. The payload is shown below in CBOR Extended Diagnostic
-Notation (EDN) <span>[<a href="#I-D.ietf-cbor-edn-literals" class="cite xref">I-D.ietf-cbor-edn-literals</a>]</span>. Note that some of the CWT claim map keys shown in the examples have been invented for this example and do not have registered integer keys.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-1">Below is the payload, or claims set, of a standard CWT not using selective disclosure.
+It consists of standard CWT claims, the Holder confirmation key, and five fictitious example claims.
+The payload is shown below in EDN <span>[<a href="#I-D.ietf-cbor-edn-literals" class="cite xref">I-D.ietf-cbor-edn-literals</a>]</span>.
+Note that the fictitious map keys shown in the examples do not have IANA registered integer keys.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <div class="lang-cbor-diag sourcecode" id="section-3.1-2">
 <pre>
 {
@@ -2265,13 +2269,20 @@ decoy = [
 </pre><a href="#section-5.1-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.1-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
-The <code>redacted_claim_keys</code> key is the CBOR simple value 59 registered for that purpose.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+The <code>redacted_claim_keys</code> key is the CBOR simple value 59 registered for that purpose.
+CBOR "simple values" <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> are values (like <code>false</code> or <code>undefined</code>) that do need any additional content.
+In this specification a simple value of 59 is used as the content of a map key to indicate that one or more map key/value pairs was blinded in this CBOR map.
+The simple value 59 is represented in examples using the syntax <code>simple(59)</code>.
+The simple value 59 in CDDL are represented using the syntax <code>#7.59</code>.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
+CBOR tags <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.4" class="relref">Section 3.4</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> annotate other values.
+The tag 60 is represented in examples as <code>60(</code> <em>tagged value</em> <code>)</code>.
+The tag 60 is represented in CDDL as <code>#6.60(</code> <em>tagged value</em> <code>)</code>.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <div class="lang-cddl sourcecode" id="section-5.1-5">
 <pre>
 ; redacted_claim_keys is used as a map key. The corresponding value is
-; an array of Blinded Claim Hashes whose corresponding unblinded map keys
-; and values are in the same map.
+; an array of Blinded Claim Hashes whose corresponding unblinded map
+; keys and values are in the same map.
 redacted_claim_keys = #7.59  ; CBOR simple value 59
 
 ; CBOR tag for wrapping a redacted element in an array
@@ -4464,6 +4475,10 @@ An indication of the relevant sections may also be included, but is not required
         <dd>
 <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Wahlstroem, E.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"CBOR Web Token (CWT)"</span>, <span class="seriesInfo">RFC 8392</span>, <span class="seriesInfo">DOI 10.17487/RFC8392</span>, <time datetime="2018-05" class="refDate">May 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8392">https://www.rfc-editor.org/rfc/rfc8392</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC8610">[RFC8610]</dt>
+        <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Vigano, C.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures"</span>, <span class="seriesInfo">RFC 8610</span>, <span class="seriesInfo">DOI 10.17487/RFC8610</span>, <time datetime="2019-06" class="refDate">June 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8610">https://www.rfc-editor.org/rfc/rfc8610</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8747">[RFC8747]</dt>
         <dd>
 <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Seitz, L.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Proof-of-Possession Key Semantics for CBOR Web Tokens (CWTs)"</span>, <span class="seriesInfo">RFC 8747</span>, <span class="seriesInfo">DOI 10.17487/RFC8747</span>, <time datetime="2020-03" class="refDate">March 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8747">https://www.rfc-editor.org/rfc/rfc8747</a>&gt;</span>. </dd>
@@ -4727,8 +4742,8 @@ aead-encrypted = [
 ]
 
 ; redacted_claim_keys is used as a map key. The corresponding value is
-; an array of Blinded Claim Hashes whose corresponding unblinded map keys
-; and values are in the same map.
+; an array of Blinded Claim Hashes whose corresponding unblinded map
+; keys and values are in the same map.
 redacted_claim_keys = #7.59  ; CBOR simple value 59
 
 ; CBOR tag for wrapping a redacted element in an array
