@@ -144,6 +144,11 @@ However, the following guidance is generally recommended, regardless of protocol
 
 {::boilerplate bcp14-tagged}
 
+The CBOR examples in this document are shown in CBOR Extended Diagnostic Notation (EDN) {{!I-D.ietf-cbor-edn-literals}}.
+EDN resembles JSON, but it can contain comments, and it can represent all native CBOR types, including byte strings, tagged values, and CBOR simple values.
+
+Data model constraints are described using the Concise Data Definition Language (CDDL) {{!RFC8610}}.
+
 This specification uses terms from CWT {{!RFC8392}}, COSE {{!RFC9052}} {{!RFC9053}}
 and JWT {{!RFC7519}}.
 
@@ -303,9 +308,10 @@ This diagram relates the terminology specific to selective disclosure and redact
 
 ## A CWT without Selective Disclosure
 
-Below is the payload of a standard CWT not using selective disclosure.
-It consists of standard CWT claims, the Holder confirmation key, and five specific custom claims. The payload is shown below in CBOR Extended Diagnostic
-Notation (EDN) {{!I-D.ietf-cbor-edn-literals}}. Note that some of the CWT claim map keys shown in the examples have been invented for this example and do not have registered integer keys.
+Below is the payload, or claims set, of a standard CWT not using selective disclosure.
+It consists of standard CWT claims, the Holder confirmation key, and five fictitious example claims.
+The payload is shown below in EDN {{!I-D.ietf-cbor-edn-literals}}.
+Note that the fictitious map keys shown in the examples do not have IANA registered integer keys.
 
 ~~~ cbor-diag
 {
@@ -446,8 +452,15 @@ For Salted Disclosed Claims of items in an array, the name is omitted.
 
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 The `redacted_claim_keys` key is the CBOR simple value 59 registered for that purpose.
+CBOR "simple values" {{Section 3.3 of !RFC8949}} are values (like `false` or `undefined`) that do need any additional content.
+In this specification a simple value of 59 is used as the content of a map key to indicate that one or more map key/value pairs was blinded in this CBOR map.
+The simple value 59 is represented in examples using the syntax `simple(59)`.
+The simple value 59 in CDDL are represented using the syntax `#7.59`.
 
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
+CBOR tags {{Section 3.4 of !RFC8949}} annotate other values.
+The tag 60 is represented in examples as `60(` *tagged value* `)`.
+The tag 60 is represented in CDDL as `#6.60(` *tagged value* `)`.
 
 ~~~ cddl
 {::include ./redacted-simple-tag.cddl}

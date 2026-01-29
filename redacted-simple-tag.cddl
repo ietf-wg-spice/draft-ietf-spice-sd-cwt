@@ -1,6 +1,6 @@
 ; redacted_claim_keys is used as a map key. The corresponding value is
-; an array of Blinded Claim Hashes whose corresponding unblinded map keys
-; and values are in the same map.
+; an array of Blinded Claim Hashes whose corresponding unblinded map
+; keys and values are in the same map.
 redacted_claim_keys = #7.59  ; CBOR simple value 59
 
 ; CBOR tag for wrapping a redacted element in an array
