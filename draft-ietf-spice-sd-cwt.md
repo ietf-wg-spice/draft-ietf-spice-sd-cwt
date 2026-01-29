@@ -345,11 +345,11 @@ Note that the fictitious map keys shown in the examples do not have IANA registe
 }
 ~~~
 
-The custom claims deal with attributes of an inspection of the subject: the pass/fail result, the inspection location, the license number of the inspector, and a list of dates when the subject was inspected.
+The fictitious claims deal with attributes of an inspection of the subject: the pass/fail result, the inspection location, the license number of the inspector, and a list of dates when the subject was inspected.
 
 ## Holder gets an SD-CWT from the Issuer
 
-Alice would like to selectively disclose some of these (custom) claims to different Verifiers.
+Alice would like to selectively disclose some of these claims to different Verifiers.
 Note that some of the claims may not be selectively disclosable.
 In our next example, the pass/fail status of the inspection, the most recent inspection date, and the country of the inspection will be claims that are always present in the SD-CWT.
 After the Holder requests an SD-CWT from the Issuer, the Issuer generates the following SD-CWT:
