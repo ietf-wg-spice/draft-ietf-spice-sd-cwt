@@ -104,8 +104,6 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
 
 ## High-Level Flow
 
-Figure 1: High-level SD-CWT Issuance and Presentation Flow
-
 ~~~ aasvg
 Issuer                           Holder                         Verifier
   |                                |                                 |
@@ -131,6 +129,7 @@ Issuer                           Holder                         Verifier
   |                                +-------------------------------->|
   |                                |                                 |
 ~~~
+{: #fig-high-level-flow title="High-level SD-CWT Issuance and Presentation Flow" artwork-svg-options="--spaces=2"}
 
 This diagram captures the essential details necessary to issue and present an SD-CWT.
 The parameters necessary to support these processes can be obtained using transports or protocols that are out of scope for this specification.
@@ -338,6 +337,7 @@ Notation (EDN) {{!I-D.ietf-cbor-edn-literals}}. Note that some of the CWT claim 
     }
 }
 ~~~
+{: #fig-cwt-claimset title="CWT Claims Set Without Selective Disclosure" artwork-svg-options="--spaces=2"}
 
 The custom claims deal with attributes of an inspection of the subject: the pass/fail result, the inspection location, the license number of the inspector, and a list of dates when the subject was inspected.
 
