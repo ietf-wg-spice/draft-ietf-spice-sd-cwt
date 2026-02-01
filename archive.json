@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-29T01:04:32.854101+00:00",
+  "timestamp": "2026-02-01T01:16:17.013170+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3806,7 +3806,7 @@
       "id": "I_kwDOMm_Q2s7lMxaw",
       "title": "Overview examples and its bogus claims",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/195",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -3817,8 +3817,8 @@
       ],
       "body": "The text uses the word \"custom\", which is awfully close to \"customs\" and therefore a little confusing given the material used in the example.  Maybe consider \"fictitious\" or similar as a way of describing these made-up claims.  Importantly, don't try to define them, [as you do](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-3.1-3), that compounds any confusion.",
       "createdAt": "2026-01-23T00:37:40Z",
-      "updatedAt": "2026-01-28T16:00:03Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-29T09:25:15Z",
+      "closedAt": "2026-01-29T09:25:15Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -3826,6 +3826,13 @@
           "body": "addressed in #242 ",
           "createdAt": "2026-01-28T16:00:03Z",
           "updatedAt": "2026-01-28T16:00:03Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "addressed in #242 and #244 . Closing.",
+          "createdAt": "2026-01-29T09:25:15Z",
+          "updatedAt": "2026-01-29T09:25:15Z"
         }
       ]
     },
@@ -3941,7 +3948,7 @@
       "id": "I_kwDOMm_Q2s7lNAdd",
       "title": "Reference CBOR definitions for the fiddly stuff",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/203",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -3953,8 +3960,8 @@
       ],
       "body": "> When a blinded claim is a key in a map, its blinded claim hash is added to a redacted_claim_keys array claim in the CWT payload that is at the same level of hierarchy as the key being blinded. The redacted_claim_keys key is the CBOR simple value 59 registered for that purpose.\n\nPlease add a reference to the relevant text in CBOR specs for simple values.\n\n> When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.\n\nAgain, this requires expansion.\n\nEditorial note: the figure following this uses comments to explain things.  This would be better as prose, especially since the figure is too wide for the RFC XML format.\n\nFWIW, I find the whole #7.59 thing incomprehensible.  It might be worth explaining more clearly what is going on at the CBOR encoding level, even with the necessary references.",
       "createdAt": "2026-01-23T01:12:49Z",
-      "updatedAt": "2026-01-28T14:05:06Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-29T09:25:48Z",
+      "closedAt": "2026-01-29T09:25:48Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -3969,6 +3976,13 @@
           "body": "OK, I think the PR improves this substantially.",
           "createdAt": "2026-01-28T14:05:06Z",
           "updatedAt": "2026-01-28T14:05:06Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "addressed in #242 . closing.",
+          "createdAt": "2026-01-29T09:25:48Z",
+          "updatedAt": "2026-01-29T09:25:48Z"
         }
       ]
     },
@@ -17766,24 +17780,26 @@
       "id": "PR_kwDOMm_Q2s6_3XDa",
       "title": "Explain EDN, CDDL, CBOR tags, and CBOR simple values ",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/242",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Explain EDN, CDDL, CBOR tags, and CBOR simple values \u2026like I didn't just memorize the RFCs\r\n\r\n@martinthomson please try this on for size for Issue #203 ",
       "createdAt": "2026-01-28T14:02:00Z",
-      "updatedAt": "2026-01-29T00:42:23Z",
+      "updatedAt": "2026-01-29T09:15:23Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "de0a14d924b54bbb67bc38ac2511fa18555c0fd3",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue203",
       "headRefOid": "2907b7ff3bdef807229cd8983c27e3bfafb9002f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-01-29T09:15:22Z",
+      "mergedAt": "2026-01-29T09:15:22Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "6978a33ba9771d70e3e1b549ad9412d2311f5a75"
+      },
       "comments": [],
       "reviews": [
         {
@@ -17864,6 +17880,34 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 244,
+      "id": "PR_kwDOMm_Q2s7AE-yb",
+      "title": "Remove remaining stray uses of \"custom\"",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/244",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Issue #193 ",
+      "createdAt": "2026-01-29T09:24:13Z",
+      "updatedAt": "2026-01-29T09:24:52Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "6978a33ba9771d70e3e1b549ad9412d2311f5a75",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue193",
+      "headRefOid": "d744c978cf04abdc58434680ccc7c34d019ca197",
+      "closedAt": "2026-01-29T09:24:52Z",
+      "mergedAt": "2026-01-29T09:24:52Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "da339879a089d315b1e370e4bab2a7d429dde69e"
+      },
       "comments": [],
       "reviews": []
     }
