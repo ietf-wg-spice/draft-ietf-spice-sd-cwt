@@ -810,10 +810,6 @@ The purpose of such "decoy" digests is to make it more difficult for an adversar
 The list of disclosures sent by the Issuer to the Holder contains one disclosure for each decoy digest.
 Each disclosure contains a single element array with a per-decoy salt.
 
-~~~ cbor-diag
-<<[ h'C1069BC056E234D64F58BAFF8A7B776B' ]>>
-~~~
-
 The Blinded Claim Hash for each disclosure is calculated using the same algorithm for decoys as for Redacted Claim Keys and Redacted Claim Elements.
 An example issued SD-CWT containing decoy digests is shown below.
 
