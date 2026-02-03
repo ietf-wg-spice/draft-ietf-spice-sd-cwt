@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-01T01:16:17.013170+00:00",
+  "timestamp": "2026-02-03T01:08:56.140979+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3600,7 +3600,7 @@
       "id": "I_kwDOMm_Q2s7lKnBv",
       "title": "DE Feedback",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/186",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3611,9 +3611,17 @@
       ],
       "body": "\"they should align the definition of the data item. It's 'uint .gt 0'\nin \u00a717.3.3, but 'int .gt 0' in \u00a76.3 and Appendix A.\"",
       "createdAt": "2026-01-22T21:11:07Z",
-      "updatedAt": "2026-01-28T13:14:14Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-02-02T14:23:22Z",
+      "closedAt": "2026-02-02T14:23:22Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #238 ",
+          "createdAt": "2026-02-02T14:23:22Z",
+          "updatedAt": "2026-02-02T14:23:22Z"
+        }
+      ]
     },
     {
       "number": 187,
@@ -17066,7 +17074,7 @@
       "labels": [],
       "body": "I think that this is more precise.",
       "createdAt": "2026-01-23T01:06:35Z",
-      "updatedAt": "2026-01-27T03:31:12Z",
+      "updatedAt": "2026-02-02T14:33:50Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
@@ -17077,7 +17085,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I agree with @rohanmahy that the proposed changed text is more awkward than the original. Let's not do this.\r\n\r\nAlso fine with this.",
+          "createdAt": "2026-02-02T14:33:49Z",
+          "updatedAt": "2026-02-02T14:33:49Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s7cQp1A",
@@ -17222,6 +17238,46 @@
               "body": "What I was struggling with here was that you don't define unblinding (or blinding) at all.  (Or redaction, for that matter, but I think that's the wrong word to use.)  This was an attempt to do that.  You have the keys, so can suggest something better.\r\n\r\nIncluding:\r\n\r\n```suggestion\r\nA Verifier unblinds a claim by taking a Salted Disclosed Claim, hashing it, and finding a Blinded Claim in the CWT payload with the same hash value.\r\n```\r\n\r\nThe second sentence isn't really necessary at this point in the document, but if you like to say that, I would suggest another sentence, though I'd encourage putting it elsewhere...\r\n\r\n> An attacker cannot construct a Salted Disclosed Claim without either knowledge of the claim (including the salt, which should be hard to guess; see {{randomness-section}}) or a hash pre-image attack on the hash function used.",
               "createdAt": "2026-01-27T03:31:12Z",
               "updatedAt": "2026-01-27T03:31:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7e6LNG",
+          "commit": {
+            "abbreviatedOid": "4af592c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-02T14:32:50Z",
+          "updatedAt": "2026-02-02T14:32:50Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "By fixing this issue we might create a new issue. Adding a line just to illustrate what blinding and unblinding means instead of squeezing that into existing lines could help here.",
+              "createdAt": "2026-02-02T14:32:50Z",
+              "updatedAt": "2026-02-02T14:32:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7e6Ma_",
+          "commit": {
+            "abbreviatedOid": "4af592c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-02T14:33:36Z",
+          "updatedAt": "2026-02-02T14:33:36Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "I will work on some new text for review, but I'd like to chat about a few higher level things with the other authors.",
+              "createdAt": "2026-02-02T14:33:36Z",
+              "updatedAt": "2026-02-02T14:33:36Z"
             }
           ]
         }
