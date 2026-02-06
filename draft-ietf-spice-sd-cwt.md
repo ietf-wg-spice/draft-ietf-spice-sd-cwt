@@ -210,38 +210,41 @@ Validated Disclosed Claims Set:
 The following diagram explains the relationships between the terminology used in this specification.
 
 ~~~ aasvg
-  +-----------+     +--------------------+
-  |   Issuer  |<----+ Assertion Key      |
-  +-----+-----+     +--------------------+
+  +-----------+     +-------------------------------------.
+  |   Issuer  |<----+ Holder Public Key,                   |
+  +-----+-----+     | Full Claims Set,                     |
+        |           | Pre-issuance blinding/decoy requests |
+        |           +--------------------------------------+
+        v
++----------------------------------.
+| Issuer-Signed: Plaintext Claims + |
+|  Blinded Claim Hashes;            |
+| All Salted Disclosed Claims       |
++-------+---------------------------+
         |
         v
-+------------------------------------------+
-| Issuer Signed Blinded Claims             |
-| All Salted Disclosed Claims              |
-+-------+----------------------------------+
+  +---------------+     +--------------------.
+  |    Holder     |<----+ Holder Private Key, |
+  +-----+---------+     | Chosen Disclosures  |
+        |               +---------------------+
         |
         v
-  +--------------+     +--------------------+
-  |   Holder     |<----+ Confirmation Key   |
-  +-----+--------+     +--------------------+
++---------------------------------------------------.
+| Holder-Signed: Key Binding Token                   |
+|  +----------------------------------------------.  |
+|  | Issuer-Signed: Claims + Blinded Claim Hashes, | |
+|  | Holder-Selected: Salted Disclosed Claims      | |
+|  +-----------------------------------------------+ |
+|                                                    |
++-------+--------------------------------------------+
         |
         v
-+----------------------------------------------+
-| Holder Signed Key Binding Token              |
-|  +-----------------------------------------+ |
-|  | Issuer Signed Blinded Claims            | |
-|  | Holder Selected Salted Disclosed Claims | |
-|  +-----------------------------------------+ |
-|                                              |
-+-------+--------------------------------------+
+  +--------------+     +------------------.
+  |  Verifier    |<----+ Issuer Public Key |
+  +-----+--------+     +-------------------+
         |
         v
-  +--------------+
-  |  Verifier    |
-  +-----+--------+
-        |
-        v
-+------------------------------------------+
++-----------------------------------------.
 | Validated Disclosed Claim Set            |
 +------------------------------------------+
 ~~~
@@ -250,23 +253,31 @@ This diagram relates the terminology specific to selective disclosure and redact
 
 ~~~ aasvg
 +-----------+
+|  Holder   |
++-----+-----+
+      |
+      | 1. Communicates public key,
+      |    Optionally communicates Claim,
+      |    Optionally communicates Blinding preference
+      v
++-----------+
 |  Issuer   |
 +-----+-----+
       |
-      | 1. Creates Salted Disclosed Claim
+      | 2. Creates Salted Disclosed Claim
       |    [salt, value, key]
       v
 +------------------------------------------+
 | Salted Disclosed Claim                   |
 +-----+------------------------------------+
       |
-      | 2. Hashes to create
+      | 3. Hashes to create
       v
 +------------------------------------------+
 | Blinded Claim Hash                       |
 +-----+------------------------------------+
       |
-      | 3. Replaces Claim Value with
+      | 4. Replaces Claim Value with
       v
 +------------------------------------------+
 | Blinded Claim (in CWT payload)           |
@@ -283,20 +294,20 @@ This diagram relates the terminology specific to selective disclosure and redact
 |  Holder   |
 +-----+-----+
       |
-      | 4. Presents selected
+      | 5. Presents selected
       |    Salted Disclosed Claims
       v
 +-----------+
 | Verifier  |
 +-----+-----+
       |
-      | 5. Hashes Salted Disclosed Claim
+      | 6. Hashes Salted Disclosed Claim
       v
 +------------------------------------------+
 | Blinded Claim Hash (computed)            |
 +-----+------------------------------------+
       |
-      | 6. Matches with hash in payload
+      | 7. Matches with hash in payload
       |    to recover original
       v
 +------------------------------------------+
