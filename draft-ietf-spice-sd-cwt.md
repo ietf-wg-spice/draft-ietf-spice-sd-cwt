@@ -131,6 +131,7 @@ Issuer                           Holder                         Verifier
   |                                +-------------------------------->|
   |                                |                                 |
 ~~~
+{: #f-flow title="High-level flow" artwork-svg-options="--spaces=2"}
 
 This diagram captures the essential details necessary to issue and present an SD-CWT.
 The parameters necessary to support these processes can be obtained using transports or protocols that are out of scope for this specification.
@@ -248,6 +249,7 @@ The following diagram explains the relationships between the terminology used in
 | Validated Disclosed Claim Set            |
 +------------------------------------------+
 ~~~
+{: #f-role-inputs title="Inputs provided to each Role" artwork-svg-options="--spaces=2"}
 
 This diagram relates the terminology specific to selective disclosure and redaction.
 
@@ -314,6 +316,7 @@ This diagram relates the terminology specific to selective disclosure and redact
 | Claim Value (recovered)                  |
 +------------------------------------------+
 ~~~
+{: #f-roundtrip-claim title="Round trip journey of a blinded claim" artwork-svg-options="--spaces=2"}
 
 # Overview of Selective Disclosure CWT
 
