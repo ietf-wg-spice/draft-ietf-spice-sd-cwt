@@ -2795,13 +2795,15 @@ sd-payload = {
 <p id="section-8-2">By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
 If the Holder wishes to disclose any blinded claims, it includes that subset of its Salted Disclosed Claims in the <code>sd_claims</code> header parameter of the unprotected header.
 If there is nothing to be disclosed, the <code>sd_claims</code> header parameter is omitted.<a href="#section-8-2" class="pilcrow">¶</a></p>
-<p id="section-8-3">An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder chooses the subset of disclosures included in the <code>sd_claims</code> header parameter.<a href="#section-8-3" class="pilcrow">¶</a></p>
+<p id="section-8-3">The Holder has flexibility in determining the order of disclosures when making presentations.
+The order can be sorted, randomized, or optimized for performance based on the Holder's needs.<a href="#section-8-3" class="pilcrow">¶</a></p>
+<p id="section-8-4">An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder chooses the subset of disclosures included in the <code>sd_claims</code> header parameter.<a href="#section-8-4" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-8-4.1">
-          <p id="section-8-4.1.1">Since the unprotected header is not included in the Issuer's signature, the list of disclosed claims can differ without invalidating the corresponding signature.<a href="#section-8-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-8-5.1">
+          <p id="section-8-5.1.1">Since the unprotected header is not included in the Issuer's signature, the list of disclosed claims can differ without invalidating the corresponding signature.<a href="#section-8-5.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-8-5">Finally, the SD-CWT used for presentation to a Verifier is included in a key binding token, as discussed in the next section.<a href="#section-8-5" class="pilcrow">¶</a></p>
+<p id="section-8-6">Finally, the SD-CWT used for presentation to a Verifier is included in a key binding token, as discussed in the next section.<a href="#section-8-6" class="pilcrow">¶</a></p>
 <div id="kbt">
 <section id="section-8.1">
         <h3 id="name-creating-a-key-binding-toke">

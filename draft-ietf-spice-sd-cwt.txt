@@ -1283,6 +1283,10 @@ Issuer                           Holder                         Verifier
    unprotected header.  If there is nothing to be disclosed, the
    sd_claims header parameter is omitted.
 
+   The Holder has flexibility in determining the order of disclosures
+   when making presentations.  The order can be sorted, randomized, or
+   optimized for performance based on the Holder's needs.
+
    An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT
    issued to a Holder, except the Holder chooses the subset of
    disclosures included in the sd_claims header parameter.
