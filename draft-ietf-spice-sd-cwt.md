@@ -914,7 +914,7 @@ The AEAD ciphertext consists of its encryption algorithm's ciphertext and its au
 The nonce (`nonce`), the encryption algorithm's ciphertext (`ciphertext`) and authentication tag (`tag`) are put in an array.
 The resulting array is placed in the `sd_aead_encrypted_claims` header parameter in the unprotected headers of the SD-CWT.
 
-Given the AEAD encryption key:
+Given the AEAD encryption key (in hexadecimal):
 
 ~~~
 {::include examples/aead-key.txt}
