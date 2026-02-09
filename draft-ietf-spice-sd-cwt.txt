@@ -342,62 +342,77 @@ Issuer                           Holder                         Verifier
    The following diagram explains the relationships between the
    terminology used in this specification.
 
-     +-----------+     +--------------------+
-     |   Issuer  |<----+ Assertion Key      |
-     +-----+-----+     +--------------------+
+     +-----------+     +-------------------------------------.
+     |   Issuer  |<----+ Holder Public Key,                   |
+     +-----+-----+     | Full Claims Set,                     |
+           |           | Pre-issuance blinding/decoy requests |
+           |           +--------------------------------------+
+           v
+   +----------------------------------.
+   | Issuer-Signed: Plaintext Claims + |
+   |  Blinded Claim Hashes             |
+   +-----------------------------------+
+   | All Salted Disclosed Claims       |
+   +-------+---------------------------+
            |
            v
-   +------------------------------------------+
-   | Issuer Signed Blinded Claims             |
-   | All Salted Disclosed Claims              |
-   +-------+----------------------------------+
+     +---------------+     +--------------------.
+     |    Holder     |<----+ Holder Private Key, |
+     +-----+---------+     | Chosen Disclosures  |
+           |               +---------------------+
            |
            v
-     +--------------+     +--------------------+
-     |   Holder     |<----+ Confirmation Key   |
-     +-----+--------+     +--------------------+
+   +---------------------------------------------------.
+   | Holder-Signed: Key Binding Token                   |
+   |  +----------------------------------------------.  |
+   |  | Issuer-Signed: Claims + Blinded Claim Hashes  | |
+   |  +-----------------------------------------------+ |
+   |  | Holder-Selected: Salted Disclosed Claims      | |
+   |  +-----------------------------------------------+ |
+   |                                                    |
+   +-------+--------------------------------------------+
            |
            v
-   +----------------------------------------------+
-   | Holder Signed Key Binding Token              |
-   |  +-----------------------------------------+ |
-   |  | Issuer Signed Blinded Claims            | |
-   |  | Holder Selected Salted Disclosed Claims | |
-   |  +-----------------------------------------+ |
-   |                                              |
-   +-------+--------------------------------------+
+     +--------------+     +------------------.
+     |  Verifier    |<----+ Issuer Public Key |
+     +-----+--------+     +-------------------+
            |
            v
-     +--------------+
-     |  Verifier    |
-     +-----+--------+
-           |
-           v
-   +------------------------------------------+
+   +-----------------------------------------.
    | Validated Disclosed Claim Set            |
    +------------------------------------------+
+
+                   Figure 2: Inputs provided to each Role
 
    This diagram relates the terminology specific to selective disclosure
    and redaction.
 
    +-----------+
+   |  Holder   |
+   +-----+-----+
+         |
+         | 1. Communicates public key,
+         |    Optionally communicates Claim,
+         |    Optionally communicates Blinding preference
+         v
+   +-----------+
    |  Issuer   |
    +-----+-----+
          |
-         | 1. Creates Salted Disclosed Claim
+         | 2. Creates Salted Disclosed Claim
          |    [salt, value, key]
          v
    +------------------------------------------+
    | Salted Disclosed Claim                   |
    +-----+------------------------------------+
          |
-         | 2. Hashes to create
+         | 3. Hashes to create
          v
    +------------------------------------------+
    | Blinded Claim Hash                       |
    +-----+------------------------------------+
          |
-         | 3. Replaces Claim Value with
+         | 4. Replaces Claim Value with
          v
    +------------------------------------------+
    | Blinded Claim (in CWT payload)           |
@@ -414,25 +429,27 @@ Issuer                           Holder                         Verifier
    |  Holder   |
    +-----+-----+
          |
-         | 4. Presents selected
+         | 5. Presents selected
          |    Salted Disclosed Claims
          v
    +-----------+
    | Verifier  |
    +-----+-----+
          |
-         | 5. Hashes Salted Disclosed Claim
+         | 6. Hashes Salted Disclosed Claim
          v
    +------------------------------------------+
    | Blinded Claim Hash (computed)            |
    +-----+------------------------------------+
          |
-         | 6. Matches with hash in payload
+         | 7. Matches with hash in payload
          |    to recover original
          v
    +------------------------------------------+
    | Claim Value (recovered)                  |
    +------------------------------------------+
+
+              Figure 3: Round trip journey of a blinded claim
 
 3.  Overview of Selective Disclosure CWT
 
@@ -475,7 +492,7 @@ Issuer                           Holder                         Verifier
        }
    }
 
-           Figure 2: CWT Claims Set Without Selective Disclosure
+           Figure 4: CWT Claims Set Without Selective Disclosure
 
    The fictitious claims deal with attributes of an inspection of the
    subject: the pass/fail result, the inspection location, the license
@@ -577,7 +594,7 @@ Issuer                           Holder                         Verifier
                          1e5d59892fac51a806cd4caf6cb30cce'
    ])
 
-                Figure 3: Issued SD-CWT with all disclosures
+                Figure 5: Issued SD-CWT with all disclosures
 
    Some of the claims are _redacted_ in the payload.  The corresponding
    _disclosure_ is communicated in the unprotected header in the
@@ -592,7 +609,7 @@ Issuer                           Holder                         Verifier
                /claim/  501   / inspector_license_number /
            ]>>,
 
-       Figure 4: CBOR extended diagnostic notation representation of
+       Figure 6: CBOR extended diagnostic notation representation of
                     inspector_license_number disclosure
 
    This is represented in CBOR pretty-printed format as follows (with
@@ -605,7 +622,7 @@ Issuer                           Holder                         Verifier
          414243442d313233343536           # "ABCD-123456"
       19 01f5                             # unsigned(501)
 
-       Figure 5: CBOR encoding of inspector_license_number disclosure
+       Figure 7: CBOR encoding of inspector_license_number disclosure
 
    The cryptographic hash, using the hash algorithm identified by the
    sd_alg header parameter in the protected headers, of that byte string
@@ -617,7 +634,7 @@ Issuer                           Holder                         Verifier
 
    d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
 
-       Figure 6: SHA-256 hash of inspector_license_number disclosure
+       Figure 8: SHA-256 hash of inspector_license_number disclosure
 
    Finally, since this redacted claim is a map key and value, the
    Blinded Claim Hash is placed in a redacted_claim_keys array in the
@@ -629,7 +646,7 @@ Issuer                           Holder                         Verifier
            f437504ecc24f450aaeacd40dd552b3f',
          / ... next redacted claim at the same level would go here /  ],
 
-      Figure 7: redacted inspector_license_number claim in the issued
+      Figure 9: redacted inspector_license_number claim in the issued
                                 CWT payload
 
    Redacted claims that are array elements are handled slightly
@@ -665,7 +682,7 @@ Issuer                           Holder                         Verifier
            ]>>,
        ]
 
-        Figure 8: The Holder's choice of the disclosures to present
+        Figure 10: The Holder's choice of the disclosures to present
 
    The Holder MAY fetch a nonce from the Verifier to prevent replay, or
    obtain a nonce acceptable to the Verifier through a process similar
@@ -702,7 +719,7 @@ Issuer                           Holder                         Verifier
                          af7ddb5eb4cce1e59ac07d11dfdce742'
    ])   / end of kbt /
 
-              Figure 9: Elided example of a Key Binding Token
+              Figure 11: Elided example of a Key Binding Token
 
    The digests in protected parts of the issued SD-CWT and the
    disclosures hashed in unprotected header of the issuer_sd_cwt are
@@ -769,7 +786,7 @@ Issuer                           Holder                         Verifier
      bstr .size 16      ; 128-bit salt
    ]
 
-                 Figure 10: CDDL of Salted Disclosed Claims
+                 Figure 12: CDDL of Salted Disclosed Claims
 
    When a blinded claim is a key in a map, its blinded claim hash is
    added to a redacted_claim_keys array claim in the CWT payload that is
@@ -802,7 +819,7 @@ Issuer                           Holder                         Verifier
    ; array elements that are meant to be redacted.
    redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
 
-      Figure 11: CDDL of Blinded Claim Keys and Blinded Claim Elements
+      Figure 13: CDDL of Blinded Claim Keys and Blinded Claim Elements
 
    Blinded claims can be nested.  For example, both individual keys in
    the inspection_location claim, and the entire inspection_location
@@ -1012,7 +1029,7 @@ Issuer                           Holder                         Verifier
    secs = int / float53
    float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 
-                 Figure 12: CDDL of Safe Values in SD-CWTs
+                 Figure 14: CDDL of Safe Values in SD-CWTs
 
    Note that Holders presenting to a Verifier that does not support this
    specification would need to present a CWT without tagged map keys or
@@ -1048,7 +1065,7 @@ Issuer                           Holder                         Verifier
      58(500): "DEFG-456789"  # to be redacted tag containing 500
    }
 
-           Figure 13: EDN Example considered a duplicate map key
+           Figure 15: EDN Example considered a duplicate map key
 
 6.5.  Level of Nesting of Claims
 
@@ -1105,7 +1122,7 @@ Issuer                           Holder                         Verifier
      ]
    }
 
-           Figure 14: EDN Example to demonstrate levels of depth
+           Figure 16: EDN Example to demonstrate levels of depth
 
    The contents of the top-level claims map are level 1.  The contents
    of the array for map key 504 are level 2.  The contents of the map
@@ -1252,7 +1269,7 @@ Issuer                           Holder                         Verifier
        * label => issued_sd_cwt_value
    }
 
-              Figure 15: CDDL describing issued SD-CWT syntax
+              Figure 17: CDDL describing issued SD-CWT syntax
 
 8.  SD-CWT Presentation
 
@@ -1354,7 +1371,7 @@ Issuer                           Holder                         Verifier
        * label => safe_value
    }
 
-                   Figure 16: CDDL describing KBT syntax
+                   Figure 18: CDDL describing KBT syntax
 
    The SD-KBT payload MAY include a cnonce claim.  If included, the
    cnonce is a bstr and MUST be treated as opaque to the Holder.  All
@@ -1454,7 +1471,7 @@ Issuer                           Holder                         Verifier
 
    <<[ h'C1069BC056E234D64F58BAFF8A7B776B' ]>>
 
-                 Figure 17: EDN showing a sample decoy salt
+                 Figure 19: EDN showing a sample decoy salt
 
    The Blinded Claim Hash for each disclosure is calculated using the
    same algorithm for decoys as for Redacted Claim Keys and Redacted
@@ -1528,7 +1545,7 @@ Issuer                           Holder                         Verifier
                          781afb01f626bdd6fee1205a29dcc203'
    ])
 
-             Figure 18: EDN showing a SD-CWT containing decoys
+             Figure 20: EDN showing a SD-CWT containing decoys
 
 11.  Tags Used Before SD-CWT Issuance
 
@@ -1568,7 +1585,7 @@ Issuer                           Holder                         Verifier
      ...
    }
 
-      Figure 19: EDN example requesting blinding of license number and
+      Figure 21: EDN example requesting blinding of license number and
                             two inspection dates
 
 11.2.  To Be Decoy
@@ -1604,7 +1621,7 @@ Issuer                           Holder                         Verifier
      ...
    }
 
-                Figure 20: EDN example requesting two decoys
+                Figure 22: EDN example requesting two decoys
 
 12.  Encrypted Disclosures
 
@@ -1655,7 +1672,7 @@ Issuer                           Holder                         Verifier
                /claim/  501   / inspector_license_number /
            ]>>,
 
-             Figure 21: EDN example of an encrypted disclosure
+             Figure 23: EDN example of an encrypted disclosure
 
    The corresponding bstr is encrypted with an AEAD algorithm [RFC5116].
    If present, the algorithm of the sd_aead protected header field is
@@ -1686,7 +1703,7 @@ Issuer                           Holder                         Verifier
        ...
    ]
 
-             Figure 22: EDN Example of an AEAD Encrypted Claim
+             Figure 24: EDN Example of an AEAD Encrypted Claim
 
    The blinded claim hash is still over the unencrypted disclosure.  The
    receiver of an AEAD encrypted disclosure locates the appropriate key
@@ -1708,7 +1725,7 @@ Issuer                           Holder                         Verifier
      bstr               ; the corresponding authentication tag
    ]
 
-      Figure 23: CDDL describing syntax of AEAD Encrypted disclosures
+      Figure 25: CDDL describing syntax of AEAD Encrypted disclosures
 
       Note: Because the encryption algorithm is in a registry that
       contains only AEAD algorithms, an attacker cannot replace the
@@ -1839,7 +1856,7 @@ Issuer                           Holder                         Verifier
                          af7ddb5eb4cce1e59ac07d11dfdce742'
    ])   / end of kbt /
 
-                   Figure 24: A minimal, full EDN Example
+                   Figure 26: A minimal, full EDN Example
 
 14.2.  Nested Example
 
@@ -1889,7 +1906,7 @@ Issuer                           Holder                         Verifier
        ]
    }
 
-        Figure 25: EDN example of Nested Claims Set before blinding
+        Figure 27: EDN example of Nested Claims Set before blinding
 
    For example, looking at the nested disclosures below, the first
    disclosure unblinds the entire January 2023 inspection record.
@@ -1979,7 +1996,7 @@ Issuer                           Holder                         Verifier
        ]>>,
    ]
 
-        Figure 26: EDN Example of SD-CWT with Nested Blinded Claims
+        Figure 28: EDN Example of SD-CWT with Nested Blinded Claims
 
    After applying the disclosures of the nested structure above, the
    disclosed Claims Set visible to the Verifier would look like the
@@ -2013,7 +2030,7 @@ Issuer                           Holder                         Verifier
        ]
    }
 
-                 Figure 27: EDN of validated nested claims
+                 Figure 29: EDN of validated nested claims
 
 15.  Privacy Considerations
 
@@ -3104,7 +3121,7 @@ Appendix A.  Complete CDDL Schema
    ; array elements that are meant to be redacted.
    redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
 
-              Figure 28: A complete CDDL description of SD-CWT
+              Figure 30: A complete CDDL description of SD-CWT
 
 Appendix B.  Comparison to SD-JWT
 

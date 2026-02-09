@@ -1725,222 +1725,194 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-7.24.1" class="pilcrow">
       <dd class="break"></dd>
 </dl>
 <p id="section-2-8">The following diagram explains the relationships between the terminology used in this specification.<a href="#section-2-8" class="pilcrow">¶</a></p>
-<div id="section-2-9">
-        <div class="alignLeft art-svg artwork" id="section-2-9.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="392" viewBox="0 0 392 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-            <path d="M 8,112 L 8,160" fill="none" stroke="black"></path>
-            <path d="M 8,288 L 8,400" fill="none" stroke="black"></path>
-            <path d="M 8,528 L 8,560" fill="none" stroke="black"></path>
-            <path d="M 24,32 L 24,64" fill="none" stroke="black"></path>
-            <path d="M 24,208 L 24,240" fill="none" stroke="black"></path>
-            <path d="M 24,448 L 24,480" fill="none" stroke="black"></path>
-            <path d="M 32,320 L 32,368" fill="none" stroke="black"></path>
-            <path d="M 72,64 L 72,104" fill="none" stroke="black"></path>
-            <path d="M 72,160 L 72,200" fill="none" stroke="black"></path>
-            <path d="M 72,240 L 72,280" fill="none" stroke="black"></path>
-            <path d="M 72,400 L 72,440" fill="none" stroke="black"></path>
-            <path d="M 72,480 L 72,520" fill="none" stroke="black"></path>
-            <path d="M 120,32 L 120,64" fill="none" stroke="black"></path>
-            <path d="M 144,208 L 144,240" fill="none" stroke="black"></path>
-            <path d="M 144,448 L 144,480" fill="none" stroke="black"></path>
-            <path d="M 168,32 L 168,64" fill="none" stroke="black"></path>
-            <path d="M 192,208 L 192,240" fill="none" stroke="black"></path>
-            <path d="M 336,32 L 336,64" fill="none" stroke="black"></path>
-            <path d="M 352,112 L 352,160" fill="none" stroke="black"></path>
-            <path d="M 352,528 L 352,560" fill="none" stroke="black"></path>
-            <path d="M 360,208 L 360,240" fill="none" stroke="black"></path>
-            <path d="M 368,320 L 368,368" fill="none" stroke="black"></path>
-            <path d="M 384,288 L 384,400" fill="none" stroke="black"></path>
-            <path d="M 24,32 L 120,32" fill="none" stroke="black"></path>
-            <path d="M 168,32 L 336,32" fill="none" stroke="black"></path>
-            <path d="M 128,48 L 168,48" fill="none" stroke="black"></path>
-            <path d="M 24,64 L 120,64" fill="none" stroke="black"></path>
-            <path d="M 168,64 L 336,64" fill="none" stroke="black"></path>
-            <path d="M 8,112 L 352,112" fill="none" stroke="black"></path>
-            <path d="M 8,160 L 352,160" fill="none" stroke="black"></path>
-            <path d="M 24,208 L 144,208" fill="none" stroke="black"></path>
-            <path d="M 192,208 L 360,208" fill="none" stroke="black"></path>
-            <path d="M 152,224 L 192,224" fill="none" stroke="black"></path>
-            <path d="M 24,240 L 144,240" fill="none" stroke="black"></path>
-            <path d="M 192,240 L 360,240" fill="none" stroke="black"></path>
-            <path d="M 8,288 L 384,288" fill="none" stroke="black"></path>
-            <path d="M 32,320 L 368,320" fill="none" stroke="black"></path>
-            <path d="M 32,368 L 368,368" fill="none" stroke="black"></path>
-            <path d="M 8,400 L 384,400" fill="none" stroke="black"></path>
-            <path d="M 24,448 L 144,448" fill="none" stroke="black"></path>
-            <path d="M 24,480 L 144,480" fill="none" stroke="black"></path>
-            <path d="M 8,528 L 352,528" fill="none" stroke="black"></path>
-            <path d="M 8,560 L 352,560" fill="none" stroke="black"></path>
-            <polygon class="arrowhead" points="160,224 148,218.4 148,229.6" fill="black" transform="rotate(180,152,224)"></polygon>
-            <polygon class="arrowhead" points="136,48 124,42.4 124,53.6" fill="black" transform="rotate(180,128,48)"></polygon>
-            <polygon class="arrowhead" points="80,520 68,514.4 68,525.6" fill="black" transform="rotate(90,72,520)"></polygon>
-            <polygon class="arrowhead" points="80,440 68,434.4 68,445.6" fill="black" transform="rotate(90,72,440)"></polygon>
-            <polygon class="arrowhead" points="80,280 68,274.4 68,285.6" fill="black" transform="rotate(90,72,280)"></polygon>
-            <polygon class="arrowhead" points="80,200 68,194.4 68,205.6" fill="black" transform="rotate(90,72,200)"></polygon>
-            <polygon class="arrowhead" points="80,104 68,98.4 68,109.6" fill="black" transform="rotate(90,72,104)"></polygon>
-            <g class="text">
-              <text x="76" y="52">Issuer</text>
-              <text x="216" y="52">Assertion</text>
-              <text x="272" y="52">Key</text>
-              <text x="44" y="132">Issuer</text>
-              <text x="100" y="132">Signed</text>
-              <text x="160" y="132">Blinded</text>
-              <text x="220" y="132">Claims</text>
-              <text x="32" y="148">All</text>
-              <text x="76" y="148">Salted</text>
-              <text x="144" y="148">Disclosed</text>
-              <text x="212" y="148">Claims</text>
-              <text x="76" y="228">Holder</text>
-              <text x="252" y="228">Confirmation</text>
-              <text x="320" y="228">Key</text>
-              <text x="44" y="308">Holder</text>
-              <text x="100" y="308">Signed</text>
-              <text x="144" y="308">Key</text>
-              <text x="192" y="308">Binding</text>
-              <text x="248" y="308">Token</text>
-              <text x="68" y="340">Issuer</text>
-              <text x="124" y="340">Signed</text>
-              <text x="184" y="340">Blinded</text>
-              <text x="244" y="340">Claims</text>
-              <text x="68" y="356">Holder</text>
-              <text x="132" y="356">Selected</text>
-              <text x="196" y="356">Salted</text>
-              <text x="264" y="356">Disclosed</text>
-              <text x="332" y="356">Claims</text>
-              <text x="76" y="468">Verifier</text>
-              <text x="56" y="548">Validated</text>
-              <text x="136" y="548">Disclosed</text>
-              <text x="200" y="548">Claim</text>
-              <text x="240" y="548">Set</text>
-            </g>
-          </svg><a href="#section-2-9.1" class="pilcrow">¶</a>
+<span id="name-inputs-provided-to-each-rol"></span><div id="f-role-inputs">
+<figure id="figure-2">
+        <div id="section-2-9.1">
+          <div class="alignLeft art-svg artwork" id="section-2-9.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="656" width="488" viewBox="0 0 488 656" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+              <path d="M 8,128 L 8,208" fill="none" stroke="black"></path>
+              <path d="M 8,352 L 8,480" fill="none" stroke="black"></path>
+              <path d="M 8,608 L 8,640" fill="none" stroke="black"></path>
+              <path d="M 24,32 L 24,64" fill="none" stroke="black"></path>
+              <path d="M 24,256 L 24,288" fill="none" stroke="black"></path>
+              <path d="M 24,528 L 24,560" fill="none" stroke="black"></path>
+              <path d="M 32,384 L 32,448" fill="none" stroke="black"></path>
+              <path d="M 72,64 L 72,120" fill="none" stroke="black"></path>
+              <path d="M 72,208 L 72,248" fill="none" stroke="black"></path>
+              <path d="M 72,288 L 72,344" fill="none" stroke="black"></path>
+              <path d="M 72,480 L 72,520" fill="none" stroke="black"></path>
+              <path d="M 72,560 L 72,600" fill="none" stroke="black"></path>
+              <path d="M 120,32 L 120,64" fill="none" stroke="black"></path>
+              <path d="M 144,528 L 144,560" fill="none" stroke="black"></path>
+              <path d="M 152,256 L 152,288" fill="none" stroke="black"></path>
+              <path d="M 168,32 L 168,96" fill="none" stroke="black"></path>
+              <path d="M 192,528 L 192,560" fill="none" stroke="black"></path>
+              <path d="M 200,256 L 200,304" fill="none" stroke="black"></path>
+              <path d="M 296,144 L 296,208" fill="none" stroke="black"></path>
+              <path d="M 352,544 L 352,560" fill="none" stroke="black"></path>
+              <path d="M 352,624 L 352,640" fill="none" stroke="black"></path>
+              <path d="M 376,272 L 376,304" fill="none" stroke="black"></path>
+              <path d="M 416,400 L 416,448" fill="none" stroke="black"></path>
+              <path d="M 432,368 L 432,480" fill="none" stroke="black"></path>
+              <path d="M 480,48 L 480,96" fill="none" stroke="black"></path>
+              <path d="M 24,32 L 120,32" fill="none" stroke="black"></path>
+              <path d="M 168,32 L 464,32" fill="none" stroke="black"></path>
+              <path d="M 128,48 L 168,48" fill="none" stroke="black"></path>
+              <path d="M 24,64 L 120,64" fill="none" stroke="black"></path>
+              <path d="M 168,96 L 480,96" fill="none" stroke="black"></path>
+              <path d="M 8,128 L 280,128" fill="none" stroke="black"></path>
+              <path d="M 8,176 L 296,176" fill="none" stroke="black"></path>
+              <path d="M 8,208 L 296,208" fill="none" stroke="black"></path>
+              <path d="M 24,256 L 152,256" fill="none" stroke="black"></path>
+              <path d="M 200,256 L 360,256" fill="none" stroke="black"></path>
+              <path d="M 160,272 L 200,272" fill="none" stroke="black"></path>
+              <path d="M 24,288 L 152,288" fill="none" stroke="black"></path>
+              <path d="M 200,304 L 376,304" fill="none" stroke="black"></path>
+              <path d="M 8,352 L 416,352" fill="none" stroke="black"></path>
+              <path d="M 32,384 L 400,384" fill="none" stroke="black"></path>
+              <path d="M 32,416 L 416,416" fill="none" stroke="black"></path>
+              <path d="M 32,448 L 416,448" fill="none" stroke="black"></path>
+              <path d="M 8,480 L 432,480" fill="none" stroke="black"></path>
+              <path d="M 24,528 L 144,528" fill="none" stroke="black"></path>
+              <path d="M 192,528 L 336,528" fill="none" stroke="black"></path>
+              <path d="M 152,544 L 192,544" fill="none" stroke="black"></path>
+              <path d="M 24,560 L 144,560" fill="none" stroke="black"></path>
+              <path d="M 192,560 L 352,560" fill="none" stroke="black"></path>
+              <path d="M 8,608 L 336,608" fill="none" stroke="black"></path>
+              <path d="M 8,640 L 352,640" fill="none" stroke="black"></path>
+              <path d="M 464,32 C 472.83064,32 480,39.16936 480,48" fill="none" stroke="black"></path>
+              <path d="M 280,128 C 288.83064,128 296,135.16936 296,144" fill="none" stroke="black"></path>
+              <path d="M 360,256 C 368.83064,256 376,263.16936 376,272" fill="none" stroke="black"></path>
+              <path d="M 416,352 C 424.83064,352 432,359.16936 432,368" fill="none" stroke="black"></path>
+              <path d="M 400,384 C 408.83064,384 416,391.16936 416,400" fill="none" stroke="black"></path>
+              <path d="M 336,528 C 344.83064,528 352,535.16936 352,544" fill="none" stroke="black"></path>
+              <path d="M 336,608 C 344.83064,608 352,615.16936 352,624" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="168,272 156,266.4 156,277.6" fill="black" transform="rotate(180,160,272)"></polygon>
+              <polygon class="arrowhead" points="160,544 148,538.4 148,549.6" fill="black" transform="rotate(180,152,544)"></polygon>
+              <polygon class="arrowhead" points="136,48 124,42.4 124,53.6" fill="black" transform="rotate(180,128,48)"></polygon>
+              <polygon class="arrowhead" points="80,600 68,594.4 68,605.6" fill="black" transform="rotate(90,72,600)"></polygon>
+              <polygon class="arrowhead" points="80,520 68,514.4 68,525.6" fill="black" transform="rotate(90,72,520)"></polygon>
+              <polygon class="arrowhead" points="80,344 68,338.4 68,349.6" fill="black" transform="rotate(90,72,344)"></polygon>
+              <polygon class="arrowhead" points="80,248 68,242.4 68,253.6" fill="black" transform="rotate(90,72,248)"></polygon>
+              <polygon class="arrowhead" points="80,120 68,114.4 68,125.6" fill="black" transform="rotate(90,72,120)"></polygon>
+              <g class="text">
+                <text x="76" y="52">Issuer</text>
+                <text x="252" y="52">Holder Public Key,</text>
+                <text x="244" y="68">Full Claims Set,</text>
+                <text x="324" y="84">Pre-issuance blinding/decoy requests</text>
+                <text x="152" y="148">Issuer-Signed: Plaintext Claims +</text>
+                <text x="108" y="164">Blinded Claim Hashes</text>
+                <text x="128" y="196">All Salted Disclosed Claims</text>
+                <text x="84" y="276">Holder</text>
+                <text x="288" y="276">Holder Private Key,</text>
+                <text x="284" y="292">Chosen Disclosures</text>
+                <text x="148" y="372">Holder-Signed: Key Binding Token</text>
+                <text x="220" y="404">Issuer-Signed: Claims + Blinded Claim Hashes</text>
+                <text x="204" y="436">Holder-Selected: Salted Disclosed Claims</text>
+                <text x="76" y="548">Verifier</text>
+                <text x="272" y="548">Issuer Public Key</text>
+                <text x="136" y="628">Validated Disclosed Claim Set</text>
+              </g>
+            </svg><a href="#section-2-9.1.1" class="pilcrow">¶</a>
 </div>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-inputs-provided-to-each-rol" class="selfRef">Inputs provided to each Role</a>
+        </figcaption></figure>
 </div>
 <p id="section-2-10">This diagram relates the terminology specific to selective disclosure and redaction.<a href="#section-2-10" class="pilcrow">¶</a></p>
-<div id="section-2-11">
-        <div class="alignLeft art-svg artwork" id="section-2-11.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="880" width="360" viewBox="0 0 360 880" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-            <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
-            <path d="M 8,144 L 8,176" fill="none" stroke="black"></path>
-            <path d="M 8,240 L 8,272" fill="none" stroke="black"></path>
-            <path d="M 8,336 L 8,464" fill="none" stroke="black"></path>
-            <path d="M 8,512 L 8,544" fill="none" stroke="black"></path>
-            <path d="M 8,624 L 8,656" fill="none" stroke="black"></path>
-            <path d="M 8,720 L 8,752" fill="none" stroke="black"></path>
-            <path d="M 8,832 L 8,864" fill="none" stroke="black"></path>
-            <path d="M 32,384 L 32,432" fill="none" stroke="black"></path>
-            <path d="M 56,64 L 56,136" fill="none" stroke="black"></path>
-            <path d="M 56,176 L 56,232" fill="none" stroke="black"></path>
-            <path d="M 56,272 L 56,328" fill="none" stroke="black"></path>
-            <path d="M 56,464 L 56,504" fill="none" stroke="black"></path>
-            <path d="M 56,544 L 56,616" fill="none" stroke="black"></path>
-            <path d="M 56,656 L 56,712" fill="none" stroke="black"></path>
-            <path d="M 56,752 L 56,824" fill="none" stroke="black"></path>
-            <path d="M 104,32 L 104,64" fill="none" stroke="black"></path>
-            <path d="M 104,512 L 104,544" fill="none" stroke="black"></path>
-            <path d="M 104,624 L 104,656" fill="none" stroke="black"></path>
-            <path d="M 312,384 L 312,432" fill="none" stroke="black"></path>
-            <path d="M 352,144 L 352,176" fill="none" stroke="black"></path>
-            <path d="M 352,240 L 352,272" fill="none" stroke="black"></path>
-            <path d="M 352,336 L 352,464" fill="none" stroke="black"></path>
-            <path d="M 352,720 L 352,752" fill="none" stroke="black"></path>
-            <path d="M 352,832 L 352,864" fill="none" stroke="black"></path>
-            <path d="M 8,32 L 104,32" fill="none" stroke="black"></path>
-            <path d="M 8,64 L 104,64" fill="none" stroke="black"></path>
-            <path d="M 8,144 L 352,144" fill="none" stroke="black"></path>
-            <path d="M 8,176 L 352,176" fill="none" stroke="black"></path>
-            <path d="M 8,240 L 352,240" fill="none" stroke="black"></path>
-            <path d="M 8,272 L 352,272" fill="none" stroke="black"></path>
-            <path d="M 8,336 L 352,336" fill="none" stroke="black"></path>
-            <path d="M 32,384 L 312,384" fill="none" stroke="black"></path>
-            <path d="M 32,432 L 312,432" fill="none" stroke="black"></path>
-            <path d="M 8,464 L 352,464" fill="none" stroke="black"></path>
-            <path d="M 8,512 L 104,512" fill="none" stroke="black"></path>
-            <path d="M 8,544 L 104,544" fill="none" stroke="black"></path>
-            <path d="M 8,624 L 104,624" fill="none" stroke="black"></path>
-            <path d="M 8,656 L 104,656" fill="none" stroke="black"></path>
-            <path d="M 8,720 L 352,720" fill="none" stroke="black"></path>
-            <path d="M 8,752 L 352,752" fill="none" stroke="black"></path>
-            <path d="M 8,832 L 352,832" fill="none" stroke="black"></path>
-            <path d="M 8,864 L 352,864" fill="none" stroke="black"></path>
-            <polygon class="arrowhead" points="64,824 52,818.4 52,829.6" fill="black" transform="rotate(90,56,824)"></polygon>
-            <polygon class="arrowhead" points="64,712 52,706.4 52,717.6" fill="black" transform="rotate(90,56,712)"></polygon>
-            <polygon class="arrowhead" points="64,616 52,610.4 52,621.6" fill="black" transform="rotate(90,56,616)"></polygon>
-            <polygon class="arrowhead" points="64,504 52,498.4 52,509.6" fill="black" transform="rotate(90,56,504)"></polygon>
-            <polygon class="arrowhead" points="64,328 52,322.4 52,333.6" fill="black" transform="rotate(90,56,328)"></polygon>
-            <polygon class="arrowhead" points="64,232 52,226.4 52,237.6" fill="black" transform="rotate(90,56,232)"></polygon>
-            <polygon class="arrowhead" points="64,136 52,130.4 52,141.6" fill="black" transform="rotate(90,56,136)"></polygon>
-            <g class="text">
-              <text x="52" y="52">Issuer</text>
-              <text x="76" y="100">1.</text>
-              <text x="120" y="100">Creates</text>
-              <text x="180" y="100">Salted</text>
-              <text x="248" y="100">Disclosed</text>
-              <text x="312" y="100">Claim</text>
-              <text x="116" y="116">[salt,</text>
-              <text x="172" y="116">value,</text>
-              <text x="220" y="116">key]</text>
-              <text x="44" y="164">Salted</text>
-              <text x="112" y="164">Disclosed</text>
-              <text x="176" y="164">Claim</text>
-              <text x="76" y="212">2.</text>
-              <text x="116" y="212">Hashes</text>
-              <text x="156" y="212">to</text>
-              <text x="196" y="212">create</text>
-              <text x="48" y="260">Blinded</text>
-              <text x="104" y="260">Claim</text>
-              <text x="148" y="260">Hash</text>
-              <text x="76" y="308">3.</text>
-              <text x="124" y="308">Replaces</text>
-              <text x="184" y="308">Claim</text>
-              <text x="232" y="308">Value</text>
-              <text x="276" y="308">with</text>
-              <text x="48" y="356">Blinded</text>
-              <text x="104" y="356">Claim</text>
-              <text x="144" y="356">(in</text>
-              <text x="176" y="356">CWT</text>
-              <text x="228" y="356">payload)</text>
-              <text x="76" y="404">Original</text>
-              <text x="136" y="404">Claim</text>
-              <text x="184" y="404">Value</text>
-              <text x="220" y="404">is</text>
-              <text x="268" y="404">replaced</text>
-              <text x="60" y="420">with</text>
-              <text x="112" y="420">Blinded</text>
-              <text x="168" y="420">Claim</text>
-              <text x="212" y="420">Hash</text>
-              <text x="52" y="532">Holder</text>
-              <text x="76" y="580">4.</text>
-              <text x="124" y="580">Presents</text>
-              <text x="196" y="580">selected</text>
-              <text x="116" y="596">Salted</text>
-              <text x="184" y="596">Disclosed</text>
-              <text x="252" y="596">Claims</text>
-              <text x="52" y="644">Verifier</text>
-              <text x="76" y="692">5.</text>
-              <text x="116" y="692">Hashes</text>
-              <text x="172" y="692">Salted</text>
-              <text x="240" y="692">Disclosed</text>
-              <text x="304" y="692">Claim</text>
-              <text x="48" y="740">Blinded</text>
-              <text x="104" y="740">Claim</text>
-              <text x="148" y="740">Hash</text>
-              <text x="212" y="740">(computed)</text>
-              <text x="76" y="788">6.</text>
-              <text x="120" y="788">Matches</text>
-              <text x="172" y="788">with</text>
-              <text x="212" y="788">hash</text>
-              <text x="244" y="788">in</text>
-              <text x="288" y="788">payload</text>
-              <text x="100" y="804">to</text>
-              <text x="144" y="804">recover</text>
-              <text x="212" y="804">original</text>
-              <text x="40" y="852">Claim</text>
-              <text x="88" y="852">Value</text>
-              <text x="160" y="852">(recovered)</text>
-            </g>
-          </svg><a href="#section-2-11.1" class="pilcrow">¶</a>
+<span id="name-round-trip-journey-of-a-bli"></span><div id="f-roundtrip-claim">
+<figure id="figure-3">
+        <div id="section-2-11.1">
+          <div class="alignLeft art-svg artwork" id="section-2-11.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1008" width="440" viewBox="0 0 440 1008" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+              <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
+              <path d="M 8,160 L 8,192" fill="none" stroke="black"></path>
+              <path d="M 8,272 L 8,304" fill="none" stroke="black"></path>
+              <path d="M 8,368 L 8,400" fill="none" stroke="black"></path>
+              <path d="M 8,464 L 8,592" fill="none" stroke="black"></path>
+              <path d="M 8,640 L 8,672" fill="none" stroke="black"></path>
+              <path d="M 8,752 L 8,784" fill="none" stroke="black"></path>
+              <path d="M 8,848 L 8,880" fill="none" stroke="black"></path>
+              <path d="M 8,960 L 8,992" fill="none" stroke="black"></path>
+              <path d="M 32,512 L 32,560" fill="none" stroke="black"></path>
+              <path d="M 56,64 L 56,152" fill="none" stroke="black"></path>
+              <path d="M 56,192 L 56,264" fill="none" stroke="black"></path>
+              <path d="M 56,304 L 56,360" fill="none" stroke="black"></path>
+              <path d="M 56,400 L 56,456" fill="none" stroke="black"></path>
+              <path d="M 56,592 L 56,632" fill="none" stroke="black"></path>
+              <path d="M 56,672 L 56,744" fill="none" stroke="black"></path>
+              <path d="M 56,784 L 56,840" fill="none" stroke="black"></path>
+              <path d="M 56,880 L 56,952" fill="none" stroke="black"></path>
+              <path d="M 104,32 L 104,64" fill="none" stroke="black"></path>
+              <path d="M 104,160 L 104,192" fill="none" stroke="black"></path>
+              <path d="M 104,640 L 104,672" fill="none" stroke="black"></path>
+              <path d="M 104,752 L 104,784" fill="none" stroke="black"></path>
+              <path d="M 312,512 L 312,560" fill="none" stroke="black"></path>
+              <path d="M 352,272 L 352,304" fill="none" stroke="black"></path>
+              <path d="M 352,368 L 352,400" fill="none" stroke="black"></path>
+              <path d="M 352,464 L 352,592" fill="none" stroke="black"></path>
+              <path d="M 352,848 L 352,880" fill="none" stroke="black"></path>
+              <path d="M 352,960 L 352,992" fill="none" stroke="black"></path>
+              <path d="M 8,32 L 104,32" fill="none" stroke="black"></path>
+              <path d="M 8,64 L 104,64" fill="none" stroke="black"></path>
+              <path d="M 8,160 L 104,160" fill="none" stroke="black"></path>
+              <path d="M 8,192 L 104,192" fill="none" stroke="black"></path>
+              <path d="M 8,272 L 352,272" fill="none" stroke="black"></path>
+              <path d="M 8,304 L 352,304" fill="none" stroke="black"></path>
+              <path d="M 8,368 L 352,368" fill="none" stroke="black"></path>
+              <path d="M 8,400 L 352,400" fill="none" stroke="black"></path>
+              <path d="M 8,464 L 352,464" fill="none" stroke="black"></path>
+              <path d="M 32,512 L 312,512" fill="none" stroke="black"></path>
+              <path d="M 32,560 L 312,560" fill="none" stroke="black"></path>
+              <path d="M 8,592 L 352,592" fill="none" stroke="black"></path>
+              <path d="M 8,640 L 104,640" fill="none" stroke="black"></path>
+              <path d="M 8,672 L 104,672" fill="none" stroke="black"></path>
+              <path d="M 8,752 L 104,752" fill="none" stroke="black"></path>
+              <path d="M 8,784 L 104,784" fill="none" stroke="black"></path>
+              <path d="M 8,848 L 352,848" fill="none" stroke="black"></path>
+              <path d="M 8,880 L 352,880" fill="none" stroke="black"></path>
+              <path d="M 8,960 L 352,960" fill="none" stroke="black"></path>
+              <path d="M 8,992 L 352,992" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="64,952 52,946.4 52,957.6" fill="black" transform="rotate(90,56,952)"></polygon>
+              <polygon class="arrowhead" points="64,840 52,834.4 52,845.6" fill="black" transform="rotate(90,56,840)"></polygon>
+              <polygon class="arrowhead" points="64,744 52,738.4 52,749.6" fill="black" transform="rotate(90,56,744)"></polygon>
+              <polygon class="arrowhead" points="64,632 52,626.4 52,637.6" fill="black" transform="rotate(90,56,632)"></polygon>
+              <polygon class="arrowhead" points="64,456 52,450.4 52,461.6" fill="black" transform="rotate(90,56,456)"></polygon>
+              <polygon class="arrowhead" points="64,360 52,354.4 52,365.6" fill="black" transform="rotate(90,56,360)"></polygon>
+              <polygon class="arrowhead" points="64,264 52,258.4 52,269.6" fill="black" transform="rotate(90,56,264)"></polygon>
+              <polygon class="arrowhead" points="64,152 52,146.4 52,157.6" fill="black" transform="rotate(90,56,152)"></polygon>
+              <g class="text">
+                <text x="52" y="52">Holder</text>
+                <text x="176" y="100">1. Communicates public key,</text>
+                <text x="212" y="116">Optionally communicates Claim,</text>
+                <text x="264" y="132">Optionally communicates Blinding preference</text>
+                <text x="52" y="180">Issuer</text>
+                <text x="200" y="228">2. Creates Salted Disclosed Claim</text>
+                <text x="164" y="244">[salt, value, key]</text>
+                <text x="108" y="292">Salted Disclosed Claim</text>
+                <text x="144" y="340">3. Hashes to create</text>
+                <text x="92" y="388">Blinded Claim Hash</text>
+                <text x="180" y="436">4. Replaces Claim Value with</text>
+                <text x="140" y="484">Blinded Claim (in CWT payload)</text>
+                <text x="172" y="532">Original Claim Value is replaced</text>
+                <text x="136" y="548">with Blinded Claim Hash</text>
+                <text x="52" y="660">Holder</text>
+                <text x="148" y="708">5. Presents selected</text>
+                <text x="184" y="724">Salted Disclosed Claims</text>
+                <text x="52" y="772">Verifier</text>
+                <text x="196" y="820">6. Hashes Salted Disclosed Claim</text>
+                <text x="136" y="868">Blinded Claim Hash (computed)</text>
+                <text x="192" y="916">7. Matches with hash in payload</text>
+                <text x="168" y="932">to recover original</text>
+                <text x="112" y="980">Claim Value (recovered)</text>
+              </g>
+            </svg><a href="#section-2-11.1.1" class="pilcrow">¶</a>
 </div>
+</div>
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<a href="#name-round-trip-journey-of-a-bli" class="selfRef">Round trip journey of a blinded claim</a>
+        </figcaption></figure>
 </div>
 </section>
 </div>
@@ -1959,7 +1931,7 @@ It consists of standard CWT claims, the Holder confirmation key, and five fictit
 The payload is shown below in EDN <span>[<a href="#I-D.ietf-cbor-edn-literals" class="cite xref">I-D.ietf-cbor-edn-literals</a>]</span>.
 Note that the fictitious map keys shown in the examples do not have IANA registered integer keys.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <span id="name-cwt-claims-set-without-sele"></span><div id="fig-cwt-claimset">
-<figure id="figure-2">
+<figure id="figure-4">
           <div class="lang-cbor-diag sourcecode" id="section-3.1-2.1">
 <pre>
 {
@@ -1993,7 +1965,7 @@ Note that the fictitious map keys shown in the examples do not have IANA registe
 }
 </pre>
 </div>
-<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
 <a href="#name-cwt-claims-set-without-sele" class="selfRef">CWT Claims Set Without Selective Disclosure</a>
           </figcaption></figure>
 </div>
@@ -2010,7 +1982,7 @@ Note that some of the claims may not be selectively disclosable.
 In our next example, the pass/fail status of the inspection, the most recent inspection date, and the country of the inspection will be claims that are always present in the SD-CWT.
 After the Holder requests an SD-CWT from the Issuer, the Issuer generates the following SD-CWT:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <span id="name-issued-sd-cwt-with-all-disc"></span><div id="basic-issuer-cwt">
-<figure id="figure-3">
+<figure id="figure-5">
           <div class="breakable lang-cbor-diag sourcecode" id="section-3.2-2.1">
 <pre>
 / cose-sign1 / 18([  / issuer SD-CWT /
@@ -2099,13 +2071,13 @@ After the Holder requests an SD-CWT from the Issuer, the Issuer generates the fo
 ])
 </pre>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-issued-sd-cwt-with-all-disc" class="selfRef">Issued SD-CWT with all disclosures</a>
           </figcaption></figure>
 </div>
 <p id="section-3.2-3">Some of the claims are <em>redacted</em> in the payload. The corresponding <em>disclosure</em> is communicated in the unprotected header in the <code>sd_claims</code> header parameter.
 For example, the <code>inspector_license_number</code> claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the Claim Key, and Claim Value.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<span id="name-cbor-extended-diagnostic-no"></span><figure id="figure-4">
+<span id="name-cbor-extended-diagnostic-no"></span><figure id="figure-6">
           <div class="lang-cbor-diag sourcecode" id="section-3.2-4.1">
 <pre>
         &lt;&lt;[
@@ -2115,11 +2087,11 @@ For example, the <code>inspector_license_number</code> claim is a Salted Disclos
         ]&gt;&gt;,
 </pre>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
 <a href="#name-cbor-extended-diagnostic-no" class="selfRef">CBOR extended diagnostic notation representation of inspector_license_number disclosure</a>
           </figcaption></figure>
 <p id="section-3.2-5">This is represented in CBOR pretty-printed format as follows (with end-of-line comments and spaces inserted for clarity):<a href="#section-3.2-5" class="pilcrow">¶</a></p>
-<span id="name-cbor-encoding-of-inspector_"></span><figure id="figure-5">
+<span id="name-cbor-encoding-of-inspector_"></span><figure id="figure-7">
           <div class="lang-cbor-pretty sourcecode" id="section-3.2-6.1">
 <pre>
 83                                     # array(3)
@@ -2130,22 +2102,22 @@ For example, the <code>inspector_license_number</code> claim is a Salted Disclos
    19 01f5                             # unsigned(501)
 </pre>
 </div>
-<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-cbor-encoding-of-inspector_" class="selfRef">CBOR encoding of inspector_license_number disclosure</a>
           </figcaption></figure>
 <p id="section-3.2-7">The cryptographic hash, using the hash algorithm identified by the <code>sd_alg</code> header parameter in the protected headers, of that byte string is the Blinded Claim Hash (shown in hex).
 The digest value is included in the payload in a <code>redacted_claim_keys</code> field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of <code>inspection_dates</code>).<a href="#section-3.2-7" class="pilcrow">¶</a></p>
-<span id="name-sha-256-hash-of-inspector_l"></span><figure id="figure-6">
+<span id="name-sha-256-hash-of-inspector_l"></span><figure id="figure-8">
           <div class="alignLeft art-text artwork" id="section-3.2-8.1">
 <pre>
 d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
 </pre>
 </div>
-<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-sha-256-hash-of-inspector_l" class="selfRef">SHA-256 hash of inspector_license_number disclosure</a>
           </figcaption></figure>
 <p id="section-3.2-9">Finally, since this redacted claim is a map key and value, the Blinded Claim Hash is placed in a <code>redacted_claim_keys</code> array in the SD-CWT payload at the same level of hierarchy as the original claim.<a href="#section-3.2-9" class="pilcrow">¶</a></p>
-<span id="name-redacted-inspector_license_"></span><figure id="figure-7">
+<span id="name-redacted-inspector_license_"></span><figure id="figure-9">
           <div class="lang-cbor-diag sourcecode" id="section-3.2-10.1">
 <pre>
   / redacted_claim_keys / simple(59) : [
@@ -2155,7 +2127,7 @@ d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
       / ... next redacted claim at the same level would go here /  ],
 </pre>
 </div>
-<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-redacted-inspector_license_" class="selfRef">redacted inspector_license_number claim in the issued CWT payload</a>
           </figcaption></figure>
 <p id="section-3.2-11">Redacted claims that are array elements are handled slightly differently, as described in <a href="#blinded-claims" class="auto internal xref">Section 5.1</a>.<a href="#section-3.2-11" class="pilcrow">¶</a></p>
@@ -2172,7 +2144,7 @@ d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
 If the Holder does not disclose any claims, it <span class="bcp14">MUST</span> omit the <code>sd_claims</code> header parameter.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">For example, Alice decides to disclose to a Verifier the <code>inspector_license_number</code> claim (ABCD-123456), the <code>region</code> claim (California), and the earliest date element in the <code>inspection_dates</code> array (7-Feb-2019).<a href="#section-4-2" class="pilcrow">¶</a></p>
 <span id="name-the-holders-choice-of-the-d"></span><div id="edn-chosen-disclosures">
-<figure id="figure-8">
+<figure id="figure-10">
         <div class="lang-cbor-diag sourcecode" id="section-4-3.1">
 <pre>
     / sd_claims / 17 : [ / these are the disclosures /
@@ -2193,7 +2165,7 @@ If the Holder does not disclose any claims, it <span class="bcp14">MUST</span> o
     ]
 </pre>
 </div>
-<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
 <a href="#name-the-holders-choice-of-the-d" class="selfRef">The Holder's choice of the disclosures to present</a>
         </figcaption></figure>
 </div>
@@ -2201,7 +2173,7 @@ If the Holder does not disclose any claims, it <span class="bcp14">MUST</span> o
 <p id="section-4-5">Finally, the Holder generates a Selective Disclosure Key Binding Token (SD-KBT) that ties together the SD-CWT generated by the Issuer (with the disclosures the Holder chose for the Verifier in its unprotected header), the Verifier target audience and optional nonces, and proof of possession of the Holder's private key.<a href="#section-4-5" class="pilcrow">¶</a></p>
 <p id="section-4-6">The issued SD-CWT is placed in the <code>kcwt</code> (Confirmation Key CWT) protected header field (defined in <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>).<a href="#section-4-6" class="pilcrow">¶</a></p>
 <span id="name-elided-example-of-a-key-bin"></span><div id="edn-elided-kbt">
-<figure id="figure-9">
+<figure id="figure-11">
         <div class="lang-cbor-diag sourcecode" id="section-4-7.1">
 <pre>
 / cose-sign1 / 18( / sd_kbt / [
@@ -2227,7 +2199,7 @@ If the Holder does not disclose any claims, it <span class="bcp14">MUST</span> o
 ])   / end of kbt /
 </pre>
 </div>
-<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
 <a href="#name-elided-example-of-a-key-bin" class="selfRef">Elided example of a Key Binding Token</a>
         </figcaption></figure>
 </div>
@@ -2263,7 +2235,7 @@ However, a Verifier with the hash cannot reconstruct the corresponding blinded c
 <p id="section-5.1-1">Salted Disclosed Claims for named claims are structured as a 128-bit salt, the disclosed value, and the name of the redacted element.
 For Salted Disclosed Claims of items in an array, the name is omitted.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <span id="name-cddl-of-salted-disclosed-cl"></span><div id="cddl-salted-disclosed">
-<figure id="figure-10">
+<figure id="figure-12">
           <div class="lang-cddl sourcecode" id="section-5.1-2.1">
 <pre>
 ; an array of bstr-encoded Salted Disclosed Claims
@@ -2286,7 +2258,7 @@ decoy = [
 
 </pre>
 </div>
-<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
 <a href="#name-cddl-of-salted-disclosed-cl" class="selfRef">CDDL of Salted Disclosed Claims</a>
           </figcaption></figure>
 </div>
@@ -2301,7 +2273,7 @@ CBOR tags <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.4" class="
 The tag 60 is represented in examples as <code>60(</code> <em>tagged value</em> <code>)</code>.
 The tag 60 is represented in CDDL as <code>#6.60(</code> <em>tagged value</em> <code>)</code>.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <span id="name-cddl-of-blinded-claim-keys-"></span><div id="cddl-blinded">
-<figure id="figure-11">
+<figure id="figure-13">
           <div class="lang-cddl sourcecode" id="section-5.1-5.1">
 <pre>
 ; redacted_claim_keys is used as a map key. The corresponding value is
@@ -2317,7 +2289,7 @@ REDACTED_ELEMENT_TAGNUM = 60
 redacted_claim_element = #6.&lt;REDACTED_ELEMENT_TAGNUM&gt;( bstr )
 </pre>
 </div>
-<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
 <a href="#name-cddl-of-blinded-claim-keys-" class="selfRef">CDDL of Blinded Claim Keys and Blinded Claim Elements</a>
           </figcaption></figure>
 </div>
@@ -2488,7 +2460,7 @@ These two tags provide a way for the Holder to indicate specific claims to be re
 <p id="section-6.3-10">All the other Header Parameters, and the KBT payload need to contain values valid in a CWT.
 These values are represented by the <code>safe-value</code> CDDL type.<a href="#section-6.3-10" class="pilcrow">¶</a></p>
 <span id="name-cddl-of-safe-values-in-sd-c"></span><div id="cddl-legal-values">
-<figure id="figure-12">
+<figure id="figure-14">
           <div class="breakable lang-cddl sourcecode" id="section-6.3-11.1">
 <pre>
 ; CWT claim legal values only
@@ -2547,7 +2519,7 @@ float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 
 </pre>
 </div>
-<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
 <a href="#name-cddl-of-safe-values-in-sd-c" class="selfRef">CDDL of Safe Values in SD-CWTs</a>
           </figcaption></figure>
 </div>
@@ -2573,7 +2545,7 @@ This applies to any map anywhere in an SD-CWT or an SD-KBT.<a href="#section-6.4
 Map keys and their To Be Redacted tagged verison are considered duplicate map keys for the purposes of this specification.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
 <p id="section-6.4-4">For example, if the map below is contained inside a payload, it is invalid because the map key 500 and the map key 58(500) cannot both be present.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
 <span id="name-edn-example-considered-a-du"></span><div id="edn-duplicate-map-key">
-<figure id="figure-13">
+<figure id="figure-15">
           <div class="lang-cbor-diag sourcecode" id="section-6.4-5.1">
 <pre>
 {
@@ -2582,7 +2554,7 @@ Map keys and their To Be Redacted tagged verison are considered duplicate map ke
 }
 </pre>
 </div>
-<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
+<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
 <a href="#name-edn-example-considered-a-du" class="selfRef">EDN Example considered a duplicate map key</a>
           </figcaption></figure>
 </div>
@@ -2634,7 +2606,7 @@ For each value that is an array, a map, or a tagged item, each of the elements o
         </table>
 </div>
 <span id="name-edn-example-to-demonstrate-"></span><div id="edn-depth-levels">
-<figure id="figure-14">
+<figure id="figure-16">
           <div class="lang-cbor-diag sourcecode" id="section-6.5-5.1">
 <pre>
 {                                   # contents are level 1
@@ -2661,7 +2633,7 @@ For each value that is an array, a map, or a tagged item, each of the elements o
 }
 </pre>
 </div>
-<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
+<figcaption><a href="#figure-16" class="selfRef">Figure 16</a>:
 <a href="#name-edn-example-to-demonstrate-" class="selfRef">EDN Example to demonstrate levels of depth</a>
           </figcaption></figure>
 </div>
@@ -2761,7 +2733,7 @@ Holder verifies the following:<a href="#section-7.2-1" class="pilcrow">¶</a></p
         </ul>
 <p id="section-7.2-4">The following informative CDDL is provided to describe the syntax for SD-CWT issuance. A complete CDDL schema is in <a href="#cddl" class="auto internal xref">Appendix A</a>.<a href="#section-7.2-4" class="pilcrow">¶</a></p>
 <span id="name-cddl-describing-issued-sd-c"></span><div id="cddl-issued-sd-cwt">
-<figure id="figure-15">
+<figure id="figure-17">
           <div class="lang-cddl sourcecode" id="section-7.2-5.1">
 <pre>
 sd-cwt-issued = #6.18([
@@ -2806,7 +2778,7 @@ sd-payload = {
 
 </pre>
 </div>
-<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
+<figcaption><a href="#figure-17" class="selfRef">Figure 17</a>:
 <a href="#name-cddl-describing-issued-sd-c" class="selfRef">CDDL describing issued SD-CWT syntax</a>
           </figcaption></figure>
 </div>
@@ -2865,7 +2837,7 @@ The Holder <span class="bcp14">SHOULD</span> use the value 294 instead of <code>
 Confirmation is established according to <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span>, using the <code>cnf</code> claim in the payload of the SD-CWT.<a href="#section-8.1-8" class="pilcrow">¶</a></p>
 <p id="section-8.1-9">The Holder signs the SD-KBT using the key specified in the <code>cnf</code> claim in the SD-CWT. This proves possession of the Holder's private key.<a href="#section-8.1-9" class="pilcrow">¶</a></p>
 <span id="name-cddl-describing-kbt-syntax"></span><div id="cddl-kbt">
-<figure id="figure-16">
+<figure id="figure-18">
           <div class="lang-cddl sourcecode" id="section-8.1-10.1">
 <pre>
 kbt-cwt = #6.18([
@@ -2897,7 +2869,7 @@ kbt-payload = {
 
 </pre>
 </div>
-<figcaption><a href="#figure-16" class="selfRef">Figure 16</a>:
+<figcaption><a href="#figure-18" class="selfRef">Figure 18</a>:
 <a href="#name-cddl-describing-kbt-syntax" class="selfRef">CDDL describing KBT syntax</a>
           </figcaption></figure>
 </div>
@@ -3020,20 +2992,20 @@ The purpose of such "decoy" digests is to make it more difficult for an adversar
 Each disclosure contains a single element array with a per-decoy salt.
 Each salt <span class="bcp14">MUST</span> be unique.<a href="#section-10-2" class="pilcrow">¶</a></p>
 <span id="name-edn-showing-a-sample-decoy-"></span><div id="edn-decoy-disc">
-<figure id="figure-17">
+<figure id="figure-19">
         <div class="lang-cbor-diag sourcecode" id="section-10-3.1">
 <pre>
 &lt;&lt;[ h'C1069BC056E234D64F58BAFF8A7B776B' ]&gt;&gt;
 </pre>
 </div>
-<figcaption><a href="#figure-17" class="selfRef">Figure 17</a>:
+<figcaption><a href="#figure-19" class="selfRef">Figure 19</a>:
 <a href="#name-edn-showing-a-sample-decoy-" class="selfRef">EDN showing a sample decoy salt</a>
         </figcaption></figure>
 </div>
 <p id="section-10-4">The Blinded Claim Hash for each disclosure is calculated using the same algorithm for decoys as for Redacted Claim Keys and Redacted Claim Elements.
 An example issued SD-CWT containing decoy digests is shown below.<a href="#section-10-4" class="pilcrow">¶</a></p>
 <span id="name-edn-showing-a-sd-cwt-contai"></span><div id="edn-decoys">
-<figure id="figure-18">
+<figure id="figure-20">
         <div class="breakable lang-cbor-diag sourcecode" id="section-10-5.1">
 <pre>
 / cose-sign1 / 18([  / issuer SD-CWT /
@@ -3104,7 +3076,7 @@ An example issued SD-CWT containing decoy digests is shown below.<a href="#secti
 ])
 </pre>
 </div>
-<figcaption><a href="#figure-18" class="selfRef">Figure 18</a>:
+<figcaption><a href="#figure-20" class="selfRef">Figure 20</a>:
 <a href="#name-edn-showing-a-sd-cwt-contai" class="selfRef">EDN showing a SD-CWT containing decoys</a>
         </figcaption></figure>
 </div>
@@ -3128,7 +3100,7 @@ When used on a map key and value, the tag is placed around the map key, while th
 <p id="section-11.1-3">Examples in this draft use the To Be Redacted tag in order to distinguish their pre-issued, post-issued, and post-presented representations in EDN and CDDL.
 The snippet of EDN shown below shows one mechanism to communicate to the Issuer to redact the inspector license number claim, and two of the inspection dates in our primary example.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
 <span id="name-edn-example-requesting-blin"></span><div id="edn-to-be-blinded">
-<figure id="figure-19">
+<figure id="figure-21">
           <div class="lang-cbor-diag sourcecode" id="section-11.1-4.1">
 <pre>
 {
@@ -3143,7 +3115,7 @@ The snippet of EDN shown below shows one mechanism to communicate to the Issuer 
 }
 </pre>
 </div>
-<figcaption><a href="#figure-19" class="selfRef">Figure 19</a>:
+<figcaption><a href="#figure-21" class="selfRef">Figure 21</a>:
 <a href="#name-edn-example-requesting-blin" class="selfRef">EDN example requesting blinding of license number and two inspection dates</a>
           </figcaption></figure>
 </div>
@@ -3164,7 +3136,7 @@ The Claim Elements array contains Germany (de) and the Philippines (ph).
 The Holder wants to redact each country, but add decoys to obfuscate the number of component origin countries.
 The example fragment also shows two decoy digests in the same map.<a href="#section-11.2-2" class="pilcrow">¶</a></p>
 <span id="name-edn-example-requesting-two-"></span><div id="edn-to-be-decoy">
-<figure id="figure-20">
+<figure id="figure-22">
           <div class="lang-cbor-diag sourcecode" id="section-11.2-3.1">
 <pre>
 {
@@ -3181,7 +3153,7 @@ The example fragment also shows two decoy digests in the same map.<a href="#sect
 }
 </pre>
 </div>
-<figcaption><a href="#figure-20" class="selfRef">Figure 20</a>:
+<figcaption><a href="#figure-22" class="selfRef">Figure 22</a>:
 <a href="#name-edn-example-requesting-two-" class="selfRef">EDN example requesting two decoys</a>
           </figcaption></figure>
 </div>
@@ -3213,7 +3185,7 @@ If present in the protected headers, the first header parameter (<code>sd_aead</
 The second header parameter (<code>sd_aead_encrypted_claims</code>), if present, contains a non-empty list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:<a href="#section-12.1-1" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-an-encrypted"></span><div id="edn-aead-disclosure">
-<figure id="figure-21">
+<figure id="figure-23">
           <div class="lang-cbor-diag sourcecode" id="section-12.1-2.1">
 <pre>
         &lt;&lt;[
@@ -3223,7 +3195,7 @@ Taking the first example disclosure from above:<a href="#section-12.1-1" class="
         ]&gt;&gt;,
 </pre>
 </div>
-<figcaption><a href="#figure-21" class="selfRef">Figure 21</a>:
+<figcaption><a href="#figure-23" class="selfRef">Figure 23</a>:
 <a href="#name-edn-example-of-an-encrypted" class="selfRef">EDN example of an encrypted disclosure</a>
           </figcaption></figure>
 </div>
@@ -3241,7 +3213,7 @@ a061c27a3273721e210d031863ad81b6
 </div>
 <p id="section-12.1-6">A valid AEAD encrypted disclosure for that first disclosure is:<a href="#section-12.1-6" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-an-aead-encr"></span><div id="edn-aead-claim">
-<figure id="figure-22">
+<figure id="figure-24">
           <div class="lang-cbor-diag sourcecode" id="section-12.1-7.1">
 <pre>
 / sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
@@ -3256,7 +3228,7 @@ a061c27a3273721e210d031863ad81b6
 ]
 </pre>
 </div>
-<figcaption><a href="#figure-22" class="selfRef">Figure 22</a>:
+<figcaption><a href="#figure-24" class="selfRef">Figure 24</a>:
 <a href="#name-edn-example-of-an-aead-encr" class="selfRef">EDN Example of an AEAD Encrypted Claim</a>
           </figcaption></figure>
 </div>
@@ -3266,7 +3238,7 @@ If the Verifier is able to decrypt and verify an encrypted disclosure, the decry
 <p id="section-12.1-9">Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.<a href="#section-12.1-9" class="pilcrow">¶</a></p>
 <p id="section-12.1-10">The CDDL for AEAD encrypted disclosures is below.<a href="#section-12.1-10" class="pilcrow">¶</a></p>
 <span id="name-cddl-describing-syntax-of-a"></span><div id="cddl-aead">
-<figure id="figure-23">
+<figure id="figure-25">
           <div class="lang-cddl sourcecode" id="section-12.1-11.1">
 <pre>
 aead-encrypted-array = [ +aead-encrypted ]
@@ -3279,7 +3251,7 @@ aead-encrypted = [
 
 </pre>
 </div>
-<figcaption><a href="#figure-23" class="selfRef">Figure 23</a>:
+<figcaption><a href="#figure-25" class="selfRef">Figure 25</a>:
 <a href="#name-cddl-describing-syntax-of-a" class="selfRef">CDDL describing syntax of AEAD Encrypted disclosures</a>
           </figcaption></figure>
 </div>
@@ -3326,7 +3298,7 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
         </h3>
 <p id="section-14.1-1">The following example contains claims needed to demonstrate redaction of key-value pairs and array elements.<a href="#section-14.1-1" class="pilcrow">¶</a></p>
 <span id="name-a-minimal-full-edn-example"></span><div id="example-edn">
-<figure id="figure-24">
+<figure id="figure-26">
           <div class="breakable lang-cbor-diag sourcecode" id="section-14.1-2.1">
 <pre>
 / cose-sign1 / 18( / sd_kbt / [
@@ -3423,7 +3395,7 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
 ])   / end of kbt /
 </pre>
 </div>
-<figcaption><a href="#figure-24" class="selfRef">Figure 24</a>:
+<figcaption><a href="#figure-26" class="selfRef">Figure 26</a>:
 <a href="#name-a-minimal-full-edn-example" class="selfRef">A minimal, full EDN Example</a>
           </figcaption></figure>
 </div>
@@ -3436,7 +3408,7 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
         </h3>
 <p id="section-14.2-1">Instead of the structure from the previous example, imagine that the payload contains an inspection history log with the following structure. It could be blinded at multiple levels of the claims set hierarchy.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-nested-claim"></span><div id="edn-nested-unblinded">
-<figure id="figure-25">
+<figure id="figure-27">
           <div class="lang-cbor-diag sourcecode" id="section-14.2-2.1">
 <pre>
 {
@@ -3481,7 +3453,7 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
 }
 </pre>
 </div>
-<figcaption><a href="#figure-25" class="selfRef">Figure 25</a>:
+<figcaption><a href="#figure-27" class="selfRef">Figure 27</a>:
 <a href="#name-edn-example-of-nested-claim" class="selfRef">EDN example of Nested Claims Set before blinding</a>
           </figcaption></figure>
 </div>
@@ -3493,7 +3465,7 @@ The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" c
 <p id="section-14.2-4">The fifth disclosure unblinds the earliest inspection record, and the last disclosure unblinds the inspector_license_number for that record.<a href="#section-14.2-4" class="pilcrow">¶</a></p>
 <p id="section-14.2-5">Verifiers start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.<a href="#section-14.2-5" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-sd-cwt-with-"></span><div id="edn-nested-blinded">
-<figure id="figure-26">
+<figure id="figure-28">
           <div class="breakable lang-cbor-diag sourcecode" id="section-14.2-6.1">
 <pre>
 / sd_claims / 17 : [ / these are the disclosures /
@@ -3567,13 +3539,13 @@ The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" c
 ]
 </pre>
 </div>
-<figcaption><a href="#figure-26" class="selfRef">Figure 26</a>:
+<figcaption><a href="#figure-28" class="selfRef">Figure 28</a>:
 <a href="#name-edn-example-of-sd-cwt-with-" class="selfRef">EDN Example of SD-CWT with Nested Blinded Claims</a>
           </figcaption></figure>
 </div>
 <p id="section-14.2-7">After applying the disclosures of the nested structure above, the disclosed Claims Set visible to the Verifier would look like the following:<a href="#section-14.2-7" class="pilcrow">¶</a></p>
 <span id="name-edn-of-validated-nested-cla"></span><div id="edn-validated">
-<figure id="figure-27">
+<figure id="figure-29">
           <div class="lang-cbor-diag sourcecode" id="section-14.2-8.1">
 <pre>
 {
@@ -3605,7 +3577,7 @@ The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" c
 }
 </pre>
 </div>
-<figcaption><a href="#figure-27" class="selfRef">Figure 27</a>:
+<figcaption><a href="#figure-29" class="selfRef">Figure 29</a>:
 <a href="#name-edn-of-validated-nested-cla" class="selfRef">EDN of validated nested claims</a>
           </figcaption></figure>
 </div>
@@ -4707,7 +4679,7 @@ An indication of the relevant sections may also be included, but is not required
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-complete-cddl-schema" class="section-name selfRef">Complete CDDL Schema</a>
       </h2>
 <span id="name-a-complete-cddl-description"></span><div id="cddl-schema">
-<figure id="figure-28">
+<figure id="figure-30">
         <div class="breakable lang-cddl sourcecode" id="appendix-A-1.1">
 <pre>
 sd-cwt-types = sd-cwt-issued / kbt-cwt / sd-cwt-preissued
@@ -4878,7 +4850,7 @@ REDACTED_ELEMENT_TAGNUM = 60
 redacted_claim_element = #6.&lt;REDACTED_ELEMENT_TAGNUM&gt;( bstr )
 </pre>
 </div>
-<figcaption><a href="#figure-28" class="selfRef">Figure 28</a>:
+<figcaption><a href="#figure-30" class="selfRef">Figure 30</a>:
 <a href="#name-a-complete-cddl-description" class="selfRef">A complete CDDL description of SD-CWT</a>
         </figcaption></figure>
 </div>
