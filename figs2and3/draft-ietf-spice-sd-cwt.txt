@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 10 August 2026                                     Tradeverifyd
+Expires: 13 August 2026                                     Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                         6 February 2026
+                                                         9 February 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 August 2026.
+   This Internet-Draft will expire on 13 August 2026.
 
 Copyright Notice
 
@@ -352,7 +352,8 @@ Issuer                           Holder                         Verifier
            v
    +----------------------------------.
    | Issuer-Signed: Plaintext Claims + |
-   |  Blinded Claim Hashes;            |
+   |  Blinded Claim Hashes             |
+   +-----------------------------------+
    | All Salted Disclosed Claims       |
    +-------+---------------------------+
            |
@@ -366,7 +367,8 @@ Issuer                           Holder                         Verifier
    +---------------------------------------------------.
    | Holder-Signed: Key Binding Token                   |
    |  +----------------------------------------------.  |
-   |  | Issuer-Signed: Claims + Blinded Claim Hashes, | |
+   |  | Issuer-Signed: Claims + Blinded Claim Hashes  | |
+   |  +-----------------------------------------------+ |
    |  | Holder-Selected: Salted Disclosed Claims      | |
    |  +-----------------------------------------------+ |
    |                                                    |
