@@ -17,11 +17,15 @@ kbt-unprotected = {
 }
 
 kbt-payload = {
-      &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-    ? &(exp: 4) ^ => secs, ; 1883000000
-    ? &(nbf: 5) ^ => secs, ; 1683000000
-      &(iat: 6) ^ => secs, ; 1683000000
+      &(aud: 3) ^ => tstr,  ; "https://verifier.example/app"
+    ? &(exp: 4) ^ => secs,  ; 1883000000
+    ? &(nbf: 5) ^ => secs,  ; 1683000000
+      iat-or-cti,
     ? &(cnonce: 39) ^ => bstr,
     * label => safe_value
 }
 
+iat-or-cti = (
+    &(iat: 6) ^ => secs  //
+    &(cti: 7) ^ => bstr
+)
