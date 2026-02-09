@@ -104,8 +104,6 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
 
 ## High-Level Flow
 
-Figure 1: High-level SD-CWT Issuance and Presentation Flow
-
 ~~~ aasvg
 Issuer                           Holder                         Verifier
   |                                |                                 |
@@ -131,7 +129,7 @@ Issuer                           Holder                         Verifier
   |                                +-------------------------------->|
   |                                |                                 |
 ~~~
-{: #f-flow title="High-level flow" artwork-svg-options="--spaces=2"}
+{: #fig-high-level-flow title="High-level SD-CWT Issuance and Presentation Flow" artwork-svg-options="--spaces=2"}
 
 This diagram captures the essential details necessary to issue and present an SD-CWT.
 The parameters necessary to support these processes can be obtained using transports or protocols that are out of scope for this specification.
@@ -360,6 +358,7 @@ Note that the fictitious map keys shown in the examples do not have IANA registe
     }
 }
 ~~~
+{: #fig-cwt-claimset title="CWT Claims Set Without Selective Disclosure"}
 
 The fictitious claims deal with attributes of an inspection of the subject: the pass/fail result, the inspection location, the license number of the inspector, and a list of dates when the subject was inspected.
 
@@ -418,6 +417,7 @@ For example, Alice decides to disclose to a Verifier the `inspector_license_numb
 ~~~ cbor-diag
 {::include examples/chosen-disclosures.edn}
 ~~~
+{: #edn-chosen-disclosures title="The Holder's choice of the disclosures to present"}
 
 The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the Verifier through a process similar to the method described in {{?I-D.ietf-httpbis-unprompted-auth}}.
 
@@ -428,6 +428,7 @@ The issued SD-CWT is placed in the `kcwt` (Confirmation Key CWT) protected heade
 ~~~ cbor-diag
 {::include examples/elided-kbt.edn}
 ~~~
+{: #edn-elided-kbt title="Elided example of a Key Binding Token"}
 
 The digests in protected parts of the issued SD-CWT and the disclosures hashed in unprotected header of the `issuer_sd_cwt` are used together by the Verifier to confirm the disclosed claims.
 Since the unprotected header of the included SD-CWT is covered by the signature in the SW-KBT, the Verifier has assurance that the Holder included the sent list of disclosures.
@@ -465,6 +466,7 @@ For Salted Disclosed Claims of items in an array, the name is omitted.
 ; an array of bstr-encoded Salted Disclosed Claims
 {::include ./salted-array.cddl}
 ~~~
+{: #cddl-salted-disclosed title="CDDL of Salted Disclosed Claims"}
 
 When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 The `redacted_claim_keys` key is the CBOR simple value 59 registered for that purpose.
@@ -481,6 +483,7 @@ The tag 60 is represented in CDDL as `#6.60(` *tagged value* `)`.
 ~~~ cddl
 {::include ./redacted-simple-tag.cddl}
 ~~~
+{: #cddl-blinded title="CDDL of Blinded Claim Keys and Blinded Claim Elements"}
 
 Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
 An example nested claim is shown in {{nesting}}.
@@ -574,6 +577,7 @@ These values are represented by the `safe-value` CDDL type.
 ~~~ cddl
 {::include ./legal-values.cddl}
 ~~~
+{: #cddl-legal-values title="CDDL of Safe Values in SD-CWTs"}
 
 Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
 
@@ -600,7 +604,7 @@ For example, if the map below is contained inside a payload, it is invalid becau
   58(500): "DEFG-456789"  # to be redacted tag containing 500
 }
 ~~~
-
+{: #edn-duplicate-map-key title="EDN Example considered a duplicate map key"}
 
 ## Level of Nesting of Claims
 
@@ -618,6 +622,7 @@ For example, considering the following abbreviated document, the following table
 | 3     | DCBA-101777            |
 | 4     | us                     |
 | 5     | 27315                  |
+{: #table-depth-levels title="Levels of Depth in Below Example"}
 
 ~~~ cbor-diag
 {                                   # contents are level 1
@@ -643,6 +648,7 @@ For example, considering the following abbreviated document, the following table
   ]
 }
 ~~~
+{: #edn-depth-levels title="EDN Example to demonstrate levels of depth"}
 
 The contents of the top-level claims map are level 1.
 The contents of the array for map key 504 are level 2.
@@ -710,6 +716,7 @@ The following informative CDDL is provided to describe the syntax for SD-CWT iss
 ~~~ cddl
 {::include ./main-sd-cwt.cddl}
 ~~~
+{: #cddl-issued-sd-cwt title="CDDL describing issued SD-CWT syntax"}
 
 # SD-CWT Presentation
 
@@ -758,6 +765,7 @@ The Holder signs the SD-KBT using the key specified in the `cnf` claim in the SD
 ~~~ cddl
 {::include ./kbt.cddl}
 ~~~
+{: #cddl-kbt title="CDDL describing KBT syntax"}
 
 The SD-KBT payload MAY include a `cnonce` claim.
 If included, the `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
@@ -825,10 +833,13 @@ The purpose of such "decoy" digests is to make it more difficult for an adversar
 
 The list of disclosures sent by the Issuer to the Holder contains one disclosure for each decoy digest.
 Each disclosure contains a single element array with a per-decoy salt.
+Each salt MUST be unique.
 
 ~~~ cbor-diag
 <<[ h'C1069BC056E234D64F58BAFF8A7B776B' ]>>
 ~~~
+{: #edn-decoy-disc title="EDN showing a sample decoy salt"}
+
 
 The Blinded Claim Hash for each disclosure is calculated using the same algorithm for decoys as for Redacted Claim Keys and Redacted Claim Elements.
 An example issued SD-CWT containing decoy digests is shown below.
@@ -836,6 +847,7 @@ An example issued SD-CWT containing decoy digests is shown below.
 ~~~ cbor-diag
 {::include examples/decoy.edn}
 ~~~
+{: #edn-decoys title="EDN showing a SD-CWT containing decoys"}
 
 
 # Tags Used Before SD-CWT Issuance
@@ -865,6 +877,7 @@ The snippet of EDN shown below shows one mechanism to communicate to the Issuer 
   ...
 }
 ~~~
+{: #edn-to-be-blinded title="EDN example requesting blinding of license number and two inspection dates"}
 
 ## To Be Decoy {#tb-decoy-tag}
 
@@ -893,7 +906,7 @@ The example fragment also shows two decoy digests in the same map.
   ...
 }
 ~~~
-
+{: #edn-to-be-decoy title="EDN example requesting two decoys"}
 
 # Encrypted Disclosures
 
@@ -923,6 +936,7 @@ Taking the first example disclosure from above:
 ~~~ cbor-diag
 {::include examples/first-disclosure.edn}
 ~~~
+{: #edn-aead-disclosure title="EDN example of an encrypted disclosure"}
 
 The corresponding bstr is encrypted with an AEAD algorithm {{!RFC5116}}.
 If present, the algorithm of the `sd_aead` protected header field is used, or AEAD_AES_128_GCM if no algorithm was specified. The bstr is encrypted with a unique, random 16-octet nonce.
@@ -931,12 +945,11 @@ The AEAD ciphertext consists of its encryption algorithm's ciphertext and its au
 The nonce (`nonce`), the encryption algorithm's ciphertext (`ciphertext`) and authentication tag (`tag`) are put in an array.
 The resulting array is placed in the `sd_aead_encrypted_claims` header parameter in the unprotected headers of the SD-CWT.
 
-Given the AEAD encryption key:
+Given the AEAD encryption key (in hexadecimal):
 
 ~~~
 {::include examples/aead-key.txt}
 ~~~
-
 A valid AEAD encrypted disclosure for that first disclosure is:
 
 ~~~ cbor-diag
@@ -945,6 +958,8 @@ A valid AEAD encrypted disclosure for that first disclosure is:
     ...
 ]
 ~~~
+{: #edn-aead-claim title="EDN Example of an AEAD Encrypted Claim"}
+
 
 The blinded claim hash is still over the unencrypted disclosure.
 The receiver of an AEAD encrypted disclosure locates the appropriate key by looking up the authentication tag.
@@ -957,6 +972,7 @@ The CDDL for AEAD encrypted disclosures is below.
 ~~~ cddl
 {::include ./aead.cddl}
 ~~~
+{: #cddl-aead title="CDDL describing syntax of AEAD Encrypted disclosures"}
 
 > Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.
 
@@ -990,7 +1006,7 @@ The following example contains claims needed to demonstrate redaction of key-val
 ~~~ cbor-diag
 {::include examples/kbt.edn}
 ~~~
-{: #example-edn title="An EDN Example"}
+{: #example-edn title="A minimal, full EDN Example"}
 
 ## Nested Example {#nesting}
 
@@ -1038,6 +1054,8 @@ Instead of the structure from the previous example, imagine that the payload con
     ]
 }
 ~~~
+{: #edn-nested-unblinded title="EDN example of Nested Claims Set before blinding"}
+
 
 For example, looking at the nested disclosures below, the first disclosure unblinds the entire January 2023 inspection record.
 However, when the record is disclosed, the inspector license number and inspection location are redacted inside the record.
@@ -1120,6 +1138,8 @@ Verifiers start unblinding claims for which they have blinded claim hashes. They
     ]>>,
 ]
 ~~~
+{: #edn-nested-blinded title="EDN Example of SD-CWT with Nested Blinded Claims"}
+
 
 After applying the disclosures of the nested structure above, the disclosed Claims Set visible to the Verifier would look like the following:
 
@@ -1152,6 +1172,8 @@ After applying the disclosures of the nested structure above, the disclosed Clai
     ]
 }
 ~~~
+{: #edn-validated title="EDN of validated nested claims"}
+
 
 
 # Privacy Considerations {#privacy}
@@ -1540,7 +1562,7 @@ It enables short integers in the range 0-65535 to be used as `vct` Claim Values,
 
 The registration procedures for numbers in specific ranges are as described below:
 
-| Range       | Registration Procedure {{RFC8126}}    |
+| Range       | Registration Procedure from RFC8126   |
 |:------------|:--------------------------------------|
 | 0-9999      | Specification Required                |
 | 10000-64999 | First Come First Served               |
