@@ -1648,8 +1648,6 @@ Issuer                           Holder                         Verifier
 
    a061c27a3273721e210d031863ad81b6
 
-           Figure 22: Key used for AEAD encryption in hexadecimal
-
    A valid AEAD encrypted disclosure for that first disclosure is:
 
    / sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
@@ -1663,7 +1661,7 @@ Issuer                           Holder                         Verifier
        ...
    ]
 
-             Figure 23: EDN Example of an AEAD Encrypted Claim
+             Figure 22: EDN Example of an AEAD Encrypted Claim
 
    The blinded claim hash is still over the unencrypted disclosure.  The
    receiver of an AEAD encrypted disclosure locates the appropriate key
@@ -1685,7 +1683,7 @@ Issuer                           Holder                         Verifier
      bstr               ; the corresponding authentication tag
    ]
 
-      Figure 24: CDDL describing syntax of AEAD Encrypted disclosures
+      Figure 23: CDDL describing syntax of AEAD Encrypted disclosures
 
       Note: Because the encryption algorithm is in a registry that
       contains only AEAD algorithms, an attacker cannot replace the
@@ -1816,7 +1814,7 @@ Issuer                           Holder                         Verifier
                          af7ddb5eb4cce1e59ac07d11dfdce742'
    ])   / end of kbt /
 
-                   Figure 25: A minimal, full EDN Example
+                   Figure 24: A minimal, full EDN Example
 
 14.2.  Nested Example
 
@@ -1866,7 +1864,7 @@ Issuer                           Holder                         Verifier
        ]
    }
 
-        Figure 26: EDN example of Nested Claims Set before blinding
+        Figure 25: EDN example of Nested Claims Set before blinding
 
    For example, looking at the nested disclosures below, the first
    disclosure unblinds the entire January 2023 inspection record.
@@ -1956,7 +1954,7 @@ Issuer                           Holder                         Verifier
        ]>>,
    ]
 
-        Figure 27: EDN Example of SD-CWT with Nested Blinded Claims
+        Figure 26: EDN Example of SD-CWT with Nested Blinded Claims
 
    After applying the disclosures of the nested structure above, the
    disclosed Claims Set visible to the Verifier would look like the
@@ -1990,7 +1988,7 @@ Issuer                           Holder                         Verifier
        ]
    }
 
-                 Figure 28: EDN of validated nested claims
+                 Figure 27: EDN of validated nested claims
 
 15.  Privacy Considerations
 
@@ -3072,7 +3070,7 @@ Appendix A.  Complete CDDL Schema
    ; array elements that are meant to be redacted.
    redacted_claim_element = #6.<REDACTED_ELEMENT_TAGNUM>( bstr )
 
-              Figure 29: A complete CDDL description of SD-CWT
+              Figure 28: A complete CDDL description of SD-CWT
 
 Appendix B.  Comparison to SD-JWT
 

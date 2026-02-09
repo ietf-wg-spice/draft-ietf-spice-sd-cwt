@@ -3217,20 +3217,14 @@ The AEAD ciphertext consists of its encryption algorithm's ciphertext and its au
 The nonce (<code>nonce</code>), the encryption algorithm's ciphertext (<code>ciphertext</code>) and authentication tag (<code>tag</code>) are put in an array.
 The resulting array is placed in the <code>sd_aead_encrypted_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-12.1-3" class="pilcrow">¶</a></p>
 <p id="section-12.1-4">Given the AEAD encryption key (in hexadecimal):<a href="#section-12.1-4" class="pilcrow">¶</a></p>
-<span id="name-key-used-for-aead-encryptio"></span><div id="example-aead-key">
-<figure id="figure-22">
-          <div class="alignLeft art-text artwork" id="section-12.1-5.1">
+<div class="alignLeft art-text artwork" id="section-12.1-5">
 <pre>
 a061c27a3273721e210d031863ad81b6
-</pre>
-</div>
-<figcaption><a href="#figure-22" class="selfRef">Figure 22</a>:
-<a href="#name-key-used-for-aead-encryptio" class="selfRef">Key used for AEAD encryption in hexadecimal</a>
-          </figcaption></figure>
+</pre><a href="#section-12.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-12.1-6">A valid AEAD encrypted disclosure for that first disclosure is:<a href="#section-12.1-6" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-an-aead-encr"></span><div id="edn-aead-claim">
-<figure id="figure-23">
+<figure id="figure-22">
           <div class="lang-cbor-diag sourcecode" id="section-12.1-7.1">
 <pre>
 / sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
@@ -3245,7 +3239,7 @@ a061c27a3273721e210d031863ad81b6
 ]
 </pre>
 </div>
-<figcaption><a href="#figure-23" class="selfRef">Figure 23</a>:
+<figcaption><a href="#figure-22" class="selfRef">Figure 22</a>:
 <a href="#name-edn-example-of-an-aead-encr" class="selfRef">EDN Example of an AEAD Encrypted Claim</a>
           </figcaption></figure>
 </div>
@@ -3255,7 +3249,7 @@ If the Verifier is able to decrypt and verify an encrypted disclosure, the decry
 <p id="section-12.1-9">Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.<a href="#section-12.1-9" class="pilcrow">¶</a></p>
 <p id="section-12.1-10">The CDDL for AEAD encrypted disclosures is below.<a href="#section-12.1-10" class="pilcrow">¶</a></p>
 <span id="name-cddl-describing-syntax-of-a"></span><div id="cddl-aead">
-<figure id="figure-24">
+<figure id="figure-23">
           <div class="lang-cddl sourcecode" id="section-12.1-11.1">
 <pre>
 aead-encrypted-array = [ +aead-encrypted ]
@@ -3268,7 +3262,7 @@ aead-encrypted = [
 
 </pre>
 </div>
-<figcaption><a href="#figure-24" class="selfRef">Figure 24</a>:
+<figcaption><a href="#figure-23" class="selfRef">Figure 23</a>:
 <a href="#name-cddl-describing-syntax-of-a" class="selfRef">CDDL describing syntax of AEAD Encrypted disclosures</a>
           </figcaption></figure>
 </div>
@@ -3315,7 +3309,7 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
         </h3>
 <p id="section-14.1-1">The following example contains claims needed to demonstrate redaction of key-value pairs and array elements.<a href="#section-14.1-1" class="pilcrow">¶</a></p>
 <span id="name-a-minimal-full-edn-example"></span><div id="example-edn">
-<figure id="figure-25">
+<figure id="figure-24">
           <div class="breakable lang-cbor-diag sourcecode" id="section-14.1-2.1">
 <pre>
 / cose-sign1 / 18( / sd_kbt / [
@@ -3412,7 +3406,7 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
 ])   / end of kbt /
 </pre>
 </div>
-<figcaption><a href="#figure-25" class="selfRef">Figure 25</a>:
+<figcaption><a href="#figure-24" class="selfRef">Figure 24</a>:
 <a href="#name-a-minimal-full-edn-example" class="selfRef">A minimal, full EDN Example</a>
           </figcaption></figure>
 </div>
@@ -3425,7 +3419,7 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
         </h3>
 <p id="section-14.2-1">Instead of the structure from the previous example, imagine that the payload contains an inspection history log with the following structure. It could be blinded at multiple levels of the claims set hierarchy.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-nested-claim"></span><div id="edn-nested-unblinded">
-<figure id="figure-26">
+<figure id="figure-25">
           <div class="lang-cbor-diag sourcecode" id="section-14.2-2.1">
 <pre>
 {
@@ -3470,7 +3464,7 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
 }
 </pre>
 </div>
-<figcaption><a href="#figure-26" class="selfRef">Figure 26</a>:
+<figcaption><a href="#figure-25" class="selfRef">Figure 25</a>:
 <a href="#name-edn-example-of-nested-claim" class="selfRef">EDN example of Nested Claims Set before blinding</a>
           </figcaption></figure>
 </div>
@@ -3482,7 +3476,7 @@ The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" c
 <p id="section-14.2-4">The fifth disclosure unblinds the earliest inspection record, and the last disclosure unblinds the inspector_license_number for that record.<a href="#section-14.2-4" class="pilcrow">¶</a></p>
 <p id="section-14.2-5">Verifiers start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.<a href="#section-14.2-5" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-sd-cwt-with-"></span><div id="edn-nested-blinded">
-<figure id="figure-27">
+<figure id="figure-26">
           <div class="breakable lang-cbor-diag sourcecode" id="section-14.2-6.1">
 <pre>
 / sd_claims / 17 : [ / these are the disclosures /
@@ -3556,13 +3550,13 @@ The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" c
 ]
 </pre>
 </div>
-<figcaption><a href="#figure-27" class="selfRef">Figure 27</a>:
+<figcaption><a href="#figure-26" class="selfRef">Figure 26</a>:
 <a href="#name-edn-example-of-sd-cwt-with-" class="selfRef">EDN Example of SD-CWT with Nested Blinded Claims</a>
           </figcaption></figure>
 </div>
 <p id="section-14.2-7">After applying the disclosures of the nested structure above, the disclosed Claims Set visible to the Verifier would look like the following:<a href="#section-14.2-7" class="pilcrow">¶</a></p>
 <span id="name-edn-of-validated-nested-cla"></span><div id="edn-validated">
-<figure id="figure-28">
+<figure id="figure-27">
           <div class="lang-cbor-diag sourcecode" id="section-14.2-8.1">
 <pre>
 {
@@ -3594,7 +3588,7 @@ The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" c
 }
 </pre>
 </div>
-<figcaption><a href="#figure-28" class="selfRef">Figure 28</a>:
+<figcaption><a href="#figure-27" class="selfRef">Figure 27</a>:
 <a href="#name-edn-of-validated-nested-cla" class="selfRef">EDN of validated nested claims</a>
           </figcaption></figure>
 </div>
@@ -4692,7 +4686,7 @@ An indication of the relevant sections may also be included, but is not required
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-complete-cddl-schema" class="section-name selfRef">Complete CDDL Schema</a>
       </h2>
 <span id="name-a-complete-cddl-description"></span><div id="cddl-schema">
-<figure id="figure-29">
+<figure id="figure-28">
         <div class="breakable lang-cddl sourcecode" id="appendix-A-1.1">
 <pre>
 sd-cwt-types = sd-cwt-issued / kbt-cwt / sd-cwt-preissued
@@ -4860,7 +4854,7 @@ REDACTED_ELEMENT_TAGNUM = 60
 redacted_claim_element = #6.&lt;REDACTED_ELEMENT_TAGNUM&gt;( bstr )
 </pre>
 </div>
-<figcaption><a href="#figure-29" class="selfRef">Figure 29</a>:
+<figcaption><a href="#figure-28" class="selfRef">Figure 28</a>:
 <a href="#name-a-complete-cddl-description" class="selfRef">A complete CDDL description of SD-CWT</a>
         </figcaption></figure>
 </div>
