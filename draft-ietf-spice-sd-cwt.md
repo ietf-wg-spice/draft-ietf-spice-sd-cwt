@@ -919,7 +919,6 @@ Given the AEAD encryption key (in hexadecimal):
 ~~~
 {::include examples/aead-key.txt}
 ~~~
-{: #example-aead-key title="Key used for AEAD encryption in hexadecimal"}
 A valid AEAD encrypted disclosure for that first disclosure is:
 
 ~~~ cbor-diag
