@@ -726,6 +726,9 @@ By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose non
 If the Holder wishes to disclose any blinded claims, it includes that subset of its Salted Disclosed Claims in the `sd_claims` header parameter of the unprotected header.
 If there is nothing to be disclosed, the `sd_claims` header parameter is omitted.
 
+The Holder has flexibility in determining the order of disclosures when making presentations.
+The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
+
 An SD-CWT presentation to a Verifier has the same syntax as an SD-CWT issued to a Holder, except the Holder chooses the subset of disclosures included in the `sd_claims` header parameter.
 
 > Since the unprotected header is not included in the Issuer's signature, the list of disclosed claims can differ without invalidating the corresponding signature.
