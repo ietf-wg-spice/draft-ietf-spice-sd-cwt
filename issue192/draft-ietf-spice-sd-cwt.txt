@@ -1644,7 +1644,7 @@ Issuer                           Holder                         Verifier
    sd_aead_encrypted_claims header parameter in the unprotected headers
    of the SD-CWT.
 
-   Given the AEAD encryption key:
+   Given the AEAD encryption key (in hexadecimal):
 
    a061c27a3273721e210d031863ad81b6
 
