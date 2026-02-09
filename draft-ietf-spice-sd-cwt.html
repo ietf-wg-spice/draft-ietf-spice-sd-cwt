@@ -1050,11 +1050,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SD-CWT</td>
-<td class="right">January 2026</td>
+<td class="right">February 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 2 August 2026</td>
+<td class="center">Expires 13 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-29" class="published">29 January 2026</time>
+<time datetime="2026-02-09" class="published">9 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-02">2 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-13">13 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1134,7 +1134,7 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 13 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1559,68 +1559,66 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
         <h3 id="name-high-level-flow">
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-high-level-flow" class="section-name selfRef">High-Level Flow</a>
         </h3>
-<p id="section-1.1-1">Figure 1: High-level SD-CWT Issuance and Presentation Flow<a href="#section-1.1-1" class="pilcrow">¶</a></p>
-<div id="section-1.1-2">
-          <div class="alignLeft art-svg artwork" id="section-1.1-2.1">
+<span id="name-high-level-sd-cwt-issuance-"></span><div id="fig-high-level-flow">
+<figure id="figure-1">
+          <div id="section-1.1-1.1">
+            <div class="alignLeft art-svg artwork" id="section-1.1-1.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="400" width="584" viewBox="0 0 584 400" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-              <path d="M 24,48 L 24,384" fill="none" stroke="black"></path>
-              <path d="M 288,48 L 288,384" fill="none" stroke="black"></path>
-              <path d="M 320,64 L 320,96" fill="none" stroke="black"></path>
-              <path d="M 320,224 L 320,256" fill="none" stroke="black"></path>
-              <path d="M 320,288 L 320,320" fill="none" stroke="black"></path>
-              <path d="M 560,48 L 560,384" fill="none" stroke="black"></path>
-              <path d="M 288,64 L 320,64" fill="none" stroke="black"></path>
-              <path d="M 296,96 L 320,96" fill="none" stroke="black"></path>
-              <path d="M 32,112 L 288,112" fill="none" stroke="black"></path>
-              <path d="M 24,144 L 280,144" fill="none" stroke="black"></path>
-              <path d="M 288,160 L 552,160" fill="none" stroke="black"></path>
-              <path d="M 296,192 L 560,192" fill="none" stroke="black"></path>
-              <path d="M 288,224 L 320,224" fill="none" stroke="black"></path>
-              <path d="M 296,256 L 320,256" fill="none" stroke="black"></path>
-              <path d="M 288,288 L 320,288" fill="none" stroke="black"></path>
-              <path d="M 296,320 L 320,320" fill="none" stroke="black"></path>
-              <path d="M 288,368 L 552,368" fill="none" stroke="black"></path>
-              <polygon class="arrowhead" points="560,368 548,362.4 548,373.6" fill="black" transform="rotate(0,552,368)"></polygon>
-              <polygon class="arrowhead" points="560,160 548,154.4 548,165.6" fill="black" transform="rotate(0,552,160)"></polygon>
-              <polygon class="arrowhead" points="304,320 292,314.4 292,325.6" fill="black" transform="rotate(180,296,320)"></polygon>
-              <polygon class="arrowhead" points="304,256 292,250.4 292,261.6" fill="black" transform="rotate(180,296,256)"></polygon>
-              <polygon class="arrowhead" points="304,192 292,186.4 292,197.6" fill="black" transform="rotate(180,296,192)"></polygon>
-              <polygon class="arrowhead" points="304,96 292,90.4 292,101.6" fill="black" transform="rotate(180,296,96)"></polygon>
-              <polygon class="arrowhead" points="288,144 276,138.4 276,149.6" fill="black" transform="rotate(0,280,144)"></polygon>
-              <polygon class="arrowhead" points="40,112 28,106.4 28,117.6" fill="black" transform="rotate(180,32,112)"></polygon>
-              <g class="text">
-                <text x="28" y="36">Issuer</text>
-                <text x="292" y="36">Holder</text>
-                <text x="548" y="36">Verifier</text>
-                <text x="344" y="84">Key</text>
-                <text x="376" y="84">Gen</text>
-                <text x="120" y="100">Request</text>
-                <text x="180" y="100">SD-CWT</text>
-                <text x="424" y="148">Request</text>
-                <text x="480" y="148">Nonce</text>
-                <text x="120" y="164">Receive</text>
-                <text x="180" y="164">SD-CWT</text>
-                <text x="424" y="212">Receive</text>
-                <text x="480" y="212">Nonce</text>
-                <text x="356" y="244">Redact</text>
-                <text x="412" y="244">Claims</text>
-                <text x="376" y="308">Demonstrate</text>
-                <text x="368" y="324">Posession</text>
-                <text x="424" y="356">Present</text>
-                <text x="484" y="356">SD-CWT</text>
-              </g>
-            </svg><a href="#section-1.1-2.1" class="pilcrow">¶</a>
+                <path d="M 24,48 L 24,384" fill="none" stroke="black"></path>
+                <path d="M 288,48 L 288,384" fill="none" stroke="black"></path>
+                <path d="M 320,64 L 320,96" fill="none" stroke="black"></path>
+                <path d="M 320,224 L 320,256" fill="none" stroke="black"></path>
+                <path d="M 320,288 L 320,320" fill="none" stroke="black"></path>
+                <path d="M 560,48 L 560,384" fill="none" stroke="black"></path>
+                <path d="M 288,64 L 320,64" fill="none" stroke="black"></path>
+                <path d="M 296,96 L 320,96" fill="none" stroke="black"></path>
+                <path d="M 32,112 L 288,112" fill="none" stroke="black"></path>
+                <path d="M 24,144 L 280,144" fill="none" stroke="black"></path>
+                <path d="M 288,160 L 552,160" fill="none" stroke="black"></path>
+                <path d="M 296,192 L 560,192" fill="none" stroke="black"></path>
+                <path d="M 288,224 L 320,224" fill="none" stroke="black"></path>
+                <path d="M 296,256 L 320,256" fill="none" stroke="black"></path>
+                <path d="M 288,288 L 320,288" fill="none" stroke="black"></path>
+                <path d="M 296,320 L 320,320" fill="none" stroke="black"></path>
+                <path d="M 288,368 L 552,368" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="560,368 548,362.4 548,373.6" fill="black" transform="rotate(0,552,368)"></polygon>
+                <polygon class="arrowhead" points="560,160 548,154.4 548,165.6" fill="black" transform="rotate(0,552,160)"></polygon>
+                <polygon class="arrowhead" points="304,320 292,314.4 292,325.6" fill="black" transform="rotate(180,296,320)"></polygon>
+                <polygon class="arrowhead" points="304,256 292,250.4 292,261.6" fill="black" transform="rotate(180,296,256)"></polygon>
+                <polygon class="arrowhead" points="304,192 292,186.4 292,197.6" fill="black" transform="rotate(180,296,192)"></polygon>
+                <polygon class="arrowhead" points="304,96 292,90.4 292,101.6" fill="black" transform="rotate(180,296,96)"></polygon>
+                <polygon class="arrowhead" points="288,144 276,138.4 276,149.6" fill="black" transform="rotate(0,280,144)"></polygon>
+                <polygon class="arrowhead" points="40,112 28,106.4 28,117.6" fill="black" transform="rotate(180,32,112)"></polygon>
+                <g class="text">
+                  <text x="28" y="36">Issuer</text>
+                  <text x="292" y="36">Holder</text>
+                  <text x="548" y="36">Verifier</text>
+                  <text x="360" y="84">Key Gen</text>
+                  <text x="148" y="100">Request SD-CWT</text>
+                  <text x="448" y="148">Request Nonce</text>
+                  <text x="148" y="164">Receive SD-CWT</text>
+                  <text x="448" y="212">Receive Nonce</text>
+                  <text x="384" y="244">Redact Claims</text>
+                  <text x="376" y="308">Demonstrate</text>
+                  <text x="368" y="324">Posession</text>
+                  <text x="452" y="356">Present SD-CWT</text>
+                </g>
+              </svg><a href="#section-1.1-1.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<p id="section-1.1-3">This diagram captures the essential details necessary to issue and present an SD-CWT.
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-high-level-sd-cwt-issuance-" class="selfRef">High-level SD-CWT Issuance and Presentation Flow</a>
+          </figcaption></figure>
+</div>
+<p id="section-1.1-2">This diagram captures the essential details necessary to issue and present an SD-CWT.
 The parameters necessary to support these processes can be obtained using transports or protocols that are out of scope for this specification.
-However, the following guidance is generally recommended, regardless of protocol or transport.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-1.1-4">
-<li id="section-1.1-4.1">
-            <p id="section-1.1-4.1.1">The Issuer <span class="bcp14">SHOULD</span> confirm the Holder controls all confirmation material before issuing credentials using the <code>cnf</code> claim.<a href="#section-1.1-4.1.1" class="pilcrow">¶</a></p>
+However, the following guidance is generally recommended, regardless of protocol or transport.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-1.1-3">
+<li id="section-1.1-3.1">
+            <p id="section-1.1-3.1.1">The Issuer <span class="bcp14">SHOULD</span> confirm the Holder controls all confirmation material before issuing credentials using the <code>cnf</code> claim.<a href="#section-1.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-1.1-4.2">
-            <p id="section-1.1-4.2.1">To protect against replay attacks, the Verifier <span class="bcp14">SHOULD</span> provide a nonce, and reject requests that do not include an acceptable nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.<a href="#section-1.1-4.2.1" class="pilcrow">¶</a></p>
+          <li id="section-1.1-3.2">
+            <p id="section-1.1-3.2.1">To protect against replay attacks, the Verifier <span class="bcp14">SHOULD</span> provide a nonce, and reject requests that do not include an acceptable nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.<a href="#section-1.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
@@ -1960,7 +1958,9 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-7.24.1" class="pilcrow">
 It consists of standard CWT claims, the Holder confirmation key, and five fictitious example claims.
 The payload is shown below in EDN <span>[<a href="#I-D.ietf-cbor-edn-literals" class="cite xref">I-D.ietf-cbor-edn-literals</a>]</span>.
 Note that the fictitious map keys shown in the examples do not have IANA registered integer keys.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-3.1-2">
+<span id="name-cwt-claims-set-without-sele"></span><div id="fig-cwt-claimset">
+<figure id="figure-2">
+          <div class="lang-cbor-diag sourcecode" id="section-3.1-2.1">
 <pre>
 {
     / iss / 1  : "https://issuer.example",
@@ -1991,7 +1991,11 @@ Note that the fictitious map keys shown in the examples do not have IANA registe
         "postal_code": "94188"
     }
 }
-</pre><a href="#section-3.1-2" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-cwt-claims-set-without-sele" class="selfRef">CWT Claims Set Without Selective Disclosure</a>
+          </figcaption></figure>
 </div>
 <p id="section-3.1-3">The fictitious claims deal with attributes of an inspection of the subject: the pass/fail result, the inspection location, the license number of the inspector, and a list of dates when the subject was inspected.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
@@ -2006,7 +2010,7 @@ Note that some of the claims may not be selectively disclosable.
 In our next example, the pass/fail status of the inspection, the most recent inspection date, and the country of the inspection will be claims that are always present in the SD-CWT.
 After the Holder requests an SD-CWT from the Issuer, the Issuer generates the following SD-CWT:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <span id="name-issued-sd-cwt-with-all-disc"></span><div id="basic-issuer-cwt">
-<figure id="figure-1">
+<figure id="figure-3">
           <div class="breakable lang-cbor-diag sourcecode" id="section-3.2-2.1">
 <pre>
 / cose-sign1 / 18([  / issuer SD-CWT /
@@ -2095,13 +2099,13 @@ After the Holder requests an SD-CWT from the Issuer, the Issuer generates the fo
 ])
 </pre>
 </div>
-<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-issued-sd-cwt-with-all-disc" class="selfRef">Issued SD-CWT with all disclosures</a>
           </figcaption></figure>
 </div>
 <p id="section-3.2-3">Some of the claims are <em>redacted</em> in the payload. The corresponding <em>disclosure</em> is communicated in the unprotected header in the <code>sd_claims</code> header parameter.
 For example, the <code>inspector_license_number</code> claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the Claim Key, and Claim Value.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<span id="name-cbor-extended-diagnostic-no"></span><figure id="figure-2">
+<span id="name-cbor-extended-diagnostic-no"></span><figure id="figure-4">
           <div class="lang-cbor-diag sourcecode" id="section-3.2-4.1">
 <pre>
         &lt;&lt;[
@@ -2111,11 +2115,11 @@ For example, the <code>inspector_license_number</code> claim is a Salted Disclos
         ]&gt;&gt;,
 </pre>
 </div>
-<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
 <a href="#name-cbor-extended-diagnostic-no" class="selfRef">CBOR extended diagnostic notation representation of inspector_license_number disclosure</a>
           </figcaption></figure>
 <p id="section-3.2-5">This is represented in CBOR pretty-printed format as follows (with end-of-line comments and spaces inserted for clarity):<a href="#section-3.2-5" class="pilcrow">¶</a></p>
-<span id="name-cbor-encoding-of-inspector_"></span><figure id="figure-3">
+<span id="name-cbor-encoding-of-inspector_"></span><figure id="figure-5">
           <div class="lang-cbor-pretty sourcecode" id="section-3.2-6.1">
 <pre>
 83                                     # array(3)
@@ -2126,22 +2130,22 @@ For example, the <code>inspector_license_number</code> claim is a Salted Disclos
    19 01f5                             # unsigned(501)
 </pre>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-cbor-encoding-of-inspector_" class="selfRef">CBOR encoding of inspector_license_number disclosure</a>
           </figcaption></figure>
 <p id="section-3.2-7">The cryptographic hash, using the hash algorithm identified by the <code>sd_alg</code> header parameter in the protected headers, of that byte string is the Blinded Claim Hash (shown in hex).
 The digest value is included in the payload in a <code>redacted_claim_keys</code> field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of <code>inspection_dates</code>).<a href="#section-3.2-7" class="pilcrow">¶</a></p>
-<span id="name-sha-256-hash-of-inspector_l"></span><figure id="figure-4">
+<span id="name-sha-256-hash-of-inspector_l"></span><figure id="figure-6">
           <div class="alignLeft art-text artwork" id="section-3.2-8.1">
 <pre>
 d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
 </pre>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
 <a href="#name-sha-256-hash-of-inspector_l" class="selfRef">SHA-256 hash of inspector_license_number disclosure</a>
           </figcaption></figure>
 <p id="section-3.2-9">Finally, since this redacted claim is a map key and value, the Blinded Claim Hash is placed in a <code>redacted_claim_keys</code> array in the SD-CWT payload at the same level of hierarchy as the original claim.<a href="#section-3.2-9" class="pilcrow">¶</a></p>
-<span id="name-redacted-inspector_license_"></span><figure id="figure-5">
+<span id="name-redacted-inspector_license_"></span><figure id="figure-7">
           <div class="lang-cbor-diag sourcecode" id="section-3.2-10.1">
 <pre>
   / redacted_claim_keys / simple(59) : [
@@ -2151,7 +2155,7 @@ d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
       / ... next redacted claim at the same level would go here /  ],
 </pre>
 </div>
-<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-redacted-inspector_license_" class="selfRef">redacted inspector_license_number claim in the issued CWT payload</a>
           </figcaption></figure>
 <p id="section-3.2-11">Redacted claims that are array elements are handled slightly differently, as described in <a href="#blinded-claims" class="auto internal xref">Section 5.1</a>.<a href="#section-3.2-11" class="pilcrow">¶</a></p>
@@ -2167,7 +2171,9 @@ d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
 <p id="section-4-1">When the Holder wants to send an SD-CWT and disclose none, some, or all of the redacted values, it makes a list of the values to disclose and puts them in <code>sd_claims</code> header parameter in the unprotected header.
 If the Holder does not disclose any claims, it <span class="bcp14">MUST</span> omit the <code>sd_claims</code> header parameter.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">For example, Alice decides to disclose to a Verifier the <code>inspector_license_number</code> claim (ABCD-123456), the <code>region</code> claim (California), and the earliest date element in the <code>inspection_dates</code> array (7-Feb-2019).<a href="#section-4-2" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-4-3">
+<span id="name-the-holders-choice-of-the-d"></span><div id="edn-chosen-disclosures">
+<figure id="figure-8">
+        <div class="lang-cbor-diag sourcecode" id="section-4-3.1">
 <pre>
     / sd_claims / 17 : [ / these are the disclosures /
         &lt;&lt;[
@@ -2185,12 +2191,18 @@ If the Holder does not disclose any claims, it <span class="bcp14">MUST</span> o
             /claim/  "region"   / region=California /
         ]&gt;&gt;,
     ]
-</pre><a href="#section-4-3" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<a href="#name-the-holders-choice-of-the-d" class="selfRef">The Holder's choice of the disclosures to present</a>
+        </figcaption></figure>
 </div>
 <p id="section-4-4">The Holder <span class="bcp14">MAY</span> fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the Verifier through a process similar to the method described in <span>[<a href="#I-D.ietf-httpbis-unprompted-auth" class="cite xref">I-D.ietf-httpbis-unprompted-auth</a>]</span>.<a href="#section-4-4" class="pilcrow">¶</a></p>
 <p id="section-4-5">Finally, the Holder generates a Selective Disclosure Key Binding Token (SD-KBT) that ties together the SD-CWT generated by the Issuer (with the disclosures the Holder chose for the Verifier in its unprotected header), the Verifier target audience and optional nonces, and proof of possession of the Holder's private key.<a href="#section-4-5" class="pilcrow">¶</a></p>
 <p id="section-4-6">The issued SD-CWT is placed in the <code>kcwt</code> (Confirmation Key CWT) protected header field (defined in <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>).<a href="#section-4-6" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-4-7">
+<span id="name-elided-example-of-a-key-bin"></span><div id="edn-elided-kbt">
+<figure id="figure-9">
+        <div class="lang-cbor-diag sourcecode" id="section-4-7.1">
 <pre>
 / cose-sign1 / 18( / sd_kbt / [
   / KBT protected / &lt;&lt; {
@@ -2213,7 +2225,11 @@ If the Holder does not disclose any claims, it <span class="bcp14">MUST</span> o
                       251fa2b1dd335bc6bd8314603f57fd03
                       af7ddb5eb4cce1e59ac07d11dfdce742'
 ])   / end of kbt /
-</pre><a href="#section-4-7" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<a href="#name-elided-example-of-a-key-bin" class="selfRef">Elided example of a Key Binding Token</a>
+        </figcaption></figure>
 </div>
 <p id="section-4-8">The digests in protected parts of the issued SD-CWT and the disclosures hashed in unprotected header of the <code>issuer_sd_cwt</code> are used together by the Verifier to confirm the disclosed claims.
 Since the unprotected header of the included SD-CWT is covered by the signature in the SW-KBT, the Verifier has assurance that the Holder included the sent list of disclosures.<a href="#section-4-8" class="pilcrow">¶</a></p>
@@ -2246,7 +2262,9 @@ However, a Verifier with the hash cannot reconstruct the corresponding blinded c
         </h3>
 <p id="section-5.1-1">Salted Disclosed Claims for named claims are structured as a 128-bit salt, the disclosed value, and the name of the redacted element.
 For Salted Disclosed Claims of items in an array, the name is omitted.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-5.1-2">
+<span id="name-cddl-of-salted-disclosed-cl"></span><div id="cddl-salted-disclosed">
+<figure id="figure-10">
+          <div class="lang-cddl sourcecode" id="section-5.1-2.1">
 <pre>
 ; an array of bstr-encoded Salted Disclosed Claims
 salted-array = [ +bstr-encoded-salted ]
@@ -2266,7 +2284,11 @@ decoy = [
   bstr .size 16      ; 128-bit salt
 ]
 
-</pre><a href="#section-5.1-2" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<a href="#name-cddl-of-salted-disclosed-cl" class="selfRef">CDDL of Salted Disclosed Claims</a>
+          </figcaption></figure>
 </div>
 <p id="section-5.1-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 The <code>redacted_claim_keys</code> key is the CBOR simple value 59 registered for that purpose.
@@ -2278,7 +2300,9 @@ The simple value 59 in CDDL are represented using the syntax <code>#7.59</code>.
 CBOR tags <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.4" class="relref">Section 3.4</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> annotate other values.
 The tag 60 is represented in examples as <code>60(</code> <em>tagged value</em> <code>)</code>.
 The tag 60 is represented in CDDL as <code>#6.60(</code> <em>tagged value</em> <code>)</code>.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-5.1-5">
+<span id="name-cddl-of-blinded-claim-keys-"></span><div id="cddl-blinded">
+<figure id="figure-11">
+          <div class="lang-cddl sourcecode" id="section-5.1-5.1">
 <pre>
 ; redacted_claim_keys is used as a map key. The corresponding value is
 ; an array of Blinded Claim Hashes whose corresponding unblinded map
@@ -2291,7 +2315,11 @@ REDACTED_ELEMENT_TAGNUM = 60
 ; redacted_claim_element is used in CDDL payloads that contain
 ; array elements that are meant to be redacted.
 redacted_claim_element = #6.&lt;REDACTED_ELEMENT_TAGNUM&gt;( bstr )
-</pre><a href="#section-5.1-5" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<a href="#name-cddl-of-blinded-claim-keys-" class="selfRef">CDDL of Blinded Claim Keys and Blinded Claim Elements</a>
+          </figcaption></figure>
 </div>
 <p id="section-5.1-6">Blinded claims can be nested. For example, both individual keys in the <code>inspection_location</code> claim, and the entire <code>inspection_location</code> element can be separately blinded.
 An example nested claim is shown in <a href="#nesting" class="auto internal xref">Section 14.2</a>.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
@@ -2459,7 +2487,9 @@ These two tags provide a way for the Holder to indicate specific claims to be re
         </ul>
 <p id="section-6.3-10">All the other Header Parameters, and the KBT payload need to contain values valid in a CWT.
 These values are represented by the <code>safe-value</code> CDDL type.<a href="#section-6.3-10" class="pilcrow">¶</a></p>
-<div class="breakable lang-cddl sourcecode" id="section-6.3-11">
+<span id="name-cddl-of-safe-values-in-sd-c"></span><div id="cddl-legal-values">
+<figure id="figure-12">
+          <div class="breakable lang-cddl sourcecode" id="section-6.3-11.1">
 <pre>
 ; CWT claim legal values only
 safe_map = { * label =&gt; safe_value }
@@ -2515,7 +2545,11 @@ safe_simple =  0..23 / 32..58 / 60..255
 secs = int / float53
 float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 
-</pre><a href="#section-6.3-11" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<a href="#name-cddl-of-safe-values-in-sd-c" class="selfRef">CDDL of Safe Values in SD-CWTs</a>
+          </figcaption></figure>
 </div>
 <p id="section-6.3-12">Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.<a href="#section-6.3-12" class="pilcrow">¶</a></p>
 <p id="section-6.3-13">Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
@@ -2538,13 +2572,19 @@ This applies to any map anywhere in an SD-CWT or an SD-KBT.<a href="#section-6.4
 <p id="section-6.4-3">Likewise, a single SD-CWT claim set <span class="bcp14">MUST NOT</span> contain a map (at any level of depth) with both a map key <code>k</code>, and <code>k</code> tagged with the To Be Redacted tag (see <a href="#tbr-tag" class="auto internal xref">Section 11.1</a>).
 Map keys and their To Be Redacted tagged verison are considered duplicate map keys for the purposes of this specification.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
 <p id="section-6.4-4">For example, if the map below is contained inside a payload, it is invalid because the map key 500 and the map key 58(500) cannot both be present.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-6.4-5">
+<span id="name-edn-example-considered-a-du"></span><div id="edn-duplicate-map-key">
+<figure id="figure-13">
+          <div class="lang-cbor-diag sourcecode" id="section-6.4-5.1">
 <pre>
 {
   500: "ABCD-123456",     # map key 500
   58(500): "DEFG-456789"  # to be redacted tag containing 500
 }
-</pre><a href="#section-6.4-5" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
+<a href="#name-edn-example-considered-a-du" class="selfRef">EDN Example considered a duplicate map key</a>
+          </figcaption></figure>
 </div>
 </section>
 </div>
@@ -2557,8 +2597,12 @@ Map keys and their To Be Redacted tagged verison are considered duplicate map ke
 <p id="section-6.5-2">The individual map key / value pairs in a Claim Set are defined as the "top level", or level 1.
 For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
 <p id="section-6.5-3">For example, considering the following abbreviated document, the following table shows the level of depth of the corresponding values:<a href="#section-6.5-3" class="pilcrow">¶</a></p>
+<span id="name-levels-of-depth-in-below-ex"></span><div id="_table-depth-levels">
 <table class="center" id="table-1">
-          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+          <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-levels-of-depth-in-below-ex" class="selfRef">Levels of Depth in Below Example</a>
+          </caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Level</th>
@@ -2588,7 +2632,10 @@ For each value that is an array, a map, or a tagged item, each of the elements o
             </tr>
           </tbody>
         </table>
-<div class="lang-cbor-diag sourcecode" id="section-6.5-5">
+</div>
+<span id="name-edn-example-to-demonstrate-"></span><div id="edn-depth-levels">
+<figure id="figure-14">
+          <div class="lang-cbor-diag sourcecode" id="section-6.5-5.1">
 <pre>
 {                                   # contents are level 1
   1: "https://issuer.example",
@@ -2612,7 +2659,11 @@ For each value that is an array, a map, or a tagged item, each of the elements o
     ...
   ]
 }
-</pre><a href="#section-6.5-5" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
+<a href="#name-edn-example-to-demonstrate-" class="selfRef">EDN Example to demonstrate levels of depth</a>
+          </figcaption></figure>
 </div>
 <p id="section-6.5-6">The contents of the top-level claims map are level 1.
 The contents of the array for map key 504 are level 2.
@@ -2709,7 +2760,9 @@ Holder verifies the following:<a href="#section-7.2-1" class="pilcrow">¶</a></p
 </li>
         </ul>
 <p id="section-7.2-4">The following informative CDDL is provided to describe the syntax for SD-CWT issuance. A complete CDDL schema is in <a href="#cddl" class="auto internal xref">Appendix A</a>.<a href="#section-7.2-4" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-7.2-5">
+<span id="name-cddl-describing-issued-sd-c"></span><div id="cddl-issued-sd-cwt">
+<figure id="figure-15">
+          <div class="lang-cddl sourcecode" id="section-7.2-5.1">
 <pre>
 sd-cwt-issued = #6.18([
    protected: bstr .cbor sd-protected,
@@ -2751,7 +2804,11 @@ sd-payload = {
     * label =&gt; issued_sd_cwt_value
 }
 
-</pre><a href="#section-7.2-5" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
+<a href="#name-cddl-describing-issued-sd-c" class="selfRef">CDDL describing issued SD-CWT syntax</a>
+          </figcaption></figure>
 </div>
 </section>
 </div>
@@ -2807,7 +2864,9 @@ The Holder <span class="bcp14">SHOULD</span> use the value 294 instead of <code>
 <p id="section-8.1-8">The SD-KBT prevents an attacker from copying and pasting disclosures, or from adding or removing disclosures without detection.
 Confirmation is established according to <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span>, using the <code>cnf</code> claim in the payload of the SD-CWT.<a href="#section-8.1-8" class="pilcrow">¶</a></p>
 <p id="section-8.1-9">The Holder signs the SD-KBT using the key specified in the <code>cnf</code> claim in the SD-CWT. This proves possession of the Holder's private key.<a href="#section-8.1-9" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-8.1-10">
+<span id="name-cddl-describing-kbt-syntax"></span><div id="cddl-kbt">
+<figure id="figure-16">
+          <div class="lang-cddl sourcecode" id="section-8.1-10.1">
 <pre>
 kbt-cwt = #6.18([
    protected: bstr .cbor kbt-protected,
@@ -2836,7 +2895,11 @@ kbt-payload = {
     * label =&gt; safe_value
 }
 
-</pre><a href="#section-8.1-10" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-16" class="selfRef">Figure 16</a>:
+<a href="#name-cddl-describing-kbt-syntax" class="selfRef">CDDL describing KBT syntax</a>
+          </figcaption></figure>
 </div>
 <p id="section-8.1-11">The SD-KBT payload <span class="bcp14">MAY</span> include a <code>cnonce</code> claim.
 If included, the <code>cnonce</code> is a <code>bstr</code> and <span class="bcp14">MUST</span> be treated as opaque to the Holder.
@@ -2954,15 +3017,24 @@ If the semantics of the position of items in the array is important, the issuer 
 <p id="section-10-1">An Issuer <span class="bcp14">MAY</span> add additional digests to the SD-CWT payload (including nested maps and arrays within the payload) that are not associated with any unblinded claim.
 The purpose of such "decoy" digests is to make it more difficult for an adversarial Verifier to infer private information based on the number of Redacted Claim Keys or Redacted Claim Elements.<a href="#section-10-1" class="pilcrow">¶</a></p>
 <p id="section-10-2">The list of disclosures sent by the Issuer to the Holder contains one disclosure for each decoy digest.
-Each disclosure contains a single element array with a per-decoy salt.<a href="#section-10-2" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-10-3">
+Each disclosure contains a single element array with a per-decoy salt.
+Each salt <span class="bcp14">MUST</span> be unique.<a href="#section-10-2" class="pilcrow">¶</a></p>
+<span id="name-edn-showing-a-sample-decoy-"></span><div id="edn-decoy-disc">
+<figure id="figure-17">
+        <div class="lang-cbor-diag sourcecode" id="section-10-3.1">
 <pre>
 &lt;&lt;[ h'C1069BC056E234D64F58BAFF8A7B776B' ]&gt;&gt;
-</pre><a href="#section-10-3" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-17" class="selfRef">Figure 17</a>:
+<a href="#name-edn-showing-a-sample-decoy-" class="selfRef">EDN showing a sample decoy salt</a>
+        </figcaption></figure>
 </div>
 <p id="section-10-4">The Blinded Claim Hash for each disclosure is calculated using the same algorithm for decoys as for Redacted Claim Keys and Redacted Claim Elements.
 An example issued SD-CWT containing decoy digests is shown below.<a href="#section-10-4" class="pilcrow">¶</a></p>
-<div class="breakable lang-cbor-diag sourcecode" id="section-10-5">
+<span id="name-edn-showing-a-sd-cwt-contai"></span><div id="edn-decoys">
+<figure id="figure-18">
+        <div class="breakable lang-cbor-diag sourcecode" id="section-10-5.1">
 <pre>
 / cose-sign1 / 18([  / issuer SD-CWT /
   / CWT protected / &lt;&lt; {
@@ -3030,7 +3102,11 @@ An example issued SD-CWT containing decoy digests is shown below.<a href="#secti
                       75cd6fc519394af2a883c394faf16ac1
                       781afb01f626bdd6fee1205a29dcc203'
 ])
-</pre><a href="#section-10-5" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-18" class="selfRef">Figure 18</a>:
+<a href="#name-edn-showing-a-sd-cwt-contai" class="selfRef">EDN showing a SD-CWT containing decoys</a>
+        </figcaption></figure>
 </div>
 </section>
 </div>
@@ -3051,7 +3127,9 @@ The tag can be used by a library to automatically convert a Claim Set with "To B
 When used on a map key and value, the tag is placed around the map key, while the map value remains.<a href="#section-11.1-2" class="pilcrow">¶</a></p>
 <p id="section-11.1-3">Examples in this draft use the To Be Redacted tag in order to distinguish their pre-issued, post-issued, and post-presented representations in EDN and CDDL.
 The snippet of EDN shown below shows one mechanism to communicate to the Issuer to redact the inspector license number claim, and two of the inspection dates in our primary example.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-11.1-4">
+<span id="name-edn-example-requesting-blin"></span><div id="edn-to-be-blinded">
+<figure id="figure-19">
+          <div class="lang-cbor-diag sourcecode" id="section-11.1-4.1">
 <pre>
 {
   ...
@@ -3063,7 +3141,11 @@ The snippet of EDN shown below shows one mechanism to communicate to the Issuer 
   ]
   ...
 }
-</pre><a href="#section-11.1-4" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-19" class="selfRef">Figure 19</a>:
+<a href="#name-edn-example-requesting-blin" class="selfRef">EDN example requesting blinding of license number and two inspection dates</a>
+          </figcaption></figure>
 </div>
 </section>
 </div>
@@ -3081,7 +3163,9 @@ When a decoy digest is requested in a map, the map value is always <code>null</c
 The Claim Elements array contains Germany (de) and the Philippines (ph).
 The Holder wants to redact each country, but add decoys to obfuscate the number of component origin countries.
 The example fragment also shows two decoy digests in the same map.<a href="#section-11.2-2" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-11.2-3">
+<span id="name-edn-example-requesting-two-"></span><div id="edn-to-be-decoy">
+<figure id="figure-20">
+          <div class="lang-cbor-diag sourcecode" id="section-11.2-3.1">
 <pre>
 {
   ...
@@ -3095,7 +3179,11 @@ The example fragment also shows two decoy digests in the same map.<a href="#sect
   62(4): null,  # add a second decoy in the same map
   ...
 }
-</pre><a href="#section-11.2-3" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-20" class="selfRef">Figure 20</a>:
+<a href="#name-edn-example-requesting-two-" class="selfRef">EDN example requesting two decoys</a>
+          </figcaption></figure>
 </div>
 </section>
 </div>
@@ -3124,14 +3212,20 @@ If present in the protected headers, the first header parameter (<code>sd_aead</
 (Guidance on specific algorithms is discussed in <a href="#aead-choice" class="auto internal xref">Section 16.8</a>.)
 The second header parameter (<code>sd_aead_encrypted_claims</code>), if present, contains a non-empty list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:<a href="#section-12.1-1" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-12.1-2">
+<span id="name-edn-example-of-an-encrypted"></span><div id="edn-aead-disclosure">
+<figure id="figure-21">
+          <div class="lang-cbor-diag sourcecode" id="section-12.1-2.1">
 <pre>
         &lt;&lt;[
             /salt/   h'bae611067bb823486797da1ebbb52f83',
             /value/  "ABCD-123456",
             /claim/  501   / inspector_license_number /
         ]&gt;&gt;,
-</pre><a href="#section-12.1-2" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-21" class="selfRef">Figure 21</a>:
+<a href="#name-edn-example-of-an-encrypted" class="selfRef">EDN example of an encrypted disclosure</a>
+          </figcaption></figure>
 </div>
 <p id="section-12.1-3">The corresponding bstr is encrypted with an AEAD algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span>.
 If present, the algorithm of the <code>sd_aead</code> protected header field is used, or AEAD_AES_128_GCM if no algorithm was specified. The bstr is encrypted with a unique, random 16-octet nonce.
@@ -3139,14 +3233,16 @@ The AEAD ciphertext consists of its encryption algorithm's ciphertext and its au
 (For example, in AEAD_AES_128_GCM the authentication tag is 16 octets.)
 The nonce (<code>nonce</code>), the encryption algorithm's ciphertext (<code>ciphertext</code>) and authentication tag (<code>tag</code>) are put in an array.
 The resulting array is placed in the <code>sd_aead_encrypted_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-12.1-3" class="pilcrow">¶</a></p>
-<p id="section-12.1-4">Given the AEAD encryption key:<a href="#section-12.1-4" class="pilcrow">¶</a></p>
+<p id="section-12.1-4">Given the AEAD encryption key (in hexadecimal):<a href="#section-12.1-4" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-12.1-5">
 <pre>
 a061c27a3273721e210d031863ad81b6
 </pre><a href="#section-12.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-12.1-6">A valid AEAD encrypted disclosure for that first disclosure is:<a href="#section-12.1-6" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-12.1-7">
+<span id="name-edn-example-of-an-aead-encr"></span><div id="edn-aead-claim">
+<figure id="figure-22">
+          <div class="lang-cbor-diag sourcecode" id="section-12.1-7.1">
 <pre>
 / sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
 [
@@ -3158,14 +3254,20 @@ a061c27a3273721e210d031863ad81b6
 ],
     ...
 ]
-</pre><a href="#section-12.1-7" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-22" class="selfRef">Figure 22</a>:
+<a href="#name-edn-example-of-an-aead-encr" class="selfRef">EDN Example of an AEAD Encrypted Claim</a>
+          </figcaption></figure>
 </div>
 <p id="section-12.1-8">The blinded claim hash is still over the unencrypted disclosure.
 The receiver of an AEAD encrypted disclosure locates the appropriate key by looking up the authentication tag.
 If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the <code>sd_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-12.1-8" class="pilcrow">¶</a></p>
 <p id="section-12.1-9">Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.<a href="#section-12.1-9" class="pilcrow">¶</a></p>
 <p id="section-12.1-10">The CDDL for AEAD encrypted disclosures is below.<a href="#section-12.1-10" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-12.1-11">
+<span id="name-cddl-describing-syntax-of-a"></span><div id="cddl-aead">
+<figure id="figure-23">
+          <div class="lang-cddl sourcecode" id="section-12.1-11.1">
 <pre>
 aead-encrypted-array = [ +aead-encrypted ]
 aead-encrypted = [
@@ -3175,7 +3277,11 @@ aead-encrypted = [
   bstr               ; the corresponding authentication tag
 ]
 
-</pre><a href="#section-12.1-11" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-23" class="selfRef">Figure 23</a>:
+<a href="#name-cddl-describing-syntax-of-a" class="selfRef">CDDL describing syntax of AEAD Encrypted disclosures</a>
+          </figcaption></figure>
 </div>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-12.1-12.1">
@@ -3219,8 +3325,8 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
 <a href="#section-14.1" class="section-number selfRef">14.1. </a><a href="#name-minimal-spanning-example" class="section-name selfRef">Minimal Spanning Example</a>
         </h3>
 <p id="section-14.1-1">The following example contains claims needed to demonstrate redaction of key-value pairs and array elements.<a href="#section-14.1-1" class="pilcrow">¶</a></p>
-<span id="name-an-edn-example"></span><div id="example-edn">
-<figure id="figure-6">
+<span id="name-a-minimal-full-edn-example"></span><div id="example-edn">
+<figure id="figure-24">
           <div class="breakable lang-cbor-diag sourcecode" id="section-14.1-2.1">
 <pre>
 / cose-sign1 / 18( / sd_kbt / [
@@ -3317,8 +3423,8 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
 ])   / end of kbt /
 </pre>
 </div>
-<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
-<a href="#name-an-edn-example" class="selfRef">An EDN Example</a>
+<figcaption><a href="#figure-24" class="selfRef">Figure 24</a>:
+<a href="#name-a-minimal-full-edn-example" class="selfRef">A minimal, full EDN Example</a>
           </figcaption></figure>
 </div>
 </section>
@@ -3329,7 +3435,9 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
 <a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-nested-example" class="section-name selfRef">Nested Example</a>
         </h3>
 <p id="section-14.2-1">Instead of the structure from the previous example, imagine that the payload contains an inspection history log with the following structure. It could be blinded at multiple levels of the claims set hierarchy.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-14.2-2">
+<span id="name-edn-example-of-nested-claim"></span><div id="edn-nested-unblinded">
+<figure id="figure-25">
+          <div class="lang-cbor-diag sourcecode" id="section-14.2-2.1">
 <pre>
 {
     / iss / 1  : "https://issuer.example",
@@ -3371,7 +3479,11 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
         },
     ]
 }
-</pre><a href="#section-14.2-2" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-25" class="selfRef">Figure 25</a>:
+<a href="#name-edn-example-of-nested-claim" class="selfRef">EDN example of Nested Claims Set before blinding</a>
+          </figcaption></figure>
 </div>
 <p id="section-14.2-3">For example, looking at the nested disclosures below, the first disclosure unblinds the entire January 2023 inspection record.
 However, when the record is disclosed, the inspector license number and inspection location are redacted inside the record.
@@ -3380,7 +3492,9 @@ disclosure unblinds the inspection location record, but the region and postcode 
 The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" class="pilcrow">¶</a></p>
 <p id="section-14.2-4">The fifth disclosure unblinds the earliest inspection record, and the last disclosure unblinds the inspector_license_number for that record.<a href="#section-14.2-4" class="pilcrow">¶</a></p>
 <p id="section-14.2-5">Verifiers start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.<a href="#section-14.2-5" class="pilcrow">¶</a></p>
-<div class="breakable lang-cbor-diag sourcecode" id="section-14.2-6">
+<span id="name-edn-example-of-sd-cwt-with-"></span><div id="edn-nested-blinded">
+<figure id="figure-26">
+          <div class="breakable lang-cbor-diag sourcecode" id="section-14.2-6.1">
 <pre>
 / sd_claims / 17 : [ / these are the disclosures /
     &lt;&lt;[
@@ -3451,10 +3565,16 @@ The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" c
         /claim/  503   / Denver location /
     ]&gt;&gt;,
 ]
-</pre><a href="#section-14.2-6" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-26" class="selfRef">Figure 26</a>:
+<a href="#name-edn-example-of-sd-cwt-with-" class="selfRef">EDN Example of SD-CWT with Nested Blinded Claims</a>
+          </figcaption></figure>
 </div>
 <p id="section-14.2-7">After applying the disclosures of the nested structure above, the disclosed Claims Set visible to the Verifier would look like the following:<a href="#section-14.2-7" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="section-14.2-8">
+<span id="name-edn-of-validated-nested-cla"></span><div id="edn-validated">
+<figure id="figure-27">
+          <div class="lang-cbor-diag sourcecode" id="section-14.2-8.1">
 <pre>
 {
     / iss / 1  : "https://issuer.example",
@@ -3483,7 +3603,11 @@ The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" c
         }
     ]
 }
-</pre><a href="#section-14.2-8" class="pilcrow">¶</a>
+</pre>
+</div>
+<figcaption><a href="#figure-27" class="selfRef">Figure 27</a>:
+<a href="#name-edn-of-validated-nested-cla" class="selfRef">EDN of validated nested claims</a>
+          </figcaption></figure>
 </div>
 </section>
 </div>
@@ -4332,7 +4456,7 @@ It registers identifiers for the type of the SD-CWT Claims Set.<a href="#section
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Range</th>
-              <th class="text-left" rowspan="1" colspan="1">Registration Procedure </th>
+              <th class="text-left" rowspan="1" colspan="1">Registration Procedure from RFC8126</th>
             </tr>
           </thead>
           <tbody>
@@ -4526,7 +4650,7 @@ An indication of the relevant sections may also be included, but is not required
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-oauth-sd-jwt-vc">[I-D.draft-ietf-oauth-sd-jwt-vc]</dt>
         <dd>
-<span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-13</span>, <time datetime="2025-11-06" class="refDate">6 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-13">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-13</a>&gt;</span>. </dd>
+<span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-14</span>, <time datetime="2026-02-05" class="refDate">5 February 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-14">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-14</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-oauth-selective-disclosure-jwt">[I-D.draft-ietf-oauth-selective-disclosure-jwt]</dt>
         <dd>
@@ -4583,7 +4707,7 @@ An indication of the relevant sections may also be included, but is not required
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-complete-cddl-schema" class="section-name selfRef">Complete CDDL Schema</a>
       </h2>
 <span id="name-a-complete-cddl-description"></span><div id="cddl-schema">
-<figure id="figure-7">
+<figure id="figure-28">
         <div class="breakable lang-cddl sourcecode" id="appendix-A-1.1">
 <pre>
 sd-cwt-types = sd-cwt-issued / kbt-cwt / sd-cwt-preissued
@@ -4754,7 +4878,7 @@ REDACTED_ELEMENT_TAGNUM = 60
 redacted_claim_element = #6.&lt;REDACTED_ELEMENT_TAGNUM&gt;( bstr )
 </pre>
 </div>
-<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
+<figcaption><a href="#figure-28" class="selfRef">Figure 28</a>:
 <a href="#name-a-complete-cddl-description" class="selfRef">A complete CDDL description of SD-CWT</a>
         </figcaption></figure>
 </div>
