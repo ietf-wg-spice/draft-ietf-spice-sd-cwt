@@ -219,7 +219,8 @@ The following diagram explains the relationships between the terminology used in
         v
 +----------------------------------.
 | Issuer-Signed: Plaintext Claims + |
-|  Blinded Claim Hashes;            |
+|  Blinded Claim Hashes             |
++-----------------------------------+
 | All Salted Disclosed Claims       |
 +-------+---------------------------+
         |
@@ -233,7 +234,8 @@ The following diagram explains the relationships between the terminology used in
 +---------------------------------------------------.
 | Holder-Signed: Key Binding Token                   |
 |  +----------------------------------------------.  |
-|  | Issuer-Signed: Claims + Blinded Claim Hashes, | |
+|  | Issuer-Signed: Claims + Blinded Claim Hashes  | |
+|  +-----------------------------------------------+ |
 |  | Holder-Selected: Salted Disclosed Claims      | |
 |  +-----------------------------------------------+ |
 |                                                    |
