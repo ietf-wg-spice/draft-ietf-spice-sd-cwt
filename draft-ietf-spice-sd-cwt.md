@@ -394,7 +394,7 @@ For example, Alice decides to disclose to a Verifier the `inspector_license_numb
 ~~~ cbor-diag
 {::include examples/chosen-disclosures.edn}
 ~~~
-{: #edn-chosen-disclosures title="The Holders choice of the disclosures to present"}
+{: #edn-chosen-disclosures title="The Holder's choice of the disclosures to present"}
 
 The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the Verifier through a process similar to the method described in {{?I-D.ietf-httpbis-unprompted-auth}}.
 
