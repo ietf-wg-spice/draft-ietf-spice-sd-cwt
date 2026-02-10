@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-08T01:26:20.872046+00:00",
+  "timestamp": "2026-02-10T01:19:03.881720+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -137,6 +137,16 @@
       "name": "author-discuss",
       "description": null,
       "color": "aaaaaa"
+    },
+    {
+      "name": "low-pri",
+      "description": "",
+      "color": "520236"
+    },
+    {
+      "name": "nice-to-have",
+      "description": "",
+      "color": "d199cf"
     }
   ],
   "issues": [
@@ -3751,14 +3761,30 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [
-        "clarity",
-        "author-discuss"
+        "ready-for-pr",
+        "next-stretch",
+        "clarity"
       ],
       "body": "[This](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-1.1-4.1.1) appears in Section 1, with no context:\n\n> 1. The Issuer SHOULD confirm the Holder controls all confirmation material before issuing credentials using the cnf claim.\n\nThis entire list seems completely out of place.  I suggest moving it to somewhere later, where the necessary context has been established.  Use a forward reference if that is important information at this point of the document (I don't think it is, though).\n\nIt might be worth having some discussion about the role of confirmation keys at this stage, but this text isn't that helpful.",
       "createdAt": "2026-01-23T00:21:09Z",
-      "updatedAt": "2026-02-07T08:28:47Z",
+      "updatedAt": "2026-02-09T14:38:19Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "- https://datatracker.ietf.org/doc/html/rfc7800#section-3\n- https://datatracker.ietf.org/doc/html/rfc9528#section-3.5.1\n- https://datatracker.ietf.org/doc/html/rfc9528#section-3.5.3.1",
+          "createdAt": "2026-02-09T14:23:43Z",
+          "updatedAt": "2026-02-09T14:25:51Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Notes about what we want in Section 1:\n- in one sentence what is a CWT.\n- what is confirmation key for - mitigate copy/paste attacks of Bearer tokens  (steal KCWT text or JOSE cnf key maybe?)\n- introduce concept of selective disclosure\n- 3 roles\n- diagram showing 3 roles (move figure 1 here)\n\nremove the line that martin points out, but explain the overall concept here\n",
+          "createdAt": "2026-02-09T14:28:36Z",
+          "updatedAt": "2026-02-09T14:37:54Z"
+        }
+      ]
     },
     {
       "number": 191,
@@ -3791,22 +3817,30 @@
       "id": "I_kwDOMm_Q2s7lMsRw",
       "title": "Include Figure numbers and titles for pictures",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/192",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "chore",
         "clarity"
       ],
       "body": "These are hard to reference presently.\n\nIn kramdown-rfc, this is the standard form:\n\n```md\n{: #f-anchor-name title=\"some text\"}\n```\n\nYou might also get some benefit out of adding this option for aasvg:\n\n```md\n{: #f-anchor-name title=\"some text\" artwork-svg-options=\"--spaces=2\"}\n```\n",
       "createdAt": "2026-01-23T00:26:55Z",
-      "updatedAt": "2026-02-07T07:59:02Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-02-09T15:05:34Z",
+      "closedAt": "2026-02-09T15:05:34Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #246 except Appendix C (to consider separately in Issue #248 ). Closing.",
+          "createdAt": "2026-02-09T15:05:34Z",
+          "updatedAt": "2026-02-09T15:05:34Z"
+        }
+      ]
     },
     {
       "number": 193,
@@ -3825,7 +3859,7 @@
       ],
       "body": "In the following part of [this diagram](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-2-7.1):\n\n<img width=\"540\" height=\"191\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/273828e8-ba60-4346-9463-3c9f42a5cb95\" />\n\nIt's not clear what the intent behind the two layers of boxes are, but I think that you have more inner boxes here than indicated.\n\nThe Issuer-signed (hyphen!) blinded claims shares a box with the Holder-selected (hyphen!) disclosed claims.  Logically, I think that these are separate items.\n\nAnd then you might want to include the confirmation signature as an outer box.  You might consider marking this as optional somehow in the diagram, because not all uses of SD-CWT depend on key binding.",
       "createdAt": "2026-01-23T00:32:00Z",
-      "updatedAt": "2026-02-06T15:05:31Z",
+      "updatedAt": "2026-02-09T14:15:38Z",
       "closedAt": null,
       "comments": [
         {
@@ -3841,6 +3875,20 @@
           "body": "@martinthomson Is this diagram better? I made a box style distinction between the three roles and the data being sent around, and I included the logical information being provided.\n\n<img width=\"507\" height=\"611\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/0f5912da-7e69-4e9d-bfe9-c4ab6aeafbb0\" />",
           "createdAt": "2026-02-06T14:27:16Z",
           "updatedAt": "2026-02-06T14:42:43Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think that the main thing that I was struggling with was in the middle artifact.  Conveying what is covered there is a challenge.  I think that there are three things:\n\n* The Holder signs everything as a Key Binding Token.  That's the outer box.\n* The Issuer signs the blinded claim hashes.  That's one inner box.\n* The Holder discloses some blinded claims. That's a separate inner box, I think.\n\nI've made a tweak in a suggestion on the PR.  Take it or leave it.\n\n(The curved corners are definitely an improvement.)",
+          "createdAt": "2026-02-09T03:56:41Z",
+          "updatedAt": "2026-02-09T03:56:41Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "partially addressed in #245 \nwe may add curved boxes to figure 3 later.",
+          "createdAt": "2026-02-09T14:15:38Z",
+          "updatedAt": "2026-02-09T14:15:38Z"
         }
       ]
     },
@@ -4589,7 +4637,7 @@
       ],
       "body": "Firstly, the nonce size for AES-GCM in the draft is wrong.  It should be 12 octets, but the text, example, and CDDL all have a 16-octet nonce.\n\nFor AEAD algorithms where N_MAX > N_MIN (as opposed to where they are equal), how big is the nonce?  Can it be any size in the defined range?\n\n(AES-GCM, as defined originally, can have different nonce sizes, which is a bit silly because you have to run a compression function to reduce the nonce to 96 bits.  This is likely why RFC 5116 sets N_MIN = N_MAX = 12.)\n\nSeparately, you should specify the type for the sd_aead protected header field.  CDDL might be a good idea for that as well.  It's a 16 bit integer in the registry you are using.",
       "createdAt": "2026-01-23T03:27:39Z",
-      "updatedAt": "2026-02-07T09:11:52Z",
+      "updatedAt": "2026-02-08T22:08:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -4605,6 +4653,13 @@
           "body": "@martinthomson I would also be happy to add a plug for AES_GCM_SIV [RFC8452](https://datatracker.ietf.org/doc/html/rfc8452) in this section.",
           "createdAt": "2026-02-07T09:11:52Z",
           "updatedAt": "2026-02-07T09:11:52Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "SIV is a fine idea, yes.  It works much better in a world where the plaintext is guaranteed to be high entropy.  The standard weakness from nonce collision is counteracted by the salt.\n\nStill, there's a better mode.  It involves neither tag nor nonce.  But you probably don't want to hear about that because it involves a completely different construction.",
+          "createdAt": "2026-02-08T22:08:05Z",
+          "updatedAt": "2026-02-08T22:08:05Z"
         }
       ]
     },
@@ -4622,7 +4677,7 @@
       "labels": [],
       "body": "Regarding [this note](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-12.1-10.1.1):\n\n> Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.\n\nThis is not right because it assumes that the registry will only ever contain AEADs that are strong enough to resist forgery.  The claim you make here should be that *if the AEAD algorithm provides sufficient protection against forgery* and attacker cannot produce a forged item.\n\nBut this makes no real sense.  The content, if it is to be usable in any way needs to be decryptable.  At that point, you can check the integrity of the content using the hash.\n\nSo why then do you have an AEAD algorithm as opposed to using a simpler cipher?  AES-CTR could work almost as well.\n\nOf the cuff, I can't think of a concrete reason to include a tag, other than the simple and pragmatic one: it is easier to specify the use of an AEAD than it is to specify how to use an unauthenticated cipher.",
       "createdAt": "2026-01-23T03:33:20Z",
-      "updatedAt": "2026-02-07T08:56:07Z",
+      "updatedAt": "2026-02-09T04:57:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -4666,6 +4721,27 @@
           "body": "@martinthomson you did not comment on the Verifier DoS prevention issue mentioned. The verifier failing early here is a very important feature.",
           "createdAt": "2026-02-07T08:55:57Z",
           "updatedAt": "2026-02-07T08:55:57Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I did.  The basic reasoning is that `work((ha=hash(P)) + (ok = compare(ha, he))) =~ work((ta = gcm(C)) == (ok = compare(ta, te)))`.  That is, the work performed in computing the AEAD tag and comparing it to the expected value is *extra* work that the verifier performs, not work that it saves.  And even then, the work it performs computing the tag and comparing the actual to the expected tag is (to a close approximation) the same effort required to hash the decrypted content and check it.",
+          "createdAt": "2026-02-08T22:16:04Z",
+          "updatedAt": "2026-02-08T22:20:02Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "But you are only calculating the work to decrypt and verify a single\r\ndisclosure at a time. I am trying to fail before the Verifier has decrypted\r\na dozen disclosures, then hashed the result, then starts searching a set of\r\npotentially nested hashes for those disclosures. Recall that an encrypted\r\ndisclosure could correspond to a nested claim that hasn't been unblinded\r\nyet.\r\n\r\nEven in the case where there is a simple programming error and a stale key\r\ngets used by accident, the validator has to hold a lot of state around to\r\nbe able to declare at the end of processing that there were encrypted\r\ndisclosure that didn't match any blinded hashes in the issued SD-CWT, and\r\nthat maybe the wrong key was used for the encryption or decryption process.\r\nThat is a lot less clear than simply checking the tag and being able to\r\nreturn a clear error that the encrypted disclosure didn't decrypt correctly.\r\n\r\nOn Sun, 8 Feb 2026, 23:16 Martin Thomson, ***@***.***> wrote:\r\n\r\n> *martinthomson* left a comment (ietf-wg-spice/draft-ietf-spice-sd-cwt#219)\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/219#issuecomment-3868415168>\r\n>\r\n> I did. The basic reasoning is that work((ha=hash(P)) + (ok = compare(ha,\r\n> he))) =~ work((ta = gcm(P)) == (ok = compare(ta, te))). That is, the work\r\n> performed in computing the AEAD tag and comparing it to the expected value\r\n> is *extra* work that the verifier performs, not work that it saves. And\r\n> even then, the work it performs computing the tag and comparing the actual\r\n> to the expected tag is (to a close approximation) the same effort required\r\n> to hash the decrypted content and check it.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/219#issuecomment-3868415168>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPVKT5EYUP7HHYH5EAL4K6YTVAVCNFSM6AAAAACSTX6IYWVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZTQNRYGQYTKMJWHA>\r\n> .\r\n> You are receiving this because you were assigned.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2026-02-09T04:24:15Z",
+          "updatedAt": "2026-02-09T04:24:15Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Oh, that's not how I imagined this working.  I figured you would do each in turn.  Decrypt, then match, repeat.  Rather than decrypt everything at once then match everything.\n\nAfter all, even a successfully-decrypted disclosure isn't guaranteed to a disclosure for this specific document.  After all, the attacker is on-path in some way.  If they are looking to mount a DoS attack, they might have other documents protected with the same keys to draw from.  They can swap all the encrypted disclosures between different documents that use those same keys.  So, unless you have keys with very tight scope (which is possible, I guess) then you are back in DoS territory unless you do the hash match as well.",
+          "createdAt": "2026-02-09T04:57:00Z",
+          "updatedAt": "2026-02-09T04:57:00Z"
         }
       ]
     },
@@ -4852,7 +4928,7 @@
       ],
       "body": "Several things from [Section 16.2](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.2):\n\nThe phrase \"disclosure coercion\" or \"disclosure coercion attack\" isn't used by the SD-JWT document at all.  It took a bit of reading and thinking to understand what you meant.  I think you could instead say this more directly: Holders might be coerced into disclosing information they might not want to reveal.\n\nThis is not a testable requirement:\n\n> Verifier Trust: Holders MUST be able to verify that a Verifier will handle disclosed claims appropriately and only for stated purposes.\n\nThe use of 2119 language here is problematic.  I think that it is generically true that an entity offering information to another entity has to trust the other entity to handle that information responsibly.  However, this is most often a question of trust.  A difficult one at times, to be sure.\n\nYou are setting a much higher bar.  You are saying that the Holder needs to be able to obtain verifiable proof that the handling will be appropriate.  That is - to my knowledge - not generically possible.  There are some systems involving TEEs and other verifiable computation techniques that might be able to provide stronger assurances, but [even those can be unconvincing](https://tee.fail/).\n\nThe use of 2119 language in the following isn't quite as bad, but consider avoid it nonetheless:\n\n> This permanent exposure risk MUST be considered in any disclosure decision.\n\nSimilarly, the use of normative language in the proposed mitigations is not appropriate.  This should be rephrased as a set of things that might need to be considered.\n\nThe use of lists here is also not appropriate.  Ordered lists in particular.  The ordering implies precedence or ordering (where there is none), but they also imply some correspondence between the mitigations and the risks, but I don't think that is the case.\n\n\n",
       "createdAt": "2026-01-23T04:19:36Z",
-      "updatedAt": "2026-02-07T08:25:33Z",
+      "updatedAt": "2026-02-09T14:33:41Z",
       "closedAt": null,
       "comments": [
         {
@@ -4861,6 +4937,13 @@
           "body": "This overuse of 2119 language extends into Section 16.3.  I think you should drop that MUST as well.  And while you are there, the \"NOT\" that is shouted can be turned into a normal word.  Our readers are NOT children.",
           "createdAt": "2026-01-23T04:21:10Z",
           "updatedAt": "2026-01-23T04:21:10Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@OR13 to review.",
+          "createdAt": "2026-02-09T14:33:41Z",
+          "updatedAt": "2026-02-09T14:33:41Z"
         }
       ]
     },
@@ -4997,11 +5080,49 @@
         "rohanmahy"
       ],
       "labels": [
-        "author-discuss"
+        "ready-for-pr"
       ],
       "body": "Currently the KBT requires the `iat` field. @martinthomson pointed out that if the Holder is a TEE it would not have a clock. The KBT would be better off having a `cti` instead of an `iat` in this case.",
       "createdAt": "2026-02-07T09:18:20Z",
-      "updatedAt": "2026-02-07T09:18:35Z",
+      "updatedAt": "2026-02-09T14:38:50Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 248,
+      "id": "I_kwDOMm_Q2s7pdkpy",
+      "title": "Consider reworking Appendix C to use figure footers",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/248",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "chore",
+        "low-pri"
+      ],
+      "body": "Currently Appendix C has inline introductions for each \"code block\". It is pretty readable now, but we could rewrite the text to rely on figure footers instead.",
+      "createdAt": "2026-02-09T15:04:06Z",
+      "updatedAt": "2026-02-09T17:05:24Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 249,
+      "id": "I_kwDOMm_Q2s7pdnsx",
+      "title": "Consider adding COSE key thumbprint URIs in Appendix C",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/249",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "chore",
+        "nice-to-have"
+      ],
+      "body": "",
+      "createdAt": "2026-02-09T15:06:56Z",
+      "updatedAt": "2026-02-09T17:03:05Z",
       "closedAt": null,
       "comments": []
     }
@@ -18085,7 +18206,7 @@
       "id": "PR_kwDOMm_Q2s6_5jEd",
       "title": "In Holder section add note about Holder's choice of order",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/243",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -18094,19 +18215,56 @@
       ],
       "body": "This partially addresses #222 \r\n\r\n@OR13 in the security considerations, section 16.7 the first two lines are now a duplicate. \r\n\r\nDo we still agree with line 1302: \"This ordering choice has no security impact on encrypted disclosures.\"\r\nCould the processing time potentially leak information about the depth or complexity of inner claims?\r\n\r\nPerhaps we can remove this section?",
       "createdAt": "2026-01-28T16:28:17Z",
-      "updatedAt": "2026-02-07T08:05:16Z",
+      "updatedAt": "2026-02-09T14:18:52Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "66db2e11343b7db408bc64dc3d461d6a3d1f5141",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue222",
       "headRefOid": "4186626678d6c81f5eccc0e6a1ba0580fb8a6c6f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "closedAt": "2026-02-09T14:18:52Z",
+      "mergedAt": "2026-02-09T14:18:52Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "a0e5895a9729a46931333eaf693137e9f23f7be3"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Could the processing time potentially leak information about the depth or complexity of inner claims?\r\n\r\nyes, but that is the case even if they are in optimal order.",
+          "createdAt": "2026-02-09T14:18:24Z",
+          "updatedAt": "2026-02-09T14:18:35Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7g5FbJ",
+          "commit": {
+            "abbreviatedOid": "4186626"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T12:37:20Z",
+          "updatedAt": "2026-02-09T12:37:20Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7g7CD6",
+          "commit": {
+            "abbreviatedOid": "4186626"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T14:16:34Z",
+          "updatedAt": "2026-02-09T14:16:34Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 244,
@@ -18141,46 +18299,290 @@
       "id": "PR_kwDOMm_Q2s7CBM8a",
       "title": "Improve Figures 2 and 3",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/245",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Also added figure labels to Figures 1, 2, and 3.\r\n\r\nAddresses #193  @martinthomson ",
       "createdAt": "2026-02-06T15:00:42Z",
-      "updatedAt": "2026-02-06T15:01:21Z",
+      "updatedAt": "2026-02-09T14:14:59Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
-      "baseRefOid": "da339879a089d315b1e370e4bab2a7d429dde69e",
+      "baseRefOid": "37e12ad93690ec5cb9a1204086a2075146ed3e34",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "figs2and3",
-      "headRefOid": "bf153c65684f487090d2cc628aee3a31ac2fd987",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "9dee30efcba9ebbcceb5162f8900a65d9d2c5dc4",
+      "closedAt": "2026-02-09T14:14:59Z",
+      "mergedAt": "2026-02-09T14:14:59Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "19c72b6af23498083c963cfc36f5d801b771bbf8"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7gxXcs",
+          "commit": {
+            "abbreviatedOid": "bf153c6"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T03:54:58Z",
+          "updatedAt": "2026-02-09T03:54:58Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "```suggestion\n|  +-----------------------------------------------+ |\n|  | Holder-Selected: Salted Disclosed Claims      | |\n```\n\nDoes this work for you?",
+              "createdAt": "2026-02-09T03:54:58Z",
+              "updatedAt": "2026-02-09T03:54:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7gxYN4",
+          "commit": {
+            "abbreviatedOid": "bf153c6"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T03:57:09Z",
+          "updatedAt": "2026-02-09T03:57:10Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "```suggestion\n|  | Issuer-Signed: Claims + Blinded Claim Hashes  | |\n```\nTo go with the change below.",
+              "createdAt": "2026-02-09T03:57:09Z",
+              "updatedAt": "2026-02-09T03:57:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7gxgo1",
+          "commit": {
+            "abbreviatedOid": "bf153c6"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T04:18:44Z",
+          "updatedAt": "2026-02-09T04:18:44Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "Want to curve this one too?",
+              "createdAt": "2026-02-09T04:18:44Z",
+              "updatedAt": "2026-02-09T04:18:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7g4yzN",
+          "commit": {
+            "abbreviatedOid": "bf153c6"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T12:19:57Z",
+          "updatedAt": "2026-02-09T12:19:58Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "If we go with Martin's proposal below, this would be consistent.\n\n```suggestion\n|  Blinded Claim Hashes             |\n+-----------------------------------+\n| All Salted Disclosed Claims       |\n```",
+              "createdAt": "2026-02-09T12:19:57Z",
+              "updatedAt": "2026-02-09T12:20:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7g5J0K",
+          "commit": {
+            "abbreviatedOid": "bf153c6"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T12:41:52Z",
+          "updatedAt": "2026-02-09T12:41:52Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7g69U6",
+          "commit": {
+            "abbreviatedOid": "22a856b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T14:13:17Z",
+          "updatedAt": "2026-02-09T14:13:17Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "We discussed on the call, and may take another design pass in a smaller PR just focused on the curves",
+              "createdAt": "2026-02-09T14:13:17Z",
+              "updatedAt": "2026-02-09T14:13:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7g6_pQ",
+          "commit": {
+            "abbreviatedOid": "9dee30e"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T14:14:54Z",
+          "updatedAt": "2026-02-09T14:14:54Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 246,
       "id": "PR_kwDOMm_Q2s7CB5NT",
       "title": "Add figure descriptions throughout.",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/246",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Add figure and table descriptions, except:\r\n\r\n- [x] Figures 2 and 3 (addressed in another PR)\r\n- [ ] appendix with public/private keys\r\n- [ ] I may have gone overboard for some of the smaller inline text blobs. Some of these may be better without a figure. Do a full read through with in context.\r\n\r\nAddresses #192 ",
+      "body": "Add figure and table descriptions, except:\r\n\r\n- [x] Figures 2 and 3 (addressed in another PR)\r\n- [x] appendix with public/private keys. Read through current Appendix C. Looks fine as is. Raised another issue #248 \r\n- [x] I may have gone overboard for some of the smaller inline text blobs. Some of these may be better without a figure. Do a full read through with in context.  EDIT: removed one figure footer for display of the AEAD encryption key.\r\n\r\nAddresses #192 ",
       "createdAt": "2026-02-06T15:57:19Z",
-      "updatedAt": "2026-02-07T08:03:27Z",
+      "updatedAt": "2026-02-09T15:04:21Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "da339879a089d315b1e370e4bab2a7d429dde69e",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue192",
-      "headRefOid": "8f16b5a6ceaff4be25e872c26fec399c4218464e",
+      "headRefOid": "8931f5298bd8ab4891a7a17aac72a980817687de",
+      "closedAt": "2026-02-09T14:09:31Z",
+      "mergedAt": "2026-02-09T14:09:31Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "37e12ad93690ec5cb9a1204086a2075146ed3e34"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7g5LO3",
+          "commit": {
+            "abbreviatedOid": "8f16b5a"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T12:43:08Z",
+          "updatedAt": "2026-02-09T12:43:08Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7g6vY7",
+          "commit": {
+            "abbreviatedOid": "8f16b5a"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T14:01:34Z",
+          "updatedAt": "2026-02-09T14:01:34Z",
+          "comments": [
+            {
+              "originalPosition": 80,
+              "body": "```suggestion\n{: #edn-chosen-disclosures title=\"The Holder's choice of the disclosures to present\"}\n```",
+              "createdAt": "2026-02-09T14:01:34Z",
+              "updatedAt": "2026-02-09T14:01:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7g61XP",
+          "commit": {
+            "abbreviatedOid": "8f16b5a"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T14:06:35Z",
+          "updatedAt": "2026-02-09T14:06:35Z",
+          "comments": [
+            {
+              "originalPosition": 235,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-02-09T14:06:35Z",
+              "updatedAt": "2026-02-09T14:06:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7g612g",
+          "commit": {
+            "abbreviatedOid": "8f16b5a"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T14:06:58Z",
+          "updatedAt": "2026-02-09T14:06:58Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\nGiven the AEAD encryption key (in hexadecimal):\n```",
+              "createdAt": "2026-02-09T14:06:58Z",
+              "updatedAt": "2026-02-09T14:06:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7g62uK",
+          "commit": {
+            "abbreviatedOid": "aed1bbf"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-09T14:07:41Z",
+          "updatedAt": "2026-02-09T14:07:41Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 250,
+      "id": "PR_kwDOMm_Q2s7CjVd0",
+      "title": "Allow Holder to use cti instead of iat in KBT",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/250",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-02-09T18:56:23Z",
+      "updatedAt": "2026-02-09T18:56:48Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "a0e5895a9729a46931333eaf693137e9f23f7be3",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "cti",
+      "headRefOid": "4405dbfba729f19cc88ca8adcfc506c647b58e23",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
