@@ -485,7 +485,9 @@ The tag 60 is represented in CDDL as `#6.60(` *tagged value* `)`.
 ~~~
 {: #cddl-blinded title="CDDL of Blinded Claim Keys and Blinded Claim Elements"}
 
-Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
+Blinded claims can be nested.
+When blinded claims are nested the outer Salted Disclosed Claim contains a blinded claim hash.
+For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
 An example nested claim is shown in {{nesting}}.
 
 Finally, an Issuer MAY create decoy digests, which look like blinded claim hashes but have only a salt.
