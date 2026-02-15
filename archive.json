@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-10T01:19:03.881720+00:00",
+  "timestamp": "2026-02-15T01:12:21.438572+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -18574,9 +18574,9 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "",
+      "body": "Addresses #247 ",
       "createdAt": "2026-02-09T18:56:23Z",
-      "updatedAt": "2026-02-09T18:56:48Z",
+      "updatedAt": "2026-02-11T02:51:59Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "a0e5895a9729a46931333eaf693137e9f23f7be3",
@@ -18587,8 +18587,37 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> What's the motivation for this change? It adds a form of optionality that there isn't an obvious need for.\r\n> \r\n> At a minimum, I'd like to see the PR include rationale for this added to the spec itself. (Yes, I'm aware of the \"If the Holder has access to an accurate clock...\" clause, but doesn't really give enough context, as I see it.)\r\n\r\nMartin pointed out that if the Holder is a TEE it won't have a clock at all. What else would you like to see added in the way of motivation and where?",
+          "createdAt": "2026-02-10T17:28:20Z",
+          "updatedAt": "2026-02-10T17:28:20Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "TPM.  I'm really not sure about the state of art with respect to clocks in TEEs, though I suspect that they too have constraints.",
+          "createdAt": "2026-02-11T02:51:59Z",
+          "updatedAt": "2026-02-11T02:51:59Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7hKqsj",
+          "commit": {
+            "abbreviatedOid": "4405dbf"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "What's the motivation for this change?  It adds a form of optionality that there isn't an obvious need for.\n\nAt a minimum, I'd like to see the PR include rationale for this added to the spec itself.  (Yes, I'm aware of the \"If the Holder has access to an accurate clock...\" clause, but doesn't really give enough context, as I see it.)",
+          "createdAt": "2026-02-10T09:08:04Z",
+          "updatedAt": "2026-02-10T09:08:04Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
