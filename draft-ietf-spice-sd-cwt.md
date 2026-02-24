@@ -428,7 +428,7 @@ It is not required to contain any blinded claims.
 Optionally the salted Claim Values (and often Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
 If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` header parameter is not present in the unprotected header.
 
-Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and verify that it is the blinded claim, thereby unblinding that claim.
+A Verifier unblinds a claim by taking a Salted Disclosed Claim, hashing it, and finding a Blinded Claim in the CWT payload with the same hash value.
 However, a Verifier with the hash cannot unblind a claim without receiving the corresponding Salted Disclosed Claim.
 
 
