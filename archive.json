@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-15T01:12:21.438572+00:00",
+  "timestamp": "2026-02-26T01:05:56.613815+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -17360,13 +17360,13 @@
       ],
       "body": "I think that this is more precise.",
       "createdAt": "2026-01-23T01:06:35Z",
-      "updatedAt": "2026-02-07T08:07:19Z",
+      "updatedAt": "2026-02-24T18:47:28Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
       "headRepository": "martinthomson/sd-cwt",
       "headRefName": "unblind",
-      "headRefOid": "4af592c0160e0df14a177050b04d2d53492a1414",
+      "headRefOid": "38ccba20b7ef11b89ab6fc9f3d6dadcb633e758e",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -17378,6 +17378,13 @@
           "body": "> I agree with @rohanmahy that the proposed changed text is more awkward than the original. Let's not do this.\r\n\r\nAlso fine with this.",
           "createdAt": "2026-02-02T14:33:49Z",
           "updatedAt": "2026-02-02T14:33:49Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't feel strongly about either path, Martin's suggested text looks ok to me.",
+          "createdAt": "2026-02-24T13:46:36Z",
+          "updatedAt": "2026-02-24T13:46:36Z"
         }
       ],
       "reviews": [
@@ -17566,6 +17573,19 @@
               "updatedAt": "2026-02-02T14:33:36Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7leNbc",
+          "commit": {
+            "abbreviatedOid": "38ccba2"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-24T18:47:28Z",
+          "updatedAt": "2026-02-24T18:47:28Z",
+          "comments": []
         }
       ]
     },
@@ -17583,7 +17603,7 @@
       ],
       "body": "...when it is first introduced.",
       "createdAt": "2026-01-23T01:16:15Z",
-      "updatedAt": "2026-02-07T08:08:01Z",
+      "updatedAt": "2026-02-24T18:45:02Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
@@ -17648,6 +17668,46 @@
           "createdAt": "2026-01-26T18:12:00Z",
           "updatedAt": "2026-01-26T18:12:00Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7lW9dA",
+          "commit": {
+            "abbreviatedOid": "240d2fb"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-24T13:41:48Z",
+          "updatedAt": "2026-02-24T13:41:48Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\nWhen blinded claims are nested the disclosure for the first claim will itself contain a blinded claim hash.\n```",
+              "createdAt": "2026-02-24T13:41:48Z",
+              "updatedAt": "2026-02-24T13:41:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7leJ50",
+          "commit": {
+            "abbreviatedOid": "240d2fb"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-24T18:45:02Z",
+          "updatedAt": "2026-02-24T18:45:02Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Also, add a comma after \"nested\".",
+              "createdAt": "2026-02-24T18:45:02Z",
+              "updatedAt": "2026-02-24T18:45:02Z"
+            }
+          ]
         }
       ]
     },
@@ -17665,7 +17725,7 @@
       ],
       "body": "It doesn't seem to serve any real purpose and was quite distracting. The obvious inference from the preceding text was that this was the value that all decoys have to use.  Which would be silly, because every salt value needs to be unique.",
       "createdAt": "2026-01-23T01:26:21Z",
-      "updatedAt": "2026-01-27T03:25:00Z",
+      "updatedAt": "2026-02-24T13:38:52Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
@@ -17697,6 +17757,13 @@
           "body": "If you keep this, then introduce it.  The current introduction says \"Each disclosure contains a single element array with a per-decoy salt.\"  Which is sort of OK, but it doesn't say that this is an example of a disclosure, so it is easy to infer that this is the only salt you might ever need.",
           "createdAt": "2026-01-27T03:25:00Z",
           "updatedAt": "2026-01-27T03:25:00Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We need to revise the introduction text for the example, link the PR here, and then close this PR when that PR is merged.",
+          "createdAt": "2026-02-24T13:38:52Z",
+          "updatedAt": "2026-02-24T13:38:52Z"
         }
       ],
       "reviews": [
@@ -18576,7 +18643,7 @@
       "labels": [],
       "body": "Addresses #247 ",
       "createdAt": "2026-02-09T18:56:23Z",
-      "updatedAt": "2026-02-11T02:51:59Z",
+      "updatedAt": "2026-02-25T05:01:07Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "a0e5895a9729a46931333eaf693137e9f23f7be3",
@@ -18601,6 +18668,20 @@
           "body": "TPM.  I'm really not sure about the state of art with respect to clocks in TEEs, though I suspect that they too have constraints.",
           "createdAt": "2026-02-11T02:51:59Z",
           "updatedAt": "2026-02-11T02:51:59Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "(iat, exp?, nbf?) OR cti are mandatory.\r\n\r\nif iat is present cti will be allowed (it won't be consumed).\r\n\r\nthis is pretty obscure CDDL arcana.\r\n\r\n\r\nOn Wed, 25 Feb 2026, 02:53 Martin Thomson, ***@***.***> wrote:\r\n\r\n> ***@***.**** commented on this pull request.\r\n> ------------------------------\r\n>\r\n> In sd-cwts.cddl\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/250#discussion_r2850104669>\r\n> :\r\n>\r\n> > +  ? &(exp: 4) ^ => secs,\r\n> +  ? &(nbf: 5) ^ => secs,\r\n> +    &(iat: 6) ^ => secs  //\r\n> +    &(cti: 7) ^ => bstr\r\n>\r\n> What is the precedence order here? Or, can I include \"exp\" and \"cti\"?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/250#pullrequestreview-3851113745>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPU2XQQZ27DU7IWQZPL4NTP6RAVCNFSM6AAAAACUQQNI2CVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTQNJRGEYTGNZUGU>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***\r\n> com>\r\n>\r\n",
+          "createdAt": "2026-02-25T00:11:36Z",
+          "updatedAt": "2026-02-25T00:11:36Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In CDDL not really; the section describing the // operator explains its\r\nvery low precedence. I could add a comment above iat pointing to the CDDL\r\nsection\r\n\r\nOn Wed, 25 Feb 2026, 04:00 Martin Thomson, ***@***.***> wrote:\r\n\r\n> ***@***.**** commented on this pull request.\r\n> ------------------------------\r\n>\r\n> In sd-cwts.cddl\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/250#discussion_r2850271827>\r\n> :\r\n>\r\n> > +  ? &(exp: 4) ^ => secs,\r\n> +  ? &(nbf: 5) ^ => secs,\r\n> +    &(iat: 6) ^ => secs  //\r\n> +    &(cti: 7) ^ => bstr\r\n>\r\n> this is pretty obscure CDDL arcana.\r\n>\r\n> Is there a way to communicate more clearly then?\r\n>\r\n> For instance, create a grouping for the set of time-related options and\r\n> use the alternation between that grouping and cti?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/250#discussion_r2850271827>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPW45XRLBDBEF4RFGOL4NTX3XAVCNFSM6AAAAACUQQNI2CVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTQNJRGI4DGOBQGI>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***\r\n> com>\r\n>\r\n",
+          "createdAt": "2026-02-25T05:01:07Z",
+          "updatedAt": "2026-02-25T05:01:07Z"
         }
       ],
       "reviews": [
@@ -18616,6 +18697,79 @@
           "createdAt": "2026-02-10T09:08:04Z",
           "updatedAt": "2026-02-10T09:08:04Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7lWmDb",
+          "commit": {
+            "abbreviatedOid": "4405dbf"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-24T13:27:31Z",
+          "updatedAt": "2026-02-24T13:27:31Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7lWtYd",
+          "commit": {
+            "abbreviatedOid": "4405dbf"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-24T13:31:56Z",
+          "updatedAt": "2026-02-24T13:31:56Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "I would say if there are any claims, they are linked to the disclosures and the signature, time claims such as `iat` assert the signature time according to the holder.",
+              "createdAt": "2026-02-24T13:31:56Z",
+              "updatedAt": "2026-02-24T13:31:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7li1UR",
+          "commit": {
+            "abbreviatedOid": "4405dbf"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-24T23:52:50Z",
+          "updatedAt": "2026-02-24T23:52:50Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "What is the precedence order here?  Or, can I include \"exp\" and \"cti\"?",
+              "createdAt": "2026-02-24T23:52:50Z",
+              "updatedAt": "2026-02-24T23:52:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7lje1a",
+          "commit": {
+            "abbreviatedOid": "4405dbf"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-25T01:00:21Z",
+          "updatedAt": "2026-02-25T01:00:21Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "> this is pretty obscure CDDL arcana.\r\n\r\nIs there a way to communicate more clearly then?\r\n\r\nFor instance, create a grouping for the set of time-related options and use the alternation between that grouping and cti?",
+              "createdAt": "2026-02-25T01:00:21Z",
+              "updatedAt": "2026-02-25T01:00:21Z"
+            }
+          ]
         }
       ]
     }
