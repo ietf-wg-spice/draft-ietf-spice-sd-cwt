@@ -747,7 +747,9 @@ Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in 
 (Profiles of this specification MAY define additional semantics.)
 
 The `aud` claim MUST be included and MUST correspond to the Verifier.
-The SD-KBT payload MUST contain the `iat` (issued at) claim.
+The SD-KBT payload MUST contain either the `iat` (issued at) claim, or the `cti` (CWT ID) claim.
+If the Holder has access to an accurate clock, use of the `iat` is preferred.
+
 The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the uint value of 294.
 The Holder SHOULD use the value 294 instead of `application/kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).
 
@@ -758,7 +760,7 @@ The SD-KBT provides the following assurances to the Verifier:
 - the Holder of the SD-CWT controls the confirmation method chosen by the Issuer;
 - the Holder's disclosures have not been tampered with since confirmation occurred;
 - the Holder intended to address the SD-CWT to the Verifier specified in the audience (`aud`) claim;
-- the Holder's disclosure is linked to the creation time (`iat`) of the key binding.
+- if there are any time claims, the Holder's disclosure is linked to the creation time (`iat`) of the key binding; otherwise the Holder's disclosure is linked to a CWT ID (`cti`), which is expected to be unique per KBT.
 
 The SD-KBT prevents an attacker from copying and pasting disclosures, or from adding or removing disclosures without detection.
 Confirmation is established according to {{!RFC8747}}, using the `cnf` claim in the payload of the SD-CWT.
@@ -795,14 +797,19 @@ The exact order of the following steps MAY be changed, as long as all checks are
 
 5. Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
 
-6. The Verifier checks the time claims in the SD-KBT as follows:
+6. The Verifier checks the time claims in the SD-KBT to enforce the following logical constraints:
 
+- if no `cti` claim is present in the SD-KBT, there MUST be an `iat` in the SD-KBT;
+- if there is no `iat` claim in the SD-KBT, there MUST NOT be an `exp` claim or an `nbf` claim in the SD-KBT;
 - `nbf` in the SD-KBT <= `iat` in the SD-KBT (if both exist)
 - `iat` in the SD-KBT <  `exp` in the SD-KBT (if both exist)
+- `nbf` in the SD-CWT <= `iat` in the SD-CWT (if both exist)
+- `iat` in the SD-CWT <  `exp` in the SD-CWT (if both exist)
+- `nbf` in the SD-CWT <  `exp` in the SD-CWT (if both exist)
 - `exp` in the SD-KBT <= `exp` in the SD-CWT (if both exist)
 - `nbf` in the SD-KBT >= `nbf` in the SD-CWT (if both exist)
 - `iat` in the SD-KBT >= `iat` in the SD-CWT (if both exist)
-- `nbf` in the SD-KBT <= `exp` in the SD-CWT (if both exist)
+- `nbf` in the SD-KBT <  `exp` in the SD-CWT (if both exist)
 - `iat` in the SD-KBT <  `exp` in the SD-CWT (if both exist)
 - `iat` in the SD-KBT >= `nbf` in the SD-CWT (if both exist)
 
