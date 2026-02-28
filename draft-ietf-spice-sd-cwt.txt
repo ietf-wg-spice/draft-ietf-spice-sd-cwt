@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 13 August 2026                                     Tradeverifyd
+Expires: 1 September 2026                                   Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                         9 February 2026
+                                                        28 February 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 August 2026.
+   This Internet-Draft will expire on 1 September 2026.
 
 Copyright Notice
 
@@ -1317,11 +1317,15 @@ Issuer                           Holder                         Verifier
    semantics.)
 
    The aud claim MUST be included and MUST correspond to the Verifier.
-   The SD-KBT payload MUST contain the iat (issued at) claim.  The
-   protected header of the SD-KBT MUST include the typ header parameter
-   with the value application/kb+cwt or the uint value of 294.  The
-   Holder SHOULD use the value 294 instead of application/kb+cwt, as the
-   CBOR representation is considerably smaller (3 bytes versus of 19).
+   The SD-KBT payload MUST contain either the iat (issued at) claim, or
+   the cti (CWT ID) claim.  If the Holder has access to an accurate
+   clock, use of the iat is preferred.
+
+   The protected header of the SD-KBT MUST include the typ header
+   parameter with the value application/kb+cwt or the uint value of 294.
+   The Holder SHOULD use the value 294 instead of application/kb+cwt, as
+   the CBOR representation is considerably smaller (3 bytes versus of
+   19).
 
    The SD-KBT MUST NOT be valid for any time period when its contained
    SD-CWT is invalid.
@@ -1337,8 +1341,10 @@ Issuer                           Holder                         Verifier
    *  the Holder intended to address the SD-CWT to the Verifier
       specified in the audience (aud) claim;
 
-   *  the Holder's disclosure is linked to the creation time (iat) of
-      the key binding.
+   *  if there are any time claims, the Holder's disclosure is linked to
+      the creation time (iat) of the key binding; otherwise the Holder's
+      disclosure is linked to a CWT ID (cti), which is expected to be
+      unique per KBT.
 
    The SD-KBT prevents an attacker from copying and pasting disclosures,
    or from adding or removing disclosures without detection.
@@ -1367,13 +1373,24 @@ Issuer                           Holder                         Verifier
    }
 
    kbt-payload = {
-         &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => secs, ; 1883000000
-       ? &(nbf: 5) ^ => secs, ; 1683000000
-         &(iat: 6) ^ => secs, ; 1683000000
+         &(aud: 3) ^ => tstr,  ; "https://verifier.example/app"
+         time-or-cti-claims,
        ? &(cnonce: 39) ^ => bstr,
        * label => safe_value
    }
+
+   time-or-cti-claims = (
+     ; Requires either time claims that include an iat OR a cti claim.
+     ; Note that in CDDL, the // operator has very low precedence (see
+     ; Section 2.2.2 of RFC 8610)
+     ;
+     ; It is possible to have both a cti and time claims, but
+     ; time-or-cti-claims insures at least cti or iat is present
+     ? &(exp: 4) ^ => secs,
+     ? &(nbf: 5) ^ => secs,
+       &(iat: 6) ^ => secs  //
+       &(cti: 7) ^ => bstr
+   )
 
                    Figure 18: CDDL describing KBT syntax
 
@@ -1406,11 +1423,24 @@ Issuer                           Holder                         Verifier
    5.  Using the confirmation key, the Verifier validates the SD-KBT as
        described in Section 7.2 of [RFC8392].
 
-   6.  The Verifier checks the time claims in the SD-KBT as follows:
+   6.  The Verifier checks the time claims in the SD-KBT to enforce the
+       following logical constraints:
+
+   *  if no cti claim is present in the SD-KBT, there MUST be an iat in
+      the SD-KBT;
+
+   *  if there is no iat claim in the SD-KBT, there MUST NOT be an exp
+      claim or an nbf claim in the SD-KBT;
 
    *  nbf in the SD-KBT <= iat in the SD-KBT (if both exist)
 
    *  iat in the SD-KBT < exp in the SD-KBT (if both exist)
+
+   *  nbf in the SD-CWT <= iat in the SD-CWT (if both exist)
+
+   *  iat in the SD-CWT < exp in the SD-CWT (if both exist)
+
+   *  nbf in the SD-CWT < exp in the SD-CWT (if both exist)
 
    *  exp in the SD-KBT <= exp in the SD-CWT (if both exist)
 
@@ -1418,7 +1448,7 @@ Issuer                           Holder                         Verifier
 
    *  iat in the SD-KBT >= iat in the SD-CWT (if both exist)
 
-   *  nbf in the SD-KBT <= exp in the SD-CWT (if both exist)
+   *  nbf in the SD-KBT < exp in the SD-CWT (if both exist)
 
    *  iat in the SD-KBT < exp in the SD-CWT (if both exist)
 
@@ -2895,9 +2925,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Digital Credentials (SD-JWT VC)", Work in
-              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-14, 5
-              February 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-sd-jwt-vc-14>.
+              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-15,
+              26 February 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-oauth-sd-jwt-vc-15>.
 
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
@@ -3019,14 +3049,24 @@ Appendix A.  Complete CDDL Schema
    }
 
    kbt-payload = {
-         &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
-       ? &(exp: 4) ^ => secs, ; 1883000000
-       ? &(nbf: 5) ^ => secs, ; 1683000000
-         &(iat: 6) ^ => secs, ; 1683000000
+         &(aud: 3) ^ => tstr,  ; "https://verifier.example/app"
+         time-or-cti-claims,
        ? &(cnonce: 39) ^ => bstr,
        * label => safe_value
    }
 
+   time-or-cti-claims = (
+     ; Requires either time claims that include an iat OR a cti claim.
+     ; Note that in CDDL, the // operator has very low precedence (see
+     ; Section 2.2.2 of RFC 8610)
+     ;
+     ; It is possible to have both a cti and time claims, but
+     ; time-or-cti-claims insures at least cti or iat is present
+     ? &(exp: 4) ^ => secs,
+     ? &(nbf: 5) ^ => secs,
+       &(iat: 6) ^ => secs  //
+       &(cti: 7) ^ => bstr
+   )
    sd-cwt-preissued = #6.18([
       protected: bstr .cbor sd-protected,
       sd-unprotected,
