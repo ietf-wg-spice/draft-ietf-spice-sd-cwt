@@ -277,22 +277,22 @@ This diagram relates the terminology specific to selective disclosure and redact
       | 2. Creates Salted Disclosed Claim
       |    [salt, value, key]
       v
-+------------------------------------------+
++-----------------------------------------.
 | Salted Disclosed Claim                   |
 +-----+------------------------------------+
       |
       | 3. Hashes to create
       v
-+------------------------------------------+
++-----------------------------------------.
 | Blinded Claim Hash                       |
 +-----+------------------------------------+
       |
       | 4. Replaces Claim Value with
       v
-+------------------------------------------+
++-----------------------------------------.
 | Blinded Claim (in CWT payload)           |
 |                                          |
-|  +----------------------------------+    |
+|  +---------------------------------.     |
 |  | Original Claim Value is replaced |    |
 |  | with Blinded Claim Hash          |    |
 |  +----------------------------------+    |
@@ -313,14 +313,14 @@ This diagram relates the terminology specific to selective disclosure and redact
       |
       | 6. Hashes Salted Disclosed Claim
       v
-+------------------------------------------+
++-----------------------------------------.
 | Blinded Claim Hash (computed)            |
 +-----+------------------------------------+
       |
       | 7. Matches with hash in payload
       |    to recover original
       v
-+------------------------------------------+
++-----------------------------------------.
 | Claim Value (recovered)                  |
 +------------------------------------------+
 ~~~
