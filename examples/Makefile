@@ -13,10 +13,6 @@ cddl = ../header.cddl ../main-sd-cwt.cddl ../kbt.cddl ../preissued.cddl \
        ../redacted-simple-tag.cddl
 full-cddl = ../sd-cwts.cddl
 
-# Check make version (must be 4.0 or higher)
-ifeq ($(filter 4.%,$(MAKE_VERSION)),)
-    $(error This Makefile requires GNU Make 4.0 or higher. Current version: $(MAKE_VERSION))
-endif
 
 BUNDLE_PATH ?= $(realpath $(CURDIR)/../lib/.gems)
 $(info BUNDLE_PATH = ${BUNDLE_PATH})
@@ -40,13 +36,20 @@ $(info BUNDLE_PATH = ${BUNDLE_PATH})
 #    CDDL_RS := "${HOME}/.cargo/bin/cddl"
 #endif
 
-# Check for GNU sed and set SED variable
+# Detect sed: prefer GNU sed (or gsed), fall back to BSD sed (macOS)
 ifeq ($(shell sed --version >/dev/null 2>&1 && echo yes),yes)
     SED := sed
+    SED_EXT_FLAG := -r
+    SED_INPLACE := -i
 else ifeq ($(shell command -v gsed 2>/dev/null),)
-    $(error GNU sed must be installed. Install 'sed' (GNU version) or 'gsed')
+    # BSD sed (macOS): use -E for extended regex, -i '' for in-place
+    SED := sed
+    SED_EXT_FLAG := -E
+    SED_INPLACE := -i ''
 else
     SED := gsed
+    SED_EXT_FLAG := -r
+    SED_INPLACE := -i
 endif
 
 CDDL_RS := ${BUNDLE_PATH}/../.cargo/bin/cddl
@@ -58,18 +61,23 @@ python ?= ../lib/.venv/bin/python3
 .PHONY: all
 all: build
 
-# This construction only runs sd-cwt.py once, but requires make version 4.x
-${pygenerated} &: sd-cwt.py salt_list.csv decoy_list.csv $(keys)
+.pygenerated.stamp: sd-cwt.py salt_list.csv decoy_list.csv $(keys)
 	${python} sd-cwt.py
+	touch $@
+
+${pygenerated}: .pygenerated.stamp
 
 first-disclosure.pretty: first-disclosure.cborseq
 	${CBOR2PRETTY} $< > $@
 	# This sed command replaces the comment after the salt with a comment just say "16-byte salt"
 	# Note: using pipe character as a sed delimiter below
-	${SED} -i -r -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
+	${SED} ${SED_INPLACE} ${SED_EXT_FLAG} -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
 
-aead-key.txt aead-claim-array.edn &: enc-disc.py
+.aead.stamp: enc-disc.py
 	${python} enc-disc.py
+	touch $@
+
+aead-key.txt aead-claim-array.edn: .aead.stamp
 
 .PHONY: build
 build: $(pygenerated) first-disclosure.pretty aead-key.txt aead-claim-array.edn
@@ -98,6 +106,7 @@ validate-edn: $(compare-edn) $(cbor) $(validate-progs)
 clean:
 	-rm -f *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
 	-rm -f ../sd-cwts.cddl
+	-rm -f .pygenerated.stamp .aead.stamp
 
 
 # Beware the following manual build steps if something major changes:

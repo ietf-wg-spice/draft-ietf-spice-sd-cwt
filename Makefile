@@ -15,11 +15,6 @@ else
 endif
 endif
 
-# Check make version (must be 4.0 or higher)
-ifeq ($(filter 4.%,$(MAKE_VERSION)),)
-    $(error This Makefile requires GNU Make 4.0 or higher. Current version: $(MAKE_VERSION))
-endif
-
 .SECONDARY: $(drafts_xml)
 
 includes := examples/issuer_cwt.edn \
@@ -41,11 +36,15 @@ local-sources := examples/decoy_list.csv \
                  examples/edn2cbor \
                  examples/compare_edn_to_cbor.sh
 
-${includes} &: $(local-sources)
+.includes.stamp: $(local-sources)
 	$(MAKE) -C examples
+	touch $@
+
+${includes}: .includes.stamp
 
 clean::
 	$(MAKE) -C examples clean
+	rm -f .includes.stamp
 
 .PHONY: validate
 validate:
