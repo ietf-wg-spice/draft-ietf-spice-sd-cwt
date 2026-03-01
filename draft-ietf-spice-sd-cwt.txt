@@ -1599,6 +1599,10 @@ Issuer                           Holder                         Verifier
 
              Figure 20: EDN showing a SD-CWT containing decoys
 
+   As with regular Blinded Claims, the Holder needs to receive the
+   disclosure for every decoy so it can be sure the Issuer is not
+   communicating unwanted information to Verifiers (see Section 16.3).
+
 11.  Tags Used Before SD-CWT Issuance
 
    This section describes the semantics of two CBOR tags that are
