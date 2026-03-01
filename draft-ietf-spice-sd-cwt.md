@@ -875,7 +875,7 @@ This section describes the semantics of two CBOR tags that are (optionally) only
 
 ## To Be Redacted Tag Definition {#tbr-tag}
 
-In order to indicate specific claims that must be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
+In order to indicate specific claims that the Holder would like to be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
 The tag can be used by a library to automatically convert a Claim Set with "To Be Redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
 
 When used on an element in an array, the value to be redacted is present inside the tag.
