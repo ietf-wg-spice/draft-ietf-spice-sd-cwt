@@ -872,6 +872,7 @@ An example issued SD-CWT containing decoy digests is shown below.
 ~~~
 {: #edn-decoys title="EDN showing a SD-CWT containing decoys"}
 
+As with regular Blinded Claims, the Holder needs to receive the disclosure for every decoy so it can be sure the Issuer is not communicating unwanted information to Verifiers (see {{disclosure-of-decoys}}).
 
 # Tags Used Before SD-CWT Issuance
 
