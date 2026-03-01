@@ -212,6 +212,7 @@ Validated Disclosed Claims Set:
 : The CBOR map containing all mandatory to disclose claims signed by the Issuer, all selectively disclosed claims presented by the Holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
 
 
+# Overview of Selective Disclosure CWT
 
 The following diagram explains the relationships between the terminology used in this specification.
 
@@ -324,8 +325,6 @@ This diagram relates the terminology specific to selective disclosure and redact
 +------------------------------------------+
 ~~~
 {: #f-roundtrip-claim title="Round trip journey of a blinded claim" artwork-svg-options="--spaces=2"}
-
-# Overview of Selective Disclosure CWT
 
 ## A CWT without Selective Disclosure
 
