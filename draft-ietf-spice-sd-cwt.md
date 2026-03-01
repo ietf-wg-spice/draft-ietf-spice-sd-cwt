@@ -87,9 +87,10 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
 # Introduction
 
 This specification creates a new format based on the CBOR Web Token (CWT) specification {{!RFC8392}}.
-It enables the Holder of a CWT to disclose or withhold special claims marked as selectively disclosable by the Issuer of a CWT.
+It enables the Holder of a CWT to disclose or withhold special claims marked as selectively disclosable by the Issuer of a CWT, when presenting those claims to a Verifier.
 The approach is inspired by SD-JWT {{-SD-JWT}}, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) {{!RFC9052}} and CWT.
-This specification enables Holders of CWT-based credentials to prove the integrity and authenticity of selected attributes asserted by an Issuer about a Subject to a Verifier.
+Holders of SD-CWT credentials can prove the integrity and authenticity of Holder-chosen attributes asserted by an Issuer to a Verifier.
+The Holder also proves possession of the confirmation method (defined in {{!RFC8747}}) to prevent copy and paste attacks.
 
 SD-CWTs provide privacy improvements compared to regular CWTs, but remain traceable.
 Techniques such as one-time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols.
@@ -127,7 +128,8 @@ Issuer                           Holder                         Verifier
 ~~~
 {: #fig-high-level-flow title="High-level SD-CWT Issuance and Presentation Flow" artwork-svg-options="--spaces=2"}
 
-This diagram captures the essential details necessary to issue and present an SD-CWT.
+This diagram captures the flow to issue and present an SD-CWT.
+
 The parameters necessary to support these processes can be obtained using transports or protocols that are out of scope for this specification.
 However, the following guidance is generally recommended, regardless of protocol or transport.
 
@@ -209,7 +211,7 @@ Issuers choose which Claim Keys and Claim Values to blind or not blind.
 Holders choose to disclose none, some, or all of the blinded Claim Keys and Claim Values, and whether to present an issued SD-CWT at all.
 Holders present an SD-CWT and any disclosures to Verifiers in a Key Binding Token (KBT) that proves the Holder's control of the private key corresponding to the SD-CWT confirmation (public) key.
 
-Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are already using CWTs with minor changes, even if they contain no optional to disclose claims.
+Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are already using CWTs with minor changes, even if they contain no optional-to-disclose claims.
 A Verifier that does not understand selective disclosure at all can only act on unblinded claims sent by the Holder; it will ignore Blinded Claims representing array items, and will fail to process any SD-CWT containing Blinded Claims that represent map keys.
 Optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
 However, Claim Keys and Claim Values that are not understood remain ignored, as described in {{Section 3 of !RFC8392}}.
