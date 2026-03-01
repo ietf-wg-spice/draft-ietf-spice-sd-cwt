@@ -66,6 +66,12 @@ kbt-payload = {
 }
 
 time-or-cti-claims = (
+  ; Requires either time claims that include an iat OR a cti claim.
+  ; Note that in CDDL, the // operator has very low precedence (see
+  ; Section 2.2.2 of RFC 8610)
+  ;
+  ; It is possible to have both a cti and time claims, but
+  ; time-or-cti-claims insures at least cti or iat is present
   ? &(exp: 4) ^ => secs,
   ? &(nbf: 5) ^ => secs,
     &(iat: 6) ^ => secs  //
