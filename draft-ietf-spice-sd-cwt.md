@@ -74,6 +74,11 @@ informative:
     target: https://ieeexplore.ieee.org/document/4221659
     title: "t-Closeness: Privacy Beyond k-Anonymity and l-Diversity"
     date: 2007-06-04
+  W3CTAG-Credential-Abuse:
+    target: https://w3ctag.github.io/prevent-credential-abuse/
+    title: "Preventing the Abuse of Digital Credentials"
+    author:
+      org: W3C Technical Architecture Group
 
 
 --- abstract
@@ -1286,42 +1291,8 @@ Mitigation Measures:
 
 Without proper safeguards (such as Verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.
 
-## Threat Model Development Guidance
-
-This section provides guidance for developing threat models when applying SD-CWT to specific use cases.
-It is NOT a threat model itself, but rather a framework to help implementers create appropriate threat models for their particular contexts.
-Each use case will have unique security characteristics that MUST be analyzed before determining the applicability of SD-CWT-based credential types.
-
-The following non-exhaustive list of questions and considerations should guide the development of a use-case-specific threat model:
-
-1. Has there been a t-closeness, k-anonymity, and l-diversity assessment (see {{t-Closeness}}) assuming compromise of the one or more Issuers, Verifiers or Holders, for all relevant credential types?
-
-2. Issuer questions:
-    1. How many Issuers exist for the credential type?
-    2. Is the size of the set of Issuers growing or shrinking over time?
-    3. For a given credential type, will subjects be able to hold instances of the same credential type from multiple Issuers, or just a single Issuer?
-    4. Does the credential type require or offer the ability to disclose a globally unique identifier?
-    5. Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?
-    6. Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?
-
-3. Holder questions:
-    0. What steps has the Holder taken to improve their operation security regarding presenting credentials to verifiers?
-    1. How can the Holder be convinced the Verifier that received presentations is legitimate?
-    2. How can the Holder be convinced the Verifier will not share, sell, leak, or otherwise disclose the Holder's presentations or Issuer or Holder signed material?
-    3. What steps has the Holder taken to understand and confirm the consequences resulting from their support for the aggregate-use of digital credential presentations?
-
-4. Verifier questions:
-    1. How many Verifiers exist for the credential type?
-    2. Is the size of the set of Verifiers growing or shrinking over time?
-    3. Are the Verifiers a superset, subset, or disjoint set of the Issuers or subjects?
-    4. Are there any legally required reporting or disclosure requirements associated with the Verifiers?
-    5. Is there reason to believe that a Verifier's historic data will be aggregated and analyzed?
-    6. Assuming multiple Verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?
-
-5. Subject questions:
-    1. How many subjects exist for the credential type?
-    2. Is the size of the set of subjects growing or shrinking over time?
-    3. Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?
+Implementers deploying SD-CWT in credential systems should review {{W3CTAG-Credential-Abuse}},
+which discusses broader risks of credential abuse including surveillance, exclusion, and overuse.
 
 ## Random Numbers
 
