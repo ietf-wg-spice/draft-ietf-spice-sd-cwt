@@ -113,12 +113,11 @@ Table of Contents
    16. Security Considerations
      16.1.  Issuer Key Compromise
      16.2.  Disclosure Coercion and Over-identification
-     16.3.  Threat Model Development Guidance
-     16.4.  Random Numbers
-     16.5.  Binding the KBT and the CWT
-     16.6.  Covert Channels
-     16.7.  Nested Disclosure Ordering
-     16.8.  Choice of AEAD algorithms
+     16.3.  Random Numbers
+     16.4.  Binding the KBT and the CWT
+     16.5.  Covert Channels
+     16.6.  Nested Disclosure Ordering
+     16.7.  Choice of AEAD algorithms
    17. IANA Considerations
      17.1.  COSE Header Parameters
        17.1.1.  sd_claims
@@ -1713,7 +1712,7 @@ Issuer                           Holder                         Verifier
    [RFC5116] registered in the IANA AEAD Algorithms registry
    (https://www.iana.org/assignments/aead-parameters/aead-
    parameters.xhtml) . (Guidance on specific algorithms is discussed in
-   Section 16.8.)  The second header parameter
+   Section 16.7.)  The second header parameter
    (sd_aead_encrypted_claims), if present, contains a non-empty list of
    AEAD encrypted disclosures.  Taking the first example disclosure from
    above:
@@ -2267,94 +2266,11 @@ Issuer                           Holder                         Verifier
    remain vulnerable to over-identification and long-term misuse of
    their disclosed information.
 
-16.3.  Threat Model Development Guidance
+   Implementers deploying SD-CWT in credential systems should review
+   [W3CTAG-Credential-Abuse], which discusses broader risks of
+   credential abuse including surveillance, exclusion, and overuse.
 
-   This section provides guidance for developing threat models when
-   applying SD-CWT to specific use cases.  It is NOT a threat model
-   itself, but rather a framework to help implementers create
-   appropriate threat models for their particular contexts.  Each use
-   case will have unique security characteristics that MUST be analyzed
-   before determining the applicability of SD-CWT-based credential
-   types.
-
-   The following non-exhaustive list of questions and considerations
-   should guide the development of a use-case-specific threat model:
-
-   1.  Has there been a t-closeness, k-anonymity, and l-diversity
-       assessment (see [t-Closeness]) assuming compromise of the one or
-       more Issuers, Verifiers or Holders, for all relevant credential
-       types?
-
-   2.  Issuer questions:
-
-       a.  How many Issuers exist for the credential type?
-
-       b.  Is the size of the set of Issuers growing or shrinking over
-           time?
-
-       c.  For a given credential type, will subjects be able to hold
-           instances of the same credential type from multiple Issuers,
-           or just a single Issuer?
-
-       d.  Does the credential type require or offer the ability to
-           disclose a globally unique identifier?
-
-       e.  Does the credential type require high precision time or other
-           claims that have sufficient entropy such that they can serve
-           as a unique fingerprint for a specific subject?
-
-       f.  Does the credential type contain Personally Identifiable
-           Information (PII), or other sensitive information that might
-           have value in a market?
-
-   3.  Holder questions:
-
-       a.  What steps has the Holder taken to improve their operation
-           security regarding presenting credentials to verifiers?
-
-       b.  How can the Holder be convinced the Verifier that received
-           presentations is legitimate?
-
-       c.  How can the Holder be convinced the Verifier will not share,
-           sell, leak, or otherwise disclose the Holder's presentations
-           or Issuer or Holder signed material?
-
-       d.  What steps has the Holder taken to understand and confirm the
-           consequences resulting from their support for the aggregate-
-           use of digital credential presentations?
-
-   4.  Verifier questions:
-
-       a.  How many Verifiers exist for the credential type?
-
-       b.  Is the size of the set of Verifiers growing or shrinking over
-           time?
-
-       c.  Are the Verifiers a superset, subset, or disjoint set of the
-           Issuers or subjects?
-
-       d.  Are there any legally required reporting or disclosure
-           requirements associated with the Verifiers?
-
-       e.  Is there reason to believe that a Verifier's historic data
-           will be aggregated and analyzed?
-
-       f.  Assuming multiple Verifiers are simultaneously compromised,
-           what knowledge regarding subjects can be inferred from
-           analyzing the resulting dataset?
-
-   5.  Subject questions:
-
-       a.  How many subjects exist for the credential type?
-
-       b.  Is the size of the set of subjects growing or shrinking over
-           time?
-
-       c.  Does the credential type require specific hardware, or
-           algorithms that limit the set of possible subjects to owners
-           of specific devices or subscribers to specific services?
-
-16.4.  Random Numbers
+16.3.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
    independently.  Identical salt values, or values that can be
@@ -2366,7 +2282,7 @@ Issuer                           Holder                         Verifier
    choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
-16.5.  Binding the KBT and the CWT
+16.4.  Binding the KBT and the CWT
 
    The "iss" claim in the SD-CWT is self-asserted by the Issuer.
 
@@ -2399,7 +2315,7 @@ Issuer                           Holder                         Verifier
    Likewise, if there is a notion of SD-CWT revocation, an SD-KBT
    containing a revoked SD-CWT is not valid.
 
-16.6.  Covert Channels
+16.5.  Covert Channels
 
    Any data element that is supplied by the Issuer, and that appears
    random to the Holder might be used to produce a covert channel
@@ -2409,7 +2325,7 @@ Issuer                           Holder                         Verifier
    Holder is usually considered to be aware of the Issuer claims they
    are disclosing to a Verifier.
 
-16.7.  Nested Disclosure Ordering
+16.6.  Nested Disclosure Ordering
 
    The Holder has flexibility in determining the order of nested
    disclosures when making presentations.  The order can be sorted,
@@ -2418,7 +2334,7 @@ Issuer                           Holder                         Verifier
    However, the order can affect the runtime of the verification
    process.
 
-16.8.  Choice of AEAD algorithms
+16.7.  Choice of AEAD algorithms
 
    The AEAD encrypted disclosures mechanism discussed in Section 12.1
    can refer to any AEAD alogithm in the IANA AEAD Algorithms registry
@@ -3003,6 +2919,11 @@ Issuer                           Holder                         Verifier
               "t-Closeness: Privacy Beyond k-Anonymity and l-Diversity",
               4 June 2007,
               <https://ieeexplore.ieee.org/document/4221659>.
+
+   [W3CTAG-Credential-Abuse]
+              W3C Technical Architecture Group, "Preventing the Abuse of
+              Digital Credentials", n.d.,
+              <https://w3ctag.github.io/prevent-credential-abuse/>.
 
 Appendix A.  Complete CDDL Schema
 
