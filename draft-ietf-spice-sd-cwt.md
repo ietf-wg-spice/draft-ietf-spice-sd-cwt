@@ -446,8 +446,7 @@ An SD-CWT MUST declare its content type, by including the protected header param
 
 - the string content type value `application/sd-cwt`,
 - the unsigned integer Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value 293,
-- or a value declaring that the object is a more specific kind of SD-CWT,
-such as a content type value using the `+sd-cwt` structured suffix.
+- or a value declaring that the object is a more specific kind of SD-CWT, such as a content type value using the `+sd-cwt` structured suffix.
 
 The Issuer SHOULD use the value 293 instead of `application/sd-cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).
 
