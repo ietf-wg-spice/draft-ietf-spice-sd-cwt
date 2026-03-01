@@ -176,7 +176,7 @@ Partial Disclosure:
 : When a subset of the original claims, protected by the Issuer, are disclosed by the Holder.
 
 Full Disclosure:
-: When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no blinded claims (when all claims are marked as mandatory to disclose by the Issuer) is considered a Full Disclosure.
+: When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no blinded claims (when no claims are blinded by the Issuer) is considered a Full Disclosure.
 
 Salted Disclosed Claim:
 : A salted claim disclosed in the unprotected header of an SD-CWT.
@@ -465,8 +465,8 @@ However, a Verifier with the hash cannot reconstruct the corresponding blinded c
 
 ## Types of Blinded Claims {#blinded-claims}
 
-Salted Disclosed Claims for named claims are structured as a 128-bit salt, the disclosed value, and the name of the redacted element.
-For Salted Disclosed Claims of items in an array, the name is omitted.
+Salted Disclosed Claims for Claim Keys are structured as a 128-bit salt, the disclosed value, and the map key (the claim "name") of the redacted element.
+For Salted Disclosed Claims of Claim Values (items in an array), the "name" of the claim is omitted.
 
 ~~~ cddl
 ; an array of bstr-encoded Salted Disclosed Claims
@@ -479,7 +479,7 @@ The `redacted_claim_keys` key is the CBOR simple value 59 registered for that pu
 CBOR "simple values" {{Section 3.3 of !RFC8949}} are values (like `false` or `undefined`) that do need any additional content.
 In this specification a simple value of 59 is used as the content of a map key to indicate that one or more map key/value pairs was blinded in this CBOR map.
 The simple value 59 is represented in examples using the syntax `simple(59)`.
-The simple value 59 in CDDL are represented using the syntax `#7.59`.
+The simple value 59 in CDDL is represented using the syntax `#7.59`.
 
 When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
 CBOR tags {{Section 3.4 of !RFC8949}} annotate other values.
