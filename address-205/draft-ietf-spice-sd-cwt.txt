@@ -18,9 +18,9 @@ Expires: 2 September 2026                                   Tradeverifyd
 Abstract
 
    This specification describes a data minimization technique for use
-   with CBOR Web Tokens (CWTs).  The approach is based on the Selective
-   Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR
-   Object Signing and Encryption (COSE) and CWTs.
+   with CBOR Web Tokens (CWTs).  The approach is inspired by the
+   Selective Disclosure JSON Web Token (SD-JWT), with changes to align
+   with CBOR Object Signing and Encryption (COSE) and CWTs.
 
 About This Document
 
@@ -114,12 +114,11 @@ Table of Contents
      16.1.  Issuer Key Compromise
      16.2.  Disclosure Coercion and Over-identification
      16.3.  Disclosure of Decoys
-     16.4.  Threat Model Development Guidance
-     16.5.  Random Numbers
-     16.6.  Binding the KBT and the CWT
-     16.7.  Covert Channels
-     16.8.  Nested Disclosure Ordering
-     16.9.  Choice of AEAD algorithms
+     16.4.  Random Numbers
+     16.5.  Binding the KBT and the CWT
+     16.6.  Covert Channels
+     16.7.  Nested Disclosure Ordering
+     16.8.  Choice of AEAD algorithms
    17. IANA Considerations
      17.1.  COSE Header Parameters
        17.1.1.  sd_claims
@@ -186,39 +185,26 @@ Table of Contents
 1.  Introduction
 
    This specification creates a new format based on the CBOR Web Token
-   (CWT) specification [RFC8392], enabling the Holder of a CWT to
-   disclose or redact special claims marked as selectively disclosable
-   by the Issuer of a CWT.  The approach is modeled after SD-JWT
+   (CWT) specification [RFC8392].  It enables the Holder of a CWT to
+   disclose or withhold special claims marked as selectively disclosable
+   by the Issuer of a CWT, when presenting those claims to a Verifier.
+   The approach is inspired by SD-JWT
    [I-D.draft-ietf-oauth-selective-disclosure-jwt], with changes to
    align with conventions from CBOR Object Signing and Encryption (COSE)
-   [RFC9052] and CWT.  This specification enables Holders of CWT-based
-   credentials to prove the integrity and authenticity of selected
-   attributes asserted by an Issuer about a Subject to a Verifier.
+   [RFC9052] and CWT.  Holders of SD-CWT credentials can prove the
+   integrity and authenticity of Holder-chosen attributes asserted by an
+   Issuer to a Verifier.  The Holder also proves possession of the
+   confirmation method (defined in [RFC8747]) to prevent copy and paste
+   attacks.
 
-   Although techniques such as one time use and batch issuance can
-   improve the confidentiality and security characteristics of CWT-based
-   credential protocols, SD-CWTs remain traceable.  Selective Disclosure
-   CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are
-   already using CWTs with minor changes, even if they contain no
-   optional to disclose claims.  Credential types are distinguished by
-   their attributes, for example, a license to operate a vehicle and a
-   license to import a product will contain different attributes.  The
-   specification of credential types is out of scope for this
-   specification, and the examples used in this specification are
-   informative.
+   SD-CWTs provide privacy improvements compared to regular CWTs, but
+   remain traceable.  Techniques such as one-time use and batch issuance
+   can improve the confidentiality and security characteristics of CWT-
+   based credential protocols.
 
-   SD-CWT operates on CWT Claims Sets as described in [RFC8392].  CWT
-   Claims Sets contain Claim Keys and Claim Values.  SD-CWT enables
-   Issuers to mark certain Claim Keys or Claim Values mandatory or
-   optional for a Holder of a CWT to disclose.  A Verifier that does not
-   understand selective disclosure at all can only act on unblinded
-   claims sent by the Holder; it will ignore Blinded Claims representing
-   array items, and will fail to process any SD-CWT containing Blinded
-   Claims that represent map keys.  Optional Claim Keys, whether they
-   are disclosed or not, can only be processed by a Verifier that
-   understands this specification.  However, Claim Keys and Claim Values
-   that are not understood remain ignored, as described in Section 3 of
-   [RFC8392].
+   This document defines a generic container format, not a specific
+   credential type.  For example, a license to operate a vehicle and a
+   license to import a product will contain different attributes.
 
 1.1.  High-Level Flow
 
@@ -248,19 +234,11 @@ Issuer                           Holder                         Verifier
 
       Figure 1: High-level SD-CWT Issuance and Presentation Flow
 
-   This diagram captures the essential details necessary to issue and
-   present an SD-CWT.  The parameters necessary to support these
-   processes can be obtained using transports or protocols that are out
-   of scope for this specification.  However, the following guidance is
-   generally recommended, regardless of protocol or transport.
+   This diagram captures the flow to issue and present an SD-CWT.
 
-   1.  The Issuer SHOULD confirm the Holder controls all confirmation
-       material before issuing credentials using the cnf claim.
-
-   2.  To protect against replay attacks, the Verifier SHOULD provide a
-       nonce, and reject requests that do not include an acceptable
-       nonce (cnonce).  This guidance can be ignored in cases where
-       replay attacks are mitigated at another layer.
+   The parameters necessary to support these processes can be obtained
+   using transports or protocols that are out of scope for this
+   specification.
 
 2.  Terminology
 
@@ -314,8 +292,8 @@ Issuer                           Holder                         Verifier
 
    Full Disclosure:  When the full set of claims protected by the Issuer
       is disclosed by the Holder.  An SD-CWT with no blinded claims
-      (when all claims are marked as mandatory to disclose by the
-      Issuer) is considered a Full Disclosure.
+      (when no claims are blinded by the Issuer) is considered a Full
+      Disclosure.
 
    Salted Disclosed Claim:  A salted claim disclosed in the unprotected
       header of an SD-CWT.
@@ -339,6 +317,29 @@ Issuer                           Holder                         Verifier
       disclosed claims presented by the Holder, and omitting all
       undisclosed instances of Redacted Claim Keys and Redacted Claim
       Element claims that are present in the original SD-CWT.
+
+3.  Overview of Selective Disclosure CWT
+
+   SD-CWT operates on CWT Claims Sets as described in [RFC8392].  CWT
+   Claims Sets contain Claim Keys and Claim Values.  Issuers choose
+   which Claim Keys and Claim Values to blind or not blind.  Holders
+   choose to disclose none, some, or all of the blinded Claim Keys and
+   Claim Values, and whether to present an issued SD-CWT at all.
+   Holders present an SD-CWT and any disclosures to Verifiers in a Key
+   Binding Token (KBT) that proves the Holder's control of the private
+   key corresponding to the SD-CWT confirmation (public) key.
+
+   Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in
+   protocols that are already using CWTs with minor changes, even if
+   they contain no optional-to-disclose claims.  A Verifier that does
+   not understand selective disclosure at all can only act on unblinded
+   claims sent by the Holder; it will ignore Blinded Claims representing
+   array items, and will fail to process any SD-CWT containing Blinded
+   Claims that represent map keys.  Optional Claim Keys, whether they
+   are disclosed or not, can only be processed by a Verifier that
+   understands this specification.  However, Claim Keys and Claim Values
+   that are not understood remain ignored, as described in Section 3 of
+   [RFC8392].
 
    The following diagram explains the relationships between the
    terminology used in this specification.
@@ -403,22 +404,22 @@ Issuer                           Holder                         Verifier
          | 2. Creates Salted Disclosed Claim
          |    [salt, value, key]
          v
-   +------------------------------------------+
+   +-----------------------------------------.
    | Salted Disclosed Claim                   |
    +-----+------------------------------------+
          |
          | 3. Hashes to create
          v
-   +------------------------------------------+
+   +-----------------------------------------.
    | Blinded Claim Hash                       |
    +-----+------------------------------------+
          |
          | 4. Replaces Claim Value with
          v
-   +------------------------------------------+
+   +-----------------------------------------.
    | Blinded Claim (in CWT payload)           |
    |                                          |
-   |  +----------------------------------+    |
+   |  +---------------------------------.     |
    |  | Original Claim Value is replaced |    |
    |  | with Blinded Claim Hash          |    |
    |  +----------------------------------+    |
@@ -439,20 +440,18 @@ Issuer                           Holder                         Verifier
          |
          | 6. Hashes Salted Disclosed Claim
          v
-   +------------------------------------------+
+   +-----------------------------------------.
    | Blinded Claim Hash (computed)            |
    +-----+------------------------------------+
          |
          | 7. Matches with hash in payload
          |    to recover original
          v
-   +------------------------------------------+
+   +-----------------------------------------.
    | Claim Value (recovered)                  |
    +------------------------------------------+
 
               Figure 3: Round trip journey of a blinded claim
-
-3.  Overview of Selective Disclosure CWT
 
 3.1.  A CWT without Selective Disclosure
 
@@ -653,6 +652,9 @@ Issuer                           Holder                         Verifier
    Redacted claims that are array elements are handled slightly
    differently, as described in Section 5.1.
 
+   The Issuer SHOULD confirm the Holder controls all confirmation
+   material before issuing credentials using the cnf claim.
+
 4.  Holder prepares an SD-CWT for a Verifier
 
    When the Holder wants to send an SD-CWT and disclose none, some, or
@@ -732,15 +734,22 @@ Issuer                           Holder                         Verifier
 5.  SD-CWT Definition
 
    SD-CWT is modeled after SD-JWT, with adjustments to align with
-   conventions in CBOR, COSE, and CWT.  An SD-CWT MUST include the
-   protected header parameter typ [RFC9596] with a value declaring that
-   the object is an SD-CWT.  This value MAY be the string content type
-   value application/sd-cwt, the uint Constrained Application Protocol
-   (CoAP) [RFC7252] content-format value 293, or a value declaring that
-   the object is a more specific kind of SD-CWT, such as a content type
-   value using the +sd-cwt structured suffix.  The Issuer SHOULD use the
-   value 293 instead of application/sd-cwt, as the CBOR representation
-   is considerably smaller (3 bytes versus of 19).
+   conventions in CBOR, COSE, and CWT.  An SD-CWT MUST declare its
+   content type, by including the protected header parameter typ
+   [RFC9596] with one of the following values:
+
+   *  the string content type value application/sd-cwt,
+
+   *  the unsigned integer Constrained Application Protocol (CoAP)
+      [RFC7252] content-format value 293,
+
+   *  or a value declaring that the object is a more specific kind of
+      SD-CWT, such as a content type value using the +sd-cwt structured
+      suffix.
+
+   The Issuer SHOULD use the value 293 instead of application/sd-cwt, as
+   the CBOR representation is considerably smaller (3 bytes versus of
+   19).
 
    An SD-CWT is a format based on CWT, but it allows some additional
    types in maps to indicate values that were or should be redacted, and
@@ -765,9 +774,10 @@ Issuer                           Holder                         Verifier
 
 5.1.  Types of Blinded Claims
 
-   Salted Disclosed Claims for named claims are structured as a 128-bit
-   salt, the disclosed value, and the name of the redacted element.  For
-   Salted Disclosed Claims of items in an array, the name is omitted.
+   Salted Disclosed Claims for Claim Keys are structured as a 128-bit
+   salt, the disclosed value, and the map key (the claim "name") of the
+   redacted element.  For Salted Disclosed Claims of Claim Values (items
+   in an array), the "name" of the claim is omitted.
 
    ; an array of bstr-encoded Salted Disclosed Claims
    salted-array = [ +bstr-encoded-salted ]
@@ -798,8 +808,8 @@ Issuer                           Holder                         Verifier
    In this specification a simple value of 59 is used as the content of
    a map key to indicate that one or more map key/value pairs was
    blinded in this CBOR map.  The simple value 59 is represented in
-   examples using the syntax simple(59).  The simple value 59 in CDDL
-   are represented using the syntax #7.59.
+   examples using the syntax simple(59).  The simple value 59 in CDDL is
+   represented using the syntax #7.59.
 
    When blinding an individual item in an array, the value of the item
    is replaced with the digested salted hash as a CBOR byte string,
@@ -860,7 +870,7 @@ Issuer                           Holder                         Verifier
       numeric date (from Section 2.4.1 of [RFC7049]) instead of a JSON
       number".  In CBOR, a NumericDate can be represented as an unsigned
       integer, a negative integer, or a floating point value.  CBOR
-      (both [RFC7049] and [RFC8949]) refers to floating-point values to
+      (both [RFC7049] and [RFC8949]) refer to floating-point values to
       include NaNs, and floating-point numbers that include finite and
       infinite numbers.  Neither JSON [RFC8259] nor JWT [RFC7519] can
       represent infinite values.
@@ -1155,7 +1165,7 @@ Issuer                           Holder                         Verifier
    hash the Salted Disclosed Claims.  If no sd_alg header parameter is
    present, the default hash function SHA-256 is used.
 
-   If no Salted Disclosed Claims or Decoys are present, the unprotected
+   If any Salted Disclosed Claims or Decoys are present, the unprotected
    header MUST contain the sd_claims header parameter with a Salted
    Disclosed Claim for every blinded claim hash present anywhere in the
    payload, and any decoys (see Section 10).  If there are no
@@ -1323,10 +1333,10 @@ Issuer                           Holder                         Verifier
    clock, use of the iat is preferred.
 
    The protected header of the SD-KBT MUST include the typ header
-   parameter with the value application/kb+cwt or the uint value of 294.
-   The Holder SHOULD use the value 294 instead of application/kb+cwt, as
-   the CBOR representation is considerably smaller (3 bytes versus of
-   19).
+   parameter with the value application/kb+cwt or the unsigned integer
+   value of 294.  The Holder SHOULD use the value 294 instead of
+   application/kb+cwt, as the CBOR representation is considerably
+   smaller (3 bytes versus of 19).
 
    The SD-KBT MUST NOT be valid for any time period when its contained
    SD-CWT is invalid.
@@ -1401,6 +1411,11 @@ Issuer                           Holder                         Verifier
 
 9.  SD-KBT and SD-CWT Verifier Validation
 
+   To protect against replay attacks, the Verifier SHOULD provide a
+   nonce, and reject requests that do not include an acceptable nonce
+   (cnonce).  This guidance can be ignored in cases where replay attacks
+   are mitigated at another layer.
+
    The exact order of the following steps MAY be changed, as long as all
    checks are performed before deciding if an SD-CWT is valid.
 
@@ -1408,7 +1423,9 @@ Issuer                           Holder                         Verifier
        and find the Issuer SD-CWT present in the kcwt field.
 
    2.  Next, the Verifier must validate the SD-CWT as described in
-       Section 7.2 of [RFC8392].
+       Section 7.2 of [RFC8392].  Validators MUST treat an sd_claims or
+       sd_aead_encrypted_claims unprotected Header Parameter with an
+       empty array as invalid.
 
    3.  The Verifier checks the time claims in the SD-CWT as follows:
 
@@ -1590,13 +1607,13 @@ Issuer                           Holder                         Verifier
 
 11.1.  To Be Redacted Tag Definition
 
-   In order to indicate specific claims that must be redacted in a Claim
-   Set, this specification defines a new CBOR tag "To Be Redacted".  The
-   tag can be used by a library to automatically convert a Claim Set
-   with "To Be Redacted" tags into a) a new Claim Set containing
-   Redacted Claim Keys and Redacted Claim Elements replacing the tagged
-   claim keys or claim elements, and b) a set of corresponding Salted
-   Disclosed Claims.
+   In order to indicate specific claims that the Holder would like to be
+   redacted in a Claim Set, this specification defines a new CBOR tag
+   "To Be Redacted".  The tag can be used by a library to automatically
+   convert a Claim Set with "To Be Redacted" tags into a) a new Claim
+   Set containing Redacted Claim Keys and Redacted Claim Elements
+   replacing the tagged claim keys or claim elements, and b) a set of
+   corresponding Salted Disclosed Claims.
 
    When used on an element in an array, the value to be redacted is
    present inside the tag.  When used on a map key and value, the tag is
@@ -1696,7 +1713,7 @@ Issuer                           Holder                         Verifier
    [RFC5116] registered in the IANA AEAD Algorithms registry
    (https://www.iana.org/assignments/aead-parameters/aead-
    parameters.xhtml) . (Guidance on specific algorithms is discussed in
-   Section 16.9.)  The second header parameter
+   Section 16.8.)  The second header parameter
    (sd_aead_encrypted_claims), if present, contains a non-empty list of
    AEAD encrypted disclosures.  Taking the first example disclosure from
    above:
@@ -2197,25 +2214,6 @@ Issuer                           Holder                         Verifier
    legitimate issuer keys, enabling credential forgery while appearing
    to be a trusted issuer.
 
-   Certificate transparency, as described in [RFC9162], or key
-   transparency, as described in [I-D.draft-ietf-keytrans-protocol], can
-   help detect and prevent such attacks by:
-
-   *  Enabling public observation of all issued certificates or key
-      bindings
-
-   *  Detecting unauthorized or fraudulent bindings between verification
-      keys and Issuer identifiers
-
-   *  Providing cryptographic proof of inclusion for legitimate keys
-
-   *  Creating an append-only audit trail that makes key substitution
-      attacks discoverable
-
-   Verifiers SHOULD leverage transparency mechanisms where available to
-   validate that the issuer's keys have not been compromised or
-   fraudulently substituted.
-
 16.2.  Disclosure Coercion and Over-identification
 
    The Security Considerations from Section 10.2 of
@@ -2250,6 +2248,10 @@ Issuer                           Holder                         Verifier
    remain vulnerable to over-identification and long-term misuse of
    their disclosed information.
 
+   Implementers deploying SD-CWT in credential systems should review
+   [W3CTAG-Credential-Abuse], which discusses broader risks of
+   credential abuse including surveillance, exclusion, and overuse.
+
 16.3.  Disclosure of Decoys
 
    Issuers control the claimset and may include decoy digests to obscure
@@ -2263,94 +2265,7 @@ Issuer                           Holder                         Verifier
    attributes — that Verifiers can later be given selective access to,
    without the Holder's awareness or consent.
 
-16.4.  Threat Model Development Guidance
-
-   This section provides guidance for developing threat models when
-   applying SD-CWT to specific use cases.  It is NOT a threat model
-   itself, but rather a framework to help implementers create
-   appropriate threat models for their particular contexts.  Each use
-   case will have unique security characteristics that MUST be analyzed
-   before determining the applicability of SD-CWT-based credential
-   types.
-
-   The following non-exhaustive list of questions and considerations
-   should guide the development of a use-case-specific threat model:
-
-   1.  Has there been a t-closeness, k-anonymity, and l-diversity
-       assessment (see [t-Closeness]) assuming compromise of the one or
-       more Issuers, Verifiers or Holders, for all relevant credential
-       types?
-
-   2.  Issuer questions:
-
-       a.  How many Issuers exist for the credential type?
-
-       b.  Is the size of the set of Issuers growing or shrinking over
-           time?
-
-       c.  For a given credential type, will subjects be able to hold
-           instances of the same credential type from multiple Issuers,
-           or just a single Issuer?
-
-       d.  Does the credential type require or offer the ability to
-           disclose a globally unique identifier?
-
-       e.  Does the credential type require high precision time or other
-           claims that have sufficient entropy such that they can serve
-           as a unique fingerprint for a specific subject?
-
-       f.  Does the credential type contain Personally Identifiable
-           Information (PII), or other sensitive information that might
-           have value in a market?
-
-   3.  Holder questions:
-
-       a.  What steps has the Holder taken to improve their operation
-           security regarding presenting credentials to verifiers?
-
-       b.  How can the Holder be convinced the Verifier that received
-           presentations is legitimate?
-
-       c.  How can the Holder be convinced the Verifier will not share,
-           sell, leak, or otherwise disclose the Holder's presentations
-           or Issuer or Holder signed material?
-
-       d.  What steps has the Holder taken to understand and confirm the
-           consequences resulting from their support for the aggregate-
-           use of digital credential presentations?
-
-   4.  Verifier questions:
-
-       a.  How many Verifiers exist for the credential type?
-
-       b.  Is the size of the set of Verifiers growing or shrinking over
-           time?
-
-       c.  Are the Verifiers a superset, subset, or disjoint set of the
-           Issuers or subjects?
-
-       d.  Are there any legally required reporting or disclosure
-           requirements associated with the Verifiers?
-
-       e.  Is there reason to believe that a Verifier's historic data
-           will be aggregated and analyzed?
-
-       f.  Assuming multiple Verifiers are simultaneously compromised,
-           what knowledge regarding subjects can be inferred from
-           analyzing the resulting dataset?
-
-   5.  Subject questions:
-
-       a.  How many subjects exist for the credential type?
-
-       b.  Is the size of the set of subjects growing or shrinking over
-           time?
-
-       c.  Does the credential type require specific hardware, or
-           algorithms that limit the set of possible subjects to owners
-           of specific devices or subscribers to specific services?
-
-16.5.  Random Numbers
+16.4.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
    independently.  Identical salt values, or values that can be
@@ -2362,7 +2277,7 @@ Issuer                           Holder                         Verifier
    choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
-16.6.  Binding the KBT and the CWT
+16.5.  Binding the KBT and the CWT
 
    The "iss" claim in the SD-CWT is self-asserted by the Issuer.
 
@@ -2395,7 +2310,7 @@ Issuer                           Holder                         Verifier
    Likewise, if there is a notion of SD-CWT revocation, an SD-KBT
    containing a revoked SD-CWT is not valid.
 
-16.7.  Covert Channels
+16.6.  Covert Channels
 
    Any data element that is supplied by the Issuer, and that appears
    random to the Holder might be used to produce a covert channel
@@ -2405,7 +2320,7 @@ Issuer                           Holder                         Verifier
    Holder is usually considered to be aware of the Issuer claims they
    are disclosing to a Verifier.
 
-16.8.  Nested Disclosure Ordering
+16.7.  Nested Disclosure Ordering
 
    The Holder has flexibility in determining the order of nested
    disclosures when making presentations.  The order can be sorted,
@@ -2414,7 +2329,7 @@ Issuer                           Holder                         Verifier
    However, the order can affect the runtime of the verification
    process.
 
-16.9.  Choice of AEAD algorithms
+16.8.  Choice of AEAD algorithms
 
    The AEAD encrypted disclosures mechanism discussed in Section 12.1
    can refer to any AEAD alogithm in the IANA AEAD Algorithms registry
@@ -2999,6 +2914,11 @@ Issuer                           Holder                         Verifier
               "t-Closeness: Privacy Beyond k-Anonymity and l-Diversity",
               4 June 2007,
               <https://ieeexplore.ieee.org/document/4221659>.
+
+   [W3CTAG-Credential-Abuse]
+              W3C Technical Architecture Group, "Preventing the Abuse of
+              Digital Credentials", n.d.,
+              <https://w3ctag.github.io/prevent-credential-abuse/>.
 
 Appendix A.  Complete CDDL Schema
 

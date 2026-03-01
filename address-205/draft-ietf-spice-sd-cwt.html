@@ -11,7 +11,7 @@
 <meta content="Rohan Mahy" name="author">
 <meta content="
        This specification describes a data minimization technique for use with CBOR Web Tokens (CWTs).
-The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE) and CWTs. 
+The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE) and CWTs. 
     " name="description">
 <meta content="xml2rfc 3.31.0" name="generator">
 <meta content="cose" name="keyword">
@@ -1098,7 +1098,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This specification describes a data minimization technique for use with CBOR Web Tokens (CWTs).
-The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE) and CWTs.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE) and CWTs.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1308,22 +1308,19 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
                 <p id="section-toc.1-1.16.2.3.1"><a href="#section-16.3" class="auto internal xref">16.3</a>.  <a href="#name-disclosure-of-decoys" class="internal xref">Disclosure of Decoys</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.4">
-                <p id="section-toc.1-1.16.2.4.1"><a href="#section-16.4" class="auto internal xref">16.4</a>.  <a href="#name-threat-model-development-gu" class="internal xref">Threat Model Development Guidance</a></p>
+                <p id="section-toc.1-1.16.2.4.1"><a href="#section-16.4" class="auto internal xref">16.4</a>.  <a href="#name-random-numbers" class="internal xref">Random Numbers</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.5">
-                <p id="section-toc.1-1.16.2.5.1"><a href="#section-16.5" class="auto internal xref">16.5</a>.  <a href="#name-random-numbers" class="internal xref">Random Numbers</a></p>
+                <p id="section-toc.1-1.16.2.5.1"><a href="#section-16.5" class="auto internal xref">16.5</a>.  <a href="#name-binding-the-kbt-and-the-cwt" class="internal xref">Binding the KBT and the CWT</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.6">
-                <p id="section-toc.1-1.16.2.6.1"><a href="#section-16.6" class="auto internal xref">16.6</a>.  <a href="#name-binding-the-kbt-and-the-cwt" class="internal xref">Binding the KBT and the CWT</a></p>
+                <p id="section-toc.1-1.16.2.6.1"><a href="#section-16.6" class="auto internal xref">16.6</a>.  <a href="#name-covert-channels" class="internal xref">Covert Channels</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.7">
-                <p id="section-toc.1-1.16.2.7.1"><a href="#section-16.7" class="auto internal xref">16.7</a>.  <a href="#name-covert-channels" class="internal xref">Covert Channels</a></p>
+                <p id="section-toc.1-1.16.2.7.1"><a href="#section-16.7" class="auto internal xref">16.7</a>.  <a href="#name-nested-disclosure-ordering" class="internal xref">Nested Disclosure Ordering</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.8">
-                <p id="section-toc.1-1.16.2.8.1"><a href="#section-16.8" class="auto internal xref">16.8</a>.  <a href="#name-nested-disclosure-ordering" class="internal xref">Nested Disclosure Ordering</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.9">
-                <p id="section-toc.1-1.16.2.9.1"><a href="#section-16.9" class="auto internal xref">16.9</a>.  <a href="#name-choice-of-aead-algorithms" class="internal xref">Choice of AEAD algorithms</a></p>
+                <p id="section-toc.1-1.16.2.8.1"><a href="#section-16.8" class="auto internal xref">16.8</a>.  <a href="#name-choice-of-aead-algorithms" class="internal xref">Choice of AEAD algorithms</a></p>
 </li>
             </ul>
 </li>
@@ -1545,19 +1542,15 @@ The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with 
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This specification creates a new format based on the CBOR Web Token (CWT) specification <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, enabling the Holder of a CWT to disclose or redact special claims marked as selectively disclosable by the Issuer of a CWT.
-The approach is modeled after SD-JWT <span>[<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span>, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> and CWT.
-This specification enables Holders of CWT-based credentials to prove the integrity and authenticity of selected attributes asserted by an Issuer about a Subject to a Verifier.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">Although techniques such as one time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols, SD-CWTs remain traceable.
-Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are already using CWTs with minor changes, even if they contain no optional to disclose claims.
-Credential types are distinguished by their attributes, for example, a license to operate a vehicle and a license to import a product will contain different attributes.
-The specification of credential types is out of scope for this specification, and the examples used in this specification are informative.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">SD-CWT operates on CWT Claims Sets as described in <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
-CWT Claims Sets contain Claim Keys and Claim Values.
-SD-CWT enables Issuers to mark certain Claim Keys or Claim Values mandatory or optional for a Holder of a CWT to disclose.
-A Verifier that does not understand selective disclosure at all can only act on unblinded claims sent by the Holder; it will ignore Blinded Claims representing array items, and will fail to process any SD-CWT containing Blinded Claims that represent map keys.
-Optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
-However, Claim Keys and Claim Values that are not understood remain ignored, as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-3" class="relref">Section 3</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-1">This specification creates a new format based on the CBOR Web Token (CWT) specification <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
+It enables the Holder of a CWT to disclose or withhold special claims marked as selectively disclosable by the Issuer of a CWT, when presenting those claims to a Verifier.
+The approach is inspired by SD-JWT <span>[<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span>, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> and CWT.
+Holders of SD-CWT credentials can prove the integrity and authenticity of Holder-chosen attributes asserted by an Issuer to a Verifier.
+The Holder also proves possession of the confirmation method (defined in <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span>) to prevent copy and paste attacks.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">SD-CWTs provide privacy improvements compared to regular CWTs, but remain traceable.
+Techniques such as one-time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document defines a generic container format, not a specific credential type.
+For example, a license to operate a vehicle and a license to import a product will contain different attributes.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <div id="high-level-flow">
 <section id="section-1.1">
         <h3 id="name-high-level-flow">
@@ -1614,17 +1607,8 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
 <a href="#name-high-level-sd-cwt-issuance-" class="selfRef">High-level SD-CWT Issuance and Presentation Flow</a>
           </figcaption></figure>
 </div>
-<p id="section-1.1-2">This diagram captures the essential details necessary to issue and present an SD-CWT.
-The parameters necessary to support these processes can be obtained using transports or protocols that are out of scope for this specification.
-However, the following guidance is generally recommended, regardless of protocol or transport.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-1.1-3">
-<li id="section-1.1-3.1">
-            <p id="section-1.1-3.1.1">The Issuer <span class="bcp14">SHOULD</span> confirm the Holder controls all confirmation material before issuing credentials using the <code>cnf</code> claim.<a href="#section-1.1-3.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-1.1-3.2">
-            <p id="section-1.1-3.2.1">To protect against replay attacks, the Verifier <span class="bcp14">SHOULD</span> provide a nonce, and reject requests that do not include an acceptable nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.<a href="#section-1.1-3.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ol>
+<p id="section-1.1-2">This diagram captures the flow to issue and present an SD-CWT.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.1-3">The parameters necessary to support these processes can be obtained using transports or protocols that are out of scope for this specification.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1688,7 +1672,7 @@ and JWT <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href=
         <dd class="break"></dd>
 <dt id="section-2-7.17">Full Disclosure:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.18">
-          <p id="section-2-7.18.1">When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no blinded claims (when all claims are marked as mandatory to disclose by the Issuer) is considered a Full Disclosure.<a href="#section-2-7.18.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.18.1">When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no blinded claims (when no claims are blinded by the Issuer) is considered a Full Disclosure.<a href="#section-2-7.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-7.19">Salted Disclosed Claim:</dt>
@@ -1728,11 +1712,27 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-7.24.1" class="pilcrow">
 </dd>
       <dd class="break"></dd>
 </dl>
-<p id="section-2-8">The following diagram explains the relationships between the terminology used in this specification.<a href="#section-2-8" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="overview-of-selective-disclosure-cwt">
+<section id="section-3">
+      <h2 id="name-overview-of-selective-discl">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-overview-of-selective-discl" class="section-name selfRef">Overview of Selective Disclosure CWT</a>
+      </h2>
+<p id="section-3-1">SD-CWT operates on CWT Claims Sets as described in <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
+CWT Claims Sets contain Claim Keys and Claim Values.
+Issuers choose which Claim Keys and Claim Values to blind or not blind.
+Holders choose to disclose none, some, or all of the blinded Claim Keys and Claim Values, and whether to present an issued SD-CWT at all.
+Holders present an SD-CWT and any disclosures to Verifiers in a Key Binding Token (KBT) that proves the Holder's control of the private key corresponding to the SD-CWT confirmation (public) key.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are already using CWTs with minor changes, even if they contain no optional-to-disclose claims.
+A Verifier that does not understand selective disclosure at all can only act on unblinded claims sent by the Holder; it will ignore Blinded Claims representing array items, and will fail to process any SD-CWT containing Blinded Claims that represent map keys.
+Optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
+However, Claim Keys and Claim Values that are not understood remain ignored, as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-3" class="relref">Section 3</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">The following diagram explains the relationships between the terminology used in this specification.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <span id="name-inputs-provided-to-each-rol"></span><div id="f-role-inputs">
 <figure id="figure-2">
-        <div id="section-2-9.1">
-          <div class="alignLeft art-svg artwork" id="section-2-9.1.1">
+        <div id="section-3-4.1">
+          <div class="alignLeft art-svg artwork" id="section-3-4.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="656" width="488" viewBox="0 0 488 656" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
               <path d="M 8,128 L 8,208" fill="none" stroke="black"></path>
               <path d="M 8,352 L 8,480" fill="none" stroke="black"></path>
@@ -1817,18 +1817,18 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-7.24.1" class="pilcrow">
                 <text x="272" y="548">Issuer Public Key</text>
                 <text x="136" y="628">Validated Disclosed Claim Set</text>
               </g>
-            </svg><a href="#section-2-9.1.1" class="pilcrow">¶</a>
+            </svg><a href="#section-3-4.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
 <a href="#name-inputs-provided-to-each-rol" class="selfRef">Inputs provided to each Role</a>
         </figcaption></figure>
 </div>
-<p id="section-2-10">This diagram relates the terminology specific to selective disclosure and redaction.<a href="#section-2-10" class="pilcrow">¶</a></p>
+<p id="section-3-5">This diagram relates the terminology specific to selective disclosure and redaction.<a href="#section-3-5" class="pilcrow">¶</a></p>
 <span id="name-round-trip-journey-of-a-bli"></span><div id="f-roundtrip-claim">
 <figure id="figure-3">
-        <div id="section-2-11.1">
-          <div class="alignLeft art-svg artwork" id="section-2-11.1.1">
+        <div id="section-3-6.1">
+          <div class="alignLeft art-svg artwork" id="section-3-6.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1008" width="440" viewBox="0 0 440 1008" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
               <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
               <path d="M 8,160 L 8,192" fill="none" stroke="black"></path>
@@ -1852,32 +1852,38 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-7.24.1" class="pilcrow">
               <path d="M 104,160 L 104,192" fill="none" stroke="black"></path>
               <path d="M 104,640 L 104,672" fill="none" stroke="black"></path>
               <path d="M 104,752 L 104,784" fill="none" stroke="black"></path>
-              <path d="M 312,512 L 312,560" fill="none" stroke="black"></path>
-              <path d="M 352,272 L 352,304" fill="none" stroke="black"></path>
-              <path d="M 352,368 L 352,400" fill="none" stroke="black"></path>
-              <path d="M 352,464 L 352,592" fill="none" stroke="black"></path>
-              <path d="M 352,848 L 352,880" fill="none" stroke="black"></path>
-              <path d="M 352,960 L 352,992" fill="none" stroke="black"></path>
+              <path d="M 312,528 L 312,560" fill="none" stroke="black"></path>
+              <path d="M 352,288 L 352,304" fill="none" stroke="black"></path>
+              <path d="M 352,384 L 352,400" fill="none" stroke="black"></path>
+              <path d="M 352,480 L 352,592" fill="none" stroke="black"></path>
+              <path d="M 352,864 L 352,880" fill="none" stroke="black"></path>
+              <path d="M 352,976 L 352,992" fill="none" stroke="black"></path>
               <path d="M 8,32 L 104,32" fill="none" stroke="black"></path>
               <path d="M 8,64 L 104,64" fill="none" stroke="black"></path>
               <path d="M 8,160 L 104,160" fill="none" stroke="black"></path>
               <path d="M 8,192 L 104,192" fill="none" stroke="black"></path>
-              <path d="M 8,272 L 352,272" fill="none" stroke="black"></path>
+              <path d="M 8,272 L 336,272" fill="none" stroke="black"></path>
               <path d="M 8,304 L 352,304" fill="none" stroke="black"></path>
-              <path d="M 8,368 L 352,368" fill="none" stroke="black"></path>
+              <path d="M 8,368 L 336,368" fill="none" stroke="black"></path>
               <path d="M 8,400 L 352,400" fill="none" stroke="black"></path>
-              <path d="M 8,464 L 352,464" fill="none" stroke="black"></path>
-              <path d="M 32,512 L 312,512" fill="none" stroke="black"></path>
+              <path d="M 8,464 L 336,464" fill="none" stroke="black"></path>
+              <path d="M 32,512 L 296,512" fill="none" stroke="black"></path>
               <path d="M 32,560 L 312,560" fill="none" stroke="black"></path>
               <path d="M 8,592 L 352,592" fill="none" stroke="black"></path>
               <path d="M 8,640 L 104,640" fill="none" stroke="black"></path>
               <path d="M 8,672 L 104,672" fill="none" stroke="black"></path>
               <path d="M 8,752 L 104,752" fill="none" stroke="black"></path>
               <path d="M 8,784 L 104,784" fill="none" stroke="black"></path>
-              <path d="M 8,848 L 352,848" fill="none" stroke="black"></path>
+              <path d="M 8,848 L 336,848" fill="none" stroke="black"></path>
               <path d="M 8,880 L 352,880" fill="none" stroke="black"></path>
-              <path d="M 8,960 L 352,960" fill="none" stroke="black"></path>
+              <path d="M 8,960 L 336,960" fill="none" stroke="black"></path>
               <path d="M 8,992 L 352,992" fill="none" stroke="black"></path>
+              <path d="M 336,272 C 344.83064,272 352,279.16936 352,288" fill="none" stroke="black"></path>
+              <path d="M 336,368 C 344.83064,368 352,375.16936 352,384" fill="none" stroke="black"></path>
+              <path d="M 336,464 C 344.83064,464 352,471.16936 352,480" fill="none" stroke="black"></path>
+              <path d="M 296,512 C 304.83064,512 312,519.16936 312,528" fill="none" stroke="black"></path>
+              <path d="M 336,848 C 344.83064,848 352,855.16936 352,864" fill="none" stroke="black"></path>
+              <path d="M 336,960 C 344.83064,960 352,967.16936 352,976" fill="none" stroke="black"></path>
               <polygon class="arrowhead" points="64,952 52,946.4 52,957.6" fill="black" transform="rotate(90,56,952)"></polygon>
               <polygon class="arrowhead" points="64,840 52,834.4 52,845.6" fill="black" transform="rotate(90,56,840)"></polygon>
               <polygon class="arrowhead" points="64,744 52,738.4 52,749.6" fill="black" transform="rotate(90,56,744)"></polygon>
@@ -1911,20 +1917,13 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-7.24.1" class="pilcrow">
                 <text x="168" y="932">to recover original</text>
                 <text x="112" y="980">Claim Value (recovered)</text>
               </g>
-            </svg><a href="#section-2-11.1.1" class="pilcrow">¶</a>
+            </svg><a href="#section-3-6.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-round-trip-journey-of-a-bli" class="selfRef">Round trip journey of a blinded claim</a>
         </figcaption></figure>
 </div>
-</section>
-</div>
-<div id="overview-of-selective-disclosure-cwt">
-<section id="section-3">
-      <h2 id="name-overview-of-selective-discl">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-overview-of-selective-discl" class="section-name selfRef">Overview of Selective Disclosure CWT</a>
-      </h2>
 <div id="a-cwt-without-selective-disclosure">
 <section id="section-3.1">
         <h3 id="name-a-cwt-without-selective-dis">
@@ -2135,6 +2134,7 @@ d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
 <a href="#name-redacted-inspector_license_" class="selfRef">redacted inspector_license_number claim in the issued CWT payload</a>
           </figcaption></figure>
 <p id="section-3.2-11">Redacted claims that are array elements are handled slightly differently, as described in <a href="#blinded-claims" class="auto internal xref">Section 5.1</a>.<a href="#section-3.2-11" class="pilcrow">¶</a></p>
+<p id="section-3.2-12">The Issuer <span class="bcp14">SHOULD</span> confirm the Holder controls all confirmation material before issuing credentials using the <code>cnf</code> claim.<a href="#section-3.2-12" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2217,27 +2217,34 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-sd-cwt-definition" class="section-name selfRef">SD-CWT Definition</a>
       </h2>
 <p id="section-5-1">SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
-An SD-CWT <span class="bcp14">MUST</span> include the protected header parameter <code>typ</code> <span>[<a href="#RFC9596" class="cite xref">RFC9596</a>]</span> with a value declaring that the object is an SD-CWT.
-This value <span class="bcp14">MAY</span> be the string content type value <code>application/sd-cwt</code>,
-the uint Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> content-format value 293,
-or a value declaring that the object is a more specific kind of SD-CWT,
-such as a content type value using the <code>+sd-cwt</code> structured suffix.
-The Issuer <span class="bcp14">SHOULD</span> use the value 293 instead of <code>application/sd-cwt</code>, as the CBOR representation is considerably smaller (3 bytes versus of 19).<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
-Unlike CWT, SD-CWT requires key binding.<a href="#section-5-2" class="pilcrow">¶</a></p>
-<p id="section-5-3">An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
-It is not required to contain any blinded claims.<a href="#section-5-3" class="pilcrow">¶</a></p>
-<p id="section-5-4">Optionally the salted Claim Values (and Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the <code>sd_claims</code> header parameter in the unprotected header of the CWT (the disclosures).
-If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the <code>sd_claims</code> header parameter is not present in the unprotected header.<a href="#section-5-4" class="pilcrow">¶</a></p>
-<p id="section-5-5">Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
-However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.<a href="#section-5-5" class="pilcrow">¶</a></p>
+An SD-CWT <span class="bcp14">MUST</span> declare its content type, by including the protected header parameter <code>typ</code> <span>[<a href="#RFC9596" class="cite xref">RFC9596</a>]</span> with one of the following values:<a href="#section-5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5-2.1">
+          <p id="section-5-2.1.1">the string content type value <code>application/sd-cwt</code>,<a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.2">
+          <p id="section-5-2.2.1">the unsigned integer Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> content-format value 293,<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.3">
+          <p id="section-5-2.3.1">or a value declaring that the object is a more specific kind of SD-CWT, such as a content type value using the <code>+sd-cwt</code> structured suffix.<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-5-3">The Issuer <span class="bcp14">SHOULD</span> use the value 293 instead of <code>application/sd-cwt</code>, as the CBOR representation is considerably smaller (3 bytes versus of 19).<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-4">An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
+Unlike CWT, SD-CWT requires key binding.<a href="#section-5-4" class="pilcrow">¶</a></p>
+<p id="section-5-5">An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
+It is not required to contain any blinded claims.<a href="#section-5-5" class="pilcrow">¶</a></p>
+<p id="section-5-6">Optionally the salted Claim Values (and Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the <code>sd_claims</code> header parameter in the unprotected header of the CWT (the disclosures).
+If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the <code>sd_claims</code> header parameter is not present in the unprotected header.<a href="#section-5-6" class="pilcrow">¶</a></p>
+<p id="section-5-7">Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
+However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.<a href="#section-5-7" class="pilcrow">¶</a></p>
 <div id="blinded-claims">
 <section id="section-5.1">
         <h3 id="name-types-of-blinded-claims">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-types-of-blinded-claims" class="section-name selfRef">Types of Blinded Claims</a>
         </h3>
-<p id="section-5.1-1">Salted Disclosed Claims for named claims are structured as a 128-bit salt, the disclosed value, and the name of the redacted element.
-For Salted Disclosed Claims of items in an array, the name is omitted.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-1">Salted Disclosed Claims for Claim Keys are structured as a 128-bit salt, the disclosed value, and the map key (the claim "name") of the redacted element.
+For Salted Disclosed Claims of Claim Values (items in an array), the "name" of the claim is omitted.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <span id="name-cddl-of-salted-disclosed-cl"></span><div id="cddl-salted-disclosed">
 <figure id="figure-12">
           <div class="lang-cddl sourcecode" id="section-5.1-2.1">
@@ -2271,7 +2278,7 @@ The <code>redacted_claim_keys</code> key is the CBOR simple value 59 registered 
 CBOR "simple values" <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> are values (like <code>false</code> or <code>undefined</code>) that do need any additional content.
 In this specification a simple value of 59 is used as the content of a map key to indicate that one or more map key/value pairs was blinded in this CBOR map.
 The simple value 59 is represented in examples using the syntax <code>simple(59)</code>.
-The simple value 59 in CDDL are represented using the syntax <code>#7.59</code>.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+The simple value 59 in CDDL is represented using the syntax <code>#7.59</code>.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
 CBOR tags <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.4" class="relref">Section 3.4</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> annotate other values.
 The tag 60 is represented in examples as <code>60(</code> <em>tagged value</em> <code>)</code>.
@@ -2339,7 +2346,7 @@ For the avoidance of doubt, not a number (NaN) values and positive and negative 
             <p id="section-6.2-2.1.1">In <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, these three claims are of type <code>NumericDate</code>.
 Section 2 of the same spec refers to <code>NumericDate</code> as a JWT <code>NumericDate</code>, "except that it is represented as [an untagged] CBOR numeric date (from <span><a href="https://rfc-editor.org/rfc/rfc7049#section-2.4.1" class="relref">Section 2.4.1</a> of [<a href="#RFC7049" class="cite xref">RFC7049</a>]</span>) instead of a JSON number".
 In CBOR, a NumericDate can be represented as an unsigned integer, a negative integer, or a floating point value.
-CBOR (both <span>[<a href="#RFC7049" class="cite xref">RFC7049</a>]</span> and <span>[<a href="#RFC8949" class="cite xref">RFC8949</a>]</span>) refers to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
+CBOR (both <span>[<a href="#RFC7049" class="cite xref">RFC7049</a>]</span> and <span>[<a href="#RFC8949" class="cite xref">RFC8949</a>]</span>) refer to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
 Neither JSON <span>[<a href="#RFC8259" class="cite xref">RFC8259</a>]</span> nor JWT <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> can represent infinite values.<a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
@@ -2669,7 +2676,7 @@ Likewise, how the Holder determines which claims to blind or to always disclose 
 This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in <a href="#sd-cwt-presentation" class="auto internal xref">Section 8</a>.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <p id="section-7-2">The protected header <span class="bcp14">MAY</span> contain the <code>sd_alg</code> header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 If no <code>sd_alg</code> header parameter is present, the default hash function SHA-256 is used.<a href="#section-7-2" class="pilcrow">¶</a></p>
-<p id="section-7-3">If no Salted Disclosed Claims or Decoys are present, the unprotected header <span class="bcp14">MUST</span> contain the <code>sd_claims</code> header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
+<p id="section-7-3">If any Salted Disclosed Claims or Decoys are present, the unprotected header <span class="bcp14">MUST</span> contain the <code>sd_claims</code> header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
 If there are no disclosures, the <code>sd_claims</code> header parameter value is omitted.
 The payload also <span class="bcp14">MUST</span> include a key confirmation element (<code>cnf</code>) <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span> for the Holder's public key.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7-4">In an SD-CWT, either the subject <code>sub</code> / 2 claim <span class="bcp14">MUST</span> be present, or the redacted form of the subject <span class="bcp14">MUST</span> be present.
@@ -2822,7 +2829,7 @@ Therefore, the <code>sub</code> and <code>iss</code> of an SD-KBT are implied fr
 <p id="section-8.1-4">The <code>aud</code> claim <span class="bcp14">MUST</span> be included and <span class="bcp14">MUST</span> correspond to the Verifier.
 The SD-KBT payload <span class="bcp14">MUST</span> contain either the <code>iat</code> (issued at) claim, or the <code>cti</code> (CWT ID) claim.
 If the Holder has access to an accurate clock, use of the <code>iat</code> is preferred.<a href="#section-8.1-4" class="pilcrow">¶</a></p>
-<p id="section-8.1-5">The protected header of the SD-KBT <span class="bcp14">MUST</span> include the <code>typ</code> header parameter with the value <code>application/kb+cwt</code> or the uint value of 294.
+<p id="section-8.1-5">The protected header of the SD-KBT <span class="bcp14">MUST</span> include the <code>typ</code> header parameter with the value <code>application/kb+cwt</code> or the unsigned integer value of 294.
 The Holder <span class="bcp14">SHOULD</span> use the value 294 instead of <code>application/kb+cwt</code>, as the CBOR representation is considerably smaller (3 bytes versus of 19).<a href="#section-8.1-5" class="pilcrow">¶</a></p>
 <p id="section-8.1-6">The SD-KBT <span class="bcp14">MUST NOT</span> be valid for any time period when its contained SD-CWT is invalid.<a href="#section-8.1-6" class="pilcrow">¶</a></p>
 <p id="section-8.1-7">The SD-KBT provides the following assurances to the Verifier:<a href="#section-8.1-7" class="pilcrow">¶</a></p>
@@ -2902,115 +2909,116 @@ All other claims are <span class="bcp14">OPTIONAL</span> in an SD-KBT.<a href="#
       <h2 id="name-sd-kbt-and-sd-cwt-verifier-">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-sd-kbt-and-sd-cwt-verifier-" class="section-name selfRef">SD-KBT and SD-CWT Verifier Validation</a>
       </h2>
-<p id="section-9-1">The exact order of the following steps <span class="bcp14">MAY</span> be changed, as long as all checks are performed before deciding if an SD-CWT is valid.<a href="#section-9-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-9-2">
-<li id="section-9-2.1">
-          <p id="section-9-2.1.1">First the Verifier must open the protected headers of the SD-KBT and find the Issuer SD-CWT present in the <code>kcwt</code> field.<a href="#section-9-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-9-1">To protect against replay attacks, the Verifier <span class="bcp14">SHOULD</span> provide a nonce, and reject requests that do not include an acceptable nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">The exact order of the following steps <span class="bcp14">MAY</span> be changed, as long as all checks are performed before deciding if an SD-CWT is valid.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-9-3">
+<li id="section-9-3.1">
+          <p id="section-9-3.1.1">First the Verifier must open the protected headers of the SD-KBT and find the Issuer SD-CWT present in the <code>kcwt</code> field.<a href="#section-9-3.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-9-2.2">
-          <p id="section-9-2.2.1">Next, the Verifier must validate the SD-CWT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-9-2.2.1" class="pilcrow">¶</a></p>
+        <li id="section-9-3.2">
+          <p id="section-9-3.2.1">Next, the Verifier must validate the SD-CWT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>. Validators <span class="bcp14">MUST</span> treat an <code>sd_claims</code> or <code>sd_aead_encrypted_claims</code> unprotected Header Parameter with an empty array as invalid.<a href="#section-9-3.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-9-2.3">
-          <p id="section-9-2.3.1">The Verifier checks the time claims in the SD-CWT as follows:<a href="#section-9-2.3.1" class="pilcrow">¶</a></p>
-</li>
-      </ol>
-<ul class="normal">
-<li class="normal" id="section-9-3.1">
-          <p id="section-9-3.1.1"><code>nbf</code> &lt;= <code>iat</code> (if both exist)<a href="#section-9-3.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-3.2">
-          <p id="section-9-3.2.1"><code>nbf</code> &lt;  <code>exp</code> (if both exist)<a href="#section-9-3.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-3.3">
-          <p id="section-9-3.3.1"><code>iat</code> &lt;  <code>exp</code> (if both exist)<a href="#section-9-3.3.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<ol start="4" type="1" class="normal type-1" id="section-9-4">
-<li id="section-9-4.1">
-          <p id="section-9-4.1.1">The Verifier extracts the confirmation key from the <code>cnf</code> claim in the SD-CWT payload.<a href="#section-9-4.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="section-9-4.2">
-          <p id="section-9-4.2.1">Using the confirmation key, the Verifier validates the SD-KBT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-9-4.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="section-9-4.3">
-          <p id="section-9-4.3.1">The Verifier checks the time claims in the SD-KBT to enforce the following logical constraints:<a href="#section-9-4.3.1" class="pilcrow">¶</a></p>
+        <li id="section-9-3.3">
+          <p id="section-9-3.3.1">The Verifier checks the time claims in the SD-CWT as follows:<a href="#section-9-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
 <ul class="normal">
-<li class="normal" id="section-9-5.1">
-          <p id="section-9-5.1.1">if no <code>cti</code> claim is present in the SD-KBT, there <span class="bcp14">MUST</span> be an <code>iat</code> in the SD-KBT;<a href="#section-9-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-9-4.1">
+          <p id="section-9-4.1.1"><code>nbf</code> &lt;= <code>iat</code> (if both exist)<a href="#section-9-4.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-9-5.2">
-          <p id="section-9-5.2.1">if there is no <code>iat</code> claim in the SD-KBT, there <span class="bcp14">MUST NOT</span> be an <code>exp</code> claim or an <code>nbf</code> claim in the SD-KBT;<a href="#section-9-5.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-9-4.2">
+          <p id="section-9-4.2.1"><code>nbf</code> &lt;  <code>exp</code> (if both exist)<a href="#section-9-4.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-9-5.3">
-          <p id="section-9-5.3.1"><code>nbf</code> in the SD-KBT &lt;= <code>iat</code> in the SD-KBT (if both exist)<a href="#section-9-5.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-5.4">
-          <p id="section-9-5.4.1"><code>iat</code> in the SD-KBT &lt;  <code>exp</code> in the SD-KBT (if both exist)<a href="#section-9-5.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-5.5">
-          <p id="section-9-5.5.1"><code>nbf</code> in the SD-CWT &lt;= <code>iat</code> in the SD-CWT (if both exist)<a href="#section-9-5.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-5.6">
-          <p id="section-9-5.6.1"><code>iat</code> in the SD-CWT &lt;  <code>exp</code> in the SD-CWT (if both exist)<a href="#section-9-5.6.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-5.7">
-          <p id="section-9-5.7.1"><code>nbf</code> in the SD-CWT &lt;  <code>exp</code> in the SD-CWT (if both exist)<a href="#section-9-5.7.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-5.8">
-          <p id="section-9-5.8.1"><code>exp</code> in the SD-KBT &lt;= <code>exp</code> in the SD-CWT (if both exist)<a href="#section-9-5.8.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-5.9">
-          <p id="section-9-5.9.1"><code>nbf</code> in the SD-KBT &gt;= <code>nbf</code> in the SD-CWT (if both exist)<a href="#section-9-5.9.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-5.10">
-          <p id="section-9-5.10.1"><code>iat</code> in the SD-KBT &gt;= <code>iat</code> in the SD-CWT (if both exist)<a href="#section-9-5.10.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-5.11">
-          <p id="section-9-5.11.1"><code>nbf</code> in the SD-KBT &lt;  <code>exp</code> in the SD-CWT (if both exist)<a href="#section-9-5.11.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-5.12">
-          <p id="section-9-5.12.1"><code>iat</code> in the SD-KBT &lt;  <code>exp</code> in the SD-CWT (if both exist)<a href="#section-9-5.12.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-9-5.13">
-          <p id="section-9-5.13.1"><code>iat</code> in the SD-KBT &gt;= <code>nbf</code> in the SD-CWT (if both exist)<a href="#section-9-5.13.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-9-4.3">
+          <p id="section-9-4.3.1"><code>iat</code> &lt;  <code>exp</code> (if both exist)<a href="#section-9-4.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<ol start="7" type="1" class="normal type-1" id="section-9-6">
-<li id="section-9-6.1">
-          <p id="section-9-6.1.1">The Verifier <span class="bcp14">MUST</span> extract and decode the disclosed claims from the <code>sd_claims</code> header parameter in the unprotected header of the SD-CWT.
+<ol start="4" type="1" class="normal type-1" id="section-9-5">
+<li id="section-9-5.1">
+          <p id="section-9-5.1.1">The Verifier extracts the confirmation key from the <code>cnf</code> claim in the SD-CWT payload.<a href="#section-9-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-9-5.2">
+          <p id="section-9-5.2.1">Using the confirmation key, the Verifier validates the SD-KBT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-9-5.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-9-5.3">
+          <p id="section-9-5.3.1">The Verifier checks the time claims in the SD-KBT to enforce the following logical constraints:<a href="#section-9-5.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<ul class="normal">
+<li class="normal" id="section-9-6.1">
+          <p id="section-9-6.1.1">if no <code>cti</code> claim is present in the SD-KBT, there <span class="bcp14">MUST</span> be an <code>iat</code> in the SD-KBT;<a href="#section-9-6.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.2">
+          <p id="section-9-6.2.1">if there is no <code>iat</code> claim in the SD-KBT, there <span class="bcp14">MUST NOT</span> be an <code>exp</code> claim or an <code>nbf</code> claim in the SD-KBT;<a href="#section-9-6.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.3">
+          <p id="section-9-6.3.1"><code>nbf</code> in the SD-KBT &lt;= <code>iat</code> in the SD-KBT (if both exist)<a href="#section-9-6.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.4">
+          <p id="section-9-6.4.1"><code>iat</code> in the SD-KBT &lt;  <code>exp</code> in the SD-KBT (if both exist)<a href="#section-9-6.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.5">
+          <p id="section-9-6.5.1"><code>nbf</code> in the SD-CWT &lt;= <code>iat</code> in the SD-CWT (if both exist)<a href="#section-9-6.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.6">
+          <p id="section-9-6.6.1"><code>iat</code> in the SD-CWT &lt;  <code>exp</code> in the SD-CWT (if both exist)<a href="#section-9-6.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.7">
+          <p id="section-9-6.7.1"><code>nbf</code> in the SD-CWT &lt;  <code>exp</code> in the SD-CWT (if both exist)<a href="#section-9-6.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.8">
+          <p id="section-9-6.8.1"><code>exp</code> in the SD-KBT &lt;= <code>exp</code> in the SD-CWT (if both exist)<a href="#section-9-6.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.9">
+          <p id="section-9-6.9.1"><code>nbf</code> in the SD-KBT &gt;= <code>nbf</code> in the SD-CWT (if both exist)<a href="#section-9-6.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.10">
+          <p id="section-9-6.10.1"><code>iat</code> in the SD-KBT &gt;= <code>iat</code> in the SD-CWT (if both exist)<a href="#section-9-6.10.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.11">
+          <p id="section-9-6.11.1"><code>nbf</code> in the SD-KBT &lt;  <code>exp</code> in the SD-CWT (if both exist)<a href="#section-9-6.11.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.12">
+          <p id="section-9-6.12.1"><code>iat</code> in the SD-KBT &lt;  <code>exp</code> in the SD-CWT (if both exist)<a href="#section-9-6.12.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-9-6.13">
+          <p id="section-9-6.13.1"><code>iat</code> in the SD-KBT &gt;= <code>nbf</code> in the SD-CWT (if both exist)<a href="#section-9-6.13.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<ol start="7" type="1" class="normal type-1" id="section-9-7">
+<li id="section-9-7.1">
+          <p id="section-9-7.1.1">The Verifier <span class="bcp14">MUST</span> extract and decode the disclosed claims from the <code>sd_claims</code> header parameter in the unprotected header of the SD-CWT.
 Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Blinded Claim Hash in the payload.
 If there are any disclosures that do not have a corresponding Blinded Claim Hash, the entire SD-CWT is invalid.
-If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.<a href="#section-9-6.1.1" class="pilcrow">¶</a></p>
+If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.<a href="#section-9-7.1.1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-9-6.1.2.1">
-              <p id="section-9-6.1.2.1.1">Note: A Verifier <span class="bcp14">MUST</span> be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.<a href="#section-9-6.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-9-7.1.2.1">
+              <p id="section-9-7.1.2.1.1">Note: A Verifier <span class="bcp14">MUST</span> be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.<a href="#section-9-7.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </li>
       </ol>
-<ol start="8" type="1" class="normal type-1" id="section-9-7">
-<li id="section-9-7.1">
-          <p id="section-9-7.1.1">A Verifier <span class="bcp14">MUST</span> reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.<a href="#section-9-7.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="section-9-7.2">
-          <p id="section-9-7.2.1">Otherwise, the SD-CWT is considered valid.
-Once any remaining redacted elements (either redacted claims or decoys) are deleted, the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.<a href="#section-9-7.2.1" class="pilcrow">¶</a></p>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-9-7.2.2.1">
-              <p id="section-9-7.2.2.1.1">Note: Undisclosed Redacted Claim Elements will be removed from the Validated Disclosed Claims Set, changing the length of the array.
-If the semantics of the position of items in the array is important, the issuer should instead disclose or redact the entire array.<a href="#section-9-7.2.2.1.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</li>
-      </ol>
-<ol start="10" type="1" class="normal type-1" id="section-9-8">
+<ol start="8" type="1" class="normal type-1" id="section-9-8">
 <li id="section-9-8.1">
-          <p id="section-9-8.1.1">Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.<a href="#section-9-8.1.1" class="pilcrow">¶</a></p>
+          <p id="section-9-8.1.1">A Verifier <span class="bcp14">MUST</span> reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.<a href="#section-9-8.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-9-8.2">
+          <p id="section-9-8.2.1">Otherwise, the SD-CWT is considered valid.
+Once any remaining redacted elements (either redacted claims or decoys) are deleted, the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.<a href="#section-9-8.2.1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-9-8.2.2.1">
+              <p id="section-9-8.2.2.1.1">Note: Undisclosed Redacted Claim Elements will be removed from the Validated Disclosed Claims Set, changing the length of the array.
+If the semantics of the position of items in the array is important, the issuer should instead disclose or redact the entire array.<a href="#section-9-8.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </li>
       </ol>
-<p id="section-9-9">By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.<a href="#section-9-9" class="pilcrow">¶</a></p>
+<ol start="10" type="1" class="normal type-1" id="section-9-9">
+<li id="section-9-9.1">
+          <p id="section-9-9.1.1">Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.<a href="#section-9-9.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<p id="section-9-10">By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.<a href="#section-9-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="decoys">
@@ -3125,7 +3133,7 @@ An example issued SD-CWT containing decoy digests is shown below.<a href="#secti
         <h3 id="name-to-be-redacted-tag-definiti">
 <a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-to-be-redacted-tag-definiti" class="section-name selfRef">To Be Redacted Tag Definition</a>
         </h3>
-<p id="section-11.1-1">In order to indicate specific claims that must be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
+<p id="section-11.1-1">In order to indicate specific claims that the Holder would like to be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
 The tag can be used by a library to automatically convert a Claim Set with "To Be Redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <p id="section-11.1-2">When used on an element in an array, the value to be redacted is present inside the tag.
 When used on a map key and value, the tag is placed around the map key, while the map value remains.<a href="#section-11.1-2" class="pilcrow">¶</a></p>
@@ -3213,7 +3221,7 @@ Other protocols have a similar type of internal structure for the Verifier.<a hr
         </h3>
 <p id="section-12.1-1">This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (<code>sd_aead</code>) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span> registered in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .
-(Guidance on specific algorithms is discussed in <a href="#aead-choice" class="auto internal xref">Section 16.9</a>.)
+(Guidance on specific algorithms is discussed in <a href="#aead-choice" class="auto internal xref">Section 16.8</a>.)
 The second header parameter (<code>sd_aead_encrypted_claims</code>), if present, contains a non-empty list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:<a href="#section-12.1-1" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-an-encrypted"></span><div id="edn-aead-disclosure">
@@ -3747,22 +3755,6 @@ Issuers <span class="bcp14">MUST</span> perform a comprehensive privacy and conf
 Compromise of the Issuer's signing key would enable an attacker to forge credentials for any subject, potentially undermining the entire trust model of the credential system.
 Beyond key compromise, attacks targeting the provisioning and binding between issuer names and their cryptographic key material pose significant risks.
 An attacker who can manipulate these bindings could substitute their own keys for legitimate issuer keys, enabling credential forgery while appearing to be a trusted issuer.<a href="#section-16.1-1" class="pilcrow">¶</a></p>
-<p id="section-16.1-2">Certificate transparency, as described in <span>[<a href="#RFC9162" class="cite xref">RFC9162</a>]</span>, or key transparency, as described in <span>[<a href="#I-D.draft-ietf-keytrans-protocol" class="cite xref">I-D.draft-ietf-keytrans-protocol</a>]</span>, can help detect and prevent such attacks by:<a href="#section-16.1-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-16.1-3.1">
-            <p id="section-16.1-3.1.1">Enabling public observation of all issued certificates or key bindings<a href="#section-16.1-3.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.1-3.2">
-            <p id="section-16.1-3.2.1">Detecting unauthorized or fraudulent bindings between verification keys and Issuer identifiers<a href="#section-16.1-3.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.1-3.3">
-            <p id="section-16.1-3.3.1">Providing cryptographic proof of inclusion for legitimate keys<a href="#section-16.1-3.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.1-3.4">
-            <p id="section-16.1-3.4.1">Creating an append-only audit trail that makes key substitution attacks discoverable<a href="#section-16.1-3.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.1-4">Verifiers <span class="bcp14">SHOULD</span> leverage transparency mechanisms where available to validate that the issuer's keys have not been compromised or fraudulently substituted.<a href="#section-16.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="disclosure-coercion">
@@ -3796,6 +3788,8 @@ Holders face risks of being coerced into disclosing more claims than necessary. 
 </li>
         </ol>
 <p id="section-16.2-5">Without proper safeguards (such as Verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.<a href="#section-16.2-5" class="pilcrow">¶</a></p>
+<p id="section-16.2-6">Implementers deploying SD-CWT in credential systems should review <span>[<a href="#W3CTAG-Credential-Abuse" class="cite xref">W3CTAG-Credential-Abuse</a>]</span>,
+which discusses broader risks of credential abuse including surveillance, exclusion, and overuse.<a href="#section-16.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="disclosure-of-decoys">
@@ -3809,162 +3803,69 @@ A Holder receiving a credential with undisclosed decoys cannot distinguish betwe
 This creates a severe privacy risk: an Issuer could embed hidden claims — such as behavioral flags, risk scores, or sensitive attributes — that Verifiers can later be given selective access to, without the Holder's awareness or consent.<a href="#section-16.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="threat-model-development-guidance">
-<section id="section-16.4">
-        <h3 id="name-threat-model-development-gu">
-<a href="#section-16.4" class="section-number selfRef">16.4. </a><a href="#name-threat-model-development-gu" class="section-name selfRef">Threat Model Development Guidance</a>
-        </h3>
-<p id="section-16.4-1">This section provides guidance for developing threat models when applying SD-CWT to specific use cases.
-It is NOT a threat model itself, but rather a framework to help implementers create appropriate threat models for their particular contexts.
-Each use case will have unique security characteristics that <span class="bcp14">MUST</span> be analyzed before determining the applicability of SD-CWT-based credential types.<a href="#section-16.4-1" class="pilcrow">¶</a></p>
-<p id="section-16.4-2">The following non-exhaustive list of questions and considerations should guide the development of a use-case-specific threat model:<a href="#section-16.4-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-16.4-3">
-<li id="section-16.4-3.1">
-            <p id="section-16.4-3.1.1">Has there been a t-closeness, k-anonymity, and l-diversity assessment (see <span>[<a href="#t-Closeness" class="cite xref">t-Closeness</a>]</span>) assuming compromise of the one or more Issuers, Verifiers or Holders, for all relevant credential types?<a href="#section-16.4-3.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-16.4-3.2">
-            <p id="section-16.4-3.2.1">Issuer questions:<a href="#section-16.4-3.2.1" class="pilcrow">¶</a></p>
-<ol start="1" type="a" class="normal type-a" id="section-16.4-3.2.2">
-<li id="section-16.4-3.2.2.1">
-                <p id="section-16.4-3.2.2.1.1">How many Issuers exist for the credential type?<a href="#section-16.4-3.2.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.2.2.2">
-                <p id="section-16.4-3.2.2.2.1">Is the size of the set of Issuers growing or shrinking over time?<a href="#section-16.4-3.2.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.2.2.3">
-                <p id="section-16.4-3.2.2.3.1">For a given credential type, will subjects be able to hold instances of the same credential type from multiple Issuers, or just a single Issuer?<a href="#section-16.4-3.2.2.3.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.2.2.4">
-                <p id="section-16.4-3.2.2.4.1">Does the credential type require or offer the ability to disclose a globally unique identifier?<a href="#section-16.4-3.2.2.4.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.2.2.5">
-                <p id="section-16.4-3.2.2.5.1">Does the credential type require high precision time or other claims that have sufficient entropy such that they can serve as a unique fingerprint for a specific subject?<a href="#section-16.4-3.2.2.5.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.2.2.6">
-                <p id="section-16.4-3.2.2.6.1">Does the credential type contain Personally Identifiable Information (PII), or other sensitive information that might have value in a market?<a href="#section-16.4-3.2.2.6.1" class="pilcrow">¶</a></p>
-</li>
-            </ol>
-</li>
-          <li id="section-16.4-3.3">
-            <p id="section-16.4-3.3.1">Holder questions:<a href="#section-16.4-3.3.1" class="pilcrow">¶</a></p>
-<ol start="1" type="a" class="normal type-a" id="section-16.4-3.3.2">
-<li id="section-16.4-3.3.2.1">
-                <p id="section-16.4-3.3.2.1.1">What steps has the Holder taken to improve their operation security regarding presenting credentials to verifiers?<a href="#section-16.4-3.3.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.3.2.2">
-                <p id="section-16.4-3.3.2.2.1">How can the Holder be convinced the Verifier that received presentations is legitimate?<a href="#section-16.4-3.3.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.3.2.3">
-                <p id="section-16.4-3.3.2.3.1">How can the Holder be convinced the Verifier will not share, sell, leak, or otherwise disclose the Holder's presentations or Issuer or Holder signed material?<a href="#section-16.4-3.3.2.3.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.3.2.4">
-                <p id="section-16.4-3.3.2.4.1">What steps has the Holder taken to understand and confirm the consequences resulting from their support for the aggregate-use of digital credential presentations?<a href="#section-16.4-3.3.2.4.1" class="pilcrow">¶</a></p>
-</li>
-            </ol>
-</li>
-          <li id="section-16.4-3.4">
-            <p id="section-16.4-3.4.1">Verifier questions:<a href="#section-16.4-3.4.1" class="pilcrow">¶</a></p>
-<ol start="1" type="a" class="normal type-a" id="section-16.4-3.4.2">
-<li id="section-16.4-3.4.2.1">
-                <p id="section-16.4-3.4.2.1.1">How many Verifiers exist for the credential type?<a href="#section-16.4-3.4.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.4.2.2">
-                <p id="section-16.4-3.4.2.2.1">Is the size of the set of Verifiers growing or shrinking over time?<a href="#section-16.4-3.4.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.4.2.3">
-                <p id="section-16.4-3.4.2.3.1">Are the Verifiers a superset, subset, or disjoint set of the Issuers or subjects?<a href="#section-16.4-3.4.2.3.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.4.2.4">
-                <p id="section-16.4-3.4.2.4.1">Are there any legally required reporting or disclosure requirements associated with the Verifiers?<a href="#section-16.4-3.4.2.4.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.4.2.5">
-                <p id="section-16.4-3.4.2.5.1">Is there reason to believe that a Verifier's historic data will be aggregated and analyzed?<a href="#section-16.4-3.4.2.5.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.4.2.6">
-                <p id="section-16.4-3.4.2.6.1">Assuming multiple Verifiers are simultaneously compromised, what knowledge regarding subjects can be inferred from analyzing the resulting dataset?<a href="#section-16.4-3.4.2.6.1" class="pilcrow">¶</a></p>
-</li>
-            </ol>
-</li>
-          <li id="section-16.4-3.5">
-            <p id="section-16.4-3.5.1">Subject questions:<a href="#section-16.4-3.5.1" class="pilcrow">¶</a></p>
-<ol start="1" type="a" class="normal type-a" id="section-16.4-3.5.2">
-<li id="section-16.4-3.5.2.1">
-                <p id="section-16.4-3.5.2.1.1">How many subjects exist for the credential type?<a href="#section-16.4-3.5.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.5.2.2">
-                <p id="section-16.4-3.5.2.2.1">Is the size of the set of subjects growing or shrinking over time?<a href="#section-16.4-3.5.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-16.4-3.5.2.3">
-                <p id="section-16.4-3.5.2.3.1">Does the credential type require specific hardware, or algorithms that limit the set of possible subjects to owners of specific devices or subscribers to specific services?<a href="#section-16.4-3.5.2.3.1" class="pilcrow">¶</a></p>
-</li>
-            </ol>
-</li>
-        </ol>
-</section>
-</div>
 <div id="random-numbers">
-<section id="section-16.5">
+<section id="section-16.4">
         <h3 id="name-random-numbers">
-<a href="#section-16.5" class="section-number selfRef">16.5. </a><a href="#name-random-numbers" class="section-name selfRef">Random Numbers</a>
+<a href="#section-16.4" class="section-number selfRef">16.4. </a><a href="#name-random-numbers" class="section-name selfRef">Random Numbers</a>
         </h3>
-<p id="section-16.5-1">Each salt used to protect disclosed claims <span class="bcp14">MUST</span> be generated independently.
-Identical salt values, or values that can be correlated, might allow a Verifier to recover blinded values that were not disclosed.<a href="#section-16.5-1" class="pilcrow">¶</a></p>
-<p id="section-16.5-2">The salts <span class="bcp14">MUST</span> be generated using fresh randomness or from a source that has outputs cannot be predicted by any potential Verifier.
-Poor choice of salts can lead to brute force attacks that can reveal redacted claims.<a href="#section-16.5-2" class="pilcrow">¶</a></p>
+<p id="section-16.4-1">Each salt used to protect disclosed claims <span class="bcp14">MUST</span> be generated independently.
+Identical salt values, or values that can be correlated, might allow a Verifier to recover blinded values that were not disclosed.<a href="#section-16.4-1" class="pilcrow">¶</a></p>
+<p id="section-16.4-2">The salts <span class="bcp14">MUST</span> be generated using fresh randomness or from a source that has outputs cannot be predicted by any potential Verifier.
+Poor choice of salts can lead to brute force attacks that can reveal redacted claims.<a href="#section-16.4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="binding-the-kbt-and-the-cwt">
-<section id="section-16.6">
+<section id="section-16.5">
         <h3 id="name-binding-the-kbt-and-the-cwt">
-<a href="#section-16.6" class="section-number selfRef">16.6. </a><a href="#name-binding-the-kbt-and-the-cwt" class="section-name selfRef">Binding the KBT and the CWT</a>
+<a href="#section-16.5" class="section-number selfRef">16.5. </a><a href="#name-binding-the-kbt-and-the-cwt" class="section-name selfRef">Binding the KBT and the CWT</a>
         </h3>
-<p id="section-16.6-1">The "iss" claim in the SD-CWT is self-asserted by the Issuer.<a href="#section-16.6-1" class="pilcrow">¶</a></p>
-<p id="section-16.6-2">Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.
+<p id="section-16.5-1">The "iss" claim in the SD-CWT is self-asserted by the Issuer.<a href="#section-16.5-1" class="pilcrow">¶</a></p>
+<p id="section-16.5-2">Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.
 There might be many subject claims and many confirmation keys that identify the same entity or that are controlled by the same entity, while the identifiers and keys are distinct values.
 Reusing an identifier or key enables correlation, but <span class="bcp14">MUST</span> be evaluated in terms of the confidential and privacy constraints associated with the credential type.
 Conceptually, the Holder is both the Issuer and the subject of the SD-KBT, even if the "iss" or "sub" claims are not present.
 If they are present, they are self-asserted by the Holder.
-All three are represented by the confirmation (public) key in the SD-CWT.<a href="#section-16.6-2" class="pilcrow">¶</a></p>
-<p id="section-16.6-3">As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT "iss" and "sub" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
+All three are represented by the confirmation (public) key in the SD-CWT.<a href="#section-16.5-2" class="pilcrow">¶</a></p>
+<p id="section-16.5-3">As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT "iss" and "sub" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
 Extra care should be taken in case the SD-CWT subject claim is redacted.
-Likewise, Holders and Verifiers <span class="bcp14">MUST</span> verify that the "iss" claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.<a href="#section-16.6-3" class="pilcrow">¶</a></p>
-<p id="section-16.6-4">Finally, the Verifier <span class="bcp14">MUST</span> verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not.
+Likewise, Holders and Verifiers <span class="bcp14">MUST</span> verify that the "iss" claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.<a href="#section-16.5-3" class="pilcrow">¶</a></p>
+<p id="section-16.5-4">Finally, the Verifier <span class="bcp14">MUST</span> verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not.
 Specific tests for time claims are described in steps 3 and 6 of <a href="#binding-validation" class="auto internal xref">Section 9</a>.
-Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.<a href="#section-16.6-4" class="pilcrow">¶</a></p>
+Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.<a href="#section-16.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="covert-channels">
-<section id="section-16.7">
+<section id="section-16.6">
         <h3 id="name-covert-channels">
-<a href="#section-16.7" class="section-number selfRef">16.7. </a><a href="#name-covert-channels" class="section-name selfRef">Covert Channels</a>
+<a href="#section-16.6" class="section-number selfRef">16.6. </a><a href="#name-covert-channels" class="section-name selfRef">Covert Channels</a>
         </h3>
-<p id="section-16.7-1">Any data element that is supplied by the Issuer, and that appears random to the Holder might be used to produce a covert channel between the Issuer and the Verifier.
+<p id="section-16.6-1">Any data element that is supplied by the Issuer, and that appears random to the Holder might be used to produce a covert channel between the Issuer and the Verifier.
 The ordering of claims, and precision of timestamps can also be used to produce a covert channel.
-This is more of a concern for SD-CWT than typical CWTs, because the Holder is usually considered to be aware of the Issuer claims they are disclosing to a Verifier.<a href="#section-16.7-1" class="pilcrow">¶</a></p>
+This is more of a concern for SD-CWT than typical CWTs, because the Holder is usually considered to be aware of the Issuer claims they are disclosing to a Verifier.<a href="#section-16.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="nested-disclosure-ordering">
-<section id="section-16.8">
+<section id="section-16.7">
         <h3 id="name-nested-disclosure-ordering">
-<a href="#section-16.8" class="section-number selfRef">16.8. </a><a href="#name-nested-disclosure-ordering" class="section-name selfRef">Nested Disclosure Ordering</a>
+<a href="#section-16.7" class="section-number selfRef">16.7. </a><a href="#name-nested-disclosure-ordering" class="section-name selfRef">Nested Disclosure Ordering</a>
         </h3>
-<p id="section-16.8-1">The Holder has flexibility in determining the order of nested disclosures when making presentations.
+<p id="section-16.7-1">The Holder has flexibility in determining the order of nested disclosures when making presentations.
 The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
 This ordering choice has no security impact on encrypted disclosures.
-However, the order can affect the runtime of the verification process.<a href="#section-16.8-1" class="pilcrow">¶</a></p>
+However, the order can affect the runtime of the verification process.<a href="#section-16.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="aead-choice">
-<section id="section-16.9">
+<section id="section-16.8">
         <h3 id="name-choice-of-aead-algorithms">
-<a href="#section-16.9" class="section-number selfRef">16.9. </a><a href="#name-choice-of-aead-algorithms" class="section-name selfRef">Choice of AEAD algorithms</a>
+<a href="#section-16.8" class="section-number selfRef">16.8. </a><a href="#name-choice-of-aead-algorithms" class="section-name selfRef">Choice of AEAD algorithms</a>
         </h3>
-<p id="section-16.9-1">The AEAD encrypted disclosures mechanism discussed in <a href="#aead" class="auto internal xref">Section 12.1</a> can refer to any AEAD alogithm in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .<a href="#section-16.9-1" class="pilcrow">¶</a></p>
-<p id="section-16.9-2">When choosing an AEAD algorithm, the tag length is critical for the integrity of encrypted disclosures in SD-CWT.
-As such, implementations <span class="bcp14">MUST NOT</span> use any AEAD algorithm with a tag length less than 16 octets.<a href="#section-16.9-2" class="pilcrow">¶</a></p>
-<p id="section-16.9-3">Algorithms using AES-CCM are <span class="bcp14">NOT RECOMMENDED</span>.<a href="#section-16.9-3" class="pilcrow">¶</a></p>
-<p id="section-16.9-4">As of this writing, implementations <span class="bcp14">MUST NOT</span> use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
-Implementations using the AEGIS algorithms containing an X <span class="bcp14">MUST</span> only use the 256-bit tag variant.<a href="#section-16.9-4" class="pilcrow">¶</a></p>
+<p id="section-16.8-1">The AEAD encrypted disclosures mechanism discussed in <a href="#aead" class="auto internal xref">Section 12.1</a> can refer to any AEAD alogithm in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .<a href="#section-16.8-1" class="pilcrow">¶</a></p>
+<p id="section-16.8-2">When choosing an AEAD algorithm, the tag length is critical for the integrity of encrypted disclosures in SD-CWT.
+As such, implementations <span class="bcp14">MUST NOT</span> use any AEAD algorithm with a tag length less than 16 octets.<a href="#section-16.8-2" class="pilcrow">¶</a></p>
+<p id="section-16.8-3">Algorithms using AES-CCM are <span class="bcp14">NOT RECOMMENDED</span>.<a href="#section-16.8-3" class="pilcrow">¶</a></p>
+<p id="section-16.8-4">As of this writing, implementations <span class="bcp14">MUST NOT</span> use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
+Implementations using the AEGIS algorithms containing an X <span class="bcp14">MUST</span> only use the 256-bit tag variant.<a href="#section-16.8-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4708,8 +4609,12 @@ An indication of the relevant sections may also be included, but is not required
 <span class="refAuthor">Looker, T.</span> and <span class="refAuthor">M.B. Jones</span>, <span class="refTitle">"CBOR Web Token (CWT) Claims in COSE Headers"</span>, <span class="seriesInfo">RFC 9597</span>, <span class="seriesInfo">DOI 10.17487/RFC9597</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9597">https://www.rfc-editor.org/rfc/rfc9597</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="t-Closeness">[t-Closeness]</dt>
-      <dd>
+        <dd>
 <span class="refTitle">"t-Closeness: Privacy Beyond k-Anonymity and l-Diversity"</span>, <time datetime="2007-06-04" class="refDate">4 June 2007</time>, <span>&lt;<a href="https://ieeexplore.ieee.org/document/4221659">https://ieeexplore.ieee.org/document/4221659</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="W3CTAG-Credential-Abuse">[W3CTAG-Credential-Abuse]</dt>
+      <dd>
+<span class="refAuthor">W3C Technical Architecture Group</span>, <span class="refTitle">"Preventing the Abuse of Digital Credentials"</span>, <span>n.d.</span>, <span>&lt;<a href="https://w3ctag.github.io/prevent-credential-abuse/">https://w3ctag.github.io/prevent-credential-abuse/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
