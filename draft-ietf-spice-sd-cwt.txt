@@ -2213,25 +2213,6 @@ Issuer                           Holder                         Verifier
    legitimate issuer keys, enabling credential forgery while appearing
    to be a trusted issuer.
 
-   Certificate transparency, as described in [RFC9162], or key
-   transparency, as described in [I-D.draft-ietf-keytrans-protocol], can
-   help detect and prevent such attacks by:
-
-   *  Enabling public observation of all issued certificates or key
-      bindings
-
-   *  Detecting unauthorized or fraudulent bindings between verification
-      keys and Issuer identifiers
-
-   *  Providing cryptographic proof of inclusion for legitimate keys
-
-   *  Creating an append-only audit trail that makes key substitution
-      attacks discoverable
-
-   Verifiers SHOULD leverage transparency mechanisms where available to
-   validate that the issuer's keys have not been compromised or
-   fraudulently substituted.
-
 16.2.  Disclosure Coercion and Over-identification
 
    The Security Considerations from Section 10.2 of

@@ -3752,22 +3752,6 @@ Issuers <span class="bcp14">MUST</span> perform a comprehensive privacy and conf
 Compromise of the Issuer's signing key would enable an attacker to forge credentials for any subject, potentially undermining the entire trust model of the credential system.
 Beyond key compromise, attacks targeting the provisioning and binding between issuer names and their cryptographic key material pose significant risks.
 An attacker who can manipulate these bindings could substitute their own keys for legitimate issuer keys, enabling credential forgery while appearing to be a trusted issuer.<a href="#section-16.1-1" class="pilcrow">¶</a></p>
-<p id="section-16.1-2">Certificate transparency, as described in <span>[<a href="#RFC9162" class="cite xref">RFC9162</a>]</span>, or key transparency, as described in <span>[<a href="#I-D.draft-ietf-keytrans-protocol" class="cite xref">I-D.draft-ietf-keytrans-protocol</a>]</span>, can help detect and prevent such attacks by:<a href="#section-16.1-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-16.1-3.1">
-            <p id="section-16.1-3.1.1">Enabling public observation of all issued certificates or key bindings<a href="#section-16.1-3.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.1-3.2">
-            <p id="section-16.1-3.2.1">Detecting unauthorized or fraudulent bindings between verification keys and Issuer identifiers<a href="#section-16.1-3.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.1-3.3">
-            <p id="section-16.1-3.3.1">Providing cryptographic proof of inclusion for legitimate keys<a href="#section-16.1-3.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.1-3.4">
-            <p id="section-16.1-3.4.1">Creating an append-only audit trail that makes key substitution attacks discoverable<a href="#section-16.1-3.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.1-4">Verifiers <span class="bcp14">SHOULD</span> leverage transparency mechanisms where available to validate that the issuer's keys have not been compromised or fraudulently substituted.<a href="#section-16.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="disclosure-coercion">
