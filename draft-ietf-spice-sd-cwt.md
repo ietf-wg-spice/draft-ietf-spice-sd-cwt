@@ -94,8 +94,8 @@ This specification enables Holders of CWT-based credentials to prove the integri
 SD-CWTs provide privacy improvements compared to regular CWTs, but remain traceable.
 Techniques such as one-time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols.
 
-Credential types are distinguished by their attributes, for example, a license to operate a vehicle and a license to import a product will contain different attributes.
-The specification of credential types is out of scope for this specification, and the examples used in this specification are informative.
+This document defines a generic container format, not a specific credential type.
+For example, a license to operate a vehicle and a license to import a product will contain different attributes.
 
 
 ## High-Level Flow
@@ -520,7 +520,7 @@ For the avoidance of doubt, not a number (NaN) values and positive and negative 
 > In {{!RFC8392}}, these three claims are of type `NumericDate`.
 Section 2 of the same spec refers to `NumericDate` as a JWT `NumericDate`, "except that it is represented as \[an untagged] CBOR numeric date (from {{Section 2.4.1 of ?RFC7049}}) instead of a JSON number".
 In CBOR, a NumericDate can be represented as an unsigned integer, a negative integer, or a floating point value.
-CBOR (both {{?RFC7049}} and {{!RFC8949}}) refers to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
+CBOR (both {{?RFC7049}} and {{!RFC8949}}) refer to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
 Neither JSON {{?RFC8259}} nor JWT {{?RFC7519}} can represent infinite values.
 
 As IEEE double-precision floating point numbers smaller than -(2^53) and larger than 2^53 are no longer as precise as CBOR integers, use of floating point numbers smaller than -(2^53) and larger than 2^53 is FORBIDDEN.
@@ -677,7 +677,7 @@ This specification defines the format of an SD-CWT communicated between an Issue
 The protected header MAY contain the `sd_alg` header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 If no `sd_alg` header parameter is present, the default hash function SHA-256 is used.
 
-If no Salted Disclosed Claims or Decoys are present, the unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
+If any Salted Disclosed Claims or Decoys are present, the unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
 If there are no disclosures, the `sd_claims` header parameter value is omitted.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
 
