@@ -1286,6 +1286,13 @@ Mitigation Measures:
 
 Without proper safeguards (such as Verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.
 
+## Disclosure of Decoys {#disclosure-of-decoys}
+
+Issuers control the claimset and may include decoy digests to obscure the number of claims in a credential.
+Unless all decoy disclosures are made available to Holders, an Issuer could use this mechanism to hide claims from Holders without their knowledge.
+A Holder receiving a credential with undisclosed decoys cannot distinguish between a digest that conceals a real claim and one that is genuinely a decoy.
+This creates a severe privacy risk: an Issuer could embed hidden claims — such as behavioral flags, risk scores, or sensitive attributes — that Verifiers can later be given selective access to, without the Holder's awareness or consent.
+
 ## Threat Model Development Guidance
 
 This section provides guidance for developing threat models when applying SD-CWT to specific use cases.
