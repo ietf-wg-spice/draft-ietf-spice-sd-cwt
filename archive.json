@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-26T01:05:56.613815+00:00",
+  "timestamp": "2026-03-01T01:14:51.787527+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4800,7 +4800,7 @@
       ],
       "body": "It seems like there has been a deliberate decision to not stipulate how disclosed claims are ordered.  Those processing them would be required to search for where to \"insert\" the disclosed information after hashing the disclosure.  It might be worth explicitly saying this, or people will end up asking what the canonical ordering rules are.",
       "createdAt": "2026-01-23T03:40:02Z",
-      "updatedAt": "2026-01-28T20:15:15Z",
+      "updatedAt": "2026-02-28T10:27:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -4809,6 +4809,13 @@
           "body": "I see that [Section 16.7](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.7), hidden in the security considerations, addresses this point.  Given that it's not security-relevant, maybe find another place for that text.",
           "createdAt": "2026-01-23T04:59:15Z",
           "updatedAt": "2026-01-23T04:59:15Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@OR13 in the security considerations, section 16.7 the first two lines are now a duplicate.\n\nDo we still agree with this line: \"This ordering choice has no security impact on encrypted disclosures.\"\nCould the processing time potentially leak information about the depth or complexity of inner claims?\n\nPerhaps we can remove this section?",
+          "createdAt": "2026-02-28T10:27:40Z",
+          "updatedAt": "2026-02-28T10:27:40Z"
         }
       ]
     },
@@ -5073,20 +5080,28 @@
       "id": "I_kwDOMm_Q2s7pC71e",
       "title": "Some Holders don't have a clock",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/247",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr"
+        "has-PR"
       ],
       "body": "Currently the KBT requires the `iat` field. @martinthomson pointed out that if the Holder is a TEE it would not have a clock. The KBT would be better off having a `cti` instead of an `iat` in this case.",
       "createdAt": "2026-02-07T09:18:20Z",
-      "updatedAt": "2026-02-09T14:38:50Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-02-28T19:55:27Z",
+      "closedAt": "2026-02-28T19:55:26Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #250 . Closing",
+          "createdAt": "2026-02-28T19:55:27Z",
+          "updatedAt": "2026-02-28T19:55:27Z"
+        }
+      ]
     },
     {
       "number": 248,
@@ -18636,24 +18651,26 @@
       "id": "PR_kwDOMm_Q2s7CjVd0",
       "title": "Allow Holder to use cti instead of iat in KBT",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/250",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses #247 ",
       "createdAt": "2026-02-09T18:56:23Z",
-      "updatedAt": "2026-02-25T05:01:07Z",
+      "updatedAt": "2026-02-28T19:54:56Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "a0e5895a9729a46931333eaf693137e9f23f7be3",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "cti",
-      "headRefOid": "4405dbfba729f19cc88ca8adcfc506c647b58e23",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "d302af4bf10b2ea0197c214b59810c15d39649c7",
+      "closedAt": "2026-02-28T19:54:54Z",
+      "mergedAt": "2026-02-28T19:54:54Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "3617a1bd4e80f556c45fddcddab588b441db80c1"
+      },
       "comments": [
         {
           "author": "rohanmahy",
@@ -18682,6 +18699,13 @@
           "body": "In CDDL not really; the section describing the // operator explains its\r\nvery low precedence. I could add a comment above iat pointing to the CDDL\r\nsection\r\n\r\nOn Wed, 25 Feb 2026, 04:00 Martin Thomson, ***@***.***> wrote:\r\n\r\n> ***@***.**** commented on this pull request.\r\n> ------------------------------\r\n>\r\n> In sd-cwts.cddl\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/250#discussion_r2850271827>\r\n> :\r\n>\r\n> > +  ? &(exp: 4) ^ => secs,\r\n> +  ? &(nbf: 5) ^ => secs,\r\n> +    &(iat: 6) ^ => secs  //\r\n> +    &(cti: 7) ^ => bstr\r\n>\r\n> this is pretty obscure CDDL arcana.\r\n>\r\n> Is there a way to communicate more clearly then?\r\n>\r\n> For instance, create a grouping for the set of time-related options and\r\n> use the alternation between that grouping and cti?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/250#discussion_r2850271827>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPW45XRLBDBEF4RFGOL4NTX3XAVCNFSM6AAAAACUQQNI2CVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTQNJRGI4DGOBQGI>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***\r\n> com>\r\n>\r\n",
           "createdAt": "2026-02-25T05:01:07Z",
           "updatedAt": "2026-02-25T05:01:07Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Added comments to clarify the issue Martin raised. Merging.",
+          "createdAt": "2026-02-28T19:54:56Z",
+          "updatedAt": "2026-02-28T19:54:56Z"
         }
       ],
       "reviews": [
@@ -18768,6 +18792,59 @@
               "body": "> this is pretty obscure CDDL arcana.\r\n\r\nIs there a way to communicate more clearly then?\r\n\r\nFor instance, create a grouping for the set of time-related options and use the alternation between that grouping and cti?",
               "createdAt": "2026-02-25T01:00:21Z",
               "updatedAt": "2026-02-25T01:00:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7msKIS",
+          "commit": {
+            "abbreviatedOid": "4405dbf"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T10:14:54Z",
+          "updatedAt": "2026-02-28T10:14:54Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\ntime-or-cti-claims = (\n  ; Requires either time claims that include an iat OR a cti claim.\n  ; Note that in CDDL, the // operator has very low precedence (see \n  ; Section 2.2.2 of RFC 8610)\n  ;\n  ; It is possible to have both a cti and time claims, but\n  ; time-or-cti-claims insures at least cti or iat is present\n  ? &(exp: 4) ^ => secs,\n```",
+              "createdAt": "2026-02-28T10:14:54Z",
+              "updatedAt": "2026-02-28T10:14:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7mtX0k",
+          "commit": {
+            "abbreviatedOid": "b3bd796"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-28T18:09:33Z",
+          "updatedAt": "2026-02-28T18:09:33Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7mttLw",
+          "commit": {
+            "abbreviatedOid": "b3bd796"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T19:51:03Z",
+          "updatedAt": "2026-02-28T19:51:03Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-02-28T19:51:03Z",
+              "updatedAt": "2026-02-28T19:51:03Z"
             }
           ]
         }
