@@ -131,10 +131,6 @@ Issuer                           Holder                         Verifier
 This diagram captures the flow to issue and present an SD-CWT.
 
 The parameters necessary to support these processes can be obtained using transports or protocols that are out of scope for this specification.
-However, the following guidance is generally recommended, regardless of protocol or transport.
-
-1. The Issuer SHOULD confirm the Holder controls all confirmation material before issuing credentials using the `cnf` claim.
-2. To protect against replay attacks, the Verifier SHOULD provide a nonce, and reject requests that do not include an acceptable nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.
 
 
 # Terminology
@@ -414,6 +410,7 @@ Finally, since this redacted claim is a map key and value, the Blinded Claim Has
 
 Redacted claims that are array elements are handled slightly differently, as described in {{blinded-claims}}.
 
+The Issuer SHOULD confirm the Holder controls all confirmation material before issuing credentials using the `cnf` claim.
 
 # Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
 
@@ -785,6 +782,8 @@ If included, the `cnonce` is a `bstr` and MUST be treated as opaque to the Holde
 All other claims are OPTIONAL in an SD-KBT.
 
 # SD-KBT and SD-CWT Verifier Validation {#binding-validation}
+
+To protect against replay attacks, the Verifier SHOULD provide a nonce, and reject requests that do not include an acceptable nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.
 
 The exact order of the following steps MAY be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
 
