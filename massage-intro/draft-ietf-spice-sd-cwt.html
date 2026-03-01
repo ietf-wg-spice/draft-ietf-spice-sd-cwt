@@ -1548,8 +1548,8 @@ The approach is inspired by SD-JWT <span>[<a href="#I-D.draft-ietf-oauth-selecti
 This specification enables Holders of CWT-based credentials to prove the integrity and authenticity of selected attributes asserted by an Issuer about a Subject to a Verifier.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">SD-CWTs provide privacy improvements compared to regular CWTs, but remain traceable.
 Techniques such as one-time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">Credential types are distinguished by their attributes, for example, a license to operate a vehicle and a license to import a product will contain different attributes.
-The specification of credential types is out of scope for this specification, and the examples used in this specification are informative.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document defines a generic container format, not a specific credential type.
+For example, a license to operate a vehicle and a license to import a product will contain different attributes.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <div id="high-level-flow">
 <section id="section-1.1">
         <h3 id="name-high-level-flow">
@@ -2346,7 +2346,7 @@ For the avoidance of doubt, not a number (NaN) values and positive and negative 
             <p id="section-6.2-2.1.1">In <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, these three claims are of type <code>NumericDate</code>.
 Section 2 of the same spec refers to <code>NumericDate</code> as a JWT <code>NumericDate</code>, "except that it is represented as [an untagged] CBOR numeric date (from <span><a href="https://rfc-editor.org/rfc/rfc7049#section-2.4.1" class="relref">Section 2.4.1</a> of [<a href="#RFC7049" class="cite xref">RFC7049</a>]</span>) instead of a JSON number".
 In CBOR, a NumericDate can be represented as an unsigned integer, a negative integer, or a floating point value.
-CBOR (both <span>[<a href="#RFC7049" class="cite xref">RFC7049</a>]</span> and <span>[<a href="#RFC8949" class="cite xref">RFC8949</a>]</span>) refers to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
+CBOR (both <span>[<a href="#RFC7049" class="cite xref">RFC7049</a>]</span> and <span>[<a href="#RFC8949" class="cite xref">RFC8949</a>]</span>) refer to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
 Neither JSON <span>[<a href="#RFC8259" class="cite xref">RFC8259</a>]</span> nor JWT <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> can represent infinite values.<a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
@@ -2676,7 +2676,7 @@ Likewise, how the Holder determines which claims to blind or to always disclose 
 This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in <a href="#sd-cwt-presentation" class="auto internal xref">Section 8</a>.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <p id="section-7-2">The protected header <span class="bcp14">MAY</span> contain the <code>sd_alg</code> header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 If no <code>sd_alg</code> header parameter is present, the default hash function SHA-256 is used.<a href="#section-7-2" class="pilcrow">¶</a></p>
-<p id="section-7-3">If no Salted Disclosed Claims or Decoys are present, the unprotected header <span class="bcp14">MUST</span> contain the <code>sd_claims</code> header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
+<p id="section-7-3">If any Salted Disclosed Claims or Decoys are present, the unprotected header <span class="bcp14">MUST</span> contain the <code>sd_claims</code> header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
 If there are no disclosures, the <code>sd_claims</code> header parameter value is omitted.
 The payload also <span class="bcp14">MUST</span> include a key confirmation element (<code>cnf</code>) <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span> for the Holder's public key.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7-4">In an SD-CWT, either the subject <code>sub</code> / 2 claim <span class="bcp14">MUST</span> be present, or the redacted form of the subject <span class="bcp14">MUST</span> be present.

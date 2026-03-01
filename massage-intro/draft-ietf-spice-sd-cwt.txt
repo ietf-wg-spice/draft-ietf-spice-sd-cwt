@@ -199,11 +199,9 @@ Table of Contents
    can improve the confidentiality and security characteristics of CWT-
    based credential protocols.
 
-   Credential types are distinguished by their attributes, for example,
-   a license to operate a vehicle and a license to import a product will
-   contain different attributes.  The specification of credential types
-   is out of scope for this specification, and the examples used in this
-   specification are informative.
+   This document defines a generic container format, not a specific
+   credential type.  For example, a license to operate a vehicle and a
+   license to import a product will contain different attributes.
 
 1.1.  High-Level Flow
 
@@ -867,7 +865,7 @@ Issuer                           Holder                         Verifier
       numeric date (from Section 2.4.1 of [RFC7049]) instead of a JSON
       number".  In CBOR, a NumericDate can be represented as an unsigned
       integer, a negative integer, or a floating point value.  CBOR
-      (both [RFC7049] and [RFC8949]) refers to floating-point values to
+      (both [RFC7049] and [RFC8949]) refer to floating-point values to
       include NaNs, and floating-point numbers that include finite and
       infinite numbers.  Neither JSON [RFC8259] nor JWT [RFC7519] can
       represent infinite values.
@@ -1162,7 +1160,7 @@ Issuer                           Holder                         Verifier
    hash the Salted Disclosed Claims.  If no sd_alg header parameter is
    present, the default hash function SHA-256 is used.
 
-   If no Salted Disclosed Claims or Decoys are present, the unprotected
+   If any Salted Disclosed Claims or Decoys are present, the unprotected
    header MUST contain the sd_claims header parameter with a Salted
    Disclosed Claim for every blinded claim hash present anywhere in the
    payload, and any decoys (see Section 10).  If there are no
