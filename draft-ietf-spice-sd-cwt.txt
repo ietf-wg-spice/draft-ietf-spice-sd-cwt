@@ -113,11 +113,12 @@ Table of Contents
    16. Security Considerations
      16.1.  Issuer Key Compromise
      16.2.  Disclosure Coercion and Over-identification
-     16.3.  Random Numbers
-     16.4.  Binding the KBT and the CWT
-     16.5.  Covert Channels
-     16.6.  Nested Disclosure Ordering
-     16.7.  Choice of AEAD algorithms
+     16.3.  Disclosure of Decoys
+     16.4.  Random Numbers
+     16.5.  Binding the KBT and the CWT
+     16.6.  Covert Channels
+     16.7.  Nested Disclosure Ordering
+     16.8.  Choice of AEAD algorithms
    17. IANA Considerations
      17.1.  COSE Header Parameters
        17.1.1.  sd_claims
@@ -1712,7 +1713,7 @@ Issuer                           Holder                         Verifier
    [RFC5116] registered in the IANA AEAD Algorithms registry
    (https://www.iana.org/assignments/aead-parameters/aead-
    parameters.xhtml) . (Guidance on specific algorithms is discussed in
-   Section 16.7.)  The second header parameter
+   Section 16.8.)  The second header parameter
    (sd_aead_encrypted_claims), if present, contains a non-empty list of
    AEAD encrypted disclosures.  Taking the first example disclosure from
    above:
@@ -2251,7 +2252,20 @@ Issuer                           Holder                         Verifier
    [W3CTAG-Credential-Abuse], which discusses broader risks of
    credential abuse including surveillance, exclusion, and overuse.
 
-16.3.  Random Numbers
+16.3.  Disclosure of Decoys
+
+   Issuers control the claimset and may include decoy digests to obscure
+   the number of claims in a credential.  Unless all decoy disclosures
+   are made available to Holders, an Issuer could use this mechanism to
+   hide claims from Holders without their knowledge.  A Holder receiving
+   a credential with undisclosed decoys cannot distinguish between a
+   digest that conceals a real claim and one that is genuinely a decoy.
+   This creates a severe privacy risk: an Issuer could embed hidden
+   claims — such as behavioral flags, risk scores, or sensitive
+   attributes — that Verifiers can later be given selective access to,
+   without the Holder's awareness or consent.
+
+16.4.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
    independently.  Identical salt values, or values that can be
@@ -2263,7 +2277,7 @@ Issuer                           Holder                         Verifier
    choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
-16.4.  Binding the KBT and the CWT
+16.5.  Binding the KBT and the CWT
 
    The "iss" claim in the SD-CWT is self-asserted by the Issuer.
 
@@ -2296,7 +2310,7 @@ Issuer                           Holder                         Verifier
    Likewise, if there is a notion of SD-CWT revocation, an SD-KBT
    containing a revoked SD-CWT is not valid.
 
-16.5.  Covert Channels
+16.6.  Covert Channels
 
    Any data element that is supplied by the Issuer, and that appears
    random to the Holder might be used to produce a covert channel
@@ -2306,7 +2320,7 @@ Issuer                           Holder                         Verifier
    Holder is usually considered to be aware of the Issuer claims they
    are disclosing to a Verifier.
 
-16.6.  Nested Disclosure Ordering
+16.7.  Nested Disclosure Ordering
 
    The Holder has flexibility in determining the order of nested
    disclosures when making presentations.  The order can be sorted,
@@ -2315,7 +2329,7 @@ Issuer                           Holder                         Verifier
    However, the order can affect the runtime of the verification
    process.
 
-16.7.  Choice of AEAD algorithms
+16.8.  Choice of AEAD algorithms
 
    The AEAD encrypted disclosures mechanism discussed in Section 12.1
    can refer to any AEAD alogithm in the IANA AEAD Algorithms registry
