@@ -1293,6 +1293,13 @@ Without proper safeguards (such as Verifier trust lists), Holders remain vulnera
 Implementers deploying SD-CWT in credential systems should review {{W3CTAG-Credential-Abuse}},
 which discusses broader risks of credential abuse including surveillance, exclusion, and overuse.
 
+## Disclosure of Decoys {#disclosure-of-decoys}
+
+Issuers control the claimset and may include decoy digests to obscure the number of claims in a credential.
+Unless all decoy disclosures are made available to Holders, an Issuer could use this mechanism to hide claims from Holders without their knowledge.
+A Holder receiving a credential with undisclosed decoys cannot distinguish between a digest that conceals a real claim and one that is genuinely a decoy.
+This creates a severe privacy risk: an Issuer could embed hidden claims — such as behavioral flags, risk scores, or sensitive attributes — that Verifiers can later be given selective access to, without the Holder's awareness or consent.
+
 ## Random Numbers
 
 Each salt used to protect disclosed claims MUST be generated independently.
