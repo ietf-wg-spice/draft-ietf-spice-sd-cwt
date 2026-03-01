@@ -734,15 +734,22 @@ Issuer                           Holder                         Verifier
 5.  SD-CWT Definition
 
    SD-CWT is modeled after SD-JWT, with adjustments to align with
-   conventions in CBOR, COSE, and CWT.  An SD-CWT MUST include the
-   protected header parameter typ [RFC9596] with a value declaring that
-   the object is an SD-CWT.  This value MAY be the string content type
-   value application/sd-cwt, the uint Constrained Application Protocol
-   (CoAP) [RFC7252] content-format value 293, or a value declaring that
-   the object is a more specific kind of SD-CWT, such as a content type
-   value using the +sd-cwt structured suffix.  The Issuer SHOULD use the
-   value 293 instead of application/sd-cwt, as the CBOR representation
-   is considerably smaller (3 bytes versus of 19).
+   conventions in CBOR, COSE, and CWT.  An SD-CWT MUST declare its
+   content type, by including the protected header parameter typ
+   [RFC9596] with one of the following values:
+
+   *  the string content type value application/sd-cwt,
+
+   *  the unsigned integer Constrained Application Protocol (CoAP)
+      [RFC7252] content-format value 293,
+
+   *  or a value declaring that the object is a more specific kind of
+      SD-CWT, such as a content type value using the +sd-cwt structured
+      suffix.
+
+   The Issuer SHOULD use the value 293 instead of application/sd-cwt, as
+   the CBOR representation is considerably smaller (3 bytes versus of
+   19).
 
    An SD-CWT is a format based on CWT, but it allows some additional
    types in maps to indicate values that were or should be redacted, and
@@ -1326,10 +1333,10 @@ Issuer                           Holder                         Verifier
    clock, use of the iat is preferred.
 
    The protected header of the SD-KBT MUST include the typ header
-   parameter with the value application/kb+cwt or the uint value of 294.
-   The Holder SHOULD use the value 294 instead of application/kb+cwt, as
-   the CBOR representation is considerably smaller (3 bytes versus of
-   19).
+   parameter with the value application/kb+cwt or the unsigned integer
+   value of 294.  The Holder SHOULD use the value 294 instead of
+   application/kb+cwt, as the CBOR representation is considerably
+   smaller (3 bytes versus of 19).
 
    The SD-KBT MUST NOT be valid for any time period when its contained
    SD-CWT is invalid.
@@ -1416,7 +1423,9 @@ Issuer                           Holder                         Verifier
        and find the Issuer SD-CWT present in the kcwt field.
 
    2.  Next, the Verifier must validate the SD-CWT as described in
-       Section 7.2 of [RFC8392].
+       Section 7.2 of [RFC8392].  Validators MUST treat an sd_claims or
+       sd_aead_encrypted_claims unprotected Header Parameter with an
+       empty array as invalid.
 
    3.  The Verifier checks the time claims in the SD-CWT as follows:
 
@@ -1598,13 +1607,13 @@ Issuer                           Holder                         Verifier
 
 11.1.  To Be Redacted Tag Definition
 
-   In order to indicate specific claims that must be redacted in a Claim
-   Set, this specification defines a new CBOR tag "To Be Redacted".  The
-   tag can be used by a library to automatically convert a Claim Set
-   with "To Be Redacted" tags into a) a new Claim Set containing
-   Redacted Claim Keys and Redacted Claim Elements replacing the tagged
-   claim keys or claim elements, and b) a set of corresponding Salted
-   Disclosed Claims.
+   In order to indicate specific claims that the Holder would like to be
+   redacted in a Claim Set, this specification defines a new CBOR tag
+   "To Be Redacted".  The tag can be used by a library to automatically
+   convert a Claim Set with "To Be Redacted" tags into a) a new Claim
+   Set containing Redacted Claim Keys and Redacted Claim Elements
+   replacing the tagged claim keys or claim elements, and b) a set of
+   corresponding Salted Disclosed Claims.
 
    When used on an element in an array, the value to be redacted is
    present inside the tag.  When used on a map key and value, the tag is

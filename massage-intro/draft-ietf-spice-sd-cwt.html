@@ -2217,20 +2217,28 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-sd-cwt-definition" class="section-name selfRef">SD-CWT Definition</a>
       </h2>
 <p id="section-5-1">SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
-An SD-CWT <span class="bcp14">MUST</span> include the protected header parameter <code>typ</code> <span>[<a href="#RFC9596" class="cite xref">RFC9596</a>]</span> with a value declaring that the object is an SD-CWT.
-This value <span class="bcp14">MAY</span> be the string content type value <code>application/sd-cwt</code>,
-the uint Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> content-format value 293,
-or a value declaring that the object is a more specific kind of SD-CWT,
-such as a content type value using the <code>+sd-cwt</code> structured suffix.
-The Issuer <span class="bcp14">SHOULD</span> use the value 293 instead of <code>application/sd-cwt</code>, as the CBOR representation is considerably smaller (3 bytes versus of 19).<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
-Unlike CWT, SD-CWT requires key binding.<a href="#section-5-2" class="pilcrow">¶</a></p>
-<p id="section-5-3">An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
-It is not required to contain any blinded claims.<a href="#section-5-3" class="pilcrow">¶</a></p>
-<p id="section-5-4">Optionally the salted Claim Values (and Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the <code>sd_claims</code> header parameter in the unprotected header of the CWT (the disclosures).
-If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the <code>sd_claims</code> header parameter is not present in the unprotected header.<a href="#section-5-4" class="pilcrow">¶</a></p>
-<p id="section-5-5">Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
-However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.<a href="#section-5-5" class="pilcrow">¶</a></p>
+An SD-CWT <span class="bcp14">MUST</span> declare its content type, by including the protected header parameter <code>typ</code> <span>[<a href="#RFC9596" class="cite xref">RFC9596</a>]</span> with one of the following values:<a href="#section-5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5-2.1">
+          <p id="section-5-2.1.1">the string content type value <code>application/sd-cwt</code>,<a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.2">
+          <p id="section-5-2.2.1">the unsigned integer Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> content-format value 293,<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.3">
+          <p id="section-5-2.3.1">or a value declaring that the object is a more specific kind of SD-CWT,
+such as a content type value using the <code>+sd-cwt</code> structured suffix.<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-5-3">The Issuer <span class="bcp14">SHOULD</span> use the value 293 instead of <code>application/sd-cwt</code>, as the CBOR representation is considerably smaller (3 bytes versus of 19).<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-4">An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
+Unlike CWT, SD-CWT requires key binding.<a href="#section-5-4" class="pilcrow">¶</a></p>
+<p id="section-5-5">An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
+It is not required to contain any blinded claims.<a href="#section-5-5" class="pilcrow">¶</a></p>
+<p id="section-5-6">Optionally the salted Claim Values (and Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the <code>sd_claims</code> header parameter in the unprotected header of the CWT (the disclosures).
+If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the <code>sd_claims</code> header parameter is not present in the unprotected header.<a href="#section-5-6" class="pilcrow">¶</a></p>
+<p id="section-5-7">Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
+However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.<a href="#section-5-7" class="pilcrow">¶</a></p>
 <div id="blinded-claims">
 <section id="section-5.1">
         <h3 id="name-types-of-blinded-claims">
@@ -2822,7 +2830,7 @@ Therefore, the <code>sub</code> and <code>iss</code> of an SD-KBT are implied fr
 <p id="section-8.1-4">The <code>aud</code> claim <span class="bcp14">MUST</span> be included and <span class="bcp14">MUST</span> correspond to the Verifier.
 The SD-KBT payload <span class="bcp14">MUST</span> contain either the <code>iat</code> (issued at) claim, or the <code>cti</code> (CWT ID) claim.
 If the Holder has access to an accurate clock, use of the <code>iat</code> is preferred.<a href="#section-8.1-4" class="pilcrow">¶</a></p>
-<p id="section-8.1-5">The protected header of the SD-KBT <span class="bcp14">MUST</span> include the <code>typ</code> header parameter with the value <code>application/kb+cwt</code> or the uint value of 294.
+<p id="section-8.1-5">The protected header of the SD-KBT <span class="bcp14">MUST</span> include the <code>typ</code> header parameter with the value <code>application/kb+cwt</code> or the unsigned integer value of 294.
 The Holder <span class="bcp14">SHOULD</span> use the value 294 instead of <code>application/kb+cwt</code>, as the CBOR representation is considerably smaller (3 bytes versus of 19).<a href="#section-8.1-5" class="pilcrow">¶</a></p>
 <p id="section-8.1-6">The SD-KBT <span class="bcp14">MUST NOT</span> be valid for any time period when its contained SD-CWT is invalid.<a href="#section-8.1-6" class="pilcrow">¶</a></p>
 <p id="section-8.1-7">The SD-KBT provides the following assurances to the Verifier:<a href="#section-8.1-7" class="pilcrow">¶</a></p>
@@ -2909,7 +2917,7 @@ All other claims are <span class="bcp14">OPTIONAL</span> in an SD-KBT.<a href="#
           <p id="section-9-3.1.1">First the Verifier must open the protected headers of the SD-KBT and find the Issuer SD-CWT present in the <code>kcwt</code> field.<a href="#section-9-3.1.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-3.2">
-          <p id="section-9-3.2.1">Next, the Verifier must validate the SD-CWT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-9-3.2.1" class="pilcrow">¶</a></p>
+          <p id="section-9-3.2.1">Next, the Verifier must validate the SD-CWT as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-7.2" class="relref">Section 7.2</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>. Validators <span class="bcp14">MUST</span> treat an <code>sd_claims</code> or <code>sd_aead_encrypted_claims</code> unprotected Header Parameter with an empty array as invalid.<a href="#section-9-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-3.3">
           <p id="section-9-3.3.1">The Verifier checks the time claims in the SD-CWT as follows:<a href="#section-9-3.3.1" class="pilcrow">¶</a></p>
@@ -3126,7 +3134,7 @@ An example issued SD-CWT containing decoy digests is shown below.<a href="#secti
         <h3 id="name-to-be-redacted-tag-definiti">
 <a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-to-be-redacted-tag-definiti" class="section-name selfRef">To Be Redacted Tag Definition</a>
         </h3>
-<p id="section-11.1-1">In order to indicate specific claims that must be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
+<p id="section-11.1-1">In order to indicate specific claims that the Holder would like to be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
 The tag can be used by a library to automatically convert a Claim Set with "To Be Redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <p id="section-11.1-2">When used on an element in an array, the value to be redacted is present inside the tag.
 When used on a map key and value, the tag is placed around the map key, while the map value remains.<a href="#section-11.1-2" class="pilcrow">¶</a></p>
