@@ -79,7 +79,7 @@ informative:
 --- abstract
 
 This specification describes a data minimization technique for use with CBOR Web Tokens (CWTs).
-The approach is based on the Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE) and CWTs.
+The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE) and CWTs.
 
 
 --- middle
