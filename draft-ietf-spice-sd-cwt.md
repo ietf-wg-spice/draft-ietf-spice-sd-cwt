@@ -791,7 +791,7 @@ The exact order of the following steps MAY be changed, as long as all checks are
 
 1. First the Verifier must open the protected headers of the SD-KBT and find the Issuer SD-CWT present in the `kcwt` field.
 
-2. Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of !RFC8392}}.
+2. Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of !RFC8392}}. Validators MUST treat an `sd_claims` or `sd_aead_encrypted_claims` unprotected Header Parameter with an empty array as invalid.
 
 3. The Verifier checks the time claims in the SD-CWT as follows:
 
