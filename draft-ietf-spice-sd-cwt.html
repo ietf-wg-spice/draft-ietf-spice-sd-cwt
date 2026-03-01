@@ -3171,14 +3171,19 @@ The snippet of EDN shown below shows one mechanism to communicate to the Issuer 
 This tag can be used by a library to automatically a) add a decoy digest at a particular location in an array, or at a particular level in a map; and b) create the corresponding Salted Disclosed Claims.
 The value inside is a positive integer that <span class="bcp14">MUST</span> be unique for each decoy location within the SD-CWT.
 The integer could be used to look up the salt for the decoy deterministically, but does not impose any ordering.
-When a decoy digest is requested in a map, the map value is always <code>null</code>.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
-<p id="section-11.2-2">In the example fragment below, the transit countries claim contains an array of countries.
+When a decoy digest is requested in a map, the map <em>value</em> is always <code>null</code>.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-11.2-2.1">
+            <p id="section-11.2-2.1.1">Note: Requiring an integer that is unique per decoy within the entire CWT simplifies the implementation of SD-CWT libraries. Issuers that receive To Be Decoy tags with duplicate values inside the same CWT <span class="bcp14">MUST NOT</span> issue an SD-CWT based on the preissued Claims Set.<a href="#section-11.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-11.2-3">In the example fragment below, the transit countries claim contains an array of countries.
 The Claim Elements array contains Germany (de) and the Philippines (ph).
 The Holder wants to redact each country, but add decoys to obfuscate the number of component origin countries.
-The example fragment also shows two decoy digests in the same map.<a href="#section-11.2-2" class="pilcrow">¶</a></p>
+The example fragment also shows two decoy digests in the same map.<a href="#section-11.2-3" class="pilcrow">¶</a></p>
 <span id="name-edn-example-requesting-two-"></span><div id="edn-to-be-decoy">
 <figure id="figure-22">
-          <div class="lang-cbor-diag sourcecode" id="section-11.2-3.1">
+          <div class="lang-cbor-diag sourcecode" id="section-11.2-4.1">
 <pre>
 {
   ...
