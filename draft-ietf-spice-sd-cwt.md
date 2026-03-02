@@ -686,13 +686,36 @@ If any Salted Disclosed Claims or Decoys are present, the unprotected header MUS
 If there are no disclosures, the `sd_claims` header parameter value is omitted.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
 
-In an SD-CWT, either the subject `sub` / 2 claim MUST be present, or the redacted form of the subject MUST be present.
-The `iss` / 1 claim SHOULD be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer.
-All other standard CWT claims (`aud` / 3, `exp` / 4, `nbf` / 5, `iat` / 6, and `cti` / 7) are OPTIONAL.
-The `cnonce` / 39 claim is OPTIONAL.
-The `cnf` / 8 claim, the `cnonce` / 39 claim, and the standard claims other than the subject MUST NOT be redacted.
-Any other claims are OPTIONAL and MAY be redacted.
-Profiles of this specification MAY specify additional claims that MUST, MUST NOT, and MAY be redacted.
+The following table describes the claim requirements for an SD-CWT:
+
+| Claim | Requirement | Mandatory to Disclose |
+|-------|-------------|----------------------|
+| `sub` / 2 | MUST be present (disclosed or redacted) | No |
+| `iss` / 1 | SHOULD (see note) | Yes |
+| `aud` / 3 | OPTIONAL | Yes |
+| `exp` / 4 | OPTIONAL | Yes |
+| `nbf` / 5 | OPTIONAL | Yes |
+| `iat` / 6 | OPTIONAL | Yes |
+| `cti` / 7 | OPTIONAL | Yes |
+| `cnf` / 8 | MUST | Yes |
+| `cnonce` / 39 | OPTIONAL | Yes |
+{: #sd-cwt-claims title="SD-CWT Claim Requirements"}
+
+The `iss` claim SHOULD be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer.
+
+The following table describes the claim requirements for an SD-KBT:
+
+| Claim | Requirement | Mandatory to Disclose |
+|-------|-------------|----------------------|
+| `sub` / 2 | MUST NOT be present | N/A |
+| `iss` / 1 | MUST NOT be present | N/A |
+| `aud` / 3 | MUST | Yes |
+| `iat` / 6 | MUST (unless `cti` present) | Yes |
+| `cti` / 7 | MUST (unless `iat` present) | Yes |
+| `cnonce` / 39 | OPTIONAL | Yes |
+{: #sd-kbt-claims title="SD-KBT Claim Requirements"}
+
+Any claims not addressed in the tables above are OPTIONAL and MAY be redacted in an SD-CWT, unless specified differently by a profile or more specific media type.
 
 To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) {{!RFC9679}} MAY be used in the `cnf` claim.
 
