@@ -913,6 +913,7 @@ When a decoy digest is requested in a map, the map *value* is always `null`.
 
 {:aside}
 > Note: Requiring an integer that is unique per decoy within the entire CWT ensures that duplicate map keys are not needed (see {{Section 5.6 of CBOR}}).
+
 An Issuer MUST NOT issue an SD-CWT if the preissued Claims set contains duplicated keys.
 
 In the example fragment below, the transit countries claim contains an array of countries.
