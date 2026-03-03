@@ -934,7 +934,10 @@ The value inside is a positive integer that MUST be unique for each decoy locati
 The integer could be used to look up the salt for the decoy deterministically, but does not impose any ordering.
 When a decoy digest is requested in a map, the map *value* is always `null`.
 
-> Note: Requiring an integer that is unique per decoy within the entire CWT simplifies the implementation of SD-CWT libraries. Issuers that receive To Be Decoy tags with duplicate values inside the same CWT MUST NOT issue an SD-CWT based on the preissued Claims Set.
+{:aside}
+> Note: Requiring an integer that is unique per decoy within the entire CWT ensures that duplicate map keys are not needed (see {{Section 5.6 of CBOR}}).
+
+An Issuer MUST NOT issue an SD-CWT if the preissued Claims set contains duplicated keys.
 
 In the example fragment below, the transit countries claim contains an array of countries.
 The Claim Elements array contains Germany (de) and the Philippines (ph).
