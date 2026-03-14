@@ -912,7 +912,7 @@ The integer could be used to look up the salt for the decoy deterministically, b
 When a decoy digest is requested in a map, the map *value* is always `null`.
 
 {:aside}
-> Note: Requiring an integer that is unique per decoy within the entire CWT ensures that there are no duplicate map keys in the Claims Set (see {{Section 5.6 of CBOR}}).
+> Note: Requiring an integer that is unique per decoy within the entire CWT ensures that there are no duplicate map keys in the Claims Set (see {{Section 5.6 of RFC8949}}).
 
 An Issuer MUST NOT issue an SD-CWT if the pre-issued Claims Set contains duplicated map keys.
 
