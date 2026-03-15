@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-03T01:09:06.691956+00:00",
+  "timestamp": "2026-03-15T01:17:23.035364+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3740,11 +3740,12 @@
       ],
       "labels": [
         "ready-for-pr",
+        "blocked",
         "has-PR"
       ],
       "body": "> SD-CWT enables Issuers to mark certain Claim Keys or Claim Values mandatory or optional for a Holder of a CWT to disclose. \n\nThis is not really true.  If someone gave me an SD-CWT that contains \"mandatory\" claims I didn't want to disclose, I can choose not to present it.\n\nI think the way you want to frame this more as the format allowing the holder of an SD-CWT to withhold disclosure of any claim (key and value) or value, provided that the issuer of the SD-CWT chooses to allow selective disclosure.",
       "createdAt": "2026-01-23T00:14:51Z",
-      "updatedAt": "2026-03-01T11:12:53Z",
+      "updatedAt": "2026-03-14T09:28:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -3781,6 +3782,13 @@
           "body": "partially addressed in #251 ",
           "createdAt": "2026-03-01T11:12:53Z",
           "updatedAt": "2026-03-01T11:12:53Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "what we do here related to #255 ",
+          "createdAt": "2026-03-14T09:28:19Z",
+          "updatedAt": "2026-03-14T09:28:19Z"
         }
       ]
     },
@@ -3836,10 +3844,12 @@
       "assignees": [
         "OR13"
       ],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "The introduction talks about the linkability risks inherent in the design.  I think that this should be expanded a little more.  There are definitely settings where different forms of linkability are not a liability, but an asset, but the spectrum of risks to privacy is important information to front load a little.  You can lean on the material that is in [15.1. ](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-15.1)[Correlation](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#name-correlation), but I strongly recommend spending a little more text on this.",
       "createdAt": "2026-01-23T00:24:27Z",
-      "updatedAt": "2026-02-07T08:29:29Z",
+      "updatedAt": "2026-03-14T09:31:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -4344,11 +4354,12 @@
         "rohanmahy"
       ],
       "labels": [
+        "ready-for-pr",
         "next-stretch"
       ],
       "body": "The document [requires](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-6.3-13) that documents not nest tags.  Excellent idea, but it should use normative language, especially with respect to receivers (Issuers, but mostly Verifiers).\n\n> Multiple levels of tags in a map key are not permitted.\n\nThis was a clear example of this lack; I don't know if there are other similar cases where ordinary prose is used to state a somewhat important requirement.  It might be worth checking this section more carefully than I.",
       "createdAt": "2026-01-23T01:44:31Z",
-      "updatedAt": "2026-03-01T12:07:02Z",
+      "updatedAt": "2026-03-14T09:34:27Z",
       "closedAt": null,
       "comments": [
         {
@@ -4443,7 +4454,7 @@
       ],
       "body": "My understanding is that confirmation keys are optional, but [this says otherwise](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-7-3):\n\n> The payload also MUST include a key confirmation element (cnf) [[RFC8747](https://www.rfc-editor.org/rfc/rfc8747)] for the Holder's public key.\n\nIs that a good idea?  Confirmation keys serve a purpose, but not all applications need them.  Shouldn't this statement be conditional instead?",
       "createdAt": "2026-01-23T01:54:48Z",
-      "updatedAt": "2026-03-01T12:09:17Z",
+      "updatedAt": "2026-03-14T08:37:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -4494,6 +4505,13 @@
           "body": "Maybe covered in #251 @martinthomson ",
           "createdAt": "2026-03-01T12:08:41Z",
           "updatedAt": "2026-03-01T12:08:41Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Copying related comment:\n\n----\n> The Issuer SHOULD confirm the Holder controls all confirmation material before issuing credentials using the `cnf` claim.\n\nIs this true?\n\nI'm thinking of the classic argument in the SIGMA paper, which establishes that there is no security requirement that requires a website to offer a CA proof that it controls the key for which a certificate is issued. (Nonetheless, many protocols insist on proof of possession for this sort of interaction, resulting in some interesting potential for the issuance protocol to be an attack vector on the usage protocol.)\n\nThis tends to be the case when the security goal is unclear. What goal would this recommendation serve?\n\nFinally, what happens if I choose to ignore this \"SHOULD\"? The IESG tends to ask questions like that.",
+          "createdAt": "2026-03-14T08:37:32Z",
+          "updatedAt": "2026-03-14T08:37:32Z"
         }
       ]
     },
@@ -4642,7 +4660,7 @@
       "id": "I_kwDOMm_Q2s7lNb42",
       "title": "Redundant and over-constraining time validity checks",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/215",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -4651,8 +4669,8 @@
       ],
       "body": "[This](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-8.1-5):\n\n> The SD-KBT MUST NOT be valid for any time period when its contained SD-CWT is invalid.\n\nThis doesn't contribute to security.  It only adds extra requirements for code to check that times are all in alignment, at both the Holder and Verifier.  Otherwise, a little clock skew can cause things to get out of sync.  Or different policies about key validity lifetimes.\n\nOver-constraining the system this way is unnecessary.",
       "createdAt": "2026-01-23T02:13:55Z",
-      "updatedAt": "2026-01-23T14:39:10Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-14T09:30:08Z",
+      "closedAt": "2026-03-14T09:30:07Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -4667,6 +4685,13 @@
           "body": "Also in case of a clock skew it affects uniformaly the verification of time claims by the Holder or the Verifier.\nSo it does not change what this implies, e.g. `sd_cwt.exp >= sd_kbt.exp`",
           "createdAt": "2026-01-23T14:39:09Z",
           "updatedAt": "2026-01-23T14:39:09Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing as wontfix",
+          "createdAt": "2026-03-14T09:30:07Z",
+          "updatedAt": "2026-03-14T09:30:07Z"
         }
       ]
     },
@@ -5028,11 +5053,12 @@
         "OR13"
       ],
       "labels": [
+        "ready-for-pr",
         "clarity"
       ],
       "body": "The [first sentence of Section 16.1](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.1-1):\n\n> Verification of an SD-CWT requires that the Verifier have access to a verification key (public key) associated with the Issuer. \n\nreminded me that if the Verifier has the attacker's public key, no key compromise is necessary.  It might be worth saying that.\n\nIf so, try to break that paragraph up a little.  It's a bit much right now.",
       "createdAt": "2026-01-23T03:58:50Z",
-      "updatedAt": "2026-03-02T15:17:31Z",
+      "updatedAt": "2026-03-14T09:46:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -19118,7 +19144,7 @@
       "labels": [],
       "body": "- Modified introduction (partially addresses #189, #211)\r\n- Changed \"based on\" SD-JWT to \"inspired by\" SD-JWT in Intro and Abstract ( #187)\r\n- Moved two paragraphs from the Intro to the protocol Overview\r\n- Moved Figures 2 and 3 into the protocol Overview (commit message is wrong) (#194)\r\n- Rounded the corners on Figure 3 (commit message is wrong) (#193 )\r\n- Made a few other clarifications in opening sections\r\n- Incorporate suggestion from #188 \r\n- Move normative language in Section 1.1 to respective sections #190 \r\n- Add line about verifier handling of empty claims arrays #197 \r\n- Reword language about `typ` values #199\r\n- Clarify language about claim \"name\" #202\r\n- Replace a lowercase must #216 \r\n\r\nConsider a global search and replace s/redacted/blinded/. This may have consequences for IANA-reserved names containing the word redacted.",
       "createdAt": "2026-03-01T10:27:55Z",
-      "updatedAt": "2026-03-02T15:03:59Z",
+      "updatedAt": "2026-03-14T09:14:50Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "3617a1bd4e80f556c45fddcddab588b441db80c1",
@@ -19195,6 +19221,46 @@
               "body": "Your comment suggested that you were replacing instances of \"redacted\" with \"blinded\" or at least considering it.  What happened there?",
               "createdAt": "2026-03-02T15:03:57Z",
               "updatedAt": "2026-03-02T15:03:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7rWJi-",
+          "commit": {
+            "abbreviatedOid": "d58d716"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-14T08:35:42Z",
+          "updatedAt": "2026-03-14T08:35:42Z",
+          "comments": [
+            {
+              "originalPosition": 229,
+              "body": "Now captured in Issue #255 . We still wanted to discuss. Orie's take:\n- blinded is more cryptographer convention\n- redacted is better understood by the general public by analogy",
+              "createdAt": "2026-03-14T08:35:42Z",
+              "updatedAt": "2026-03-14T08:35:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7rWa6W",
+          "commit": {
+            "abbreviatedOid": "d58d716"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-14T09:14:50Z",
+          "updatedAt": "2026-03-14T09:14:50Z",
+          "comments": [
+            {
+              "originalPosition": 138,
+              "body": "copied this into Issue #211 ",
+              "createdAt": "2026-03-14T09:14:50Z",
+              "updatedAt": "2026-03-14T09:14:50Z"
             }
           ]
         }
@@ -19589,13 +19655,13 @@
       "labels": [],
       "body": "Redo: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/257#discussion_r2873071624",
       "createdAt": "2026-03-02T17:19:11Z",
-      "updatedAt": "2026-03-02T19:19:40Z",
+      "updatedAt": "2026-03-14T03:31:05Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "730ee1cf6360bfe138a9eb2796212f60d53a09c9",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "OR13-patch-1",
-      "headRefOid": "cdeb40183721ece471e9c2ce25af89f5ec1544b6",
+      "headRefOid": "0e6c2651c4481462f5b1a0a1b560f3f2dd2ec2d2",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -19639,6 +19705,46 @@
               "body": "Maybe?\n\n```suggestion\n> Note: Requiring an integer that is unique per decoy within the entire CWT ensures that there are no duplicate map keys in the Claims Set (see {{Section 5.6 of CBOR}}).\n```",
               "createdAt": "2026-03-02T19:19:40Z",
               "updatedAt": "2026-03-02T19:19:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7rUWLP",
+          "commit": {
+            "abbreviatedOid": "cdeb401"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-14T03:26:10Z",
+          "updatedAt": "2026-03-14T03:26:10Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\nAn Issuer MUST NOT issue an SD-CWT if the pre-issued Claims Set contains duplicated map keys.\n```",
+              "createdAt": "2026-03-14T03:26:10Z",
+              "updatedAt": "2026-03-14T03:26:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7rUY0C",
+          "commit": {
+            "abbreviatedOid": "0233c91"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-14T03:30:36Z",
+          "updatedAt": "2026-03-14T03:30:37Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\n> Note: Requiring an integer that is unique per decoy within the entire CWT ensures that there are no duplicate map keys in the Claims Set (see {{Section 5.6 of RFC8949}}).\n```",
+              "createdAt": "2026-03-14T03:30:36Z",
+              "updatedAt": "2026-03-14T03:30:37Z"
             }
           ]
         }
