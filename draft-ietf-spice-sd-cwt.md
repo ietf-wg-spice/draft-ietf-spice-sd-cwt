@@ -590,6 +590,7 @@ These values are represented by the `safe-value` CDDL type.
 ~~~
 {: #cddl-legal-values title="CDDL of Safe Values in SD-CWTs"}
 
+{:aside}
 Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
 
 Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
