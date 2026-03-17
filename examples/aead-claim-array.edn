@@ -1,7 +1,7 @@
 [
-    / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
-    / ciphertext / h'2e9a9570254916fd81db30a4126381c4
-                     dc8221a2d95e85a7191747e12f68b2fd
-                     9cfae5',
-    / tag /        h'799147ab37efe19d2b14ff330bfff08b'
+    / nonce /      h'95d0040fe650e5baf51c907c',
+    / ciphertext / h'563a7d9f0f65d40b751fbc3fcc408e8f
+                     e27c375b60a4727b1f1e9572c07992eb
+                     5ec5a9',
+    / tag /        h'9f4d37da32187528416ed7ee95e0625f'
 ],

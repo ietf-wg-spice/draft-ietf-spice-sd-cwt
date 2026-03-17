@@ -58,7 +58,7 @@ def decrypt_disclosure(key, nonce, ciphertext, tag):
     decipher.decrypt_and_verify(ciphertext, tag, output=out)
     return bytes(out)
 
-nonce = hex2bytes('95d0040fe650e5baf51c907c31be15dc')
+nonce = hex2bytes('95d0040fe650e5baf51c907c')
 hex_key = 'a061c27a3273721e210d031863ad81b6'
 key = hex2bytes(hex_key)
 salt = hex2bytes('bae611067bb823486797da1ebbb52f83')
