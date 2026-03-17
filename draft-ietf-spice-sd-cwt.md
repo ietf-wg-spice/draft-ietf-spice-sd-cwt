@@ -1243,8 +1243,8 @@ For example, a high precision issuance time might match the issuance of only a f
 
 ## Determinism
 
-It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by requesting fewer or more decoys.
-Both the Holder and the Issuer could encode information that would arrive at a Verifier, but there is no guarantee that any such information added by the Holder will survive the encoding of the Issuer.
+It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, by choosing different numeric encodings for certain data elements, or by incorporating fewer or more decoys (see {{decoys}}).
+Both the Holder and the Issuer can encode information that could arrive at a Verifier, but there is no guarantee that any such information added by the Holder will survive the encoding of the Issuer.
 {{Appendix B of !I-D.ietf-cbor-serialization}} provides guidance for constructing application profiles that further constrain CBOR encoding.
 The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
