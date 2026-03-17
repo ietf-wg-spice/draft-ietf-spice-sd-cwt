@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 15 September 2026                                  Tradeverifyd
+Expires: 18 September 2026                                  Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           14 March 2026
+                                                           17 March 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 September 2026.
+   This Internet-Draft will expire on 18 September 2026.
 
 Copyright Notice
 
@@ -1662,7 +1662,7 @@ Issuer                           Holder                         Verifier
       |  Claims Set (see Section 5.6 of [RFC8949]).
 
    An Issuer MUST NOT issue an SD-CWT if the pre-issued Claims Set
-   contains duplicated map keys.
+   contains duplicate map keys.
 
    In the example fragment below, the transit countries claim contains
    an array of countries.  The Claim Elements array contains Germany
