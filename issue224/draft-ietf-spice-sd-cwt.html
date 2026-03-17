@@ -3802,8 +3802,8 @@ For example, a high precision issuance time might match the issuance of only a f
         <h3 id="name-determinism">
 <a href="#section-15.2" class="section-number selfRef">15.2. </a><a href="#name-determinism" class="section-name selfRef">Determinism</a>
         </h3>
-<p id="section-15.2-1">It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by requesting fewer or more decoys.
-Both the Holder and the Issuer could encode information that would arrive at a Verifier, but there is no guarantee that any such information added by the Holder will survive the encoding of the Issuer.
+<p id="section-15.2-1">It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, by choosing different numeric encodings for certain data elements, or by incorporating fewer or more decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
+Both the Holder and the Issuer can encode information that could arrive at a Verifier, but there is no guarantee that any such information added by the Holder will survive the encoding of the Issuer.
 <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-serialization-04#appendix-B" class="relref">Appendix B</a> of [<a href="#I-D.ietf-cbor-serialization" class="cite xref">I-D.ietf-cbor-serialization</a>]</span> provides guidance for constructing application profiles that further constrain CBOR encoding.
 The construction of such profiles has a significant impact on the privacy properties of a credential type.<a href="#section-15.2-1" class="pilcrow">¶</a></p>
 </section>
