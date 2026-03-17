@@ -593,9 +593,9 @@ These values are represented by the `safe-value` CDDL type.
 {:aside}
 Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
 
-Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
+Tagged map keys are not registered in the CBOR Web Token Claims IANA registry, since tags are not valid map keys in {{!RFC8392}}.
 Instead, the tag provides additional information about the tagged Claim Key and the corresponding (untagged) value.
-Multiple levels of tags in a map key are not permitted.
+Issuers MUST NOT nest multiple levels of tags in a map key. Holders and Verifiers MUST reject SD-CWTs that contain multiple levels of tags in a map key.
 
 
 ## Duplicate map key detection
