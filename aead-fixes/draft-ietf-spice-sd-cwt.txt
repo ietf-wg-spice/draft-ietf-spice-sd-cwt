@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 18 September 2026                                  Tradeverifyd
+Expires: 24 September 2026                                  Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           17 March 2026
+                                                           23 March 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 September 2026.
+   This Internet-Draft will expire on 24 September 2026.
 
 Copyright Notice
 
@@ -1784,15 +1784,15 @@ Issuer                           Holder                         Verifier
    The corresponding bstr is encrypted with an AEAD algorithm [RFC5116].
    If present, the algorithm of the sd_aead protected header field is
    used, or AEAD_AES_128_GCM if no algorithm was specified.  The bstr is
-   encrypted with a unique, random nonce of between N_MIN and N_MAX
-   octets (inclusive).  The associated (authenticated) data A is zero-
-   length.  The AEAD ciphertext consists of its encryption algorithm's
-   ciphertext and its authentication tag.  (For example, in
-   AEAD_AES_128_GCM the authentication tag is 16 octets.)  The nonce
-   (nonce), the encryption algorithm's ciphertext (ciphertext) and
-   authentication tag (tag) are put in an array.  The resulting array is
-   placed in the sd_aead_encrypted_claims header parameter in the
-   unprotected headers of the SD-CWT.
+   encrypted with a unique, random nonce of N_MIN octets.  The
+   associated (authenticated) data A is zero-length.  The AEAD
+   ciphertext consists of its encryption algorithm's ciphertext and its
+   authentication tag.  (For example, in AEAD_AES_128_GCM the
+   authentication tag is 16 octets.)  The nonce (nonce), the encryption
+   algorithm's ciphertext (ciphertext) and authentication tag (tag) are
+   put in an array.  The resulting array is placed in the
+   sd_aead_encrypted_claims header parameter in the unprotected headers
+   of the SD-CWT.
 
    Given the AEAD encryption key (in hexadecimal):
 
@@ -1827,7 +1827,7 @@ Issuer                           Holder                         Verifier
 
    aead-encrypted-array = [ +aead-encrypted ]
    aead-encrypted = [
-     bstr,              ; nonce of N_MIN to N_MAX (inclusive)
+     bstr,              ; nonce of N_MIN octets
      bstr,              ; the encryption ciphertext output of a
                         ;   bstr-encoded-salted
      bstr               ; the corresponding authentication tag
@@ -3137,7 +3137,7 @@ Appendix A.  Complete CDDL Schema
 
    aead-encrypted-array = [ +aead-encrypted ]
    aead-encrypted = [
-     bstr,              ; nonce of N_MIN to N_MAX (inclusive)
+     bstr,              ; nonce of N_MIN octets
      bstr,              ; the encryption ciphertext output of a
                         ;   bstr-encoded-salted
      bstr               ; the corresponding authentication tag
