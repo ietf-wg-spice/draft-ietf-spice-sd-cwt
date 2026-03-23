@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 3 September 2026                                   Tradeverifyd
+Expires: 24 September 2026                                  Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                            2 March 2026
+                                                           23 March 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2026.
+   This Internet-Draft will expire on 24 September 2026.
 
 Copyright Notice
 
@@ -1784,8 +1784,9 @@ Issuer                           Holder                         Verifier
    The corresponding bstr is encrypted with an AEAD algorithm [RFC5116].
    If present, the algorithm of the sd_aead protected header field is
    used, or AEAD_AES_128_GCM if no algorithm was specified.  The bstr is
-   encrypted with a unique, random 16-octet nonce.  The AEAD ciphertext
-   consists of its encryption algorithm's ciphertext and its
+   encrypted with a unique, random nonce of N_MIN octets.  The
+   associated (authenticated) data A is zero-length.  The AEAD
+   ciphertext consists of its encryption algorithm's ciphertext and its
    authentication tag.  (For example, in AEAD_AES_128_GCM the
    authentication tag is 16 octets.)  The nonce (nonce), the encryption
    algorithm's ciphertext (ciphertext) and authentication tag (tag) are
@@ -1801,11 +1802,11 @@ Issuer                           Holder                         Verifier
 
    / sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
    [
-       / nonce /      h'95d0040fe650e5baf51c907c31be15dc',
-       / ciphertext / h'2e9a9570254916fd81db30a4126381c4
-                        dc8221a2d95e85a7191747e12f68b2fd
-                        9cfae5',
-       / tag /        h'799147ab37efe19d2b14ff330bfff08b'
+       / nonce /      h'95d0040fe650e5baf51c907c',
+       / ciphertext / h'563a7d9f0f65d40b751fbc3fcc408e8f
+                        e27c375b60a4727b1f1e9572c07992eb
+                        5ec5a9',
+       / tag /        h'9f4d37da32187528416ed7ee95e0625f'
    ],
        ...
    ]
@@ -1826,7 +1827,7 @@ Issuer                           Holder                         Verifier
 
    aead-encrypted-array = [ +aead-encrypted ]
    aead-encrypted = [
-     bstr .size 16,     ; 128-bit nonce
+     bstr,              ; nonce of N_MIN octets
      bstr,              ; the encryption ciphertext output of a
                         ;   bstr-encoded-salted
      bstr               ; the corresponding authentication tag
@@ -2822,9 +2823,9 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "CBOR Extended Diagnostic Notation (EDN)",
               Work in Progress, Internet-Draft, draft-ietf-cbor-edn-
-              literals-19, 16 October 2025,
+              literals-20, 2 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              edn-literals-19>.
+              edn-literals-20>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -3136,7 +3137,7 @@ Appendix A.  Complete CDDL Schema
 
    aead-encrypted-array = [ +aead-encrypted ]
    aead-encrypted = [
-     bstr .size 16,     ; 128-bit nonce
+     bstr,              ; nonce of N_MIN octets
      bstr,              ; the encryption ciphertext output of a
                         ;   bstr-encoded-salted
      bstr               ; the corresponding authentication tag
