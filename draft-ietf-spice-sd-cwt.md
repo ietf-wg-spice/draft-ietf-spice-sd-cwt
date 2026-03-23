@@ -590,11 +590,12 @@ These values are represented by the `safe-value` CDDL type.
 ~~~
 {: #cddl-legal-values title="CDDL of Safe Values in SD-CWTs"}
 
-Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
 
-Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
+> Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.
+
+Tagged map keys are not registered in the CBOR Web Token Claims IANA registry, since tags are not valid map keys in {{!RFC8392}}.
 Instead, the tag provides additional information about the tagged Claim Key and the corresponding (untagged) value.
-Multiple levels of tags in a map key are not permitted.
+Issuers MUST NOT nest multiple levels of tags in a map key. Holders and Verifiers MUST reject SD-CWTs that contain multiple levels of tags in a map key.
 
 
 ## Duplicate map key detection
@@ -619,7 +620,7 @@ For example, if the map below is contained inside a payload, it is invalid becau
 
 ## Level of Nesting of Claims
 
-Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is NOT RECOMMENDED as it could lead to resource exhaustion vulnerabilities.
+Selective disclosure of deeply nested structures could lead to resource exhaustion vulnerabilities. Issuers, Holders, and Verifiers MAY reject SD-CWT Claims Sets exceeding a depth of 16 levels.
 
 The individual map key / value pairs in a Claim Set are defined as the "top level", or level 1.
 For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.
