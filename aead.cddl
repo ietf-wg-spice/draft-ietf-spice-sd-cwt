@@ -1,6 +1,6 @@
 aead-encrypted-array = [ +aead-encrypted ]
 aead-encrypted = [
-  bstr,              ; nonce of N_MIN to N_MAX (inclusive)
+  bstr,              ; nonce of N_MIN octets
   bstr,              ; the encryption ciphertext output of a
                      ;   bstr-encoded-salted
   bstr               ; the corresponding authentication tag

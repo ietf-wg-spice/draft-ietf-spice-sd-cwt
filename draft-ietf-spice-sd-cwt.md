@@ -989,7 +989,7 @@ Taking the first example disclosure from above:
 
 The corresponding bstr is encrypted with an AEAD algorithm {{!RFC5116}}.
 If present, the algorithm of the `sd_aead` protected header field is used, or AEAD_AES_128_GCM if no algorithm was specified.
-The bstr is encrypted with a unique, random nonce of between N_MIN and N_MAX octets (inclusive).
+The bstr is encrypted with a unique, random nonce of N_MIN octets.
 The associated (authenticated) data `A` is zero-length.
 The AEAD ciphertext consists of its encryption algorithm's ciphertext and its authentication tag.
 (For example, in AEAD_AES_128_GCM the authentication tag is 16 octets.)
