@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 18 September 2026                                  Tradeverifyd
+Expires: 24 September 2026                                  Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           17 March 2026
+                                                           23 March 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 September 2026.
+   This Internet-Draft will expire on 24 September 2026.
 
 Copyright Notice
 
@@ -1083,9 +1083,8 @@ Issuer                           Holder                         Verifier
 6.5.  Level of Nesting of Claims
 
    Selective disclosure of deeply nested structures could lead to
-   resource exhaustion vulnerabilities.  Issuers, Holders, and
-   Validators MAY reject SD-CWT Claims Sets exceeding a depth of 16
-   levels.
+   resource exhaustion vulnerabilities.  Issuers, Holders, and Verifiers
+   MAY reject SD-CWT Claims Sets exceeding a depth of 16 levels.
 
    The individual map key / value pairs in a Claim Set are defined as
    the "top level", or level 1.  For each value that is an array, a map,
