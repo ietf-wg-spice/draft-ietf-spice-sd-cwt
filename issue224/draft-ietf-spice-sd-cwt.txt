@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 18 September 2026                                  Tradeverifyd
+Expires: 24 September 2026                                  Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           17 March 2026
+                                                           23 March 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 September 2026.
+   This Internet-Draft will expire on 24 September 2026.
 
 Copyright Notice
 
@@ -2167,14 +2167,12 @@ Issuer                           Holder                         Verifier
 
 15.2.  Determinism
 
-   It is possible to encode additional information through the choices
-   made during the serialization stage of producing an SD-CWT, for
-   example, by adjusting the order of CBOR map keys, by choosing
-   different numeric encodings for certain data elements, or by
-   incorporating fewer or more decoys (see Section 10).  Both the Holder
-   and the Issuer can encode information that could arrive at a
-   Verifier, but there is no guarantee that any such information added
-   by the Holder will survive the encoding of the Issuer.  Appendix B of
+   It is possible for the Issuer to encode additional information
+   through the choices made during the serialization stage of producing
+   an SD-CWT, for example, by adjusting the order of CBOR map keys, by
+   choosing different numeric encodings for certain data elements, or by
+   incorporating fewer or more decoys (see Section 10).  Likewise the
+   Holder can encode information in the KBT.  Appendix B of
    [I-D.ietf-cbor-serialization] provides guidance for constructing
    application profiles that further constrain CBOR encoding.  The
    construction of such profiles has a significant impact on the privacy
