@@ -2534,10 +2534,14 @@ float53 = -9007199254740992.0..9007199254740992.0 ; from 2^53 to 2^53
 <a href="#name-cddl-of-safe-values-in-sd-c" class="selfRef">CDDL of Safe Values in SD-CWTs</a>
           </figcaption></figure>
 </div>
-<p id="section-6.3-12">Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.<a href="#section-6.3-12" class="pilcrow">¶</a></p>
-<p id="section-6.3-13">Tagged keys are not registered in the CBOR Web Token Claims IANA registry.
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-6.3-12.1">
+            <p id="section-6.3-12.1.1">Note that Holders presenting to a Verifier that does not support this specification would need to present a CWT without tagged map keys or simple value map keys.<a href="#section-6.3-12.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-6.3-13">Tagged map keys are not registered in the CBOR Web Token Claims IANA registry, since tags are not valid map keys in <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
 Instead, the tag provides additional information about the tagged Claim Key and the corresponding (untagged) value.
-Multiple levels of tags in a map key are not permitted.<a href="#section-6.3-13" class="pilcrow">¶</a></p>
+Issuers <span class="bcp14">MUST NOT</span> nest multiple levels of tags in a map key. Holders and Verifiers <span class="bcp14">MUST</span> reject SD-CWTs that contain multiple levels of tags in a map key.<a href="#section-6.3-13" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="duplicate-map-key-detection">
@@ -2576,7 +2580,7 @@ Map keys and their To Be Redacted tagged verison are considered duplicate map ke
         <h3 id="name-level-of-nesting-of-claims">
 <a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-level-of-nesting-of-claims" class="section-name selfRef">Level of Nesting of Claims</a>
         </h3>
-<p id="section-6.5-1">Selective disclosure of deeply nested structures (exceeding a depth of 16 levels), is <span class="bcp14">NOT RECOMMENDED</span> as it could lead to resource exhaustion vulnerabilities.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
+<p id="section-6.5-1">Selective disclosure of deeply nested structures could lead to resource exhaustion vulnerabilities. Issuers, Holders, and Verifiers <span class="bcp14">MAY</span> reject SD-CWT Claims Sets exceeding a depth of 16 levels.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
 <p id="section-6.5-2">The individual map key / value pairs in a Claim Set are defined as the "top level", or level 1.
 For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
 <p id="section-6.5-3">For example, considering the following abbreviated document, the following table shows the level of depth of the corresponding values:<a href="#section-6.5-3" class="pilcrow">¶</a></p>
