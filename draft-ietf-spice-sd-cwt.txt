@@ -2171,15 +2171,16 @@ Issuer                           Holder                         Verifier
 
 15.2.  Determinism
 
-   It is possible to encode additional information through the choices
-   made during the serialization stage of producing an SD-CWT, for
-   example, by adjusting the order of CBOR map keys, or by choosing
-   different numeric encodings for certain data elements.
-   [I-D.draft-ietf-cbor-cde] provides guidance for constructing
-   application profiles that constrain serialization optionality beyond
-   CBOR Common Deterministic Encoding rulesets (CDE).  The construction
-   of such profiles has a significant impact on the privacy properties
-   of a credential type.
+   It is possible for the Issuer to encode additional information
+   through the choices made during the serialization stage of producing
+   an SD-CWT, for example, by adjusting the order of CBOR map keys, by
+   choosing different numeric encodings for certain data elements, or by
+   incorporating fewer or more decoys (see Section 10).  Likewise the
+   Holder can encode information in the KBT.  Appendix B of
+   [I-D.ietf-cbor-serialization] provides guidance for constructing
+   application profiles that further constrain CBOR encoding.  The
+   construction of such profiles has a significant impact on the privacy
+   properties of a credential type.
 
 15.3.  Audience
 
@@ -2830,6 +2831,13 @@ Issuer                           Holder                         Verifier
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
               edn-literals-20>.
 
+   [I-D.ietf-cbor-serialization]
+              Lundblade, L., "CBOR Serialization and Determinism", Work
+              in Progress, Internet-Draft, draft-ietf-cbor-
+              serialization-04, 28 February 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
+              serialization-04>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -2896,12 +2904,6 @@ Issuer                           Holder                         Verifier
               <https://www.rfc-editor.org/rfc/rfc9679>.
 
 18.2.  Informative References
-
-   [I-D.draft-ietf-cbor-cde]
-              Bormann, C., "CBOR Common Deterministic Encoding (CDE)",
-              Work in Progress, Internet-Draft, draft-ietf-cbor-cde-13,
-              13 October 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-cbor-cde-13>.
 
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",

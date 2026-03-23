@@ -3807,8 +3807,9 @@ For example, a high precision issuance time might match the issuance of only a f
         <h3 id="name-determinism">
 <a href="#section-15.2" class="section-number selfRef">15.2. </a><a href="#name-determinism" class="section-name selfRef">Determinism</a>
         </h3>
-<p id="section-15.2-1">It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements.
-<span>[<a href="#I-D.draft-ietf-cbor-cde" class="cite xref">I-D.draft-ietf-cbor-cde</a>]</span> provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE).
+<p id="section-15.2-1">It is possible for the Issuer to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, by choosing different numeric encodings for certain data elements, or by incorporating fewer or more decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
+Likewise the Holder can encode information in the KBT.
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-serialization-04#appendix-B" class="relref">Appendix B</a> of [<a href="#I-D.ietf-cbor-serialization" class="cite xref">I-D.ietf-cbor-serialization</a>]</span> provides guidance for constructing application profiles that further constrain CBOR encoding.
 The construction of such profiles has a significant impact on the privacy properties of a credential type.<a href="#section-15.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -4647,6 +4648,10 @@ An indication of the relevant sections may also be included, but is not required
         <dd>
 <span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Extended Diagnostic Notation (EDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-20</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-20">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-20</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.ietf-cbor-serialization">[I-D.ietf-cbor-serialization]</dt>
+        <dd>
+<span class="refAuthor">Lundblade, L.</span>, <span class="refTitle">"CBOR Serialization and Determinism"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-serialization-04</span>, <time datetime="2026-02-28" class="refDate">28 February 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-serialization-04">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-serialization-04</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
@@ -4712,10 +4717,6 @@ An indication of the relevant sections may also be included, but is not required
 <a href="#section-18.2" class="section-number selfRef">18.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.draft-ietf-cbor-cde">[I-D.draft-ietf-cbor-cde]</dt>
-        <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Common Deterministic Encoding (CDE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-cde-13</span>, <time datetime="2025-10-13" class="refDate">13 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-13">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-cde-13</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="I-D.draft-ietf-keytrans-protocol">[I-D.draft-ietf-keytrans-protocol]</dt>
         <dd>
 <span class="refAuthor">McMillion, B.</span> and <span class="refAuthor">F. Linker</span>, <span class="refTitle">"Key Transparency Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-keytrans-protocol-03</span>, <time datetime="2025-10-19" class="refDate">19 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-03">https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-03</a>&gt;</span>. </dd>
