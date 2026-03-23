@@ -67,7 +67,6 @@ informative:
   RFC6973:
   I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
-  I-D.draft-ietf-cbor-cde: CDE
   RFC9162: CT
   I-D.draft-ietf-keytrans-protocol: KT
   t-Closeness:
@@ -1250,8 +1249,9 @@ For example, a high precision issuance time might match the issuance of only a f
 
 ## Determinism
 
-It is possible to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, or by choosing different numeric encodings for certain data elements.
-{{-CDE}} provides guidance for constructing application profiles that constrain serialization optionality beyond CBOR Common Deterministic Encoding rulesets (CDE).
+It is possible for the Issuer to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, by choosing different numeric encodings for certain data elements, or by incorporating fewer or more decoys (see {{decoys}}).
+Likewise the Holder can encode information in the KBT.
+{{Appendix B of !I-D.ietf-cbor-serialization}} provides guidance for constructing application profiles that further constrain CBOR encoding.
 The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
 ## Audience
