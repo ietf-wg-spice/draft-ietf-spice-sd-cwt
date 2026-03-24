@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-22T01:11:38.367942+00:00",
+  "timestamp": "2026-03-24T01:05:14.942968+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4354,7 +4354,7 @@
       "id": "I_kwDOMm_Q2s7lNOuU",
       "title": "Be clearer about receiver requirements",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/209",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -4365,8 +4365,8 @@
       ],
       "body": "The document [requires](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-6.3-13) that documents not nest tags.  Excellent idea, but it should use normative language, especially with respect to receivers (Issuers, but mostly Verifiers).\n\n> Multiple levels of tags in a map key are not permitted.\n\nThis was a clear example of this lack; I don't know if there are other similar cases where ordinary prose is used to state a somewhat important requirement.  It might be worth checking this section more carefully than I.",
       "createdAt": "2026-01-23T01:44:31Z",
-      "updatedAt": "2026-03-17T12:36:03Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-23T13:25:56Z",
+      "closedAt": "2026-03-23T13:25:56Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -4402,6 +4402,13 @@
           "body": "If this repeats a requirement from another document, cite that document. Making it a note is helpful, but less so.",
           "createdAt": "2026-01-24T07:39:46Z",
           "updatedAt": "2026-01-24T07:39:46Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #262 . Closing.",
+          "createdAt": "2026-03-23T13:25:56Z",
+          "updatedAt": "2026-03-23T13:25:56Z"
         }
       ]
     },
@@ -4533,12 +4540,12 @@
         "OR13"
       ],
       "labels": [
-        "has-PR",
-        "author-discuss"
+        "ready-for-pr",
+        "has-PR"
       ],
       "body": "Is [this](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-7-4) really necessary?\n\n> In an SD-CWT, either the subject sub / 2 claim MUST be present, or the redacted form of the subject MUST be present. The iss / 1 claim SHOULD be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer. All other standard CWT claims (aud / 3, exp / 4, nbf / 5, iat / 6, and cti / 7) are OPTIONAL. The cnonce / 39 claim is OPTIONAL. The cnf / 8 claim, the cnonce / 39 claim, and the standard claims other than the subject MUST NOT be redacted. Any other claims are OPTIONAL and MAY be redacted. Profiles of this specification MAY specify additional claims that MUST, MUST NOT, and MAY be redacted.\n\nAside from my initial reaction (argh, my eyes!), I don't think that there is anything here that is necessary for interoperability.  If I want a claim set without a subject, isn't that on me?  (It makes little sense, sure, but this specification has no business saying that.)\n\nThe only thing that makes some amount of sense is the prohibition on blinding (not redaction!) of cnonce, which isn't confidential information.  Still, I think that I can come up with scenarios where even that makes sense.  Perhaps you want to present evidence of freshness to only one entity...",
       "createdAt": "2026-01-23T01:58:51Z",
-      "updatedAt": "2026-03-17T13:04:39Z",
+      "updatedAt": "2026-03-23T13:58:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -4596,6 +4603,20 @@
           "body": "Related PR: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/258",
           "createdAt": "2026-03-02T16:37:18Z",
           "updatedAt": "2026-03-02T16:37:18Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "There are un addressed comments in https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/258/changes ... A second pass to address those comments is needed",
+          "createdAt": "2026-03-23T13:27:23Z",
+          "updatedAt": "2026-03-23T13:32:47Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think we were going to address Martin's comments that came in after the\r\nmerge. Once we are happy with the text we should move the table for KBT\r\nclaims into the correct section.\r\n\r\nOn Mon, 23 Mar 2026, 14:27 Orie Steele, ***@***.***> wrote:\r\n\r\n> *OR13* left a comment (ietf-wg-spice/draft-ietf-spice-sd-cwt#212)\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/212#issuecomment-4110599990>\r\n>\r\n> Related PR is merged, is this addressed?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/212?email_source=notifications&email_token=AADSQPWXVYBNVLUPFGRVXY34SE3VBA5CNFSNUABFM5UWIORPF5TWS5BNNB2WEL2JONZXKZKDN5WW2ZLOOQXTIMJRGA2TSOJZHEYKM4TFMFZW63VGMFZXG2LHN2SWK5TFNZ2KYZTPN52GK4S7MNWGSY3L#issuecomment-4110599990>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPXKH52Q5NMOKBLNIEL4SE3VBAVCNFSM6AAAAACSTSA2ZWVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHM2DCMJQGU4TSOJZGA>\r\n> .\r\n> You are receiving this because you were assigned.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2026-03-23T13:58:24Z",
+          "updatedAt": "2026-03-23T13:58:24Z"
         }
       ]
     },
@@ -4805,7 +4826,7 @@
       "id": "I_kwDOMm_Q2s7lOAwT",
       "title": "AEAD nonce size",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/218",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -4816,8 +4837,8 @@
       ],
       "body": "Firstly, the nonce size for AES-GCM in the draft is wrong.  It should be 12 octets, but the text, example, and CDDL all have a 16-octet nonce.\n\nFor AEAD algorithms where N_MAX > N_MIN (as opposed to where they are equal), how big is the nonce?  Can it be any size in the defined range?\n\n(AES-GCM, as defined originally, can have different nonce sizes, which is a bit silly because you have to run a compression function to reduce the nonce to 96 bits.  This is likely why RFC 5116 sets N_MIN = N_MAX = 12.)\n\nSeparately, you should specify the type for the sd_aead protected header field.  CDDL might be a good idea for that as well.  It's a 16 bit integer in the registry you are using.",
       "createdAt": "2026-01-23T03:27:39Z",
-      "updatedAt": "2026-03-17T11:44:24Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-23T13:22:41Z",
+      "closedAt": "2026-03-23T13:22:41Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -4839,6 +4860,13 @@
           "body": "SIV is a fine idea, yes.  It works much better in a world where the plaintext is guaranteed to be high entropy.  The standard weakness from nonce collision is counteracted by the salt.\n\nStill, there's a better mode.  It involves neither tag nor nonce.  But you probably don't want to hear about that because it involves a completely different construction.",
           "createdAt": "2026-02-08T22:08:05Z",
           "updatedAt": "2026-02-08T22:08:05Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #260 ",
+          "createdAt": "2026-03-23T13:22:41Z",
+          "updatedAt": "2026-03-23T13:22:41Z"
         }
       ]
     },
@@ -4931,7 +4959,7 @@
       "id": "I_kwDOMm_Q2s7lOD-f",
       "title": "Specify the AAD for AEAD protected claims",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/220",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -4943,16 +4971,24 @@
       ],
       "body": "My guess would be that you want an empty AAD, but you need to say that.",
       "createdAt": "2026-01-23T03:33:53Z",
-      "updatedAt": "2026-03-17T11:44:43Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-03-23T13:23:28Z",
+      "closedAt": "2026-03-23T13:23:28Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #260 ",
+          "createdAt": "2026-03-23T13:23:28Z",
+          "updatedAt": "2026-03-23T13:23:28Z"
+        }
+      ]
     },
     {
       "number": 221,
       "id": "I_kwDOMm_Q2s7lOFk9",
       "title": "Verifiable Credential Type",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/221",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -4963,8 +4999,8 @@
       ],
       "body": "This section was a complete surprise.  I can't see why it is included in this document at all, as opposed to progressing as a small draft on its own.\n\n(I have more thoughts on both Sections [13](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-13) and [17.8](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#vct-registry), but I think it best to resolve a challenge to its inclusion first.)",
       "createdAt": "2026-01-23T03:37:24Z",
-      "updatedAt": "2026-03-17T12:57:46Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-23T13:24:50Z",
+      "closedAt": "2026-03-23T13:24:50Z",
       "comments": [
         {
           "author": "OR13",
@@ -4972,6 +5008,13 @@
           "body": "We discussed:\n\n- https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/\n- https://datatracker.ietf.org/doc/rfc9901/\n\nWe want to register the VCT claim, to avoid a draft that registers a single claim for parity.\n\nWe could omit the section, but then the translation between JWT and SD-JWT for major use cases would be difficult.\n",
           "createdAt": "2026-03-01T14:42:42Z",
           "updatedAt": "2026-03-01T14:42:42Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "No consensus to remove. Good administrative reasons provided to leave it in place for parity with SD-JWT (-VC).\nClosing.",
+          "createdAt": "2026-03-23T13:24:49Z",
+          "updatedAt": "2026-03-23T13:24:49Z"
         }
       ]
     },
@@ -5013,7 +5056,7 @@
       "id": "I_kwDOMm_Q2s7lOK0B",
       "title": "Who gets to exploit the lack of canonical encoding?",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/224",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -5022,8 +5065,8 @@
       ],
       "body": "[Section 15.2](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-15.2) points out the potential for there to be a covert channel.\n\nIf the Holder requests a signature using the described issuance process, it would seem like there are a few things that might happen:\n\n1. The Holder is able to alter encoding to sneak in a secret message.  The Issuer will always pass this along.\n2. Any secret message generated by the Holder is always erased by the Issuer.  But the Issuer can add a secret message.\n3. Both Holder and Issuer can add messages that will make it through.\n4. Both Holder and Issuer can add messages that will make it through, but there is no guarantee that the Issuer won't erase any message added by the Holder.\n\nI get the impression that the answer is (4).  Because an Issuer will likely copy choices made by the Holder, but they are allowed to re-encode in ways that might destroy the steganographic message.\n\nIt might pay to say this explicitly (or whatever the actual truth is).",
       "createdAt": "2026-01-23T03:50:57Z",
-      "updatedAt": "2026-03-17T12:09:15Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-23T13:22:07Z",
+      "closedAt": "2026-03-23T13:22:07Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -5045,6 +5088,20 @@
           "body": "A great opportunity to write that into the draft then.",
           "createdAt": "2026-01-26T07:39:29Z",
           "updatedAt": "2026-01-26T07:39:29Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Issuer can encode extra information in issuance, then Holder can encode extra information in KBT... I would not assume pre issuance happens always",
+          "createdAt": "2026-03-23T13:13:58Z",
+          "updatedAt": "2026-03-23T13:13:58Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #261 ",
+          "createdAt": "2026-03-23T13:22:07Z",
+          "updatedAt": "2026-03-23T13:22:07Z"
         }
       ]
     },
@@ -5144,12 +5201,11 @@
         "OR13"
       ],
       "labels": [
-        "help wanted",
-        "author-discuss"
+        "ready-for-pr"
       ],
       "body": "Several things from [Section 16.2](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.2):\n\nThe phrase \"disclosure coercion\" or \"disclosure coercion attack\" isn't used by the SD-JWT document at all.  It took a bit of reading and thinking to understand what you meant.  I think you could instead say this more directly: Holders might be coerced into disclosing information they might not want to reveal.\n\nThis is not a testable requirement:\n\n> Verifier Trust: Holders MUST be able to verify that a Verifier will handle disclosed claims appropriately and only for stated purposes.\n\nThe use of 2119 language here is problematic.  I think that it is generically true that an entity offering information to another entity has to trust the other entity to handle that information responsibly.  However, this is most often a question of trust.  A difficult one at times, to be sure.\n\nYou are setting a much higher bar.  You are saying that the Holder needs to be able to obtain verifiable proof that the handling will be appropriate.  That is - to my knowledge - not generically possible.  There are some systems involving TEEs and other verifiable computation techniques that might be able to provide stronger assurances, but [even those can be unconvincing](https://tee.fail/).\n\nThe use of 2119 language in the following isn't quite as bad, but consider avoid it nonetheless:\n\n> This permanent exposure risk MUST be considered in any disclosure decision.\n\nSimilarly, the use of normative language in the proposed mitigations is not appropriate.  This should be rephrased as a set of things that might need to be considered.\n\nThe use of lists here is also not appropriate.  Ordered lists in particular.  The ordering implies precedence or ordering (where there is none), but they also imply some correspondence between the mitigations and the risks, but I don't think that is the case.\n\n\n",
       "createdAt": "2026-01-23T04:19:36Z",
-      "updatedAt": "2026-03-17T13:00:11Z",
+      "updatedAt": "2026-03-23T13:30:54Z",
       "closedAt": null,
       "comments": [
         {
@@ -5224,7 +5280,7 @@
       ],
       "body": "This looks like good information for an informational document that the RATS WG can take up (or not).  As it is, very little of this content is relevant to this document or the SPICE WG (except tangentially).  I don't think this should be carried into a published RFC.",
       "createdAt": "2026-01-23T05:08:40Z",
-      "updatedAt": "2026-03-17T12:58:24Z",
+      "updatedAt": "2026-03-23T16:44:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -5233,6 +5289,13 @@
           "body": "@henkbirkholz I am fine to remove this section.",
           "createdAt": "2026-03-01T14:05:20Z",
           "updatedAt": "2026-03-01T14:05:20Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I presented a couple of options of where this could go. The question was raised on the SPICE and RATS mailing lists.\n\n- leave it in the draft\n- remove and resubmit as standalone I-D in SPICE (never to be published / WG item)\n- remove and resubmit as standalone I-D in RATS (never to be published / WG item)\n- remove and resubmit as I-D in RATS to become a WG item or part of another WG draft\n- remove and do nothing",
+          "createdAt": "2026-03-23T16:44:28Z",
+          "updatedAt": "2026-03-23T16:44:28Z"
         }
       ]
     },
@@ -5374,13 +5437,15 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "OR13"
+      ],
       "labels": [
-        "ask-WG"
+        "ready-for-pr"
       ],
       "body": "originally suggested by @martinthomson \n\nthumbs up if you like the idea:\n@OR13 \n@selfissued \n@henkbirkholz ",
       "createdAt": "2026-03-01T16:10:20Z",
-      "updatedAt": "2026-03-17T12:55:00Z",
+      "updatedAt": "2026-03-23T13:35:33Z",
       "closedAt": null,
       "comments": [
         {
@@ -5417,6 +5482,20 @@
           "body": "That is my inclination, yes.  But that's just based on my understanding of the language.  Anything consistent can be defended; it's just easier if the meaning aligns with existing meaning.  I mean, you could call it \"purpling\" if you thought that was better, but you would have a higher requirement for consistency there.",
           "createdAt": "2026-03-02T17:27:21Z",
           "updatedAt": "2026-03-02T17:27:21Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "lets use redacted as much as possible",
+          "createdAt": "2026-03-23T13:35:14Z",
+          "updatedAt": "2026-03-23T13:35:14Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "SD-JWT uses redacted and disclosed. \n\nLeave the bulk of the text as redacted and disclosed. Can use blind/blinded in a few places if it sounds better.",
+          "createdAt": "2026-03-23T13:35:33Z",
+          "updatedAt": "2026-03-23T13:35:33Z"
         }
       ]
     }
@@ -19659,24 +19738,26 @@
       "id": "PR_kwDOMm_Q2s7HY6Q2",
       "title": "Update note on uniqueness of decoy integers",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/259",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Redo: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/257#discussion_r2873071624",
       "createdAt": "2026-03-02T17:19:11Z",
-      "updatedAt": "2026-03-17T06:37:07Z",
+      "updatedAt": "2026-03-23T13:09:13Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "730ee1cf6360bfe138a9eb2796212f60d53a09c9",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "OR13-patch-1",
       "headRefOid": "182b153be5a12422f61a6bdca013cd7c260b836d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-03-23T13:09:13Z",
+      "mergedAt": "2026-03-23T13:09:13Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "ba02bae729fa4967c04a82dc97dd1246bb4da2d1"
+      },
       "comments": [],
       "reviews": [
         {
@@ -19799,24 +19880,26 @@
       "id": "PR_kwDOMm_Q2s7LMyrC",
       "title": "Fix AEAD nonce length; mention that AAD is empty",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/260",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses #220 and #218\r\n\r\n@martinthomson ",
       "createdAt": "2026-03-17T11:42:20Z",
-      "updatedAt": "2026-03-19T08:36:08Z",
+      "updatedAt": "2026-03-23T13:08:26Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7752d552f27ec9153c01973063cca31ea178a8c9",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "aead-fixes",
-      "headRefOid": "f2e257327f0a63d884b08f7c22a156a58296bb5b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "b138187219b93187b36d1b349705589faba6e1f3",
+      "closedAt": "2026-03-23T13:08:26Z",
+      "mergedAt": "2026-03-23T13:08:26Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "8186530229d1017d9872d9648b3360dd76f4d487"
+      },
       "comments": [],
       "reviews": [
         {
@@ -19838,6 +19921,79 @@
               "updatedAt": "2026-03-19T08:36:08Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7t6tlJ",
+          "commit": {
+            "abbreviatedOid": "f2e2573"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-23T13:04:40Z",
+          "updatedAt": "2026-03-23T13:04:40Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7t6uaF",
+          "commit": {
+            "abbreviatedOid": "f2e2573"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-23T13:05:06Z",
+          "updatedAt": "2026-03-23T13:05:07Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\n  bstr,              ; nonce of N_MIN octets\n```",
+              "createdAt": "2026-03-23T13:05:07Z",
+              "updatedAt": "2026-03-23T13:05:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7t6vAw",
+          "commit": {
+            "abbreviatedOid": "f2e2573"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-23T13:05:31Z",
+          "updatedAt": "2026-03-23T13:05:32Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\nThe bstr is encrypted with a unique, random nonce of N_MIN octets.\n```",
+              "createdAt": "2026-03-23T13:05:31Z",
+              "updatedAt": "2026-03-23T13:05:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7t6wTw",
+          "commit": {
+            "abbreviatedOid": "f2e2573"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-23T13:06:27Z",
+          "updatedAt": "2026-03-23T13:06:28Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n  bstr,              ; nonce of N_MIN octets\n```",
+              "createdAt": "2026-03-23T13:06:28Z",
+              "updatedAt": "2026-03-23T13:06:28Z"
+            }
+          ]
         }
       ]
     },
@@ -19846,52 +20002,164 @@
       "id": "PR_kwDOMm_Q2s7LNKZT",
       "title": "Update Determinism Section",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/261",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- Address Issue 224\r\n- Replace outdated reference to CDE to draft-ietf-cbor-serialization (Appendix B).\r\n- Mention the number of decoys as another mechanism",
       "createdAt": "2026-03-17T12:05:47Z",
-      "updatedAt": "2026-03-17T12:05:48Z",
+      "updatedAt": "2026-03-23T13:22:50Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7752d552f27ec9153c01973063cca31ea178a8c9",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue224",
-      "headRefOid": "a9c01a44a4c60504fed421c4150cb45b653cb8b0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "54905e4f61afb68c4fdebe8cd4ebd146a07185aa",
+      "closedAt": "2026-03-23T13:22:50Z",
+      "mergedAt": "2026-03-23T13:22:50Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "a2593de8def14d431d925537ed5f20f873c81c46"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7t6n3C",
+          "commit": {
+            "abbreviatedOid": "a9c01a4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-23T13:00:21Z",
+          "updatedAt": "2026-03-23T13:00:22Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\nLikewise the Holder can encode information in the KBT.\n```",
+              "createdAt": "2026-03-23T13:00:21Z",
+              "updatedAt": "2026-03-23T13:19:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7t6oxM",
+          "commit": {
+            "abbreviatedOid": "a9c01a4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-23T13:01:02Z",
+          "updatedAt": "2026-03-23T13:01:02Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "This seems to assume that issuer's sign what holder's propose, which is not necessarily true.",
+              "createdAt": "2026-03-23T13:01:02Z",
+              "updatedAt": "2026-03-23T13:01:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7t6sr7",
+          "commit": {
+            "abbreviatedOid": "a9c01a4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-23T13:04:02Z",
+          "updatedAt": "2026-03-23T13:04:02Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7t7CJk",
+          "commit": {
+            "abbreviatedOid": "a9c01a4"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-23T13:19:30Z",
+          "updatedAt": "2026-03-23T13:19:31Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\nIt is possible for the Issuer to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, by choosing different numeric encodings for certain data elements, or by incorporating fewer or more decoys (see {{decoys}}).\n```",
+              "createdAt": "2026-03-23T13:19:31Z",
+              "updatedAt": "2026-03-23T13:19:31Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 262,
       "id": "PR_kwDOMm_Q2s7LNqU2",
       "title": "Clearer normative language in sections 6.3 and 6.5",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/262",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses #209 ",
       "createdAt": "2026-03-17T12:35:44Z",
-      "updatedAt": "2026-03-17T12:35:46Z",
+      "updatedAt": "2026-03-23T13:10:46Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7752d552f27ec9153c01973063cca31ea178a8c9",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue209",
-      "headRefOid": "f2568b66e878ba32e3d1ffed64372e42cbc71b68",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "b26e8a0d589ff2e92394dbc2a9051287f5cb8e4e",
+      "closedAt": "2026-03-23T13:10:46Z",
+      "mergedAt": "2026-03-23T13:10:46Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "94b501fda4da01ed1da6e3400549cb739edbe575"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7t6lZ5",
+          "commit": {
+            "abbreviatedOid": "f2568b6"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-23T12:58:29Z",
+          "updatedAt": "2026-03-23T12:58:29Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "```suggestion\nSelective disclosure of deeply nested structures could lead to resource exhaustion vulnerabilities. Issuers, Holders, and Verifiers MAY reject SD-CWT Claims Sets exceeding a depth of 16 levels.\n```",
+              "createdAt": "2026-03-23T12:58:29Z",
+              "updatedAt": "2026-03-23T12:58:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7t6mAG",
+          "commit": {
+            "abbreviatedOid": "f2568b6"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-23T12:58:56Z",
+          "updatedAt": "2026-03-23T12:58:56Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
