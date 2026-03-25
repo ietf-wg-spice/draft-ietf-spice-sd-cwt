@@ -1308,19 +1308,11 @@ An attacker who can manipulate these bindings could substitute their own keys fo
 ## Disclosure Coercion and Over-identification {#disclosure-coercion}
 
 The Security Considerations from {{Section 10.2 of -SD-JWT}} apply, with additional attention to disclosure coercion risks.
-Holders face risks of being coerced into disclosing more claims than necessary. This threat warrants special attention because:
+Holders can be pressured to disclose more claims than are necessary for a given transaction.
+This risk is heightened when a Verifier does not provide adequate data protection practices, when disclosed attributes derive from highly trusted authorities (for example, government-issued credentials), and because disclosure is effectively irreversible once data has been shared.
 
-1. Verifier Trust: Holders MUST be able to verify that a Verifier will handle disclosed claims appropriately and only for stated purposes.
-2. Elevated Risk: Claims from trusted authorities (e.g., government-issued credentials) carry higher misuse potential due to their inherent legitimacy.
-3. Irreversibility: Disclosed claims cannot be withdrawn. This permanent exposure risk MUST be considered in any disclosure decision.
-
-Mitigation Measures:
-
-1. Verifiers SHOULD demonstrate eligibility to receive claims
-2. Holders MUST conduct risk assessments when Verifier eligibility cannot be established
-3. Trust lists maintained by trusted parties can help identify authorized Verifiers
-
-Without proper safeguards (such as Verifier trust lists), Holders remain vulnerable to over-identification and long-term misuse of their disclosed information.
+Mitigations include mechanisms by which Verifiers demonstrate eligibility to receive sensitive claims, Holder-side evaluation of Verifier compliance posture and certifications, and use of trust lists curated by trusted parties to identify responsible Verifiers.
+In the absence of such safeguards, including Verifier trust lists, Holders remain exposed to over-identification and long-term misuse of disclosed information.
 
 Implementers deploying SD-CWT in credential systems should review {{W3CTAG-Credential-Abuse}},
 which discusses broader risks of credential abuse including surveillance, exclusion, and overuse.
