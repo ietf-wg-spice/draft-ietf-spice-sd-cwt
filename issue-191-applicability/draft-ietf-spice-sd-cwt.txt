@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 26 September 2026                                  Tradeverifyd
+Expires: 27 September 2026                                  Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           25 March 2026
+                                                           26 March 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 September 2026.
+   This Internet-Draft will expire on 27 September 2026.
 
 Copyright Notice
 
@@ -219,19 +219,19 @@ Table of Contents
    SD-CWT helps reduce unnecessary disclosure while still allowing
    required identifiers and other mandatory claims to be presented.  It
    is a less natural fit for use cases where avoiding correlation across
-   presentations is the primary privacy goal.  This includes cases where
-   the subject should be able to make repeated presentations without
-   different Verifiers, or the same Verifier over time, learning that
-   those presentations came from the same entity.  Use cases that depend
-   on strong unlinkability, one-time pseudonyms, or very low
-   observability are generally better served by mechanisms designed to
-   minimize or remove stable identifiers and presentation-level
-   traceability.  Examples include credentials used in systems that
-   could reveal a person's travel patterns, current location, or
-   movement over time, and credentials used to access sensitive
-   locations or services where repeated presentation could expose visits
-   to shelters, clinics, places of worship, political events, or
-   counseling centers.
+   presentations is the primary privacy goal.  Cases that have higher
+   requirements for privacy include where the subject should be able to
+   make repeated presentations without different Verifiers -- or the
+   same Verifier over time -- learning that those presentations came
+   from the same entity.  Use cases that depend on strong unlinkability,
+   one-time pseudonyms, or very low observability are generally better
+   served by mechanisms designed to minimize or remove stable
+   identifiers and presentation-level traceability.  Examples include
+   credentials used in systems that could reveal a person's travel
+   patterns, current location, or movement over time, and credentials
+   used to access sensitive locations or services where repeated
+   presentation could expose visits to shelters, clinics, places of
+   worship, political events, or counseling centers.
 
 1.1.  High-Level Flow
 
