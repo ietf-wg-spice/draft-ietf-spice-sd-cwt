@@ -102,6 +102,9 @@ Techniques such as one-time use and batch issuance can improve the confidentiali
 This document defines a generic container format, not a specific credential type.
 For example, a license to operate a vehicle and a license to import a product will contain different attributes.
 
+SD-CWT-based credential types rely on Verifiers trusting the Issuer. While policy or legal frameworks may limit an Issuer's ability to determine how issued credentials are used, SD-CWT provides no cryptographic mechanism to prevent such tracking.
+Consequently, SD-CWT is unsuitable for use cases where preventing the Issuer from learning how credentials are used is a requirement.
+
 SD-CWT is especially useful in non-human identity use cases, where a device, application, workload, product, or organization needs to share only part of what it is with another system, without exposing every attribute it carries.
 Examples include device inspection records, software supply chain statements, product passports, import or export certificates, and other machine-readable credentials used for safety, compliance, asset tracking, or lifecycle management across organizational boundaries.
 In these settings, some linkability is often expected because the Verifier needs to know which device, service, component, or legal entity it is dealing with.
