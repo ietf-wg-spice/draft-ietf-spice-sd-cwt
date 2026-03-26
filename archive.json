@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-24T01:05:14.942968+00:00",
+  "timestamp": "2026-03-26T01:16:15.731722+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4460,14 +4460,17 @@
       "state": "OPEN",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
         "ready-for-pr",
-        "has-PR"
+        "has-PR",
+        "next-stretch"
       ],
       "body": "My understanding is that confirmation keys are optional, but [this says otherwise](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-7-3):\n\n> The payload also MUST include a key confirmation element (cnf) [[RFC8747](https://www.rfc-editor.org/rfc/rfc8747)] for the Holder's public key.\n\nIs that a good idea?  Confirmation keys serve a purpose, but not all applications need them.  Shouldn't this statement be conditional instead?",
       "createdAt": "2026-01-23T01:54:48Z",
-      "updatedAt": "2026-03-14T08:37:32Z",
+      "updatedAt": "2026-03-25T07:09:12Z",
       "closedAt": null,
       "comments": [
         {
@@ -4541,11 +4544,12 @@
       ],
       "labels": [
         "ready-for-pr",
-        "has-PR"
+        "has-PR",
+        "next-stretch"
       ],
       "body": "Is [this](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-7-4) really necessary?\n\n> In an SD-CWT, either the subject sub / 2 claim MUST be present, or the redacted form of the subject MUST be present. The iss / 1 claim SHOULD be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer. All other standard CWT claims (aud / 3, exp / 4, nbf / 5, iat / 6, and cti / 7) are OPTIONAL. The cnonce / 39 claim is OPTIONAL. The cnf / 8 claim, the cnonce / 39 claim, and the standard claims other than the subject MUST NOT be redacted. Any other claims are OPTIONAL and MAY be redacted. Profiles of this specification MAY specify additional claims that MUST, MUST NOT, and MAY be redacted.\n\nAside from my initial reaction (argh, my eyes!), I don't think that there is anything here that is necessary for interoperability.  If I want a claim set without a subject, isn't that on me?  (It makes little sense, sure, but this specification has no business saying that.)\n\nThe only thing that makes some amount of sense is the prohibition on blinding (not redaction!) of cnonce, which isn't confidential information.  Still, I think that I can come up with scenarios where even that makes sense.  Perhaps you want to present evidence of freshness to only one entity...",
       "createdAt": "2026-01-23T01:58:51Z",
-      "updatedAt": "2026-03-23T13:58:24Z",
+      "updatedAt": "2026-03-25T07:06:47Z",
       "closedAt": null,
       "comments": [
         {
@@ -5026,13 +5030,16 @@
       "state": "OPEN",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
-        "has-PR"
+        "has-PR",
+        "next-stretch"
       ],
       "body": "It seems like there has been a deliberate decision to not stipulate how disclosed claims are ordered.  Those processing them would be required to search for where to \"insert\" the disclosed information after hashing the disclosure.  It might be worth explicitly saying this, or people will end up asking what the canonical ordering rules are.",
       "createdAt": "2026-01-23T03:40:02Z",
-      "updatedAt": "2026-02-28T10:27:40Z",
+      "updatedAt": "2026-03-25T07:08:30Z",
       "closedAt": null,
       "comments": [
         {
@@ -5194,19 +5201,19 @@
       "id": "I_kwDOMm_Q2s7lOY0Y",
       "title": "Requirements on disclosure",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/229",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
         "OR13"
       ],
       "labels": [
-        "ready-for-pr"
+        "has-PR"
       ],
       "body": "Several things from [Section 16.2](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.2):\n\nThe phrase \"disclosure coercion\" or \"disclosure coercion attack\" isn't used by the SD-JWT document at all.  It took a bit of reading and thinking to understand what you meant.  I think you could instead say this more directly: Holders might be coerced into disclosing information they might not want to reveal.\n\nThis is not a testable requirement:\n\n> Verifier Trust: Holders MUST be able to verify that a Verifier will handle disclosed claims appropriately and only for stated purposes.\n\nThe use of 2119 language here is problematic.  I think that it is generically true that an entity offering information to another entity has to trust the other entity to handle that information responsibly.  However, this is most often a question of trust.  A difficult one at times, to be sure.\n\nYou are setting a much higher bar.  You are saying that the Holder needs to be able to obtain verifiable proof that the handling will be appropriate.  That is - to my knowledge - not generically possible.  There are some systems involving TEEs and other verifiable computation techniques that might be able to provide stronger assurances, but [even those can be unconvincing](https://tee.fail/).\n\nThe use of 2119 language in the following isn't quite as bad, but consider avoid it nonetheless:\n\n> This permanent exposure risk MUST be considered in any disclosure decision.\n\nSimilarly, the use of normative language in the proposed mitigations is not appropriate.  This should be rephrased as a set of things that might need to be considered.\n\nThe use of lists here is also not appropriate.  Ordered lists in particular.  The ordering implies precedence or ordering (where there is none), but they also imply some correspondence between the mitigations and the risks, but I don't think that is the case.\n\n\n",
       "createdAt": "2026-01-23T04:19:36Z",
-      "updatedAt": "2026-03-23T13:30:54Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-25T07:00:54Z",
+      "closedAt": "2026-03-25T07:00:54Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -5276,11 +5283,12 @@
         "henkbirkholz"
       ],
       "labels": [
+        "has-PR",
         "ask-WG"
       ],
       "body": "This looks like good information for an informational document that the RATS WG can take up (or not).  As it is, very little of this content is relevant to this document or the SPICE WG (except tangentially).  I don't think this should be carried into a published RFC.",
       "createdAt": "2026-01-23T05:08:40Z",
-      "updatedAt": "2026-03-23T16:44:28Z",
+      "updatedAt": "2026-03-24T14:10:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -5399,14 +5407,16 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
         "chore",
         "low-pri"
       ],
       "body": "Currently Appendix C has inline introductions for each \"code block\". It is pretty readable now, but we could rewrite the text to rely on figure footers instead.",
       "createdAt": "2026-02-09T15:04:06Z",
-      "updatedAt": "2026-02-09T17:05:24Z",
+      "updatedAt": "2026-03-25T07:07:18Z",
       "closedAt": null,
       "comments": []
     },
@@ -5418,14 +5428,16 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
         "chore",
         "nice-to-have"
       ],
       "body": "",
       "createdAt": "2026-02-09T15:06:56Z",
-      "updatedAt": "2026-02-09T17:03:05Z",
+      "updatedAt": "2026-03-25T07:07:09Z",
       "closedAt": null,
       "comments": []
     },
@@ -5438,14 +5450,14 @@
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
-        "OR13"
+        "rohanmahy"
       ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "originally suggested by @martinthomson \n\nthumbs up if you like the idea:\n@OR13 \n@selfissued \n@henkbirkholz ",
       "createdAt": "2026-03-01T16:10:20Z",
-      "updatedAt": "2026-03-23T13:35:33Z",
+      "updatedAt": "2026-03-25T12:47:30Z",
       "closedAt": null,
       "comments": [
         {
@@ -17983,7 +17995,7 @@
       ],
       "body": "...when it is first introduced.",
       "createdAt": "2026-01-23T01:16:15Z",
-      "updatedAt": "2026-02-24T18:45:02Z",
+      "updatedAt": "2026-03-24T18:44:12Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
@@ -17994,7 +18006,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Are we going to take this PR before we do the terminology alignment @rohanmahy @henkbirkholz @selfissued ?\r\n\r\nhttps://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/255",
+          "createdAt": "2026-03-24T12:48:58Z",
+          "updatedAt": "2026-03-24T13:07:01Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Are we going to take this PR before we do the terminology alignment @rohanmahy @henkbirkholz @selfissued ?\r\n> \r\n> #255\r\n\r\nI don't think it is necessary to merge this one first. Let's do the terminology (I believe I am stuckee) and maybe in the process it inspires some nice wording to address this issue.",
+          "createdAt": "2026-03-24T18:44:12Z",
+          "updatedAt": "2026-03-24T18:44:12Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOMm_Q2s7cZGCm",
@@ -18063,9 +18090,9 @@
           "comments": [
             {
               "originalPosition": 6,
-              "body": "```suggestion\nWhen blinded claims are nested the disclosure for the first claim will itself contain a blinded claim hash.\n```",
+              "body": "```suggestion\r\nWhen blinded claims are nested, the disclosure for the first claim will itself contain a blinded claim hash.\r\n```",
               "createdAt": "2026-02-24T13:41:48Z",
-              "updatedAt": "2026-02-24T13:41:48Z"
+              "updatedAt": "2026-03-24T12:48:13Z"
             }
           ]
         },
@@ -20160,6 +20187,144 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 263,
+      "id": "PR_kwDOMm_Q2s7M_19s",
+      "title": "Remove RATS nest. Close #233",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/263",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-03-24T12:52:05Z",
+      "updatedAt": "2026-03-24T14:06:50Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "a2593de8def14d431d925537ed5f20f873c81c46",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "remove-rats-appendix",
+      "headRefOid": "3ec40e86fa8ad2441aae83dc7a2fc0fab3c08326",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Let's wait to see if anyone advocates for this section in the next week or two before merging this. ",
+          "createdAt": "2026-03-24T14:06:50Z",
+          "updatedAt": "2026-03-24T14:06:50Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 264,
+      "id": "PR_kwDOMm_Q2s7NAVes",
+      "title": "Address requirements on disclosure. Closes #229",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/264",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-03-24T13:15:34Z",
+      "updatedAt": "2026-03-25T07:00:53Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "a2593de8def14d431d925537ed5f20f873c81c46",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "requirements-on-disclosure",
+      "headRefOid": "b3a1fbfc8d4039fc5822f794971db6011dad4026",
+      "closedAt": "2026-03-25T07:00:53Z",
+      "mergedAt": "2026-03-25T07:00:53Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@martinthomson this is reaction to #229 . How do you like the new text?",
+          "createdAt": "2026-03-24T14:09:05Z",
+          "updatedAt": "2026-03-24T14:09:05Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7uZBX-",
+          "commit": {
+            "abbreviatedOid": "b3a1fbf"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I approve, but I suggest waiting a few days to see if we get a reaction from the creator of Issue #229 (Martin) before merging. ",
+          "createdAt": "2026-03-24T14:10:19Z",
+          "updatedAt": "2026-03-24T14:10:19Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7ukUdU",
+          "commit": {
+            "abbreviatedOid": "b3a1fbf"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "Seems pretty clear to me.  The framing here is far more appropriate for a Security Considerations section.\n\nDon't forget to close #229 when you merge this; I don't think that the directive in the title will have the intended effect (it needs to be at the start of a line).",
+          "createdAt": "2026-03-24T21:47:50Z",
+          "updatedAt": "2026-03-24T21:47:50Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 265,
+      "id": "PR_kwDOMm_Q2s7NWitr",
+      "title": "Attempt to close #191",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/265",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-03-25T13:34:05Z",
+      "updatedAt": "2026-03-25T13:50:18Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue-191-applicability",
+      "headRefOid": "10ae10921f404f7b4dcc2145f0bf4db4c0e0e11e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@martinthomson is this on track? \r\n\r\nThe topic is complicated, and I especially worry about introducing this to folks less familiar with the subject, so I have chosen non human identity and human location tracking to communicate the spectrum.... comments are very welcomed.",
+          "createdAt": "2026-03-25T13:35:43Z",
+          "updatedAt": "2026-03-25T13:35:43Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think this PR looks good. I proposed an extra sentence about pseudonymous credentials.",
+          "createdAt": "2026-03-25T13:50:18Z",
+          "updatedAt": "2026-03-25T13:50:18Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
