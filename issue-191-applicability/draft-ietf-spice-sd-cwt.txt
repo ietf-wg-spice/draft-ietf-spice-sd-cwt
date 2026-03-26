@@ -112,13 +112,14 @@ Table of Contents
      15.4.  Credential Types
    16. Security Considerations
      16.1.  Issuer Key Compromise
-     16.2.  Disclosure Coercion and Over-identification
-     16.3.  Disclosure of Decoys
-     16.4.  Random Numbers
-     16.5.  Binding the KBT and the CWT
-     16.6.  Covert Channels
-     16.7.  Nested Disclosure Ordering
-     16.8.  Choice of AEAD algorithms
+     16.2.  Linkability
+     16.3.  Disclosure Coercion and Over-identification
+     16.4.  Disclosure of Decoys
+     16.5.  Random Numbers
+     16.6.  Binding the KBT and the CWT
+     16.7.  Covert Channels
+     16.8.  Nested Disclosure Ordering
+     16.9.  Choice of AEAD algorithms
    17. IANA Considerations
      17.1.  COSE Header Parameters
        17.1.1.  sd_claims
@@ -1682,7 +1683,7 @@ Issuer                           Holder                         Verifier
 
    As with regular Blinded Claims, the Holder needs to receive the
    disclosure for every decoy so it can be sure the Issuer is not
-   communicating unwanted information to Verifiers (see Section 16.3).
+   communicating unwanted information to Verifiers (see Section 16.4).
 
 11.  Tags Used Before SD-CWT Issuance
 
@@ -1805,7 +1806,7 @@ Issuer                           Holder                         Verifier
    [RFC5116] registered in the IANA AEAD Algorithms registry
    (https://www.iana.org/assignments/aead-parameters/aead-
    parameters.xhtml) . (Guidance on specific algorithms is discussed in
-   Section 16.8.)  The second header parameter
+   Section 16.9.)  The second header parameter
    (sd_aead_encrypted_claims), if present, contains a non-empty list of
    AEAD encrypted disclosures.  Taking the first example disclosure from
    above:
@@ -2308,7 +2309,58 @@ Issuer                           Holder                         Verifier
    legitimate issuer keys, enabling credential forgery while appearing
    to be a trusted issuer.
 
-16.2.  Disclosure Coercion and Over-identification
+16.2.  Linkability
+
+   The term linkability or unlinkability applies to presentations of SD-
+   CWT in the same ways that it applies to SD-JWT as described in
+   Section 10.1 of [I-D.draft-ietf-oauth-selective-disclosure-jwt].
+
+   As noted in the introduction, SD-CWT cannot prevent Issuer/Verifier
+   linkability.
+
+   Pseudonymous credential schemes, by contrast, employ mechanisms such
+   as fresh pseudonyms or cryptographic unlinking per presentation to
+   enable Holders to prove attributes or properties without revealing
+   stable identifiers, thereby preventing Issuer-Verifier and Verifier-
+   Verifier linkability across presentations.
+
+   For example, in an age verification system using pseudonymous
+   credentials, a Holder can prove they are "over 18" to multiple online
+   services (streaming platforms, gaming sites, retailers) without those
+   services being able to correlate the presentations or determine they
+   all come from the same individual.  Each presentation employs a fresh
+   pseudonym or unlinking mechanism, preventing the Issuer and any
+   Verifier from learning the Holder's activity patterns or presentation
+   history.
+
+   However, this unlinkability introduces security trade-offs that
+   implementers must carefully consider.  Revocation of pseudonymous
+   credentials is substantially more difficult than revocation of
+   identity-bound credentials.  Because Verifiers do not possess out-of-
+   band knowledge of the Holder's identity, they cannot directly check a
+   status list [I-D.draft-ietf-oauth-status-list] or other identity-
+   based revocation mechanisms.  Instead, implementers must employ
+   privacy-preserving revocation schemes (such as cryptographic
+   accumulators) that maintain the privacy properties of the credential
+   system while enabling revocation; such schemes are complex and
+   difficult to scale.
+
+   Additionally, compromise of a Holder's device storage presents a more
+   significant risk in pseudonymous systems.  If a device containing
+   pseudonymous credentials is stolen and accessed by an attacker, the
+   attacker can present the credentials to Verifiers without the same
+   constraints that identity-bound credentials impose.  Because the
+   credentials do not cryptographically bind to the Holder's real
+   identity, Verifiers lack out-of-band verification mechanisms (such as
+   identity verification) to detect that a compromised device is being
+   used by someone other than the legitimate Holder, unless additional
+   controls such as biometric binding are implemented at the device
+   level.
+
+   See [I-D.draft-ietf-jose-json-web-proof] for an alternative to SD-CWT
+   which aims to address these concerns.
+
+16.3.  Disclosure Coercion and Over-identification
 
    The Security Considerations from Section 10.2 of
    [I-D.draft-ietf-oauth-selective-disclosure-jwt] apply, with
@@ -2332,7 +2384,7 @@ Issuer                           Holder                         Verifier
    [W3CTAG-Credential-Abuse], which discusses broader risks of
    credential abuse including surveillance, exclusion, and overuse.
 
-16.3.  Disclosure of Decoys
+16.4.  Disclosure of Decoys
 
    Issuers control the claimset and may include decoy digests to obscure
    the number of claims in a credential.  Unless all decoy disclosures
@@ -2345,7 +2397,7 @@ Issuer                           Holder                         Verifier
    attributes — that Verifiers can later be given selective access to,
    without the Holder's awareness or consent.
 
-16.4.  Random Numbers
+16.5.  Random Numbers
 
    Each salt used to protect disclosed claims MUST be generated
    independently.  Identical salt values, or values that can be
@@ -2357,7 +2409,7 @@ Issuer                           Holder                         Verifier
    choice of salts can lead to brute force attacks that can reveal
    redacted claims.
 
-16.5.  Binding the KBT and the CWT
+16.6.  Binding the KBT and the CWT
 
    The "iss" claim in the SD-CWT is self-asserted by the Issuer.
 
@@ -2390,7 +2442,7 @@ Issuer                           Holder                         Verifier
    Likewise, if there is a notion of SD-CWT revocation, an SD-KBT
    containing a revoked SD-CWT is not valid.
 
-16.6.  Covert Channels
+16.7.  Covert Channels
 
    Any data element that is supplied by the Issuer, and that appears
    random to the Holder might be used to produce a covert channel
@@ -2400,7 +2452,7 @@ Issuer                           Holder                         Verifier
    Holder is usually considered to be aware of the Issuer claims they
    are disclosing to a Verifier.
 
-16.7.  Nested Disclosure Ordering
+16.8.  Nested Disclosure Ordering
 
    The Holder has flexibility in determining the order of nested
    disclosures when making presentations.  The order can be sorted,
@@ -2409,7 +2461,7 @@ Issuer                           Holder                         Verifier
    However, the order can affect the runtime of the verification
    process.
 
-16.8.  Choice of AEAD algorithms
+16.9.  Choice of AEAD algorithms
 
    The AEAD encrypted disclosures mechanism discussed in Section 12.1
    can refer to any AEAD alogithm in the IANA AEAD Algorithms registry
@@ -2925,6 +2977,13 @@ Issuer                           Holder                         Verifier
 
 18.2.  Informative References
 
+   [I-D.draft-ietf-jose-json-web-proof]
+              Waite, D., Jones, M. B., and J. Miller, "JSON Web Proof",
+              Work in Progress, Internet-Draft, draft-ietf-jose-json-
+              web-proof-13, 2 March 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-jose-
+              json-web-proof-13>.
+
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",
               Work in Progress, Internet-Draft, draft-ietf-keytrans-
@@ -2945,6 +3004,13 @@ Issuer                           Holder                         Verifier
               Draft, draft-ietf-oauth-selective-disclosure-jwt-22, 29
               May 2025, <https://datatracker.ietf.org/doc/html/draft-
               ietf-oauth-selective-disclosure-jwt-22>.
+
+   [I-D.draft-ietf-oauth-status-list]
+              Looker, T., Bastian, P., and C. Bormann, "Token Status
+              List (TSL)", Work in Progress, Internet-Draft, draft-ietf-
+              oauth-status-list-19, 20 March 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-oauth-
+              status-list-19>.
 
    [I-D.ietf-httpbis-unprompted-auth]
               Schinazi, D., Oliver, D., and J. Hoyland, "The Concealed

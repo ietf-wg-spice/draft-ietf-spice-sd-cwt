@@ -1302,25 +1302,28 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
                 <p id="section-toc.1-1.16.2.1.1"><a href="#section-16.1" class="auto internal xref">16.1</a>.  <a href="#name-issuer-key-compromise" class="internal xref">Issuer Key Compromise</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.2">
-                <p id="section-toc.1-1.16.2.2.1"><a href="#section-16.2" class="auto internal xref">16.2</a>.  <a href="#name-disclosure-coercion-and-ove" class="internal xref">Disclosure Coercion and Over-identification</a></p>
+                <p id="section-toc.1-1.16.2.2.1"><a href="#section-16.2" class="auto internal xref">16.2</a>.  <a href="#name-linkability" class="internal xref">Linkability</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.3">
-                <p id="section-toc.1-1.16.2.3.1"><a href="#section-16.3" class="auto internal xref">16.3</a>.  <a href="#name-disclosure-of-decoys" class="internal xref">Disclosure of Decoys</a></p>
+                <p id="section-toc.1-1.16.2.3.1"><a href="#section-16.3" class="auto internal xref">16.3</a>.  <a href="#name-disclosure-coercion-and-ove" class="internal xref">Disclosure Coercion and Over-identification</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.4">
-                <p id="section-toc.1-1.16.2.4.1"><a href="#section-16.4" class="auto internal xref">16.4</a>.  <a href="#name-random-numbers" class="internal xref">Random Numbers</a></p>
+                <p id="section-toc.1-1.16.2.4.1"><a href="#section-16.4" class="auto internal xref">16.4</a>.  <a href="#name-disclosure-of-decoys" class="internal xref">Disclosure of Decoys</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.5">
-                <p id="section-toc.1-1.16.2.5.1"><a href="#section-16.5" class="auto internal xref">16.5</a>.  <a href="#name-binding-the-kbt-and-the-cwt" class="internal xref">Binding the KBT and the CWT</a></p>
+                <p id="section-toc.1-1.16.2.5.1"><a href="#section-16.5" class="auto internal xref">16.5</a>.  <a href="#name-random-numbers" class="internal xref">Random Numbers</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.6">
-                <p id="section-toc.1-1.16.2.6.1"><a href="#section-16.6" class="auto internal xref">16.6</a>.  <a href="#name-covert-channels" class="internal xref">Covert Channels</a></p>
+                <p id="section-toc.1-1.16.2.6.1"><a href="#section-16.6" class="auto internal xref">16.6</a>.  <a href="#name-binding-the-kbt-and-the-cwt" class="internal xref">Binding the KBT and the CWT</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.7">
-                <p id="section-toc.1-1.16.2.7.1"><a href="#section-16.7" class="auto internal xref">16.7</a>.  <a href="#name-nested-disclosure-ordering" class="internal xref">Nested Disclosure Ordering</a></p>
+                <p id="section-toc.1-1.16.2.7.1"><a href="#section-16.7" class="auto internal xref">16.7</a>.  <a href="#name-covert-channels" class="internal xref">Covert Channels</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.8">
-                <p id="section-toc.1-1.16.2.8.1"><a href="#section-16.8" class="auto internal xref">16.8</a>.  <a href="#name-choice-of-aead-algorithms" class="internal xref">Choice of AEAD algorithms</a></p>
+                <p id="section-toc.1-1.16.2.8.1"><a href="#section-16.8" class="auto internal xref">16.8</a>.  <a href="#name-nested-disclosure-ordering" class="internal xref">Nested Disclosure Ordering</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.9">
+                <p id="section-toc.1-1.16.2.9.1"><a href="#section-16.9" class="auto internal xref">16.9</a>.  <a href="#name-choice-of-aead-algorithms" class="internal xref">Choice of AEAD algorithms</a></p>
 </li>
             </ul>
 </li>
@@ -3279,7 +3282,7 @@ An example issued SD-CWT containing decoy digests is shown below.<a href="#secti
 <a href="#name-edn-showing-a-sd-cwt-contai" class="selfRef">EDN showing a SD-CWT containing decoys</a>
         </figcaption></figure>
 </div>
-<p id="section-10-6">As with regular Blinded Claims, the Holder needs to receive the disclosure for every decoy so it can be sure the Issuer is not communicating unwanted information to Verifiers (see <a href="#disclosure-of-decoys" class="auto internal xref">Section 16.3</a>).<a href="#section-10-6" class="pilcrow">¶</a></p>
+<p id="section-10-6">As with regular Blinded Claims, the Holder needs to receive the disclosure for every decoy so it can be sure the Issuer is not communicating unwanted information to Verifiers (see <a href="#disclosure-of-decoys" class="auto internal xref">Section 16.4</a>).<a href="#section-10-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tags-used-before-sd-cwt-issuance">
@@ -3385,7 +3388,7 @@ Other protocols have a similar type of internal structure for the Verifier.<a hr
         </h3>
 <p id="section-12.1-1">This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (<code>sd_aead</code>) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span> registered in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .
-(Guidance on specific algorithms is discussed in <a href="#aead-choice" class="auto internal xref">Section 16.8</a>.)
+(Guidance on specific algorithms is discussed in <a href="#aead-choice" class="auto internal xref">Section 16.9</a>.)
 The second header parameter (<code>sd_aead_encrypted_claims</code>), if present, contains a non-empty list of AEAD encrypted disclosures.
 Taking the first example disclosure from above:<a href="#section-12.1-1" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-an-encrypted"></span><div id="edn-aead-disclosure">
@@ -3924,94 +3927,108 @@ Beyond key compromise, attacks targeting the provisioning and binding between is
 An attacker who can manipulate these bindings could substitute their own keys for legitimate issuer keys, enabling credential forgery while appearing to be a trusted issuer.<a href="#section-16.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="disclosure-coercion">
+<div id="linkability">
 <section id="section-16.2">
-        <h3 id="name-disclosure-coercion-and-ove">
-<a href="#section-16.2" class="section-number selfRef">16.2. </a><a href="#name-disclosure-coercion-and-ove" class="section-name selfRef">Disclosure Coercion and Over-identification</a>
+        <h3 id="name-linkability">
+<a href="#section-16.2" class="section-number selfRef">16.2. </a><a href="#name-linkability" class="section-name selfRef">Linkability</a>
         </h3>
-<p id="section-16.2-1">The Security Considerations from <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-10.2" class="relref">Section 10.2</a> of [<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span> apply, with additional attention to disclosure coercion risks.
+<p id="section-16.2-1">The term linkability or unlinkability applies to presentations of SD-CWT in the same ways that it applies to SD-JWT as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-10.1" class="relref">Section 10.1</a> of [<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span>.<a href="#section-16.2-1" class="pilcrow">¶</a></p>
+<p id="section-16.2-2">As noted in the introduction, SD-CWT cannot prevent Issuer/Verifier linkability.<a href="#section-16.2-2" class="pilcrow">¶</a></p>
+<p id="section-16.2-3">Pseudonymous credential schemes, by contrast, employ mechanisms such as fresh pseudonyms or cryptographic unlinking per presentation to enable Holders to prove attributes or properties without revealing stable identifiers, thereby preventing Issuer-Verifier and Verifier-Verifier linkability across presentations.<a href="#section-16.2-3" class="pilcrow">¶</a></p>
+<p id="section-16.2-4">For example, in an age verification system using pseudonymous credentials, a Holder can prove they are "over 18" to multiple online services (streaming platforms, gaming sites, retailers) without those services being able to correlate the presentations or determine they all come from the same individual. Each presentation employs a fresh pseudonym or unlinking mechanism, preventing the Issuer and any Verifier from learning the Holder's activity patterns or presentation history.<a href="#section-16.2-4" class="pilcrow">¶</a></p>
+<p id="section-16.2-5">However, this unlinkability introduces security trade-offs that implementers must carefully consider. Revocation of pseudonymous credentials is substantially more difficult than revocation of identity-bound credentials. Because Verifiers do not possess out-of-band knowledge of the Holder's identity, they cannot directly check a status list <span>[<a href="#I-D.draft-ietf-oauth-status-list" class="cite xref">I-D.draft-ietf-oauth-status-list</a>]</span> or other identity-based revocation mechanisms. Instead, implementers must employ privacy-preserving revocation schemes (such as cryptographic accumulators) that maintain the privacy properties of the credential system while enabling revocation; such schemes are complex and difficult to scale.<a href="#section-16.2-5" class="pilcrow">¶</a></p>
+<p id="section-16.2-6">Additionally, compromise of a Holder's device storage presents a more significant risk in pseudonymous systems. If a device containing pseudonymous credentials is stolen and accessed by an attacker, the attacker can present the credentials to Verifiers without the same constraints that identity-bound credentials impose. Because the credentials do not cryptographically bind to the Holder's real identity, Verifiers lack out-of-band verification mechanisms (such as identity verification) to detect that a compromised device is being used by someone other than the legitimate Holder, unless additional controls such as biometric binding are implemented at the device level.<a href="#section-16.2-6" class="pilcrow">¶</a></p>
+<p id="section-16.2-7">See <span>[<a href="#I-D.draft-ietf-jose-json-web-proof" class="cite xref">I-D.draft-ietf-jose-json-web-proof</a>]</span> for an alternative to SD-CWT which aims to address these concerns.<a href="#section-16.2-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="disclosure-coercion">
+<section id="section-16.3">
+        <h3 id="name-disclosure-coercion-and-ove">
+<a href="#section-16.3" class="section-number selfRef">16.3. </a><a href="#name-disclosure-coercion-and-ove" class="section-name selfRef">Disclosure Coercion and Over-identification</a>
+        </h3>
+<p id="section-16.3-1">The Security Considerations from <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-10.2" class="relref">Section 10.2</a> of [<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span> apply, with additional attention to disclosure coercion risks.
 Holders can be pressured to disclose more claims than are necessary for a given transaction.
-This risk is heightened when a Verifier does not provide adequate data protection practices, when disclosed attributes derive from highly trusted authorities (for example, government-issued credentials), and because disclosure is effectively irreversible once data has been shared.<a href="#section-16.2-1" class="pilcrow">¶</a></p>
-<p id="section-16.2-2">Mitigations include mechanisms by which Verifiers demonstrate eligibility to receive sensitive claims, Holder-side evaluation of Verifier compliance posture and certifications, and use of trust lists curated by trusted parties to identify responsible Verifiers.
-In the absence of such safeguards, including Verifier trust lists, Holders remain exposed to over-identification and long-term misuse of disclosed information.<a href="#section-16.2-2" class="pilcrow">¶</a></p>
-<p id="section-16.2-3">Implementers deploying SD-CWT in credential systems should review <span>[<a href="#W3CTAG-Credential-Abuse" class="cite xref">W3CTAG-Credential-Abuse</a>]</span>,
-which discusses broader risks of credential abuse including surveillance, exclusion, and overuse.<a href="#section-16.2-3" class="pilcrow">¶</a></p>
+This risk is heightened when a Verifier does not provide adequate data protection practices, when disclosed attributes derive from highly trusted authorities (for example, government-issued credentials), and because disclosure is effectively irreversible once data has been shared.<a href="#section-16.3-1" class="pilcrow">¶</a></p>
+<p id="section-16.3-2">Mitigations include mechanisms by which Verifiers demonstrate eligibility to receive sensitive claims, Holder-side evaluation of Verifier compliance posture and certifications, and use of trust lists curated by trusted parties to identify responsible Verifiers.
+In the absence of such safeguards, including Verifier trust lists, Holders remain exposed to over-identification and long-term misuse of disclosed information.<a href="#section-16.3-2" class="pilcrow">¶</a></p>
+<p id="section-16.3-3">Implementers deploying SD-CWT in credential systems should review <span>[<a href="#W3CTAG-Credential-Abuse" class="cite xref">W3CTAG-Credential-Abuse</a>]</span>,
+which discusses broader risks of credential abuse including surveillance, exclusion, and overuse.<a href="#section-16.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="disclosure-of-decoys">
-<section id="section-16.3">
+<section id="section-16.4">
         <h3 id="name-disclosure-of-decoys">
-<a href="#section-16.3" class="section-number selfRef">16.3. </a><a href="#name-disclosure-of-decoys" class="section-name selfRef">Disclosure of Decoys</a>
+<a href="#section-16.4" class="section-number selfRef">16.4. </a><a href="#name-disclosure-of-decoys" class="section-name selfRef">Disclosure of Decoys</a>
         </h3>
-<p id="section-16.3-1">Issuers control the claimset and may include decoy digests to obscure the number of claims in a credential.
+<p id="section-16.4-1">Issuers control the claimset and may include decoy digests to obscure the number of claims in a credential.
 Unless all decoy disclosures are made available to Holders, an Issuer could use this mechanism to hide claims from Holders without their knowledge.
 A Holder receiving a credential with undisclosed decoys cannot distinguish between a digest that conceals a real claim and one that is genuinely a decoy.
-This creates a severe privacy risk: an Issuer could embed hidden claims — such as behavioral flags, risk scores, or sensitive attributes — that Verifiers can later be given selective access to, without the Holder's awareness or consent.<a href="#section-16.3-1" class="pilcrow">¶</a></p>
+This creates a severe privacy risk: an Issuer could embed hidden claims — such as behavioral flags, risk scores, or sensitive attributes — that Verifiers can later be given selective access to, without the Holder's awareness or consent.<a href="#section-16.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="random-numbers">
-<section id="section-16.4">
+<section id="section-16.5">
         <h3 id="name-random-numbers">
-<a href="#section-16.4" class="section-number selfRef">16.4. </a><a href="#name-random-numbers" class="section-name selfRef">Random Numbers</a>
+<a href="#section-16.5" class="section-number selfRef">16.5. </a><a href="#name-random-numbers" class="section-name selfRef">Random Numbers</a>
         </h3>
-<p id="section-16.4-1">Each salt used to protect disclosed claims <span class="bcp14">MUST</span> be generated independently.
-Identical salt values, or values that can be correlated, might allow a Verifier to recover blinded values that were not disclosed.<a href="#section-16.4-1" class="pilcrow">¶</a></p>
-<p id="section-16.4-2">The salts <span class="bcp14">MUST</span> be generated using fresh randomness or from a source that has outputs cannot be predicted by any potential Verifier.
-Poor choice of salts can lead to brute force attacks that can reveal redacted claims.<a href="#section-16.4-2" class="pilcrow">¶</a></p>
+<p id="section-16.5-1">Each salt used to protect disclosed claims <span class="bcp14">MUST</span> be generated independently.
+Identical salt values, or values that can be correlated, might allow a Verifier to recover blinded values that were not disclosed.<a href="#section-16.5-1" class="pilcrow">¶</a></p>
+<p id="section-16.5-2">The salts <span class="bcp14">MUST</span> be generated using fresh randomness or from a source that has outputs cannot be predicted by any potential Verifier.
+Poor choice of salts can lead to brute force attacks that can reveal redacted claims.<a href="#section-16.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="binding-the-kbt-and-the-cwt">
-<section id="section-16.5">
+<section id="section-16.6">
         <h3 id="name-binding-the-kbt-and-the-cwt">
-<a href="#section-16.5" class="section-number selfRef">16.5. </a><a href="#name-binding-the-kbt-and-the-cwt" class="section-name selfRef">Binding the KBT and the CWT</a>
+<a href="#section-16.6" class="section-number selfRef">16.6. </a><a href="#name-binding-the-kbt-and-the-cwt" class="section-name selfRef">Binding the KBT and the CWT</a>
         </h3>
-<p id="section-16.5-1">The "iss" claim in the SD-CWT is self-asserted by the Issuer.<a href="#section-16.5-1" class="pilcrow">¶</a></p>
-<p id="section-16.5-2">Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.
+<p id="section-16.6-1">The "iss" claim in the SD-CWT is self-asserted by the Issuer.<a href="#section-16.6-1" class="pilcrow">¶</a></p>
+<p id="section-16.6-2">Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.
 There might be many subject claims and many confirmation keys that identify the same entity or that are controlled by the same entity, while the identifiers and keys are distinct values.
 Reusing an identifier or key enables correlation, but <span class="bcp14">MUST</span> be evaluated in terms of the confidential and privacy constraints associated with the credential type.
 Conceptually, the Holder is both the Issuer and the subject of the SD-KBT, even if the "iss" or "sub" claims are not present.
 If they are present, they are self-asserted by the Holder.
-All three are represented by the confirmation (public) key in the SD-CWT.<a href="#section-16.5-2" class="pilcrow">¶</a></p>
-<p id="section-16.5-3">As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT "iss" and "sub" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
+All three are represented by the confirmation (public) key in the SD-CWT.<a href="#section-16.6-2" class="pilcrow">¶</a></p>
+<p id="section-16.6-3">As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT "iss" and "sub" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
 Extra care should be taken in case the SD-CWT subject claim is redacted.
-Likewise, Holders and Verifiers <span class="bcp14">MUST</span> verify that the "iss" claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.<a href="#section-16.5-3" class="pilcrow">¶</a></p>
-<p id="section-16.5-4">Finally, the Verifier <span class="bcp14">MUST</span> verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not.
+Likewise, Holders and Verifiers <span class="bcp14">MUST</span> verify that the "iss" claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.<a href="#section-16.6-3" class="pilcrow">¶</a></p>
+<p id="section-16.6-4">Finally, the Verifier <span class="bcp14">MUST</span> verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not.
 Specific tests for time claims are described in steps 3 and 6 of <a href="#binding-validation" class="auto internal xref">Section 9</a>.
-Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.<a href="#section-16.5-4" class="pilcrow">¶</a></p>
+Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.<a href="#section-16.6-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="covert-channels">
-<section id="section-16.6">
+<section id="section-16.7">
         <h3 id="name-covert-channels">
-<a href="#section-16.6" class="section-number selfRef">16.6. </a><a href="#name-covert-channels" class="section-name selfRef">Covert Channels</a>
+<a href="#section-16.7" class="section-number selfRef">16.7. </a><a href="#name-covert-channels" class="section-name selfRef">Covert Channels</a>
         </h3>
-<p id="section-16.6-1">Any data element that is supplied by the Issuer, and that appears random to the Holder might be used to produce a covert channel between the Issuer and the Verifier.
+<p id="section-16.7-1">Any data element that is supplied by the Issuer, and that appears random to the Holder might be used to produce a covert channel between the Issuer and the Verifier.
 The ordering of claims, and precision of timestamps can also be used to produce a covert channel.
-This is more of a concern for SD-CWT than typical CWTs, because the Holder is usually considered to be aware of the Issuer claims they are disclosing to a Verifier.<a href="#section-16.6-1" class="pilcrow">¶</a></p>
+This is more of a concern for SD-CWT than typical CWTs, because the Holder is usually considered to be aware of the Issuer claims they are disclosing to a Verifier.<a href="#section-16.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="nested-disclosure-ordering">
-<section id="section-16.7">
+<section id="section-16.8">
         <h3 id="name-nested-disclosure-ordering">
-<a href="#section-16.7" class="section-number selfRef">16.7. </a><a href="#name-nested-disclosure-ordering" class="section-name selfRef">Nested Disclosure Ordering</a>
+<a href="#section-16.8" class="section-number selfRef">16.8. </a><a href="#name-nested-disclosure-ordering" class="section-name selfRef">Nested Disclosure Ordering</a>
         </h3>
-<p id="section-16.7-1">The Holder has flexibility in determining the order of nested disclosures when making presentations.
+<p id="section-16.8-1">The Holder has flexibility in determining the order of nested disclosures when making presentations.
 The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
 This ordering choice has no security impact on encrypted disclosures.
-However, the order can affect the runtime of the verification process.<a href="#section-16.7-1" class="pilcrow">¶</a></p>
+However, the order can affect the runtime of the verification process.<a href="#section-16.8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="aead-choice">
-<section id="section-16.8">
+<section id="section-16.9">
         <h3 id="name-choice-of-aead-algorithms">
-<a href="#section-16.8" class="section-number selfRef">16.8. </a><a href="#name-choice-of-aead-algorithms" class="section-name selfRef">Choice of AEAD algorithms</a>
+<a href="#section-16.9" class="section-number selfRef">16.9. </a><a href="#name-choice-of-aead-algorithms" class="section-name selfRef">Choice of AEAD algorithms</a>
         </h3>
-<p id="section-16.8-1">The AEAD encrypted disclosures mechanism discussed in <a href="#aead" class="auto internal xref">Section 12.1</a> can refer to any AEAD alogithm in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .<a href="#section-16.8-1" class="pilcrow">¶</a></p>
-<p id="section-16.8-2">When choosing an AEAD algorithm, the tag length is critical for the integrity of encrypted disclosures in SD-CWT.
-As such, implementations <span class="bcp14">MUST NOT</span> use any AEAD algorithm with a tag length less than 16 octets.<a href="#section-16.8-2" class="pilcrow">¶</a></p>
-<p id="section-16.8-3">Algorithms using AES-CCM are <span class="bcp14">NOT RECOMMENDED</span>.<a href="#section-16.8-3" class="pilcrow">¶</a></p>
-<p id="section-16.8-4">As of this writing, implementations <span class="bcp14">MUST NOT</span> use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
-Implementations using the AEGIS algorithms containing an X <span class="bcp14">MUST</span> only use the 256-bit tag variant.<a href="#section-16.8-4" class="pilcrow">¶</a></p>
+<p id="section-16.9-1">The AEAD encrypted disclosures mechanism discussed in <a href="#aead" class="auto internal xref">Section 12.1</a> can refer to any AEAD alogithm in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .<a href="#section-16.9-1" class="pilcrow">¶</a></p>
+<p id="section-16.9-2">When choosing an AEAD algorithm, the tag length is critical for the integrity of encrypted disclosures in SD-CWT.
+As such, implementations <span class="bcp14">MUST NOT</span> use any AEAD algorithm with a tag length less than 16 octets.<a href="#section-16.9-2" class="pilcrow">¶</a></p>
+<p id="section-16.9-3">Algorithms using AES-CCM are <span class="bcp14">NOT RECOMMENDED</span>.<a href="#section-16.9-3" class="pilcrow">¶</a></p>
+<p id="section-16.9-4">As of this writing, implementations <span class="bcp14">MUST NOT</span> use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
+Implementations using the AEGIS algorithms containing an X <span class="bcp14">MUST</span> only use the 256-bit tag variant.<a href="#section-16.9-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4706,6 +4723,10 @@ An indication of the relevant sections may also be included, but is not required
 <a href="#section-18.2" class="section-number selfRef">18.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="I-D.draft-ietf-jose-json-web-proof">[I-D.draft-ietf-jose-json-web-proof]</dt>
+        <dd>
+<span class="refAuthor">Waite, D.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">J. Miller</span>, <span class="refTitle">"JSON Web Proof"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-jose-json-web-proof-13</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-jose-json-web-proof-13">https://datatracker.ietf.org/doc/html/draft-ietf-jose-json-web-proof-13</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.draft-ietf-keytrans-protocol">[I-D.draft-ietf-keytrans-protocol]</dt>
         <dd>
 <span class="refAuthor">McMillion, B.</span> and <span class="refAuthor">F. Linker</span>, <span class="refTitle">"Key Transparency Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-keytrans-protocol-03</span>, <time datetime="2025-10-19" class="refDate">19 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-03">https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-03</a>&gt;</span>. </dd>
@@ -4717,6 +4738,10 @@ An indication of the relevant sections may also be included, but is not required
 <dt id="I-D.draft-ietf-oauth-selective-disclosure-jwt">[I-D.draft-ietf-oauth-selective-disclosure-jwt]</dt>
         <dd>
 <span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-22</span>, <time datetime="2025-05-29" class="refDate">29 May 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.draft-ietf-oauth-status-list">[I-D.draft-ietf-oauth-status-list]</dt>
+        <dd>
+<span class="refAuthor">Looker, T.</span>, <span class="refAuthor">Bastian, P.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Token Status List (TSL)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-status-list-19</span>, <time datetime="2026-03-20" class="refDate">20 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-19">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-19</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-httpbis-unprompted-auth">[I-D.ietf-httpbis-unprompted-auth]</dt>
         <dd>
