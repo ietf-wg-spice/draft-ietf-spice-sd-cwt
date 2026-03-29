@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-26T01:16:15.731722+00:00",
+  "timestamp": "2026-03-29T01:19:23.493825+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -20288,22 +20288,22 @@
     {
       "number": 265,
       "id": "PR_kwDOMm_Q2s7NWitr",
-      "title": "Attempt to close #191",
+      "title": "Applicability & Alternatives",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/265",
       "state": "OPEN",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "",
+      "body": "This PR attempts to address SD-CWT applicability, and alternative solutions which address applicability limitiations.",
       "createdAt": "2026-03-25T13:34:05Z",
-      "updatedAt": "2026-03-25T13:50:18Z",
+      "updatedAt": "2026-03-26T14:08:43Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue-191-applicability",
-      "headRefOid": "10ae10921f404f7b4dcc2145f0bf4db4c0e0e11e",
+      "headRefOid": "1684124b3a9310398f665e9ac4c35e9717b47f4e",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -20322,9 +20322,64 @@
           "body": "I think this PR looks good. I proposed an extra sentence about pseudonymous credentials.",
           "createdAt": "2026-03-25T13:50:18Z",
           "updatedAt": "2026-03-25T13:50:18Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Seems like we are talking about 2 thing here:\r\n\r\n1.  applicability ( I put this up front near intro).\r\n2. Linkability as a security consideration (I will expand on this in the security considerations).",
+          "createdAt": "2026-03-26T13:13:26Z",
+          "updatedAt": "2026-03-26T14:07:20Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@martinthomson @rohanmahy @selfissued @henkbirkholz wdyt?",
+          "createdAt": "2026-03-26T14:07:48Z",
+          "updatedAt": "2026-03-26T14:07:48Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s7vJdFk",
+          "commit": {
+            "abbreviatedOid": "10ae109"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Definitely on track.\n\nVerifier-Issuer linkability is worth addressing though.\n\nAnd ... one paragraph?  This could be quite a few more than that.",
+          "createdAt": "2026-03-26T08:24:45Z",
+          "updatedAt": "2026-03-26T08:25:44Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\nCases that have higher requirements for privacy include where the subject should be able to make repeated presentations without different Verifiers -- or the same Verifier over time -- learning that those presentations came from the same entity.\n```\n\nNow, I think that this is not your primary concern for SD-CWT.  In these cases specifically, you can simply use a fresh SD-CWT for each presentation.  The case where SD-CWT is completely unusable is where you don't want the Issuer knowing how you use the credential.",
+              "createdAt": "2026-03-26T08:24:46Z",
+              "updatedAt": "2026-03-26T08:25:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7vQS82",
+          "commit": {
+            "abbreviatedOid": "10ae109"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-26T13:11:02Z",
+          "updatedAt": "2026-03-26T13:11:02Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "Attempted to address the last sentence in https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/265/commits/910784f053686373259bc77ed7cdc0cc73a385ba",
+              "createdAt": "2026-03-26T13:11:02Z",
+              "updatedAt": "2026-03-26T13:11:02Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
