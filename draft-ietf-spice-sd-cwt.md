@@ -113,7 +113,8 @@ In these settings, some linkability is often expected because the Verifier needs
 SD-CWT helps reduce unnecessary disclosure while still allowing required identifiers and other mandatory claims to be presented.
 It is a less natural fit for use cases where avoiding correlation across presentations is the primary privacy goal.
 Cases that have higher requirements for privacy include where the subject should be able to make repeated presentations without different Verifiers -- or the same Verifier over time -- learning that those presentations came from the same entity.
-Use cases that depend on strong unlinkability, one-time pseudonyms, or very low observability are generally better served by mechanisms designed to minimize or remove stable identifiers and presentation-level traceability.
+Generating one-time pseudonyms, each using a unique confirmation key, can somewhat mitigate these concerns, but at the expense of managing a proliferation of credentials.
+Use cases that depend on strong unlinkability, or very low observability are generally better served by mechanisms designed to minimize or remove stable identifiers and presentation-level traceability.
 Examples include credentials used in systems that could reveal a person's travel patterns, current location, or movement over time, and credentials used to access sensitive locations or services where repeated presentation could expose visits to shelters, clinics, places of worship, political events, or counseling centers.
 
 ## High-Level Flow
