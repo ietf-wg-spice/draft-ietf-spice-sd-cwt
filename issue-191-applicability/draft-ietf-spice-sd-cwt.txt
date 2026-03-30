@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 27 September 2026                                  Tradeverifyd
+Expires: 1 October 2026                                     Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           26 March 2026
+                                                           30 March 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 September 2026.
+   This Internet-Draft will expire on 1 October 2026.
 
 Copyright Notice
 
@@ -231,15 +231,17 @@ Table of Contents
    requirements for privacy include where the subject should be able to
    make repeated presentations without different Verifiers -- or the
    same Verifier over time -- learning that those presentations came
-   from the same entity.  Use cases that depend on strong unlinkability,
-   one-time pseudonyms, or very low observability are generally better
-   served by mechanisms designed to minimize or remove stable
-   identifiers and presentation-level traceability.  Examples include
-   credentials used in systems that could reveal a person's travel
-   patterns, current location, or movement over time, and credentials
-   used to access sensitive locations or services where repeated
-   presentation could expose visits to shelters, clinics, places of
-   worship, political events, or counseling centers.
+   from the same entity.  Generating one-time pseudonyms, each using a
+   unique confirmation key, can somewhat mitigate these concerns, but at
+   the expense of managing a proliferation of credentials.  Use cases
+   that depend on strong unlinkability, or very low observability are
+   generally better served by mechanisms designed to minimize or remove
+   stable identifiers and presentation-level traceability.  Examples
+   include credentials used in systems that could reveal a person's
+   travel patterns, current location, or movement over time, and
+   credentials used to access sensitive locations or services where
+   repeated presentation could expose visits to shelters, clinics,
+   places of worship, political events, or counseling centers.
 
 1.1.  High-Level Flow
 
@@ -2906,9 +2908,9 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-serialization]
               Lundblade, L., "CBOR Serialization and Determinism", Work
               in Progress, Internet-Draft, draft-ietf-cbor-
-              serialization-04, 28 February 2026,
+              serialization-05, 28 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              serialization-04>.
+              serialization-05>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
