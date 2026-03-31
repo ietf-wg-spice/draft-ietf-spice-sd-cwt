@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 1 October 2026                                     Tradeverifyd
+Expires: 2 October 2026                                     Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           30 March 2026
+                                                           31 March 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 October 2026.
+   This Internet-Draft will expire on 2 October 2026.
 
 Copyright Notice
 
@@ -2317,8 +2317,7 @@ Issuer                           Holder                         Verifier
    CWT in the same ways that it applies to SD-JWT as described in
    Section 10.1 of [I-D.draft-ietf-oauth-selective-disclosure-jwt].
 
-   As noted in the introduction, SD-CWT cannot prevent Issuer/Verifier
-   linkability.
+   SD-CWT cannot prevent Issuer/Verifier linkability.
 
    Pseudonymous credential schemes, by contrast, employ mechanisms such
    as fresh pseudonyms or cryptographic unlinking per presentation to
@@ -2901,9 +2900,9 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "CBOR Extended Diagnostic Notation (EDN)",
               Work in Progress, Internet-Draft, draft-ietf-cbor-edn-
-              literals-20, 2 March 2026,
+              literals-21, 30 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              edn-literals-20>.
+              edn-literals-21>.
 
    [I-D.ietf-cbor-serialization]
               Lundblade, L., "CBOR Serialization and Determinism", Work
