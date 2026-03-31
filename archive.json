@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-29T01:19:23.493825+00:00",
+  "timestamp": "2026-03-31T01:17:40.374055+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4096,14 +4096,17 @@
       "state": "OPEN",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "OR13"
+      ],
       "labels": [
         "help wanted",
+        "ready-for-pr",
         "author-discuss"
       ],
       "body": "[This text](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-4-4) seems a little backwards:\n\n> The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the Verifier through a process similar to the method described in [[I-D.ietf-httpbis-unprompted-auth](https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-unprompted-auth-12)].\n\nGenerally, a Verifier is the one that has the requirement for freshness.  That means that they will want to challenge the Holder, rather than have the Holder unilaterally decide that freshness is needed.\n\nThe unprompted auth trick of using a TLS exporter is a good one, but I would instead mention exporters directly, but only in relation to describing cases where the Holder isn't actively challenged and it knows that the Verifier will need some freshness.  (A nonce derived from TLS has other properties as well, but those can be a little fiddly to reason about, so I'd be inclined to avoid mention of the trick.)\n\nIn doing this, whatever you do, you should also mention the connection to the `cnonce` field.  The current text doesn't mention it and you sort of have to guess.",
       "createdAt": "2026-01-23T00:51:53Z",
-      "updatedAt": "2026-03-17T12:55:49Z",
+      "updatedAt": "2026-03-30T13:18:28Z",
       "closedAt": null,
       "comments": []
     },
@@ -5259,14 +5262,16 @@
       "state": "OPEN",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
         "help wanted",
         "author-discuss"
       ],
       "body": "I don't like [Section 16.5](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.5).\n\nAnother impossible \"MUST\" here:\n\n> Reusing an identifier or key enables correlation, but MUST be evaluated in terms of the confidential and privacy constraints associated with the credential type.\n\nThe main problem is that text assumes that `iss` and `sub` on the KBT is populated with a value that carries meaning in some context outside of the immediate interaction.  But in the correlation cases, it can't reasonably do that.  So I think that this design points to not including these values at all.  The following supports that notion:\n\n> Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.\n\nAfter all, why bother with Holder identifiers in those circumstances?\n\nWorse, we have extra checks for Verifiers, for information that they don't have any reason to trust or use:\n\n> Verifiers need to take care to verify that the SD-KBT \"iss\" and \"sub\" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key. \n\nThis is weird and probably unnecessary, depending on the usage context: \n\n> Extra care should be taken in case the SD-CWT subject claim is redacted. \n\nEither the subject is important to the Verifier (so they would need to see it, blinded or not), or they don't care.\n\nThen, we have another case of the problem I describe in #215: \n\n> Finally, the Verifier MUST verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not. \n\nBut that is not the final problem, despite what it says:\n\n> Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.\n\nThis document has not talked about revocation at all so far.  I see that [SD-JWT does](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-9.8), so maybe that's OK.  But make that a clear statement about key management, not hide it under a discussion of time fields.\n",
       "createdAt": "2026-01-23T04:57:19Z",
-      "updatedAt": "2026-03-17T12:59:35Z",
+      "updatedAt": "2026-03-30T13:20:17Z",
       "closedAt": null,
       "comments": []
     },
@@ -5453,11 +5458,12 @@
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr"
+        "ready-for-pr",
+        "next-stretch"
       ],
       "body": "originally suggested by @martinthomson \n\nthumbs up if you like the idea:\n@OR13 \n@selfissued \n@henkbirkholz ",
       "createdAt": "2026-03-01T16:10:20Z",
-      "updatedAt": "2026-03-25T12:47:30Z",
+      "updatedAt": "2026-03-30T13:16:36Z",
       "closedAt": null,
       "comments": [
         {
@@ -20297,13 +20303,13 @@
       "labels": [],
       "body": "This PR attempts to address SD-CWT applicability, and alternative solutions which address applicability limitiations.",
       "createdAt": "2026-03-25T13:34:05Z",
-      "updatedAt": "2026-03-26T14:08:43Z",
+      "updatedAt": "2026-03-31T00:35:49Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue-191-applicability",
-      "headRefOid": "1684124b3a9310398f665e9ac4c35e9717b47f4e",
+      "headRefOid": "7803de5968842945c44852378a6d40f31034f463",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -20336,6 +20342,13 @@
           "body": "@martinthomson @rohanmahy @selfissued @henkbirkholz wdyt?",
           "createdAt": "2026-03-26T14:07:48Z",
           "updatedAt": "2026-03-26T14:07:48Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@martinthomson we discussed this on editors call, and would like a review of the PR before merging if possible.",
+          "createdAt": "2026-03-30T13:15:28Z",
+          "updatedAt": "2026-03-30T13:15:28Z"
         }
       ],
       "reviews": [
@@ -20376,6 +20389,113 @@
               "body": "Attempted to address the last sentence in https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/265/commits/910784f053686373259bc77ed7cdc0cc73a385ba",
               "createdAt": "2026-03-26T13:11:02Z",
               "updatedAt": "2026-03-26T13:11:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7u028G",
+          "commit": {
+            "abbreviatedOid": "1684124"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-25T13:48:00Z",
+          "updatedAt": "2026-03-30T13:10:43Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "How is this slight reframe of one-time credentials?\n\n```suggestion\nGenerating one-time pseudonyms, each using a unique confirmation key, can somewhat mitigate these concerns, but at the expense of managing a proliferation of credentials.\nUse cases that depend on strong unlinkability, or very low observability are generally better served by mechanisms designed to minimize or remove stable identifiers and presentation-level traceability.\n```",
+              "createdAt": "2026-03-25T13:48:00Z",
+              "updatedAt": "2026-03-30T13:10:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7wPCi-",
+          "commit": {
+            "abbreviatedOid": "7803de5"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-30T13:13:46Z",
+          "updatedAt": "2026-03-30T13:13:46Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7wcLDK",
+          "commit": {
+            "abbreviatedOid": "7803de5"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "The main danger with wishes is that they might be granted...\n\nI hope that this helps.",
+          "createdAt": "2026-03-31T00:09:28Z",
+          "updatedAt": "2026-03-31T00:35:49Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "This still suffers from [WALLOFTEXT](https://en.uncyclopedia.co/wiki/Wall_of_Text).  Can you break it down a little?",
+              "createdAt": "2026-03-31T00:09:28Z",
+              "updatedAt": "2026-03-31T00:35:49Z"
+            },
+            {
+              "originalPosition": 13,
+              "body": "I'm not sure what this is intended to convey.\n\nThe statement about verifiers trusting issuers isn't very well qualified.  Generally speaking, if you are going to act on a credential, any action you take is determined by whether you think that the entity making claims (the Issuer) is plausibly able to make those claims.  Which usually means that a Verifier will have a list of Issuers that they consider to be authoritative for certain sets of claims (either as a list of Issuers who can make claims on a certain topic, closer to the Web PKI mode; or, as a list of claims that each Issuer can make claims for).\n\nThe policy/legal frameworks thing seems to be addressing a different point.  What point is that?  What does \"such tracking\" refer to?",
+              "createdAt": "2026-03-31T00:13:39Z",
+              "updatedAt": "2026-03-31T00:35:49Z"
+            },
+            {
+              "originalPosition": 14,
+              "body": "If the intent of the previous statement was to say that a Verifier can conspire with an Issuer to track the usage of credentials, then this statement would make sense.  Otherwise, I'm not sure what your intent would be.",
+              "createdAt": "2026-03-31T00:14:55Z",
+              "updatedAt": "2026-03-31T00:35:49Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "It seems to me like this statement about traceability is the linchpin on what a lot of the new additions turn.  However, it's not directly connected to that discussion, so some of the later statements appear out of context.  What I suggest you do is add a specific section on the claims being traceable, exploring the consequences of that from there.\n\nEither way, you need to make a better connection between the term \"traceable\", as used here, and \"linkability\", as used in later discussion.",
+              "createdAt": "2026-03-31T00:17:58Z",
+              "updatedAt": "2026-03-31T00:35:49Z"
+            },
+            {
+              "originalPosition": 20,
+              "body": "Introducing \"correlation\" might confuse things without a section heading under which to group the concepts.",
+              "createdAt": "2026-03-31T00:20:08Z",
+              "updatedAt": "2026-03-31T00:35:49Z"
+            },
+            {
+              "originalPosition": 21,
+              "body": "Missing word, maybe a tweak?\n\n```suggestion\nCases that have higher requirements for privacy include where the subject should be able to make repeated presentations without different Verifiers -- or the same Verifier over time -- without revealing that those presentations came from the same entity.\n```",
+              "createdAt": "2026-03-31T00:20:39Z",
+              "updatedAt": "2026-03-31T00:35:49Z"
+            },
+            {
+              "originalPosition": 23,
+              "body": "```suggestion\nUse cases that depend on strong unlinkability or very low observability are generally better served by mechanisms designed to minimize or remove stable identifiers and presentation-level traceability.\n```\n\nJust fixing a comma there, but I'm not sure that this statement is going to be helpful.  I think that what you want to say is that in cases where the Issuer is part of the privacy threat model will need a different mechanism entirely.",
+              "createdAt": "2026-03-31T00:22:51Z",
+              "updatedAt": "2026-03-31T00:35:49Z"
+            },
+            {
+              "originalPosition": 24,
+              "body": "This is very heavily connected to physical location.  You might consider grouping those threats to safety through revealing a person's physical location as distinct from threats to safety through revealing political activity, associations, use of services, etc...  This is a pretty wide space and you might want to make it clear that these are just some of the things that might need to be protected, in two dimensions: the information that is revealed, and what of that information might lead to a safety risk.",
+              "createdAt": "2026-03-31T00:25:26Z",
+              "updatedAt": "2026-03-31T00:35:49Z"
+            },
+            {
+              "originalPosition": 36,
+              "body": "This is not particularly clear in the introduction, as it currently stands.  Maybe just restate this directly:\n\n\n```suggestion\nSD-CWT cannot prevent Issuer/Verifier linkability.\n```",
+              "createdAt": "2026-03-31T00:26:13Z",
+              "updatedAt": "2026-03-31T00:35:49Z"
+            },
+            {
+              "originalPosition": 38,
+              "body": "The remaining discussion is about options that aren't described in this document, so it doesn't really belong here.  I would focus on the limitations of SD-CWT instead:\n\n* No Issuer-Verifier unlinkability.  If you need that (maybe give some examples, non-exhaustively), this isn't the tool for you.\n* Verifier-Verifier unlinkability can be achieved only by requesting a fresh, uncorrelated copy of the credential for each presentation.  This assumes that the revealed claims do not contain information that might allow Verifiers to link information.  If the claims - or the timing or structure of their presentation - leak information, then fresh copies of credentials might be insufficient.  SD-CWT is designed to avoid this leakage, but care is needed to ensure that leakage doesn't occur (consider referencing the dummy claims, etc...)",
+              "createdAt": "2026-03-31T00:33:43Z",
+              "updatedAt": "2026-03-31T00:35:49Z"
             }
           ]
         }
