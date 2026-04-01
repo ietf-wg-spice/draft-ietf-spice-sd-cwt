@@ -104,8 +104,7 @@ Techniques such as one-time use and batch issuance can improve the confidentiali
 This document defines a generic container format, not a specific credential type.
 For example, a license to operate a vehicle and a license to import a product will contain different attributes.
 
-SD-CWT-based credential types rely on Verifiers trusting the Issuer. While policy or legal frameworks may limit an Issuer's ability to determine how issued credentials are used, SD-CWT provides no cryptographic mechanism to prevent such tracking.
-Consequently, SD-CWT is unsuitable for use cases where preventing the Issuer from learning how credentials are used is a requirement.
+SD-CWT is unsuitable for use cases where preventing the Issuer from learning how credentials are used is a requirement.
 
 ## High-Level Flow
 
