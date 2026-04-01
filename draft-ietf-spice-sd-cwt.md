@@ -98,13 +98,11 @@ The approach is inspired by SD-JWT {{-SD-JWT}}, with changes to align with conve
 Holders of SD-CWT credentials can prove the integrity and authenticity of Holder-chosen attributes asserted by an Issuer to a Verifier.
 The Holder also proves possession of the confirmation method (defined in {{!RFC8747}}) to prevent copy and paste attacks.
 
-SD-CWTs provide privacy improvements compared to regular CWTs, but remain traceable.
-Techniques such as one-time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols.
-
 This document defines a generic container format, not a specific credential type.
 For example, a license to operate a vehicle and a license to import a product will contain different attributes.
 
 SD-CWT is unsuitable for use cases where preventing the Issuer from learning how credentials are used is a requirement.
+SD-CWTs provide privacy improvements compared to regular CWTs, which can be further improved by the use of one-time use and batch issuance.
 
 ## High-Level Flow
 
