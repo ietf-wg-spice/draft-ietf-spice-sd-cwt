@@ -1313,7 +1313,7 @@ An attacker who can manipulate these bindings could substitute their own keys fo
 
 The term linkability or unlinkability applies to presentations of SD-CWT in the same ways that it applies to SD-JWT as described in {{Section 10.1 of -SD-JWT}}.
 
-As noted in the introduction, SD-CWT cannot prevent Issuer/Verifier linkability.
+SD-CWT cannot prevent Issuer/Verifier linkability.
 
 Pseudonymous credential schemes, by contrast, employ mechanisms such as fresh pseudonyms or cryptographic unlinking per presentation to enable Holders to prove attributes or properties without revealing stable identifiers, thereby preventing Issuer-Verifier and Verifier-Verifier linkability across presentations.
 
