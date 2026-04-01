@@ -1236,17 +1236,32 @@ After applying the disclosures of the nested structure above, the disclosed Clai
 This section describes the privacy considerations in accordance with the recommendations from {{RFC6973}}.
 Many of the topics discussed in {{RFC6973}} apply to SD-CWT, but are not repeated here.
 
-## Correlation
+## Correlation & Linkability
+
+The term linkability or unlinkability applies to presentations of SD-CWT in the same ways that it applies to SD-JWT as described in {{Section 10.1 of -SD-JWT}}.
+
+SD-CWT cannot prevent Issuer/Verifier linkability.
+
+In cases where the Issuer is part of the privacy threat model, a different mechanism than SD-CWT is needed.
 
 Presentations of the same SD-CWT to multiple Verifiers can be correlated by matching on the signature component of the COSE_Sign1.
 That is, SD-CWT does not naturally provide Verifier-Verifier unlinkability.
 Signature based linkability can be mitigated by issuing multiple single-use tokens, at a credential management complexity cost.
 
 Any presentation of an SD-CWT can be correlated with its issuance if an Issuer and Verifier cooperate.
-That is, SD-CWT cannot provide Verifier-Issuer unlinkability.
 
 Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.
 For example, a high precision issuance time might match the issuance of only a few credentials for a given Issuer, and as such, any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
+
+Pseudonymous credential schemes, by contrast, employ mechanisms such as fresh pseudonyms or cryptographic unlinking per presentation to enable Holders to prove attributes or properties without revealing stable identifiers, thereby preventing Issuer-Verifier and Verifier-Verifier linkability across presentations.
+
+For example, in an age verification system using pseudonymous credentials, a Holder can prove they are "over 18" to multiple online services (streaming platforms, gaming sites, retailers) without those services being able to correlate the presentations or determine they all come from the same individual. Each presentation employs a fresh pseudonym or unlinking mechanism, preventing the Issuer and any Verifier from learning the Holder's activity patterns or presentation history.
+
+However, this unlinkability introduces security trade-offs that implementers must carefully consider. Revocation of pseudonymous credentials is substantially more difficult than revocation of identity-bound credentials. Because Verifiers do not possess out-of-band knowledge of the Holder's identity, they cannot directly check a status list {{-OAUTH-STATUS-LIST}} or other identity-based revocation mechanisms. Instead, implementers must employ privacy-preserving revocation schemes (such as cryptographic accumulators) that maintain the privacy properties of the credential system while enabling revocation; such schemes are complex and difficult to scale.
+
+Additionally, compromise of a Holder's device storage presents a more significant risk in pseudonymous systems. If a device containing pseudonymous credentials is stolen and accessed by an attacker, the attacker can present the credentials to Verifiers without the same constraints that identity-bound credentials impose. Because the credentials do not cryptographically bind to the Holder's real identity, Verifiers lack out-of-band verification mechanisms (such as identity verification) to detect that a compromised device is being used by someone other than the legitimate Holder, unless additional controls such as biometric binding are implemented at the device level.
+
+See {{-CBOR-WEB-PROOF}} for an alternative to SD-CWT which aims to address these concerns.
 
 ## Determinism
 
@@ -1305,23 +1320,6 @@ Verification of an SD-CWT requires that the Verifier have access to a verificati
 Compromise of the Issuer's signing key would enable an attacker to forge credentials for any subject, potentially undermining the entire trust model of the credential system.
 Beyond key compromise, attacks targeting the provisioning and binding between issuer names and their cryptographic key material pose significant risks.
 An attacker who can manipulate these bindings could substitute their own keys for legitimate issuer keys, enabling credential forgery while appearing to be a trusted issuer.
-
-## Linkability
-
-The term linkability or unlinkability applies to presentations of SD-CWT in the same ways that it applies to SD-JWT as described in {{Section 10.1 of -SD-JWT}}.
-
-SD-CWT cannot prevent Issuer/Verifier linkability.
-
-Pseudonymous credential schemes, by contrast, employ mechanisms such as fresh pseudonyms or cryptographic unlinking per presentation to enable Holders to prove attributes or properties without revealing stable identifiers, thereby preventing Issuer-Verifier and Verifier-Verifier linkability across presentations.
-
-For example, in an age verification system using pseudonymous credentials, a Holder can prove they are "over 18" to multiple online services (streaming platforms, gaming sites, retailers) without those services being able to correlate the presentations or determine they all come from the same individual. Each presentation employs a fresh pseudonym or unlinking mechanism, preventing the Issuer and any Verifier from learning the Holder's activity patterns or presentation history.
-
-However, this unlinkability introduces security trade-offs that implementers must carefully consider. Revocation of pseudonymous credentials is substantially more difficult than revocation of identity-bound credentials. Because Verifiers do not possess out-of-band knowledge of the Holder's identity, they cannot directly check a status list {{-OAUTH-STATUS-LIST}} or other identity-based revocation mechanisms. Instead, implementers must employ privacy-preserving revocation schemes (such as cryptographic accumulators) that maintain the privacy properties of the credential system while enabling revocation; such schemes are complex and difficult to scale.
-
-Additionally, compromise of a Holder's device storage presents a more significant risk in pseudonymous systems. If a device containing pseudonymous credentials is stolen and accessed by an attacker, the attacker can present the credentials to Verifiers without the same constraints that identity-bound credentials impose. Because the credentials do not cryptographically bind to the Holder's real identity, Verifiers lack out-of-band verification mechanisms (such as identity verification) to detect that a compromised device is being used by someone other than the legitimate Holder, unless additional controls such as biometric binding are implemented at the device level.
-
-See {{-CBOR-WEB-PROOF}} for an alternative to SD-CWT which aims to address these concerns.
-
 
 ## Disclosure Coercion and Over-identification {#disclosure-coercion}
 
