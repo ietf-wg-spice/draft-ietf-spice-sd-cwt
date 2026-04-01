@@ -107,15 +107,6 @@ For example, a license to operate a vehicle and a license to import a product wi
 SD-CWT-based credential types rely on Verifiers trusting the Issuer. While policy or legal frameworks may limit an Issuer's ability to determine how issued credentials are used, SD-CWT provides no cryptographic mechanism to prevent such tracking.
 Consequently, SD-CWT is unsuitable for use cases where preventing the Issuer from learning how credentials are used is a requirement.
 
-SD-CWT is especially useful in non-human identity use cases, where a device, application, workload, product, or organization needs to share only part of what it is with another system, without exposing every attribute it carries.
-Examples include device inspection records, software supply chain statements, product passports, import or export certificates, and other machine-readable credentials used for safety, compliance, asset tracking, or lifecycle management across organizational boundaries.
-In these settings, some linkability is often expected because the Verifier needs to know which device, service, component, or legal entity it is dealing with.
-SD-CWT helps reduce unnecessary disclosure while still allowing required identifiers and other mandatory claims to be presented.
-It is a less natural fit for use cases where avoiding correlation across presentations is the primary privacy goal.
-Cases that have higher requirements for privacy include where the subject should be able to make repeated presentations without different Verifiers -- or the same Verifier over time -- learning that those presentations came from the same entity.
-Use cases that depend on strong unlinkability, one-time pseudonyms, or very low observability are generally better served by mechanisms designed to minimize or remove stable identifiers and presentation-level traceability.
-Examples include credentials used in systems that could reveal a person's travel patterns, current location, or movement over time, and credentials used to access sensitive locations or services where repeated presentation could expose visits to shelters, clinics, places of worship, political events, or counseling centers.
-
 ## High-Level Flow
 
 ~~~ aasvg
