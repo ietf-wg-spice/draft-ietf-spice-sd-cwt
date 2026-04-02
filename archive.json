@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-31T01:17:40.374055+00:00",
+  "timestamp": "2026-04-02T01:14:38.858096+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -20303,13 +20303,13 @@
       "labels": [],
       "body": "This PR attempts to address SD-CWT applicability, and alternative solutions which address applicability limitiations.",
       "createdAt": "2026-03-25T13:34:05Z",
-      "updatedAt": "2026-03-31T00:35:49Z",
+      "updatedAt": "2026-04-02T00:34:17Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue-191-applicability",
-      "headRefOid": "7803de5968842945c44852378a6d40f31034f463",
+      "headRefOid": "c6ce9855daa0162a51a5047e755098faa3e566cb",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -20496,6 +20496,151 @@
               "body": "The remaining discussion is about options that aren't described in this document, so it doesn't really belong here.  I would focus on the limitations of SD-CWT instead:\n\n* No Issuer-Verifier unlinkability.  If you need that (maybe give some examples, non-exhaustively), this isn't the tool for you.\n* Verifier-Verifier unlinkability can be achieved only by requesting a fresh, uncorrelated copy of the credential for each presentation.  This assumes that the revealed claims do not contain information that might allow Verifiers to link information.  If the claims - or the timing or structure of their presentation - leak information, then fresh copies of credentials might be insufficient.  SD-CWT is designed to avoid this leakage, but care is needed to ensure that leakage doesn't occur (consider referencing the dummy claims, etc...)",
               "createdAt": "2026-03-31T00:33:43Z",
               "updatedAt": "2026-03-31T00:35:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7xDL_e",
+          "commit": {
+            "abbreviatedOid": "7803de5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-01T13:17:06Z",
+          "updatedAt": "2026-04-01T13:17:07Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Remove use case stuff in https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/265/commits/d60eb53d1c31ac2b236d38bcc93a080e5ba03be1",
+              "createdAt": "2026-04-01T13:17:06Z",
+              "updatedAt": "2026-04-01T13:17:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7xDSbt",
+          "commit": {
+            "abbreviatedOid": "7803de5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-01T13:20:57Z",
+          "updatedAt": "2026-04-01T13:20:57Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "I removed this sentence... It all boils down to what is already documented in the unlinkability section of SD-JWT.\r\n",
+              "createdAt": "2026-04-01T13:20:57Z",
+              "updatedAt": "2026-04-01T13:20:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7xDZ-Q",
+          "commit": {
+            "abbreviatedOid": "7803de5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-01T13:25:48Z",
+          "updatedAt": "2026-04-01T13:25:48Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "I think the intro is not the right place to get into this detail, I will try to expand on it in the link-ability section.",
+              "createdAt": "2026-04-01T13:25:48Z",
+              "updatedAt": "2026-04-01T13:25:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7xDjyW",
+          "commit": {
+            "abbreviatedOid": "7803de5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-01T13:32:05Z",
+          "updatedAt": "2026-04-01T13:32:05Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "Agreed, I removed this.",
+              "createdAt": "2026-04-01T13:32:05Z",
+              "updatedAt": "2026-04-01T13:32:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7xJJVN",
+          "commit": {
+            "abbreviatedOid": "c6ce985"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-01T17:07:40Z",
+          "updatedAt": "2026-04-01T17:07:40Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7xQxWS",
+          "commit": {
+            "abbreviatedOid": "c6ce985"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Still not sure about the talk about anonymous/pseudonymous credentials.  That isn't this doc.",
+          "createdAt": "2026-04-02T00:12:50Z",
+          "updatedAt": "2026-04-02T00:16:59Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "May move this up with line 1243.",
+              "createdAt": "2026-04-02T00:12:50Z",
+              "updatedAt": "2026-04-02T00:16:59Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "Is it / or -?\n\n\n```suggestion\nSD-CWT cannot prevent Issuer-Verifier linkability.\n```",
+              "createdAt": "2026-04-02T00:13:06Z",
+              "updatedAt": "2026-04-02T00:16:59Z"
+            },
+            {
+              "originalPosition": 55,
+              "body": "I had a bunch of suggestions about what this might say about the claims themselves; was that no good?  Because this is all still stuff about other technology, not SD-CWT.\n\nSome of that was already present, which is fine if you think that's adequate.  Though I did suggest that maybe you could reference the stub/dummy claims section as a way to hide information that leaks through the credential structure and might be linkable as a result.",
+              "createdAt": "2026-04-02T00:14:41Z",
+              "updatedAt": "2026-04-02T00:16:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7xQ80O",
+          "commit": {
+            "abbreviatedOid": "c6ce985"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-02T00:34:17Z",
+          "updatedAt": "2026-04-02T00:34:17Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "I got halfway through applying updates, before I got pulled into other stuff. I have some refinement on your text locally that I will push when I am able to tomorrow.",
+              "createdAt": "2026-04-02T00:34:17Z",
+              "updatedAt": "2026-04-02T00:34:17Z"
             }
           ]
         }
