@@ -68,7 +68,6 @@ informative:
   I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
   I-D.draft-ietf-oauth-status-list: OAUTH-STATUS-LIST
-  I-D.draft-ietf-jose-json-web-proof: CBOR-WEB-PROOF
   RFC9162: CT
   I-D.draft-ietf-keytrans-protocol: KT
   t-Closeness:
@@ -1240,22 +1239,19 @@ Many of the topics discussed in {{RFC6973}} apply to SD-CWT, but are not repeate
 
 The term linkability or unlinkability applies to presentations of SD-CWT in the same ways that it applies to SD-JWT as described in {{Section 10.1 of -SD-JWT}}.
 
-SD-CWT cannot prevent Issuer/Verifier linkability.
-
+SD-CWT cannot prevent Issuer-Verifier linkability.
+Any presentation of an SD-CWT can be correlated with its issuance if an Issuer and Verifier cooperate.
 In cases where the Issuer is part of the privacy threat model, a different mechanism than SD-CWT is needed.
-
-See {{-CBOR-WEB-PROOF}} for an alternative to SD-CWT which aims to address these concerns.
 
 Presentations of the same SD-CWT to multiple Verifiers can be correlated by matching on the signature component of the COSE_Sign1.
 That is, SD-CWT does not naturally provide Verifier-Verifier unlinkability.
-Signature based linkability can be mitigated by issuing multiple single-use tokens, at a credential management complexity cost.
-
-Any presentation of an SD-CWT can be correlated with its issuance if an Issuer and Verifier cooperate.
+Verifier-Verifier unlinkability can be achieved by requesting a fresh, uncorrelated copy of the credential for each presentation, at a credential management complexity cost.
+This assumes that the revealed claims do not contain information that could enable Verifiers to correlate presentations.
+If the claims, or the timing or structure of their presentation, leak correlatable information, then fresh copies of credentials may be insufficient.
+SD-CWT is designed to mitigate such leakage; however, implementers must ensure that no leakage occurs (for example, by appropriately using decoy digests, see {{decoys}}).
 
 Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.
 For example, a high precision issuance time might match the issuance of only a few credentials for a given Issuer, and as such, any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
-
-Verifier-Verifier unlinkability can be achieved only by requesting a fresh, uncorrelated copy of the credential for each presentation. This assumes that the revealed claims do not contain information that could enable Verifiers to correlate presentations. If the claims, or the timing or structure of their presentation, leak correlatable information, then fresh copies of credentials may be insufficient. Careful use of SD-CWT can mitigate such leakage; however, implementers must ensure that no leakage occurs (for example, by appropriately using decoy claims).
 
 
 ## Determinism
