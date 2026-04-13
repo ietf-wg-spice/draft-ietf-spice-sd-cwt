@@ -1252,7 +1252,6 @@ SD-CWT is designed to mitigate such leakage; however, implementers must ensure t
 Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.
 For example, a high precision issuance time might match the issuance of only a few credentials for a given Issuer, and as such, any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
 
-
 ## Determinism
 
 It is possible for the Issuer to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, by choosing different numeric encodings for certain data elements, or by incorporating fewer or more decoys (see {{decoys}}).
