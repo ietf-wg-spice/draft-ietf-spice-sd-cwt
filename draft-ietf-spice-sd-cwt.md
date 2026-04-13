@@ -67,7 +67,6 @@ informative:
   RFC6973:
   I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
-  I-D.draft-ietf-oauth-status-list: OAUTH-STATUS-LIST
   RFC9162: CT
   I-D.draft-ietf-keytrans-protocol: KT
   t-Closeness:
