@@ -653,7 +653,9 @@ Issuer                           Holder                         Verifier
    differently, as described in Section 5.1.
 
    The Issuer SHOULD confirm the Holder controls all confirmation
-   material before issuing credentials using the cnf claim.
+   material before issuing credentials using the cnf claim.  If the
+   Issuer does not, it may be communicating with an active attacker
+   impersonating the Holder, instead of the actual Holder.
 
 4.  Holder prepares an SD-CWT for a Verifier
 
