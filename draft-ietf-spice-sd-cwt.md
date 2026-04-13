@@ -1234,7 +1234,7 @@ After applying the disclosures of the nested structure above, the disclosed Clai
 This section describes the privacy considerations in accordance with the recommendations from {{RFC6973}}.
 Many of the topics discussed in {{RFC6973}} apply to SD-CWT, but are not repeated here.
 
-## Correlation & Linkability
+## Correlation and Linkability
 
 The term linkability or unlinkability applies to presentations of SD-CWT in the same ways that it applies to SD-JWT as described in {{Section 10.1 of -SD-JWT}}.
 
