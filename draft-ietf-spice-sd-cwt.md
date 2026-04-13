@@ -415,6 +415,7 @@ Finally, since this redacted claim is a map key and value, the Blinded Claim Has
 Redacted claims that are array elements are handled slightly differently, as described in {{blinded-claims}}.
 
 The Issuer SHOULD confirm the Holder controls all confirmation material before issuing credentials using the `cnf` claim.
+If the Issuer does not, it may be communicating with an active attacker impersonating the Holder, instead of the actual Holder.
 
 # Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
 
