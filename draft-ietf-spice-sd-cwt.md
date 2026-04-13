@@ -1357,13 +1357,6 @@ Any data element that is supplied by the Issuer, and that appears random to the 
 The ordering of claims, and precision of timestamps can also be used to produce a covert channel.
 This is more of a concern for SD-CWT than typical CWTs, because the Holder is usually considered to be aware of the Issuer claims they are disclosing to a Verifier.
 
-## Nested Disclosure Ordering
-
-The Holder has flexibility in determining the order of nested disclosures when making presentations.
-The order can be sorted, randomized, or optimized for performance based on the Holder's needs.
-This ordering choice has no security impact on encrypted disclosures.
-However, the order can affect the runtime of the verification process.
-
 ## Choice of AEAD algorithms {#aead-choice}
 
 The AEAD encrypted disclosures mechanism discussed in {{aead}} can refer to any AEAD alogithm in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
