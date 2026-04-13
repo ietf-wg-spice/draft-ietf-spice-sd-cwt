@@ -117,8 +117,7 @@ Table of Contents
      16.4.  Random Numbers
      16.5.  Binding the KBT and the CWT
      16.6.  Covert Channels
-     16.7.  Nested Disclosure Ordering
-     16.8.  Choice of AEAD algorithms
+     16.7.  Choice of AEAD algorithms
    17. IANA Considerations
      17.1.  COSE Header Parameters
        17.1.1.  sd_claims
@@ -1773,7 +1772,7 @@ Issuer                           Holder                         Verifier
    [RFC5116] registered in the IANA AEAD Algorithms registry
    (https://www.iana.org/assignments/aead-parameters/aead-
    parameters.xhtml) . (Guidance on specific algorithms is discussed in
-   Section 16.8.)  The second header parameter
+   Section 16.7.)  The second header parameter
    (sd_aead_encrypted_claims), if present, contains a non-empty list of
    AEAD encrypted disclosures.  Taking the first example disclosure from
    above:
@@ -2380,16 +2379,7 @@ Issuer                           Holder                         Verifier
    Holder is usually considered to be aware of the Issuer claims they
    are disclosing to a Verifier.
 
-16.7.  Nested Disclosure Ordering
-
-   The Holder has flexibility in determining the order of nested
-   disclosures when making presentations.  The order can be sorted,
-   randomized, or optimized for performance based on the Holder's needs.
-   This ordering choice has no security impact on encrypted disclosures.
-   However, the order can affect the runtime of the verification
-   process.
-
-16.8.  Choice of AEAD algorithms
+16.7.  Choice of AEAD algorithms
 
    The AEAD encrypted disclosures mechanism discussed in Section 12.1
    can refer to any AEAD alogithm in the IANA AEAD Algorithms registry
