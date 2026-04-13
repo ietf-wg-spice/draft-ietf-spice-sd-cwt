@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 26 September 2026                                  Tradeverifyd
+Expires: 15 October 2026                                    Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           25 March 2026
+                                                           13 April 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 September 2026.
+   This Internet-Draft will expire on 15 October 2026.
 
 Copyright Notice
 
@@ -2813,16 +2813,16 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "CBOR Extended Diagnostic Notation (EDN)",
               Work in Progress, Internet-Draft, draft-ietf-cbor-edn-
-              literals-20, 2 March 2026,
+              literals-22, 6 April 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              edn-literals-20>.
+              edn-literals-22>.
 
    [I-D.ietf-cbor-serialization]
               Lundblade, L., "CBOR Serialization and Determinism", Work
               in Progress, Internet-Draft, draft-ietf-cbor-
-              serialization-04, 28 February 2026,
+              serialization-05, 28 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              serialization-04>.
+              serialization-05>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
