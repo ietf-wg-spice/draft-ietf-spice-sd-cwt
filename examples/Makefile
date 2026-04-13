@@ -52,7 +52,7 @@ else
     SED_INPLACE := -i
 endif
 
-CDDL_RS := ${BUNDLE_PATH}/../.cargo/bin/cddl
+#CDDL_RS := ${BUNDLE_PATH}/../.cargo/bin/cddl
 CDDL_RUBY := ${BUNDLE_PATH}/bin/cddl
 CBOR2PRETTY := ${BUNDLE_PATH}/bin/cbor2pretty.rb
 
