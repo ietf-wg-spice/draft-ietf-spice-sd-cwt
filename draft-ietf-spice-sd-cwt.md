@@ -96,12 +96,11 @@ The approach is inspired by SD-JWT {{-SD-JWT}}, with changes to align with conve
 Holders of SD-CWT credentials can prove the integrity and authenticity of Holder-chosen attributes asserted by an Issuer to a Verifier.
 The Holder also proves possession of the confirmation method (defined in {{!RFC8747}}) to prevent copy and paste attacks.
 
-SD-CWTs provide privacy improvements compared to regular CWTs, but remain traceable.
-Techniques such as one-time use and batch issuance can improve the confidentiality and security characteristics of CWT-based credential protocols.
-
 This document defines a generic container format, not a specific credential type.
 For example, a license to operate a vehicle and a license to import a product will contain different attributes.
 
+SD-CWT is unsuitable for use cases where preventing the Issuer from learning how credentials are used is a requirement.
+SD-CWTs provide privacy improvements compared to regular CWTs, which can be further improved by the use of one-time use and batch issuance.
 
 ## High-Level Flow
 
@@ -1235,14 +1234,20 @@ After applying the disclosures of the nested structure above, the disclosed Clai
 This section describes the privacy considerations in accordance with the recommendations from {{RFC6973}}.
 Many of the topics discussed in {{RFC6973}} apply to SD-CWT, but are not repeated here.
 
-## Correlation
+## Correlation and Linkability
+
+The term linkability or unlinkability applies to presentations of SD-CWT in the same ways that it applies to SD-JWT as described in {{Section 10.1 of -SD-JWT}}.
+
+SD-CWT cannot prevent Issuer-Verifier linkability.
+Any presentation of an SD-CWT can be correlated with its issuance if an Issuer and Verifier cooperate.
+In cases where the Issuer is part of the privacy threat model, a different mechanism than SD-CWT is needed.
 
 Presentations of the same SD-CWT to multiple Verifiers can be correlated by matching on the signature component of the COSE_Sign1.
 That is, SD-CWT does not naturally provide Verifier-Verifier unlinkability.
-Signature based linkability can be mitigated by issuing multiple single-use tokens, at a credential management complexity cost.
-
-Any presentation of an SD-CWT can be correlated with its issuance if an Issuer and Verifier cooperate.
-That is, SD-CWT cannot provide Verifier-Issuer unlinkability.
+Verifier-Verifier unlinkability can be achieved by requesting a fresh, uncorrelated copy of the credential for each presentation, at a credential management complexity cost.
+This assumes that the revealed claims do not contain information that could enable Verifiers to correlate presentations.
+If the claims, or the timing or structure of their presentation, leak correlatable information, then fresh copies of credentials may be insufficient.
+SD-CWT is designed to mitigate such leakage; however, implementers must ensure that no leakage occurs (for example, by appropriately using decoy digests, see {{decoys}}).
 
 Any Claim Value that pertains to a sufficiently small set of subjects can be used to facilitate tracking the subject.
 For example, a high precision issuance time might match the issuance of only a few credentials for a given Issuer, and as such, any presentation of a credential issued at that time can be determined to be associated with the set of credentials issued at that time, for those subjects.
