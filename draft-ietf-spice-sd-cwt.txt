@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 15 October 2026                                    Tradeverifyd
+Expires: 16 October 2026                                    Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           13 April 2026
+                                                           14 April 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 October 2026.
+   This Internet-Draft will expire on 16 October 2026.
 
 Copyright Notice
 
@@ -651,7 +651,7 @@ Issuer                           Holder                         Verifier
    Redacted claims that are array elements are handled slightly
    differently, as described in Section 5.1.
 
-   The Issuer SHOULD confirm the Holder controls all confirmation
+   The Issuer SHOULD confirm the Holder controls all confirmation key
    material before issuing credentials using the cnf claim.  If the
    Issuer does not, it may be communicating with an active attacker
    impersonating the Holder, instead of the actual Holder.
