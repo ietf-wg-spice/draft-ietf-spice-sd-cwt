@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-02T01:14:38.858096+00:00",
+  "timestamp": "2026-04-14T01:24:05.732620+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3843,7 +3843,7 @@
       "id": "I_kwDOMm_Q2s7lMq-v",
       "title": "More expansive applicability",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/191",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -3855,8 +3855,8 @@
       ],
       "body": "The introduction talks about the linkability risks inherent in the design.  I think that this should be expanded a little more.  There are definitely settings where different forms of linkability are not a liability, but an asset, but the spectrum of risks to privacy is important information to front load a little.  You can lean on the material that is in [15.1. ](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-15.1)[Correlation](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#name-correlation), but I strongly recommend spending a little more text on this.",
       "createdAt": "2026-01-23T00:24:27Z",
-      "updatedAt": "2026-03-17T13:05:35Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-13T13:17:19Z",
+      "closedAt": "2026-04-13T13:17:19Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -4101,14 +4101,28 @@
       ],
       "labels": [
         "help wanted",
-        "ready-for-pr",
-        "author-discuss"
+        "ready-for-pr"
       ],
       "body": "[This text](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-4-4) seems a little backwards:\n\n> The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the Verifier through a process similar to the method described in [[I-D.ietf-httpbis-unprompted-auth](https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-unprompted-auth-12)].\n\nGenerally, a Verifier is the one that has the requirement for freshness.  That means that they will want to challenge the Holder, rather than have the Holder unilaterally decide that freshness is needed.\n\nThe unprompted auth trick of using a TLS exporter is a good one, but I would instead mention exporters directly, but only in relation to describing cases where the Holder isn't actively challenged and it knows that the Verifier will need some freshness.  (A nonce derived from TLS has other properties as well, but those can be a little fiddly to reason about, so I'd be inclined to avoid mention of the trick.)\n\nIn doing this, whatever you do, you should also mention the connection to the `cnonce` field.  The current text doesn't mention it and you sort of have to guess.",
       "createdAt": "2026-01-23T00:51:53Z",
-      "updatedAt": "2026-03-30T13:18:28Z",
+      "updatedAt": "2026-04-13T13:39:24Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@henkbirkholz mentioned that the freshness marker could be an \"epoch\" (an incrementing integer).",
+          "createdAt": "2026-04-13T13:37:07Z",
+          "updatedAt": "2026-04-13T13:37:07Z"
+        },
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "for proof of freshness, add as reference also I-D.ietf-rats-epoch-marker",
+          "createdAt": "2026-04-13T13:39:14Z",
+          "updatedAt": "2026-04-13T13:39:14Z"
+        }
+      ]
     },
     {
       "number": 199,
@@ -4460,7 +4474,7 @@
       "id": "I_kwDOMm_Q2s7lNS5f",
       "title": "Confirmation keys",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/211",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -4473,8 +4487,8 @@
       ],
       "body": "My understanding is that confirmation keys are optional, but [this says otherwise](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-7-3):\n\n> The payload also MUST include a key confirmation element (cnf) [[RFC8747](https://www.rfc-editor.org/rfc/rfc8747)] for the Holder's public key.\n\nIs that a good idea?  Confirmation keys serve a purpose, but not all applications need them.  Shouldn't this statement be conditional instead?",
       "createdAt": "2026-01-23T01:54:48Z",
-      "updatedAt": "2026-03-25T07:09:12Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-13T13:19:42Z",
+      "closedAt": "2026-04-13T13:19:42Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -4531,6 +4545,13 @@
           "body": "Copying related comment:\n\n----\n> The Issuer SHOULD confirm the Holder controls all confirmation material before issuing credentials using the `cnf` claim.\n\nIs this true?\n\nI'm thinking of the classic argument in the SIGMA paper, which establishes that there is no security requirement that requires a website to offer a CA proof that it controls the key for which a certificate is issued. (Nonetheless, many protocols insist on proof of possession for this sort of interaction, resulting in some interesting potential for the issuance protocol to be an attack vector on the usage protocol.)\n\nThis tends to be the case when the security goal is unclear. What goal would this recommendation serve?\n\nFinally, what happens if I choose to ignore this \"SHOULD\"? The IESG tends to ask questions like that.",
           "createdAt": "2026-03-14T08:37:32Z",
           "updatedAt": "2026-03-14T08:37:32Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #266 ",
+          "createdAt": "2026-04-13T13:19:42Z",
+          "updatedAt": "2026-04-13T13:19:42Z"
         }
       ]
     },
@@ -5042,7 +5063,7 @@
       ],
       "body": "It seems like there has been a deliberate decision to not stipulate how disclosed claims are ordered.  Those processing them would be required to search for where to \"insert\" the disclosed information after hashing the disclosure.  It might be worth explicitly saying this, or people will end up asking what the canonical ordering rules are.",
       "createdAt": "2026-01-23T03:40:02Z",
-      "updatedAt": "2026-03-25T07:08:30Z",
+      "updatedAt": "2026-04-13T13:50:06Z",
       "closedAt": null,
       "comments": [
         {
@@ -5058,6 +5079,13 @@
           "body": "@OR13 in the security considerations, section 16.7 the first two lines are now a duplicate.\n\nDo we still agree with this line: \"This ordering choice has no security impact on encrypted disclosures.\"\nCould the processing time potentially leak information about the depth or complexity of inner claims?\n\nPerhaps we can remove this section?",
           "createdAt": "2026-02-28T10:27:40Z",
           "updatedAt": "2026-02-28T10:27:40Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Conclusion: nuke 16.7",
+          "createdAt": "2026-04-13T13:50:02Z",
+          "updatedAt": "2026-04-13T13:50:02Z"
         }
       ]
     },
@@ -5267,13 +5295,21 @@
       ],
       "labels": [
         "help wanted",
-        "author-discuss"
+        "ready-for-pr"
       ],
       "body": "I don't like [Section 16.5](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.5).\n\nAnother impossible \"MUST\" here:\n\n> Reusing an identifier or key enables correlation, but MUST be evaluated in terms of the confidential and privacy constraints associated with the credential type.\n\nThe main problem is that text assumes that `iss` and `sub` on the KBT is populated with a value that carries meaning in some context outside of the immediate interaction.  But in the correlation cases, it can't reasonably do that.  So I think that this design points to not including these values at all.  The following supports that notion:\n\n> Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.\n\nAfter all, why bother with Holder identifiers in those circumstances?\n\nWorse, we have extra checks for Verifiers, for information that they don't have any reason to trust or use:\n\n> Verifiers need to take care to verify that the SD-KBT \"iss\" and \"sub\" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key. \n\nThis is weird and probably unnecessary, depending on the usage context: \n\n> Extra care should be taken in case the SD-CWT subject claim is redacted. \n\nEither the subject is important to the Verifier (so they would need to see it, blinded or not), or they don't care.\n\nThen, we have another case of the problem I describe in #215: \n\n> Finally, the Verifier MUST verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not. \n\nBut that is not the final problem, despite what it says:\n\n> Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.\n\nThis document has not talked about revocation at all so far.  I see that [SD-JWT does](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-9.8), so maybe that's OK.  But make that a clear statement about key management, not hide it under a discussion of time fields.\n",
       "createdAt": "2026-01-23T04:57:19Z",
-      "updatedAt": "2026-03-30T13:20:17Z",
+      "updatedAt": "2026-04-13T13:47:44Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "general stuff. Verifiers MAY reject claims and claim values they don't like.\n\nsplit up into multiple issues.\n\nseveral of the issues are about KBTs and some are about CWTs.  These need to separated carefully.",
+          "createdAt": "2026-04-13T13:47:44Z",
+          "updatedAt": "2026-04-13T13:47:44Z"
+        }
+      ]
     },
     {
       "number": 233,
@@ -5284,16 +5320,15 @@
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
-        "OR13",
         "henkbirkholz"
       ],
       "labels": [
-        "has-PR",
-        "ask-WG"
+        "wontfix",
+        "has-PR"
       ],
       "body": "This looks like good information for an informational document that the RATS WG can take up (or not).  As it is, very little of this content is relevant to this document or the SPICE WG (except tangentially).  I don't think this should be carried into a published RFC.",
       "createdAt": "2026-01-23T05:08:40Z",
-      "updatedAt": "2026-03-24T14:10:52Z",
+      "updatedAt": "2026-04-13T13:40:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -5309,6 +5344,13 @@
           "body": "I presented a couple of options of where this could go. The question was raised on the SPICE and RATS mailing lists.\n\n- leave it in the draft\n- remove and resubmit as standalone I-D in SPICE (never to be published / WG item)\n- remove and resubmit as standalone I-D in RATS (never to be published / WG item)\n- remove and resubmit as I-D in RATS to become a WG item or part of another WG draft\n- remove and do nothing",
           "createdAt": "2026-03-23T16:44:28Z",
           "updatedAt": "2026-03-23T16:44:28Z"
+        },
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "we leave it in the draft for now",
+          "createdAt": "2026-04-13T13:33:02Z",
+          "updatedAt": "2026-04-13T13:33:02Z"
         }
       ]
     },
@@ -5516,6 +5558,38 @@
           "updatedAt": "2026-03-23T13:35:33Z"
         }
       ]
+    },
+    {
+      "number": 268,
+      "id": "I_kwDOMm_Q2s79nz4C",
+      "title": "Explain nesting a bit more (part deux)",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/268",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-04-13T13:26:13Z",
+      "updatedAt": "2026-04-13T13:26:13Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 269,
+      "id": "I_kwDOMm_Q2s79n8AM",
+      "title": "Add Appendix showing worked example of processing some non-trivial nested claims",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/269",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Use the example from my slides in Dublin IETF",
+      "createdAt": "2026-04-13T13:29:07Z",
+      "updatedAt": "2026-04-13T13:29:07Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -17992,7 +18066,7 @@
       "id": "PR_kwDOMm_Q2s6-01dP",
       "title": "Explain nesting a bit more",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/204",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -18001,14 +18075,14 @@
       ],
       "body": "...when it is first introduced.",
       "createdAt": "2026-01-23T01:16:15Z",
-      "updatedAt": "2026-03-24T18:44:12Z",
+      "updatedAt": "2026-04-13T13:27:11Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "12bbc4a7baa9b86776ac499864cb8e658a15480c",
       "headRepository": "martinthomson/sd-cwt",
       "headRefName": "explain-nesting",
       "headRefOid": "240d2fbc14af0b43bcd9f9c43920eb74296260e5",
-      "closedAt": null,
+      "closedAt": "2026-04-13T13:27:11Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -18026,6 +18100,13 @@
           "body": "> Are we going to take this PR before we do the terminology alignment @rohanmahy @henkbirkholz @selfissued ?\r\n> \r\n> #255\r\n\r\nI don't think it is necessary to merge this one first. Let's do the terminology (I believe I am stuckee) and maybe in the process it inspires some nice wording to address this issue.",
           "createdAt": "2026-03-24T18:44:12Z",
           "updatedAt": "2026-03-24T18:44:12Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "closing this contentious PR. created Issue #268 to track the original issue.",
+          "createdAt": "2026-04-13T13:27:08Z",
+          "updatedAt": "2026-04-13T13:27:08Z"
         }
       ],
       "reviews": [
@@ -20203,10 +20284,12 @@
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "wontfix"
+      ],
       "body": "",
       "createdAt": "2026-03-24T12:52:05Z",
-      "updatedAt": "2026-03-24T14:06:50Z",
+      "updatedAt": "2026-04-13T13:25:54Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "a2593de8def14d431d925537ed5f20f873c81c46",
@@ -20226,7 +20309,21 @@
           "updatedAt": "2026-03-24T14:06:50Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s70UbFw",
+          "commit": {
+            "abbreviatedOid": "3ec40e8"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "let's wait if there is a need for this PR",
+          "createdAt": "2026-04-13T13:24:51Z",
+          "updatedAt": "2026-04-13T13:24:51Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 264,
@@ -20296,24 +20393,26 @@
       "id": "PR_kwDOMm_Q2s7NWitr",
       "title": "Applicability & Alternatives",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/265",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This PR attempts to address SD-CWT applicability, and alternative solutions which address applicability limitiations.",
       "createdAt": "2026-03-25T13:34:05Z",
-      "updatedAt": "2026-04-02T00:34:17Z",
+      "updatedAt": "2026-04-13T13:17:18Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue-191-applicability",
-      "headRefOid": "c6ce9855daa0162a51a5047e755098faa3e566cb",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "076202c9632d6a348c80f50b430f2e10c283df9c",
+      "closedAt": "2026-04-13T13:17:18Z",
+      "mergedAt": "2026-04-13T13:17:17Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "481afcbe6340850f4b2ae405134d24662dc9bf8c"
+      },
       "comments": [
         {
           "author": "OR13",
@@ -20643,6 +20742,324 @@
               "updatedAt": "2026-04-02T00:34:17Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s7x1ad2",
+          "commit": {
+            "abbreviatedOid": "b8e10c1"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-03T21:10:06Z",
+          "updatedAt": "2026-04-03T21:10:06Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s70UAfX",
+          "commit": {
+            "abbreviatedOid": "b8e10c1"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-13T13:07:37Z",
+          "updatedAt": "2026-04-13T13:07:37Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-04-13T13:07:37Z",
+              "updatedAt": "2026-04-13T13:07:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s70UA12",
+          "commit": {
+            "abbreviatedOid": "b8e10c1"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-13T13:07:52Z",
+          "updatedAt": "2026-04-13T13:07:52Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\n## Correlation and Linkability\n```",
+              "createdAt": "2026-04-13T13:07:52Z",
+              "updatedAt": "2026-04-13T13:07:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s70UKbz",
+          "commit": {
+            "abbreviatedOid": "be92142"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-13T13:14:23Z",
+          "updatedAt": "2026-04-13T13:14:23Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-04-13T13:14:23Z",
+              "updatedAt": "2026-04-13T13:14:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s70ULbi",
+          "commit": {
+            "abbreviatedOid": "076202c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-13T13:15:02Z",
+          "updatedAt": "2026-04-13T13:15:02Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s70UNAn",
+          "commit": {
+            "abbreviatedOid": "076202c"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-13T13:16:10Z",
+          "updatedAt": "2026-04-13T13:16:10Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s70UNGZ",
+          "commit": {
+            "abbreviatedOid": "7803de5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-13T13:16:14Z",
+          "updatedAt": "2026-04-13T13:16:14Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Yep, hopefully the revised text is clearer.",
+              "createdAt": "2026-04-13T13:16:14Z",
+              "updatedAt": "2026-04-13T13:16:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s70UOKR",
+          "commit": {
+            "abbreviatedOid": "7803de5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-13T13:16:50Z",
+          "updatedAt": "2026-04-13T13:16:51Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "I think this has been addressed.",
+              "createdAt": "2026-04-13T13:16:50Z",
+              "updatedAt": "2026-04-13T13:16:51Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 266,
+      "id": "PR_kwDOMm_Q2s7R93Co",
+      "title": "Explain why Issuer should verify Holder key material",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/266",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Explain why Issuer should verify Holder key material (prevent active attackers)",
+      "createdAt": "2026-04-13T11:53:29Z",
+      "updatedAt": "2026-04-13T13:21:22Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue211",
+      "headRefOid": "ffd200b41af9db3acc5ce398777f0e5f22408382",
+      "closedAt": "2026-04-13T13:19:55Z",
+      "mergedAt": "2026-04-13T13:19:55Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "852a468aed17906393eb6cbf4def27c10742ff6c"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ugh. The CI is broken trying to `cargo-binstall` cddl. That package either went from having a binary to only having source, or the defaults changed in the I-D template. \r\n\r\n@martinthomson I proposed a patch here:\r\nhttps://github.com/martinthomson/i-d-template/pull/520\r\n\r\nAlternatively, I have to yank cddl from `cargo.txt` and remove it from the tests. (PR #267 ).",
+          "createdAt": "2026-04-13T12:16:14Z",
+          "updatedAt": "2026-04-13T12:22:16Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s70URa5",
+          "commit": {
+            "abbreviatedOid": "ffd200b"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-13T13:18:57Z",
+          "updatedAt": "2026-04-13T13:18:57Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s70URqY",
+          "commit": {
+            "abbreviatedOid": "ffd200b"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-13T13:19:06Z",
+          "updatedAt": "2026-04-13T13:19:06Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s70UVHU",
+          "commit": {
+            "abbreviatedOid": "ffd200b"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-13T13:21:21Z",
+          "updatedAt": "2026-04-13T13:21:22Z",
+          "comments": [
+            {
+              "originalPosition": 3,
+              "body": "```suggestion\nThe Issuer SHOULD confirm the Holder controls all confirmation key material before issuing credentials using the `cnf` claim.\n```",
+              "createdAt": "2026-04-13T13:21:21Z",
+              "updatedAt": "2026-04-13T13:21:22Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 267,
+      "id": "PR_kwDOMm_Q2s7R-VDr",
+      "title": "Remove Rust cddl tool to prevent borking the CI (temporary?)",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/267",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-04-13T12:21:46Z",
+      "updatedAt": "2026-04-13T13:15:35Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "remove-cddl-tool",
+      "headRefOid": "85e30e138d319020d67360ca6a15fcc3d3aab736",
+      "closedAt": "2026-04-13T13:15:35Z",
+      "mergedAt": "2026-04-13T13:15:35Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "4fa608ff6b54a539a51956af85c163006b5d5254"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 270,
+      "id": "PR_kwDOMm_Q2s7R__At",
+      "title": "Remove Section 16.7",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/270",
+      "state": "CLOSED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Finish closing #222 ",
+      "createdAt": "2026-04-13T13:55:10Z",
+      "updatedAt": "2026-04-13T14:13:08Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "852a468aed17906393eb6cbf4def27c10742ff6c",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue222-2",
+      "headRefOid": "ba3c6535d95e8e4d39c3aa782e307d6b9866b6cd",
+      "closedAt": "2026-04-13T14:13:08Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 271,
+      "id": "PR_kwDOMm_Q2s7SAVMb",
+      "title": "Remove Section 16.7",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/271",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-04-13T14:12:55Z",
+      "updatedAt": "2026-04-13T17:11:17Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "852a468aed17906393eb6cbf4def27c10742ff6c",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue222-forreal",
+      "headRefOid": "1a775cd49150a249b1f8eda5d91e66ee9eb6a078",
+      "closedAt": "2026-04-13T17:11:17Z",
+      "mergedAt": "2026-04-13T17:11:17Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "52ad4b171b9328be3668746264a6acc811f68f78"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s70af1L",
+          "commit": {
+            "abbreviatedOid": "1a775cd"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-13T17:11:10Z",
+          "updatedAt": "2026-04-13T17:11:10Z",
+          "comments": []
         }
       ]
     }
