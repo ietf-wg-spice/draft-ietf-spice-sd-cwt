@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-14T01:24:05.732620+00:00",
+  "timestamp": "2026-04-16T01:26:11.609802+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -5328,7 +5328,7 @@
       ],
       "body": "This looks like good information for an informational document that the RATS WG can take up (or not).  As it is, very little of this content is relevant to this document or the SPICE WG (except tangentially).  I don't think this should be carried into a published RFC.",
       "createdAt": "2026-01-23T05:08:40Z",
-      "updatedAt": "2026-04-13T13:40:19Z",
+      "updatedAt": "2026-04-14T02:38:30Z",
       "closedAt": null,
       "comments": [
         {
@@ -5351,6 +5351,13 @@
           "body": "we leave it in the draft for now",
           "createdAt": "2026-04-13T13:33:02Z",
           "updatedAt": "2026-04-13T13:33:02Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "conclusion of the authors was to leave it unless the IESG asks for its\r\nremoval.\r\n\r\nOn Mon, 13 Apr 2026, 15:33 Henk Birkholz, ***@***.***> wrote:\r\n\r\n> *henkbirkholz* left a comment (ietf-wg-spice/draft-ietf-spice-sd-cwt#233)\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/233#issuecomment-4236765509>\r\n>\r\n> we leave it in the draft for now\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/233#issuecomment-4236765509>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AADSQPWB7PPBLJU33MLNGQL4VTUCLAVCNFSM6AAAAACST53X5KVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHM2DEMZWG43DKNJQHE>\r\n> .\r\n> You are receiving this because you commented.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2026-04-14T02:38:30Z",
+          "updatedAt": "2026-04-14T02:38:30Z"
         }
       ]
     },
@@ -20896,7 +20903,7 @@
       "labels": [],
       "body": "Explain why Issuer should verify Holder key material (prevent active attackers)",
       "createdAt": "2026-04-13T11:53:29Z",
-      "updatedAt": "2026-04-13T13:21:22Z",
+      "updatedAt": "2026-04-14T14:58:27Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78",
@@ -20962,6 +20969,26 @@
               "body": "```suggestion\nThe Issuer SHOULD confirm the Holder controls all confirmation key material before issuing credentials using the `cnf` claim.\n```",
               "createdAt": "2026-04-13T13:21:21Z",
               "updatedAt": "2026-04-13T13:21:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s70y3nW",
+          "commit": {
+            "abbreviatedOid": "ffd200b"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-14T14:58:26Z",
+          "updatedAt": "2026-04-14T14:58:27Z",
+          "comments": [
+            {
+              "originalPosition": 3,
+              "body": "I pushed this one-word fix directly into main. Resolving.",
+              "createdAt": "2026-04-14T14:58:27Z",
+              "updatedAt": "2026-04-14T14:58:27Z"
             }
           ]
         }
