@@ -13,20 +13,20 @@
        This specification describes a data minimization technique for use with CBOR Web Tokens (CWTs).
 The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE) and CWTs. 
     " name="description">
-<meta content="xml2rfc 3.32.0" name="generator">
+<meta content="xml2rfc 3.33.0" name="generator">
 <meta content="cose" name="keyword">
 <meta content="cwt" name="keyword">
 <meta content="selective disclosure" name="keyword">
 <meta content="draft-ietf-spice-sd-cwt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.32.0
-    Python 3.12.12
+  xml2rfc 3.33.0
+    Python 3.12.13
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
-    platformdirs 4.9.4
+    platformdirs 4.9.6
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
@@ -1055,7 +1055,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 16 October 2026</td>
+<td class="center">Expires 22 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-04-14" class="published">14 April 2026</time>
+<time datetime="2026-04-20" class="published">20 April 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-10-16">16 October 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-22">22 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1193,7 +1193,7 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-sd-cwt-definition" class="internal xref">SD-CWT Definition</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-types-of-blinded-claims" class="internal xref">Types of Blinded Claims</a></p>
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-types-of-redacted-claims" class="internal xref">Types of Redacted Claims</a></p>
 </li>
             </ul>
 </li>
@@ -1557,31 +1557,35 @@ SD-CWTs provide privacy improvements compared to regular CWTs, which can be furt
 <figure id="figure-1">
           <div id="section-1.1-1.1">
             <div class="alignLeft art-svg artwork" id="section-1.1-1.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="400" width="584" viewBox="0 0 584 400" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 24,48 L 24,384" fill="none" stroke="black"></path>
-                <path d="M 288,48 L 288,384" fill="none" stroke="black"></path>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="480" width="584" viewBox="0 0 584 480" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 24,48 L 24,464" fill="none" stroke="black"></path>
+                <path d="M 56,144 L 56,176" fill="none" stroke="black"></path>
+                <path d="M 288,48 L 288,464" fill="none" stroke="black"></path>
                 <path d="M 320,64 L 320,96" fill="none" stroke="black"></path>
-                <path d="M 320,224 L 320,256" fill="none" stroke="black"></path>
-                <path d="M 320,288 L 320,320" fill="none" stroke="black"></path>
-                <path d="M 560,48 L 560,384" fill="none" stroke="black"></path>
+                <path d="M 320,304 L 320,336" fill="none" stroke="black"></path>
+                <path d="M 320,368 L 320,400" fill="none" stroke="black"></path>
+                <path d="M 560,48 L 560,464" fill="none" stroke="black"></path>
                 <path d="M 288,64 L 320,64" fill="none" stroke="black"></path>
                 <path d="M 296,96 L 320,96" fill="none" stroke="black"></path>
                 <path d="M 32,112 L 288,112" fill="none" stroke="black"></path>
-                <path d="M 24,144 L 280,144" fill="none" stroke="black"></path>
-                <path d="M 288,160 L 552,160" fill="none" stroke="black"></path>
-                <path d="M 296,192 L 560,192" fill="none" stroke="black"></path>
-                <path d="M 288,224 L 320,224" fill="none" stroke="black"></path>
-                <path d="M 296,256 L 320,256" fill="none" stroke="black"></path>
-                <path d="M 288,288 L 320,288" fill="none" stroke="black"></path>
-                <path d="M 296,320 L 320,320" fill="none" stroke="black"></path>
-                <path d="M 288,368 L 552,368" fill="none" stroke="black"></path>
-                <polygon class="arrowhead" points="560,368 548,362.4 548,373.6" fill="black" transform="rotate(0,552,368)"></polygon>
-                <polygon class="arrowhead" points="560,160 548,154.4 548,165.6" fill="black" transform="rotate(0,552,160)"></polygon>
-                <polygon class="arrowhead" points="304,320 292,314.4 292,325.6" fill="black" transform="rotate(180,296,320)"></polygon>
+                <path d="M 24,144 L 56,144" fill="none" stroke="black"></path>
+                <path d="M 32,176 L 56,176" fill="none" stroke="black"></path>
+                <path d="M 24,208 L 280,208" fill="none" stroke="black"></path>
+                <path d="M 288,224 L 552,224" fill="none" stroke="black"></path>
+                <path d="M 296,256 L 560,256" fill="none" stroke="black"></path>
+                <path d="M 288,304 L 320,304" fill="none" stroke="black"></path>
+                <path d="M 296,336 L 320,336" fill="none" stroke="black"></path>
+                <path d="M 288,368 L 320,368" fill="none" stroke="black"></path>
+                <path d="M 296,400 L 320,400" fill="none" stroke="black"></path>
+                <path d="M 288,448 L 552,448" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="560,448 548,442.4 548,453.6" fill="black" transform="rotate(0,552,448)"></polygon>
+                <polygon class="arrowhead" points="560,224 548,218.4 548,229.6" fill="black" transform="rotate(0,552,224)"></polygon>
+                <polygon class="arrowhead" points="304,400 292,394.4 292,405.6" fill="black" transform="rotate(180,296,400)"></polygon>
+                <polygon class="arrowhead" points="304,336 292,330.4 292,341.6" fill="black" transform="rotate(180,296,336)"></polygon>
                 <polygon class="arrowhead" points="304,256 292,250.4 292,261.6" fill="black" transform="rotate(180,296,256)"></polygon>
-                <polygon class="arrowhead" points="304,192 292,186.4 292,197.6" fill="black" transform="rotate(180,296,192)"></polygon>
                 <polygon class="arrowhead" points="304,96 292,90.4 292,101.6" fill="black" transform="rotate(180,296,96)"></polygon>
-                <polygon class="arrowhead" points="288,144 276,138.4 276,149.6" fill="black" transform="rotate(0,280,144)"></polygon>
+                <polygon class="arrowhead" points="288,208 276,202.4 276,213.6" fill="black" transform="rotate(0,280,208)"></polygon>
+                <polygon class="arrowhead" points="40,176 28,170.4 28,181.6" fill="black" transform="rotate(180,32,176)"></polygon>
                 <polygon class="arrowhead" points="40,112 28,106.4 28,117.6" fill="black" transform="rotate(180,32,112)"></polygon>
                 <g class="text">
                   <text x="28" y="36">Issuer</text>
@@ -1589,13 +1593,15 @@ SD-CWTs provide privacy improvements compared to regular CWTs, which can be furt
                   <text x="548" y="36">Verifier</text>
                   <text x="360" y="84">Key Gen</text>
                   <text x="148" y="100">Request SD-CWT</text>
-                  <text x="448" y="148">Request Nonce</text>
-                  <text x="148" y="164">Receive SD-CWT</text>
-                  <text x="448" y="212">Receive Nonce</text>
-                  <text x="384" y="244">Redact Claims</text>
-                  <text x="376" y="308">Demonstrate</text>
-                  <text x="368" y="324">Posession</text>
-                  <text x="452" y="356">Present SD-CWT</text>
+                  <text x="128" y="164">Redact Claims</text>
+                  <text x="448" y="212">Request Nonce</text>
+                  <text x="148" y="228">Receive SD-CWT</text>
+                  <text x="448" y="276">Receive Nonce</text>
+                  <text x="432" y="324">Disclose some, none, or</text>
+                  <text x="408" y="340">all of the Claims</text>
+                  <text x="384" y="388">Demonstrate</text>
+                  <text x="380" y="404">Possession</text>
+                  <text x="452" y="436">Present SD-CWT</text>
                 </g>
               </svg><a href="#section-1.1-1.1.1" class="pilcrow">¶</a>
 </div>
@@ -1637,75 +1643,95 @@ and JWT <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href=
           <p id="section-2-7.4.1">A CWT used to demonstrate possession of a confirmation method, associated with an SD-CWT.<a href="#section-2-7.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.5">Assertion Key:</dt>
+<dt id="section-2-7.5">Redact:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.6">
-          <p id="section-2-7.6.1">A key used by the Issuer to sign a Claim Values.<a href="#section-2-7.6.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.6.1">In the context of this specification, to replace a Claim Value with its corresponding Redacted Claim Hash.<a href="#section-2-7.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.7">Confirmation Key:</dt>
+<dt id="section-2-7.7">Disclose:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.8">
-          <p id="section-2-7.8.1">A key used by the Holder to sign a Selected Salted Disclosed Claims.<a href="#section-2-7.8.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.8.1">In the context of this specification, to provide a Salted Disclosed Claim whose hash matches a Redacted Claim Hash in the same SD-CWT.<a href="#section-2-7.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.9">Issuer:</dt>
+<dt id="section-2-7.9">Selective Disclosure:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.10">
-          <p id="section-2-7.10.1">An entity that produces a Selective Disclosure CBOR Web Token by signing a Claim Values with an Assertion Key.<a href="#section-2-7.10.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.10.1">In the context of this specification, the ability of the Holder to disclose a subset (all, some, or none) of the Redacted Claims in an SD-CWT.<a href="#section-2-7.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.11">Holder:</dt>
+<dt id="section-2-7.11">Assertion Key:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.12">
-          <p id="section-2-7.12.1">An entity that presents a Selective Disclosure Key Binding Token, containing a Selective Disclosure CBOR Web Token and Selected Salted Disclosed Claims signed with a Confirmation Key.<a href="#section-2-7.12.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.12.1">A key used by the Issuer to sign an SD-CWT, including the enclosed Claim Values.<a href="#section-2-7.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.13">Verifier:</dt>
+<dt id="section-2-7.13">Confirmation Key:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.14">
-          <p id="section-2-7.14.1">An entity that validates a Partial or Full Disclosure by a Holder.<a href="#section-2-7.14.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.14.1">A key used by the Holder to sign an SD-KBT including the enclosed selected Salted Disclosed Claims.<a href="#section-2-7.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.15">Partial Disclosure:</dt>
+<dt id="section-2-7.15">Issuer:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.16">
-          <p id="section-2-7.16.1">When a subset of the original claims, protected by the Issuer, are disclosed by the Holder.<a href="#section-2-7.16.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.16.1">An entity that produces a SD-CWT, containing Claim Values, signed with an Assertion Key.<a href="#section-2-7.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.17">Full Disclosure:</dt>
+<dt id="section-2-7.17">Holder:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.18">
-          <p id="section-2-7.18.1">When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no blinded claims (when no claims are blinded by the Issuer) is considered a Full Disclosure.<a href="#section-2-7.18.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.18.1">An entity that presents an SD-KBT, containing an SD-CWT and selected Salted Disclosed Claims, signed with a Confirmation Key.<a href="#section-2-7.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.19">Salted Disclosed Claim:</dt>
+<dt id="section-2-7.19">Verifier:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.20">
-          <p id="section-2-7.20.1">A salted claim disclosed in the unprotected header of an SD-CWT.<a href="#section-2-7.20.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.20.1">An entity that validates a Partial or Full Disclosure by a Holder.<a href="#section-2-7.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.21">Blinded Claim Hash:</dt>
+<dt id="section-2-7.21">Partial Disclosure:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.22">
-          <p id="section-2-7.22.1">A hash digest of a Salted Disclosed Claim.<a href="#section-2-7.22.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.22.1">When a subset of the original claims, protected by the Issuer, are disclosed by the Holder.<a href="#section-2-7.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.23">Blinded Claim:</dt>
+<dt id="section-2-7.23">Full Disclosure:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.24">
-          <p id="section-2-7.24.1">Any Redacted Claim Key or Redacted Claim Element that has been replaced in the
-CWT payload by a Blinded Claim Hash.<a href="#section-2-7.24.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.24.1">When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no Redacted Claims (when no claims are redacted by the Issuer) is considered a Full Disclosure.<a href="#section-2-7.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.25">Redacted Claim Key:</dt>
+<dt id="section-2-7.25">Salted Disclosed Claim:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.26">
-          <p id="section-2-7.26.1">The hash of a claim redacted from a map data structure.<a href="#section-2-7.26.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.26.1">A salted claim included in the unprotected header of an SD-CWT.<a href="#section-2-7.26.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.27">Redacted Claim Element:</dt>
+<dt id="section-2-7.27">Redacted Claim Hash:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.28">
-          <p id="section-2-7.28.1">The hash of an element redacted from an array data structure.<a href="#section-2-7.28.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.28.1">A hash digest of a Salted Disclosed Claim.<a href="#section-2-7.28.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.29">Presented Disclosed Claims Set:</dt>
+<dt id="section-2-7.29">Redacted Claim:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.30">
-          <p id="section-2-7.30.1">The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.<a href="#section-2-7.30.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.30.1">Any Redacted Claim Key or Redacted Claim Element that has been replaced in the
+CWT payload by a Redacted Claim Hash.<a href="#section-2-7.30.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.31">Validated Disclosed Claims Set:</dt>
+<dt id="section-2-7.31">Non-redacted Claim:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.32">
-          <p id="section-2-7.32.1">The CBOR map containing all mandatory to disclose claims signed by the Issuer, all selectively disclosed claims presented by the Holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.<a href="#section-2-7.32.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.32.1">A claim that was not replaced by the Issuer with a Redacted Claim Hash in the SD-CWT.<a href="#section-2-7.32.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-7.33">Redacted Claim Key:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.34">
+          <p id="section-2-7.34.1">The hash of a claim redacted from a map data structure.<a href="#section-2-7.34.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-7.35">Redacted Claim Element:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.36">
+          <p id="section-2-7.36.1">The hash of an element redacted from an array data structure.<a href="#section-2-7.36.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-7.37">Presented Disclosed Claims Set:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.38">
+          <p id="section-2-7.38.1">The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.<a href="#section-2-7.38.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-7.39">Validated Disclosed Claims Set:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.40">
+          <p id="section-2-7.40.1">The CBOR map containing all non-redacted claims that were signed by the Issuer and all selectively disclosed claims presented by the Holder; omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.<a href="#section-2-7.40.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1718,11 +1744,11 @@ CWT payload by a Blinded Claim Hash.<a href="#section-2-7.24.1" class="pilcrow">
       </h2>
 <p id="section-3-1">SD-CWT operates on CWT Claims Sets as described in <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
 CWT Claims Sets contain Claim Keys and Claim Values.
-Issuers choose which Claim Keys and Claim Values to blind or not blind.
-Holders choose to disclose none, some, or all of the blinded Claim Keys and Claim Values, and whether to present an issued SD-CWT at all.
+Issuers choose which Claim Keys and Claim Values to redacted or include in unredacted form.
+Holders choose to disclose none, some, or all of the Redacted Claim Keys and Claim Values, and whether to present an issued SD-CWT at all.
 Holders present an SD-CWT and any disclosures to Verifiers in a Key Binding Token (KBT) that proves the Holder's control of the private key corresponding to the SD-CWT confirmation (public) key.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are already using CWTs with minor changes, even if they contain no optional-to-disclose claims.
-A Verifier that does not understand selective disclosure at all can only act on unblinded claims sent by the Holder; it will ignore Blinded Claims representing array items, and will fail to process any SD-CWT containing Blinded Claims that represent map keys.
+A Verifier that does not understand selective disclosure at all can only act on non-redacted claims sent by the Holder; it will ignore Redacted Claims representing array items, and will fail to process any SD-CWT containing Redacted Claims that represent map keys.
 Optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
 However, Claim Keys and Claim Values that are not understood remain ignored, as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-3" class="relref">Section 3</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">The following diagram explains the relationships between the terminology used in this specification.<a href="#section-3-3" class="pilcrow">¶</a></p>
@@ -1730,7 +1756,7 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
 <figure id="figure-2">
         <div id="section-3-4.1">
           <div class="alignLeft art-svg artwork" id="section-3-4.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="656" width="488" viewBox="0 0 488 656" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="656" width="496" viewBox="0 0 496 656" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
               <path d="M 8,128 L 8,208" fill="none" stroke="black"></path>
               <path d="M 8,352 L 8,480" fill="none" stroke="black"></path>
               <path d="M 8,608 L 8,640" fill="none" stroke="black"></path>
@@ -1755,12 +1781,12 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
               <path d="M 376,272 L 376,304" fill="none" stroke="black"></path>
               <path d="M 416,400 L 416,448" fill="none" stroke="black"></path>
               <path d="M 432,368 L 432,480" fill="none" stroke="black"></path>
-              <path d="M 480,48 L 480,96" fill="none" stroke="black"></path>
+              <path d="M 488,48 L 488,96" fill="none" stroke="black"></path>
               <path d="M 24,32 L 120,32" fill="none" stroke="black"></path>
-              <path d="M 168,32 L 464,32" fill="none" stroke="black"></path>
+              <path d="M 168,32 L 472,32" fill="none" stroke="black"></path>
               <path d="M 128,48 L 168,48" fill="none" stroke="black"></path>
               <path d="M 24,64 L 120,64" fill="none" stroke="black"></path>
-              <path d="M 168,96 L 480,96" fill="none" stroke="black"></path>
+              <path d="M 168,96 L 488,96" fill="none" stroke="black"></path>
               <path d="M 8,128 L 280,128" fill="none" stroke="black"></path>
               <path d="M 8,176 L 296,176" fill="none" stroke="black"></path>
               <path d="M 8,208 L 296,208" fill="none" stroke="black"></path>
@@ -1781,7 +1807,7 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
               <path d="M 192,560 L 352,560" fill="none" stroke="black"></path>
               <path d="M 8,608 L 336,608" fill="none" stroke="black"></path>
               <path d="M 8,640 L 352,640" fill="none" stroke="black"></path>
-              <path d="M 464,32 C 472.83064,32 480,39.16936 480,48" fill="none" stroke="black"></path>
+              <path d="M 472,32 C 480.83064,32 488,39.16936 488,48" fill="none" stroke="black"></path>
               <path d="M 280,128 C 288.83064,128 296,135.16936 296,144" fill="none" stroke="black"></path>
               <path d="M 360,256 C 368.83064,256 376,263.16936 376,272" fill="none" stroke="black"></path>
               <path d="M 416,352 C 424.83064,352 432,359.16936 432,368" fill="none" stroke="black"></path>
@@ -1800,15 +1826,15 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
                 <text x="76" y="52">Issuer</text>
                 <text x="252" y="52">Holder Public Key,</text>
                 <text x="244" y="68">Full Claims Set,</text>
-                <text x="324" y="84">Pre-issuance blinding/decoy requests</text>
+                <text x="328" y="84">Pre-issuance redaction/decoy requests</text>
                 <text x="152" y="148">Issuer-Signed: Plaintext Claims +</text>
-                <text x="108" y="164">Blinded Claim Hashes</text>
+                <text x="112" y="164">Redacted Claim Hashes</text>
                 <text x="128" y="196">All Salted Disclosed Claims</text>
                 <text x="84" y="276">Holder</text>
                 <text x="288" y="276">Holder Private Key,</text>
                 <text x="284" y="292">Chosen Disclosures</text>
                 <text x="148" y="372">Holder-Signed: Key Binding Token</text>
-                <text x="220" y="404">Issuer-Signed: Claims + Blinded Claim Hashes</text>
+                <text x="224" y="404">Issuer-Signed: Claims + Redacted Claim Hashes</text>
                 <text x="204" y="436">Holder-Selected: Salted Disclosed Claims</text>
                 <text x="76" y="548">Verifier</text>
                 <text x="272" y="548">Issuer Public Key</text>
@@ -1822,11 +1848,11 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
         </figcaption></figure>
 </div>
 <p id="section-3-5">This diagram relates the terminology specific to selective disclosure and redaction.<a href="#section-3-5" class="pilcrow">¶</a></p>
-<span id="name-round-trip-journey-of-a-bli"></span><div id="f-roundtrip-claim">
+<span id="name-round-trip-journey-of-a-red"></span><div id="f-roundtrip-claim">
 <figure id="figure-3">
         <div id="section-3-6.1">
           <div class="alignLeft art-svg artwork" id="section-3-6.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1008" width="440" viewBox="0 0 440 1008" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1008" width="448" viewBox="0 0 448 1008" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
               <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
               <path d="M 8,160 L 8,192" fill="none" stroke="black"></path>
               <path d="M 8,272 L 8,304" fill="none" stroke="black"></path>
@@ -1893,23 +1919,23 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
                 <text x="52" y="52">Holder</text>
                 <text x="176" y="100">1. Communicates public key,</text>
                 <text x="212" y="116">Optionally communicates Claim,</text>
-                <text x="264" y="132">Optionally communicates Blinding preference</text>
+                <text x="268" y="132">Optionally communicates Redaction preference</text>
                 <text x="52" y="180">Issuer</text>
                 <text x="200" y="228">2. Creates Salted Disclosed Claim</text>
                 <text x="164" y="244">[salt, value, key]</text>
                 <text x="108" y="292">Salted Disclosed Claim</text>
                 <text x="144" y="340">3. Hashes to create</text>
-                <text x="92" y="388">Blinded Claim Hash</text>
+                <text x="96" y="388">Redacted Claim Hash</text>
                 <text x="180" y="436">4. Replaces Claim Value with</text>
-                <text x="140" y="484">Blinded Claim (in CWT payload)</text>
+                <text x="144" y="484">Redacted Claim (in CWT payload)</text>
                 <text x="172" y="532">Original Claim Value is replaced</text>
-                <text x="136" y="548">with Blinded Claim Hash</text>
+                <text x="140" y="548">with Redacted Claim Hash</text>
                 <text x="52" y="660">Holder</text>
                 <text x="148" y="708">5. Presents selected</text>
                 <text x="184" y="724">Salted Disclosed Claims</text>
                 <text x="52" y="772">Verifier</text>
                 <text x="196" y="820">6. Hashes Salted Disclosed Claim</text>
-                <text x="136" y="868">Blinded Claim Hash (computed)</text>
+                <text x="140" y="868">Redacted Claim Hash (computed)</text>
                 <text x="192" y="916">7. Matches with hash in payload</text>
                 <text x="168" y="932">to recover original</text>
                 <text x="112" y="980">Claim Value (recovered)</text>
@@ -1918,7 +1944,7 @@ However, Claim Keys and Claim Values that are not understood remain ignored, as 
 </div>
 </div>
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
-<a href="#name-round-trip-journey-of-a-bli" class="selfRef">Round trip journey of a blinded claim</a>
+<a href="#name-round-trip-journey-of-a-red" class="selfRef">Round trip journey of a Redacted Claim</a>
         </figcaption></figure>
 </div>
 <div id="a-cwt-without-selective-disclosure">
@@ -2105,7 +2131,7 @@ For example, the <code>inspector_license_number</code> claim is a Salted Disclos
 <figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-cbor-encoding-of-inspector_" class="selfRef">CBOR encoding of inspector_license_number disclosure</a>
           </figcaption></figure>
-<p id="section-3.2-7">The cryptographic hash, using the hash algorithm identified by the <code>sd_alg</code> header parameter in the protected headers, of that byte string is the Blinded Claim Hash (shown in hex).
+<p id="section-3.2-7">The cryptographic hash, using the hash algorithm identified by the <code>sd_alg</code> header parameter in the protected headers, of that byte string is the Redacted Claim Hash (shown in hex).
 The digest value is included in the payload in a <code>redacted_claim_keys</code> field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of <code>inspection_dates</code>).<a href="#section-3.2-7" class="pilcrow">¶</a></p>
 <span id="name-sha-256-hash-of-inspector_l"></span><figure id="figure-8">
           <div class="alignLeft art-text artwork" id="section-3.2-8.1">
@@ -2116,7 +2142,7 @@ d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
 <figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-sha-256-hash-of-inspector_l" class="selfRef">SHA-256 hash of inspector_license_number disclosure</a>
           </figcaption></figure>
-<p id="section-3.2-9">Finally, since this redacted claim is a map key and value, the Blinded Claim Hash is placed in a <code>redacted_claim_keys</code> array in the SD-CWT payload at the same level of hierarchy as the original claim.<a href="#section-3.2-9" class="pilcrow">¶</a></p>
+<p id="section-3.2-9">Finally, since this redacted claim is a map key and value, the Redacted Claim Hash is placed in a <code>redacted_claim_keys</code> array in the SD-CWT payload at the same level of hierarchy as the original claim.<a href="#section-3.2-9" class="pilcrow">¶</a></p>
 <span id="name-redacted-inspector_license_"></span><figure id="figure-9">
           <div class="lang-cbor-diag sourcecode" id="section-3.2-10.1">
 <pre>
@@ -2230,16 +2256,21 @@ An SD-CWT <span class="bcp14">MUST</span> declare its content type, by including
 <p id="section-5-3">The Issuer <span class="bcp14">SHOULD</span> use the value 293 instead of <code>application/sd-cwt</code>, as the CBOR representation is considerably smaller (3 bytes versus of 19).<a href="#section-5-3" class="pilcrow">¶</a></p>
 <p id="section-5-4">An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
 Unlike CWT, SD-CWT requires key binding.<a href="#section-5-4" class="pilcrow">¶</a></p>
-<p id="section-5-5">An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
-It is not required to contain any blinded claims.<a href="#section-5-5" class="pilcrow">¶</a></p>
-<p id="section-5-6">Optionally the salted Claim Values (and Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the <code>sd_claims</code> header parameter in the unprotected header of the CWT (the disclosures).
-If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the <code>sd_claims</code> header parameter is not present in the unprotected header.<a href="#section-5-6" class="pilcrow">¶</a></p>
-<p id="section-5-7">Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
-However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.<a href="#section-5-7" class="pilcrow">¶</a></p>
+<p id="section-5-5">An SD-CWT can contain Redacted Claims (each expressed as a Redacted Claim Hash), at the root level or in any arrays or maps inside that claim set.
+An SD-CWT is not required to contain any Redacted Claims.<a href="#section-5-5" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-5-6.1">
+          <p id="section-5-6.1.1">An SD-CWT with no Redacted Claims is still valuable for its key binding properties.<a href="#section-5-6.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-5-7">Optionally the Salted Disclosed Claims (Claim Values and/or Claim Keys) for the corresponding Redacted Claim Hashes are disclosed in the <code>sd_claims</code> header parameter in the unprotected header of the CWT (the disclosures).
+If there are no disclosures (and when no Redacted Claims Hash is present in the payload) the <code>sd_claims</code> header parameter is not present in the unprotected header.<a href="#section-5-7" class="pilcrow">¶</a></p>
+<p id="section-5-8">Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and restore the original claim that was present before redaction.
+However, a Verifier with the hash cannot reconstruct the corresponding Redacted Claim without disclosure of the Salted Disclosed Claim.<a href="#section-5-8" class="pilcrow">¶</a></p>
 <div id="blinded-claims">
 <section id="section-5.1">
-        <h3 id="name-types-of-blinded-claims">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-types-of-blinded-claims" class="section-name selfRef">Types of Blinded Claims</a>
+        <h3 id="name-types-of-redacted-claims">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-types-of-redacted-claims" class="section-name selfRef">Types of Redacted Claims</a>
         </h3>
 <p id="section-5.1-1">Salted Disclosed Claims for Claim Keys are structured as a 128-bit salt, the disclosed value, and the map key (the claim "name") of the redacted element.
 For Salted Disclosed Claims of Claim Values (items in an array), the "name" of the claim is omitted.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
@@ -2271,22 +2302,22 @@ decoy = [
 <a href="#name-cddl-of-salted-disclosed-cl" class="selfRef">CDDL of Salted Disclosed Claims</a>
           </figcaption></figure>
 </div>
-<p id="section-5.1-3">When a blinded claim is a key in a map, its blinded claim hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
+<p id="section-5.1-3">When a Redacted Claim is a key in a map, its Redacted Claim Hash is added to a <code>redacted_claim_keys</code> array claim in the CWT payload that is at the same level of hierarchy as the map key being redacted.
 The <code>redacted_claim_keys</code> key is the CBOR simple value 59 registered for that purpose.
 CBOR "simple values" <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> are values (like <code>false</code> or <code>undefined</code>) that do need any additional content.
-In this specification a simple value of 59 is used as the content of a map key to indicate that one or more map key/value pairs was blinded in this CBOR map.
+In this specification a simple value of 59 is used as the content of a map key to indicate that one or more map key/value pairs was redacted in this CBOR map.
 The simple value 59 is represented in examples using the syntax <code>simple(59)</code>.
 The simple value 59 in CDDL is represented using the syntax <code>#7.59</code>.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
+<p id="section-5.1-4">When redacting an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
 CBOR tags <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.4" class="relref">Section 3.4</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> annotate other values.
 The tag 60 is represented in examples as <code>60(</code> <em>tagged value</em> <code>)</code>.
 The tag 60 is represented in CDDL as <code>#6.60(</code> <em>tagged value</em> <code>)</code>.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
-<span id="name-cddl-of-blinded-claim-keys-"></span><div id="cddl-blinded">
+<span id="name-cddl-of-redacted-claim-keys"></span><div id="cddl-blinded">
 <figure id="figure-13">
           <div class="lang-cddl sourcecode" id="section-5.1-5.1">
 <pre>
 ; redacted_claim_keys is used as a map key. The corresponding value is
-; an array of Blinded Claim Hashes whose corresponding unblinded map
+; an array of Redacted Claim Hashes whose corresponding unredacted map
 ; keys and values are in the same map.
 redacted_claim_keys = #7.59  ; CBOR simple value 59
 
@@ -2299,12 +2330,12 @@ redacted_claim_element = #6.&lt;REDACTED_ELEMENT_TAGNUM&gt;( bstr )
 </pre>
 </div>
 <figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
-<a href="#name-cddl-of-blinded-claim-keys-" class="selfRef">CDDL of Blinded Claim Keys and Blinded Claim Elements</a>
+<a href="#name-cddl-of-redacted-claim-keys" class="selfRef">CDDL of Redacted Claim Keys and Redacted Claim Elements</a>
           </figcaption></figure>
 </div>
-<p id="section-5.1-6">Blinded claims can be nested. For example, both individual keys in the <code>inspection_location</code> claim, and the entire <code>inspection_location</code> element can be separately blinded.
+<p id="section-5.1-6">Redacted Claims can be nested. For example, both individual keys in the <code>inspection_location</code> claim, and the entire <code>inspection_location</code> element can be separately redacted.
 An example nested claim is shown in <a href="#nesting" class="auto internal xref">Section 14.2</a>.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
-<p id="section-5.1-7">Finally, an Issuer <span class="bcp14">MAY</span> create decoy digests, which look like blinded claim hashes but have only a salt.
+<p id="section-5.1-7">Finally, an Issuer <span class="bcp14">MAY</span> create decoy digests, which look like Redacted Claim Hashes but have only a salt.
 Decoy digests are discussed in <a href="#decoys" class="auto internal xref">Section 10</a>.<a href="#section-5.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2367,9 +2398,9 @@ Both of these maps are described as SD-CWT Claims Maps.<a href="#section-6.3-2" 
             <p id="section-6.3-3.1.1">Note that <code>CWT Claims</code> is a separate CBOR map from the COSE payload and can contain the same Claim Keys as the COSE payload CBOR map.<a href="#section-6.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-6.3-4">The same valid CWT claim keys could be present in both SD-CWT Claims Maps, but if so, they <span class="bcp14">MUST</span> have the same unblinded value.
+<p id="section-6.3-4">The same valid CWT claim keys could be present in both SD-CWT Claims Maps, but if so, they <span class="bcp14">MUST</span> have the same unredacted value.
 Neither, one, or both could be redacted.
-If both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
+If both are redacted they would have different disclosures, salts, and Redacted Claim Hashes.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 <p id="section-6.3-5">In addition to map keys that are valid in CWT, SD-CWT Claims Maps <span class="bcp14">MAY</span> contain the CBOR simple value registered in this specification in <a href="#simple59" class="auto internal xref">Section 17.2</a>.
 In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys <span class="bcp14">MAY</span> also consist of the To Be Redacted tag (defined in <a href="#tbr-tag" class="auto internal xref">Section 11.1</a>), containing an integer or text string; or a To Be Decoy tag (defined in <a href="#tb-decoy-tag" class="auto internal xref">Section 11.2</a>), containing a positive integer.
 These two tags provide a way for the Holder to indicate specific claims to be redacted or decoys to be inserted.<a href="#section-6.3-5" class="pilcrow">¶</a></p>
@@ -2663,7 +2694,7 @@ The values in the array inside tag 4 are at level 5.<a href="#section-6.5-6" cla
 <a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-use-of-structured-suffixes" class="section-name selfRef">Use of Structured Suffixes</a>
         </h3>
 <p id="section-6.6-1">Any type which contains the <code>+sd-cwt</code> structured suffix <span class="bcp14">MUST</span> be a legal SD-CWT.
-A type that is a legal CWT and does not contain any blinded claims <span class="bcp14">SHOULD</span> use the <code>+cwt</code> structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
+A type that is a legal CWT and does not contain any Redacted Claims <span class="bcp14">SHOULD</span> use the <code>+cwt</code> structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2674,11 +2705,11 @@ A type that is a legal CWT and does not contain any blinded claims <span class="
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-sd-cwt-issuance" class="section-name selfRef">SD-CWT Issuance</a>
       </h2>
 <p id="section-7-1">How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out of scope for this specification.
-Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter, which is not discussed in this specification.
+Likewise, how the Holder determines which claims to redact or to disclose is a policy matter, which is not discussed in this specification.
 This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in <a href="#sd-cwt-presentation" class="auto internal xref">Section 8</a>.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <p id="section-7-2">The protected header <span class="bcp14">MAY</span> contain the <code>sd_alg</code> header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 If no <code>sd_alg</code> header parameter is present, the default hash function SHA-256 is used.<a href="#section-7-2" class="pilcrow">¶</a></p>
-<p id="section-7-3">If any Salted Disclosed Claims or Decoys are present, the unprotected header <span class="bcp14">MUST</span> contain the <code>sd_claims</code> header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
+<p id="section-7-3">If any Salted Disclosed Claims or Decoys are present, the unprotected header <span class="bcp14">MUST</span> contain the <code>sd_claims</code> header parameter with a Salted Disclosed Claim for every Redacted Claim Hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
 If there are no disclosures, the <code>sd_claims</code> header parameter value is omitted.
 The payload also <span class="bcp14">MUST</span> include a key confirmation element (<code>cnf</code>) <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span> for the Holder's public key.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7-4">The following table describes the claim requirements for an SD-CWT:<a href="#section-7-4" class="pilcrow">¶</a></p>
@@ -2692,7 +2723,7 @@ The payload also <span class="bcp14">MUST</span> include a key confirmation elem
           <tr>
             <th class="text-left" rowspan="1" colspan="1">Claim</th>
             <th class="text-left" rowspan="1" colspan="1">Requirement</th>
-            <th class="text-left" rowspan="1" colspan="1">Mandatory to Disclose</th>
+            <th class="text-left" rowspan="1" colspan="1">Never Redacted</th>
           </tr>
         </thead>
         <tbody>
@@ -2781,7 +2812,7 @@ The payload also <span class="bcp14">MUST</span> include a key confirmation elem
           <tr>
             <th class="text-left" rowspan="1" colspan="1">Claim</th>
             <th class="text-left" rowspan="1" colspan="1">Requirement</th>
-            <th class="text-left" rowspan="1" colspan="1">Mandatory to Disclose</th>
+            <th class="text-left" rowspan="1" colspan="1">Never Redacted</th>
           </tr>
         </thead>
         <tbody>
@@ -2872,16 +2903,16 @@ Holder verifies the following:<a href="#section-7.2-1" class="pilcrow">¶</a></p
             <p id="section-7.2-2.6.1">if a <code>cnonce</code> is present, it was provided by the Holder to this Issuer and is still fresh;<a href="#section-7.2-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-2.7">
-            <p id="section-7.2-2.7.1">there are no unblinded claims about the subject that violate its privacy policies;<a href="#section-7.2-2.7.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-2.7.1">there are no non-redacted claims about the subject that violate its privacy policies;<a href="#section-7.2-2.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-2.8">
             <p id="section-7.2-2.8.1">any place where the cardinality of claims needs to be protected have sufficient decoys (<a href="#decoys" class="auto internal xref">Section 10</a>);<a href="#section-7.2-2.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-2.9">
-            <p id="section-7.2-2.9.1">every blinded claim hash (some of which may be nested as in <a href="#nesting" class="auto internal xref">Section 14.2</a>) has a corresponding Salted Disclosed Claim, and vice versa;<a href="#section-7.2-2.9.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-2.9.1">every Redacted Claim Hash (some of which may be nested as in <a href="#nesting" class="auto internal xref">Section 14.2</a>) has a corresponding Salted Disclosed Claim, and vice versa;<a href="#section-7.2-2.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-2.10">
-            <p id="section-7.2-2.10.1">the values of the Salted Disclosed Claims when placed in their unblinded context in the payload are acceptable to the Holder.<a href="#section-7.2-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-2.10.1">the values of the Salted Disclosed Claims when placed in their unredacted context in the payload are acceptable to the Holder.<a href="#section-7.2-2.10.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <ul class="normal ulEmpty">
@@ -2950,8 +2981,8 @@ sd-payload = {
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-sd-cwt-presentation" class="section-name selfRef">SD-CWT Presentation</a>
       </h2>
 <p id="section-8-1">When issuing an SD-CWT to a Holder, the Issuer includes all the Salted Disclosed Claims in the unprotected header.<a href="#section-8-1" class="pilcrow">¶</a></p>
-<p id="section-8-2">By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
-If the Holder wishes to disclose any blinded claims, it includes that subset of its Salted Disclosed Claims in the <code>sd_claims</code> header parameter of the unprotected header.
+<p id="section-8-2">By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its Redacted Claims.
+If the Holder wishes to disclose any Redacted Claims, it includes that subset of its Salted Disclosed Claims in the <code>sd_claims</code> header parameter of the unprotected header.
 If there is nothing to be disclosed, the <code>sd_claims</code> header parameter is omitted.<a href="#section-8-2" class="pilcrow">¶</a></p>
 <p id="section-8-3">The Holder has flexibility in determining the order of disclosures when making presentations.
 The order can be sorted, randomized, or optimized for performance based on the Holder's needs.<a href="#section-8-3" class="pilcrow">¶</a></p>
@@ -3135,8 +3166,8 @@ All other claims are <span class="bcp14">OPTIONAL</span> in an SD-KBT.<a href="#
 <ol start="7" type="1" class="normal type-1" id="section-9-7">
 <li id="section-9-7.1">
           <p id="section-9-7.1.1">The Verifier <span class="bcp14">MUST</span> extract and decode the disclosed claims from the <code>sd_claims</code> header parameter in the unprotected header of the SD-CWT.
-Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Blinded Claim Hash in the payload.
-If there are any disclosures that do not have a corresponding Blinded Claim Hash, the entire SD-CWT is invalid.
+Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Redacted Claim Hash in the payload.
+If there are any disclosures that do not have a corresponding Redacted Claim Hash, the entire SD-CWT is invalid.
 If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.<a href="#section-9-7.1.1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-9-7.1.2.1">
@@ -3173,7 +3204,7 @@ If the semantics of the position of items in the array is important, the issuer 
       <h2 id="name-decoy-digests">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-decoy-digests" class="section-name selfRef">Decoy Digests</a>
       </h2>
-<p id="section-10-1">An Issuer <span class="bcp14">MAY</span> add additional digests to the SD-CWT payload (including nested maps and arrays within the payload) that are not associated with any unblinded claim.
+<p id="section-10-1">An Issuer <span class="bcp14">MAY</span> add additional digests to the SD-CWT payload (including nested maps and arrays within the payload) that are not associated with any claim present in the original Claims Set.
 The purpose of such "decoy" digests is to make it more difficult for an adversarial Verifier to infer private information based on the number of Redacted Claim Keys or Redacted Claim Elements.<a href="#section-10-1" class="pilcrow">¶</a></p>
 <p id="section-10-2">The list of disclosures sent by the Issuer to the Holder contains one disclosure for each decoy digest.
 Each disclosure contains a single element array with a per-decoy salt.
@@ -3189,7 +3220,7 @@ Each salt <span class="bcp14">MUST</span> be unique.<a href="#section-10-2" clas
 <a href="#name-edn-showing-a-sample-decoy-" class="selfRef">EDN showing a sample decoy salt</a>
         </figcaption></figure>
 </div>
-<p id="section-10-4">The Blinded Claim Hash for each disclosure is calculated using the same algorithm for decoys as for Redacted Claim Keys and Redacted Claim Elements.
+<p id="section-10-4">The Redacted Claim Hash for each disclosure is calculated using the same algorithm for decoys as for Redacted Claim Keys and Redacted Claim Elements.
 An example issued SD-CWT containing decoy digests is shown below.<a href="#section-10-4" class="pilcrow">¶</a></p>
 <span id="name-edn-showing-a-sd-cwt-contai"></span><div id="edn-decoys">
 <figure id="figure-20">
@@ -3267,7 +3298,7 @@ An example issued SD-CWT containing decoy digests is shown below.<a href="#secti
 <a href="#name-edn-showing-a-sd-cwt-contai" class="selfRef">EDN showing a SD-CWT containing decoys</a>
         </figcaption></figure>
 </div>
-<p id="section-10-6">As with regular Blinded Claims, the Holder needs to receive the disclosure for every decoy so it can be sure the Issuer is not communicating unwanted information to Verifiers (see <a href="#disclosure-of-decoys" class="auto internal xref">Section 16.3</a>).<a href="#section-10-6" class="pilcrow">¶</a></p>
+<p id="section-10-6">As with regular Redacted Claims, the Holder needs to receive the disclosure for every decoy so it can be sure the Issuer is not communicating unwanted information to Verifiers (see <a href="#disclosure-of-decoys" class="auto internal xref">Section 16.3</a>).<a href="#section-10-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tags-used-before-sd-cwt-issuance">
@@ -3287,7 +3318,7 @@ The tag can be used by a library to automatically convert a Claim Set with "To B
 When used on a map key and value, the tag is placed around the map key, while the map value remains.<a href="#section-11.1-2" class="pilcrow">¶</a></p>
 <p id="section-11.1-3">Examples in this draft use the To Be Redacted tag in order to distinguish their pre-issued, post-issued, and post-presented representations in EDN and CDDL.
 The snippet of EDN shown below shows one mechanism to communicate to the Issuer to redact the inspector license number claim, and two of the inspection dates in our primary example.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
-<span id="name-edn-example-requesting-blin"></span><div id="edn-to-be-blinded">
+<span id="name-edn-example-requesting-reda"></span><div id="edn-to-be-blinded">
 <figure id="figure-21">
           <div class="lang-cbor-diag sourcecode" id="section-11.1-4.1">
 <pre>
@@ -3304,7 +3335,7 @@ The snippet of EDN shown below shows one mechanism to communicate to the Issuer 
 </pre>
 </div>
 <figcaption><a href="#figure-21" class="selfRef">Figure 21</a>:
-<a href="#name-edn-example-requesting-blin" class="selfRef">EDN example requesting blinding of license number and two inspection dates</a>
+<a href="#name-edn-example-requesting-reda" class="selfRef">EDN example requesting redaction of license number and two inspection dates</a>
           </figcaption></figure>
 </div>
 </section>
@@ -3426,7 +3457,7 @@ a061c27a3273721e210d031863ad81b6
 <a href="#name-edn-example-of-an-aead-encr" class="selfRef">EDN Example of an AEAD Encrypted Claim</a>
           </figcaption></figure>
 </div>
-<p id="section-12.1-8">The blinded claim hash is still over the unencrypted disclosure.
+<p id="section-12.1-8">The Redacted Claim Hash is still over the unencrypted disclosure.
 The receiver of an AEAD encrypted disclosure locates the appropriate key by looking up the authentication tag.
 If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the <code>sd_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-12.1-8" class="pilcrow">¶</a></p>
 <p id="section-12.1-9">Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.<a href="#section-12.1-9" class="pilcrow">¶</a></p>
@@ -3600,7 +3631,7 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
         <h3 id="name-nested-example">
 <a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-nested-example" class="section-name selfRef">Nested Example</a>
         </h3>
-<p id="section-14.2-1">Instead of the structure from the previous example, imagine that the payload contains an inspection history log with the following structure. It could be blinded at multiple levels of the claims set hierarchy.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.2-1">Instead of the structure from the previous example, imagine that the payload contains an inspection history log with the following structure. It could be redacted at multiple levels of the claims set hierarchy.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-nested-claim"></span><div id="edn-nested-unblinded">
 <figure id="figure-27">
           <div class="lang-cbor-diag sourcecode" id="section-14.2-2.1">
@@ -3648,16 +3679,16 @@ which is not to be used in operational deployments.<a href="#section-13-3" class
 </pre>
 </div>
 <figcaption><a href="#figure-27" class="selfRef">Figure 27</a>:
-<a href="#name-edn-example-of-nested-claim" class="selfRef">EDN example of Nested Claims Set before blinding</a>
+<a href="#name-edn-example-of-nested-claim" class="selfRef">EDN example of Nested Claims Set before redaction</a>
           </figcaption></figure>
 </div>
-<p id="section-14.2-3">For example, looking at the nested disclosures below, the first disclosure unblinds the entire January 2023 inspection record.
-However, when the record is disclosed, the inspector license number and inspection location are redacted inside the record.
-The next disclosure unblinds the inspector_license_number, and the next
-disclosure unblinds the inspection location record, but the region and postcode claims inside the location record are also individually blinded.
-The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" class="pilcrow">¶</a></p>
-<p id="section-14.2-4">The fifth disclosure unblinds the earliest inspection record, and the last disclosure unblinds the inspector_license_number for that record.<a href="#section-14.2-4" class="pilcrow">¶</a></p>
-<p id="section-14.2-5">Verifiers start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.<a href="#section-14.2-5" class="pilcrow">¶</a></p>
+<p id="section-14.2-3">For example, looking at the nested disclosures below, the first disclosure reveals the entire January 2023 inspection record.
+However, when the record is disclosed, the inspector license number and inspection location are still redacted inside the record.
+The next disclosure reveal the inspector_license_number, and the next
+disclosure reveals the inspection location record, but the region and postcode claims inside the location record are also individually redacted.
+The fourth disclosure reveals the inspection region.<a href="#section-14.2-3" class="pilcrow">¶</a></p>
+<p id="section-14.2-4">The fifth disclosure reveals the earliest inspection record, and the last disclosure reveals the inspector_license_number for that record.<a href="#section-14.2-4" class="pilcrow">¶</a></p>
+<p id="section-14.2-5">Verifiers start replacing each Redacted Claim Hash whose hash matches a Salted Disclosed Claim, with the unredacted Claim Key or Claim Value from that Salted Disclosed Claim. They continue descending until there are no Redacted Claim Hashes at any level of the hierarchy for which they have a corresponding disclosure.<a href="#section-14.2-5" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-sd-cwt-with-"></span><div id="edn-nested-blinded">
 <figure id="figure-28">
           <div class="breakable lang-cbor-diag sourcecode" id="section-14.2-6.1">
@@ -3734,7 +3765,7 @@ The fourth disclosure unblinds the inspection region.<a href="#section-14.2-3" c
 </pre>
 </div>
 <figcaption><a href="#figure-28" class="selfRef">Figure 28</a>:
-<a href="#name-edn-example-of-sd-cwt-with-" class="selfRef">EDN Example of SD-CWT with Nested Blinded Claims</a>
+<a href="#name-edn-example-of-sd-cwt-with-" class="selfRef">EDN Example of SD-CWT with Nested Redacted Claims</a>
           </figcaption></figure>
 </div>
 <p id="section-14.2-7">After applying the disclosures of the nested structure above, the disclosed Claims Set visible to the Verifier would look like the following:<a href="#section-14.2-7" class="pilcrow">¶</a></p>
@@ -3831,7 +3862,7 @@ SD-CWTs with audience claims that do not correspond to the intended recipients <
 <a href="#section-15.4" class="section-number selfRef">15.4. </a><a href="#name-credential-types-2" class="section-name selfRef">Credential Types</a>
         </h3>
 <p id="section-15.4-1">The privacy implications of selective disclosure vary significantly across different credential types due to their inherent characteristics and intended use cases.
-The mandatory and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.<a href="#section-15.4-1" class="pilcrow">¶</a></p>
+The non-redacted and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.<a href="#section-15.4-1" class="pilcrow">¶</a></p>
 <p id="section-15.4-2">For example, a passport credential contains highly sensitive personal information where even partial disclosure can have significant privacy implications:<a href="#section-15.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.4-3.1">
@@ -3865,7 +3896,7 @@ The mandatory and optional-to-disclose data elements in an SD-CWT must be carefu
 <p id="section-15.4-6">These differences mean that:<a href="#section-15.4-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.4-7.1">
-            <p id="section-15.4-7.1.1">Passport credentials should minimize mandatory disclosures and maximize holder control over optional elements<a href="#section-15.4-7.1.1" class="pilcrow">¶</a></p>
+            <p id="section-15.4-7.1.1">Passport credentials should minimize non-redacted claims and maximize holder control over optional elements<a href="#section-15.4-7.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-15.4-7.2">
             <p id="section-15.4-7.2.1">Legal entity certificates might reasonably require disclosure of more fields to establish business legitimacy<a href="#section-15.4-7.2.1" class="pilcrow">¶</a></p>
@@ -3948,7 +3979,7 @@ This creates a severe privacy risk: an Issuer could embed hidden claims — such
 <a href="#section-16.4" class="section-number selfRef">16.4. </a><a href="#name-random-numbers" class="section-name selfRef">Random Numbers</a>
         </h3>
 <p id="section-16.4-1">Each salt used to protect disclosed claims <span class="bcp14">MUST</span> be generated independently.
-Identical salt values, or values that can be correlated, might allow a Verifier to recover blinded values that were not disclosed.<a href="#section-16.4-1" class="pilcrow">¶</a></p>
+Identical salt values, or values that can be correlated, might allow a Verifier to recover redacted values that were not disclosed.<a href="#section-16.4-1" class="pilcrow">¶</a></p>
 <p id="section-16.4-2">The salts <span class="bcp14">MUST</span> be generated using fresh randomness or from a source that has outputs cannot be predicted by any potential Verifier.
 Poor choice of salts can lead to brute force attacks that can reveal redacted claims.<a href="#section-16.4-2" class="pilcrow">¶</a></p>
 </section>
@@ -4690,7 +4721,7 @@ An indication of the relevant sections may also be included, but is not required
 <dl class="references">
 <dt id="I-D.draft-ietf-keytrans-protocol">[I-D.draft-ietf-keytrans-protocol]</dt>
         <dd>
-<span class="refAuthor">McMillion, B.</span> and <span class="refAuthor">F. Linker</span>, <span class="refTitle">"Key Transparency Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-keytrans-protocol-03</span>, <time datetime="2025-10-19" class="refDate">19 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-03">https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-03</a>&gt;</span>. </dd>
+<span class="refAuthor">McMillion, B.</span> and <span class="refAuthor">F. Linker</span>, <span class="refTitle">"Key Transparency Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-keytrans-protocol-04</span>, <time datetime="2026-04-16" class="refDate">16 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-04">https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-oauth-sd-jwt-vc">[I-D.draft-ietf-oauth-sd-jwt-vc]</dt>
         <dd>
@@ -4924,7 +4955,7 @@ aead-encrypted = [
 ]
 
 ; redacted_claim_keys is used as a map key. The corresponding value is
-; an array of Blinded Claim Hashes whose corresponding unblinded map
+; an array of Redacted Claim Hashes whose corresponding unredacted map
 ; keys and values are in the same map.
 redacted_claim_keys = #7.59  ; CBOR simple value 59
 
@@ -5529,7 +5560,7 @@ The following example algorithm describes a way to accomplish this.<a href="#app
       </ul>
 <ol start="3" type="1" class="normal type-1" id="appendix-F-4">
 <li id="appendix-F-4.1">
-          <p id="appendix-F-4.1.1">The Verifier constructs an empty CBOR map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.<a href="#appendix-F-4.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-F-4.1.1">The Verifier constructs an empty CBOR map called the Validated Disclosed Claims Set, and initializes it with all non-redacted claims from the verified Presented Disclosed Claims Set.<a href="#appendix-F-4.1.1" class="pilcrow">¶</a></p>
 </li>
         <li id="appendix-F-4.2">
           <p id="appendix-F-4.2.1">Next, the Verifier performs a depth-first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.<a href="#appendix-F-4.2.1" class="pilcrow">¶</a></p>
