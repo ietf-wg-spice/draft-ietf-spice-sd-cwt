@@ -112,21 +112,25 @@ Issuer                           Holder                         Verifier
   |        Request SD-CWT          |<--+                             |
   |<-------------------------------+                                 |
   |                                |                                 |
+  +---+                            |                                 |
+  |   |  Redact Claims             |                                 |
+  |<--+                            |                                 |
+  |                                |                                 |
   +------------------------------->|             Request Nonce       |
   |        Receive SD-CWT          +-------------------------------->|
   |                                |                                 |
   |                                |<--------------------------------+
   |                                |             Receive Nonce       |
-  |                                +---+                             |
-  |                                |   | Redact Claims               |
-  |                                |<--+                             |
   |                                |                                 |
   |                                +---+                             |
-  |                                |   | Demonstrate                 |
-  |                                |<--+ Posession                   |
+  |                                |   |  Disclose some, none, or    |
+  |                                |<--+  all of the Claims          |
   |                                |                                 |
-  |                                | Present SD-CWT and              |
-  |                                | optionally Disclose some Claims |
+  |                                +---+                             |
+  |                                |   |  Demonstrate                |
+  |                                |<--+  Possession                 |
+  |                                |                                 |
+  |                                |             Present SD-CWT      |
   |                                +-------------------------------->|
   |                                |                                 |
 ~~~
