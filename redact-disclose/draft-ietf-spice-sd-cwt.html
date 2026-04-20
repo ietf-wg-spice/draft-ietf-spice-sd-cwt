@@ -1709,24 +1709,29 @@ and JWT <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href=
 CWT payload by a Redacted Claim Hash.<a href="#section-2-7.30.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.31">Redacted Claim Key:</dt>
+<dt id="section-2-7.31">Non-redacted Claim:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.32">
-          <p id="section-2-7.32.1">The hash of a claim redacted from a map data structure.<a href="#section-2-7.32.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.32.1">A claim that was not replaced by the Issuer with a Redacted Claim Hash in the SD-CWT.<a href="#section-2-7.32.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.33">Redacted Claim Element:</dt>
+<dt id="section-2-7.33">Redacted Claim Key:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.34">
-          <p id="section-2-7.34.1">The hash of an element redacted from an array data structure.<a href="#section-2-7.34.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.34.1">The hash of a claim redacted from a map data structure.<a href="#section-2-7.34.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.35">Presented Disclosed Claims Set:</dt>
+<dt id="section-2-7.35">Redacted Claim Element:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.36">
-          <p id="section-2-7.36.1">The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.<a href="#section-2-7.36.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.36.1">The hash of an element redacted from an array data structure.<a href="#section-2-7.36.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-7.37">Validated Disclosed Claims Set:</dt>
+<dt id="section-2-7.37">Presented Disclosed Claims Set:</dt>
         <dd style="margin-left: 1.5em" id="section-2-7.38">
-          <p id="section-2-7.38.1">The CBOR map containing all mandatory to disclose claims signed by the Issuer, all selectively disclosed claims presented by the Holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.<a href="#section-2-7.38.1" class="pilcrow">¶</a></p>
+          <p id="section-2-7.38.1">The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.<a href="#section-2-7.38.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-7.39">Validated Disclosed Claims Set:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-7.40">
+          <p id="section-2-7.40.1">The CBOR map containing all non-redacted claims that were signed by the Issuer and all selectively disclosed claims presented by the Holder; omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.<a href="#section-2-7.40.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -2718,7 +2723,7 @@ The payload also <span class="bcp14">MUST</span> include a key confirmation elem
           <tr>
             <th class="text-left" rowspan="1" colspan="1">Claim</th>
             <th class="text-left" rowspan="1" colspan="1">Requirement</th>
-            <th class="text-left" rowspan="1" colspan="1">Mandatory to Disclose</th>
+            <th class="text-left" rowspan="1" colspan="1">Never Redacted</th>
           </tr>
         </thead>
         <tbody>
@@ -2807,7 +2812,7 @@ The payload also <span class="bcp14">MUST</span> include a key confirmation elem
           <tr>
             <th class="text-left" rowspan="1" colspan="1">Claim</th>
             <th class="text-left" rowspan="1" colspan="1">Requirement</th>
-            <th class="text-left" rowspan="1" colspan="1">Mandatory to Disclose</th>
+            <th class="text-left" rowspan="1" colspan="1">Never Redacted</th>
           </tr>
         </thead>
         <tbody>
@@ -3857,7 +3862,7 @@ SD-CWTs with audience claims that do not correspond to the intended recipients <
 <a href="#section-15.4" class="section-number selfRef">15.4. </a><a href="#name-credential-types-2" class="section-name selfRef">Credential Types</a>
         </h3>
 <p id="section-15.4-1">The privacy implications of selective disclosure vary significantly across different credential types due to their inherent characteristics and intended use cases.
-The mandatory and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.<a href="#section-15.4-1" class="pilcrow">¶</a></p>
+The non-redacted and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.<a href="#section-15.4-1" class="pilcrow">¶</a></p>
 <p id="section-15.4-2">For example, a passport credential contains highly sensitive personal information where even partial disclosure can have significant privacy implications:<a href="#section-15.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.4-3.1">
@@ -3891,7 +3896,7 @@ The mandatory and optional-to-disclose data elements in an SD-CWT must be carefu
 <p id="section-15.4-6">These differences mean that:<a href="#section-15.4-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.4-7.1">
-            <p id="section-15.4-7.1.1">Passport credentials should minimize mandatory disclosures and maximize holder control over optional elements<a href="#section-15.4-7.1.1" class="pilcrow">¶</a></p>
+            <p id="section-15.4-7.1.1">Passport credentials should minimize non-redacted claims and maximize holder control over optional elements<a href="#section-15.4-7.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-15.4-7.2">
             <p id="section-15.4-7.2.1">Legal entity certificates might reasonably require disclosure of more fields to establish business legitimacy<a href="#section-15.4-7.2.1" class="pilcrow">¶</a></p>
@@ -5555,7 +5560,7 @@ The following example algorithm describes a way to accomplish this.<a href="#app
       </ul>
 <ol start="3" type="1" class="normal type-1" id="appendix-F-4">
 <li id="appendix-F-4.1">
-          <p id="appendix-F-4.1.1">The Verifier constructs an empty CBOR map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.<a href="#appendix-F-4.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-F-4.1.1">The Verifier constructs an empty CBOR map called the Validated Disclosed Claims Set, and initializes it with all non-redacted claims from the verified Presented Disclosed Claims Set.<a href="#appendix-F-4.1.1" class="pilcrow">¶</a></p>
 </li>
         <li id="appendix-F-4.2">
           <p id="appendix-F-4.2.1">Next, the Verifier performs a depth-first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.<a href="#appendix-F-4.2.1" class="pilcrow">¶</a></p>
