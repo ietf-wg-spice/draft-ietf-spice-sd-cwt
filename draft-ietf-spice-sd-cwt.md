@@ -112,18 +112,23 @@ Issuer                           Holder                         Verifier
   |        Request SD-CWT          |<--+                             |
   |<-------------------------------+                                 |
   |                                |                                 |
+  +---+                            |                                 |
+  |   |  Redact Claims             |                                 |
+  |<--+                            |                                 |
+  |                                |                                 |
   +------------------------------->|             Request Nonce       |
   |        Receive SD-CWT          +-------------------------------->|
   |                                |                                 |
   |                                |<--------------------------------+
   |                                |             Receive Nonce       |
-  |                                +---+                             |
-  |                                |   | Redact Claims               |
-  |                                |<--+                             |
   |                                |                                 |
   |                                +---+                             |
-  |                                |   | Demonstrate                 |
-  |                                |<--+ Posession                   |
+  |                                |   |  Disclose some, none, or    |
+  |                                |<--+  all of the Claims          |
+  |                                |                                 |
+  |                                +---+                             |
+  |                                |   |  Demonstrate                |
+  |                                |<--+  Possession                 |
   |                                |                                 |
   |                                |             Present SD-CWT      |
   |                                +-------------------------------->|
@@ -158,17 +163,26 @@ Selective Disclosure CBOR Web Token (SD-CWT):
 Selective Disclosure Key Binding Token (SD-CWT-KBT):
 : A CWT used to demonstrate possession of a confirmation method, associated with an SD-CWT.
 
+Redact:
+: In the context of this specification, to replace a Claim Value with its corresponding Redacted Claim Hash.
+
+Disclose:
+: In the context of this specification, to provide a Salted Disclosed Claim whose hash matches a Redacted Claim Hash in the same SD-CWT.
+
+Selective Disclosure:
+: In the context of this specification, the ability of the Holder to disclose a subset (all, some, or none) of the Redacted Claims in an SD-CWT.
+
 Assertion Key:
-: A key used by the Issuer to sign a Claim Values.
+: A key used by the Issuer to sign an SD-CWT, including the enclosed Claim Values.
 
 Confirmation Key:
-: A key used by the Holder to sign a Selected Salted Disclosed Claims.
+: A key used by the Holder to sign an SD-KBT including the enclosed selected Salted Disclosed Claims.
 
 Issuer:
-: An entity that produces a Selective Disclosure CBOR Web Token by signing a Claim Values with an Assertion Key.
+: An entity that produces a SD-CWT, containing Claim Values, signed with an Assertion Key.
 
 Holder:
-: An entity that presents a Selective Disclosure Key Binding Token, containing a Selective Disclosure CBOR Web Token and Selected Salted Disclosed Claims signed with a Confirmation Key.
+: An entity that presents an SD-KBT, containing an SD-CWT and selected Salted Disclosed Claims, signed with a Confirmation Key.
 
 Verifier:
 : An entity that validates a Partial or Full Disclosure by a Holder.
@@ -177,17 +191,20 @@ Partial Disclosure:
 : When a subset of the original claims, protected by the Issuer, are disclosed by the Holder.
 
 Full Disclosure:
-: When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no blinded claims (when no claims are blinded by the Issuer) is considered a Full Disclosure.
+: When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no Redacted Claims (when no claims are redacted by the Issuer) is considered a Full Disclosure.
 
 Salted Disclosed Claim:
-: A salted claim disclosed in the unprotected header of an SD-CWT.
+: A salted claim included in the unprotected header of an SD-CWT.
 
-Blinded Claim Hash:
+Redacted Claim Hash:
 : A hash digest of a Salted Disclosed Claim.
 
-Blinded Claim:
+Redacted Claim:
 : Any Redacted Claim Key or Redacted Claim Element that has been replaced in the
-CWT payload by a Blinded Claim Hash.
+CWT payload by a Redacted Claim Hash.
+
+Non-redacted Claim:
+: A claim that was not replaced by the Issuer with a Redacted Claim Hash in the SD-CWT.
 
 Redacted Claim Key:
 : The hash of a claim redacted from a map data structure.
@@ -199,34 +216,34 @@ Presented Disclosed Claims Set:
 : The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.
 
 Validated Disclosed Claims Set:
-: The CBOR map containing all mandatory to disclose claims signed by the Issuer, all selectively disclosed claims presented by the Holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
+: The CBOR map containing all non-redacted claims that were signed by the Issuer and all selectively disclosed claims presented by the Holder; omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
 
 
 # Overview of Selective Disclosure CWT
 
 SD-CWT operates on CWT Claims Sets as described in {{!RFC8392}}.
 CWT Claims Sets contain Claim Keys and Claim Values.
-Issuers choose which Claim Keys and Claim Values to blind or not blind.
-Holders choose to disclose none, some, or all of the blinded Claim Keys and Claim Values, and whether to present an issued SD-CWT at all.
+Issuers choose which Claim Keys and Claim Values to redacted or include in unredacted form.
+Holders choose to disclose none, some, or all of the Redacted Claim Keys and Claim Values, and whether to present an issued SD-CWT at all.
 Holders present an SD-CWT and any disclosures to Verifiers in a Key Binding Token (KBT) that proves the Holder's control of the private key corresponding to the SD-CWT confirmation (public) key.
 
 Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are already using CWTs with minor changes, even if they contain no optional-to-disclose claims.
-A Verifier that does not understand selective disclosure at all can only act on unblinded claims sent by the Holder; it will ignore Blinded Claims representing array items, and will fail to process any SD-CWT containing Blinded Claims that represent map keys.
+A Verifier that does not understand selective disclosure at all can only act on non-redacted claims sent by the Holder; it will ignore Redacted Claims representing array items, and will fail to process any SD-CWT containing Redacted Claims that represent map keys.
 Optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
 However, Claim Keys and Claim Values that are not understood remain ignored, as described in {{Section 3 of !RFC8392}}.
 
 The following diagram explains the relationships between the terminology used in this specification.
 
 ~~~ aasvg
-  +-----------+     +-------------------------------------.
-  |   Issuer  |<----+ Holder Public Key,                   |
-  +-----+-----+     | Full Claims Set,                     |
-        |           | Pre-issuance blinding/decoy requests |
-        |           +--------------------------------------+
+  +-----------+     +--------------------------------------.
+  |   Issuer  |<----+ Holder Public Key,                    |
+  +-----+-----+     | Full Claims Set,                      |
+        |           | Pre-issuance redaction/decoy requests |
+        |           +---------------------------------------+
         v
 +----------------------------------.
 | Issuer-Signed: Plaintext Claims + |
-|  Blinded Claim Hashes             |
+|  Redacted Claim Hashes            |
 +-----------------------------------+
 | All Salted Disclosed Claims       |
 +-------+---------------------------+
@@ -241,7 +258,7 @@ The following diagram explains the relationships between the terminology used in
 +---------------------------------------------------.
 | Holder-Signed: Key Binding Token                   |
 |  +----------------------------------------------.  |
-|  | Issuer-Signed: Claims + Blinded Claim Hashes  | |
+|  | Issuer-Signed: Claims + Redacted Claim Hashes | |
 |  +-----------------------------------------------+ |
 |  | Holder-Selected: Salted Disclosed Claims      | |
 |  +-----------------------------------------------+ |
@@ -269,7 +286,7 @@ This diagram relates the terminology specific to selective disclosure and redact
       |
       | 1. Communicates public key,
       |    Optionally communicates Claim,
-      |    Optionally communicates Blinding preference
+      |    Optionally communicates Redaction preference
       v
 +-----------+
 |  Issuer   |
@@ -285,17 +302,17 @@ This diagram relates the terminology specific to selective disclosure and redact
       | 3. Hashes to create
       v
 +-----------------------------------------.
-| Blinded Claim Hash                       |
+| Redacted Claim Hash                      |
 +-----+------------------------------------+
       |
       | 4. Replaces Claim Value with
       v
 +-----------------------------------------.
-| Blinded Claim (in CWT payload)           |
+| Redacted Claim (in CWT payload)          |
 |                                          |
 |  +---------------------------------.     |
 |  | Original Claim Value is replaced |    |
-|  | with Blinded Claim Hash          |    |
+|  | with Redacted Claim Hash         |    |
 |  +----------------------------------+    |
 |                                          |
 +-----+------------------------------------+
@@ -315,7 +332,7 @@ This diagram relates the terminology specific to selective disclosure and redact
       | 6. Hashes Salted Disclosed Claim
       v
 +-----------------------------------------.
-| Blinded Claim Hash (computed)            |
+| Redacted Claim Hash (computed)           |
 +-----+------------------------------------+
       |
       | 7. Matches with hash in payload
@@ -325,7 +342,7 @@ This diagram relates the terminology specific to selective disclosure and redact
 | Claim Value (recovered)                  |
 +------------------------------------------+
 ~~~
-{: #f-roundtrip-claim title="Round trip journey of a blinded claim" artwork-svg-options="--spaces=2"}
+{: #f-roundtrip-claim title="Round trip journey of a Redacted Claim" artwork-svg-options="--spaces=2"}
 
 ## A CWT without Selective Disclosure
 
@@ -396,7 +413,7 @@ This is represented in CBOR pretty-printed format as follows (with end-of-line c
 ~~~
 {: title="CBOR encoding of inspector_license_number disclosure"}
 
-The cryptographic hash, using the hash algorithm identified by the `sd_alg` header parameter in the protected headers, of that byte string is the Blinded Claim Hash (shown in hex).
+The cryptographic hash, using the hash algorithm identified by the `sd_alg` header parameter in the protected headers, of that byte string is the Redacted Claim Hash (shown in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of `inspection_dates`).
 
 ~~~
@@ -404,7 +421,7 @@ The digest value is included in the payload in a `redacted_claim_keys` field for
 ~~~
 {: title="SHA-256 hash of inspector_license_number disclosure"}
 
-Finally, since this redacted claim is a map key and value, the Blinded Claim Hash is placed in a `redacted_claim_keys` array in the SD-CWT payload at the same level of hierarchy as the original claim.
+Finally, since this redacted claim is a map key and value, the Redacted Claim Hash is placed in a `redacted_claim_keys` array in the SD-CWT payload at the same level of hierarchy as the original claim.
 
 ~~~ cbor-diag
 {::include examples/first-redacted.edn}
@@ -457,17 +474,19 @@ The Issuer SHOULD use the value 293 instead of `application/sd-cwt`, as the CBOR
 An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
 Unlike CWT, SD-CWT requires key binding.
 
-An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
-It is not required to contain any blinded claims.
+An SD-CWT can contain Redacted Claims (each expressed as a Redacted Claim Hash), at the root level or in any arrays or maps inside that claim set.
+An SD-CWT is not required to contain any Redacted Claims.
 
-Optionally the salted Claim Values (and Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
-If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` header parameter is not present in the unprotected header.
+> An SD-CWT with no Redacted Claims is still valuable for its key binding properties.
 
-Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
-However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.
+Optionally the Salted Disclosed Claims (Claim Values and/or Claim Keys) for the corresponding Redacted Claim Hashes are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
+If there are no disclosures (and when no Redacted Claims Hash is present in the payload) the `sd_claims` header parameter is not present in the unprotected header.
+
+Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and restore the original claim that was present before redaction.
+However, a Verifier with the hash cannot reconstruct the corresponding Redacted Claim without disclosure of the Salted Disclosed Claim.
 
 
-## Types of Blinded Claims {#blinded-claims}
+## Types of Redacted Claims {#blinded-claims}
 
 Salted Disclosed Claims for Claim Keys are structured as a 128-bit salt, the disclosed value, and the map key (the claim "name") of the redacted element.
 For Salted Disclosed Claims of Claim Values (items in an array), the "name" of the claim is omitted.
@@ -478,14 +497,14 @@ For Salted Disclosed Claims of Claim Values (items in an array), the "name" of t
 ~~~
 {: #cddl-salted-disclosed title="CDDL of Salted Disclosed Claims"}
 
-When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
+When a Redacted Claim is a key in a map, its Redacted Claim Hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the map key being redacted.
 The `redacted_claim_keys` key is the CBOR simple value 59 registered for that purpose.
 CBOR "simple values" {{Section 3.3 of !RFC8949}} are values (like `false` or `undefined`) that do need any additional content.
-In this specification a simple value of 59 is used as the content of a map key to indicate that one or more map key/value pairs was blinded in this CBOR map.
+In this specification a simple value of 59 is used as the content of a map key to indicate that one or more map key/value pairs was redacted in this CBOR map.
 The simple value 59 is represented in examples using the syntax `simple(59)`.
 The simple value 59 in CDDL is represented using the syntax `#7.59`.
 
-When blinding an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
+When redacting an individual item in an array, the value of the item is replaced with the digested salted hash as a CBOR byte string, wrapped with the CBOR tag 60.
 CBOR tags {{Section 3.4 of !RFC8949}} annotate other values.
 The tag 60 is represented in examples as `60(` *tagged value* `)`.
 The tag 60 is represented in CDDL as `#6.60(` *tagged value* `)`.
@@ -493,12 +512,12 @@ The tag 60 is represented in CDDL as `#6.60(` *tagged value* `)`.
 ~~~ cddl
 {::include ./redacted-simple-tag.cddl}
 ~~~
-{: #cddl-blinded title="CDDL of Blinded Claim Keys and Blinded Claim Elements"}
+{: #cddl-blinded title="CDDL of Redacted Claim Keys and Redacted Claim Elements"}
 
-Blinded claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately blinded.
+Redacted Claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately redacted.
 An example nested claim is shown in {{nesting}}.
 
-Finally, an Issuer MAY create decoy digests, which look like blinded claim hashes but have only a salt.
+Finally, an Issuer MAY create decoy digests, which look like Redacted Claim Hashes but have only a salt.
 Decoy digests are discussed in {{decoys}}.
 
 
@@ -541,9 +560,9 @@ Both of these maps are described as SD-CWT Claims Maps.
 
 > Note that `CWT Claims` is a separate CBOR map from the COSE payload and can contain the same Claim Keys as the COSE payload CBOR map.
 
-The same valid CWT claim keys could be present in both SD-CWT Claims Maps, but if so, they MUST have the same unblinded value.
+The same valid CWT claim keys could be present in both SD-CWT Claims Maps, but if so, they MUST have the same unredacted value.
 Neither, one, or both could be redacted.
-If both are redacted they would have different disclosures, salts, and Blinded Claim Hashes.
+If both are redacted they would have different disclosures, salts, and Redacted Claim Hashes.
 
 In addition to map keys that are valid in CWT, SD-CWT Claims Maps MAY contain the CBOR simple value registered in this specification in {{simple59}}.
 In SD-CWTs exchanged between the Holder and the Issuer prior to issuance, map keys MAY also consist of the To Be Redacted tag (defined in {{tbr-tag}}), containing an integer or text string; or a To Be Decoy tag (defined in {{tb-decoy-tag}}), containing a positive integer.
@@ -670,25 +689,25 @@ The values in the array inside tag 4 are at level 5.
 ## Use of Structured Suffixes
 
 Any type which contains the `+sd-cwt` structured suffix MUST be a legal SD-CWT.
-A type that is a legal CWT and does not contain any blinded claims SHOULD use the `+cwt` structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.
+A type that is a legal CWT and does not contain any Redacted Claims SHOULD use the `+cwt` structure suffix instead, unless the CBOR map being secured contains claim keys with different semantics than those registered in the CBOR Web Token Claims IANA registry.
 
 
 # SD-CWT Issuance {#sd-cwt-issuance}
 
 How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out of scope for this specification.
-Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter, which is not discussed in this specification.
+Likewise, how the Holder determines which claims to redact or to disclose is a policy matter, which is not discussed in this specification.
 This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in {{sd-cwt-presentation}}.
 
 The protected header MAY contain the `sd_alg` header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
 If no `sd_alg` header parameter is present, the default hash function SHA-256 is used.
 
-If any Salted Disclosed Claims or Decoys are present, the unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every blinded claim hash present anywhere in the payload, and any decoys (see {{decoys}}).
+If any Salted Disclosed Claims or Decoys are present, the unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every Redacted Claim Hash present anywhere in the payload, and any decoys (see {{decoys}}).
 If there are no disclosures, the `sd_claims` header parameter value is omitted.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
 
 The following table describes the claim requirements for an SD-CWT:
 
-| Claim | Requirement | Mandatory to Disclose |
+| Claim | Requirement | Never Redacted |
 |-------|-------------|----------------------|
 | `sub` / 2 | MUST be present (disclosed or redacted) | No |
 | `iss` / 1 | SHOULD (see note) | Yes |
@@ -705,7 +724,7 @@ The `iss` claim SHOULD be present unless the protected header contains a certifi
 
 The following table describes the claim requirements for an SD-KBT:
 
-| Claim | Requirement | Mandatory to Disclose |
+| Claim | Requirement | Never Redacted |
 |-------|-------------|----------------------|
 | `sub` / 2 | MUST NOT be present | N/A |
 | `iss` / 1 | MUST NOT be present | N/A |
@@ -738,10 +757,10 @@ Holder verifies the following:
 - a public key under the control of the Holder is present in the `cnf` claim;
 - the hash algorithm identified by the `sd_alg` header parameter in the protected headers is supported by the Holder;
 - if a `cnonce` is present, it was provided by the Holder to this Issuer and is still fresh;
-- there are no unblinded claims about the subject that violate its privacy policies;
+- there are no non-redacted claims about the subject that violate its privacy policies;
 - any place where the cardinality of claims needs to be protected have sufficient decoys ({{decoys}});
-- every blinded claim hash (some of which may be nested as in {{nesting}}) has a corresponding Salted Disclosed Claim, and vice versa;
-- the values of the Salted Disclosed Claims when placed in their unblinded context in the payload are acceptable to the Holder.
+- every Redacted Claim Hash (some of which may be nested as in {{nesting}}) has a corresponding Salted Disclosed Claim, and vice versa;
+- the values of the Salted Disclosed Claims when placed in their unredacted context in the payload are acceptable to the Holder.
 
 > A Holder MAY choose to validate the appropriateness or correctness of some or all of the information in a token, should it have the ability to do so, and it MAY choose to not present information to a Verifier that it deems to be incorrect.
 
@@ -756,8 +775,8 @@ The following informative CDDL is provided to describe the syntax for SD-CWT iss
 
 When issuing an SD-CWT to a Holder, the Issuer includes all the Salted Disclosed Claims in the unprotected header.
 
-By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its blinded claims.
-If the Holder wishes to disclose any blinded claims, it includes that subset of its Salted Disclosed Claims in the `sd_claims` header parameter of the unprotected header.
+By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its Redacted Claims.
+If the Holder wishes to disclose any Redacted Claims, it includes that subset of its Salted Disclosed Claims in the `sd_claims` header parameter of the unprotected header.
 If there is nothing to be disclosed, the `sd_claims` header parameter is omitted.
 
 The Holder has flexibility in determining the order of disclosures when making presentations.
@@ -851,8 +870,8 @@ The exact order of the following steps MAY be changed, as long as all checks are
 
 {:start="7"}
 7. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
-Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Blinded Claim Hash in the payload.
-If there are any disclosures that do not have a corresponding Blinded Claim Hash, the entire SD-CWT is invalid.
+Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Redacted Claim Hash in the payload.
+If there are any disclosures that do not have a corresponding Redacted Claim Hash, the entire SD-CWT is invalid.
 If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.
 
     > Note: A Verifier MUST be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.
@@ -874,7 +893,7 @@ By performing these steps, the recipient can cryptographically verify the integr
 
 # Decoy Digests {#decoys}
 
-An Issuer MAY add additional digests to the SD-CWT payload (including nested maps and arrays within the payload) that are not associated with any unblinded claim.
+An Issuer MAY add additional digests to the SD-CWT payload (including nested maps and arrays within the payload) that are not associated with any claim present in the original Claims Set.
 The purpose of such "decoy" digests is to make it more difficult for an adversarial Verifier to infer private information based on the number of Redacted Claim Keys or Redacted Claim Elements.
 
 The list of disclosures sent by the Issuer to the Holder contains one disclosure for each decoy digest.
@@ -887,7 +906,7 @@ Each salt MUST be unique.
 {: #edn-decoy-disc title="EDN showing a sample decoy salt"}
 
 
-The Blinded Claim Hash for each disclosure is calculated using the same algorithm for decoys as for Redacted Claim Keys and Redacted Claim Elements.
+The Redacted Claim Hash for each disclosure is calculated using the same algorithm for decoys as for Redacted Claim Keys and Redacted Claim Elements.
 An example issued SD-CWT containing decoy digests is shown below.
 
 ~~~ cbor-diag
@@ -895,7 +914,7 @@ An example issued SD-CWT containing decoy digests is shown below.
 ~~~
 {: #edn-decoys title="EDN showing a SD-CWT containing decoys"}
 
-As with regular Blinded Claims, the Holder needs to receive the disclosure for every decoy so it can be sure the Issuer is not communicating unwanted information to Verifiers (see {{disclosure-of-decoys}}).
+As with regular Redacted Claims, the Holder needs to receive the disclosure for every decoy so it can be sure the Issuer is not communicating unwanted information to Verifiers (see {{disclosure-of-decoys}}).
 
 # Tags Used Before SD-CWT Issuance
 
@@ -924,7 +943,7 @@ The snippet of EDN shown below shows one mechanism to communicate to the Issuer 
   ...
 }
 ~~~
-{: #edn-to-be-blinded title="EDN example requesting blinding of license number and two inspection dates"}
+{: #edn-to-be-blinded title="EDN example requesting redaction of license number and two inspection dates"}
 
 ## To Be Decoy {#tb-decoy-tag}
 
@@ -1015,7 +1034,7 @@ A valid AEAD encrypted disclosure for that first disclosure is:
 {: #edn-aead-claim title="EDN Example of an AEAD Encrypted Claim"}
 
 
-The blinded claim hash is still over the unencrypted disclosure.
+The Redacted Claim Hash is still over the unencrypted disclosure.
 The receiver of an AEAD encrypted disclosure locates the appropriate key by looking up the authentication tag.
 If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the `sd_claims` header parameter in the unprotected headers of the SD-CWT.
 
@@ -1064,7 +1083,7 @@ The following example contains claims needed to demonstrate redaction of key-val
 
 ## Nested Example {#nesting}
 
-Instead of the structure from the previous example, imagine that the payload contains an inspection history log with the following structure. It could be blinded at multiple levels of the claims set hierarchy.
+Instead of the structure from the previous example, imagine that the payload contains an inspection history log with the following structure. It could be redacted at multiple levels of the claims set hierarchy.
 
 ~~~ cbor-diag
 {
@@ -1108,18 +1127,18 @@ Instead of the structure from the previous example, imagine that the payload con
     ]
 }
 ~~~
-{: #edn-nested-unblinded title="EDN example of Nested Claims Set before blinding"}
+{: #edn-nested-unblinded title="EDN example of Nested Claims Set before redaction"}
 
 
-For example, looking at the nested disclosures below, the first disclosure unblinds the entire January 2023 inspection record.
-However, when the record is disclosed, the inspector license number and inspection location are redacted inside the record.
-The next disclosure unblinds the inspector_license_number, and the next
-disclosure unblinds the inspection location record, but the region and postcode claims inside the location record are also individually blinded.
-The fourth disclosure unblinds the inspection region.
+For example, looking at the nested disclosures below, the first disclosure reveals the entire January 2023 inspection record.
+However, when the record is disclosed, the inspector license number and inspection location are still redacted inside the record.
+The next disclosure reveal the inspector_license_number, and the next
+disclosure reveals the inspection location record, but the region and postcode claims inside the location record are also individually redacted.
+The fourth disclosure reveals the inspection region.
 
-The fifth disclosure unblinds the earliest inspection record, and the last disclosure unblinds the inspector_license_number for that record.
+The fifth disclosure reveals the earliest inspection record, and the last disclosure reveals the inspector_license_number for that record.
 
-Verifiers start unblinding claims for which they have blinded claim hashes. They continue descending until there are no blinded claim hashes at any level of the hierarchy for which they have a corresponding disclosure.
+Verifiers start replacing each Redacted Claim Hash whose hash matches a Salted Disclosed Claim, with the unredacted Claim Key or Claim Value from that Salted Disclosed Claim. They continue descending until there are no Redacted Claim Hashes at any level of the hierarchy for which they have a corresponding disclosure.
 
 ~~~ cbor-diag
 / sd_claims / 17 : [ / these are the disclosures /
@@ -1192,7 +1211,7 @@ Verifiers start unblinding claims for which they have blinded claim hashes. They
     ]>>,
 ]
 ~~~
-{: #edn-nested-blinded title="EDN Example of SD-CWT with Nested Blinded Claims"}
+{: #edn-nested-blinded title="EDN Example of SD-CWT with Nested Redacted Claims"}
 
 
 After applying the disclosures of the nested structure above, the disclosed Claims Set visible to the Verifier would look like the following:
@@ -1268,7 +1287,7 @@ SD-CWTs with audience claims that do not correspond to the intended recipients M
 ## Credential Types
 
 The privacy implications of selective disclosure vary significantly across different credential types due to their inherent characteristics and intended use cases.
-The mandatory and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.
+The non-redacted and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.
 
 For example, a passport credential contains highly sensitive personal information where even partial disclosure can have significant privacy implications:
 
@@ -1286,7 +1305,7 @@ In contrast, a legal entity certificate has fundamentally different privacy cons
 
 These differences mean that:
 
-- Passport credentials should minimize mandatory disclosures and maximize holder control over optional elements
+- Passport credentials should minimize non-redacted claims and maximize holder control over optional elements
 - Legal entity certificates might reasonably require disclosure of more fields to establish business legitimacy
 - The granularity of selective disclosure should match the credential type's privacy sensitivity
 - Default disclosure sets must be carefully calibrated to each credential's risk profile
@@ -1333,7 +1352,7 @@ This creates a severe privacy risk: an Issuer could embed hidden claims — such
 ## Random Numbers
 
 Each salt used to protect disclosed claims MUST be generated independently.
-Identical salt values, or values that can be correlated, might allow a Verifier to recover blinded values that were not disclosed.
+Identical salt values, or values that can be correlated, might allow a Verifier to recover redacted values that were not disclosed.
 
 The salts MUST be generated using fresh randomness or from a source that has outputs cannot be predicted by any potential Verifier.
 Poor choice of salts can lead to brute force attacks that can reveal redacted claims.
@@ -2098,7 +2117,7 @@ The following example algorithm describes a way to accomplish this.
 > One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map is a CBOR map with the hash of the `bstr-encoded-salted` data structure (from the CDDL) as the map key and its value as the contents of the corresponding `salted-entry` data structure.
 
 {:start="3"}
-3. The Verifier constructs an empty CBOR map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.
+3. The Verifier constructs an empty CBOR map called the Validated Disclosed Claims Set, and initializes it with all non-redacted claims from the verified Presented Disclosed Claims Set.
 
 4. Next, the Verifier performs a depth-first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.
 
