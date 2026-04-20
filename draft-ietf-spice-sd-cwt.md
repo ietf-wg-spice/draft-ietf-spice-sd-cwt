@@ -125,7 +125,8 @@ Issuer                           Holder                         Verifier
   |                                |   | Demonstrate                 |
   |                                |<--+ Posession                   |
   |                                |                                 |
-  |                                |             Present SD-CWT      |
+  |                                | Present SD-CWT and              |
+  |                                | optionally Disclose some Claims |
   |                                +-------------------------------->|
   |                                |                                 |
 ~~~
