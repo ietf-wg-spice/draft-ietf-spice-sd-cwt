@@ -163,17 +163,26 @@ Selective Disclosure CBOR Web Token (SD-CWT):
 Selective Disclosure Key Binding Token (SD-CWT-KBT):
 : A CWT used to demonstrate possession of a confirmation method, associated with an SD-CWT.
 
+Redact:
+: In the context of this specification, to replace a Claim Value with its corresponding Blinded Claim Hash.
+
+Disclose:
+: In the context of this specification, to provide a Salted Disclosed Claim whose hash matches a Blinded Claim Hash in the same SD-CWT.
+
+Selective Disclosure:
+: In the context of this specification, the ability of the Holder to disclose a subset (all, some, or none) of the Blinded Claims in an SD-CWT.
+
 Assertion Key:
-: A key used by the Issuer to sign a Claim Values.
+: A key used by the Issuer to sign an SD-CWT, including the enclosed Claim Values.
 
 Confirmation Key:
-: A key used by the Holder to sign a Selected Salted Disclosed Claims.
+: A key used by the Holder to sign an SD-KBT including the enclosed selected Salted Disclosed Claims.
 
 Issuer:
-: An entity that produces a Selective Disclosure CBOR Web Token by signing a Claim Values with an Assertion Key.
+: An entity that produces a SD-CWT, containing Claim Values, signed with an Assertion Key.
 
 Holder:
-: An entity that presents a Selective Disclosure Key Binding Token, containing a Selective Disclosure CBOR Web Token and Selected Salted Disclosed Claims signed with a Confirmation Key.
+: An entity that presents an SD-KBT, containing an SD-CWT and selected Salted Disclosed Claims, signed with a Confirmation Key.
 
 Verifier:
 : An entity that validates a Partial or Full Disclosure by a Holder.
@@ -185,7 +194,7 @@ Full Disclosure:
 : When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no blinded claims (when no claims are blinded by the Issuer) is considered a Full Disclosure.
 
 Salted Disclosed Claim:
-: A salted claim disclosed in the unprotected header of an SD-CWT.
+: A salted claim included in the unprotected header of an SD-CWT.
 
 Blinded Claim Hash:
 : A hash digest of a Salted Disclosed Claim.
@@ -465,10 +474,10 @@ Unlike CWT, SD-CWT requires key binding.
 An SD-CWT can contain blinded claims (each expressed as a Blinded Claim Hash), at the root level or in any arrays or maps inside that claim set.
 It is not required to contain any blinded claims.
 
-Optionally the salted Claim Values (and Claim Keys) for the corresponding Blinded Claim Hash are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
+Optionally the Salted Disclosed Claims (Claim Values and/or Claim Keys) for the corresponding Blinded Claim Hashes are disclosed in the `sd_claims` header parameter in the unprotected header of the CWT (the disclosures).
 If there are no disclosures (and when no Blinded Claims Hash is present in the payload) the `sd_claims` header parameter is not present in the unprotected header.
 
-Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and unblind the content.
+Any party with a Salted Disclosed Claim can generate its hash, find that hash in the CWT payload, and restore the original claim that was present before redaction.
 However, a Verifier with the hash cannot reconstruct the corresponding blinded claim without disclosure of the Salted Disclosed Claim.
 
 
@@ -483,7 +492,7 @@ For Salted Disclosed Claims of Claim Values (items in an array), the "name" of t
 ~~~
 {: #cddl-salted-disclosed title="CDDL of Salted Disclosed Claims"}
 
-When a blinded claim is a key in a map, its blinded claim hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
+When a blinded claim is a key in a map, its Blinded Claim Hash is added to a `redacted_claim_keys` array claim in the CWT payload that is at the same level of hierarchy as the key being blinded.
 The `redacted_claim_keys` key is the CBOR simple value 59 registered for that purpose.
 CBOR "simple values" {{Section 3.3 of !RFC8949}} are values (like `false` or `undefined`) that do need any additional content.
 In this specification a simple value of 59 is used as the content of a map key to indicate that one or more map key/value pairs was blinded in this CBOR map.
@@ -681,7 +690,7 @@ A type that is a legal CWT and does not contain any blinded claims SHOULD use th
 # SD-CWT Issuance {#sd-cwt-issuance}
 
 How the Holder communicates to the Issuer to request a CWT or an SD-CWT is out of scope for this specification.
-Likewise, how the Holder determines which claims to blind or to always disclose is a policy matter, which is not discussed in this specification.
+Likewise, how the Holder determines which claims to redact or to disclose is a policy matter, which is not discussed in this specification.
 This specification defines the format of an SD-CWT communicated between an Issuer and a Holder in this section, and describes the format of a Key Binding Token containing that SD-CWT communicated between a Holder and a Verifier in {{sd-cwt-presentation}}.
 
 The protected header MAY contain the `sd_alg` header parameter identifying the algorithm (from the COSE Algorithms registry) used to hash the Salted Disclosed Claims.
