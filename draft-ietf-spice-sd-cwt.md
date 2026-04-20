@@ -1127,13 +1127,13 @@ Instead of the structure from the previous example, imagine that the payload con
 {: #edn-nested-unblinded title="EDN example of Nested Claims Set before redaction"}
 
 
-For example, looking at the nested disclosures below, the first disclosure unblinds the entire January 2023 inspection record.
-However, when the record is disclosed, the inspector license number and inspection location are redacted inside the record.
-The next disclosure unblinds the inspector_license_number, and the next
-disclosure unblinds the inspection location record, but the region and postcode claims inside the location record are also individually blinded.
-The fourth disclosure unblinds the inspection region.
+For example, looking at the nested disclosures below, the first disclosure reveals the entire January 2023 inspection record.
+However, when the record is disclosed, the inspector license number and inspection location are still redacted inside the record.
+The next disclosure reveal the inspector_license_number, and the next
+disclosure reveals the inspection location record, but the region and postcode claims inside the location record are also individually redacted.
+The fourth disclosure reveals the inspection region.
 
-The fifth disclosure unblinds the earliest inspection record, and the last disclosure unblinds the inspector_license_number for that record.
+The fifth disclosure reveals the earliest inspection record, and the last disclosure reveals the inspector_license_number for that record.
 
 Verifiers start replacing each Redacted Claim Hash whose hash matches a Salted Disclosed Claim, with the unredacted Claim Key or Claim Value from that Salted Disclosed Claim. They continue descending until there are no Redacted Claim Hashes at any level of the hierarchy for which they have a corresponding disclosure.
 
