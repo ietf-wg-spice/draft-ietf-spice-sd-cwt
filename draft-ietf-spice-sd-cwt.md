@@ -203,6 +203,9 @@ Redacted Claim:
 : Any Redacted Claim Key or Redacted Claim Element that has been replaced in the
 CWT payload by a Redacted Claim Hash.
 
+Non-redacted Claim:
+: A claim that was not replaced by the Issuer with a Redacted Claim Hash in the SD-CWT.
+
 Redacted Claim Key:
 : The hash of a claim redacted from a map data structure.
 
@@ -213,7 +216,7 @@ Presented Disclosed Claims Set:
 : The CBOR map containing zero or more Redacted Claim Keys or Redacted Claim Elements.
 
 Validated Disclosed Claims Set:
-: The CBOR map containing all mandatory to disclose claims signed by the Issuer, all selectively disclosed claims presented by the Holder, and omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
+: The CBOR map containing all non-redacted claims that were signed by the Issuer and all selectively disclosed claims presented by the Holder; omitting all undisclosed instances of Redacted Claim Keys and Redacted Claim Element claims that are present in the original SD-CWT.
 
 
 # Overview of Selective Disclosure CWT
@@ -704,7 +707,7 @@ The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} fo
 
 The following table describes the claim requirements for an SD-CWT:
 
-| Claim | Requirement | Mandatory to Disclose |
+| Claim | Requirement | Never Redacted |
 |-------|-------------|----------------------|
 | `sub` / 2 | MUST be present (disclosed or redacted) | No |
 | `iss` / 1 | SHOULD (see note) | Yes |
@@ -721,7 +724,7 @@ The `iss` claim SHOULD be present unless the protected header contains a certifi
 
 The following table describes the claim requirements for an SD-KBT:
 
-| Claim | Requirement | Mandatory to Disclose |
+| Claim | Requirement | Never Redacted |
 |-------|-------------|----------------------|
 | `sub` / 2 | MUST NOT be present | N/A |
 | `iss` / 1 | MUST NOT be present | N/A |
@@ -1284,7 +1287,7 @@ SD-CWTs with audience claims that do not correspond to the intended recipients M
 ## Credential Types
 
 The privacy implications of selective disclosure vary significantly across different credential types due to their inherent characteristics and intended use cases.
-The mandatory and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.
+The non-redacted and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.
 
 For example, a passport credential contains highly sensitive personal information where even partial disclosure can have significant privacy implications:
 
@@ -1302,7 +1305,7 @@ In contrast, a legal entity certificate has fundamentally different privacy cons
 
 These differences mean that:
 
-- Passport credentials should minimize mandatory disclosures and maximize holder control over optional elements
+- Passport credentials should minimize non-redacted claims and maximize holder control over optional elements
 - Legal entity certificates might reasonably require disclosure of more fields to establish business legitimacy
 - The granularity of selective disclosure should match the credential type's privacy sensitivity
 - Default disclosure sets must be carefully calibrated to each credential's risk profile
@@ -2114,7 +2117,7 @@ The following example algorithm describes a way to accomplish this.
 > One possible concrete representation of the intermediate data structure for the Digest To Disclosed Claim Map is a CBOR map with the hash of the `bstr-encoded-salted` data structure (from the CDDL) as the map key and its value as the contents of the corresponding `salted-entry` data structure.
 
 {:start="3"}
-3. The Verifier constructs an empty CBOR map called the Validated Disclosed Claims Set, and initializes it with all mandatory to disclose claims from the verified Presented Disclosed Claims Set.
+3. The Verifier constructs an empty CBOR map called the Validated Disclosed Claims Set, and initializes it with all non-redacted claims from the verified Presented Disclosed Claims Set.
 
 4. Next, the Verifier performs a depth-first traversal of the Presented Disclosed Claims Set and Validated Disclosed Claims Set, using the Digest To Disclosed Claim Map to insert claims into the Validated Disclosed Claims Set when they appear in the Presented Disclosed Claims Set.
 
