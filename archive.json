@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-16T01:26:11.609802+00:00",
+  "timestamp": "2026-04-21T01:23:44.567914+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -3737,21 +3737,19 @@
       "id": "I_kwDOMm_Q2s7lMmak",
       "title": "\"Mandatory to disclose\" terminology",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/189",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
-        "blocked",
         "has-PR"
       ],
       "body": "> SD-CWT enables Issuers to mark certain Claim Keys or Claim Values mandatory or optional for a Holder of a CWT to disclose. \n\nThis is not really true.  If someone gave me an SD-CWT that contains \"mandatory\" claims I didn't want to disclose, I can choose not to present it.\n\nI think the way you want to frame this more as the format allowing the holder of an SD-CWT to withhold disclosure of any claim (key and value) or value, provided that the issuer of the SD-CWT chooses to allow selective disclosure.",
       "createdAt": "2026-01-23T00:14:51Z",
-      "updatedAt": "2026-03-14T09:28:32Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-20T13:10:08Z",
+      "closedAt": "2026-04-20T13:10:08Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -3794,6 +3792,13 @@
           "body": "what we do here related to #255 ",
           "createdAt": "2026-03-14T09:28:19Z",
           "updatedAt": "2026-03-14T09:28:19Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #272 . Closing",
+          "createdAt": "2026-04-20T13:10:08Z",
+          "updatedAt": "2026-04-20T13:10:08Z"
         }
       ]
     },
@@ -5051,7 +5056,7 @@
       "id": "I_kwDOMm_Q2s7lOGq7",
       "title": "Recommendations regarding the ordering of disclosed claims",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/222",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -5063,8 +5068,8 @@
       ],
       "body": "It seems like there has been a deliberate decision to not stipulate how disclosed claims are ordered.  Those processing them would be required to search for where to \"insert\" the disclosed information after hashing the disclosure.  It might be worth explicitly saying this, or people will end up asking what the canonical ordering rules are.",
       "createdAt": "2026-01-23T03:40:02Z",
-      "updatedAt": "2026-04-13T13:50:06Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-20T09:03:24Z",
+      "closedAt": "2026-04-20T09:03:24Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -5086,6 +5091,13 @@
           "body": "Conclusion: nuke 16.7",
           "createdAt": "2026-04-13T13:50:02Z",
           "updatedAt": "2026-04-13T13:50:02Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in PR #271 . Closing",
+          "createdAt": "2026-04-20T09:03:24Z",
+          "updatedAt": "2026-04-20T09:03:24Z"
         }
       ]
     },
@@ -5295,11 +5307,12 @@
       ],
       "labels": [
         "help wanted",
-        "ready-for-pr"
+        "ready-for-pr",
+        "next-stretch"
       ],
       "body": "I don't like [Section 16.5](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.5).\n\nAnother impossible \"MUST\" here:\n\n> Reusing an identifier or key enables correlation, but MUST be evaluated in terms of the confidential and privacy constraints associated with the credential type.\n\nThe main problem is that text assumes that `iss` and `sub` on the KBT is populated with a value that carries meaning in some context outside of the immediate interaction.  But in the correlation cases, it can't reasonably do that.  So I think that this design points to not including these values at all.  The following supports that notion:\n\n> Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.\n\nAfter all, why bother with Holder identifiers in those circumstances?\n\nWorse, we have extra checks for Verifiers, for information that they don't have any reason to trust or use:\n\n> Verifiers need to take care to verify that the SD-KBT \"iss\" and \"sub\" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key. \n\nThis is weird and probably unnecessary, depending on the usage context: \n\n> Extra care should be taken in case the SD-CWT subject claim is redacted. \n\nEither the subject is important to the Verifier (so they would need to see it, blinded or not), or they don't care.\n\nThen, we have another case of the problem I describe in #215: \n\n> Finally, the Verifier MUST verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not. \n\nBut that is not the final problem, despite what it says:\n\n> Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.\n\nThis document has not talked about revocation at all so far.  I see that [SD-JWT does](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-9.8), so maybe that's OK.  But make that a clear statement about key management, not hide it under a discussion of time fields.\n",
       "createdAt": "2026-01-23T04:57:19Z",
-      "updatedAt": "2026-04-13T13:47:44Z",
+      "updatedAt": "2026-04-20T13:39:55Z",
       "closedAt": null,
       "comments": [
         {
@@ -5500,20 +5513,19 @@
       "id": "I_kwDOMm_Q2s7u3yUT",
       "title": "Globally Replace \"redacted\" with \"blinded\" ?",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/255",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
-        "next-stretch"
+        "has-PR"
       ],
       "body": "originally suggested by @martinthomson \n\nthumbs up if you like the idea:\n@OR13 \n@selfissued \n@henkbirkholz ",
       "createdAt": "2026-03-01T16:10:20Z",
-      "updatedAt": "2026-03-30T13:16:36Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-20T13:09:33Z",
+      "closedAt": "2026-04-20T13:09:33Z",
       "comments": [
         {
           "author": "OR13",
@@ -5590,11 +5602,15 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "next-stretch"
+      ],
       "body": "Use the example from my slides in Dublin IETF",
       "createdAt": "2026-04-13T13:29:07Z",
-      "updatedAt": "2026-04-13T13:29:07Z",
+      "updatedAt": "2026-04-20T13:42:48Z",
       "closedAt": null,
       "comments": []
     }
@@ -19355,7 +19371,7 @@
       "labels": [],
       "body": "- Modified introduction (partially addresses #189, #211)\r\n- Changed \"based on\" SD-JWT to \"inspired by\" SD-JWT in Intro and Abstract ( #187)\r\n- Moved two paragraphs from the Intro to the protocol Overview\r\n- Moved Figures 2 and 3 into the protocol Overview (commit message is wrong) (#194)\r\n- Rounded the corners on Figure 3 (commit message is wrong) (#193 )\r\n- Made a few other clarifications in opening sections\r\n- Incorporate suggestion from #188 \r\n- Move normative language in Section 1.1 to respective sections #190 \r\n- Add line about verifier handling of empty claims arrays #197 \r\n- Reword language about `typ` values #199\r\n- Clarify language about claim \"name\" #202\r\n- Replace a lowercase must #216 \r\n\r\nConsider a global search and replace s/redacted/blinded/. This may have consequences for IANA-reserved names containing the word redacted.",
       "createdAt": "2026-03-01T10:27:55Z",
-      "updatedAt": "2026-03-14T09:14:50Z",
+      "updatedAt": "2026-04-20T09:12:08Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "3617a1bd4e80f556c45fddcddab588b441db80c1",
@@ -19489,7 +19505,7 @@
       "labels": [],
       "body": "## Summary\n\n- Removes the \"Threat Model Development Guidance\" section from Security Considerations\n- Adds a brief note referencing the W3C TAG Finding [Preventing the Abuse of Digital Credentials](https://w3ctag.github.io/prevent-credential-abuse/), which covers surveillance risks, exclusion, centralization, and overuse of credentials\n\nAlso fixes the build system to work on macOS (GNU Make 3.x / BSD sed):\n- Replaces `&:` grouped target syntax (Make 4.3+) with stamp files\n- Adds cross-platform sed detection (`-E`/`-i ''` for BSD sed)\n\nCloses #230\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
       "createdAt": "2026-03-01T14:30:09Z",
-      "updatedAt": "2026-03-01T16:30:45Z",
+      "updatedAt": "2026-04-20T09:12:10Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "3617a1bd4e80f556c45fddcddab588b441db80c1",
@@ -19531,7 +19547,7 @@
       "labels": [],
       "body": "Closes #227\n\n## Summary\n- Removes the Certificate transparency / key transparency bullet-point list from the Issuer Key Compromise security consideration\n- Removes the associated `Verifiers SHOULD leverage transparency mechanisms...` paragraph\n\n## Test plan\n- [ ] Verify the Issuer Key Compromise section reads cleanly without the removed paragraphs\n- [ ] Confirm no dangling references to `{{-CT}}` or `{{-KT}}` remain in the document\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
       "createdAt": "2026-03-01T14:35:17Z",
-      "updatedAt": "2026-03-01T16:32:10Z",
+      "updatedAt": "2026-04-20T09:12:09Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "3617a1bd4e80f556c45fddcddab588b441db80c1",
@@ -19573,7 +19589,7 @@
       "labels": [],
       "body": "Addresses #205.\n\n## Summary\n\n- Adds a new `## Disclosure of Decoys` subsection under Security Considerations\n- Notes that Issuers control the claimset and may use decoy digests to obscure claims from Holders\n- Highlights the severe privacy risk when Holders cannot distinguish real claims from genuine decoys\n\n## Test plan\n\n- [ ] Review prose for accuracy and IETF style compliance\n- [ ] Verify section anchor `{#disclosure-of-decoys}` renders correctly\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
       "createdAt": "2026-03-01T14:53:15Z",
-      "updatedAt": "2026-03-01T16:38:27Z",
+      "updatedAt": "2026-04-20T09:12:12Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "2ad26f25a9a077aacc2d03687433ac6d71911f31",
@@ -19615,7 +19631,7 @@
       "labels": [],
       "body": "Closes Issue #205 ",
       "createdAt": "2026-03-01T17:04:40Z",
-      "updatedAt": "2026-03-01T17:48:23Z",
+      "updatedAt": "2026-04-20T09:12:19Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1638efaeb2a9f3419b44a8b26910c7db83b9be6",
@@ -19657,7 +19673,7 @@
       "labels": [],
       "body": "Addresses #217 ",
       "createdAt": "2026-03-01T17:32:48Z",
-      "updatedAt": "2026-03-02T17:19:24Z",
+      "updatedAt": "2026-04-20T09:12:20Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "e1638efaeb2a9f3419b44a8b26910c7db83b9be6",
@@ -19739,7 +19755,7 @@
       "labels": [],
       "body": "## Summary\n- Replaced the dense paragraph in Section 7 (SD-CWT Issuance) that described required/optional claims and disclosability with two structured tables\n- Added an SD-CWT claims table covering `sub`, `iss`, `aud`, `exp`, `nbf`, `iat`, `cti`, `cnf`, and `cnonce`\n- Added an SD-KBT claims table covering `sub`, `iss`, `aud`, `iat`, `cti`, and `cnonce`\n- Added a closing paragraph noting that unlisted claims are OPTIONAL and MAY be redacted unless a profile or media type specifies otherwise\n\n## Test plan\n- [ ] Verify tables render correctly in the built document\n- [ ] Confirm claim requirements match the normative text in the KBT section\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
       "createdAt": "2026-03-02T16:35:18Z",
-      "updatedAt": "2026-03-02T21:41:44Z",
+      "updatedAt": "2026-04-20T09:12:22Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "730ee1cf6360bfe138a9eb2796212f60d53a09c9",
@@ -19866,7 +19882,7 @@
       "labels": [],
       "body": "Redo: https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/257#discussion_r2873071624",
       "createdAt": "2026-03-02T17:19:11Z",
-      "updatedAt": "2026-03-23T13:09:13Z",
+      "updatedAt": "2026-04-20T09:12:23Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "730ee1cf6360bfe138a9eb2796212f60d53a09c9",
@@ -20008,7 +20024,7 @@
       "labels": [],
       "body": "Addresses #220 and #218\r\n\r\n@martinthomson ",
       "createdAt": "2026-03-17T11:42:20Z",
-      "updatedAt": "2026-03-23T13:08:26Z",
+      "updatedAt": "2026-04-20T09:12:25Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7752d552f27ec9153c01973063cca31ea178a8c9",
@@ -20130,7 +20146,7 @@
       "labels": [],
       "body": "- Address Issue 224\r\n- Replace outdated reference to CDE to draft-ietf-cbor-serialization (Appendix B).\r\n- Mention the number of decoys as another mechanism",
       "createdAt": "2026-03-17T12:05:47Z",
-      "updatedAt": "2026-03-23T13:22:50Z",
+      "updatedAt": "2026-04-20T09:12:27Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7752d552f27ec9153c01973063cca31ea178a8c9",
@@ -20232,7 +20248,7 @@
       "labels": [],
       "body": "Addresses #209 ",
       "createdAt": "2026-03-17T12:35:44Z",
-      "updatedAt": "2026-03-23T13:10:46Z",
+      "updatedAt": "2026-04-20T09:12:26Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7752d552f27ec9153c01973063cca31ea178a8c9",
@@ -20344,7 +20360,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-03-24T13:15:34Z",
-      "updatedAt": "2026-03-25T07:00:53Z",
+      "updatedAt": "2026-04-20T09:12:35Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "a2593de8def14d431d925537ed5f20f873c81c46",
@@ -20407,7 +20423,7 @@
       "labels": [],
       "body": "This PR attempts to address SD-CWT applicability, and alternative solutions which address applicability limitiations.",
       "createdAt": "2026-03-25T13:34:05Z",
-      "updatedAt": "2026-04-13T13:17:18Z",
+      "updatedAt": "2026-04-20T09:12:41Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78",
@@ -20903,7 +20919,7 @@
       "labels": [],
       "body": "Explain why Issuer should verify Holder key material (prevent active attackers)",
       "createdAt": "2026-04-13T11:53:29Z",
-      "updatedAt": "2026-04-14T14:58:27Z",
+      "updatedAt": "2026-04-20T09:12:37Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c7d5ad48c1d976242a1eeaeef5184784a64e4f78",
@@ -21034,7 +21050,7 @@
       "labels": [],
       "body": "Finish closing #222 ",
       "createdAt": "2026-04-13T13:55:10Z",
-      "updatedAt": "2026-04-13T14:13:08Z",
+      "updatedAt": "2026-04-20T09:12:43Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "852a468aed17906393eb6cbf4def27c10742ff6c",
@@ -21060,7 +21076,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-04-13T14:12:55Z",
-      "updatedAt": "2026-04-13T17:11:17Z",
+      "updatedAt": "2026-04-20T09:12:44Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "852a468aed17906393eb6cbf4def27c10742ff6c",
@@ -21086,6 +21102,56 @@
           "body": "",
           "createdAt": "2026-04-13T17:11:10Z",
           "updatedAt": "2026-04-13T17:11:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 272,
+      "id": "PR_kwDOMm_Q2s7T8roI",
+      "title": "Replace blind/unblind with redact and disclose or reveal",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/272",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We should now have very consistent and readable terminology.\r\n\r\nNote that there is some subtlety still between unredacted (the version of a claim before it was redacted) and non-redacted (a claim that was never redacted); and between disclose (used almost everywhere) and reveal (used in the section describing nested disclosures to \"peel open\" the next layer of the onion).\r\n\r\nResolves #255 ",
+      "createdAt": "2026-04-20T12:38:59Z",
+      "updatedAt": "2026-04-20T13:09:32Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "f5daa7a083abb9a159c88af32358d2daa62c5e7e",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "redact-disclose",
+      "headRefOid": "34f59095e5f8180b46e88e8f812efb197417dd25",
+      "closedAt": "2026-04-20T13:09:32Z",
+      "mergedAt": "2026-04-20T13:09:32Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "9b203bc27c6895cd05f07e8efe087ff3d45a547c"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Added a new commit which also addresses #189 ",
+          "createdAt": "2026-04-20T12:54:22Z",
+          "updatedAt": "2026-04-20T12:54:22Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s72xW7q",
+          "commit": {
+            "abbreviatedOid": "34f5909"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-20T12:58:08Z",
+          "updatedAt": "2026-04-20T12:58:08Z",
           "comments": []
         }
       ]
