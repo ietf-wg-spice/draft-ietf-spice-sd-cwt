@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-21T01:23:44.567914+00:00",
+  "timestamp": "2026-04-23T01:27:32.411180+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4919,7 +4919,7 @@
       ],
       "body": "Regarding [this note](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-12.1-10.1.1):\n\n> Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.\n\nThis is not right because it assumes that the registry will only ever contain AEADs that are strong enough to resist forgery.  The claim you make here should be that *if the AEAD algorithm provides sufficient protection against forgery* and attacker cannot produce a forged item.\n\nBut this makes no real sense.  The content, if it is to be usable in any way needs to be decryptable.  At that point, you can check the integrity of the content using the hash.\n\nSo why then do you have an AEAD algorithm as opposed to using a simpler cipher?  AES-CTR could work almost as well.\n\nOf the cuff, I can't think of a concrete reason to include a tag, other than the simple and pragmatic one: it is easier to specify the use of an AEAD than it is to specify how to use an unauthenticated cipher.",
       "createdAt": "2026-01-23T03:33:20Z",
-      "updatedAt": "2026-03-17T12:56:14Z",
+      "updatedAt": "2026-04-21T06:28:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -4984,6 +4984,13 @@
           "body": "Oh, that's not how I imagined this working.  I figured you would do each in turn.  Decrypt, then match, repeat.  Rather than decrypt everything at once then match everything.\n\nAfter all, even a successfully-decrypted disclosure isn't guaranteed to a disclosure for this specific document.  After all, the attacker is on-path in some way.  If they are looking to mount a DoS attack, they might have other documents protected with the same keys to draw from.  They can swap all the encrypted disclosures between different documents that use those same keys.  So, unless you have keys with very tight scope (which is possible, I guess) then you are back in DoS territory unless you do the hash match as well.",
           "createdAt": "2026-02-09T04:57:00Z",
           "updatedAt": "2026-02-09T04:57:00Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Based on discussion among the authors:\n\n### On the use of authenticated encryption\n\nThe tag allows verifiers to validate one decryption at a time. Why is this important?\n\n- the presence of nested tags means that a verifier may need to decrypt several times (often dozens) in order to find the correct Blinded Claim Hash from an honest Holder. Using an authenticated algorithm, the verify would fail immediately if there is a key mismatch or other error.\n- knowing exactly when decryption fails makes troubleshooting easier, and error handling more straightforward to implement.\n- AEAD algorithms (especially AES_GCM) are among the most widely available cryptographic algorithms. These algorithms are generally better tested and documented. Unauthenticated algorithms are less widely available and are often only available in \"subtle\" cryptographic interfaces.\n- in the context of MLS, there could be hundreds or thousands of verifiers in a single group. Detecting a malicious, compromised, or buggy group member early is a valuable property.\n- Use of a mainstream AEAD algorithm is less likely to trigger false alarms in security audits than unauthenticated encryption algorithms.\n\n### On performance and applicability to the target audience of this feature\n\nThe performance penalty of authenticated encryption vs unauthenticated encryption was considered alongside other operations routinely performed in the MLS and RATS ecosystems. The additional cost was considered a \"drop in the bucket\". Reuse of well-tested, easily-available cryptographic algorithms, and compatibility with existing cipher suites was considered more important for the target community of this feature. If the performance of unauthenticated encryption is needed by another community, a similar unauthenticated encrypted disclosures feature could be added at a future time.\n\n### Proposed path forward\n\nIn the absence of an alternative consensus in the WG, the authors propose to include text explaining these decisions in the document and move forward with the existing mechanism. If the presence of AEAD encrypted disclosures slows down approval of the document, we can remove the feature during IESG evaluation, and proceed with the text as a separate document.",
+          "createdAt": "2026-04-21T06:22:31Z",
+          "updatedAt": "2026-04-21T06:28:37Z"
         }
       ]
     },
@@ -5312,7 +5319,7 @@
       ],
       "body": "I don't like [Section 16.5](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.5).\n\nAnother impossible \"MUST\" here:\n\n> Reusing an identifier or key enables correlation, but MUST be evaluated in terms of the confidential and privacy constraints associated with the credential type.\n\nThe main problem is that text assumes that `iss` and `sub` on the KBT is populated with a value that carries meaning in some context outside of the immediate interaction.  But in the correlation cases, it can't reasonably do that.  So I think that this design points to not including these values at all.  The following supports that notion:\n\n> Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.\n\nAfter all, why bother with Holder identifiers in those circumstances?\n\nWorse, we have extra checks for Verifiers, for information that they don't have any reason to trust or use:\n\n> Verifiers need to take care to verify that the SD-KBT \"iss\" and \"sub\" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key. \n\nThis is weird and probably unnecessary, depending on the usage context: \n\n> Extra care should be taken in case the SD-CWT subject claim is redacted. \n\nEither the subject is important to the Verifier (so they would need to see it, blinded or not), or they don't care.\n\nThen, we have another case of the problem I describe in #215: \n\n> Finally, the Verifier MUST verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not. \n\nBut that is not the final problem, despite what it says:\n\n> Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.\n\nThis document has not talked about revocation at all so far.  I see that [SD-JWT does](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-9.8), so maybe that's OK.  But make that a clear statement about key management, not hide it under a discussion of time fields.\n",
       "createdAt": "2026-01-23T04:57:19Z",
-      "updatedAt": "2026-04-20T13:39:55Z",
+      "updatedAt": "2026-04-21T06:34:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -5321,6 +5328,13 @@
           "body": "general stuff. Verifiers MAY reject claims and claim values they don't like.\n\nsplit up into multiple issues.\n\nseveral of the issues are about KBTs and some are about CWTs.  These need to separated carefully.",
           "createdAt": "2026-04-13T13:47:44Z",
           "updatedAt": "2026-04-13T13:47:44Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think we need a short section about lifetimes and key management, and a short section about freshness. In the section about lifetimes and key management we can specifically mention status lists. While status lists for CWT and SD-CWT has been implemented, their use certainly is not common practice.",
+          "createdAt": "2026-04-21T06:34:14Z",
+          "updatedAt": "2026-04-21T06:34:14Z"
         }
       ]
     },
@@ -5587,12 +5601,22 @@
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "blocked"
+      ],
       "body": "",
       "createdAt": "2026-04-13T13:26:13Z",
-      "updatedAt": "2026-04-13T13:26:13Z",
+      "updatedAt": "2026-04-21T06:44:55Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "wait for #269 to land before tacking this",
+          "createdAt": "2026-04-21T06:44:55Z",
+          "updatedAt": "2026-04-21T06:44:55Z"
+        }
+      ]
     },
     {
       "number": 269,
