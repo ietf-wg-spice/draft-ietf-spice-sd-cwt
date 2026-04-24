@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "aasvg": "^0.4.0",
+    "aasvg": "^0.4.3",
     "cbor2": "^2.0.1",
     "cbor-edn": "^0.2.2"
   }
