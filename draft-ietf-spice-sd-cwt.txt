@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 22 October 2026                                    Tradeverifyd
+Expires: 26 October 2026                                    Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           20 April 2026
+                                                           24 April 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 October 2026.
+   This Internet-Draft will expire on 26 October 2026.
 
 Copyright Notice
 
@@ -2851,9 +2851,9 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-serialization]
               Lundblade, L., "CBOR Serialization and Determinism", Work
               in Progress, Internet-Draft, draft-ietf-cbor-
-              serialization-05, 28 March 2026,
+              serialization-06, 23 April 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              serialization-05>.
+              serialization-06>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
