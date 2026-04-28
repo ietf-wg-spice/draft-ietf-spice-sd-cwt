@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-23T01:27:32.411180+00:00",
+  "timestamp": "2026-04-28T01:51:14.900350+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -5419,15 +5419,19 @@
       "id": "I_kwDOMm_Q2s7mESDq",
       "title": "A different disclosure encryption form",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/236",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "wontfix"
+      ],
       "body": "This cribs from the existing design, but saves a lot of space.\n\nPreconditions:\n* Holder and Verifier share a secret\n* Holder and Verifier have a way of identifying that secret that is known to each (this might be using the subject from the inner CWT because the key is one-to-one for the pair; or the key is part of the disclosed claims; this is as unspecified as the current design)\n\nProcedure:\n1. Holder generates a single nonce with sufficient entropy.  This needs to be enough entropy to seed a KDF, so a conservative estimate would be 32 bytes for current key and nonce sizes.  Less might be acceptable.\n1. Holder uses a KDF, like HKDF, to produce a nonce: `nonce = KDF(secret, \"nonce\", Nn)`\n1. Holder generates a key the same way: `key = KDF(secret, \"key\", Nk)`\n1. For each disclosed claim that requires encryption, apply a cipher in CTR mode using `key` and a nonce of `nonce XOR counter` (where counter is padded to `Nn`.\n1. Encode into:\n\n```cddl\naead-encrypted = [\n  nonce: bstr /.size 32/,\n  + encrypted-claim: bstr,\n]\n```\n\nThe need for a slightly larger nonce than the current design is amortized out over multiple disclosures.  I believe that a value that is at least min(Nn,Nk) is enough, which is 16 for AES-128-CTR.  It is 32 for AES-256-CTR and ChaCha20, which have larger keys (a good thing generally).  That means that this is less good unless you have at least 2 (or 3) disclosures than including an explicit nonce.  Then the question becomes one about expected usage of encrypted disclosures.  (You could build both, but that seems suboptimal.)\n\nOr, with yet another alternative, encrypt all disclosures in the one cipher invocation.  Then you only need Nn extra bytes.  But you are more likely to hit size limits in that approach.",
       "createdAt": "2026-01-27T10:26:21Z",
-      "updatedAt": "2026-02-07T08:49:41Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-27T13:33:36Z",
+      "closedAt": "2026-04-27T13:33:35Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -5449,6 +5453,20 @@
           "body": "> I'll note that \"don't want to reuse nonces\" is a failure mode in the existing design, not the proposed one.\n\nconsidering that the entire selective disclosure approach requires a unique salt per disclosure, this concern seems overblown.",
           "createdAt": "2026-02-07T08:49:41Z",
           "updatedAt": "2026-02-07T08:49:41Z"
+        },
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Whats the action for authors on this one?\n\nThere are a couple things on this issue, making it a bit hard for me to parse.\n\nIf its just a strategy for holder to produces nonces from a seed, perhaps an appendix section?\n",
+          "createdAt": "2026-04-27T13:16:07Z",
+          "updatedAt": "2026-04-27T13:16:15Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This issue has been open for a while and I didn't hear anyone who wanted to implement it like this. I'll close for now with a wontfix. ",
+          "createdAt": "2026-04-27T13:33:35Z",
+          "updatedAt": "2026-04-27T13:33:35Z"
         }
       ]
     },
