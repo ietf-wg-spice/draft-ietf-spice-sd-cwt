@@ -1363,18 +1363,26 @@ The "iss" claim in the SD-CWT is self-asserted by the Issuer.
 
 Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.
 There might be many subject claims and many confirmation keys that identify the same entity or that are controlled by the same entity, while the identifiers and keys are distinct values.
-Reusing an identifier or key enables correlation, but MUST be evaluated in terms of the confidential and privacy constraints associated with the credential type.
-Conceptually, the Holder is both the Issuer and the subject of the SD-KBT, even if the "iss" or "sub" claims are not present.
-If they are present, they are self-asserted by the Holder.
-All three are represented by the confirmation (public) key in the SD-CWT.
+Reusing an identifier or key enables correlation, but needs to be evaluated in terms of the confidential and privacy constraints associated with the credential type.
+Conceptually, the Holder is both the Issuer and subject of the SD-KBT, and the subject of the SD-CWT.
+Presence of an "iss" or "sub" claim in the SD-KBT would be superfluous, so they MUST NOT be present.
 
 As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT "iss" and "sub" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
 Extra care should be taken in case the SD-CWT subject claim is redacted.
-Likewise, Holders and Verifiers MUST verify that the "iss" claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.
 
-Finally, the Verifier MUST verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not.
+Likewise, Holders and Verifiers need to verify that the "iss" claim of the SD-CWT corresponds to the Issuer and the key described in the protected header of the SD-CWT.
+If the Holder does not verify the "iss" claim in the SD-CWT, an active attacker could be inserted between the Issuer and the Holder.
+If the Verifier does not verify the "iss" claim in the SD-CWT, there is no assurance that the Holder is authentic.
+
+Finally, the Verifier needs to verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not.
 Specific tests for time claims are described in steps 3 and 6 of {{binding-validation}}.
-Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.
+
+## Revocation and Status Lists
+
+Currently, CWTs do not have a standard notion of revocation in the same way that {{?RFC5280}} has Certificate Revocation Lists to invalidate X.509 certificates.
+CWTs and JWTs do have a notion of status lists {{?I-D.ietf-oauth-status-list}}.
+If an SD-CWT is using {{?I-D.ietf-oauth-status-list}}, the status check should be confirmed after the key binding token is verified, to protect the verifier from accessing network resources specified in forged tokens.
+It does not make sense to apply status lists to key binding tokens.
 
 ## Covert Channels
 
