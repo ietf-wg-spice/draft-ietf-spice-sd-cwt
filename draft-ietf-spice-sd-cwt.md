@@ -1381,7 +1381,8 @@ Specific tests for time claims are described in steps 3 and 6 of {{binding-valid
 
 Currently, CWTs do not have a standard notion of revocation in the same way that {{?RFC5280}} has Certificate Revocation Lists to invalidate X.509 certificates.
 CWTs and JWTs do have a notion of status lists {{?I-D.ietf-oauth-status-list}}.
-To the extent that a usage of SD-CWT supports revocation or status lists, an SD-KBT containing a revoked SD-CWT is not valid.
+If an SD-CWT is using {{?I-D.ietf-oauth-status-list}}, the status check should be confirmed after the key binding token is verified, to protect the verifier from accessing network resources specified in forged tokens.
+It does not make sense to apply status lists to key binding tokens.
 
 ## Covert Channels
 
