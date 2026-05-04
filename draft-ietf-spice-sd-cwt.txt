@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 26 October 2026                                    Tradeverifyd
+Expires: 5 November 2026                                    Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                           24 April 2026
+                                                              4 May 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 October 2026.
+   This Internet-Draft will expire on 5 November 2026.
 
 Copyright Notice
 
@@ -116,8 +116,9 @@ Table of Contents
      16.3.  Disclosure of Decoys
      16.4.  Random Numbers
      16.5.  Binding the KBT and the CWT
-     16.6.  Covert Channels
-     16.7.  Choice of AEAD algorithms
+     16.6.  Revocation and Status Lists
+     16.7.  Covert Channels
+     16.8.  Choice of AEAD algorithms
    17. IANA Considerations
      17.1.  COSE Header Parameters
        17.1.1.  sd_claims
@@ -1798,7 +1799,7 @@ Issuer                           Holder                         Verifier
    [RFC5116] registered in the IANA AEAD Algorithms registry
    (https://www.iana.org/assignments/aead-parameters/aead-
    parameters.xhtml) . (Guidance on specific algorithms is discussed in
-   Section 16.7.)  The second header parameter
+   Section 16.8.)  The second header parameter
    (sd_aead_encrypted_claims), if present, contains a non-empty list of
    AEAD encrypted disclosures.  Taking the first example disclosure from
    above:
@@ -2372,31 +2373,44 @@ Issuer                           Holder                         Verifier
    There might be many subject claims and many confirmation keys that
    identify the same entity or that are controlled by the same entity,
    while the identifiers and keys are distinct values.  Reusing an
-   identifier or key enables correlation, but MUST be evaluated in terms
-   of the confidential and privacy constraints associated with the
-   credential type.  Conceptually, the Holder is both the Issuer and the
-   subject of the SD-KBT, even if the "iss" or "sub" claims are not
-   present.  If they are present, they are self-asserted by the Holder.
-   All three are represented by the confirmation (public) key in the SD-
-   CWT.
+   identifier or key enables correlation, but needs to be evaluated in
+   terms of the confidential and privacy constraints associated with the
+   credential type.  Conceptually, the Holder is both the Issuer and
+   subject of the SD-KBT, and the subject of the SD-CWT.  Presence of an
+   "iss" or "sub" claim in the SD-KBT would be superfluous, so they MUST
+   NOT be present.
 
    As with any self-assigned identifiers, Verifiers need to take care to
    verify that the SD-KBT "iss" and "sub" claims match the subject in
    the SD-KBT, and are a valid representation of the Holder and
    correspond to the Holder's confirmation key.  Extra care should be
-   taken in case the SD-CWT subject claim is redacted.  Likewise,
-   Holders and Verifiers MUST verify that the "iss" claim of the SD-CWT
-   corresponds to the Issuer and the key described in the protected
-   header of the SD-CWT.
+   taken in case the SD-CWT subject claim is redacted.
 
-   Finally, the Verifier MUST verify that the time claims in both the
-   SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not
+   Likewise, Holders and Verifiers need to verify that the "iss" claim
+   of the SD-CWT corresponds to the Issuer and the key described in the
+   protected header of the SD-CWT.  If the Holder does not verify the
+   "iss" claim in the SD-CWT, an active attacker could be inserted
+   between the Issuer and the Holder.  If the Verifier does not verify
+   the "iss" claim in the SD-CWT, there is no assurance that the Holder
+   is authentic.
+
+   Finally, the Verifier needs to verify that the time claims in both
+   the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not
    valid for any period of time when the SD-CWT is not.  Specific tests
    for time claims are described in steps 3 and 6 of Section 9.
-   Likewise, if there is a notion of SD-CWT revocation, an SD-KBT
-   containing a revoked SD-CWT is not valid.
 
-16.6.  Covert Channels
+16.6.  Revocation and Status Lists
+
+   Currently, CWTs do not have a standard notion of revocation in the
+   same way that [RFC5280] has Certificate Revocation Lists to
+   invalidate X.509 certificates.  CWTs and JWTs do have a notion of
+   status lists [I-D.ietf-oauth-status-list].  If an SD-CWT is using
+   [I-D.ietf-oauth-status-list], the status check should be confirmed
+   after the key binding token is verified, to protect the verifier from
+   accessing network resources specified in forged tokens.  It does not
+   make sense to apply status lists to key binding tokens.
+
+16.7.  Covert Channels
 
    Any data element that is supplied by the Issuer, and that appears
    random to the Holder might be used to produce a covert channel
@@ -2406,7 +2420,7 @@ Issuer                           Holder                         Verifier
    Holder is usually considered to be aware of the Issuer claims they
    are disclosing to a Verifier.
 
-16.7.  Choice of AEAD algorithms
+16.8.  Choice of AEAD algorithms
 
    The AEAD encrypted disclosures mechanism discussed in Section 12.1
    can refer to any AEAD alogithm in the IANA AEAD Algorithms registry
@@ -2844,9 +2858,9 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "CBOR Extended Diagnostic Notation (EDN)",
               Work in Progress, Internet-Draft, draft-ietf-cbor-edn-
-              literals-22, 6 April 2026,
+              literals-23, 29 April 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              edn-literals-22>.
+              edn-literals-23>.
 
    [I-D.ietf-cbor-serialization]
               Lundblade, L., "CBOR Serialization and Determinism", Work
@@ -2932,9 +2946,9 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Digital Credentials (SD-JWT VC)", Work in
-              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-15,
-              26 February 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-sd-jwt-vc-15>.
+              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-16,
+              24 April 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-oauth-sd-jwt-vc-16>.
 
    [I-D.draft-ietf-oauth-selective-disclosure-jwt]
               Fett, D., Yasuda, K., and B. Campbell, "Selective
@@ -2949,6 +2963,19 @@ Issuer                           Holder                         Verifier
               Draft, draft-ietf-httpbis-unprompted-auth-12, 19 September
               2024, <https://datatracker.ietf.org/doc/html/draft-ietf-
               httpbis-unprompted-auth-12>.
+
+   [I-D.ietf-oauth-status-list]
+              Looker, T., Bastian, P., and C. Bormann, "Token Status
+              List (TSL)", Work in Progress, Internet-Draft, draft-ietf-
+              oauth-status-list-20, 20 April 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-oauth-
+              status-list-20>.
+
+   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
+              Housley, R., and W. Polk, "Internet X.509 Public Key
+              Infrastructure Certificate and Certificate Revocation List
+              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
+              <https://www.rfc-editor.org/rfc/rfc5280>.
 
    [RFC6973]  Cooper, A., Tschofenig, H., Aboba, B., Peterson, J.,
               Morris, J., Hansen, M., and R. Smith, "Privacy
