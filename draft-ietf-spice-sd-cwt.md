@@ -1364,7 +1364,7 @@ The "iss" claim in the SD-CWT is self-asserted by the Issuer.
 Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.
 There might be many subject claims and many confirmation keys that identify the same entity or that are controlled by the same entity, while the identifiers and keys are distinct values.
 Reusing an identifier or key enables correlation, but needs to be evaluated in terms of the confidential and privacy constraints associated with the credential type.
-Conceptually, the Holder is both the Issuer and subject of the SD-KBT, and the subject of the SD-KBT.
+Conceptually, the Holder is both the Issuer and subject of the SD-KBT, and the subject of the SD-CWT.
 Presence of an "iss" or "sub" claim in the SD-KBT would be superfluous, so they MUST NOT be present.
 
 As with any self-assigned identifiers, Verifiers need to take care to verify that the SD-KBT "iss" and "sub" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key.
