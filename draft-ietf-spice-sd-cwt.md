@@ -705,6 +705,10 @@ If any Salted Disclosed Claims or Decoys are present, the unprotected header MUS
 If there are no disclosures, the `sd_claims` header parameter value is omitted.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
 
+CWT {{!RFC8392}} and JWT {{?RFC7519}} register claims and leave their applicability to profiles.
+This document instead specifies claim requirements directly, because SD-CWT is a specific credential type whose selective-disclosure and key-binding semantics depend on a small set of claims being present, unredacted, and consistently interpreted across implementations.
+The requirements in {{sd-cwt-claims}} and {{sd-kbt-claims}} are the minimum needed for interoperable verification; profiles of this specification MAY add further constraints but MUST NOT relax these.
+
 The following table describes the claim requirements for an SD-CWT:
 
 | Claim | Requirement | Never Redacted |
