@@ -2376,7 +2376,7 @@ Issuer                           Holder                         Verifier
    identifier or key enables correlation, but needs to be evaluated in
    terms of the confidential and privacy constraints associated with the
    credential type.  Conceptually, the Holder is both the Issuer and
-   subject of the SD-KBT, and the subject of the SD-KBT.  Presence of an
+   subject of the SD-KBT, and the subject of the SD-CWT.  Presence of an
    "iss" or "sub" claim in the SD-KBT would be superfluous, so they MUST
    NOT be present.
 
