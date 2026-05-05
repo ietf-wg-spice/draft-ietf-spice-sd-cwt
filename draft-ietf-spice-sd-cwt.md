@@ -1961,6 +1961,113 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 -----END PRIVATE KEY-----
 ~~~
 
+# Nesting Example Walkthrough
+
+Using the example in {{nesting}}, this section walks the reader through the process of processing an SD-CWT with nested disclosures, to generate the validated nested claims.
+
+~~~ cbor-diag
+/ sd_claims / 17 : [ / these are the disclosures /
+    <<[
+        /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
+        /value/  {
+                     500: true,
+                     502: 1674004740,
+                     simple(59): [
+                     h'af375dc3fba1d082448642c00be7b2f7
+                       bb05c9d8fb61cfc230ddfdfb4616a693',
+                     h'9d151abeb800adcc11ff10ff61fbd3d7
+                       5944c134b40a24abef1787d3ae6583aa'
+                 ]
+                 }   / inspection 17-Jan-2023 /
+    ]>>,
+    <<[
+        /salt/   h'bae611067bb823486797da1ebbb52f83',
+        /value/  "ABCD-123456",
+        /claim/  501   / inspector_license_number /
+    ]>>,
+    <<[
+        /salt/   h'483e4b3c194df6073a9c41ca9f274067',
+        /value/  {
+                     1: "us",
+                     simple(59): [
+                         h'2470fb9175b062c347ab3c3a19776d02
+                           476112a17cd7cfc9416664bc058c220b',
+                         h'cf397a08917528624ca3b332c9edcc54
+                           a72c9411dd5983f68017ce160f709f52'
+                     ]
+                 },
+        /claim/  503   / San Francisco location /
+    ]>>,
+    <<[
+        /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+        /value/  "ca",
+        /claim/  2   / region=California /
+    ]>>,
+    <<[
+        /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
+        /value/  {
+                     500: true,
+                     502: 1549560720,
+                     simple(59): [
+                         h'7257a8697dfa40221079b00fb65fe587
+                           c310e6ca3da1aa33b090335de66ec810',
+                         h'c24c646b52fecd773c6ea01c6caa5a73
+                           422b85d3afa5900fa998336d83a88025'
+                     ]
+                 }   / inspection 7-Feb-2019 /
+    ]>>,
+    <<[
+        /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+        /value/  "DCBA-101777",
+        /claim/  501   / inspector_license_number /
+    ]>>,
+    <<[
+        /salt/   h'c23a4d192be75dbd583be570482de8dd',
+        /value/  {
+                     1: "us",
+                     simple(59): [
+                         h'1b89717167f39d51eec08b13baeda570
+                           eff5d0aedaa1d7d0821185c33634a5a0',
+                         h'49412884fa1e3787c17d1320bdd48f6e
+                           0e5365da010cde0571d4a7effd13cc2a'
+                     ]
+                 },
+        /claim/  503   / Denver location /
+    ]>>,
+]
+~~~
+
+
+~~~ cbor-diag
+{
+    / iss / 1  : "https://issuer.example",
+    / sub / 2  : "https://device.example",
+    / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
+    / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
+    / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
+    / cnf / 8  : { ... },
+    504: [                      / inspection history log /
+        {
+            500: True,          / inspection passed /
+            501: "DCBA-101777", / inspector license /
+            502: 1549560720,    / 2019-02-07T17:32:00 /
+            503: {
+                1: "us"         / United States /
+            }
+        },
+        {
+            500: True,          / inspection passed /
+            501: "ABCD-123456", / inspector license /
+            502: 17183928,      / 2023-01-17T17:19:00 /
+            503: {
+                1: "us",        / United States /
+                2: "ca"         / region=California /
+            }
+        }
+    ]
+}
+~~~
+
 
 # Implementation Status
 
