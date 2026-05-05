@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-28T01:51:14.900350+00:00",
+  "timestamp": "2026-05-05T01:48:38.730755+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4098,7 +4098,7 @@
       "id": "I_kwDOMm_Q2s7lM3iX",
       "title": "Describing nonces for freshness",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/198",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -4106,12 +4106,12 @@
       ],
       "labels": [
         "help wanted",
-        "ready-for-pr"
+        "has-PR"
       ],
       "body": "[This text](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-4-4) seems a little backwards:\n\n> The Holder MAY fetch a nonce from the Verifier to prevent replay, or obtain a nonce acceptable to the Verifier through a process similar to the method described in [[I-D.ietf-httpbis-unprompted-auth](https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-unprompted-auth-12)].\n\nGenerally, a Verifier is the one that has the requirement for freshness.  That means that they will want to challenge the Holder, rather than have the Holder unilaterally decide that freshness is needed.\n\nThe unprompted auth trick of using a TLS exporter is a good one, but I would instead mention exporters directly, but only in relation to describing cases where the Holder isn't actively challenged and it knows that the Verifier will need some freshness.  (A nonce derived from TLS has other properties as well, but those can be a little fiddly to reason about, so I'd be inclined to avoid mention of the trick.)\n\nIn doing this, whatever you do, you should also mention the connection to the `cnonce` field.  The current text doesn't mention it and you sort of have to guess.",
       "createdAt": "2026-01-23T00:51:53Z",
-      "updatedAt": "2026-04-13T13:39:24Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-04T14:57:58Z",
+      "closedAt": "2026-05-04T14:57:58Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -4572,13 +4572,12 @@
         "OR13"
       ],
       "labels": [
-        "ready-for-pr",
         "has-PR",
         "next-stretch"
       ],
       "body": "Is [this](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-7-4) really necessary?\n\n> In an SD-CWT, either the subject sub / 2 claim MUST be present, or the redacted form of the subject MUST be present. The iss / 1 claim SHOULD be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer. All other standard CWT claims (aud / 3, exp / 4, nbf / 5, iat / 6, and cti / 7) are OPTIONAL. The cnonce / 39 claim is OPTIONAL. The cnf / 8 claim, the cnonce / 39 claim, and the standard claims other than the subject MUST NOT be redacted. Any other claims are OPTIONAL and MAY be redacted. Profiles of this specification MAY specify additional claims that MUST, MUST NOT, and MAY be redacted.\n\nAside from my initial reaction (argh, my eyes!), I don't think that there is anything here that is necessary for interoperability.  If I want a claim set without a subject, isn't that on me?  (It makes little sense, sure, but this specification has no business saying that.)\n\nThe only thing that makes some amount of sense is the prohibition on blinding (not redaction!) of cnonce, which isn't confidential information.  Still, I think that I can come up with scenarios where even that makes sense.  Perhaps you want to present evidence of freshness to only one entity...",
       "createdAt": "2026-01-23T01:58:51Z",
-      "updatedAt": "2026-03-25T07:06:47Z",
+      "updatedAt": "2026-05-04T14:21:30Z",
       "closedAt": null,
       "comments": [
         {
@@ -4915,11 +4914,12 @@
         "rohanmahy"
       ],
       "labels": [
-        "ask-WG"
+        "ready-for-pr",
+        "next-stretch"
       ],
       "body": "Regarding [this note](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-12.1-10.1.1):\n\n> Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.\n\nThis is not right because it assumes that the registry will only ever contain AEADs that are strong enough to resist forgery.  The claim you make here should be that *if the AEAD algorithm provides sufficient protection against forgery* and attacker cannot produce a forged item.\n\nBut this makes no real sense.  The content, if it is to be usable in any way needs to be decryptable.  At that point, you can check the integrity of the content using the hash.\n\nSo why then do you have an AEAD algorithm as opposed to using a simpler cipher?  AES-CTR could work almost as well.\n\nOf the cuff, I can't think of a concrete reason to include a tag, other than the simple and pragmatic one: it is easier to specify the use of an AEAD than it is to specify how to use an unauthenticated cipher.",
       "createdAt": "2026-01-23T03:33:20Z",
-      "updatedAt": "2026-04-21T06:28:37Z",
+      "updatedAt": "2026-05-04T15:34:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -5167,20 +5167,20 @@
       "id": "I_kwDOMm_Q2s7lOOFl",
       "title": "Requirement to authenticate Issuer *public* keys",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/226",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
         "OR13"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "clarity"
       ],
       "body": "The [first sentence of Section 16.1](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.1-1):\n\n> Verification of an SD-CWT requires that the Verifier have access to a verification key (public key) associated with the Issuer. \n\nreminded me that if the Verifier has the attacker's public key, no key compromise is necessary.  It might be worth saying that.\n\nIf so, try to break that paragraph up a little.  It's a bit much right now.",
       "createdAt": "2026-01-23T03:58:50Z",
-      "updatedAt": "2026-03-14T09:46:53Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-04T14:54:32Z",
+      "closedAt": "2026-05-04T14:54:32Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -5313,13 +5313,11 @@
         "rohanmahy"
       ],
       "labels": [
-        "help wanted",
-        "ready-for-pr",
-        "next-stretch"
+        "ready-to-close?"
       ],
       "body": "I don't like [Section 16.5](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-16.5).\n\nAnother impossible \"MUST\" here:\n\n> Reusing an identifier or key enables correlation, but MUST be evaluated in terms of the confidential and privacy constraints associated with the credential type.\n\nThe main problem is that text assumes that `iss` and `sub` on the KBT is populated with a value that carries meaning in some context outside of the immediate interaction.  But in the correlation cases, it can't reasonably do that.  So I think that this design points to not including these values at all.  The following supports that notion:\n\n> Because confirmation is mandatory, the subject claim of an SD-CWT, when present, is always related directly to the confirmation claim.\n\nAfter all, why bother with Holder identifiers in those circumstances?\n\nWorse, we have extra checks for Verifiers, for information that they don't have any reason to trust or use:\n\n> Verifiers need to take care to verify that the SD-KBT \"iss\" and \"sub\" claims match the subject in the SD-KBT, and are a valid representation of the Holder and correspond to the Holder's confirmation key. \n\nThis is weird and probably unnecessary, depending on the usage context: \n\n> Extra care should be taken in case the SD-CWT subject claim is redacted. \n\nEither the subject is important to the Verifier (so they would need to see it, blinded or not), or they don't care.\n\nThen, we have another case of the problem I describe in #215: \n\n> Finally, the Verifier MUST verify that the time claims in both the SD-CWT and SD-KBT are self-consistent and that the SD-KBT is not valid for any period of time when the SD-CWT is not. \n\nBut that is not the final problem, despite what it says:\n\n> Likewise, if there is a notion of SD-CWT revocation, an SD-KBT containing a revoked SD-CWT is not valid.\n\nThis document has not talked about revocation at all so far.  I see that [SD-JWT does](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-9.8), so maybe that's OK.  But make that a clear statement about key management, not hide it under a discussion of time fields.\n",
       "createdAt": "2026-01-23T04:57:19Z",
-      "updatedAt": "2026-04-21T06:34:14Z",
+      "updatedAt": "2026-05-04T13:34:59Z",
       "closedAt": null,
       "comments": [
         {
@@ -5335,6 +5333,13 @@
           "body": "I think we need a short section about lifetimes and key management, and a short section about freshness. In the section about lifetimes and key management we can specifically mention status lists. While status lists for CWT and SD-CWT has been implemented, their use certainly is not common practice.",
           "createdAt": "2026-04-21T06:34:14Z",
           "updatedAt": "2026-04-21T06:34:14Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@martinthomson  Orie and I incorporated lots of small changes to the text in response to your feedback. PR #273 was merged. If you see anything you feel strongly about that has not been addressed, please leave a note here and I will create a separate issue.",
+          "createdAt": "2026-05-04T13:25:13Z",
+          "updatedAt": "2026-05-04T13:25:13Z"
         }
       ]
     },
@@ -21194,6 +21199,225 @@
           "body": "",
           "createdAt": "2026-04-20T12:58:08Z",
           "updatedAt": "2026-04-20T12:58:08Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 273,
+      "id": "PR_kwDOMm_Q2s7YBQS6",
+      "title": "Justify linkage between KBT and CWT ; move revocation to separate section",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/273",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses #232 ",
+      "createdAt": "2026-05-04T13:05:22Z",
+      "updatedAt": "2026-05-04T13:23:03Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "10965be09ccf3cba113fa1411f5e1cac7796b8ba",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue232",
+      "headRefOid": "1e526b73219a4c5f1e1afacc0e351e5ed9e1f9cc",
+      "closedAt": "2026-05-04T13:23:03Z",
+      "mergedAt": "2026-05-04T13:23:03Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "b48bf5545df84f99533e79fcaf68adc2982162a8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s77jHOw",
+          "commit": {
+            "abbreviatedOid": "f835b74"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-04T13:06:34Z",
+          "updatedAt": "2026-05-04T13:06:34Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\nConceptually, the Holder is both the Issuer and subject of the SD-KBT, and the subject of the SD-CWT.\n```",
+              "createdAt": "2026-05-04T13:06:34Z",
+              "updatedAt": "2026-05-04T13:06:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s77jdSt",
+          "commit": {
+            "abbreviatedOid": "f835b74"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-04T13:19:22Z",
+          "updatedAt": "2026-05-04T13:19:22Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "```suggestion\nIf an SD-CWT is using {{?I-D.ietf-oauth-status-list}}, the status check should be confirmed after the key binding token is verified, to protect the verifier from accessing network resources specified in forged tokens.\nIt does not make sense to apply status lists to key binding tokens.\n```",
+              "createdAt": "2026-05-04T13:19:22Z",
+              "updatedAt": "2026-05-04T13:21:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s77jj37",
+          "commit": {
+            "abbreviatedOid": "1e526b7"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-04T13:22:54Z",
+          "updatedAt": "2026-05-04T13:22:54Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 274,
+      "id": "PR_kwDOMm_Q2s7YCJvq",
+      "title": "Clarify Issuer key authentication in \u00a716.1 (#226)",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/274",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "## Summary\n- Reword \u00a716.1 to describe attacks on the process by which a Verifier obtains Issuer public keys, rather than presuming a name-based binding between Issuers and key material. This addresses Martin Thomson's concern that the Issuer identity may be something other than a name (e.g. a public key directly).\n- Fix capitalization of \"Issuer\" for consistency with the rest of the document.\n\nWording follows Martin's suggestion in the issue thread.\n\nCloses #226\n\n## Test plan\n- [ ] Build the draft locally (`make`) and confirm \u00a716.1 reads as intended\n- [ ] Confirm CI build passes\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
+      "createdAt": "2026-05-04T13:46:13Z",
+      "updatedAt": "2026-05-04T14:54:31Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "b48bf5545df84f99533e79fcaf68adc2982162a8",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue226-authenticate-issuer-keys",
+      "headRefOid": "5293638b3adb30766eeecc9f83bbb581c0f70073",
+      "closedAt": "2026-05-04T14:54:31Z",
+      "mergedAt": "2026-05-04T14:54:31Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "2187d27896c0a611958baff09427e0421f400aad"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s77mMCS",
+          "commit": {
+            "abbreviatedOid": "5293638"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-04T14:54:07Z",
+          "updatedAt": "2026-05-04T14:54:07Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 275,
+      "id": "PR_kwDOMm_Q2s7YCdr4",
+      "title": "Reframe nonce/freshness text as Verifier-driven (#198)",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/275",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "## Summary\n- Reword the \u00a74 sentence about nonces so it reflects that freshness is a Verifier requirement: the Verifier provides the nonce, and the Holder signs it in the SD-KBT as the `cnonce` claim.\n- Drop the reference to `I-D.ietf-httpbis-unprompted-auth` and link to the SD-KBT claims table so the connection to `cnonce` is explicit.\n\nMinimal change \u2014 single sentence \u2014 to address Martin Thomson's feedback.\n\nCloses #198\n\n## Test plan\n- [ ] Build the draft locally (`make`) and confirm \u00a74 reads as intended\n- [ ] Confirm the `{{sd-kbt-claims}}` cross-reference resolves\n- [ ] Confirm CI build passes\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
+      "createdAt": "2026-05-04T14:01:14Z",
+      "updatedAt": "2026-05-04T14:57:57Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "b48bf5545df84f99533e79fcaf68adc2982162a8",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue198-nonce-freshness",
+      "headRefOid": "896fc70e1962cef2dc131056f5cf03c87ccf52c1",
+      "closedAt": "2026-05-04T14:57:57Z",
+      "mergedAt": "2026-05-04T14:57:57Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "5bd700770322e723e30f72bdf6caf9a12e156ced"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s77mSNv",
+          "commit": {
+            "abbreviatedOid": "896fc70"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-04T14:57:51Z",
+          "updatedAt": "2026-05-04T14:57:51Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 276,
+      "id": "PR_kwDOMm_Q2s7YC0fa",
+      "title": "Explain why SD-CWT specifies claim requirements directly (#212)",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/276",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "## Summary\nAdds a short rationale paragraph immediately before the SD-CWT and SD-KBT claim requirement tables in \u00a77.\n\nThe paragraph addresses Martin Thomson's concern that mandating claims is unusual given that CWT (RFC 8392) and JWT (RFC 7519) register claims and leave their applicability to profiles. It explains why this document is different: SD-CWT is a specific credential type whose selective-disclosure and key-binding semantics depend on a small set of claims being present, unredacted, and consistently interpreted across implementations. The requirements are framed explicitly as a floor \u2014 profiles MAY add further constraints but MUST NOT relax these.\n\nPR #258 added the requirement tables themselves; this PR adds the missing justification.\n\nCloses #212\n\n## Test plan\n- [ ] Build the draft locally (`make`) and confirm the new paragraph reads naturally before the tables\n- [ ] Confirm the `{{sd-cwt-claims}}` and `{{sd-kbt-claims}}` cross-references resolve\n- [ ] Confirm CI build passes\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
+      "createdAt": "2026-05-04T14:18:41Z",
+      "updatedAt": "2026-05-04T15:32:32Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "b48bf5545df84f99533e79fcaf68adc2982162a8",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue212",
+      "headRefOid": "231905cff6b712ed17dce781d4f033933034ed18",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s77mV0C",
+          "commit": {
+            "abbreviatedOid": "d3acf28"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Move the table for KBT claims into the KBT section",
+          "createdAt": "2026-05-04T14:59:58Z",
+          "updatedAt": "2026-05-04T14:59:58Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s77nPaX",
+          "commit": {
+            "abbreviatedOid": "231905c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-04T15:32:32Z",
+          "updatedAt": "2026-05-04T15:32:32Z",
           "comments": []
         }
       ]
