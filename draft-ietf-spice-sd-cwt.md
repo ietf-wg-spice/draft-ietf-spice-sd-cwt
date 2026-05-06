@@ -705,12 +705,16 @@ If any Salted Disclosed Claims or Decoys are present, the unprotected header MUS
 If there are no disclosures, the `sd_claims` header parameter value is omitted.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
 
+CWT {{!RFC8392}} and JWT {{?RFC7519}} register claims and leave their applicability to profiles.
+This document instead specifies claim requirements directly, because SD-CWT is a specific credential type whose selective-disclosure and key-binding semantics depend on a small set of claims being present, unredacted, and consistently interpreted across implementations.
+The requirements in {{sd-cwt-claims}} and {{sd-kbt-claims}} are the minimum needed for interoperable verification; profiles of this specification MAY add further constraints but MUST NOT relax these.
+
 The following table describes the claim requirements for an SD-CWT:
 
 | Claim | Requirement | Never Redacted |
 |-------|-------------|----------------------|
 | `sub` / 2 | MUST be present (disclosed or redacted) | No |
-| `iss` / 1 | SHOULD (see note) | Yes |
+| `iss` / 1 | MUST unless (see note) | Yes |
 | `aud` / 3 | OPTIONAL | Yes |
 | `exp` / 4 | OPTIONAL | Yes |
 | `nbf` / 5 | OPTIONAL | Yes |
@@ -720,19 +724,7 @@ The following table describes the claim requirements for an SD-CWT:
 | `cnonce` / 39 | OPTIONAL | Yes |
 {: #sd-cwt-claims title="SD-CWT Claim Requirements"}
 
-The `iss` claim SHOULD be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer.
-
-The following table describes the claim requirements for an SD-KBT:
-
-| Claim | Requirement | Never Redacted |
-|-------|-------------|----------------------|
-| `sub` / 2 | MUST NOT be present | N/A |
-| `iss` / 1 | MUST NOT be present | N/A |
-| `aud` / 3 | MUST | Yes |
-| `iat` / 6 | MUST (unless `cti` present) | Yes |
-| `cti` / 7 | MUST (unless `iat` present) | Yes |
-| `cnonce` / 39 | OPTIONAL | Yes |
-{: #sd-kbt-claims title="SD-KBT Claim Requirements"}
+The `iss` claim MUST be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer.
 
 Any claims not addressed in the tables above are OPTIONAL and MAY be redacted in an SD-CWT, unless specified differently by a profile or more specific media type.
 
@@ -802,11 +794,24 @@ Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in 
 The `aud` claim MUST be included and MUST correspond to the Verifier.
 The SD-KBT payload MUST contain either the `iat` (issued at) claim, or the `cti` (CWT ID) claim.
 If the Holder has access to an accurate clock, use of the `iat` is preferred.
+The SD-KBT MUST NOT be valid for any time period when its contained SD-CWT is invalid.
 
 The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the unsigned integer value of 294.
 The Holder SHOULD use the value 294 instead of `application/kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).
 
-The SD-KBT MUST NOT be valid for any time period when its contained SD-CWT is invalid.
+The following table describes the claim requirements for an SD-KBT:
+
+| Claim | Requirement |
+|-------|-------------|
+| `sub` / 2 | MUST NOT be present |
+| `iss` / 1 | MUST NOT be present |
+| `aud` / 3 | MUST |
+| `iat` / 6 | MUST (unless `cti` present) |
+| `cti` / 7 | MUST (unless `iat` present) |
+| `cnonce` / 39 | OPTIONAL |
+{: #sd-kbt-claims title="SD-KBT Claim Requirements"}
+
+Any claims not addressed in the tables above are OPTIONAL, unless specified differently by a profile or more specific media type.
 
 The SD-KBT provides the following assurances to the Verifier:
 
