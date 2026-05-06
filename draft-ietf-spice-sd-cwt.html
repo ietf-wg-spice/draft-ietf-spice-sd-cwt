@@ -1055,7 +1055,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 5 November 2026</td>
+<td class="center">Expires 7 November 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-05-04" class="published">4 May 2026</time>
+<time datetime="2026-05-06" class="published">6 May 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-11-05">5 November 2026</time></dd>
+<dd class="expires"><time datetime="2026-11-07">7 November 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2715,7 +2715,10 @@ If no <code>sd_alg</code> header parameter is present, the default hash function
 <p id="section-7-3">If any Salted Disclosed Claims or Decoys are present, the unprotected header <span class="bcp14">MUST</span> contain the <code>sd_claims</code> header parameter with a Salted Disclosed Claim for every Redacted Claim Hash present anywhere in the payload, and any decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
 If there are no disclosures, the <code>sd_claims</code> header parameter value is omitted.
 The payload also <span class="bcp14">MUST</span> include a key confirmation element (<code>cnf</code>) <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span> for the Holder's public key.<a href="#section-7-3" class="pilcrow">¶</a></p>
-<p id="section-7-4">The following table describes the claim requirements for an SD-CWT:<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-4">CWT <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span> and JWT <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> register claims and leave their applicability to profiles.
+This document instead specifies claim requirements directly, because SD-CWT is a specific credential type whose selective-disclosure and key-binding semantics depend on a small set of claims being present, unredacted, and consistently interpreted across implementations.
+The requirements in <a href="#sd-cwt-claims" class="auto internal xref">Table 2</a> and <a href="#sd-kbt-claims" class="auto internal xref">Table 3</a> are the minimum needed for interoperable verification; profiles of this specification <span class="bcp14">MAY</span> add further constraints but <span class="bcp14">MUST NOT</span> relax these.<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-5">The following table describes the claim requirements for an SD-CWT:<a href="#section-7-5" class="pilcrow">¶</a></p>
 <span id="name-sd-cwt-claim-requirements"></span><div id="sd-cwt-claims">
 <table class="center" id="table-2">
         <caption>
@@ -2741,7 +2744,7 @@ The payload also <span class="bcp14">MUST</span> include a key confirmation elem
             <td class="text-left" rowspan="1" colspan="1">
               <code>iss</code> / 1</td>
             <td class="text-left" rowspan="1" colspan="1">
-              <span class="bcp14">SHOULD</span> (see note)</td>
+              <span class="bcp14">MUST</span> unless (see note)</td>
             <td class="text-left" rowspan="1" colspan="1">Yes</td>
           </tr>
           <tr>
@@ -2803,71 +2806,9 @@ The payload also <span class="bcp14">MUST</span> include a key confirmation elem
         </tbody>
       </table>
 </div>
-<p id="section-7-6">The <code>iss</code> claim <span class="bcp14">SHOULD</span> be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer.<a href="#section-7-6" class="pilcrow">¶</a></p>
-<p id="section-7-7">The following table describes the claim requirements for an SD-KBT:<a href="#section-7-7" class="pilcrow">¶</a></p>
-<span id="name-sd-kbt-claim-requirements"></span><div id="sd-kbt-claims">
-<table class="center" id="table-3">
-        <caption>
-<a href="#table-3" class="selfRef">Table 3</a>:
-<a href="#name-sd-kbt-claim-requirements" class="selfRef">SD-KBT Claim Requirements</a>
-        </caption>
-<thead>
-          <tr>
-            <th class="text-left" rowspan="1" colspan="1">Claim</th>
-            <th class="text-left" rowspan="1" colspan="1">Requirement</th>
-            <th class="text-left" rowspan="1" colspan="1">Never Redacted</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">
-              <code>sub</code> / 2</td>
-            <td class="text-left" rowspan="1" colspan="1">
-              <span class="bcp14">MUST NOT</span> be present</td>
-            <td class="text-left" rowspan="1" colspan="1">N/A</td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">
-              <code>iss</code> / 1</td>
-            <td class="text-left" rowspan="1" colspan="1">
-              <span class="bcp14">MUST NOT</span> be present</td>
-            <td class="text-left" rowspan="1" colspan="1">N/A</td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">
-              <code>aud</code> / 3</td>
-            <td class="text-left" rowspan="1" colspan="1">
-              <span class="bcp14">MUST</span>
-</td>
-            <td class="text-left" rowspan="1" colspan="1">Yes</td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">
-              <code>iat</code> / 6</td>
-            <td class="text-left" rowspan="1" colspan="1">
-              <span class="bcp14">MUST</span> (unless <code>cti</code> present)</td>
-            <td class="text-left" rowspan="1" colspan="1">Yes</td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">
-              <code>cti</code> / 7</td>
-            <td class="text-left" rowspan="1" colspan="1">
-              <span class="bcp14">MUST</span> (unless <code>iat</code> present)</td>
-            <td class="text-left" rowspan="1" colspan="1">Yes</td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">
-              <code>cnonce</code> / 39</td>
-            <td class="text-left" rowspan="1" colspan="1">
-              <span class="bcp14">OPTIONAL</span>
-</td>
-            <td class="text-left" rowspan="1" colspan="1">Yes</td>
-          </tr>
-        </tbody>
-      </table>
-</div>
-<p id="section-7-9">Any claims not addressed in the tables above are <span class="bcp14">OPTIONAL</span> and <span class="bcp14">MAY</span> be redacted in an SD-CWT, unless specified differently by a profile or more specific media type.<a href="#section-7-9" class="pilcrow">¶</a></p>
-<p id="section-7-10">To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) <span>[<a href="#RFC9679" class="cite xref">RFC9679</a>]</span> <span class="bcp14">MAY</span> be used in the <code>cnf</code> claim.<a href="#section-7-10" class="pilcrow">¶</a></p>
+<p id="section-7-7">The <code>iss</code> claim <span class="bcp14">MUST</span> be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer.<a href="#section-7-7" class="pilcrow">¶</a></p>
+<p id="section-7-8">Any claims not addressed in the tables above are <span class="bcp14">OPTIONAL</span> and <span class="bcp14">MAY</span> be redacted in an SD-CWT, unless specified differently by a profile or more specific media type.<a href="#section-7-8" class="pilcrow">¶</a></p>
+<p id="section-7-9">To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) <span>[<a href="#RFC9679" class="cite xref">RFC9679</a>]</span> <span class="bcp14">MAY</span> be used in the <code>cnf</code> claim.<a href="#section-7-9" class="pilcrow">¶</a></p>
 <div id="issuer-generation">
 <section id="section-7.1">
         <h3 id="name-issuer-generation">
@@ -3009,31 +2950,87 @@ Therefore, the <code>sub</code> and <code>iss</code> of an SD-KBT are implied fr
 (Profiles of this specification <span class="bcp14">MAY</span> define additional semantics.)<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 <p id="section-8.1-4">The <code>aud</code> claim <span class="bcp14">MUST</span> be included and <span class="bcp14">MUST</span> correspond to the Verifier.
 The SD-KBT payload <span class="bcp14">MUST</span> contain either the <code>iat</code> (issued at) claim, or the <code>cti</code> (CWT ID) claim.
-If the Holder has access to an accurate clock, use of the <code>iat</code> is preferred.<a href="#section-8.1-4" class="pilcrow">¶</a></p>
+If the Holder has access to an accurate clock, use of the <code>iat</code> is preferred.
+The SD-KBT <span class="bcp14">MUST NOT</span> be valid for any time period when its contained SD-CWT is invalid.<a href="#section-8.1-4" class="pilcrow">¶</a></p>
 <p id="section-8.1-5">The protected header of the SD-KBT <span class="bcp14">MUST</span> include the <code>typ</code> header parameter with the value <code>application/kb+cwt</code> or the unsigned integer value of 294.
 The Holder <span class="bcp14">SHOULD</span> use the value 294 instead of <code>application/kb+cwt</code>, as the CBOR representation is considerably smaller (3 bytes versus of 19).<a href="#section-8.1-5" class="pilcrow">¶</a></p>
-<p id="section-8.1-6">The SD-KBT <span class="bcp14">MUST NOT</span> be valid for any time period when its contained SD-CWT is invalid.<a href="#section-8.1-6" class="pilcrow">¶</a></p>
-<p id="section-8.1-7">The SD-KBT provides the following assurances to the Verifier:<a href="#section-8.1-7" class="pilcrow">¶</a></p>
+<p id="section-8.1-6">The following table describes the claim requirements for an SD-KBT:<a href="#section-8.1-6" class="pilcrow">¶</a></p>
+<span id="name-sd-kbt-claim-requirements"></span><div id="sd-kbt-claims">
+<table class="center" id="table-3">
+          <caption>
+<a href="#table-3" class="selfRef">Table 3</a>:
+<a href="#name-sd-kbt-claim-requirements" class="selfRef">SD-KBT Claim Requirements</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Claim</th>
+              <th class="text-left" rowspan="1" colspan="1">Requirement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>sub</code> / 2</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">MUST NOT</span> be present</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>iss</code> / 1</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">MUST NOT</span> be present</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>aud</code> / 3</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">MUST</span>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>iat</code> / 6</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">MUST</span> (unless <code>cti</code> present)</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>cti</code> / 7</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">MUST</span> (unless <code>iat</code> present)</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>cnonce</code> / 39</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span class="bcp14">OPTIONAL</span>
+</td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<p id="section-8.1-8">Any claims not addressed in the tables above are <span class="bcp14">OPTIONAL</span>, unless specified differently by a profile or more specific media type.<a href="#section-8.1-8" class="pilcrow">¶</a></p>
+<p id="section-8.1-9">The SD-KBT provides the following assurances to the Verifier:<a href="#section-8.1-9" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.1-8.1">
-            <p id="section-8.1-8.1.1">the Holder of the SD-CWT controls the confirmation method chosen by the Issuer;<a href="#section-8.1-8.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8.1-10.1">
+            <p id="section-8.1-10.1.1">the Holder of the SD-CWT controls the confirmation method chosen by the Issuer;<a href="#section-8.1-10.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-8.2">
-            <p id="section-8.1-8.2.1">the Holder's disclosures have not been tampered with since confirmation occurred;<a href="#section-8.1-8.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-10.2">
+            <p id="section-8.1-10.2.1">the Holder's disclosures have not been tampered with since confirmation occurred;<a href="#section-8.1-10.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-8.3">
-            <p id="section-8.1-8.3.1">the Holder intended to address the SD-CWT to the Verifier specified in the audience (<code>aud</code>) claim;<a href="#section-8.1-8.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-10.3">
+            <p id="section-8.1-10.3.1">the Holder intended to address the SD-CWT to the Verifier specified in the audience (<code>aud</code>) claim;<a href="#section-8.1-10.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.1-8.4">
-            <p id="section-8.1-8.4.1">if there are any time claims, the Holder's disclosure is linked to the creation time (<code>iat</code>) of the key binding; otherwise the Holder's disclosure is linked to a CWT ID (<code>cti</code>), which is expected to be unique per KBT.<a href="#section-8.1-8.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.1-10.4">
+            <p id="section-8.1-10.4.1">if there are any time claims, the Holder's disclosure is linked to the creation time (<code>iat</code>) of the key binding; otherwise the Holder's disclosure is linked to a CWT ID (<code>cti</code>), which is expected to be unique per KBT.<a href="#section-8.1-10.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-8.1-9">The SD-KBT prevents an attacker from copying and pasting disclosures, or from adding or removing disclosures without detection.
-Confirmation is established according to <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span>, using the <code>cnf</code> claim in the payload of the SD-CWT.<a href="#section-8.1-9" class="pilcrow">¶</a></p>
-<p id="section-8.1-10">The Holder signs the SD-KBT using the key specified in the <code>cnf</code> claim in the SD-CWT. This proves possession of the Holder's private key.<a href="#section-8.1-10" class="pilcrow">¶</a></p>
+<p id="section-8.1-11">The SD-KBT prevents an attacker from copying and pasting disclosures, or from adding or removing disclosures without detection.
+Confirmation is established according to <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span>, using the <code>cnf</code> claim in the payload of the SD-CWT.<a href="#section-8.1-11" class="pilcrow">¶</a></p>
+<p id="section-8.1-12">The Holder signs the SD-KBT using the key specified in the <code>cnf</code> claim in the SD-CWT. This proves possession of the Holder's private key.<a href="#section-8.1-12" class="pilcrow">¶</a></p>
 <span id="name-cddl-describing-kbt-syntax"></span><div id="cddl-kbt">
 <figure id="figure-18">
-          <div class="lang-cddl sourcecode" id="section-8.1-11.1">
+          <div class="lang-cddl sourcecode" id="section-8.1-13.1">
 <pre>
 kbt-cwt = #6.18([
    protected: bstr .cbor kbt-protected,
@@ -3078,9 +3075,9 @@ time-or-cti-claims = (
 <a href="#name-cddl-describing-kbt-syntax" class="selfRef">CDDL describing KBT syntax</a>
           </figcaption></figure>
 </div>
-<p id="section-8.1-12">The SD-KBT payload <span class="bcp14">MAY</span> include a <code>cnonce</code> claim.
+<p id="section-8.1-14">The SD-KBT payload <span class="bcp14">MAY</span> include a <code>cnonce</code> claim.
 If included, the <code>cnonce</code> is a <code>bstr</code> and <span class="bcp14">MUST</span> be treated as opaque to the Holder.
-All other claims are <span class="bcp14">OPTIONAL</span> in an SD-KBT.<a href="#section-8.1-12" class="pilcrow">¶</a></p>
+All other claims are <span class="bcp14">OPTIONAL</span> in an SD-KBT.<a href="#section-8.1-14" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
