@@ -1728,7 +1728,7 @@ The validation process for SD-CWT is similar to SD-JWT, however, JSON Objects ar
 
 ## Subject / Holder
 
-Holder COSE key pair in EDN format
+Holder COSE key pair in EDN format:
 
 ~~~ cbor-diag
 {
@@ -1758,7 +1758,7 @@ in EDN format:
 }
 ~~~
 
-The same map in CBOR pretty printing
+The same map in CBOR pretty printing:
 
 ~~~ cbor-pretty
 A4                                      # map(4)
@@ -1774,13 +1774,19 @@ A4                                      # map(4)
       4DC7AE2C677E96D0CC82597655CE92D5503F54293D87875D1E79CE4770194343
 ~~~
 
-The COSE thumbprint (in hexadecimal)--SHA256 hash of the thumbprint fields:
+The COSE Key Thumbprint (in hexadecimal)--SHA256 hash of the thumbprint fields:
 
 ~~~
 8343d73cdfcb81f2c7cd11a5f317be8eb34e4807ec8c9ceb282495cffdf037e0
 ~~~
 
-Holder key pair in JWK format
+The COSE Key Thumbprint URI:
+
+~~~
+urn:ietf:params:oauth:ckt:g0PXPN_LgfLHzRGl8xe-jrNOSAfsjJzrKCSVz_3wN-A
+~~~
+
+Holder key pair in JWK format:
 
 ~~~
 {
@@ -1794,26 +1800,26 @@ Holder key pair in JWK format
 }
 ~~~
 
-Input to Holder public JWK thumbprint (ignore line breaks)
+Input to Holder public JWK thumbprint (ignore line breaks):
 
 ~~~
 {"crv":"P-256","kty":"EC","x":"hVTrJ13Nb70cesZBqiyQ2SAi_Q0wJLWvGMfMYa1S
 ei0","y":"TceuLGd-ltDMgll2Vc6S1VA_VCk9h4ddHnnOR3AZQ0M"}
 ~~~
 
-SHA-256 of the Holder public JWK input string (in hex)
+SHA-256 of the Holder public JWK input string (in hex):
 
 ~~~
 59143645b6394582422317c340bf5a825f5f15209856ee17a1ca9beb37ab7353
 ~~~
 
-Holder public JWK thumbprint
+Holder public JWK thumbprint:
 
 ~~~
 WRQ2RbY5RYJCIxfDQL9agl9fFSCYVu4Xocqb6zerc1M
 ~~~
 
-Holder public key in PEM format
+Holder public key in PEM format:
 
 ~~~
 -----BEGIN PUBLIC KEY-----
@@ -1822,7 +1828,7 @@ JLWvGMfMYa1Sei1Nx64sZ36W0MyCWXZVzpLVUD9UKT2Hh10eec5HcBlDQw==
 -----END PUBLIC KEY-----
 ~~~
 
-Holder private key in PEM format
+Holder private key in PEM format:
 
 ~~~
 -----BEGIN PRIVATE KEY-----
@@ -1834,7 +1840,7 @@ ta8Yx8xhrVJ6LU3HrixnfpbQzIJZdlXOktVQP1QpPYeHXR55zkdwGUND
 
 ## Issuer
 
-Issuer COSE key pair in Extended Diagnostic Notation (EDN)
+Issuer COSE key pair in Extended Diagnostic Notation (EDN):
 
 ~~~ cbor-diag
 {
@@ -1865,7 +1871,7 @@ in EDN format:
 }
 ~~~
 
-The same map in CBOR pretty printing
+The same map in CBOR pretty printing:
 
 ~~~ cbor-pretty
 A4                                      # map(5)
@@ -1883,13 +1889,19 @@ A4                                      # map(5)
       84A055A31FB7F9214B27509522C159E764F8711E11609554
 ~~~
 
-The COSE thumbprint (in hexadecimal)--SHA256 hash of the thumbprint fields:
+The COSE Key Thumbprint (in hexadecimal)--SHA256 hash of the thumbprint fields:
 
 ~~~
 554550a611c9807b3462cfec4a690a1119bc43b571da1219782133f5fd6dbcb0
 ~~~
 
-Issuer key pair in JWK format
+The COSE Key Thumbprint URI:
+
+~~~
+urn:ietf:params:oauth:ckt:VUVQphHJgHs0Ys_sSmkKERm8Q7Vx2hIZeCEz9f1tvLA
+~~~
+
+Issuer key pair in JWK format:
 
 ~~~
 {
@@ -1903,7 +1915,7 @@ Issuer key pair in JWK format
 }
 ~~~
 
-Input to Issuer JWK thumbprint (ignore line breaks)
+Input to Issuer JWK thumbprint (ignore line breaks):
 
 ~~~
 {"crv":"P-384","kty":"EC","x":"wxeYsMeIX6NSj7-HfltMOm3GelpdxrMHtyjDclkm
@@ -1911,19 +1923,19 @@ Input to Issuer JWK thumbprint (ignore line breaks)
 -SFLJ1CVIsFZ52T4cR4RYJVU"}
 ~~~
 
-SHA-256 of the Issuer JWK input string (in hex)
+SHA-256 of the Issuer JWK input string (in hex):
 
 ~~~
 18d4ddb7065d945357e3972dee76af4eddc7c285fb42efcfa900c6a4f8437850
 ~~~
 
-Issuer JWK thumbprint
+Issuer JWK thumbprint:
 
 ~~~
 GNTdtwZdlFNX45ct7navTt3HwoX7Qu_PqQDGpPhDeFA
 ~~~
 
-Issuer public key in PEM format
+Issuer public key in PEM format:
 
 ~~~
 -----BEGIN PUBLIC KEY-----
@@ -1933,7 +1945,7 @@ hKBVox+3+SFLJ1CVIsFZ52T4cR4RYJVU
 -----END PUBLIC KEY-----
 ~~~
 
-Issuer private key in PEM format
+Issuer private key in PEM format:
 
 ~~~
 -----BEGIN PRIVATE KEY-----
