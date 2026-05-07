@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-05T01:48:38.730755+00:00",
+  "timestamp": "2026-05-07T01:51:54.054290+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4565,7 +4565,7 @@
       "id": "I_kwDOMm_Q2s7lNUmI",
       "title": "Mandating claims seems unnecessary",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/212",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -4577,8 +4577,8 @@
       ],
       "body": "Is [this](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-7-4) really necessary?\n\n> In an SD-CWT, either the subject sub / 2 claim MUST be present, or the redacted form of the subject MUST be present. The iss / 1 claim SHOULD be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer. All other standard CWT claims (aud / 3, exp / 4, nbf / 5, iat / 6, and cti / 7) are OPTIONAL. The cnonce / 39 claim is OPTIONAL. The cnf / 8 claim, the cnonce / 39 claim, and the standard claims other than the subject MUST NOT be redacted. Any other claims are OPTIONAL and MAY be redacted. Profiles of this specification MAY specify additional claims that MUST, MUST NOT, and MAY be redacted.\n\nAside from my initial reaction (argh, my eyes!), I don't think that there is anything here that is necessary for interoperability.  If I want a claim set without a subject, isn't that on me?  (It makes little sense, sure, but this specification has no business saying that.)\n\nThe only thing that makes some amount of sense is the prohibition on blinding (not redaction!) of cnonce, which isn't confidential information.  Still, I think that I can come up with scenarios where even that makes sense.  Perhaps you want to present evidence of freshness to only one entity...",
       "createdAt": "2026-01-23T01:58:51Z",
-      "updatedAt": "2026-05-04T14:21:30Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-06T15:36:39Z",
+      "closedAt": "2026-05-06T15:36:39Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -5508,41 +5508,47 @@
       "id": "I_kwDOMm_Q2s7pdkpy",
       "title": "Consider reworking Appendix C to use figure footers",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/248",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "chore",
-        "low-pri"
+        "wontfix"
       ],
       "body": "Currently Appendix C has inline introductions for each \"code block\". It is pretty readable now, but we could rewrite the text to rely on figure footers instead.",
       "createdAt": "2026-02-09T15:04:06Z",
-      "updatedAt": "2026-03-25T07:07:18Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-05-06T16:06:58Z",
+      "closedAt": "2026-05-06T16:06:58Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I did an experiment replacing a few of these and rendering the text and HTML. In my opinion, using Figures for the short snippets in Appendix C significantly cluttered up the text version, and were slightly distracting to no-benefit in the HTML version.  I'm going to close this with a wontfix.",
+          "createdAt": "2026-05-06T16:06:58Z",
+          "updatedAt": "2026-05-06T16:06:58Z"
+        }
+      ]
     },
     {
       "number": 249,
       "id": "I_kwDOMm_Q2s7pdnsx",
       "title": "Consider adding COSE key thumbprint URIs in Appendix C",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/249",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "chore",
-        "nice-to-have"
+        "has-PR"
       ],
       "body": "",
       "createdAt": "2026-02-09T15:06:56Z",
-      "updatedAt": "2026-03-25T07:07:09Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-06T17:59:54Z",
+      "closedAt": "2026-05-06T17:59:54Z",
       "comments": []
     },
     {
@@ -21374,24 +21380,26 @@
       "id": "PR_kwDOMm_Q2s7YC0fa",
       "title": "Explain why SD-CWT specifies claim requirements directly (#212)",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/276",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "OR13",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "## Summary\nAdds a short rationale paragraph immediately before the SD-CWT and SD-KBT claim requirement tables in \u00a77.\n\nThe paragraph addresses Martin Thomson's concern that mandating claims is unusual given that CWT (RFC 8392) and JWT (RFC 7519) register claims and leave their applicability to profiles. It explains why this document is different: SD-CWT is a specific credential type whose selective-disclosure and key-binding semantics depend on a small set of claims being present, unredacted, and consistently interpreted across implementations. The requirements are framed explicitly as a floor \u2014 profiles MAY add further constraints but MUST NOT relax these.\n\nPR #258 added the requirement tables themselves; this PR adds the missing justification.\n\nCloses #212\n\n## Test plan\n- [ ] Build the draft locally (`make`) and confirm the new paragraph reads naturally before the tables\n- [ ] Confirm the `{{sd-cwt-claims}}` and `{{sd-kbt-claims}}` cross-references resolve\n- [ ] Confirm CI build passes\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
       "createdAt": "2026-05-04T14:18:41Z",
-      "updatedAt": "2026-05-04T15:32:32Z",
+      "updatedAt": "2026-05-06T15:36:38Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "b48bf5545df84f99533e79fcaf68adc2982162a8",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue212",
       "headRefOid": "231905cff6b712ed17dce781d4f033933034ed18",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-05-06T15:36:38Z",
+      "mergedAt": "2026-05-06T15:36:38Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "c7f582e07e85005fa190de057cead90e324321bf"
+      },
       "comments": [],
       "reviews": [
         {
@@ -21418,6 +21426,87 @@
           "body": "",
           "createdAt": "2026-05-04T15:32:32Z",
           "updatedAt": "2026-05-04T15:32:32Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s78k31N",
+          "commit": {
+            "abbreviatedOid": "231905c"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-06T15:36:26Z",
+          "updatedAt": "2026-05-06T15:36:26Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 277,
+      "id": "PR_kwDOMm_Q2s7YXshc",
+      "title": "Add Appendix with worked nesting example",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/277",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "WIP: Just barely starting, but wanted to store this remotely\r\n\r\nCloses #269 ",
+      "createdAt": "2026-05-05T11:25:54Z",
+      "updatedAt": "2026-05-05T11:26:45Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "5bd700770322e723e30f72bdf6caf9a12e156ced",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "nesting-appendix",
+      "headRefOid": "0ac1f0634f88f69b5e9822320737a0db8f7e8123",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 278,
+      "id": "PR_kwDOMm_Q2s7Y1p-k",
+      "title": "Add COSE Key Thumbprint URIs to Appendix C",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/278",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #249 ",
+      "createdAt": "2026-05-06T16:00:52Z",
+      "updatedAt": "2026-05-06T17:59:53Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "c7f582e07e85005fa190de057cead90e324321bf",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "thumbprint-uri",
+      "headRefOid": "c3ef3680fe088a08b5ba59fa9582a7b94e3eb0e1",
+      "closedAt": "2026-05-06T17:59:53Z",
+      "mergedAt": "2026-05-06T17:59:53Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "f3c9dad414047540b85e5f23efed62ea43d56690"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s78mGcf",
+          "commit": {
+            "abbreviatedOid": "c3ef368"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-06T16:24:20Z",
+          "updatedAt": "2026-05-06T16:24:20Z",
           "comments": []
         }
       ]
