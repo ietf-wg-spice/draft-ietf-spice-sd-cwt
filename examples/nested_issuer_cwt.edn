@@ -11,17 +11,17 @@
             /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
             /value/  "DCBA-101777",
             /claim/  501   / inspector_license_number /
-        ]>>,
+        ]>>,         / hash begins 7257a869 /
         <<[
             /salt/   h'e70e23e77176fa59beb0b2559943a079',
             /value/  "co",
             /claim/  2   / region=Colorado /
-        ]>>,
+        ]>>,         / hash begins 1b897171 /
         <<[
             /salt/   h'cbbf1cd3d1a5da83e1d92c08d566a481',
             /value/  "80302",
             /claim/  3   / postcode=80302 /
-        ]>>,
+        ]>>,         / hash begins 49412884 /
         <<[
             /salt/   h'c23a4d192be75dbd583be570482de8dd',
             /value/  {
@@ -34,7 +34,7 @@
                      ]
                      },
             /claim/  503   / Denver location /
-        ]>>,
+        ]>>,         / hash begins c24c646b /
         <<[
             /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
             /value/  {
@@ -47,22 +47,22 @@
                            422b85d3afa5900fa998336d83a88025'
                      ]
                      }   / inspection 7-Feb-2019 /
-        ]>>,
+        ]>>,         / hash begins ca6b8516 /
         <<[
             /salt/   h'9a3bc899090435650b377199450c1fa1',
             /value/  "EFGH-789012",
             /claim/  501   / inspector_license_number /
-        ]>>,
+        ]>>,         / hash begins 98d15f82 /
         <<[
             /salt/   h'5e852d2eef59c0ebeab8c08fca252cc5',
             /value/  "nv",
             /claim/  2   / region=Nevada /
-        ]>>,
+        ]>>,         / hash begins da268d9b /
         <<[
             /salt/   h'3dd46bd7dea09c9ee7dfe4e0d510129b',
             /value/  "89155",
             /claim/  3   / postcode=89155 /
-        ]>>,
+        ]>>,         / hash begins 61dcdb8c /
         <<[
             /salt/   h'c225607427e01072bbafcce7e48049e3',
             /value/  {
@@ -75,7 +75,7 @@
                      ]
                      },
             /claim/  503   / Las Vegas location /
-        ]>>,
+        ]>>,         / hash begins 5dec8f26 /
         <<[
             /salt/   h'1b248d469cf00b8dfa896f069f04697b',
             /value/  {
@@ -88,22 +88,22 @@
                            43de8ee42357a414e3e8d4ab098fae5d'
                      ]
                      }   / inspection 4-Feb-2021 /
-        ]>>,
+        ]>>,         / hash begins 0dfdc69d /
         <<[
             /salt/   h'bae611067bb823486797da1ebbb52f83',
             /value/  "ABCD-123456",
             /claim/  501   / inspector_license_number /
-        ]>>,
+        ]>>,         / hash begins af375dc3 /
         <<[
             /salt/   h'52da9de5dc61b33775f9348b991d3d78',
             /value/  "ca",
             /claim/  2   / region=California /
-        ]>>,
+        ]>>,         / hash begins 2470fb91 /
         <<[
             /salt/   h'a965de35aa599d603fe1b7aa89490eb0',
             /value/  "94188",
             /claim/  3   / postcode=94188 /
-        ]>>,
+        ]>>,         / hash begins cf397a08 /
         <<[
             /salt/   h'483e4b3c194df6073a9c41ca9f274067',
             /value/  {
@@ -116,7 +116,7 @@
                      ]
                      },
             /claim/  503   / San Francisco location /
-        ]>>,
+        ]>>,         / hash begins 9d151abe /
         <<[
             /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
             /value/  {
@@ -129,7 +129,7 @@
                            5944c134b40a24abef1787d3ae6583aa'
                      ]
                      }   / inspection 17-Jan-2023 /
-        ]>>,
+        ]>>,         / hash begins 20d9bb11 /
     ]
   },
   / CWT payload / << {
