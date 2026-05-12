@@ -522,7 +522,7 @@ def edn_one_disclosure(disclosure, comment=None, hash=None):
     if hash is None:
         edn += '        ]>>,\n'
     else:
-        edn += f"        ]>>,         / hash begins {bytes2hex(hash[:4])} /\n"
+        edn += f"        ]>>,         / Redacted Claim Hash begins {bytes2hex(hash[:4])} /\n"
     return edn
 
 
