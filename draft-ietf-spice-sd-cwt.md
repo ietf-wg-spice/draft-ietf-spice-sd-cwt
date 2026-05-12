@@ -1881,7 +1881,7 @@ Using the example in {{nesting}}, this section walks the reader through the proc
 In this example, an SD-CWT includes the Holder's choice of (nested) disclosures.
 The example does not show the SD-KBT for brevity; that does not mean it would not be present.
 In the example the disclosures are sorted in the order of the Redacted Claim Hash corresponding to each disclosure.
-(The Holder can present its disclosure in any order.)
+(The Holder can present its disclosures in any order.)
 
 ~~~ cbor-diag
 {::include examples/nested_cwt.edn}
@@ -1890,7 +1890,8 @@ In the example the disclosures are sorted in the order of the Redacted Claim Has
 
 The Verifier needs to match the disclosures to their corresponding Redacted Claims in the Claims Set in the payload of our example SD-CWT.
 It needs to calculate the Redacted Claim Hash for each of the disclosures it receives.
-Typically the Verifier woudl create a lookup table of disclosures indexed by the Redacted Claim Hash.
+
+Typically the Verifier would create a lookup table of disclosures indexed by the Redacted Claim Hash.
 Comments in the example show the first 4 bytes of Redacted Claim Hash of each disclosure.
 
 Our example document only contains three Redacted Claims that are currently visible.
@@ -2021,9 +2022,52 @@ Extra disclosures cannot be verified and indicate incorrect behavior by the Hold
 
 ## Holder
 
+TODO: Explain how a Hodler decides what to disclose. Discuss gaps in nesting.
 
 ## Issuer
 
+TODO: Explain how an Issuer decides what to redact.
+
+The Holder or the administrator of the Issuer could have used the To Be Redacted tag defined in 
+
+~~~ cbor-diag
+{
+...
+  504 : [
+    58({
+      500 : true,
+      502 : 1549560720,
+      58(501) : "DCBA-101777",
+      58(503) : {
+          1: "us",
+          58(2): "co",
+          58(3): "80302",
+      }
+    }),
+    58({
+      500 : true,
+      502 : 1612560720,
+      58(501) : "EFGH-789012",
+      58(503) : {
+          1: "us",
+          58(2): "nv",
+          58(3): "89155",
+      }
+    }),
+    58({
+      500 : true,
+      502 : 1674004740,
+      58(501) : "ABCD-123456",
+      58(503) : {
+          1: "us",
+          58(2)): "ca",
+          58(3): "94188",
+      }
+    })
+  ]
+}
+...
+~~~
 
 
 # Implementation Status
