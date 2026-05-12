@@ -24,10 +24,15 @@
                          }   / inspection 17-Jan-2023 /
             ]>>,         / Redacted Claim Hash begins 20d9bb11 /
             <<[
-                /salt/   h'bae611067bb823486797da1ebbb52f83',
-                /value/  "ABCD-123456",
+                /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+                /value/  "ca",
+                /claim/  2   / region=California /
+            ]>>,         / Redacted Claim Hash begins 2470fb91 /
+            <<[
+                /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+                /value/  "DCBA-101777",
                 /claim/  501   / inspector_license_number /
-            ]>>,         / Redacted Claim Hash begins af375dc3 /
+            ]>>,         / Redacted Claim Hash begins 7257a869 /
             <<[
                 /salt/   h'483e4b3c194df6073a9c41ca9f274067',
                 /value/  {
@@ -42,10 +47,10 @@
                 /claim/  503   / San Francisco location /
             ]>>,         / Redacted Claim Hash begins 9d151abe /
             <<[
-                /salt/   h'52da9de5dc61b33775f9348b991d3d78',
-                /value/  "ca",
-                /claim/  2   / region=California /
-            ]>>,         / Redacted Claim Hash begins 2470fb91 /
+                /salt/   h'bae611067bb823486797da1ebbb52f83',
+                /value/  "ABCD-123456",
+                /claim/  501   / inspector_license_number /
+            ]>>,         / Redacted Claim Hash begins af375dc3 /
             <<[
                 /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
                 /value/  {
@@ -59,11 +64,6 @@
                          ]
                          }   / inspection 7-Feb-2019 /
             ]>>,         / Redacted Claim Hash begins ca6b8516 /
-            <<[
-                /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
-                /value/  "DCBA-101777",
-                /claim/  501   / inspector_license_number /
-            ]>>,         / Redacted Claim Hash begins 7257a869 /
             <<[
                 /salt/   h'c23a4d192be75dbd583be570482de8dd',
                 /value/  {
@@ -123,8 +123,8 @@
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } >>,      / end of KBT payload /
-  / KBT signature / h'aaba4330c2554c22580dcca6a626ddb5
-                      5f0e508b3634929be93ce0f13cd0a344
-                      6dd8e5fea49413c0943292e532fe9ea7
-                      4f29236f8b8adb5b26cbd593a5113265'
+  / KBT signature / h'65f0ceab1fac14538ed1d1f42e790a94
+                      e22f75b1b448378f22d0d7cbac4bd288
+                      0ae994d8c8baf67a1888bba66b47851d
+                      106454d0b2b9953133e0d8742527ee2a'
 ])   / end of kbt /

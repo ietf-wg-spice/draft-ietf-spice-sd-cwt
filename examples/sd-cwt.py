@@ -972,15 +972,15 @@ if __name__ == "__main__":
         comments=example_comments)
     write_to_file(nested_issued_edn, "nested_issuer_cwt.edn")
 
-    chosen_nested_disclosures = [
-        disclosures[14],
-        disclosures[10],
-        disclosures[13],
-        disclosures[11],
-        disclosures[4],
-        disclosures[0],
-        disclosures[3]
-    ]
+    # sort disclosures in Redacted Claim Hash order
+    chosen_comments = []
+    chosen_hashes = []
+    chosen_nested_disclosures = []
+    for i in [14,11,0,13,10,3,4]:   # the indexes into the disclosures array
+        chosen_comments.append(example_comments[i])
+        chosen_hashes.append(nested_hash_list[i])
+        chosen_nested_disclosures.append(disclosures[i])
+
     chosen_nested_unprotected = {
         SD_CLAIMS: chosen_nested_disclosures
     }
@@ -995,24 +995,6 @@ if __name__ == "__main__":
     nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
     write_to_file(nested_kbt, "nested_kbt.cbor")
 
-    chosen_comments = [
-        example_comments[14],
-        example_comments[10],
-        example_comments[13],
-        example_comments[11],
-        example_comments[4],
-        example_comments[0],
-        example_comments[3]
-    ]
-    chosen_hashes = [
-        nested_hash_list[14],
-        nested_hash_list[10],
-        nested_hash_list[13],
-        nested_hash_list[11],
-        nested_hash_list[4],
-        nested_hash_list[0],
-        nested_hash_list[3]
-    ]
     decoded_disclosures = parse_disclosures(chosen_nested_disclosures)
     edn_disclosures = edn_decoded_disclosures(decoded_disclosures,
                             comments=chosen_comments,
