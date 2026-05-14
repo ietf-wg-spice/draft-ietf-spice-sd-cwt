@@ -2044,13 +2044,17 @@ Extra disclosures cannot be verified and indicate incorrect behavior by the Hold
 
 ## Holder
 
-TODO: Explain how a Hodler decides what to disclose. Discuss gaps in nesting.
+Once it receives an issued SD-CWT from the Issuer, the Holder
+
+TODO: Explain how a Holder decides what to disclose. Discuss gaps in nesting.
 
 ## Issuer
 
-TODO: Explain how an Issuer decides what to redact.
+How the Issuer decides which claims are present in an SD-CWT Claims Set, and which claims in a Claims Set to redact is a local policy matter outside of the scope of this specification.
+That said, the Holder or the administrator of the Issuer could have used the To Be Redacted tag (see {{tbr-tag}}) and the To Be Decoy tag (see {{tb-decoy-tag}}) as a hint to indicate claims to be redacted or locations for decoys.
+The examples in this document were produced using this method.
 
-The Holder or the administrator of the Issuer could have used the To Be Redacted tag defined in
+Below is the nested Claims Set example from {{edn-nested-unblinded}} with To Be Redacted tags wrapping the claims that are actually redacted in our nested example.
 
 ~~~ cbor-diag
 {
