@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-12T01:56:16.181398+00:00",
+  "timestamp": "2026-05-14T02:03:14.205351+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -21467,15 +21467,15 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "WIP: Just barely starting, but wanted to store this remotely\r\n\r\nCloses #269 ",
+      "body": "WIP: \r\n\r\n- [x] Validator part of walkthrough completed\r\n- [ ] Holder part\r\n- [ ] Issuer part\r\n\r\n\r\nCloses #269 ",
       "createdAt": "2026-05-05T11:25:54Z",
-      "updatedAt": "2026-05-05T11:26:45Z",
+      "updatedAt": "2026-05-12T18:51:48Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5bd700770322e723e30f72bdf6caf9a12e156ced",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "nesting-appendix",
-      "headRefOid": "0ac1f0634f88f69b5e9822320737a0db8f7e8123",
+      "headRefOid": "6d67a298ad872cb21d62fca493a919cbafb86aae",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
