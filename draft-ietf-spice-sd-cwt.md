@@ -2028,7 +2028,7 @@ TODO: Explain how a Hodler decides what to disclose. Discuss gaps in nesting.
 
 TODO: Explain how an Issuer decides what to redact.
 
-The Holder or the administrator of the Issuer could have used the To Be Redacted tag defined in 
+The Holder or the administrator of the Issuer could have used the To Be Redacted tag defined in
 
 ~~~ cbor-diag
 {
