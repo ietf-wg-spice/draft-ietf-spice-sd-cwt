@@ -1055,7 +1055,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 13 November 2026</td>
+<td class="center">Expires 15 November 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-05-12" class="published">12 May 2026</time>
+<time datetime="2026-05-14" class="published">14 May 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-11-13">13 November 2026</time></dd>
+<dd class="expires"><time datetime="2026-11-15">15 November 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 13 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 15 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -5314,7 +5314,7 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 <p id="appendix-D.1-2">In this example, an SD-CWT includes the Holder's choice of (nested) disclosures.
 The example does not show the SD-KBT for brevity; that does not mean it would not be present.
 In the example the disclosures are sorted in the order of the Redacted Claim Hash corresponding to each disclosure.
-(The Holder can present its disclosure in any order.)<a href="#appendix-D.1-2" class="pilcrow">¶</a></p>
+(The Holder can present its disclosures in any order.)<a href="#appendix-D.1-2" class="pilcrow">¶</a></p>
 <span id="name-an-sd-cwt-with-nested-claim"></span><figure id="figure-31">
           <div class="breakable lang-cbor-diag sourcecode" id="appendix-D.1-3.1">
 <pre>
@@ -5437,12 +5437,12 @@ In the example the disclosures are sorted in the order of the Redacted Claim Has
 <a href="#name-an-sd-cwt-with-nested-claim" class="selfRef">An SD-CWT with nested claims</a>
           </figcaption></figure>
 <p id="appendix-D.1-4">The Verifier needs to match the disclosures to their corresponding Redacted Claims in the Claims Set in the payload of our example SD-CWT.
-It needs to calculate the Redacted Claim Hash for each of the disclosures it receives.
-Typically the Verifier woudl create a lookup table of disclosures indexed by the Redacted Claim Hash.
-Comments in the example show the first 4 bytes of Redacted Claim Hash of each disclosure.<a href="#appendix-D.1-4" class="pilcrow">¶</a></p>
-<p id="appendix-D.1-5">Our example document only contains three Redacted Claims that are currently visible.<a href="#appendix-D.1-5" class="pilcrow">¶</a></p>
+It needs to calculate the Redacted Claim Hash for each of the disclosures it receives.<a href="#appendix-D.1-4" class="pilcrow">¶</a></p>
+<p id="appendix-D.1-5">Typically the Verifier would create a lookup table of disclosures indexed by the Redacted Claim Hash.
+Comments in the example show the first 4 bytes of Redacted Claim Hash of each disclosure.<a href="#appendix-D.1-5" class="pilcrow">¶</a></p>
+<p id="appendix-D.1-6">Our example document only contains three Redacted Claims that are currently visible.<a href="#appendix-D.1-6" class="pilcrow">¶</a></p>
 <span id="name-redacted-claims-at-level-1"></span><figure id="figure-32">
-          <div class="lang-cbor-diag sourcecode" id="appendix-D.1-6.1">
+          <div class="lang-cbor-diag sourcecode" id="appendix-D.1-7.1">
 <pre>
 ...
 /inspection history log/ 504: [
@@ -5462,12 +5462,12 @@ Comments in the example show the first 4 bytes of Redacted Claim Hash of each di
 <figcaption><a href="#figure-32" class="selfRef">Figure 32</a>:
 <a href="#name-redacted-claims-at-level-1" class="selfRef">Redacted Claims at Level 1</a>
           </figcaption></figure>
-<p id="appendix-D.1-7">The Verifier looks for matching Redacted Claim Hashes among the disclosures it has received.
+<p id="appendix-D.1-8">The Verifier looks for matching Redacted Claim Hashes among the disclosures it has received.
 In this example it finds two matching hashes (the first and last hash in the inspection history log claim array).
 The Verifier replaces the two matching Redacted Claim Hashes with their actual values (in this case, the last and first disclosures, which are both the Claim Elements) and removes the second Redacted Claim Hash.
-The Verifier no longer considers the matched disclosures; they cannot match more than one Redacted Claim Hash.<a href="#appendix-D.1-7" class="pilcrow">¶</a></p>
+The Verifier no longer considers the matched disclosures; they cannot match more than one Redacted Claim Hash.<a href="#appendix-D.1-8" class="pilcrow">¶</a></p>
 <span id="name-claims-after-revealing-disc"></span><figure id="figure-33">
-          <div class="lang-cbor-diag sourcecode" id="appendix-D.1-8.1">
+          <div class="lang-cbor-diag sourcecode" id="appendix-D.1-9.1">
 <pre>
 ...
 /inspection history log/ 504: [
@@ -5498,12 +5498,12 @@ The Verifier no longer considers the matched disclosures; they cannot match more
 <figcaption><a href="#figure-33" class="selfRef">Figure 33</a>:
 <a href="#name-claims-after-revealing-disc" class="selfRef">Claims after revealing disclosures at Level 1</a>
           </figcaption></figure>
-<p id="appendix-D.1-9">The Verifier then repeats the process again at the next "level" of nesting.
+<p id="appendix-D.1-10">The Verifier then repeats the process again at the next "level" of nesting.
 In this example all the visible Redacted Claims happen to be Redacted Claim Keys.
 The second, third, fourth, and sixth disclosures match.
-The Verifier replaces these Redacted Claims with the corresponding Claim Keys from the disclosures.<a href="#appendix-D.1-9" class="pilcrow">¶</a></p>
+The Verifier replaces these Redacted Claims with the corresponding Claim Keys from the disclosures.<a href="#appendix-D.1-10" class="pilcrow">¶</a></p>
 <span id="name-claims-after-revealing-discl"></span><figure id="figure-34">
-          <div class="lang-cbor-diag sourcecode" id="appendix-D.1-10.1">
+          <div class="lang-cbor-diag sourcecode" id="appendix-D.1-11.1">
 <pre>
 ...
 /inspection history log/ 504: [
@@ -5542,11 +5542,11 @@ The Verifier replaces these Redacted Claims with the corresponding Claim Keys fr
 <figcaption><a href="#figure-34" class="selfRef">Figure 34</a>:
 <a href="#name-claims-after-revealing-discl" class="selfRef">Claims after revealing disclosures at Level 2</a>
           </figcaption></figure>
-<p id="appendix-D.1-11">The Verifier then repeats the process again at the next "level" of nesting.
+<p id="appendix-D.1-12">The Verifier then repeats the process again at the next "level" of nesting.
 It finds a single matching disclosure (the second disclosure).
-It replaces the matching Redacted Claim and removes the others.<a href="#appendix-D.1-11" class="pilcrow">¶</a></p>
+It replaces the matching Redacted Claim and removes the others.<a href="#appendix-D.1-12" class="pilcrow">¶</a></p>
 <span id="name-claims-after-revealing-disclo"></span><figure id="figure-35">
-          <div class="lang-cbor-diag sourcecode" id="appendix-D.1-12.1">
+          <div class="lang-cbor-diag sourcecode" id="appendix-D.1-13.1">
 <pre>
 ...
 /inspection history log/ 504: [
@@ -5574,23 +5574,66 @@ It replaces the matching Redacted Claim and removes the others.<a href="#appendi
 <figcaption><a href="#figure-35" class="selfRef">Figure 35</a>:
 <a href="#name-claims-after-revealing-disclo" class="selfRef">Claims after revealing disclosures at Level 3</a>
           </figcaption></figure>
-<p id="appendix-D.1-13">The Verifier has no more Redacted Claim Hashes to process.
+<p id="appendix-D.1-14">The Verifier has no more Redacted Claim Hashes to process.
 If there were remaining disclosures, the Verifier could decide to ignore them or to reject the entire SD-CWT depending on its local policy.
-Extra disclosures cannot be verified and indicate incorrect behavior by the Holder.<a href="#appendix-D.1-13" class="pilcrow">¶</a></p>
+Extra disclosures cannot be verified and indicate incorrect behavior by the Holder.<a href="#appendix-D.1-14" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="holder">
 <section id="appendix-D.2">
         <h3 id="name-holder">
 <a href="#appendix-D.2" class="section-number selfRef">D.2. </a><a href="#name-holder" class="section-name selfRef">Holder</a>
-      </h3>
+        </h3>
+<p id="appendix-D.2-1">TODO: Explain how a Hodler decides what to disclose. Discuss gaps in nesting.<a href="#appendix-D.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="issuer-1">
 <section id="appendix-D.3">
         <h3 id="name-issuer-2">
 <a href="#appendix-D.3" class="section-number selfRef">D.3. </a><a href="#name-issuer-2" class="section-name selfRef">Issuer</a>
-      </h3>
+        </h3>
+<p id="appendix-D.3-1">TODO: Explain how an Issuer decides what to redact.<a href="#appendix-D.3-1" class="pilcrow">¶</a></p>
+<p id="appendix-D.3-2">The Holder or the administrator of the Issuer could have used the To Be Redacted tag defined in<a href="#appendix-D.3-2" class="pilcrow">¶</a></p>
+<div class="lang-cbor-diag sourcecode" id="appendix-D.3-3">
+<pre>
+{
+...
+  504 : [
+    58({
+      500 : true,
+      502 : 1549560720,
+      58(501) : "DCBA-101777",
+      58(503) : {
+          1: "us",
+          58(2): "co",
+          58(3): "80302",
+      }
+    }),
+    58({
+      500 : true,
+      502 : 1612560720,
+      58(501) : "EFGH-789012",
+      58(503) : {
+          1: "us",
+          58(2): "nv",
+          58(3): "89155",
+      }
+    }),
+    58({
+      500 : true,
+      502 : 1674004740,
+      58(501) : "ABCD-123456",
+      58(503) : {
+          1: "us",
+          58(2)): "ca",
+          58(3): "94188",
+      }
+    })
+  ]
+}
+...
+</pre><a href="#appendix-D.3-3" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
 </section>

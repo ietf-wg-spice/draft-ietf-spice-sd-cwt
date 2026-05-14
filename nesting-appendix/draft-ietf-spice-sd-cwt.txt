@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 13 November 2026                                   Tradeverifyd
+Expires: 15 November 2026                                   Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                             12 May 2026
+                                                             14 May 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 November 2026.
+   This Internet-Draft will expire on 15 November 2026.
 
 Copyright Notice
 
@@ -3451,7 +3451,7 @@ D.1.  Verifier
    does not mean it would not be present.  In the example the
    disclosures are sorted in the order of the Redacted Claim Hash
    corresponding to each disclosure.  (The Holder can present its
-   disclosure in any order.)
+   disclosures in any order.)
 
    / cose-sign1 / 18([  / issuer SD-CWT /
      / CWT protected / << {
@@ -3572,10 +3572,11 @@ D.1.  Verifier
    The Verifier needs to match the disclosures to their corresponding
    Redacted Claims in the Claims Set in the payload of our example SD-
    CWT.  It needs to calculate the Redacted Claim Hash for each of the
-   disclosures it receives.  Typically the Verifier woudl create a
-   lookup table of disclosures indexed by the Redacted Claim Hash.
-   Comments in the example show the first 4 bytes of Redacted Claim Hash
-   of each disclosure.
+   disclosures it receives.
+
+   Typically the Verifier would create a lookup table of disclosures
+   indexed by the Redacted Claim Hash.  Comments in the example show the
+   first 4 bytes of Redacted Claim Hash of each disclosure.
 
    Our example document only contains three Redacted Claims that are
    currently visible.
@@ -3711,7 +3712,52 @@ D.1.  Verifier
 
 D.2.  Holder
 
+   TODO: Explain how a Hodler decides what to disclose.  Discuss gaps in
+   nesting.
+
 D.3.  Issuer
+
+   TODO: Explain how an Issuer decides what to redact.
+
+   The Holder or the administrator of the Issuer could have used the To
+   Be Redacted tag defined in
+
+   {
+   ...
+     504 : [
+       58({
+         500 : true,
+         502 : 1549560720,
+         58(501) : "DCBA-101777",
+         58(503) : {
+             1: "us",
+             58(2): "co",
+             58(3): "80302",
+         }
+       }),
+       58({
+         500 : true,
+         502 : 1612560720,
+         58(501) : "EFGH-789012",
+         58(503) : {
+             1: "us",
+             58(2): "nv",
+             58(3): "89155",
+         }
+       }),
+       58({
+         500 : true,
+         502 : 1674004740,
+         58(501) : "ABCD-123456",
+         58(503) : {
+             1: "us",
+             58(2)): "ca",
+             58(3): "94188",
+         }
+       })
+     ]
+   }
+   ...
 
 Appendix E.  Implementation Status
 
