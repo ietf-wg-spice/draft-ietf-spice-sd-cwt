@@ -5584,7 +5584,8 @@ Extra disclosures cannot be verified and indicate incorrect behavior by the Hold
         <h3 id="name-holder">
 <a href="#appendix-D.2" class="section-number selfRef">D.2. </a><a href="#name-holder" class="section-name selfRef">Holder</a>
         </h3>
-<p id="appendix-D.2-1">TODO: Explain how a Hodler decides what to disclose. Discuss gaps in nesting.<a href="#appendix-D.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-D.2-1">Once it receives an issued SD-CWT from the Issuer, the Holder<a href="#appendix-D.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-D.2-2">TODO: Explain how a Holder decides what to disclose. Discuss gaps in nesting.<a href="#appendix-D.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="issuer-1">
@@ -5592,8 +5593,10 @@ Extra disclosures cannot be verified and indicate incorrect behavior by the Hold
         <h3 id="name-issuer-2">
 <a href="#appendix-D.3" class="section-number selfRef">D.3. </a><a href="#name-issuer-2" class="section-name selfRef">Issuer</a>
         </h3>
-<p id="appendix-D.3-1">TODO: Explain how an Issuer decides what to redact.<a href="#appendix-D.3-1" class="pilcrow">¶</a></p>
-<p id="appendix-D.3-2">The Holder or the administrator of the Issuer could have used the To Be Redacted tag defined in<a href="#appendix-D.3-2" class="pilcrow">¶</a></p>
+<p id="appendix-D.3-1">How the Issuer decides which claims are present in an SD-CWT Claims Set, and which claims in a Claims Set to redact is a local policy matter outside of the scope of this specification.
+That said, the Holder or the administrator of the Issuer could have used the To Be Redacted tag (see <a href="#tbr-tag" class="auto internal xref">Section 11.1</a>) and the To Be Decoy tag (see <a href="#tb-decoy-tag" class="auto internal xref">Section 11.2</a>) as a hint to indicate claims to be redacted or locations for decoys.
+The examples in this document were produced using this method.<a href="#appendix-D.3-1" class="pilcrow">¶</a></p>
+<p id="appendix-D.3-2">Below is the nested Claims Set example from <a href="#edn-nested-unblinded" class="auto internal xref">Figure 27</a> with To Be Redacted tags wrapping the claims that are actually redacted in our nested example.<a href="#appendix-D.3-2" class="pilcrow">¶</a></p>
 <div class="lang-cbor-diag sourcecode" id="appendix-D.3-3">
 <pre>
 {
