@@ -1898,7 +1898,7 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 
 ## Verifier
 
-Using the example in {{nesting}}, this section walks the reader through the process of processing an SD-CWT with nested disclosures, to generate the validated nested claims.
+Using the example in {{nesting}}, this section walks the reader through the steps of processing an SD-CWT with a specific set of nested disclosures, to generate the Validated Disclosed Claims Set.
 
 In this example, an SD-CWT includes the Holder's choice of (nested) disclosures.
 The example does not show the SD-KBT for brevity; that does not mean it would not be present.
@@ -1915,6 +1915,7 @@ It needs to calculate the Redacted Claim Hash for each of the disclosures it rec
 
 Typically the Verifier would create a lookup table of disclosures indexed by the Redacted Claim Hash.
 Comments in the example show the first 4 bytes of Redacted Claim Hash of each disclosure.
+The comments are only present in the diagnostic (text) notation, to make it easier for the reader; comments are not included in CWTs or in SD-CWT in their native form.
 
 Our example document only contains three Redacted Claims that are currently visible.
 
@@ -1937,7 +1938,7 @@ Our example document only contains three Redacted Claims that are currently visi
 
 The Verifier looks for matching Redacted Claim Hashes among the disclosures it has received.
 In this example it finds two matching hashes (the first and last hash in the inspection history log claim array).
-The Verifier replaces the two matching Redacted Claim Hashes with their actual values (in this case, the last and first disclosures, which are both the Claim Elements) and removes the second Redacted Claim Hash.
+The Verifier replaces the two matching Redacted Claim Hashes with their disclosed values (in this case, the last and first disclosures, which are both Claim Elements) and removes the second Redacted Claim Hash.
 The Verifier no longer considers the matched disclosures; they cannot match more than one Redacted Claim Hash.
 
 ~~~ cbor-diag
@@ -2057,7 +2058,7 @@ Once the issued CWT is validated, the Holder can create multiple presentations, 
 The privacy issues in {{privacy}} apply.
 
 In our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and (partially redacted) location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.
-The Holder sorts these disclosures in ascending order of the Redacted Claim Hash corresponding to each disclosure. (It could have used *any* order.)
+In our example, the Holder sorts these disclosures in ascending order of the Redacted Claim Hash corresponding to each disclosure. (It could have used *any* order.)
 
 Due to the way the claims are nested, disclosing the region of the 2023 inspection would not have been useful without disclosing the enclosing location map and its enclosing 2023 inspection array element.
 In other words, the Holder needs to make sure that any intermediate levels of nested claims it wishes to disclose are also disclosed, otherwise the Verifier will not be able to validate them.
@@ -2073,7 +2074,7 @@ At best, such "orphaned" disclosures will be discarded by the Verifier, and at w
 How the Issuer decides which claims to include in an SD-CWT Claims Set, and which claims in a Claims Set to redact is a local policy matter outside of the scope of this specification.
 The Issuer can list the issued disclosures (if any) in any order.
 
-The Holder or the administrator of the Issuer could have used the To Be Redacted tag (see {{tbr-tag}}) and the To Be Decoy tag (see {{tb-decoy-tag}}) as a hint to indicate claims to be redacted or locations for decoys.
+The Holder or the administrator of the Issuer could have used the To Be Redacted tag (see {{tbr-tag}}) and the To Be Decoy tag (see {{tb-decoy-tag}}) as a hint to the Issuer to indicate claims to be redacted or locations for decoys.
 The examples in this document were produced using this method.
 
 Below is the nested Claims Set example from {{edn-nested-unblinded}} with To Be Redacted tags wrapping the claims that are actually redacted in our nested example.
