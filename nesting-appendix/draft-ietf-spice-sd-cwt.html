@@ -1055,7 +1055,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 15 November 2026</td>
+<td class="center">Expires 17 November 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-05-14" class="published">14 May 2026</time>
+<time datetime="2026-05-16" class="published">16 May 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-11-15">15 November 2026</time></dd>
+<dd class="expires"><time datetime="2026-11-17">17 November 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 17 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -5584,8 +5584,270 @@ Extra disclosures cannot be verified and indicate incorrect behavior by the Hold
         <h3 id="name-holder">
 <a href="#appendix-D.2" class="section-number selfRef">D.2. </a><a href="#name-holder" class="section-name selfRef">Holder</a>
         </h3>
-<p id="appendix-D.2-1">Once it receives an issued SD-CWT from the Issuer, the Holder<a href="#appendix-D.2-1" class="pilcrow">¶</a></p>
-<p id="appendix-D.2-2">TODO: Explain how a Holder decides what to disclose. Discuss gaps in nesting.<a href="#appendix-D.2-2" class="pilcrow">¶</a></p>
+<p id="appendix-D.2-1">Once it receives an issued SD-CWT from the Issuer, the Holder validates all of the disclosures as described in <a href="#sd-cwt-preparation" class="auto internal xref">Section 4</a>.
+Below is the issued CWT with the full list of disclosures for our nested example.
+Note that the Holder also needs to unwrap the nested claims as described in the previous section, to insure that there are no unmatched Redacted Claim Hashes anywhere in the document, and no unmatched disclosures.<a href="#appendix-D.2-1" class="pilcrow">¶</a></p>
+<span id="name-the-issued-cwt-for-our-nest"></span><figure id="figure-36">
+          <div class="breakable lang-cbor-diag sourcecode" id="appendix-D.2-2.1">
+<pre>
+/ cose-sign1 / 18([  / issuer SD-CWT /
+  / CWT protected / &lt;&lt; {
+    / alg /    1  : -35, / ES384 /
+    / kid /    4  : 'https://issuer.example/cose-key3',
+    / typ /    16 : 293, # application/sd-cwt
+    / sd_alg / 170 : -16  / SHA256 /
+  } &gt;&gt;,
+  / CWT unprotected / {
+    / sd_claims / 17 : [ / these are all the disclosures /
+        &lt;&lt;[
+            /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+            /value/  "DCBA-101777",
+            /claim/  501   / inspector_license_number /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 7257a869 /
+        &lt;&lt;[
+            /salt/   h'e70e23e77176fa59beb0b2559943a079',
+            /value/  "co",
+            /claim/  2   / region=Colorado /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 1b897171 /
+        &lt;&lt;[
+            /salt/   h'cbbf1cd3d1a5da83e1d92c08d566a481',
+            /value/  "80302",
+            /claim/  3   / postcode=80302 /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 49412884 /
+        &lt;&lt;[
+            /salt/   h'c23a4d192be75dbd583be570482de8dd',
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'1b89717167f39d51eec08b13baeda570
+                           eff5d0aedaa1d7d0821185c33634a5a0',
+                         h'49412884fa1e3787c17d1320bdd48f6e
+                           0e5365da010cde0571d4a7effd13cc2a'
+                     ]
+                     },
+            /claim/  503   / Denver location /
+        ]&gt;&gt;,         / Redacted Claim Hash begins c24c646b /
+        &lt;&lt;[
+            /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
+            /value/  {
+                         500: true,
+                         502: 1549560720,
+                         simple(59): [
+                         h'7257a8697dfa40221079b00fb65fe587
+                           c310e6ca3da1aa33b090335de66ec810',
+                         h'c24c646b52fecd773c6ea01c6caa5a73
+                           422b85d3afa5900fa998336d83a88025'
+                     ]
+                     }   / inspection 7-Feb-2019 /
+        ]&gt;&gt;,         / Redacted Claim Hash begins ca6b8516 /
+        &lt;&lt;[
+            /salt/   h'9a3bc899090435650b377199450c1fa1',
+            /value/  "EFGH-789012",
+            /claim/  501   / inspector_license_number /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 98d15f82 /
+        &lt;&lt;[
+            /salt/   h'5e852d2eef59c0ebeab8c08fca252cc5',
+            /value/  "nv",
+            /claim/  2   / region=Nevada /
+        ]&gt;&gt;,         / Redacted Claim Hash begins da268d9b /
+        &lt;&lt;[
+            /salt/   h'3dd46bd7dea09c9ee7dfe4e0d510129b',
+            /value/  "89155",
+            /claim/  3   / postcode=89155 /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 61dcdb8c /
+        &lt;&lt;[
+            /salt/   h'c225607427e01072bbafcce7e48049e3',
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'da268d9b81c19c02fcea7c4cadc2e23f
+                           0454a4550a380cde8b0842463ed034da',
+                         h'61dcdb8cbae7b66c3e36b2510daf61ba
+                           9168a50f20f4cad4213ed231e33d5b7b'
+                     ]
+                     },
+            /claim/  503   / Las Vegas location /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 5dec8f26 /
+        &lt;&lt;[
+            /salt/   h'1b248d469cf00b8dfa896f069f04697b',
+            /value/  {
+                         500: true,
+                         502: 1612560720,
+                         simple(59): [
+                         h'98d15f82dfadc18f5700582ff47b286c
+                           d7ca047bb1e0529a5374c59d6dc5057d',
+                         h'5dec8f268d3b9735936740c91b9baf00
+                           43de8ee42357a414e3e8d4ab098fae5d'
+                     ]
+                     }   / inspection 4-Feb-2021 /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 0dfdc69d /
+        &lt;&lt;[
+            /salt/   h'bae611067bb823486797da1ebbb52f83',
+            /value/  "ABCD-123456",
+            /claim/  501   / inspector_license_number /
+        ]&gt;&gt;,         / Redacted Claim Hash begins af375dc3 /
+        &lt;&lt;[
+            /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+            /value/  "ca",
+            /claim/  2   / region=California /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 2470fb91 /
+        &lt;&lt;[
+            /salt/   h'a965de35aa599d603fe1b7aa89490eb0',
+            /value/  "94188",
+            /claim/  3   / postcode=94188 /
+        ]&gt;&gt;,         / Redacted Claim Hash begins cf397a08 /
+        &lt;&lt;[
+            /salt/   h'483e4b3c194df6073a9c41ca9f274067',
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'2470fb9175b062c347ab3c3a19776d02
+                           476112a17cd7cfc9416664bc058c220b',
+                         h'cf397a08917528624ca3b332c9edcc54
+                           a72c9411dd5983f68017ce160f709f52'
+                     ]
+                     },
+            /claim/  503   / San Francisco location /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 9d151abe /
+        &lt;&lt;[
+            /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
+            /value/  {
+                         500: true,
+                         502: 1674004740,
+                         simple(59): [
+                         h'af375dc3fba1d082448642c00be7b2f7
+                           bb05c9d8fb61cfc230ddfdfb4616a693',
+                         h'9d151abeb800adcc11ff10ff61fbd3d7
+                           5944c134b40a24abef1787d3ae6583aa'
+                     ]
+                     }   / inspection 17-Jan-2023 /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 20d9bb11 /
+    ]
+  },
+  / CWT payload / &lt;&lt; {
+    / iss / 1   : "https://issuer.example",
+    / sub / 2   : "https://device.example",
+    / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
+    / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
+    / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
+    / cnf / 8   : {
+      / cose key / 1 : {
+        / kty /  1: 2,  / EC2   /
+        / crv / -1: 1,  / P-256 /
+        / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                      2022fd0d3024b5af18c7cc61ad527a2d',
+        / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                      503f54293d87875d1e79ce4770194343'
+      }
+    },
+    /inspection history log/ 504: [
+      / inspection 7-Feb-2019 /
+      60(h'ca6b851688236744ff0cf0814508e4f1
+           81d3811bfec4ed5bb8ace7823132dbc0'),
+      / inspection 4-Feb-2021 /
+      60(h'0dfdc69d0efb65eec14bf28af78cd8f0
+           6cabfe8e2b1a0611ef8bca869ce35b61'),
+      / inspection 17-Jan-2023 /
+      60(h'20d9bb11363bae49851cfd4a3f166539
+           d0aa00433c30aede18380bfa98d781dc')
+    ]
+  } &gt;&gt;,
+  / CWT signature / h'413d8e017bd26e47eb6dd69317a4312b
+                      b84c81a37496d19fa6aa73e16d9441ca
+                      ee0bfdbe37d0b2d945e22115842c75ec
+                      324cb0c9c80cad22b1575bafa577e1d7
+                      77e3d35c26dbc239dc0141d386cbcc96
+                      e0d2d309714d0a38a8aee77456e1a852'
+])
+</pre>
+</div>
+<figcaption><a href="#figure-36" class="selfRef">Figure 36</a>:
+<a href="#name-the-issued-cwt-for-our-nest" class="selfRef">The Issued CWT for our nested example</a>
+          </figcaption></figure>
+<p id="appendix-D.2-3">Once the issued CWT is validated, the Holder can create multiple presentations, generating different KBTs (as described in <a href="#kbt" class="auto internal xref">Section 8.1</a>) for each presentation by changing, for example, the audience and the choice of disclosures.
+The privacy issues in <a href="#privacy" class="auto internal xref">Section 15</a> apply.<a href="#appendix-D.2-3" class="pilcrow">¶</a></p>
+<p id="appendix-D.2-4">In our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and (partially redacted) location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.
+The Holder sorts these disclosures in ascending order of the Redacted Claim Hash corresponding to each disclosure. (It could have used <em>any</em> order.)<a href="#appendix-D.2-4" class="pilcrow">¶</a></p>
+<p id="appendix-D.2-5">Due to the way the claims are nested, disclosing the region of the 2023 inspection would not have been useful without disclosing the enclosing location map and its enclosing 2023 inspection array element.
+In other words, the Holder needs to make sure that any intermediate levels of nested claims it wishes to disclose are also disclosed, otherwise the Verifier will not be able to validate them.
+At best, such "orphaned" disclosures will be discarded by the Verifier, and at worst, the Verifier could reject the entire SD-CWT.<a href="#appendix-D.2-5" class="pilcrow">¶</a></p>
+<span id="name-the-holders-choice-of-neste"></span><figure id="figure-37">
+          <div class="breakable lang-cbor-diag sourcecode" id="appendix-D.2-6.1">
+<pre>
+    / sd_claims / 17 : [ / these are the disclosures /
+        &lt;&lt;[
+            /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
+            /value/  {
+                         500: true,
+                         502: 1674004740,
+                         simple(59): [
+                         h'af375dc3fba1d082448642c00be7b2f7
+                           bb05c9d8fb61cfc230ddfdfb4616a693',
+                         h'9d151abeb800adcc11ff10ff61fbd3d7
+                           5944c134b40a24abef1787d3ae6583aa'
+                     ]
+                     }   / inspection 17-Jan-2023 /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 20d9bb11 /
+        &lt;&lt;[
+            /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+            /value/  "ca",
+            /claim/  2   / region=California /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 2470fb91 /
+        &lt;&lt;[
+            /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+            /value/  "DCBA-101777",
+            /claim/  501   / inspector_license_number /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 7257a869 /
+        &lt;&lt;[
+            /salt/   h'483e4b3c194df6073a9c41ca9f274067',
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'2470fb9175b062c347ab3c3a19776d02
+                           476112a17cd7cfc9416664bc058c220b',
+                         h'cf397a08917528624ca3b332c9edcc54
+                           a72c9411dd5983f68017ce160f709f52'
+                     ]
+                     },
+            /claim/  503   / San Francisco location /
+        ]&gt;&gt;,         / Redacted Claim Hash begins 9d151abe /
+        &lt;&lt;[
+            /salt/   h'bae611067bb823486797da1ebbb52f83',
+            /value/  "ABCD-123456",
+            /claim/  501   / inspector_license_number /
+        ]&gt;&gt;,         / Redacted Claim Hash begins af375dc3 /
+        &lt;&lt;[
+            /salt/   h'c23a4d192be75dbd583be570482de8dd',
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'1b89717167f39d51eec08b13baeda570
+                           eff5d0aedaa1d7d0821185c33634a5a0',
+                         h'49412884fa1e3787c17d1320bdd48f6e
+                           0e5365da010cde0571d4a7effd13cc2a'
+                     ]
+                     },
+            /claim/  503   / Denver location /
+        ]&gt;&gt;,         / Redacted Claim Hash begins c24c646b /
+        &lt;&lt;[
+            /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
+            /value/  {
+                         500: true,
+                         502: 1549560720,
+                         simple(59): [
+                         h'7257a8697dfa40221079b00fb65fe587
+                           c310e6ca3da1aa33b090335de66ec810',
+                         h'c24c646b52fecd773c6ea01c6caa5a73
+                           422b85d3afa5900fa998336d83a88025'
+                     ]
+                     }   / inspection 7-Feb-2019 /
+        ]&gt;&gt;,         / Redacted Claim Hash begins ca6b8516 /
+    ]
+</pre>
+</div>
+<figcaption><a href="#figure-37" class="selfRef">Figure 37</a>:
+<a href="#name-the-holders-choice-of-neste" class="selfRef">The Holder's choice of nested disclosures, sorted</a>
+          </figcaption></figure>
 </section>
 </div>
 <div id="issuer-1">
@@ -5593,11 +5855,12 @@ Extra disclosures cannot be verified and indicate incorrect behavior by the Hold
         <h3 id="name-issuer-2">
 <a href="#appendix-D.3" class="section-number selfRef">D.3. </a><a href="#name-issuer-2" class="section-name selfRef">Issuer</a>
         </h3>
-<p id="appendix-D.3-1">How the Issuer decides which claims are present in an SD-CWT Claims Set, and which claims in a Claims Set to redact is a local policy matter outside of the scope of this specification.
-That said, the Holder or the administrator of the Issuer could have used the To Be Redacted tag (see <a href="#tbr-tag" class="auto internal xref">Section 11.1</a>) and the To Be Decoy tag (see <a href="#tb-decoy-tag" class="auto internal xref">Section 11.2</a>) as a hint to indicate claims to be redacted or locations for decoys.
-The examples in this document were produced using this method.<a href="#appendix-D.3-1" class="pilcrow">¶</a></p>
-<p id="appendix-D.3-2">Below is the nested Claims Set example from <a href="#edn-nested-unblinded" class="auto internal xref">Figure 27</a> with To Be Redacted tags wrapping the claims that are actually redacted in our nested example.<a href="#appendix-D.3-2" class="pilcrow">¶</a></p>
-<div class="lang-cbor-diag sourcecode" id="appendix-D.3-3">
+<p id="appendix-D.3-1">How the Issuer decides which claims to include in an SD-CWT Claims Set, and which claims in a Claims Set to redact is a local policy matter outside of the scope of this specification.
+The Issuer can list the issued disclosures (if any) in any order.<a href="#appendix-D.3-1" class="pilcrow">¶</a></p>
+<p id="appendix-D.3-2">The Holder or the administrator of the Issuer could have used the To Be Redacted tag (see <a href="#tbr-tag" class="auto internal xref">Section 11.1</a>) and the To Be Decoy tag (see <a href="#tb-decoy-tag" class="auto internal xref">Section 11.2</a>) as a hint to indicate claims to be redacted or locations for decoys.
+The examples in this document were produced using this method.<a href="#appendix-D.3-2" class="pilcrow">¶</a></p>
+<p id="appendix-D.3-3">Below is the nested Claims Set example from <a href="#edn-nested-unblinded" class="auto internal xref">Figure 27</a> with To Be Redacted tags wrapping the claims that are actually redacted in our nested example.<a href="#appendix-D.3-3" class="pilcrow">¶</a></p>
+<div class="lang-cbor-diag sourcecode" id="appendix-D.3-4">
 <pre>
 {
 ...
@@ -5634,8 +5897,7 @@ The examples in this document were produced using this method.<a href="#appendix
     })
   ]
 }
-...
-</pre><a href="#appendix-D.3-3" class="pilcrow">¶</a>
+</pre><a href="#appendix-D.3-4" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
