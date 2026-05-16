@@ -1550,7 +1550,7 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
       </h2>
 <p id="section-1-1">This specification creates a new format based on the CBOR Web Token (CWT) specification <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.
 It enables the Holder of a CWT to disclose or withhold special claims marked as selectively disclosable by the Issuer of a CWT, when presenting those claims to a Verifier.
-The approach is inspired by SD-JWT <span>[<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span>, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> and CWT.
+The approach is inspired by SD-JWT <span>[<a href="#RFC9901" class="cite xref">RFC9901</a>]</span>, with changes to align with conventions from CBOR Object Signing and Encryption (COSE) <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span> and CWT.
 Holders of SD-CWT credentials can prove the integrity and authenticity of Holder-chosen attributes asserted by an Issuer to a Verifier.
 The Holder also proves possession of the confirmation method (defined in <span>[<a href="#RFC8747" class="cite xref">RFC8747</a>]</span>) to prevent copy and paste attacks.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">This document defines a generic container format, not a specific credential type.
@@ -3828,7 +3828,7 @@ Many of the topics discussed in <span>[<a href="#RFC6973" class="cite xref">RFC6
         <h3 id="name-correlation-and-linkability">
 <a href="#section-15.1" class="section-number selfRef">15.1. </a><a href="#name-correlation-and-linkability" class="section-name selfRef">Correlation and Linkability</a>
         </h3>
-<p id="section-15.1-1">The term linkability or unlinkability applies to presentations of SD-CWT in the same ways that it applies to SD-JWT as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-10.1" class="relref">Section 10.1</a> of [<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span>.<a href="#section-15.1-1" class="pilcrow">¶</a></p>
+<p id="section-15.1-1">The term linkability or unlinkability applies to presentations of SD-CWT in the same ways that it applies to SD-JWT as described in <span><a href="https://rfc-editor.org/rfc/rfc9901#section-10.1" class="relref">Section 10.1</a> of [<a href="#RFC9901" class="cite xref">RFC9901</a>]</span>.<a href="#section-15.1-1" class="pilcrow">¶</a></p>
 <p id="section-15.1-2">SD-CWT cannot prevent Issuer-Verifier linkability.
 Any presentation of an SD-CWT can be correlated with its issuance if an Issuer and Verifier cooperate.
 In cases where the Issuer is part of the privacy threat model, a different mechanism than SD-CWT is needed.<a href="#section-15.1-2" class="pilcrow">¶</a></p>
@@ -3959,7 +3959,7 @@ An attacker who can manipulate the process by which a Verifier obtains informati
         <h3 id="name-disclosure-coercion-and-ove">
 <a href="#section-16.2" class="section-number selfRef">16.2. </a><a href="#name-disclosure-coercion-and-ove" class="section-name selfRef">Disclosure Coercion and Over-identification</a>
         </h3>
-<p id="section-16.2-1">The Security Considerations from <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22#section-10.2" class="relref">Section 10.2</a> of [<a href="#I-D.draft-ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.draft-ietf-oauth-selective-disclosure-jwt</a>]</span> apply, with additional attention to disclosure coercion risks.
+<p id="section-16.2-1">The Security Considerations from <span><a href="https://rfc-editor.org/rfc/rfc9901#section-10.2" class="relref">Section 10.2</a> of [<a href="#RFC9901" class="cite xref">RFC9901</a>]</span> apply, with additional attention to disclosure coercion risks.
 Holders can be pressured to disclose more claims than are necessary for a given transaction.
 This risk is heightened when a Verifier does not provide adequate data protection practices, when disclosed attributes derive from highly trusted authorities (for example, government-issued credentials), and because disclosure is effectively irreversible once data has been shared.<a href="#section-16.2-1" class="pilcrow">¶</a></p>
 <p id="section-16.2-2">Mitigations include mechanisms by which Verifiers demonstrate eligibility to receive sensitive claims, Holder-side evaluation of Verifier compliance posture and certifications, and use of trust lists curated by trusted parties to identify responsible Verifiers.
@@ -4744,10 +4744,6 @@ An indication of the relevant sections may also be included, but is not required
         <dd>
 <span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-16</span>, <time datetime="2026-04-24" class="refDate">24 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-16">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-16</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.draft-ietf-oauth-selective-disclosure-jwt">[I-D.draft-ietf-oauth-selective-disclosure-jwt]</dt>
-        <dd>
-<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-22</span>, <time datetime="2025-05-29" class="refDate">29 May 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-22</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="I-D.ietf-oauth-status-list">[I-D.ietf-oauth-status-list]</dt>
         <dd>
 <span class="refAuthor">Looker, T.</span>, <span class="refAuthor">Bastian, P.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Token Status List (TSL)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-status-list-20</span>, <time datetime="2026-04-20" class="refDate">20 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-20">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-20</a>&gt;</span>. </dd>
@@ -4787,6 +4783,10 @@ An indication of the relevant sections may also be included, but is not required
 <dt id="RFC9597">[RFC9597]</dt>
         <dd>
 <span class="refAuthor">Looker, T.</span> and <span class="refAuthor">M.B. Jones</span>, <span class="refTitle">"CBOR Web Token (CWT) Claims in COSE Headers"</span>, <span class="seriesInfo">RFC 9597</span>, <span class="seriesInfo">DOI 10.17487/RFC9597</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9597">https://www.rfc-editor.org/rfc/rfc9597</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9901">[RFC9901]</dt>
+        <dd>
+<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JSON Web Tokens"</span>, <span class="seriesInfo">RFC 9901</span>, <span class="seriesInfo">DOI 10.17487/RFC9901</span>, <time datetime="2025-11" class="refDate">November 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9901">https://www.rfc-editor.org/rfc/rfc9901</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="t-Closeness">[t-Closeness]</dt>
         <dd>
