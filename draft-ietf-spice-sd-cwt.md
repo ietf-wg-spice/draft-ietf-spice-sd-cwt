@@ -1281,7 +1281,7 @@ For example, a high precision issuance time might match the issuance of only a f
 
 It is possible for the Issuer to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, by choosing different numeric encodings for certain data elements, or by incorporating fewer or more decoys (see {{decoys}}).
 Likewise the Holder can encode information in the KBT.
-{{Appendix B of !I-D.ietf-cbor-serialization}} provides guidance for constructing application profiles that further constrain CBOR encoding.
+{{Appendix B of ?I-D.ietf-cbor-serialization}} provides guidance for constructing application profiles that further constrain CBOR encoding.
 The construction of such profiles has a significant impact on the privacy properties of a credential type.
 
 ## Audience
