@@ -2022,14 +2022,36 @@ Extra disclosures cannot be verified and indicate incorrect behavior by the Hold
 
 ## Holder
 
-Once it receives an issued SD-CWT from the Issuer, the Holder
+Once it receives an issued SD-CWT from the Issuer, the Holder validates all of the disclosures as described in {{sd-cwt-preparation}}.
+Below is the issued CWT with the full list of disclosures for our nested example.
+Note that the Holder also needs to unwrap the nested claims as described in the previous section, to insure that there are no unmatched Redacted Claim Hashes anywhere in the document, and no unmatched disclosures.
 
-TODO: Explain how a Holder decides what to disclose. Discuss gaps in nesting.
+~~~ cbor-diag
+{::include examples/nested_issuer_cwt.edn}
+~~~
+{: title="The Issued CWT for our nested example"}
+
+Once the issued CWT is validated, the Holder can create multiple presentations, generating different KBTs (as described in {{kbt}}) for each presentation by changing, for example, the audience and the choice of disclosures.
+The privacy issues in {{privacy}} apply.
+
+In our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and (partially redacted) location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.
+The Holder sorts these disclosures in ascending order of the Redacted Claim Hash corresponding to each disclosure. (It could have used *any* order.)
+
+Due to the way the claims are nested, disclosing the region of the 2023 inspection would not have been useful without disclosing the enclosing location map and its enclosing 2023 inspection array element.
+In other words, the Holder needs to make sure that any intermediate levels of nested claims it wishes to disclose are also disclosed, otherwise the Verifier will not be able to validate them.
+At best, such "orphaned" disclosures will be discarded by the Verifier, and at worst, the Verifier could reject the entire SD-CWT.
+
+~~~ cbor-diag
+{::include examples/chosen-nested-disclosures.edn}
+~~~
+{: title="The Holder's choice of nested disclosures, sorted"}
 
 ## Issuer
 
-How the Issuer decides which claims are present in an SD-CWT Claims Set, and which claims in a Claims Set to redact is a local policy matter outside of the scope of this specification.
-That said, the Holder or the administrator of the Issuer could have used the To Be Redacted tag (see {{tbr-tag}}) and the To Be Decoy tag (see {{tb-decoy-tag}}) as a hint to indicate claims to be redacted or locations for decoys.
+How the Issuer decides which claims to include in an SD-CWT Claims Set, and which claims in a Claims Set to redact is a local policy matter outside of the scope of this specification.
+The Issuer can list the issued disclosures (if any) in any order.
+
+The Holder or the administrator of the Issuer could have used the To Be Redacted tag (see {{tbr-tag}}) and the To Be Decoy tag (see {{tb-decoy-tag}}) as a hint to indicate claims to be redacted or locations for decoys.
 The examples in this document were produced using this method.
 
 Below is the nested Claims Set example from {{edn-nested-unblinded}} with To Be Redacted tags wrapping the claims that are actually redacted in our nested example.
@@ -2070,7 +2092,6 @@ Below is the nested Claims Set example from {{edn-nested-unblinded}} with To Be 
     })
   ]
 }
-...
 ~~~
 
 
