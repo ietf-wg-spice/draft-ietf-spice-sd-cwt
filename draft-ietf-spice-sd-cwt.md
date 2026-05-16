@@ -65,7 +65,7 @@ normative:
 informative:
   RFC8126:
   RFC6973:
-  I-D.draft-ietf-oauth-selective-disclosure-jwt: SD-JWT
+  RFC9901: SD-JWT
   I-D.draft-ietf-oauth-sd-jwt-vc: SD-JWT-VC
   RFC9162: CT
   I-D.draft-ietf-keytrans-protocol: KT
