@@ -2157,6 +2157,73 @@ Likewise, if this algorithm results in any duplicate CBOR map keys, the entire S
 
 Note: RFC Editor, please remove this entire section on publication.
 
+## draft-ietf-spice-sd-cwt-08
+
+**TODO**: Complete before submitting
+
+Normative changes:
+
+- Use clearer normative language around CBOR tags and nesting (PR#262).
+- Fix AEAD nonce length and mention that AAD is empty (PR#260).
+
+Non-normative changes:
+
+- Add COSE key thumbprint URIs to Appendix C (PR#278).
+- Explain why SD-CWT specifies claim requirements (PR#276).
+- Reframe nonce/freshness text (PR#275).
+- Reword discussion of Verifier use of Issuer keys (PR#274).
+- Justify linkage between KBT and CWT; move revocation discussion to its own section (PR#273).
+- Replace blind with redact and unblind with disclose or reveal (PR#272).
+- Remove redundant Section 16.7 (PR#271).
+- Explain why Issuer should verify Holder key (PR#266).
+- Reword applicability and linkability discussions (PR#265).
+- Reword disclosure threats and mitigations (PR#264).
+- Improve Determinism section (PR#261).
+- Better explain To Be Decoy integer uniqueness requirements (PR#259).
+- Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).
+- Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is an author.
+
+## draft-ietf-spice-sd-cwt-07
+
+- Replace claim requirements with tables (PR#258).
+- Explain To Be Decoy integer uniqueness requirements (PR#257).
+- Note that Holder needs to verify disclosure of all decoys (PR#256).
+- Discuss security considerations of decoys to Holders (PR#254).
+- Remove discussion of Certificate and Key Transparency (PR#253).
+- Remove Threat Model section and add reference to W3C TAG credential doc (PR#252).
+- Address several issues in PR#251:
+  - Modify introduction to remove "mandatory to disclose";
+  - Note the confirmation keys are mandatory early;
+  - Replace "based on" with "inspired by" SD-JWT;
+  - Move text from the Introduction into the Overview;
+  - Move Figures 2 and 3 into the Overview;
+  - Use rounded corners in Figure 3;
+  - Clarify opening sections;
+  - Add "generic container format, not a specific credential type" language;
+  - Move normative language out of Introduction;
+  - Represent no disclosure by omitting sd_claims;
+  - Reword discussion of typ protected header;
+  - Clarify language about claim "name";
+  - Replace a lowercase must.
+- Allow Holder to use cti instead of iat (PR#250).
+- Add Figure descriptions throughout (PR#246).
+- Improve Figures 2 and 3 (PR#245).
+- Remove the description of "custom" claims (PR#244).
+- Add note about Holder choice of order in relevant section (PR#243).
+- Explain CBOR-specific terms and concepts: EDN, CDDL, tags, simple values (PR#242).
+- Add Holder check for sufficient number of decoys (PR#241).
+- Explain why legal CBOR simple values have a gap (PR#240).
+- Clarify legal range of floating-point dates (PR#239).
+- Make CDDL consistent with IANA section: use uint for To Be Decoy value (PR#238).
+- Split the CDDL into individual fragments; add sd-cwt-preissued type (PR#235).
+- Rewrite the Makefile to automatically run validation against the combined CDDL (PR#185).
+- Move note about redacted array elements (PR#196).
+- Expand discussion of random numbers (PR#231).
+- Fix a few places where lists missed an initial blank line (PR#225).
+- Remove assumption of claim keys being used often (PR#200).
+- Remove extraneous trailing dot in references Section (PR#228).
+- Distinguish Verifier-Verifier and Verifier-Issuer unlinkability (PR#223).
+
 ## draft-ietf-spice-sd-cwt-06
 
 - Refactored deterministic draft generation code (PR#152).
@@ -2265,6 +2332,3 @@ The authors would like to thank those that have worked on similar items for
 providing selective disclosure mechanisms in JSON, especially:
 Brent Zundel, Roy Williams, Tobias Looker, Kristina Yasuda, Daniel Fett,
 Brian Campbell, Oliver Terbu, and Michael B. Jones.
-
-The authors would like to thank the following individuals for their contributions to this specification:
-Michael B. Jones.
