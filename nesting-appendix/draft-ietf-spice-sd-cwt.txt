@@ -3443,8 +3443,8 @@ Appendix D.  Nesting Example Walkthrough
 D.1.  Verifier
 
    Using the example in Section 14.2, this section walks the reader
-   through the process of processing an SD-CWT with nested disclosures,
-   to generate the validated nested claims.
+   through the steps of processing an SD-CWT with a specific set of
+   nested disclosures, to generate the Validated Disclosed Claims Set.
 
    In this example, an SD-CWT includes the Holder's choice of (nested)
    disclosures.  The example does not show the SD-KBT for brevity; that
@@ -3576,7 +3576,10 @@ D.1.  Verifier
 
    Typically the Verifier would create a lookup table of disclosures
    indexed by the Redacted Claim Hash.  Comments in the example show the
-   first 4 bytes of Redacted Claim Hash of each disclosure.
+   first 4 bytes of Redacted Claim Hash of each disclosure.  The
+   comments are only present in the diagnostic (text) notation, to make
+   it easier for the reader; comments are not included in CWTs or in SD-
+   CWT in their native form.
 
    Our example document only contains three Redacted Claims that are
    currently visible.
@@ -3601,11 +3604,10 @@ D.1.  Verifier
    disclosures it has received.  In this example it finds two matching
    hashes (the first and last hash in the inspection history log claim
    array).  The Verifier replaces the two matching Redacted Claim Hashes
-   with their actual values (in this case, the last and first
-   disclosures, which are both the Claim Elements) and removes the
-   second Redacted Claim Hash.  The Verifier no longer considers the
-   matched disclosures; they cannot match more than one Redacted Claim
-   Hash.
+   with their disclosed values (in this case, the last and first
+   disclosures, which are both Claim Elements) and removes the second
+   Redacted Claim Hash.  The Verifier no longer considers the matched
+   disclosures; they cannot match more than one Redacted Claim Hash.
 
    ...
    /inspection history log/ 504: [
@@ -3901,10 +3903,10 @@ D.2.  Holder
    In our example, the Holder chooses to disclose two of the inspections
    (from 2019 and 2023), the inspector license numbers and (partially
    redacted) location maps from both of these inspections, and the
-   region (California) in the location map of the 2023 inspection.  The
-   Holder sorts these disclosures in ascending order of the Redacted
-   Claim Hash corresponding to each disclosure.  (It could have used
-   _any_ order.)
+   region (California) in the location map of the 2023 inspection.  In
+   our example, the Holder sorts these disclosures in ascending order of
+   the Redacted Claim Hash corresponding to each disclosure.  (It could
+   have used _any_ order.)
 
    Due to the way the claims are nested, disclosing the region of the
    2023 inspection would not have been useful without disclosing the
@@ -3996,9 +3998,9 @@ D.3.  Issuer
 
    The Holder or the administrator of the Issuer could have used the To
    Be Redacted tag (see Section 11.1) and the To Be Decoy tag (see
-   Section 11.2) as a hint to indicate claims to be redacted or
-   locations for decoys.  The examples in this document were produced
-   using this method.
+   Section 11.2) as a hint to the Issuer to indicate claims to be
+   redacted or locations for decoys.  The examples in this document were
+   produced using this method.
 
    Below is the nested Claims Set example from Figure 27 with To Be
    Redacted tags wrapping the claims that are actually redacted in our
