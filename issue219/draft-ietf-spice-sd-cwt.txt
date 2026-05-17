@@ -1843,9 +1843,14 @@ Issuer                           Holder                         Verifier
    authentication tag.  (For example, in AEAD_AES_128_GCM the
    authentication tag is 16 octets.)  The nonce (nonce), the encryption
    algorithm's ciphertext (ciphertext) and authentication tag (tag) are
-   put in an array.  The resulting array is placed in the
-   sd_aead_encrypted_claims header parameter in the unprotected headers
-   of the SD-CWT.
+   put in an array.
+
+   Optionally an AEAD key context MAY be added to the array.  The key
+   context can be an unsigned integer, a text string, or a byte string
+   of the COSE Key Thumbprint ([RFC9679]) of the decryption key.
+
+   The resulting array is placed in the sd_aead_encrypted_claims header
+   parameter in the unprotected headers of the SD-CWT.
 
    Given the AEAD encryption key (in hexadecimal):
 
@@ -1883,8 +1888,11 @@ Issuer                           Holder                         Verifier
      bstr,              ; nonce of N_MIN octets
      bstr,              ; the encryption ciphertext output of a
                         ;   bstr-encoded-salted
-     bstr               ; the corresponding authentication tag
+     bstr,              ; the corresponding authentication tag
+     ?aead-key-context  ; optional context to select the correct key
    ]
+   aead-key-context = uint / tstr / thumbprint
+   thumbprint = bstr    ; a COSE key thumprint
 
       Figure 25: CDDL describing syntax of AEAD Encrypted disclosures
 
@@ -3242,9 +3250,11 @@ Appendix A.  Complete CDDL Schema
      bstr,              ; nonce of N_MIN octets
      bstr,              ; the encryption ciphertext output of a
                         ;   bstr-encoded-salted
-     bstr               ; the corresponding authentication tag
+     bstr,              ; the corresponding authentication tag
+     ?aead-key-context  ; optional context to select the correct key
    ]
-
+   aead-key-context = uint / tstr / thumbprint
+   thumbprint = bstr    ; a COSE key thumprint
    ; redacted_claim_keys is used as a map key. The corresponding value is
    ; an array of Redacted Claim Hashes whose corresponding unredacted map
    ; keys and values are in the same map.
