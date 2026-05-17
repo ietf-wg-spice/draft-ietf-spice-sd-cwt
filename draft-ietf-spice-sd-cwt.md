@@ -708,8 +708,8 @@ The following table describes the claim requirements for an SD-CWT:
 
 | Claim | Requirement | Never Redacted |
 |-------|-------------|----------------------|
-| `sub` / 2 | MUST be present (disclosed or redacted) | No |
 | `iss` / 1 | MUST unless (see note) | Yes |
+| `sub` / 2 | MUST be present (disclosed or redacted) | No |
 | `aud` / 3 | OPTIONAL | Yes |
 | `exp` / 4 | OPTIONAL | Yes |
 | `nbf` / 5 | OPTIONAL | Yes |
@@ -798,8 +798,8 @@ The following table describes the claim requirements for an SD-KBT:
 
 | Claim | Requirement |
 |-------|-------------|
-| `sub` / 2 | MUST NOT be present |
 | `iss` / 1 | MUST NOT be present |
+| `sub` / 2 | MUST NOT be present |
 | `aud` / 3 | MUST |
 | `iat` / 6 | MUST (unless `cti` present) |
 | `cti` / 7 | MUST (unless `iat` present) |
