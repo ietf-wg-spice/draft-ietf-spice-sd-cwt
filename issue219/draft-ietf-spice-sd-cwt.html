@@ -5677,55 +5677,99 @@ Likewise, if this algorithm results in any duplicate CBOR map keys, the entire S
 <p id="appendix-G.1-2">Normative changes:<a href="#appendix-G.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-G.1-3.1">
-            <p id="appendix-G.1-3.1.1">Use clearer normative language around CBOR tags and nesting (PR#262).<a href="#appendix-G.1-3.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-3.1.1">Add optional key context to AEAD encrypted disclosures (PR#285).<a href="#appendix-G.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-3.2">
-            <p id="appendix-G.1-3.2.1">Fix AEAD nonce length and mention that AAD is empty (PR#260).<a href="#appendix-G.1-3.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-3.2.1">Minor correction that media types can omit <code>application/</code> (PR#283).<a href="#appendix-G.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.1-3.3">
+            <p id="appendix-G.1-3.3.1">Use clearer normative language around CBOR tags and nesting (PR#262).<a href="#appendix-G.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.1-3.4">
+            <p id="appendix-G.1-3.4.1">Fix AEAD nonce length and mention that AAD is empty (PR#260).<a href="#appendix-G.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="appendix-G.1-4">Non-normative changes:<a href="#appendix-G.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-G.1-5.1">
-            <p id="appendix-G.1-5.1.1">Add COSE key thumbprint URIs to Appendix C (PR#278).<a href="#appendix-G.1-5.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.1.1">Clean up AEAD encrypted disclosures section and justify used of AEAD (PR#285).<a href="#appendix-G.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.2">
-            <p id="appendix-G.1-5.2.1">Explain why SD-CWT specifies claim requirements (PR#276).<a href="#appendix-G.1-5.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.2.1">Heavy editing pass (PR#283)<a href="#appendix-G.1-5.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-G.1-5.2.2.1">
+                <p id="appendix-G.1-5.2.2.1.1">Renumber Section 4 to Section 3.3 as it is part of the Overview.<a href="#appendix-G.1-5.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-G.1-5.2.2.2">
+                <p id="appendix-G.1-5.2.2.2.1">Move normative statement from Section 3 to Section 6.<a href="#appendix-G.1-5.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-G.1-5.2.2.3">
+                <p id="appendix-G.1-5.2.2.3.1">Improve Figures 2 and 3<a href="#appendix-G.1-5.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-G.1-5.2.2.4">
+                <p id="appendix-G.1-5.2.2.4.1">Remove unused terms or terms used only once.<a href="#appendix-G.1-5.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-G.1-5.2.2.5">
+                <p id="appendix-G.1-5.2.2.5.1">Rearrange order of discussion in Section 7.1<a href="#appendix-G.1-5.2.2.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-G.1-5.2.2.6">
+                <p id="appendix-G.1-5.2.2.6.1">Clarify use of <code>cnonce</code><a href="#appendix-G.1-5.2.2.6.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-G.1-5.2.2.7">
+                <p id="appendix-G.1-5.2.2.7.1">Remind about special definition of duplicate map keys in To Be Redacted section<a href="#appendix-G.1-5.2.2.7.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-G.1-5.2.2.8">
+                <p id="appendix-G.1-5.2.2.8.1">Miscellaneous typo, minor rewordings, cleanups, and clarifications<a href="#appendix-G.1-5.2.2.8.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="appendix-G.1-5.3">
-            <p id="appendix-G.1-5.3.1">Reframe nonce/freshness text (PR#275).<a href="#appendix-G.1-5.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.3.1">Update references (PR#280 and PR#281).<a href="#appendix-G.1-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.4">
-            <p id="appendix-G.1-5.4.1">Reword discussion of Verifier use of Issuer keys (PR#274).<a href="#appendix-G.1-5.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.4.1">Add change log for -07 and -08 (PR#279).<a href="#appendix-G.1-5.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.5">
-            <p id="appendix-G.1-5.5.1">Justify linkage between KBT and CWT; move revocation discussion to its own section (PR#273).<a href="#appendix-G.1-5.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.5.1">Add COSE key thumbprint URIs to Appendix C (PR#278).<a href="#appendix-G.1-5.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.6">
-            <p id="appendix-G.1-5.6.1">Replace blind with redact and unblind with disclose or reveal (PR#272).<a href="#appendix-G.1-5.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.6.1">Explain why SD-CWT specifies claim requirements (PR#276).<a href="#appendix-G.1-5.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.7">
-            <p id="appendix-G.1-5.7.1">Remove redundant Section 16.7 (PR#271).<a href="#appendix-G.1-5.7.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.7.1">Reframe nonce/freshness text (PR#275).<a href="#appendix-G.1-5.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.8">
-            <p id="appendix-G.1-5.8.1">Explain why Issuer should verify Holder key (PR#266).<a href="#appendix-G.1-5.8.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.8.1">Reword discussion of Verifier use of Issuer keys (PR#274).<a href="#appendix-G.1-5.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.9">
-            <p id="appendix-G.1-5.9.1">Reword applicability and linkability discussions (PR#265).<a href="#appendix-G.1-5.9.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.9.1">Justify linkage between KBT and CWT; move revocation discussion to its own section (PR#273).<a href="#appendix-G.1-5.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.10">
-            <p id="appendix-G.1-5.10.1">Reword disclosure threats and mitigations (PR#264).<a href="#appendix-G.1-5.10.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.10.1">Replace blind with redact and unblind with disclose or reveal (PR#272).<a href="#appendix-G.1-5.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.11">
-            <p id="appendix-G.1-5.11.1">Improve Determinism section (PR#261).<a href="#appendix-G.1-5.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.11.1">Remove redundant Section 16.7 (PR#271).<a href="#appendix-G.1-5.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.12">
-            <p id="appendix-G.1-5.12.1">Better explain To Be Decoy integer uniqueness requirements (PR#259).<a href="#appendix-G.1-5.12.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.12.1">Explain why Issuer should verify Holder key (PR#266).<a href="#appendix-G.1-5.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.13">
-            <p id="appendix-G.1-5.13.1">Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).<a href="#appendix-G.1-5.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.13.1">Reword applicability and linkability discussions (PR#265).<a href="#appendix-G.1-5.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-G.1-5.14">
-            <p id="appendix-G.1-5.14.1">Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.<a href="#appendix-G.1-5.14.1" class="pilcrow">¶</a></p>
+            <p id="appendix-G.1-5.14.1">Reword disclosure threats and mitigations (PR#264).<a href="#appendix-G.1-5.14.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.1-5.15">
+            <p id="appendix-G.1-5.15.1">Improve Determinism section (PR#261).<a href="#appendix-G.1-5.15.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.1-5.16">
+            <p id="appendix-G.1-5.16.1">Better explain To Be Decoy integer uniqueness requirements (PR#259).<a href="#appendix-G.1-5.16.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.1-5.17">
+            <p id="appendix-G.1-5.17.1">Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).<a href="#appendix-G.1-5.17.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-G.1-5.18">
+            <p id="appendix-G.1-5.18.1">Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.<a href="#appendix-G.1-5.18.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
