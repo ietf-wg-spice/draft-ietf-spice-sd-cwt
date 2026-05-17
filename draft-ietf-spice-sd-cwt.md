@@ -187,12 +187,6 @@ Holder:
 Verifier:
 : An entity that validates a Partial or Full Disclosure by a Holder.
 
-Partial Disclosure:
-: When a subset of the original claims, protected by the Issuer, are disclosed by the Holder.
-
-Full Disclosure:
-: When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no Redacted Claims (when no claims are redacted by the Issuer) is considered a Full Disclosure.
-
 Salted Disclosed Claim:
 : A salted claim included in the unprotected header of an SD-CWT.
 
@@ -1294,7 +1288,7 @@ SD-CWTs with audience claims that do not correspond to the intended recipients M
 The privacy implications of selective disclosure vary significantly across different credential types due to their inherent characteristics and intended use cases.
 The non-redacted and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.
 
-For example, a passport credential contains highly sensitive personal information where even partial disclosure can have significant privacy implications:
+For example, a passport credential contains highly sensitive personal information where even disclosure of a subset of its claims can have significant privacy implications:
 
 - Revealing citizenship status may expose an individual to discrimination
 - Date of birth combined with any other attribute enables age-based profiling
