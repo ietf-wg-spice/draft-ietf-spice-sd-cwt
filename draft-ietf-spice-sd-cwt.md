@@ -1027,6 +1027,10 @@ The associated (authenticated) data `A` is zero-length.
 The AEAD ciphertext consists of its encryption algorithm's ciphertext and its authentication tag.
 (For example, in AEAD_AES_128_GCM the authentication tag is 16 octets.)
 The nonce (`nonce`), the encryption algorithm's ciphertext (`ciphertext`) and authentication tag (`tag`) are put in an array.
+
+Optionally an AEAD key context MAY be added to the array.
+The key context can be an unsigned integer, a text string, or a byte string of the COSE Key Thumbprint ({{!RFC9679}}) of the decryption key.
+
 The resulting array is placed in the `sd_aead_encrypted_claims` header parameter in the unprotected headers of the SD-CWT.
 
 Given the AEAD encryption key (in hexadecimal):
