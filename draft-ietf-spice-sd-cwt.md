@@ -217,7 +217,7 @@ Validated Disclosed Claims Set:
 
 SD-CWT operates on CWT Claims Sets as described in {{!RFC8392}}.
 CWT Claims Sets contain Claim Keys and Claim Values.
-Issuers choose which Claim Keys and Claim Values to redacted or include in unredacted form.
+Issuers choose which Claim Keys and Claim Values to redact or include in unredacted form.
 Holders choose to disclose none, some, or all of the Redacted Claim Keys and Claim Values, and whether to present an issued SD-CWT at all.
 Holders present an SD-CWT and any disclosures to Verifiers in a Key Binding Token (KBT) that proves the Holder's control of the private key corresponding to the SD-CWT confirmation (public) key.
 
