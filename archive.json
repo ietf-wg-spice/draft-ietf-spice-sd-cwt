@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-14T02:03:14.205351+00:00",
+  "timestamp": "2026-05-17T01:56:41.269387+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -152,6 +152,11 @@
       "name": "ask-WG",
       "description": "",
       "color": "900790"
+    },
+    {
+      "name": "editorial",
+      "description": "",
+      "color": "E9A717"
     }
   ],
   "issues": [
@@ -5643,13 +5648,16 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "rohanmahy"
+      ],
       "labels": [
-        "blocked"
+        "ready-for-pr",
+        "next-stretch"
       ],
       "body": "",
       "createdAt": "2026-04-13T13:26:13Z",
-      "updatedAt": "2026-04-21T06:44:55Z",
+      "updatedAt": "2026-05-16T19:00:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -5673,11 +5681,12 @@
         "rohanmahy"
       ],
       "labels": [
+        "has-PR",
         "next-stretch"
       ],
       "body": "Use the example from my slides in Dublin IETF",
       "createdAt": "2026-04-13T13:29:07Z",
-      "updatedAt": "2026-04-20T13:42:48Z",
+      "updatedAt": "2026-05-16T19:00:02Z",
       "closedAt": null,
       "comments": []
     }
@@ -18873,7 +18882,7 @@
       ],
       "body": "This partially addresses #222 \r\n\r\n@OR13 in the security considerations, section 16.7 the first two lines are now a duplicate. \r\n\r\nDo we still agree with line 1302: \"This ordering choice has no security impact on encrypted disclosures.\"\r\nCould the processing time potentially leak information about the depth or complexity of inner claims?\r\n\r\nPerhaps we can remove this section?",
       "createdAt": "2026-01-28T16:28:17Z",
-      "updatedAt": "2026-02-09T14:18:52Z",
+      "updatedAt": "2026-05-16T19:14:15Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "66db2e11343b7db408bc64dc3d461d6a3d1f5141",
@@ -18964,7 +18973,7 @@
       "labels": [],
       "body": "Also added figure labels to Figures 1, 2, and 3.\r\n\r\nAddresses #193  @martinthomson ",
       "createdAt": "2026-02-06T15:00:42Z",
-      "updatedAt": "2026-02-09T14:14:59Z",
+      "updatedAt": "2026-05-16T19:15:01Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "37e12ad93690ec5cb9a1204086a2075146ed3e34",
@@ -19119,7 +19128,7 @@
       "labels": [],
       "body": "Add figure and table descriptions, except:\r\n\r\n- [x] Figures 2 and 3 (addressed in another PR)\r\n- [x] appendix with public/private keys. Read through current Appendix C. Looks fine as is. Raised another issue #248 \r\n- [x] I may have gone overboard for some of the smaller inline text blobs. Some of these may be better without a figure. Do a full read through with in context.  EDIT: removed one figure footer for display of the AEAD encryption key.\r\n\r\nAddresses #192 ",
       "createdAt": "2026-02-06T15:57:19Z",
-      "updatedAt": "2026-02-09T15:04:21Z",
+      "updatedAt": "2026-05-16T19:14:13Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "da339879a089d315b1e370e4bab2a7d429dde69e",
@@ -19234,7 +19243,7 @@
       "labels": [],
       "body": "Addresses #247 ",
       "createdAt": "2026-02-09T18:56:23Z",
-      "updatedAt": "2026-02-28T19:54:56Z",
+      "updatedAt": "2026-05-16T19:14:11Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "a0e5895a9729a46931333eaf693137e9f23f7be3",
@@ -21185,7 +21194,7 @@
       "labels": [],
       "body": "We should now have very consistent and readable terminology.\r\n\r\nNote that there is some subtlety still between unredacted (the version of a claim before it was redacted) and non-redacted (a claim that was never redacted); and between disclose (used almost everywhere) and reveal (used in the section describing nested disclosures to \"peel open\" the next layer of the onion).\r\n\r\nResolves #255 ",
       "createdAt": "2026-04-20T12:38:59Z",
-      "updatedAt": "2026-04-20T13:09:32Z",
+      "updatedAt": "2026-05-16T19:14:01Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "f5daa7a083abb9a159c88af32358d2daa62c5e7e",
@@ -21235,7 +21244,7 @@
       "labels": [],
       "body": "Addresses #232 ",
       "createdAt": "2026-05-04T13:05:22Z",
-      "updatedAt": "2026-05-04T13:23:03Z",
+      "updatedAt": "2026-05-16T19:14:04Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "10965be09ccf3cba113fa1411f5e1cac7796b8ba",
@@ -21317,7 +21326,7 @@
       "labels": [],
       "body": "## Summary\n- Reword \u00a716.1 to describe attacks on the process by which a Verifier obtains Issuer public keys, rather than presuming a name-based binding between Issuers and key material. This addresses Martin Thomson's concern that the Issuer identity may be something other than a name (e.g. a public key directly).\n- Fix capitalization of \"Issuer\" for consistency with the rest of the document.\n\nWording follows Martin's suggestion in the issue thread.\n\nCloses #226\n\n## Test plan\n- [ ] Build the draft locally (`make`) and confirm \u00a716.1 reads as intended\n- [ ] Confirm CI build passes\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
       "createdAt": "2026-05-04T13:46:13Z",
-      "updatedAt": "2026-05-04T14:54:31Z",
+      "updatedAt": "2026-05-16T19:14:06Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "b48bf5545df84f99533e79fcaf68adc2982162a8",
@@ -21359,7 +21368,7 @@
       "labels": [],
       "body": "## Summary\n- Reword the \u00a74 sentence about nonces so it reflects that freshness is a Verifier requirement: the Verifier provides the nonce, and the Holder signs it in the SD-KBT as the `cnonce` claim.\n- Drop the reference to `I-D.ietf-httpbis-unprompted-auth` and link to the SD-KBT claims table so the connection to `cnonce` is explicit.\n\nMinimal change \u2014 single sentence \u2014 to address Martin Thomson's feedback.\n\nCloses #198\n\n## Test plan\n- [ ] Build the draft locally (`make`) and confirm \u00a74 reads as intended\n- [ ] Confirm the `{{sd-kbt-claims}}` cross-reference resolves\n- [ ] Confirm CI build passes\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
       "createdAt": "2026-05-04T14:01:14Z",
-      "updatedAt": "2026-05-04T14:57:57Z",
+      "updatedAt": "2026-05-16T19:14:07Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "b48bf5545df84f99533e79fcaf68adc2982162a8",
@@ -21401,7 +21410,7 @@
       "labels": [],
       "body": "## Summary\nAdds a short rationale paragraph immediately before the SD-CWT and SD-KBT claim requirement tables in \u00a77.\n\nThe paragraph addresses Martin Thomson's concern that mandating claims is unusual given that CWT (RFC 8392) and JWT (RFC 7519) register claims and leave their applicability to profiles. It explains why this document is different: SD-CWT is a specific credential type whose selective-disclosure and key-binding semantics depend on a small set of claims being present, unredacted, and consistently interpreted across implementations. The requirements are framed explicitly as a floor \u2014 profiles MAY add further constraints but MUST NOT relax these.\n\nPR #258 added the requirement tables themselves; this PR adds the missing justification.\n\nCloses #212\n\n## Test plan\n- [ ] Build the draft locally (`make`) and confirm the new paragraph reads naturally before the tables\n- [ ] Confirm the `{{sd-cwt-claims}}` and `{{sd-kbt-claims}}` cross-references resolve\n- [ ] Confirm CI build passes\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
       "createdAt": "2026-05-04T14:18:41Z",
-      "updatedAt": "2026-05-06T15:36:38Z",
+      "updatedAt": "2026-05-16T19:12:40Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "b48bf5545df84f99533e79fcaf68adc2982162a8",
@@ -21467,20 +21476,28 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "WIP: \r\n\r\n- [x] Validator part of walkthrough completed\r\n- [ ] Holder part\r\n- [ ] Issuer part\r\n\r\n\r\nCloses #269 ",
+      "body": "Ready for review\r\n- [x] Validator part of walkthrough completed\r\n- [x] Holder part\r\n- [x] Issuer part\r\n\r\n\r\nCloses #269 ",
       "createdAt": "2026-05-05T11:25:54Z",
-      "updatedAt": "2026-05-12T18:51:48Z",
+      "updatedAt": "2026-05-16T19:26:46Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5bd700770322e723e30f72bdf6caf9a12e156ced",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "nesting-appendix",
-      "headRefOid": "6d67a298ad872cb21d62fca493a919cbafb86aae",
+      "headRefOid": "6d2e9943b3204a1c97127b04d2d20cbb5ec49088",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I originally thought this reverse order was clearer, but now that I have written the text, I think the opposite order would be equally clear, and might be less confusing.",
+          "createdAt": "2026-05-16T19:26:46Z",
+          "updatedAt": "2026-05-16T19:26:46Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -21495,7 +21512,7 @@
       "labels": [],
       "body": "Closes #249 ",
       "createdAt": "2026-05-06T16:00:52Z",
-      "updatedAt": "2026-05-06T17:59:53Z",
+      "updatedAt": "2026-05-16T19:12:38Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "c7f582e07e85005fa190de057cead90e324321bf",
@@ -21524,6 +21541,106 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 279,
+      "id": "PR_kwDOMm_Q2s7cQflU",
+      "title": "Add changelog for -07 and start for -08; remove author from Acknowled\u2026",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/279",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "editorial"
+      ],
+      "body": "- Create changelog for -07 \r\n- Start changelog for -08\r\n- remove explicit (non-SD-JWT) mention of Mike Jones (now an author) from Acknowledgments\r\n\r\nAuthors, I'm going to push this one without review to avoid conflicts as I add changelog entries to all future PRs. Feel free to comment here.",
+      "createdAt": "2026-05-16T18:53:44Z",
+      "updatedAt": "2026-05-16T19:12:34Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "f3c9dad414047540b85e5f23efed62ea43d56690",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "changelog-08",
+      "headRefOid": "88e4c7fd48c8feb2312c6333dbca1ddae45b9240",
+      "closedAt": "2026-05-16T18:54:36Z",
+      "mergedAt": "2026-05-16T18:54:36Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "b3cce31ec00a9a6e3405f8da98dd66653f36a700"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 280,
+      "id": "PR_kwDOMm_Q2s7cQniA",
+      "title": "SD-JWT is now RFC9901",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/280",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": "",
+      "createdAt": "2026-05-16T19:11:19Z",
+      "updatedAt": "2026-05-16T19:12:31Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "b3cce31ec00a9a6e3405f8da98dd66653f36a700",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "refs",
+      "headRefOid": "99d1aebb1ef3b59efd877b731aeb15ab5882d1b5",
+      "closedAt": "2026-05-16T19:12:14Z",
+      "mergedAt": "2026-05-16T19:12:14Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "293c82c02e0e709f35fe6a418a9ce7f0c1cc0ce9"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Just updating one reference. Merging.",
+          "createdAt": "2026-05-16T19:12:10Z",
+          "updatedAt": "2026-05-16T19:12:10Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 281,
+      "id": "PR_kwDOMm_Q2s7cQrKT",
+      "title": "make draft-ietf-cbor-serialization non-normative",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/281",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": "",
+      "createdAt": "2026-05-16T19:19:32Z",
+      "updatedAt": "2026-05-16T19:20:27Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "293c82c02e0e709f35fe6a418a9ce7f0c1cc0ce9",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "non-norm-ref-cbor-serialization",
+      "headRefOid": "43b9a5929317f6177a59da69b44df8059811b220",
+      "closedAt": "2026-05-16T19:20:27Z",
+      "mergedAt": "2026-05-16T19:20:27Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "6c724ee01c4f387d34e21b920dbc8cd4ff5147f6"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
