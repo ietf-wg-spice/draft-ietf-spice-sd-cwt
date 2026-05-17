@@ -187,12 +187,6 @@ Holder:
 Verifier:
 : An entity that validates a Partial or Full Disclosure by a Holder.
 
-Partial Disclosure:
-: When a subset of the original claims, protected by the Issuer, are disclosed by the Holder.
-
-Full Disclosure:
-: When the full set of claims protected by the Issuer is disclosed by the Holder. An SD-CWT with no Redacted Claims (when no claims are redacted by the Issuer) is considered a Full Disclosure.
-
 Salted Disclosed Claim:
 : A salted claim included in the unprotected header of an SD-CWT.
 
@@ -223,21 +217,22 @@ Validated Disclosed Claims Set:
 
 SD-CWT operates on CWT Claims Sets as described in {{!RFC8392}}.
 CWT Claims Sets contain Claim Keys and Claim Values.
-Issuers choose which Claim Keys and Claim Values to redacted or include in unredacted form.
+Issuers choose which Claim Keys and Claim Values to redact or include in unredacted form.
 Holders choose to disclose none, some, or all of the Redacted Claim Keys and Claim Values, and whether to present an issued SD-CWT at all.
 Holders present an SD-CWT and any disclosures to Verifiers in a Key Binding Token (KBT) that proves the Holder's control of the private key corresponding to the SD-CWT confirmation (public) key.
 
-Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in protocols that are already using CWTs with minor changes, even if they contain no optional-to-disclose claims.
+Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in environments that are already using CWTs with minor changes, even if the tokens contain no optional-to-disclose claims.
 A Verifier that does not understand selective disclosure at all can only act on non-redacted claims sent by the Holder; it will ignore Redacted Claims representing array items, and will fail to process any SD-CWT containing Redacted Claims that represent map keys.
 Optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
 However, Claim Keys and Claim Values that are not understood remain ignored, as described in {{Section 3 of !RFC8392}}.
 
-The following diagram explains the relationships between the terminology used in this specification.
+The following diagram explains the relationships between the three roles and the data each processes, using the terminology defined in this specification.
 
 ~~~ aasvg
   +-----------+     +--------------------------------------.
-  |   Issuer  |<----+ Holder Public Key,                    |
-  +-----+-----+     | Full Claims Set,                      |
+  |   Issuer  |<----+ Issuer Private Key,                   |
+  +-----+-----+     | Holder Public Key,                    |
+        |           | Full Claims Set,                      |
         |           | Pre-issuance redaction/decoy requests |
         |           +---------------------------------------+
         v
@@ -272,62 +267,62 @@ The following diagram explains the relationships between the terminology used in
         |
         v
 +-----------------------------------------.
-| Validated Disclosed Claim Set            |
+| Validated Disclosed Claims Set           |
 +------------------------------------------+
 ~~~
 {: #f-role-inputs title="Inputs provided to each Role" artwork-svg-options="--spaces=2"}
 
-This diagram relates the terminology specific to selective disclosure and redaction.
+The next diagram follows the steps of a specific Claim being redacted and then disclosed using the terminology specific to this document.
 
 ~~~ aasvg
-+-----------+
-|  Holder   |
-+-----+-----+
++------------+
+|  Holder    |
++-----+------+
       |
       | 1. Communicates public key,
       |    Optionally communicates Claim,
       |    Optionally communicates Redaction preference
       v
-+-----------+
-|  Issuer   |
-+-----+-----+
++------------+
+|  Issuer    |
++-----+------+
       |
       | 2. Creates Salted Disclosed Claim
       |    [salt, value, key]
       v
 +-----------------------------------------.
 | Salted Disclosed Claim                   |
-+-----+------------------------------------+
-      |
-      | 3. Hashes to create
-      v
-+-----------------------------------------.
-| Redacted Claim Hash                      |
-+-----+------------------------------------+
-      |
-      | 4. Replaces Claim Value with
-      v
-+-----------------------------------------.
-| Redacted Claim (in CWT payload)          |
-|                                          |
-|  +---------------------------------.     |
-|  | Original Claim Value is replaced |    |
-|  | with Redacted Claim Hash         |    |
-|  +----------------------------------+    |
-|                                          |
-+-----+------------------------------------+
-      |
-      v
-+-----------+
-|  Holder   |
-+-----+-----+
++-+--------+-------------------------------+
+  |        |
+  |        | 3. Hashes to create
+  |        v
+  |  +-----------------------------------------.
+  |  | Redacted Claim Hash                      |
+  |  +-----+------------------------------------+
+  |        |
+  |        | 4. Replaces Claim Value with
+  |        v
+  |  +-----------------------------------------.
+  |  | Redacted Claim (in CWT payload)          |
+  |  |                                          |
+  |  |  +---------------------------------.     |
+  |  |  | Original Claim Value is replaced |    |
+  |  |  | with Redacted Claim Hash         |    |
+  |  |  +----------------------------------+    |
+  |  |                                          |
+  |  +-----+------------------------------------+
+  |        |
+  v        v
++------------+
+|  Holder    |
++-----+------+
       |
       | 5. Presents selected
       |    Salted Disclosed Claims
       v
-+-----------+
-| Verifier  |
-+-----+-----+
++------------+
+| Verifier   |
++-----+------+
       |
       | 6. Hashes Salted Disclosed Claim
       v
@@ -399,7 +394,7 @@ After the Holder requests an SD-CWT from the Issuer, the Issuer generates the fo
 {: #basic-issuer-cwt title="Issued SD-CWT with all disclosures"}
 
 Some of the claims are *redacted* in the payload. The corresponding *disclosure* is communicated in the unprotected header in the `sd_claims` header parameter.
-For example, the `inspector_license_number` claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the Claim Key, and Claim Value.
+For example, the `inspector_license_number` claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the Claim Value, and Claim Key.
 
 ~~~ cbor-diag
 {::include examples/first-disclosure.edn}
@@ -411,7 +406,7 @@ This is represented in CBOR pretty-printed format as follows (with end-of-line c
 ~~~ cbor-pretty
 {::include examples/first-disclosure.pretty}
 ~~~
-{: title="CBOR encoding of inspector_license_number disclosure"}
+{: title="CBOR encoding of inspector_license_number disclosure, pretty-printed in hexadecimal"}
 
 The cryptographic hash, using the hash algorithm identified by the `sd_alg` header parameter in the protected headers, of that byte string is the Redacted Claim Hash (shown in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of `inspection_dates`).
@@ -419,7 +414,7 @@ The digest value is included in the payload in a `redacted_claim_keys` field for
 ~~~
 {::include examples/first-blinded-hash.txt}
 ~~~
-{: title="SHA-256 hash of inspector_license_number disclosure"}
+{: title="SHA-256 hash of inspector_license_number disclosure, in hexadecimal"}
 
 Finally, since this redacted claim is a map key and value, the Redacted Claim Hash is placed in a `redacted_claim_keys` array in the SD-CWT payload at the same level of hierarchy as the original claim.
 
@@ -430,10 +425,7 @@ Finally, since this redacted claim is a map key and value, the Redacted Claim Ha
 
 Redacted claims that are array elements are handled slightly differently, as described in {{blinded-claims}}.
 
-The Issuer SHOULD confirm the Holder controls all confirmation key material before issuing credentials using the `cnf` claim.
-If the Issuer does not, it may be communicating with an active attacker impersonating the Holder, instead of the actual Holder.
-
-# Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
+## Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
 
 When the Holder wants to send an SD-CWT and disclose none, some, or all of the redacted values, it makes a list of the values to disclose and puts them in `sd_claims` header parameter in the unprotected header.
 If the Holder does not disclose any claims, it MUST omit the `sd_claims` header parameter.
@@ -465,16 +457,16 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
 An SD-CWT MUST declare its content type, by including the protected header parameter `typ` {{!RFC9596}} with one of the following values:
 
-- the string content type value `application/sd-cwt`,
 - the unsigned integer Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value 293,
+- the string content type value `application/sd-cwt` or `sd-cwt`,
 - or a value declaring that the object is a more specific kind of SD-CWT, such as a content type value using the `+sd-cwt` structured suffix.
 
-The Issuer SHOULD use the value 293 instead of `application/sd-cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).
+The Issuer SHOULD use the value 293 instead of `application/sd-cwt` or `sd-cwt`, as the CBOR representation is considerably smaller (3 bytes versus 19 or 7 bytes).
 
 An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
 Unlike CWT, SD-CWT requires key binding.
 
-An SD-CWT can contain Redacted Claims (each expressed as a Redacted Claim Hash), at the root level or in any arrays or maps inside that claim set.
+An SD-CWT can contain Redacted Claims (each expressed as a Redacted Claim Hash), at the root level or in any arrays or maps inside its Claims Set.
 An SD-CWT is not required to contain any Redacted Claims.
 
 > An SD-CWT with no Redacted Claims is still valuable for its key binding properties.
@@ -515,7 +507,7 @@ The tag 60 is represented in CDDL as `#6.60(` *tagged value* `)`.
 {: #cddl-blinded title="CDDL of Redacted Claim Keys and Redacted Claim Elements"}
 
 Redacted Claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately redacted.
-An example nested claim is shown in {{nesting}}.
+An example nested Claims Set is shown in {{nesting}}.
 
 Finally, an Issuer MAY create decoy digests, which look like Redacted Claim Hashes but have only a salt.
 Decoy digests are discussed in {{decoys}}.
@@ -616,14 +608,14 @@ Instead, the tag provides additional information about the tagged Claim Key and 
 Issuers MUST NOT nest multiple levels of tags in a map key. Holders and Verifiers MUST reject SD-CWTs that contain multiple levels of tags in a map key.
 
 
-## Duplicate map key detection
+## Duplicate map key detection {#dup-map-key}
 
 Implementations MUST NOT send multiple map keys inside the same CBOR map having the same CBOR Preferred Encoding (see {{Section 4.1 of !RFC8949}}).
 This applies to any map anywhere in an SD-CWT or an SD-KBT.
 
 > Note that it is not necessary to actually encode the map keys using Preferred Encoding to satisfy this requirement.
 
-Likewise, a single SD-CWT claim set MUST NOT contain a map (at any level of depth) with both a map key `k`, and `k` tagged with the To Be Redacted tag (see {{tbr-tag}}).
+Likewise, a single SD-CWT Claims Set MUST NOT contain a map (at any level of depth) with both a map key `k`, and `k` tagged with the To Be Redacted tag (see {{tbr-tag}}).
 Map keys and their To Be Redacted tagged verison are considered duplicate map keys for the purposes of this specification.
 
 For example, if the map below is contained inside a payload, it is invalid because the map key 500 and the map key 58(500) cannot both be present.
@@ -640,7 +632,7 @@ For example, if the map below is contained inside a payload, it is invalid becau
 
 Selective disclosure of deeply nested structures could lead to resource exhaustion vulnerabilities. Issuers, Holders, and Verifiers MAY reject SD-CWT Claims Sets exceeding a depth of 16 levels.
 
-The individual map key / value pairs in a Claim Set are defined as the "top level", or level 1.
+The individual map key / value pairs in a Claims Set are defined as the "top level", or level 1.
 For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.
 
 For example, considering the following abbreviated document, the following table shows the level of depth of the corresponding values:
@@ -705,6 +697,9 @@ If any Salted Disclosed Claims or Decoys are present, the unprotected header MUS
 If there are no disclosures, the `sd_claims` header parameter value is omitted.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
 
+The Issuer SHOULD confirm the Holder controls all confirmation key material before issuing credentials using the `cnf` claim.
+If the Issuer does not, it may be communicating with an active attacker impersonating the Holder, instead of the actual Holder.
+
 CWT {{!RFC8392}} and JWT {{?RFC7519}} register claims and leave their applicability to profiles.
 This document instead specifies claim requirements directly, because SD-CWT is a specific credential type whose selective-disclosure and key-binding semantics depend on a small set of claims being present, unredacted, and consistently interpreted across implementations.
 The requirements in {{sd-cwt-claims}} and {{sd-kbt-claims}} are the minimum needed for interoperable verification; profiles of this specification MAY add further constraints but MUST NOT relax these.
@@ -713,8 +708,8 @@ The following table describes the claim requirements for an SD-CWT:
 
 | Claim | Requirement | Never Redacted |
 |-------|-------------|----------------------|
-| `sub` / 2 | MUST be present (disclosed or redacted) | No |
 | `iss` / 1 | MUST unless (see note) | Yes |
+| `sub` / 2 | MUST be present (disclosed or redacted) | No |
 | `aud` / 3 | OPTIONAL | Yes |
 | `exp` / 4 | OPTIONAL | Yes |
 | `nbf` / 5 | OPTIONAL | Yes |
@@ -728,7 +723,7 @@ The `iss` claim MUST be present unless the protected header contains a certifica
 
 Any claims not addressed in the tables above are OPTIONAL and MAY be redacted in an SD-CWT, unless specified differently by a profile or more specific media type.
 
-To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) {{!RFC9679}} MAY be used in the `cnf` claim.
+To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) {{!RFC9679}} MAY be used in the `cnf` claim, if the full public key is expected to be available to Verifiers out-of-band.
 
 ## Issuer Generation
 
@@ -782,10 +777,13 @@ Finally, the SD-CWT used for presentation to a Verifier is included in a key bin
 
 ## Creating a Key Binding Token {#kbt}
 
-Regardless if it discloses any claims, the Holder sends the Verifier a unique Holder key binding (SD-KBT) {{kbt}} for every presentation of an SD-CWT to a different Verifier.
+Regardless if it discloses any claims, the Holder sends the Verifier a unique Holder Selective Disclosure Key Binding Token (SD-KBT) for every presentation of an SD-CWT to a different Verifier.
 
 An SD-KBT is itself a type of CWT, signed using the private key corresponding to the key in the `cnf` claim in the presented SD-CWT.
 The SD-KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the `kcwt` protected header field in the SD-KBT.
+
+The protected header of the SD-KBT MUST include the `typ` header parameter with the unsigned integer value of 294, or the value `application/kb+cwt` or `kb+cwt`.
+The Holder SHOULD use the value 294 instead of `application/kb+cwt` or `kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus 19 or 7 bytes).
 
 The Holder is conceptually both the subject and the Issuer of the Key Binding Token.
 Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and MUST NOT be present in the SD-KBT.
@@ -796,22 +794,22 @@ The SD-KBT payload MUST contain either the `iat` (issued at) claim, or the `cti`
 If the Holder has access to an accurate clock, use of the `iat` is preferred.
 The SD-KBT MUST NOT be valid for any time period when its contained SD-CWT is invalid.
 
-The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the unsigned integer value of 294.
-The Holder SHOULD use the value 294 instead of `application/kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).
+The SD-KBT payload MAY include a `cnonce` claim.
+If included, the `cnonce` is a `bstr` provided by the Verifier and MUST be treated as opaque to the Holder.
 
 The following table describes the claim requirements for an SD-KBT:
 
 | Claim | Requirement |
 |-------|-------------|
-| `sub` / 2 | MUST NOT be present |
 | `iss` / 1 | MUST NOT be present |
+| `sub` / 2 | MUST NOT be present |
 | `aud` / 3 | MUST |
 | `iat` / 6 | MUST (unless `cti` present) |
 | `cti` / 7 | MUST (unless `iat` present) |
 | `cnonce` / 39 | OPTIONAL |
 {: #sd-kbt-claims title="SD-KBT Claim Requirements"}
 
-Any claims not addressed in the tables above are OPTIONAL, unless specified differently by a profile or more specific media type.
+Any claims not addressed in the tables above are OPTIONAL in an SD-KBT, unless specified differently by a profile or more specific media type.
 
 The SD-KBT provides the following assurances to the Verifier:
 
@@ -825,18 +823,18 @@ Confirmation is established according to {{!RFC8747}}, using the `cnf` claim in 
 
 The Holder signs the SD-KBT using the key specified in the `cnf` claim in the SD-CWT. This proves possession of the Holder's private key.
 
+The snippet of CDDL below corresponds to the rules above.
+
 ~~~ cddl
 {::include ./kbt.cddl}
 ~~~
-{: #cddl-kbt title="CDDL describing KBT syntax"}
+{: #cddl-kbt title="CDDL describing SD-KBT syntax"}
 
-The SD-KBT payload MAY include a `cnonce` claim.
-If included, the `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
-All other claims are OPTIONAL in an SD-KBT.
 
 # SD-KBT and SD-CWT Verifier Validation {#binding-validation}
 
-To protect against replay attacks, the Verifier SHOULD provide a nonce, and reject requests that do not include an acceptable nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.
+To protect against replay attacks, the Verifier SHOULD provide a nonce, and reject requests that do not include an acceptable nonce (cnonce) in the SD-KBT.
+This guidance can be ignored in cases where replay attacks are mitigated at another layer.
 
 The exact order of the following steps MAY be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
 
@@ -857,7 +855,10 @@ The exact order of the following steps MAY be changed, as long as all checks are
 
 5. Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
 
-6. The Verifier checks the time claims in the SD-KBT to enforce the following logical constraints:
+6. If a `cnonce` is present in the SD-KBT it MUST be acceptable to the Verifier.
+A `cnonce` present in the SD-CWT is intended for the Issuer, not the Verifier.
+
+7. The Verifier checks the time claims in the SD-KBT to enforce the following logical constraints:
 
 - if no `cti` claim is present in the SD-KBT, there MUST be an `iat` in the SD-KBT;
 - if there is no `iat` claim in the SD-KBT, there MUST NOT be an `exp` claim or an `nbf` claim in the SD-KBT;
@@ -873,25 +874,25 @@ The exact order of the following steps MAY be changed, as long as all checks are
 - `iat` in the SD-KBT <  `exp` in the SD-CWT (if both exist)
 - `iat` in the SD-KBT >= `nbf` in the SD-CWT (if both exist)
 
-{:start="7"}
-7. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
+{:start="8"}
+8. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
 Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Redacted Claim Hash in the payload.
 If there are any disclosures that do not have a corresponding Redacted Claim Hash, the entire SD-CWT is invalid.
 If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.
 
     > Note: A Verifier MUST be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.
 
-{:start="8"}
-8. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
+{:start="9"}
+9. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
 
-9. Otherwise, the SD-CWT is considered valid.
+10. Otherwise, the SD-CWT is considered valid.
 Once any remaining redacted elements (either redacted claims or decoys) are deleted, the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
 
     > Note: Undisclosed Redacted Claim Elements will be removed from the Validated Disclosed Claims Set, changing the length of the array.
     > If the semantics of the position of items in the array is important, the issuer should instead disclose or redact the entire array.
 
-{:start="10"}
-10. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
+{:start="11"}
+11. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
 
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
 
@@ -927,8 +928,8 @@ This section describes the semantics of two CBOR tags that are (optionally) only
 
 ## To Be Redacted Tag Definition {#tbr-tag}
 
-In order to indicate specific claims that the Holder would like to be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
-The tag can be used by a library to automatically convert a Claim Set with "To Be Redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
+In order to indicate specific claims that the Holder would like to be redacted in a Claims Set, this specification defines a new CBOR tag "To Be Redacted".
+The tag can be used by a library to automatically convert a Claims Set with "To Be Redacted" tags into a) a new Claims Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
 
 When used on an element in an array, the value to be redacted is present inside the tag.
 When used on a map key and value, the tag is placed around the map key, while the map value remains.
@@ -949,6 +950,10 @@ The snippet of EDN shown below shows one mechanism to communicate to the Issuer 
 }
 ~~~
 {: #edn-to-be-blinded title="EDN example requesting redaction of license number and two inspection dates"}
+
+As discussed in {{dup-map-key}}, a map key `k` and a map key 58 containing the value `k` are considered duplicate map keys.
+An Issuer MUST NOT issue an SD-CWT if the pre-issued Claims Set contains duplicate map keys.
+
 
 ## To Be Decoy {#tb-decoy-tag}
 
@@ -1294,7 +1299,7 @@ SD-CWTs with audience claims that do not correspond to the intended recipients M
 The privacy implications of selective disclosure vary significantly across different credential types due to their inherent characteristics and intended use cases.
 The non-redacted and optional-to-disclose data elements in an SD-CWT must be carefully chosen based on the specific privacy risks associated with each credential type.
 
-For example, a passport credential contains highly sensitive personal information where even partial disclosure can have significant privacy implications:
+For example, a passport credential contains highly sensitive personal information where even disclosure of a subset of its claims can have significant privacy implications:
 
 - Revealing citizenship status may expose an individual to discrimination
 - Date of birth combined with any other attribute enables age-based profiling
@@ -2181,7 +2186,7 @@ Non-normative changes:
 - Improve Determinism section (PR#261).
 - Better explain To Be Decoy integer uniqueness requirements (PR#259).
 - Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).
-- Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is an author.
+- Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.
 
 ## draft-ietf-spice-sd-cwt-07
 
