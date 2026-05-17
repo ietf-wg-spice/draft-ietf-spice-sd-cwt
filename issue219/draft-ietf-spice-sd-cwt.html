@@ -3472,13 +3472,18 @@ a061c27a3273721e210d031863ad81b6
           </figcaption></figure>
 </div>
 <p id="section-11.1-10">The Redacted Claim Hash is still over the unencrypted disclosure.
-The receiver of an AEAD encrypted disclosure locates the appropriate key by looking up the authentication tag.
-If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the <code>sd_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.1-10" class="pilcrow">¶</a></p>
-<p id="section-11.1-11">Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.<a href="#section-11.1-11" class="pilcrow">¶</a></p>
-<p id="section-11.1-12">The CDDL for AEAD encrypted disclosures is below.<a href="#section-11.1-12" class="pilcrow">¶</a></p>
+The receiver of an AEAD encrypted disclosure determines the appropriate decryption key by local configuration, using the <code>aead-key-context</code> if present, or by looking up the authentication tag.<a href="#section-11.1-10" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-11.1-11.1">
+            <p id="section-11.1-11.1.1">Which mechanism to use is the responsibility of the relevant profile or enclosing protocol.<a href="#section-11.1-11.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-11.1-12">If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the <code>sd_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.1-12" class="pilcrow">¶</a></p>
+<p id="section-11.1-13">Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.<a href="#section-11.1-13" class="pilcrow">¶</a></p>
+<p id="section-11.1-14">The CDDL for AEAD encrypted disclosures is below.<a href="#section-11.1-14" class="pilcrow">¶</a></p>
 <span id="name-cddl-describing-syntax-of-a"></span><div id="cddl-aead">
 <figure id="figure-25">
-          <div class="lang-cddl sourcecode" id="section-11.1-13.1">
+          <div class="lang-cddl sourcecode" id="section-11.1-15.1">
 <pre>
 aead-encrypted-array = [ +aead-encrypted ]
 aead-encrypted = [
@@ -3497,8 +3502,8 @@ thumbprint = bstr    ; a COSE key thumprint
           </figcaption></figure>
 </div>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-11.1-14.1">
-            <p id="section-11.1-14.1.1">Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.<a href="#section-11.1-14.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-11.1-16.1">
+            <p id="section-11.1-16.1.1">Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.<a href="#section-11.1-16.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
