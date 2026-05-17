@@ -777,7 +777,7 @@ Finally, the SD-CWT used for presentation to a Verifier is included in a key bin
 
 ## Creating a Key Binding Token {#kbt}
 
-Regardless if it discloses any claims, the Holder sends the Verifier a unique Holder key binding (SD-KBT) {{kbt}} for every presentation of an SD-CWT to a different Verifier.
+Regardless if it discloses any claims, the Holder sends the Verifier a unique Holder Selective Disclosure Key Binding Token (SD-KBT) for every presentation of an SD-CWT to a different Verifier.
 
 An SD-KBT is itself a type of CWT, signed using the private key corresponding to the key in the `cnf` claim in the presented SD-CWT.
 The SD-KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the `kcwt` protected header field in the SD-KBT.
