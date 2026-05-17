@@ -1426,7 +1426,7 @@ Reuse of cryptographic algorithms compatible with existing profiles and cipher s
 
 The AEAD encrypted disclosures mechanism discussed in {{aead}} can refer to any AEAD alogithm in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
 
-When choosing an AEAD algorithm, the tag length is critical for the integrity of encrypted disclosures in SD-CWT.
+When choosing an AEAD algorithm, the tag length is relevant to the integrity of encrypted disclosures in SD-CWT before the corresponding plaintext can be hashed and matched to a Redacted Claim.
 As such, implementations MUST NOT use any AEAD algorithm with a tag length less than 16 octets.
 
 Algorithms using AES-CCM are NOT RECOMMENDED.
