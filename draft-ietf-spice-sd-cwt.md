@@ -782,6 +782,9 @@ Regardless if it discloses any claims, the Holder sends the Verifier a unique Ho
 An SD-KBT is itself a type of CWT, signed using the private key corresponding to the key in the `cnf` claim in the presented SD-CWT.
 The SD-KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the `kcwt` protected header field in the SD-KBT.
 
+The protected header of the SD-KBT MUST include the `typ` header parameter with the unsigned integer value of 294, or the value `application/kb+cwt` or `kb+cwt`.
+The Holder SHOULD use the value 294 instead of `application/kb+cwt` or `kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus 19 or 7 bytes).
+
 The Holder is conceptually both the subject and the Issuer of the Key Binding Token.
 Therefore, the `sub` and `iss` of an SD-KBT are implied from the `cnf` claim in the included SD-CWT, and MUST NOT be present in the SD-KBT.
 (Profiles of this specification MAY define additional semantics.)
@@ -791,8 +794,8 @@ The SD-KBT payload MUST contain either the `iat` (issued at) claim, or the `cti`
 If the Holder has access to an accurate clock, use of the `iat` is preferred.
 The SD-KBT MUST NOT be valid for any time period when its contained SD-CWT is invalid.
 
-The protected header of the SD-KBT MUST include the `typ` header parameter with the unsigned integer value of 294, or the value `application/kb+cwt` or `kb+cwt`.
-The Holder SHOULD use the value 294 instead of `application/kb+cwt` or `kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus 19 or 7 bytes).
+The SD-KBT payload MAY include a `cnonce` claim.
+If included, the `cnonce` is a `bstr` provided by the Verifier and MUST be treated as opaque to the Holder.
 
 The following table describes the claim requirements for an SD-KBT:
 
@@ -806,7 +809,7 @@ The following table describes the claim requirements for an SD-KBT:
 | `cnonce` / 39 | OPTIONAL |
 {: #sd-kbt-claims title="SD-KBT Claim Requirements"}
 
-Any claims not addressed in the tables above are OPTIONAL, unless specified differently by a profile or more specific media type.
+Any claims not addressed in the tables above are OPTIONAL in an SD-KBT, unless specified differently by a profile or more specific media type.
 
 The SD-KBT provides the following assurances to the Verifier:
 
@@ -820,14 +823,13 @@ Confirmation is established according to {{!RFC8747}}, using the `cnf` claim in 
 
 The Holder signs the SD-KBT using the key specified in the `cnf` claim in the SD-CWT. This proves possession of the Holder's private key.
 
+The snippet of CDDL below corresponds to the rules above.
+
 ~~~ cddl
 {::include ./kbt.cddl}
 ~~~
-{: #cddl-kbt title="CDDL describing KBT syntax"}
+{: #cddl-kbt title="CDDL describing SD-KBT syntax"}
 
-The SD-KBT payload MAY include a `cnonce` claim.
-If included, the `cnonce` is a `bstr` and MUST be treated as opaque to the Holder.
-All other claims are OPTIONAL in an SD-KBT.
 
 # SD-KBT and SD-CWT Verifier Validation {#binding-validation}
 
