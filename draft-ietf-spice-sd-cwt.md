@@ -394,7 +394,7 @@ After the Holder requests an SD-CWT from the Issuer, the Issuer generates the fo
 {: #basic-issuer-cwt title="Issued SD-CWT with all disclosures"}
 
 Some of the claims are *redacted* in the payload. The corresponding *disclosure* is communicated in the unprotected header in the `sd_claims` header parameter.
-For example, the `inspector_license_number` claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the Claim Key, and Claim Value.
+For example, the `inspector_license_number` claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the Claim Value, and Claim Key.
 
 ~~~ cbor-diag
 {::include examples/first-disclosure.edn}
@@ -406,7 +406,7 @@ This is represented in CBOR pretty-printed format as follows (with end-of-line c
 ~~~ cbor-pretty
 {::include examples/first-disclosure.pretty}
 ~~~
-{: title="CBOR encoding of inspector_license_number disclosure"}
+{: title="CBOR encoding of inspector_license_number disclosure, pretty-printed in hexadecimal"}
 
 The cryptographic hash, using the hash algorithm identified by the `sd_alg` header parameter in the protected headers, of that byte string is the Redacted Claim Hash (shown in hex).
 The digest value is included in the payload in a `redacted_claim_keys` field for a Redacted Claim Key (in this example), or in a named array for a Redacted Claim Element (for example, for the redacted claim element of `inspection_dates`).
@@ -414,7 +414,7 @@ The digest value is included in the payload in a `redacted_claim_keys` field for
 ~~~
 {::include examples/first-blinded-hash.txt}
 ~~~
-{: title="SHA-256 hash of inspector_license_number disclosure"}
+{: title="SHA-256 hash of inspector_license_number disclosure, in hexadecimal"}
 
 Finally, since this redacted claim is a map key and value, the Redacted Claim Hash is placed in a `redacted_claim_keys` array in the SD-CWT payload at the same level of hierarchy as the original claim.
 
