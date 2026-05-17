@@ -608,7 +608,7 @@ Instead, the tag provides additional information about the tagged Claim Key and 
 Issuers MUST NOT nest multiple levels of tags in a map key. Holders and Verifiers MUST reject SD-CWTs that contain multiple levels of tags in a map key.
 
 
-## Duplicate map key detection
+## Duplicate map key detection {#dup-map-key}
 
 Implementations MUST NOT send multiple map keys inside the same CBOR map having the same CBOR Preferred Encoding (see {{Section 4.1 of !RFC8949}}).
 This applies to any map anywhere in an SD-CWT or an SD-KBT.
@@ -944,6 +944,10 @@ The snippet of EDN shown below shows one mechanism to communicate to the Issuer 
 }
 ~~~
 {: #edn-to-be-blinded title="EDN example requesting redaction of license number and two inspection dates"}
+
+As discussed in {{dup-map-key}}, a map key `k` and a map key 58 containing the value `k` are considered duplicate map keys.
+An Issuer MUST NOT issue an SD-CWT if the pre-issued Claims Set contains duplicate map keys.
+
 
 ## To Be Decoy {#tb-decoy-tag}
 
