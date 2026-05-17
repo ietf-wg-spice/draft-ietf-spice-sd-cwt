@@ -430,9 +430,6 @@ Finally, since this redacted claim is a map key and value, the Redacted Claim Ha
 
 Redacted claims that are array elements are handled slightly differently, as described in {{blinded-claims}}.
 
-The Issuer SHOULD confirm the Holder controls all confirmation key material before issuing credentials using the `cnf` claim.
-If the Issuer does not, it may be communicating with an active attacker impersonating the Holder, instead of the actual Holder.
-
 ## Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
 
 When the Holder wants to send an SD-CWT and disclose none, some, or all of the redacted values, it makes a list of the values to disclose and puts them in `sd_claims` header parameter in the unprotected header.
@@ -704,6 +701,9 @@ If no `sd_alg` header parameter is present, the default hash function SHA-256 is
 If any Salted Disclosed Claims or Decoys are present, the unprotected header MUST contain the `sd_claims` header parameter with a Salted Disclosed Claim for every Redacted Claim Hash present anywhere in the payload, and any decoys (see {{decoys}}).
 If there are no disclosures, the `sd_claims` header parameter value is omitted.
 The payload also MUST include a key confirmation element (`cnf`) {{!RFC8747}} for the Holder's public key.
+
+The Issuer SHOULD confirm the Holder controls all confirmation key material before issuing credentials using the `cnf` claim.
+If the Issuer does not, it may be communicating with an active attacker impersonating the Holder, instead of the actual Holder.
 
 CWT {{!RFC8392}} and JWT {{?RFC7519}} register claims and leave their applicability to profiles.
 This document instead specifies claim requirements directly, because SD-CWT is a specific credential type whose selective-disclosure and key-binding semantics depend on a small set of claims being present, unredacted, and consistently interpreted across implementations.
