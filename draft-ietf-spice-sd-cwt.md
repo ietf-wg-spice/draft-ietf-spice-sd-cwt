@@ -433,7 +433,7 @@ Redacted claims that are array elements are handled slightly differently, as des
 The Issuer SHOULD confirm the Holder controls all confirmation key material before issuing credentials using the `cnf` claim.
 If the Issuer does not, it may be communicating with an active attacker impersonating the Holder, instead of the actual Holder.
 
-# Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
+## Holder prepares an SD-CWT for a Verifier {#sd-cwt-preparation}
 
 When the Holder wants to send an SD-CWT and disclose none, some, or all of the redacted values, it makes a list of the values to disclose and puts them in `sd_claims` header parameter in the unprotected header.
 If the Holder does not disclose any claims, it MUST omit the `sd_claims` header parameter.
