@@ -1876,8 +1876,8 @@ Issuer                           Holder                         Verifier
    appropriate decryption key by local configuration, using the aead-
    key-context if present, or by looking up the authentication tag.
 
-      Which mechanism to use is the responsibility of the relevant
-      profile or enclosing protocol.
+      Which key determination mechanism to use is the responsibility of
+      the relevant profile or enclosing protocol.
 
    If the Verifier is able to decrypt and verify an encrypted
    disclosure, the decrypted disclosure is then processed as if it were
