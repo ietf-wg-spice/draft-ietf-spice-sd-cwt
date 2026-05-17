@@ -466,7 +466,7 @@ The Issuer SHOULD use the value 293 instead of `application/sd-cwt` or `sd-cwt`,
 An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
 Unlike CWT, SD-CWT requires key binding.
 
-An SD-CWT can contain Redacted Claims (each expressed as a Redacted Claim Hash), at the root level or in any arrays or maps inside that claim set.
+An SD-CWT can contain Redacted Claims (each expressed as a Redacted Claim Hash), at the root level or in any arrays or maps inside its Claims Set.
 An SD-CWT is not required to contain any Redacted Claims.
 
 > An SD-CWT with no Redacted Claims is still valuable for its key binding properties.
@@ -507,7 +507,7 @@ The tag 60 is represented in CDDL as `#6.60(` *tagged value* `)`.
 {: #cddl-blinded title="CDDL of Redacted Claim Keys and Redacted Claim Elements"}
 
 Redacted Claims can be nested. For example, both individual keys in the `inspection_location` claim, and the entire `inspection_location` element can be separately redacted.
-An example nested claim is shown in {{nesting}}.
+An example nested Claims Set is shown in {{nesting}}.
 
 Finally, an Issuer MAY create decoy digests, which look like Redacted Claim Hashes but have only a salt.
 Decoy digests are discussed in {{decoys}}.
