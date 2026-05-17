@@ -226,7 +226,7 @@ A Verifier that does not understand selective disclosure at all can only act on 
 Optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
 However, Claim Keys and Claim Values that are not understood remain ignored, as described in {{Section 3 of !RFC8392}}.
 
-The following diagram explains the relationships between the terminology used in this specification.
+The following diagram explains the relationships between the three roles and the data each processes, using the terminology defined in this specification.
 
 ~~~ aasvg
   +-----------+     +--------------------------------------.
@@ -272,7 +272,7 @@ The following diagram explains the relationships between the terminology used in
 ~~~
 {: #f-role-inputs title="Inputs provided to each Role" artwork-svg-options="--spaces=2"}
 
-This diagram relates the terminology specific to selective disclosure and redaction.
+This next diagram follows the steps of a specific Claim being redacted and then disclosed using the terminology specific to this document.
 
 ~~~ aasvg
 +-----------+
