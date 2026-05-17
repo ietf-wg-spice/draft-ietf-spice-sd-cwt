@@ -1052,7 +1052,7 @@ A valid AEAD encrypted disclosure for that first disclosure is:
 The Redacted Claim Hash is still over the unencrypted disclosure.
 The receiver of an AEAD encrypted disclosure determines the appropriate decryption key by local configuration, using the `aead-key-context` if present, or by looking up the authentication tag.
 
-> Which mechanism to use is the responsibility of the relevant profile or enclosing protocol.
+> Which key determination mechanism to use is the responsibility of the relevant profile or enclosing protocol.
 
 If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the `sd_claims` header parameter in the unprotected headers of the SD-CWT.
 
