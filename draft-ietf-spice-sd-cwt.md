@@ -1401,6 +1401,27 @@ Any data element that is supplied by the Issuer, and that appears random to the 
 The ordering of claims, and precision of timestamps can also be used to produce a covert channel.
 This is more of a concern for SD-CWT than typical CWTs, because the Holder is usually considered to be aware of the Issuer claims they are disclosing to a Verifier.
 
+## Use of authenticated encryption for encrypted disclosures
+
+This section provides justification of the choice of AEAD (or generally authenticated) algorithms for encrypted disclosures in SD-CWT versus unauthenticated encryption.
+
+1. AEAD algorithms (especially AES_GCM) are among the most widely available cryptographic algorithms.
+Implementations of these algorithms are generally well tested and documented across a wide range of environments and programming environments, and often benefit from hardware accelleration.
+Unauthenticated algorithms are less widely available and are often only available in "subtle" cryptographic interfaces.
+Use of a mainstream AEAD algorithm is less likely to trigger false alarms in security audits than unauthenticated encryption algorithms.
+
+2. Since SD-CWTs support nested disclosures, a Verifier may need to decrypt and process disclosures from an honest Holder at multiple depths to find the Salted Disclosed Claim and Blinded Claim Hash associated with a specific Redacted Claim.
+Using an authenticated algorithm allows the Verifier to determine immediately if a specific decryption succeeded or failed.
+It also prevents the Verifier from keeping state for encrypted disclosures that were not correctly decrypted.
+Knowing exactly when decryption fails makes troubleshooting easier, and error handling more straightforward to implement.
+
+3. The amount of time
+
+3. In the target environments (ex: RATS), the performance penalty of using authenticated encryption is minor compared the other cryptographic operations already in use in those environments.
+Reuse of cryptographic algorithms compatible with existing profiles and cipher suites was considered more important than the performance gain of using unauthenticated encryption.
+
+4. If desired by the community, it is possible to add an unauthenticated encryption mode (with appropriate guidance) as a future extension.
+
 ## Choice of AEAD algorithms {#aead-choice}
 
 The AEAD encrypted disclosures mechanism discussed in {{aead}} can refer to any AEAD alogithm in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
