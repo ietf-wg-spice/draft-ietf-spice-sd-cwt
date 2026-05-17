@@ -267,7 +267,7 @@ The following diagram explains the relationships between the three roles and the
         |
         v
 +-----------------------------------------.
-| Validated Disclosed Claim Set            |
+| Validated Disclosed Claims Set           |
 +------------------------------------------+
 ~~~
 {: #f-role-inputs title="Inputs provided to each Role" artwork-svg-options="--spaces=2"}
@@ -615,7 +615,7 @@ This applies to any map anywhere in an SD-CWT or an SD-KBT.
 
 > Note that it is not necessary to actually encode the map keys using Preferred Encoding to satisfy this requirement.
 
-Likewise, a single SD-CWT claim set MUST NOT contain a map (at any level of depth) with both a map key `k`, and `k` tagged with the To Be Redacted tag (see {{tbr-tag}}).
+Likewise, a single SD-CWT Claims Set MUST NOT contain a map (at any level of depth) with both a map key `k`, and `k` tagged with the To Be Redacted tag (see {{tbr-tag}}).
 Map keys and their To Be Redacted tagged verison are considered duplicate map keys for the purposes of this specification.
 
 For example, if the map below is contained inside a payload, it is invalid because the map key 500 and the map key 58(500) cannot both be present.
@@ -632,7 +632,7 @@ For example, if the map below is contained inside a payload, it is invalid becau
 
 Selective disclosure of deeply nested structures could lead to resource exhaustion vulnerabilities. Issuers, Holders, and Verifiers MAY reject SD-CWT Claims Sets exceeding a depth of 16 levels.
 
-The individual map key / value pairs in a Claim Set are defined as the "top level", or level 1.
+The individual map key / value pairs in a Claims Set are defined as the "top level", or level 1.
 For each value that is an array, a map, or a tagged item, each of the elements of the array, each value corresponding to each map key in the map, and the tagged item are at the next level of depth.
 
 For example, considering the following abbreviated document, the following table shows the level of depth of the corresponding values:
@@ -922,8 +922,8 @@ This section describes the semantics of two CBOR tags that are (optionally) only
 
 ## To Be Redacted Tag Definition {#tbr-tag}
 
-In order to indicate specific claims that the Holder would like to be redacted in a Claim Set, this specification defines a new CBOR tag "To Be Redacted".
-The tag can be used by a library to automatically convert a Claim Set with "To Be Redacted" tags into a) a new Claim Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
+In order to indicate specific claims that the Holder would like to be redacted in a Claims Set, this specification defines a new CBOR tag "To Be Redacted".
+The tag can be used by a library to automatically convert a Claims Set with "To Be Redacted" tags into a) a new Claims Set containing Redacted Claim Keys and Redacted Claim Elements replacing the tagged claim keys or claim elements, and b) a set of corresponding Salted Disclosed Claims.
 
 When used on an element in an array, the value to be redacted is present inside the tag.
 When used on a map key and value, the tag is placed around the map key, while the map value remains.
