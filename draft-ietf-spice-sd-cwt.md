@@ -272,7 +272,7 @@ The following diagram explains the relationships between the three roles and the
 ~~~
 {: #f-role-inputs title="Inputs provided to each Role" artwork-svg-options="--spaces=2"}
 
-This next diagram follows the steps of a specific Claim being redacted and then disclosed using the terminology specific to this document.
+The next diagram follows the steps of a specific Claim being redacted and then disclosed using the terminology specific to this document.
 
 ~~~ aasvg
 +------------+
