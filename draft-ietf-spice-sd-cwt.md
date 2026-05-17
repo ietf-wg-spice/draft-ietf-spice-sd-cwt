@@ -2181,7 +2181,7 @@ Non-normative changes:
 - Improve Determinism section (PR#261).
 - Better explain To Be Decoy integer uniqueness requirements (PR#259).
 - Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).
-- Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is an author.
+- Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.
 
 ## draft-ietf-spice-sd-cwt-07
 
