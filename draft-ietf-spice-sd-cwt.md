@@ -833,7 +833,8 @@ The snippet of CDDL below corresponds to the rules above.
 
 # SD-KBT and SD-CWT Verifier Validation {#binding-validation}
 
-To protect against replay attacks, the Verifier SHOULD provide a nonce, and reject requests that do not include an acceptable nonce (cnonce). This guidance can be ignored in cases where replay attacks are mitigated at another layer.
+To protect against replay attacks, the Verifier SHOULD provide a nonce, and reject requests that do not include an acceptable nonce (cnonce) in the SD-KBT.
+This guidance can be ignored in cases where replay attacks are mitigated at another layer.
 
 The exact order of the following steps MAY be changed, as long as all checks are performed before deciding if an SD-CWT is valid.
 
@@ -854,7 +855,10 @@ The exact order of the following steps MAY be changed, as long as all checks are
 
 5. Using the confirmation key, the Verifier validates the SD-KBT as described in {{Section 7.2 of !RFC8392}}.
 
-6. The Verifier checks the time claims in the SD-KBT to enforce the following logical constraints:
+6. If a `cnonce` is present in the SD-KBT it MUST be acceptable to the Verifier.
+A `cnonce` present in the SD-CWT is intended for the Issuer, not the Verifier.
+
+7. The Verifier checks the time claims in the SD-KBT to enforce the following logical constraints:
 
 - if no `cti` claim is present in the SD-KBT, there MUST be an `iat` in the SD-KBT;
 - if there is no `iat` claim in the SD-KBT, there MUST NOT be an `exp` claim or an `nbf` claim in the SD-KBT;
@@ -870,25 +874,25 @@ The exact order of the following steps MAY be changed, as long as all checks are
 - `iat` in the SD-KBT <  `exp` in the SD-CWT (if both exist)
 - `iat` in the SD-KBT >= `nbf` in the SD-CWT (if both exist)
 
-{:start="7"}
-7. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
+{:start="8"}
+8. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
 Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Redacted Claim Hash in the payload.
 If there are any disclosures that do not have a corresponding Redacted Claim Hash, the entire SD-CWT is invalid.
 If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.
 
     > Note: A Verifier MUST be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.
 
-{:start="8"}
-8. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
+{:start="9"}
+9. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the SD-KBT contains a value that does not correspond to the intended recipient.
 
-9. Otherwise, the SD-CWT is considered valid.
+10. Otherwise, the SD-CWT is considered valid.
 Once any remaining redacted elements (either redacted claims or decoys) are deleted, the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
 
     > Note: Undisclosed Redacted Claim Elements will be removed from the Validated Disclosed Claims Set, changing the length of the array.
     > If the semantics of the position of items in the array is important, the issuer should instead disclose or redact the entire array.
 
-{:start="10"}
-10. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
+{:start="11"}
+11. Further validation logic can be applied to the Validated Disclosed Claims Set, just as it might be applied to a validated CWT Claims Set.
 
 By performing these steps, the recipient can cryptographically verify the integrity of the protected claims and verify they have not been tampered with.
 
