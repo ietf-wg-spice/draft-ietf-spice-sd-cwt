@@ -2197,11 +2197,25 @@ Note: RFC Editor, please remove this entire section on publication.
 
 Normative changes:
 
+- Add optional key context to AEAD encrypted disclosures (PR#285).
+- Minor correction that media types can omit `application/` (PR#283).
 - Use clearer normative language around CBOR tags and nesting (PR#262).
 - Fix AEAD nonce length and mention that AAD is empty (PR#260).
 
 Non-normative changes:
 
+- Clean up AEAD encrypted disclosures section and justify used of AEAD (PR#285).
+- Heavy editing pass (PR#283)
+  - Renumber Section 4 to Section 3.3 as it is part of the Overview.
+  - Move normative statement from Section 3 to Section 6.
+  - Improve Figures 2 and 3
+  - Remove unused terms or terms used only once.
+  - Rearrange order of discussion in Section 7.1
+  - Clarify use of `cnonce`
+  - Remind about special definition of duplicate map keys in To Be Redacted section
+  - Miscellaneous typo, minor rewordings, cleanups, and clarifications
+- Update references (PR#280 and PR#281).
+- Add change log for -07 and -08 (PR#279).
 - Add COSE key thumbprint URIs to Appendix C (PR#278).
 - Explain why SD-CWT specifies claim requirements (PR#276).
 - Reframe nonce/freshness text (PR#275).
