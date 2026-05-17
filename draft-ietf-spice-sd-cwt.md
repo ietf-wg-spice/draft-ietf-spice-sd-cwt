@@ -275,54 +275,54 @@ The following diagram explains the relationships between the three roles and the
 This next diagram follows the steps of a specific Claim being redacted and then disclosed using the terminology specific to this document.
 
 ~~~ aasvg
-+-----------+
-|  Holder   |
-+-----+-----+
++------------+
+|  Holder    |
++-----+------+
       |
       | 1. Communicates public key,
       |    Optionally communicates Claim,
       |    Optionally communicates Redaction preference
       v
-+-----------+
-|  Issuer   |
-+-----+-----+
++------------+
+|  Issuer    |
++-----+------+
       |
       | 2. Creates Salted Disclosed Claim
       |    [salt, value, key]
       v
 +-----------------------------------------.
 | Salted Disclosed Claim                   |
-+-----+------------------------------------+
-      |
-      | 3. Hashes to create
-      v
-+-----------------------------------------.
-| Redacted Claim Hash                      |
-+-----+------------------------------------+
-      |
-      | 4. Replaces Claim Value with
-      v
-+-----------------------------------------.
-| Redacted Claim (in CWT payload)          |
-|                                          |
-|  +---------------------------------.     |
-|  | Original Claim Value is replaced |    |
-|  | with Redacted Claim Hash         |    |
-|  +----------------------------------+    |
-|                                          |
-+-----+------------------------------------+
-      |
-      v
-+-----------+
-|  Holder   |
-+-----+-----+
++-+--------+-------------------------------+
+  |        |
+  |        | 3. Hashes to create
+  |        v
+  |  +-----------------------------------------.
+  |  | Redacted Claim Hash                      |
+  |  +-----+------------------------------------+
+  |        |
+  |        | 4. Replaces Claim Value with
+  |        v
+  |  +-----------------------------------------.
+  |  | Redacted Claim (in CWT payload)          |
+  |  |                                          |
+  |  |  +---------------------------------.     |
+  |  |  | Original Claim Value is replaced |    |
+  |  |  | with Redacted Claim Hash         |    |
+  |  |  +----------------------------------+    |
+  |  |                                          |
+  |  +-----+------------------------------------+
+  |        |
+  v        v
++------------+
+|  Holder    |
++-----+------+
       |
       | 5. Presents selected
       |    Salted Disclosed Claims
       v
-+-----------+
-| Verifier  |
-+-----+-----+
++------------+
+| Verifier   |
++-----+------+
       |
       | 6. Hashes Salted Disclosed Claim
       v
