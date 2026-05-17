@@ -728,7 +728,7 @@ The `iss` claim MUST be present unless the protected header contains a certifica
 
 Any claims not addressed in the tables above are OPTIONAL and MAY be redacted in an SD-CWT, unless specified differently by a profile or more specific media type.
 
-To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) {{!RFC9679}} MAY be used in the `cnf` claim.
+To further reduce the size of the SD-CWT, a COSE Key Thumbprint (ckt) {{!RFC9679}} MAY be used in the `cnf` claim, if the full public key is expected to be available to Verifiers out-of-band.
 
 ## Issuer Generation
 
