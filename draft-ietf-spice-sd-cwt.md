@@ -457,11 +457,11 @@ Since the unprotected header of the included SD-CWT is covered by the signature 
 SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CBOR, COSE, and CWT.
 An SD-CWT MUST declare its content type, by including the protected header parameter `typ` {{!RFC9596}} with one of the following values:
 
-- the string content type value `application/sd-cwt`,
 - the unsigned integer Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value 293,
+- the string content type value `application/sd-cwt` or `sd-cwt`,
 - or a value declaring that the object is a more specific kind of SD-CWT, such as a content type value using the `+sd-cwt` structured suffix.
 
-The Issuer SHOULD use the value 293 instead of `application/sd-cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).
+The Issuer SHOULD use the value 293 instead of `application/sd-cwt` or `sd-cwt`, as the CBOR representation is considerably smaller (3 bytes versus 19 or 7 bytes).
 
 An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
 Unlike CWT, SD-CWT requires key binding.
@@ -791,8 +791,8 @@ The SD-KBT payload MUST contain either the `iat` (issued at) claim, or the `cti`
 If the Holder has access to an accurate clock, use of the `iat` is preferred.
 The SD-KBT MUST NOT be valid for any time period when its contained SD-CWT is invalid.
 
-The protected header of the SD-KBT MUST include the `typ` header parameter with the value `application/kb+cwt` or the unsigned integer value of 294.
-The Holder SHOULD use the value 294 instead of `application/kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus of 19).
+The protected header of the SD-KBT MUST include the `typ` header parameter with the unsigned integer value of 294, or the value `application/kb+cwt` or `kb+cwt`.
+The Holder SHOULD use the value 294 instead of `application/kb+cwt` or `kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus 19 or 7 bytes).
 
 The following table describes the claim requirements for an SD-KBT:
 
