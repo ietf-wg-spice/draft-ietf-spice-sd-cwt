@@ -5378,8 +5378,8 @@ The examples in this document were produced using this method.<a href="#appendix
 <figcaption><a href="#figure-31" class="selfRef">Figure 31</a>:
 <a href="#name-edn-example-of-nested-claims" class="selfRef">EDN example of Nested Claims Set tagged with desired redactions</a>
           </figcaption></figure>
-<p id="appendix-D.1-6">The Issuer in our example respects the hints and produces the following Issued SD-CWT.
-It has generated 15 disclosures.<a href="#appendix-D.1-6" class="pilcrow">¶</a></p>
+<p id="appendix-D.1-6">The Issuer in our example respects the hints and produces the following issued SD-CWT.
+The Issuer has generated 15 disclosures.<a href="#appendix-D.1-6" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="appendix-D.1-7.1">
             <p id="appendix-D.1-7.1.1">Note that the Issuer can list the issued disclosures (if any) in any order.<a href="#appendix-D.1-7.1.1" class="pilcrow">¶</a></p>
@@ -5571,10 +5571,10 @@ It has generated 15 disclosures.<a href="#appendix-D.1-6" class="pilcrow">¶</a>
 <a href="#appendix-D.2" class="section-number selfRef">D.2. </a><a href="#name-holder" class="section-name selfRef">Holder</a>
         </h3>
 <p id="appendix-D.2-1">Once it receives an issued SD-CWT from the Issuer, the Holder validates all of the disclosures as described in <a href="#holder-validation" class="auto internal xref">Section 6.2</a>.
-The Holder needs to unwrap the nested claims starting with the top level and proceeding deeper, to insure that there are no unmatched Redacted Claim Hashes anywhere in the document, and no unmatched disclosures.<a href="#appendix-D.2-1" class="pilcrow">¶</a></p>
+The Holder needs to unwrap all nested claims starting with the top level and proceeding deeper, to insure that there are no unmatched Redacted Claim Hashes anywhere in the document, and no unmatched disclosures.<a href="#appendix-D.2-1" class="pilcrow">¶</a></p>
 <p id="appendix-D.2-2">Once the issued CWT is validated, the Holder can create multiple presentations, generating different SD-KBTs (as described in <a href="#kbt" class="auto internal xref">Section 7.1</a>) for each presentation by changing, for example, the audience and the choice of disclosures.
 The privacy issues in <a href="#privacy" class="auto internal xref">Section 14</a> apply.<a href="#appendix-D.2-2" class="pilcrow">¶</a></p>
-<p id="appendix-D.2-3">In our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and (partially redacted) location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.
+<p id="appendix-D.2-3">In our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and partially redacted location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.
 In our example, the Holder sorts these disclosures in ascending order of the Redacted Claim Hash corresponding to each disclosure. (It could have used <em>any</em> order.)<a href="#appendix-D.2-3" class="pilcrow">¶</a></p>
 <span id="name-the-holders-choice-of-neste"></span><figure id="figure-33">
           <div class="breakable lang-cbor-diag sourcecode" id="appendix-D.2-4.1">
@@ -5665,13 +5665,13 @@ At best, such "orphaned" disclosures will be discarded by the Verifier, and at w
 <a href="#appendix-D.3" class="section-number selfRef">D.3. </a><a href="#name-verifier" class="section-name selfRef">Verifier</a>
         </h3>
 <p id="appendix-D.3-1">The Verifier receives the Holder's SD-KBT, which contains an SD-CWT with the Holder's choice of (nested) disclosures.
-The example does not show the SD-KBT for brevity; that does not mean it would not be present.
+The example does not show the SD-KBT for brevity; it is always used in an actual presentation.
 In the example the disclosures are sorted in the order of the Redacted Claim Hash corresponding to each disclosure.
 (The Holder can present its disclosures in any order.)<a href="#appendix-D.3-1" class="pilcrow">¶</a></p>
 <p id="appendix-D.3-2">The Verifier needs to match the disclosures to their corresponding Redacted Claims in the Claims Set in the payload of our example SD-CWT.
-It needs to calculate the Redacted Claim Hash for each of the disclosures it receives.<a href="#appendix-D.3-2" class="pilcrow">¶</a></p>
+The Verifier needs to calculate the Redacted Claim Hash for each of the disclosures it receives.<a href="#appendix-D.3-2" class="pilcrow">¶</a></p>
 <p id="appendix-D.3-3">Typically the Verifier would create a lookup table of disclosures indexed by the Redacted Claim Hash.
-Comments in the example show the first 4 bytes of Redacted Claim Hash of each disclosure.
+Comments in all the examples show the first 4 bytes of the Redacted Claim Hash of each disclosure.
 The comments are only present in the diagnostic (text) notation to make it easier for the reader; comments are not included in CWTs or in SD-CWT in their native form.<a href="#appendix-D.3-3" class="pilcrow">¶</a></p>
 <p id="appendix-D.3-4">Our example document only contains three Redacted Claims that are currently visible.<a href="#appendix-D.3-4" class="pilcrow">¶</a></p>
 <span id="name-redacted-claims-at-level-1"></span><figure id="figure-34">
@@ -5697,8 +5697,8 @@ The comments are only present in the diagnostic (text) notation to make it easie
           </figcaption></figure>
 <p id="appendix-D.3-6">The Verifier looks for matching Redacted Claim Hashes among the disclosures it has received.
 In this example it finds two matching hashes (the first and last hash in the inspection history log claim array).
-The Verifier replaces the two matching Redacted Claim Hashes with their disclosed values (in this case, the last and first disclosures, which are both Claim Elements) and removes the second Redacted Claim Hash.
-The Verifier no longer considers the matched disclosures; they cannot match more than one Redacted Claim Hash.<a href="#appendix-D.3-6" class="pilcrow">¶</a></p>
+The Verifier replaces the two matching Redacted Claim Hashes with their disclosed values (in this case, the last and first disclosures, which are both replacing Redacted Claim Elements) and removes the second Redacted Claim Hash.
+The Verifier no longer considers the matched disclosures; each disclosure cannot match more than one Redacted Claim Hash.<a href="#appendix-D.3-6" class="pilcrow">¶</a></p>
 <span id="name-claims-after-revealing-disc"></span><figure id="figure-35">
           <div class="lang-cbor-diag sourcecode" id="appendix-D.3-7.1">
 <pre>
@@ -5776,8 +5776,8 @@ The Verifier replaces these Redacted Claims with the corresponding Claim Keys fr
 <a href="#name-claims-after-revealing-discl" class="selfRef">Claims after revealing disclosures at Level 2</a>
           </figcaption></figure>
 <p id="appendix-D.3-10">The Verifier then repeats the process again at the next "level" of nesting.
-It finds a single matching disclosure (the second disclosure).
-It replaces the matching Redacted Claim and removes the others.<a href="#appendix-D.3-10" class="pilcrow">¶</a></p>
+The Verifier finds a single matching disclosure (the second disclosure).
+The Verifier replaces the matching Redacted Claim Hash and removes the others.<a href="#appendix-D.3-10" class="pilcrow">¶</a></p>
 <span id="name-claims-after-revealing-disclo"></span><figure id="figure-37">
           <div class="lang-cbor-diag sourcecode" id="appendix-D.3-11.1">
 <pre>
@@ -5808,7 +5808,7 @@ It replaces the matching Redacted Claim and removes the others.<a href="#appendi
 <a href="#name-claims-after-revealing-disclo" class="selfRef">Claims after revealing disclosures at Level 3</a>
           </figcaption></figure>
 <p id="appendix-D.3-12">The Verifier has no more Redacted Claim Hashes to process.
-Assuming the other validation steps pass, it can pass the Validated Claims Set on to the application.<a href="#appendix-D.3-12" class="pilcrow">¶</a></p>
+Assuming the other validation steps pass, the Verifier can pass the Validated Claims Set on to the application.<a href="#appendix-D.3-12" class="pilcrow">¶</a></p>
 <p id="appendix-D.3-13">If there were remaining disclosures, the Verifier could decide to ignore them or to reject the entire SD-CWT depending on its local policy.
 Extra disclosures cannot be verified and indicate incorrect behavior by the Holder.<a href="#appendix-D.3-13" class="pilcrow">¶</a></p>
 </section>
