@@ -2052,7 +2052,7 @@ The Verifier no longer considers the matched disclosures; they cannot match more
 {: title="Claims after revealing disclosures at Level 1"}
 
 The Verifier then repeats the process again at the next "level" of nesting.
-In this example all the visible Redacted Claims happen to be Redacted Claim Keys.
+In this example, all the visible Redacted Claims happen to be Redacted Claim Keys.
 The second, third, fourth, and sixth disclosures match.
 The Verifier replaces these Redacted Claims with the corresponding Claim Keys from the disclosures.
 
