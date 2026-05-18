@@ -1951,8 +1951,8 @@ Below is the nested Claims Set example from {{edn-nested-unblinded}} with To Be 
 ~~~
 {: #-nested-to-be-redacted title="EDN example of Nested Claims Set tagged with desired redactions"}
 
-The Issuer in our example respects the hints and produces the following Issued SD-CWT.
-It has generated 15 disclosures.
+The Issuer in our example respects the hints and produces the following issued SD-CWT.
+The Issuer has generated 15 disclosures.
 
 > Note that the Issuer can list the issued disclosures (if any) in any order.
 
@@ -1966,12 +1966,12 @@ Now the issued SD-CWT is provided to the Holder for processing.
 ## Holder
 
 Once it receives an issued SD-CWT from the Issuer, the Holder validates all of the disclosures as described in {{holder-validation}}.
-The Holder needs to unwrap the nested claims starting with the top level and proceeding deeper, to insure that there are no unmatched Redacted Claim Hashes anywhere in the document, and no unmatched disclosures.
+The Holder needs to unwrap all nested claims starting with the top level and proceeding deeper, to insure that there are no unmatched Redacted Claim Hashes anywhere in the document, and no unmatched disclosures.
 
 Once the issued CWT is validated, the Holder can create multiple presentations, generating different SD-KBTs (as described in {{kbt}}) for each presentation by changing, for example, the audience and the choice of disclosures.
 The privacy issues in {{privacy}} apply.
 
-In our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and (partially redacted) location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.
+In our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and partially redacted location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.
 In our example, the Holder sorts these disclosures in ascending order of the Redacted Claim Hash corresponding to each disclosure. (It could have used *any* order.)
 
 ~~~ cbor-diag
@@ -1988,15 +1988,15 @@ The Holder then presents its SD-KBT to the Verifier.
 ## Verifier
 
 The Verifier receives the Holder's SD-KBT, which contains an SD-CWT with the Holder's choice of (nested) disclosures.
-The example does not show the SD-KBT for brevity; that does not mean it would not be present.
+The example does not show the SD-KBT for brevity; it is always used in an actual presentation.
 In the example the disclosures are sorted in the order of the Redacted Claim Hash corresponding to each disclosure.
 (The Holder can present its disclosures in any order.)
 
 The Verifier needs to match the disclosures to their corresponding Redacted Claims in the Claims Set in the payload of our example SD-CWT.
-It needs to calculate the Redacted Claim Hash for each of the disclosures it receives.
+The Verifier needs to calculate the Redacted Claim Hash for each of the disclosures it receives.
 
 Typically the Verifier would create a lookup table of disclosures indexed by the Redacted Claim Hash.
-Comments in the example show the first 4 bytes of Redacted Claim Hash of each disclosure.
+Comments in all the examples show the first 4 bytes of the Redacted Claim Hash of each disclosure.
 The comments are only present in the diagnostic (text) notation to make it easier for the reader; comments are not included in CWTs or in SD-CWT in their native form.
 
 Our example document only contains three Redacted Claims that are currently visible.
@@ -2020,8 +2020,8 @@ Our example document only contains three Redacted Claims that are currently visi
 
 The Verifier looks for matching Redacted Claim Hashes among the disclosures it has received.
 In this example it finds two matching hashes (the first and last hash in the inspection history log claim array).
-The Verifier replaces the two matching Redacted Claim Hashes with their disclosed values (in this case, the last and first disclosures, which are both Claim Elements) and removes the second Redacted Claim Hash.
-The Verifier no longer considers the matched disclosures; they cannot match more than one Redacted Claim Hash.
+The Verifier replaces the two matching Redacted Claim Hashes with their disclosed values (in this case, the last and first disclosures, which are both replacing Redacted Claim Elements) and removes the second Redacted Claim Hash.
+The Verifier no longer considers the matched disclosures; each disclosure cannot match more than one Redacted Claim Hash.
 
 ~~~ cbor-diag
 ...
@@ -2093,8 +2093,8 @@ The Verifier replaces these Redacted Claims with the corresponding Claim Keys fr
 {: title="Claims after revealing disclosures at Level 2"}
 
 The Verifier then repeats the process again at the next "level" of nesting.
-It finds a single matching disclosure (the second disclosure).
-It replaces the matching Redacted Claim and removes the others.
+The Verifier finds a single matching disclosure (the second disclosure).
+The Verifier replaces the matching Redacted Claim Hash and removes the others.
 
 ~~~ cbor-diag
 ...
@@ -2122,7 +2122,7 @@ It replaces the matching Redacted Claim and removes the others.
 {: title="Claims after revealing disclosures at Level 3"}
 
 The Verifier has no more Redacted Claim Hashes to process.
-Assuming the other validation steps pass, it can pass the Validated Claims Set on to the application.
+Assuming the other validation steps pass, the Verifier can pass the Validated Claims Set on to the application.
 
 If there were remaining disclosures, the Verifier could decide to ignore them or to reject the entire SD-CWT depending on its local policy.
 Extra disclosures cannot be verified and indicate incorrect behavior by the Holder.
