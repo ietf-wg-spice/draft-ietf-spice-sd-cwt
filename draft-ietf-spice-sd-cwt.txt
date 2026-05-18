@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 18 November 2026                                   Tradeverifyd
+Expires: 19 November 2026                                   Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                             17 May 2026
+                                                             18 May 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 November 2026.
+   This Internet-Draft will expire on 19 November 2026.
 
 Copyright Notice
 
@@ -153,33 +153,37 @@ Table of Contents
    Appendix C.  Keys Used in the Examples
      C.1.  Subject / Holder
      C.2.  Issuer
-   Appendix D.  Implementation Status
-     D.1.  Transmute Prototype
-     D.2.  Rust Prototype
-     D.3.  Python Prototype
-   Appendix E.  Relationship between RATS Architecture and Verifiable
+   Appendix D.  Nesting Example Walkthrough
+     D.1.  Issuer
+     D.2.  Holder
+     D.3.  Verifier
+   Appendix E.  Implementation Status
+     E.1.  Transmute Prototype
+     E.2.  Rust Prototype
+     E.3.  Python Prototype
+   Appendix F.  Relationship between RATS Architecture and Verifiable
            Credentials
-     E.1.  Three-Party Verifiable Credentials Model
-     E.2.  RATS Architecture Roles
-     E.3.  Role Mappings in the Three-Party Model
-       E.3.1.  Verifiable Credential Issuer as RATS Endorser
-       E.3.2.  Verifiable Credential Holder as RATS Verifier
-       E.3.3.  Verifiable Credential Verifier as RATS Relying Party
-       E.3.4.  All Parties Can Be Attesters
-     E.4.  Comparison with RATS Interaction Models
-     E.5.  Roles That Don't Map to the Three-Party Model
-     E.6.  Application to SD-CWT
-   Appendix F.  Sample Disclosure Matching Algorithm for Verifier
-   Appendix G.  Document History
-     G.1.  draft-ietf-spice-sd-cwt-08
-     G.2.  draft-ietf-spice-sd-cwt-07
-     G.3.  draft-ietf-spice-sd-cwt-06
-     G.4.  draft-ietf-spice-sd-cwt-05
-     G.5.  draft-ietf-spice-sd-cwt-04
-     G.6.  draft-ietf-spice-sd-cwt-03
-     G.7.  draft-ietf-spice-sd-cwt-02
-     G.8.  draft-ietf-spice-sd-cwt-01
-     G.9.  draft-ietf-spice-sd-cwt-00
+     F.1.  Three-Party Verifiable Credentials Model
+     F.2.  RATS Architecture Roles
+     F.3.  Role Mappings in the Three-Party Model
+       F.3.1.  Verifiable Credential Issuer as RATS Endorser
+       F.3.2.  Verifiable Credential Holder as RATS Verifier
+       F.3.3.  Verifiable Credential Verifier as RATS Relying Party
+       F.3.4.  All Parties Can Be Attesters
+     F.4.  Comparison with RATS Interaction Models
+     F.5.  Roles That Don't Map to the Three-Party Model
+     F.6.  Application to SD-CWT
+   Appendix G.  Sample Disclosure Matching Algorithm for Verifier
+   Appendix H.  Document History
+     H.1.  draft-ietf-spice-sd-cwt-08
+     H.2.  draft-ietf-spice-sd-cwt-07
+     H.3.  draft-ietf-spice-sd-cwt-06
+     H.4.  draft-ietf-spice-sd-cwt-05
+     H.5.  draft-ietf-spice-sd-cwt-04
+     H.6.  draft-ietf-spice-sd-cwt-03
+     H.7.  draft-ietf-spice-sd-cwt-02
+     H.8.  draft-ietf-spice-sd-cwt-01
+     H.9.  draft-ietf-spice-sd-cwt-00
    Acknowledgments
    Contributors
    Authors' Addresses
@@ -1507,7 +1511,7 @@ Issuer                           Holder                         Verifier
        and find the Issuer SD-CWT present in the kcwt field.
 
    2.  Next, the Verifier must validate the SD-CWT as described in
-       Section 7.2 of [RFC8392].  Validators MUST treat an sd_claims or
+       Section 7.2 of [RFC8392].  Verifiers MUST treat an sd_claims or
        sd_aead_encrypted_claims unprotected Header Parameter with an
        empty array as invalid.
 
@@ -2032,7 +2036,7 @@ Issuer                           Holder                         Verifier
        / cnf / 8  : { ... },
        504: [                      / inspection history log /
            {
-               500: True,          / inspection passed /
+               500: true,          / inspection passed /
                502: 1549560720,    / 2019-02-07T17:32:00 /
                501: "DCBA-101777", / inspector license /
                503: {
@@ -2042,7 +2046,7 @@ Issuer                           Holder                         Verifier
                }
            },
            {
-               500: True,          / inspection passed /
+               500: true,          / inspection passed /
                502: 1612560720,    / 2021-02-04T20:14:00 /
                501: "EFGH-789012", / inspector license /
                503: {
@@ -2052,7 +2056,7 @@ Issuer                           Holder                         Verifier
                }
            },
            {
-               500: True,          / inspection passed /
+               500: true,          / inspection passed /
                502: 17183928,      / 2023-01-17T17:19:00 /
                501: "ABCD-123456", / inspector license /
                503: {
@@ -2060,7 +2064,7 @@ Issuer                           Holder                         Verifier
                    2: "ca",        / region=California /
                    3: "94188"      / postcode /
                }
-           },
+           }
        ]
    }
 
@@ -2070,89 +2074,92 @@ Issuer                           Holder                         Verifier
    disclosure reveals the entire January 2023 inspection record.
    However, when the record is disclosed, the inspector license number
    and inspection location are still redacted inside the record.  The
-   next disclosure reveal the inspector_license_number, and the next
+   fifth disclosure reveals the inspector_license_number, and the fourth
    disclosure reveals the inspection location record, but the region and
    postcode claims inside the location record are also individually
-   redacted.  The fourth disclosure reveals the inspection region.
+   redacted.  The second disclosure reveals the inspection region.
 
-   The fifth disclosure reveals the earliest inspection record, and the
-   last disclosure reveals the inspector_license_number for that record.
+   The last disclosure reveals the earliest inspection record, and the
+   sixth disclosure reveals the inspector_license_number for that
+   record.
 
    Verifiers start replacing each Redacted Claim Hash whose hash matches
    a Salted Disclosed Claim, with the unredacted Claim Key or Claim
    Value from that Salted Disclosed Claim.  They continue descending
    until there are no Redacted Claim Hashes at any level of the
-   hierarchy for which they have a corresponding disclosure.
+   hierarchy for which they have a corresponding disclosure.  A
+   walkthrough of processing an example with nested disclosures is in
+   Appendix D.
 
-   / sd_claims / 17 : [ / these are the disclosures /
-       <<[
-           /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
-           /value/  {
-                        500: true,
-                        502: 1674004740,
-                        simple(59): [
-                        h'af375dc3fba1d082448642c00be7b2f7
-                          bb05c9d8fb61cfc230ddfdfb4616a693',
-                        h'9d151abeb800adcc11ff10ff61fbd3d7
-                          5944c134b40a24abef1787d3ae6583aa'
-                    ]
-                    }   / inspection 17-Jan-2023 /
-       ]>>,
-       <<[
-           /salt/   h'bae611067bb823486797da1ebbb52f83',
-           /value/  "ABCD-123456",
-           /claim/  501   / inspector_license_number /
-       ]>>,
-       <<[
-           /salt/   h'483e4b3c194df6073a9c41ca9f274067',
-           /value/  {
-                        1: "us",
-                        simple(59): [
+       / sd_claims / 17 : [ / these are the disclosures /
+           <<[
+               /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
+               /value/  {
+                            500: true,
+                            502: 1674004740,
+                            simple(59): [
+                            h'af375dc3fba1d082448642c00be7b2f7
+                              bb05c9d8fb61cfc230ddfdfb4616a693',
+                            h'9d151abeb800adcc11ff10ff61fbd3d7
+                              5944c134b40a24abef1787d3ae6583aa'
+                        ]
+                        }   / inspection 17-Jan-2023 /
+           ]>>,         / Redacted Claim Hash begins 20d9bb11 /
+           <<[
+               /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+               /value/  "ca",
+               /claim/  2   / region=California /
+           ]>>,         / Redacted Claim Hash begins 2470fb91 /
+           <<[
+               /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+               /value/  "DCBA-101777",
+               /claim/  501   / inspector_license_number /
+           ]>>,         / Redacted Claim Hash begins 7257a869 /
+           <<[
+               /salt/   h'483e4b3c194df6073a9c41ca9f274067',
+               /value/  {
+                            1: "us",
+                            simple(59): [
                             h'2470fb9175b062c347ab3c3a19776d02
                               476112a17cd7cfc9416664bc058c220b',
                             h'cf397a08917528624ca3b332c9edcc54
                               a72c9411dd5983f68017ce160f709f52'
                         ]
-                    },
-           /claim/  503   / San Francisco location /
-       ]>>,
-       <<[
-           /salt/   h'52da9de5dc61b33775f9348b991d3d78',
-           /value/  "ca",
-           /claim/  2   / region=California /
-       ]>>,
-       <<[
-           /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
-           /value/  {
-                        500: true,
-                        502: 1549560720,
-                        simple(59): [
-                            h'7257a8697dfa40221079b00fb65fe587
-                              c310e6ca3da1aa33b090335de66ec810',
-                            h'c24c646b52fecd773c6ea01c6caa5a73
-                              422b85d3afa5900fa998336d83a88025'
-                        ]
-                    }   / inspection 7-Feb-2019 /
-       ]>>,
-       <<[
-           /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
-           /value/  "DCBA-101777",
-           /claim/  501   / inspector_license_number /
-       ]>>,
-       <<[
-           /salt/   h'c23a4d192be75dbd583be570482de8dd',
-           /value/  {
-                        1: "us",
-                        simple(59): [
+                        },
+               /claim/  503   / San Francisco location /
+           ]>>,         / Redacted Claim Hash begins 9d151abe /
+           <<[
+               /salt/   h'bae611067bb823486797da1ebbb52f83',
+               /value/  "ABCD-123456",
+               /claim/  501   / inspector_license_number /
+           ]>>,         / Redacted Claim Hash begins af375dc3 /
+           <<[
+               /salt/   h'c23a4d192be75dbd583be570482de8dd',
+               /value/  {
+                            1: "us",
+                            simple(59): [
                             h'1b89717167f39d51eec08b13baeda570
                               eff5d0aedaa1d7d0821185c33634a5a0',
                             h'49412884fa1e3787c17d1320bdd48f6e
                               0e5365da010cde0571d4a7effd13cc2a'
                         ]
-                    },
-           /claim/  503   / Denver location /
-       ]>>,
-   ]
+                        },
+               /claim/  503   / Denver location /
+           ]>>,         / Redacted Claim Hash begins c24c646b /
+           <<[
+               /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
+               /value/  {
+                            500: true,
+                            502: 1549560720,
+                            simple(59): [
+                            h'7257a8697dfa40221079b00fb65fe587
+                              c310e6ca3da1aa33b090335de66ec810',
+                            h'c24c646b52fecd773c6ea01c6caa5a73
+                              422b85d3afa5900fa998336d83a88025'
+                        ]
+                        }   / inspection 7-Feb-2019 /
+           ]>>,         / Redacted Claim Hash begins ca6b8516 /
+       ]
 
         Figure 28: EDN Example of SD-CWT with Nested Redacted Claims
 
@@ -2169,7 +2176,7 @@ Issuer                           Holder                         Verifier
        / cnf / 8  : { ... },
        504: [                      / inspection history log /
            {
-               500: True,          / inspection passed /
+               500: true,          / inspection passed /
                501: "DCBA-101777", / inspector license /
                502: 1549560720,    / 2019-02-07T17:32:00 /
                503: {
@@ -2177,7 +2184,7 @@ Issuer                           Holder                         Verifier
                }
            },
            {
-               500: True,          / inspection passed /
+               500: true,          / inspection passed /
                501: "ABCD-123456", / inspector license /
                502: 17183928,      / 2023-01-17T17:19:00 /
                503: {
@@ -3456,7 +3463,512 @@ C.2.  Issuer
    rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
    -----END PRIVATE KEY-----
 
-Appendix D.  Implementation Status
+Appendix D.  Nesting Example Walkthrough
+
+D.1.  Issuer
+
+   How the Issuer decides which claims to include in an SD-CWT Claims
+   Set, and which claims in a Claims Set to redact is a local policy
+   matter outside of the scope of this specification.
+
+   Here we will start with the example Claims Set from Figure 27.
+
+   The Holder or the administrator of the Issuer could use the To Be
+   Redacted tag (see Section 10.1) and the To Be Decoy tag (see
+   Section 10.2) as a hint to the Issuer to indicate claims to be
+   redacted or locations for decoys.  The examples in this document were
+   produced using this method.
+
+   Below is the nested Claims Set example from Figure 27 with To Be
+   Redacted tags wrapping the claims that are actually redacted in our
+   nested example.
+
+   {
+       / iss / 1  : "https://issuer.example",
+       / sub / 2  : "https://device.example",
+       / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
+       / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
+       / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
+       / cnf / 8  : { ... },
+       504: [                          / inspection history log /
+           58({                        / REDACT /
+               500: true,              / inspection passed /
+               502: 1549560720,        / 2019-02-07T17:32:00 /
+               58(501): "DCBA-101777", / inspector license ; REDACT /
+               58(503): {              / REDACT /
+                   1: "us",            / United States /
+                   58(2): "co",        / region=Colorado ; REDACT /
+                   58(3): "80302"      / postcode ; REDACT /
+               }
+           }),
+           58({                        / REDACT /
+               500: true,              / inspection passed /
+               502: 1612560720,        / 2021-02-04T20:14:00 /
+               58(501): "EFGH-789012", / inspector license ; REDACT /
+               58(503): {              / REDACT /
+                   1: "us",            / United States /
+                   58(2): "nv",        / region=Nevada ; REDACT /
+                   58(3): "89155"      / postcode ; REDACT /
+               }
+           }),
+           58({                        / REDACT /
+               500: true,              / inspection passed /
+               502: 17183928,          / 2023-01-17T17:19:00 /
+               58(501): "ABCD-123456", / inspector license ; REDACT /
+               58(503): {              / REDACT /
+                   1: "us",            / United States /
+                   58(2): "ca",        / region=California ; REDACT /
+                   58(3): "94188"      / postcode ; REDACT /
+               }
+           })
+       ]
+   }
+
+      Figure 31: EDN example of Nested Claims Set tagged with desired
+                                 redactions
+
+   The Issuer in our example respects the hints and produces the
+   following issued SD-CWT.  The Issuer has generated 15 disclosures.
+
+      Note that the Issuer can list the issued disclosures (if any) in
+      any order.
+
+   / cose-sign1 / 18([  / issuer SD-CWT /
+     / CWT protected / << {
+       / alg /    1  : -35, / ES384 /
+       / kid /    4  : 'https://issuer.example/cose-key3',
+       / typ /    16 : 293, # application/sd-cwt
+       / sd_alg / 170 : -16  / SHA256 /
+     } >>,
+     / CWT unprotected / {
+       / sd_claims / 17 : [ / these are all the disclosures /
+           <<[
+               /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+               /value/  "DCBA-101777",
+               /claim/  501   / inspector_license_number /
+           ]>>,         / Redacted Claim Hash begins 7257a869 /
+           <<[
+               /salt/   h'e70e23e77176fa59beb0b2559943a079',
+               /value/  "co",
+               /claim/  2   / region=Colorado /
+           ]>>,         / Redacted Claim Hash begins 1b897171 /
+           <<[
+               /salt/   h'cbbf1cd3d1a5da83e1d92c08d566a481',
+               /value/  "80302",
+               /claim/  3   / postcode=80302 /
+           ]>>,         / Redacted Claim Hash begins 49412884 /
+           <<[
+               /salt/   h'c23a4d192be75dbd583be570482de8dd',
+               /value/  {
+                            1: "us",
+                            simple(59): [
+                            h'1b89717167f39d51eec08b13baeda570
+                              eff5d0aedaa1d7d0821185c33634a5a0',
+                            h'49412884fa1e3787c17d1320bdd48f6e
+                              0e5365da010cde0571d4a7effd13cc2a'
+                        ]
+                        },
+               /claim/  503   / Denver location /
+           ]>>,         / Redacted Claim Hash begins c24c646b /
+           <<[
+               /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
+               /value/  {
+                            500: true,
+                            502: 1549560720,
+                            simple(59): [
+                            h'7257a8697dfa40221079b00fb65fe587
+                              c310e6ca3da1aa33b090335de66ec810',
+                            h'c24c646b52fecd773c6ea01c6caa5a73
+                              422b85d3afa5900fa998336d83a88025'
+                        ]
+                        }   / inspection 7-Feb-2019 /
+           ]>>,         / Redacted Claim Hash begins ca6b8516 /
+           <<[
+               /salt/   h'9a3bc899090435650b377199450c1fa1',
+               /value/  "EFGH-789012",
+               /claim/  501   / inspector_license_number /
+           ]>>,         / Redacted Claim Hash begins 98d15f82 /
+           <<[
+               /salt/   h'5e852d2eef59c0ebeab8c08fca252cc5',
+               /value/  "nv",
+               /claim/  2   / region=Nevada /
+           ]>>,         / Redacted Claim Hash begins da268d9b /
+           <<[
+               /salt/   h'3dd46bd7dea09c9ee7dfe4e0d510129b',
+               /value/  "89155",
+               /claim/  3   / postcode=89155 /
+           ]>>,         / Redacted Claim Hash begins 61dcdb8c /
+           <<[
+               /salt/   h'c225607427e01072bbafcce7e48049e3',
+               /value/  {
+                            1: "us",
+                            simple(59): [
+                            h'da268d9b81c19c02fcea7c4cadc2e23f
+                              0454a4550a380cde8b0842463ed034da',
+                            h'61dcdb8cbae7b66c3e36b2510daf61ba
+                              9168a50f20f4cad4213ed231e33d5b7b'
+                        ]
+                        },
+               /claim/  503   / Las Vegas location /
+           ]>>,         / Redacted Claim Hash begins 5dec8f26 /
+           <<[
+               /salt/   h'1b248d469cf00b8dfa896f069f04697b',
+               /value/  {
+                            500: true,
+                            502: 1612560720,
+                            simple(59): [
+                            h'98d15f82dfadc18f5700582ff47b286c
+                              d7ca047bb1e0529a5374c59d6dc5057d',
+                            h'5dec8f268d3b9735936740c91b9baf00
+                              43de8ee42357a414e3e8d4ab098fae5d'
+                        ]
+                        }   / inspection 4-Feb-2021 /
+           ]>>,         / Redacted Claim Hash begins 0dfdc69d /
+           <<[
+               /salt/   h'bae611067bb823486797da1ebbb52f83',
+               /value/  "ABCD-123456",
+               /claim/  501   / inspector_license_number /
+           ]>>,         / Redacted Claim Hash begins af375dc3 /
+           <<[
+               /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+               /value/  "ca",
+               /claim/  2   / region=California /
+           ]>>,         / Redacted Claim Hash begins 2470fb91 /
+           <<[
+               /salt/   h'a965de35aa599d603fe1b7aa89490eb0',
+               /value/  "94188",
+               /claim/  3   / postcode=94188 /
+           ]>>,         / Redacted Claim Hash begins cf397a08 /
+           <<[
+               /salt/   h'483e4b3c194df6073a9c41ca9f274067',
+               /value/  {
+                            1: "us",
+                            simple(59): [
+                            h'2470fb9175b062c347ab3c3a19776d02
+                              476112a17cd7cfc9416664bc058c220b',
+                            h'cf397a08917528624ca3b332c9edcc54
+                              a72c9411dd5983f68017ce160f709f52'
+                        ]
+                        },
+               /claim/  503   / San Francisco location /
+           ]>>,         / Redacted Claim Hash begins 9d151abe /
+           <<[
+               /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
+               /value/  {
+                            500: true,
+                            502: 1674004740,
+                            simple(59): [
+                            h'af375dc3fba1d082448642c00be7b2f7
+                              bb05c9d8fb61cfc230ddfdfb4616a693',
+                            h'9d151abeb800adcc11ff10ff61fbd3d7
+                              5944c134b40a24abef1787d3ae6583aa'
+                        ]
+                        }   / inspection 17-Jan-2023 /
+           ]>>,         / Redacted Claim Hash begins 20d9bb11 /
+       ]
+     },
+     / CWT payload / << {
+       / iss / 1   : "https://issuer.example",
+       / sub / 2   : "https://device.example",
+       / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
+       / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
+       / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
+       / cnf / 8   : {
+         / cose key / 1 : {
+           / kty /  1: 2,  / EC2   /
+           / crv / -1: 1,  / P-256 /
+           / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                         2022fd0d3024b5af18c7cc61ad527a2d',
+           / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                         503f54293d87875d1e79ce4770194343'
+         }
+       },
+       /inspection history log/ 504: [
+         / inspection 7-Feb-2019 /
+         60(h'ca6b851688236744ff0cf0814508e4f1
+              81d3811bfec4ed5bb8ace7823132dbc0'),
+         / inspection 4-Feb-2021 /
+         60(h'0dfdc69d0efb65eec14bf28af78cd8f0
+              6cabfe8e2b1a0611ef8bca869ce35b61'),
+         / inspection 17-Jan-2023 /
+         60(h'20d9bb11363bae49851cfd4a3f166539
+              d0aa00433c30aede18380bfa98d781dc')
+       ]
+     } >>,
+     / CWT signature / h'413d8e017bd26e47eb6dd69317a4312b
+                         b84c81a37496d19fa6aa73e16d9441ca
+                         ee0bfdbe37d0b2d945e22115842c75ec
+                         324cb0c9c80cad22b1575bafa577e1d7
+                         77e3d35c26dbc239dc0141d386cbcc96
+                         e0d2d309714d0a38a8aee77456e1a852'
+   ])
+
+        Figure 32: The Issued CWT containing nested redacted claims
+
+   Now the issued SD-CWT is provided to the Holder for processing.
+
+D.2.  Holder
+
+   Once it receives an issued SD-CWT from the Issuer, the Holder
+   validates all of the disclosures as described in Section 6.2.  The
+   Holder needs to unwrap all nested claims starting with the top level
+   and proceeding deeper, to insure that there are no unmatched Redacted
+   Claim Hashes anywhere in the document, and no unmatched disclosures.
+
+   Once the issued CWT is validated, the Holder can create multiple
+   presentations, generating different SD-KBTs (as described in
+   Section 7.1) for each presentation by changing, for example, the
+   audience and the choice of disclosures.  The privacy issues in
+   Section 14 apply.
+
+   In our example, the Holder chooses to disclose two of the inspections
+   (from 2019 and 2023), the inspector license numbers and partially
+   redacted location maps from both of these inspections, and the region
+   (California) in the location map of the 2023 inspection.  In our
+   example, the Holder sorts these disclosures in ascending order of the
+   Redacted Claim Hash corresponding to each disclosure.  (It could have
+   used _any_ order.)
+
+       / sd_claims / 17 : [ / these are the disclosures /
+           <<[
+               /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
+               /value/  {
+                            500: true,
+                            502: 1674004740,
+                            simple(59): [
+                            h'af375dc3fba1d082448642c00be7b2f7
+                              bb05c9d8fb61cfc230ddfdfb4616a693',
+                            h'9d151abeb800adcc11ff10ff61fbd3d7
+                              5944c134b40a24abef1787d3ae6583aa'
+                        ]
+                        }   / inspection 17-Jan-2023 /
+           ]>>,         / Redacted Claim Hash begins 20d9bb11 /
+           <<[
+               /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+               /value/  "ca",
+               /claim/  2   / region=California /
+           ]>>,         / Redacted Claim Hash begins 2470fb91 /
+           <<[
+               /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+               /value/  "DCBA-101777",
+               /claim/  501   / inspector_license_number /
+           ]>>,         / Redacted Claim Hash begins 7257a869 /
+           <<[
+               /salt/   h'483e4b3c194df6073a9c41ca9f274067',
+               /value/  {
+                            1: "us",
+                            simple(59): [
+                            h'2470fb9175b062c347ab3c3a19776d02
+                              476112a17cd7cfc9416664bc058c220b',
+                            h'cf397a08917528624ca3b332c9edcc54
+                              a72c9411dd5983f68017ce160f709f52'
+                        ]
+                        },
+               /claim/  503   / San Francisco location /
+           ]>>,         / Redacted Claim Hash begins 9d151abe /
+           <<[
+               /salt/   h'bae611067bb823486797da1ebbb52f83',
+               /value/  "ABCD-123456",
+               /claim/  501   / inspector_license_number /
+           ]>>,         / Redacted Claim Hash begins af375dc3 /
+           <<[
+               /salt/   h'c23a4d192be75dbd583be570482de8dd',
+               /value/  {
+                            1: "us",
+                            simple(59): [
+                            h'1b89717167f39d51eec08b13baeda570
+                              eff5d0aedaa1d7d0821185c33634a5a0',
+                            h'49412884fa1e3787c17d1320bdd48f6e
+                              0e5365da010cde0571d4a7effd13cc2a'
+                        ]
+                        },
+               /claim/  503   / Denver location /
+           ]>>,         / Redacted Claim Hash begins c24c646b /
+           <<[
+               /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
+               /value/  {
+                            500: true,
+                            502: 1549560720,
+                            simple(59): [
+                            h'7257a8697dfa40221079b00fb65fe587
+                              c310e6ca3da1aa33b090335de66ec810',
+                            h'c24c646b52fecd773c6ea01c6caa5a73
+                              422b85d3afa5900fa998336d83a88025'
+                        ]
+                        }   / inspection 7-Feb-2019 /
+           ]>>,         / Redacted Claim Hash begins ca6b8516 /
+       ]
+
+        Figure 33: The Holder's choice of nested disclosures, sorted
+
+   Due to the way the claims are nested, disclosing the region of the
+   2023 inspection would not have been useful without disclosing the
+   enclosing location map and its enclosing 2023 inspection array
+   element.  In other words, the Holder needs to make sure that any
+   intermediate levels of nested claims it wishes to disclose are also
+   disclosed, otherwise the Verifier will not be able to validate them.
+   At best, such "orphaned" disclosures will be discarded by the
+   Verifier, and at worst, the Verifier could reject the entire SD-CWT.
+
+   The Holder then presents its SD-KBT to the Verifier.
+
+D.3.  Verifier
+
+   The Verifier receives the Holder's SD-KBT, which contains an SD-CWT
+   with the Holder's choice of (nested) disclosures.  The example does
+   not show the SD-KBT for brevity; it is always used in an actual
+   presentation.  In the example the disclosures are sorted in the order
+   of the Redacted Claim Hash corresponding to each disclosure.  (The
+   Holder can present its disclosures in any order.)
+
+   The Verifier needs to match the disclosures to their corresponding
+   Redacted Claims in the Claims Set in the payload of our example SD-
+   CWT.  The Verifier needs to calculate the Redacted Claim Hash for
+   each of the disclosures it receives.
+
+   Typically the Verifier would create a lookup table of disclosures
+   indexed by the Redacted Claim Hash.  Comments in all the examples
+   show the first 4 bytes of the Redacted Claim Hash of each disclosure.
+   The comments are only present in the diagnostic (text) notation to
+   make it easier for the reader; comments are not included in CWTs or
+   in SD-CWT in their native form.
+
+   Our example document only contains three Redacted Claims that are
+   currently visible.
+
+   ...
+   /inspection history log/ 504: [
+     / inspection 7-Feb-2019 /
+     60(h'ca6b851688236744ff0cf0814508e4f1
+          81d3811bfec4ed5bb8ace7823132dbc0'),
+     / inspection 4-Feb-2021 /
+     60(h'0dfdc69d0efb65eec14bf28af78cd8f0
+          6cabfe8e2b1a0611ef8bca869ce35b61'),
+     / inspection 17-Jan-2023 /
+     60(h'20d9bb11363bae49851cfd4a3f166539
+          d0aa00433c30aede18380bfa98d781dc')
+   ]
+   ...
+
+                   Figure 34: Redacted Claims at Level 1
+
+   The Verifier looks for matching Redacted Claim Hashes among the
+   disclosures it has received.  In this example it finds two matching
+   hashes (the first and last hash in the inspection history log claim
+   array).  The Verifier replaces the two matching Redacted Claim Hashes
+   with their disclosed values (in this case, the last and first
+   disclosures, which are both replacing Redacted Claim Elements) and
+   removes the second Redacted Claim Hash.  The Verifier no longer
+   considers the matched disclosures; each disclosure cannot match more
+   than one Redacted Claim Hash.
+
+   ...
+   /inspection history log/ 504: [
+     {
+       500: true,
+       502: 1549560720,
+       simple(59): [
+         h'7257a8697dfa40221079b00fb65fe587
+           c310e6ca3da1aa33b090335de66ec810',
+         h'c24c646b52fecd773c6ea01c6caa5a73
+           422b85d3afa5900fa998336d83a88025'
+       ]
+     }   / inspection 7-Feb-2019 /,
+     {
+       500: true,
+       502: 1674004740,
+       simple(59): [
+         h'af375dc3fba1d082448642c00be7b2f7
+           bb05c9d8fb61cfc230ddfdfb4616a693',
+         h'9d151abeb800adcc11ff10ff61fbd3d7
+           5944c134b40a24abef1787d3ae6583aa'
+       ]
+     }   / inspection 17-Jan-2023 /
+   ]
+   ...
+
+          Figure 35: Claims after revealing disclosures at Level 1
+
+   The Verifier then repeats the process again at the next "level" of
+   nesting.  In this example, all the visible Redacted Claims happen to
+   be Redacted Claim Keys.  The second, third, fourth, and sixth
+   disclosures match.  The Verifier replaces these Redacted Claims with
+   the corresponding Claim Keys from the disclosures.
+
+   ...
+   /inspection history log/ 504: [
+     {
+       500: true,
+       502: 1549560720,
+       501: "DCBA-101777",
+       503: {
+         1: "us",
+         simple(59): [
+           h'1b89717167f39d51eec08b13baeda570
+             eff5d0aedaa1d7d0821185c33634a5a0',
+           h'49412884fa1e3787c17d1320bdd48f6e
+             0e5365da010cde0571d4a7effd13cc2a'
+         ]
+       }
+     }   / inspection 7-Feb-2019 /,
+     {
+       500: true,
+       502: 1674004740,
+       501: "ABCD-123456",
+       503: {
+         1: "us",
+         simple(59): [
+           h'2470fb9175b062c347ab3c3a19776d02
+             476112a17cd7cfc9416664bc058c220b',
+           h'cf397a08917528624ca3b332c9edcc54
+             a72c9411dd5983f68017ce160f709f52'
+         ]
+       }
+     }   / inspection 17-Jan-2023 /
+   ]
+   ...
+
+          Figure 36: Claims after revealing disclosures at Level 2
+
+   The Verifier then repeats the process again at the next "level" of
+   nesting.  The Verifier finds a single matching disclosure (the second
+   disclosure).  The Verifier replaces the matching Redacted Claim Hash
+   and removes the others.
+
+   ...
+   /inspection history log/ 504: [
+     {
+       500: true,
+       502: 1549560720,
+       501: "DCBA-101777",
+       503: {
+         1: "us"
+       }
+     }   / inspection 7-Feb-2019 /,
+     {
+       500: true,
+       502: 1674004740,
+       501: "ABCD-123456",
+       503: {
+         1: "us",
+         2: "ca" / region=California /
+       }
+     }   / inspection 17-Jan-2023 /
+   ]
+   ...
+
+          Figure 37: Claims after revealing disclosures at Level 3
+
+   The Verifier has no more Redacted Claim Hashes to process.  Assuming
+   the other validation steps pass, the Verifier can pass the Validated
+   Claims Set on to the application.
+
+   If there were remaining disclosures, the Verifier could decide to
+   ignore them or to reject the entire SD-CWT depending on its local
+   policy.  Extra disclosures cannot be verified and indicate incorrect
+   behavior by the Holder.
+
+Appendix E.  Implementation Status
 
    Note to the RFC Editor: Please remove this section as well as
    references to [BCP205] before AUTH48.
@@ -3481,7 +3993,7 @@ Appendix D.  Implementation Status
    It is up to the individual working groups to use this information as
    they see fit".
 
-D.1.  Transmute Prototype
+E.1.  Transmute Prototype
 
    Organization: Transmute Industries Inc
 
@@ -3504,7 +4016,7 @@ D.1.  Transmute Prototype
 
    Contact: Orie Steele (orie.steele@tradeverifyd.com)
 
-D.2.  Rust Prototype
+E.2.  Rust Prototype
 
    Organization: SimpleLogin
 
@@ -3527,7 +4039,7 @@ D.2.  Rust Prototype
 
    Contact: Beltram Maldant (beltram.ietf.spice@pm.me)
 
-D.3.  Python Prototype
+E.3.  Python Prototype
 
    Organization: Tradeverifyd
 
@@ -3549,14 +4061,14 @@ D.3.  Python Prototype
 
    Contact: Orie Steele (orie.steele@tradeverifyd.com)
 
-Appendix E.  Relationship between RATS Architecture and Verifiable
+Appendix F.  Relationship between RATS Architecture and Verifiable
              Credentials
 
    This appendix describes the relationship between the Remote
    ATtestation procedureS (RATS) architecture defined in [RFC9334] and
    the three-party model used in verifiable credentials.
 
-E.1.  Three-Party Verifiable Credentials Model
+F.1.  Three-Party Verifiable Credentials Model
 
    The verifiable credentials model involves three distinct parties:
 
@@ -3577,7 +4089,7 @@ E.1.  Three-Party Verifiable Credentials Model
    credential and the Holder's signature over the presentation (key
    binding token).
 
-E.2.  RATS Architecture Roles
+F.2.  RATS Architecture Roles
 
    The RATS architecture defines the following key roles:
 
@@ -3596,12 +4108,12 @@ E.2.  RATS Architecture Roles
    *  *Relying Party*: Consumes Attestation Results to make
       authorization decisions
 
-E.3.  Role Mappings in the Three-Party Model
+F.3.  Role Mappings in the Three-Party Model
 
    The mapping between RATS roles and verifiable credential roles can be
    understood as follows:
 
-E.3.1.  Verifiable Credential Issuer as RATS Endorser
+F.3.1.  Verifiable Credential Issuer as RATS Endorser
 
    A verifiable credential Issuer functions as a RATS Endorser.  The
    Endorser role in RATS produces Endorsements - secure statements about
@@ -3624,7 +4136,7 @@ E.3.1.  Verifiable Credential Issuer as RATS Endorser
    attributes that can be used by Credential Verifiers to make trust
    decisions.
 
-E.3.2.  Verifiable Credential Holder as RATS Verifier
+F.3.2.  Verifiable Credential Holder as RATS Verifier
 
    A verifiable credential Holder functions as a RATS Verifier.  The
    RATS Verifier appraises Evidence and Endorsements and produces
@@ -3646,7 +4158,7 @@ E.3.2.  Verifiable Credential Holder as RATS Verifier
    an Attestation Result - a processed, signed assertion derived from
    the original credential (Endorsement).
 
-E.3.3.  Verifiable Credential Verifier as RATS Relying Party
+F.3.3.  Verifiable Credential Verifier as RATS Relying Party
 
    A verifiable credential Credential Verifier functions as a RATS
    Relying Party.  The Relying Party:
@@ -3666,7 +4178,7 @@ E.3.3.  Verifiable Credential Verifier as RATS Relying Party
    same way a Relying Party appraises Attestation Results from a RATS
    Verifier.
 
-E.3.4.  All Parties Can Be Attesters
+F.3.4.  All Parties Can Be Attesters
 
    Importantly, any of these parties - Issuer, Holder, or Credential
    Verifier - can simultaneously function as a RATS Attester.  The
@@ -3698,7 +4210,7 @@ E.3.4.  All Parties Can Be Attesters
    while the Issuer/Holder/Credential Verifier roles represent the flow
    of credentials and claims about subjects.
 
-E.4.  Comparison with RATS Interaction Models
+F.4.  Comparison with RATS Interaction Models
 
    RATS defines two interaction models:
 
@@ -3715,7 +4227,7 @@ E.4.  Comparison with RATS Interaction Models
    three-party credentials model, as it lacks Holder mediation and
    control over presentations.
 
-E.5.  Roles That Don't Map to the Three-Party Model
+F.5.  Roles That Don't Map to the Three-Party Model
 
    The *Reference Value Provider* role from RATS does not have a direct
    equivalent in the three-party verifiable credentials model.  This
@@ -3741,7 +4253,7 @@ E.5.  Roles That Don't Map to the Three-Party Model
    model than in the three-party credentials model where Issuers have
    already performed evaluation and produced credentials.
 
-E.6.  Application to SD-CWT
+F.6.  Application to SD-CWT
 
    When applying RATS concepts to SD-CWT:
 
@@ -3764,7 +4276,7 @@ E.6.  Application to SD-CWT
       infrastructure and out-of-band mechanisms rather than protocol-
       level roles
 
-Appendix F.  Sample Disclosure Matching Algorithm for Verifier
+Appendix G.  Sample Disclosure Matching Algorithm for Verifier
 
    The Verifier of an SD-CWT needs to decode disclosed claims match them
    with their redacted versions.  The following example algorithm
@@ -3808,11 +4320,11 @@ Appendix F.  Sample Disclosure Matching Algorithm for Verifier
       not disclose a claim, or that the digest is a decoy digest
       Section 9.
 
-Appendix G.  Document History
+Appendix H.  Document History
 
    Note: RFC Editor, please remove this entire section on publication.
 
-G.1.  draft-ietf-spice-sd-cwt-08
+H.1.  draft-ietf-spice-sd-cwt-08
 
    *TODO*: Complete before submitting
 
@@ -3858,7 +4370,7 @@ G.1.  draft-ietf-spice-sd-cwt-08
    *  Remove Mike Jones from Acknowledgments (except in list of SD-JWT
       contributors) since he is already listed as a Contributor.
 
-G.2.  draft-ietf-spice-sd-cwt-07
+H.2.  draft-ietf-spice-sd-cwt-07
 
    *  Replace claim requirements with tables (PR#258).
 
@@ -3946,7 +4458,7 @@ G.2.  draft-ietf-spice-sd-cwt-07
    *  Distinguish Verifier-Verifier and Verifier-Issuer unlinkability
       (PR#223).
 
-G.3.  draft-ietf-spice-sd-cwt-06
+H.3.  draft-ietf-spice-sd-cwt-06
 
    *  Refactored deterministic draft generation code (PR#152).
 
@@ -3996,7 +4508,7 @@ G.3.  draft-ietf-spice-sd-cwt-06
 
    *  Rename CDDL production using a standard prelude name (PR#183)
 
-G.4.  draft-ietf-spice-sd-cwt-05
+H.4.  draft-ietf-spice-sd-cwt-05
 
    *  Added this change log (PR#150)
 
@@ -4022,7 +4534,7 @@ G.4.  draft-ietf-spice-sd-cwt-05
 
    *  Improved AASVG diagram in Terminology section (PR#129)
 
-G.5.  draft-ietf-spice-sd-cwt-04
+H.5.  draft-ietf-spice-sd-cwt-04
 
    *  Place value before claim name in disclosures
 
@@ -4063,7 +4575,7 @@ G.5.  draft-ietf-spice-sd-cwt-04
 
    *  Fixed some references
 
-G.6.  draft-ietf-spice-sd-cwt-03
+H.6.  draft-ietf-spice-sd-cwt-03
 
    *  remove bstr encoding from sd_claims array (but not the individual
       disclosures)
@@ -4095,7 +4607,7 @@ G.6.  draft-ietf-spice-sd-cwt-03
 
    *  add optional encrypted disclosures
 
-G.7.  draft-ietf-spice-sd-cwt-02
+H.7.  draft-ietf-spice-sd-cwt-02
 
    *  KBT now includes the entire SD-CWT in the Confirmation Key CWT
       (kcwt) existing COSE protected header.  Has algorithm now
@@ -4109,7 +4621,7 @@ G.7.  draft-ietf-spice-sd-cwt-02
 
    *  Add section saying SD-CWT updates the CWT spec (RFC8392).  (PR#29)
 
-G.8.  draft-ietf-spice-sd-cwt-01
+H.8.  draft-ietf-spice-sd-cwt-01
 
    *  Added Overview section
 
@@ -4138,7 +4650,7 @@ G.8.  draft-ietf-spice-sd-cwt-01
 
    *  Updated draft metadata
 
-G.9.  draft-ietf-spice-sd-cwt-00
+H.9.  draft-ietf-spice-sd-cwt-00
 
    *  Initial working group version based on draft-prorock-spice-cose-
       sd-cwt-01.
