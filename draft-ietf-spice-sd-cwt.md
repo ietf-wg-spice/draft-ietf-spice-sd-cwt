@@ -733,7 +733,7 @@ The Issuer MUST implement COSE_Sign1 using an appropriate fully-specified asymme
 The Issuer MUST generate a unique cryptographically random salt with at least 128-bits of entropy for each Salted Disclosed Claim.
 If the client communicates a client-generated nonce (`cnonce`) when requesting the SD-CWT, the Issuer MUST include it in the payload.
 
-## Holder Validation
+## Holder Validation {#holder-validation}
 
 Upon receiving an SD-CWT from the Issuer with the Holder as the subject, the
 Holder verifies the following:
@@ -1133,7 +1133,7 @@ Instead of the structure from the previous example, imagine that the payload con
                 2: "ca",        / region=California /
                 3: "94188"      / postcode /
             }
-        },
+        }
     ]
 }
 ~~~
@@ -1896,26 +1896,108 @@ rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 
 # Nesting Example Walkthrough {#nesting-walkthrough}
 
+## Issuer
+
+How the Issuer decides which claims to include in an SD-CWT Claims Set, and which claims in a Claims Set to redact is a local policy matter outside of the scope of this specification.
+
+Here we will start with the example Claims Set from {{edn-nested-unblinded}}.
+
+The Holder or the administrator of the Issuer could use the To Be Redacted tag (see {{tbr-tag}}) and the To Be Decoy tag (see {{tb-decoy-tag}}) as a hint to the Issuer to indicate claims to be redacted or locations for decoys.
+The examples in this document were produced using this method.
+
+Below is the nested Claims Set example from {{edn-nested-unblinded}} with To Be Redacted tags wrapping the claims that are actually redacted in our nested example.
+
+~~~ cbor-diag
+{
+    / iss / 1  : "https://issuer.example",
+    / sub / 2  : "https://device.example",
+    / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
+    / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
+    / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
+    / cnf / 8  : { ... },
+    504: [                          / inspection history log /
+        58({                        / REDACT /
+            500: true,              / inspection passed /
+            502: 1549560720,        / 2019-02-07T17:32:00 /
+            58(501): "DCBA-101777", / inspector license ; REDACT /
+            58(503): {              / REDACT /
+                1: "us",            / United States /
+                58(2): "co",        / region=Colorado ; REDACT /
+                58(3): "80302"      / postcode ; REDACT /
+            }
+        }),
+        58({                        / REDACT /
+            500: true,              / inspection passed /
+            502: 1612560720,        / 2021-02-04T20:14:00 /
+            58(501): "EFGH-789012", / inspector license ; REDACT /
+            58(503): {              / REDACT /
+                1: "us",            / United States /
+                58(2): "nv",        / region=Nevada ; REDACT /
+                58(3): "89155"      / postcode ; REDACT /
+            }
+        }),
+        58({                        / REDACT /
+            500: true,              / inspection passed /
+            502: 17183928,          / 2023-01-17T17:19:00 /
+            58(501): "ABCD-123456", / inspector license ; REDACT /
+            58(503): {              / REDACT /
+                1: "us",            / United States /
+                58(2): "ca",        / region=California ; REDACT /
+                58(3): "94188"      / postcode ; REDACT /
+            }
+        })
+    ]
+}
+~~~
+{: #-nested-to-be-redacted title="EDN example of Nested Claims Set tagged with desired redactions"}
+
+The Issuer in our example respects the hints and produces the following Issued SD-CWT.
+It has generated 15 disclosures.
+
+> Note that the Issuer can list the issued disclosures (if any) in any order.
+
+~~~ cbor-diag
+{::include examples/nested_issuer_cwt.edn}
+~~~
+{: title="The Issued CWT containing nested redacted claims"}
+
+Now the issued SD-CWT is provided to the Holder for processing.
+
+## Holder
+
+Once it receives an issued SD-CWT from the Issuer, the Holder validates all of the disclosures as described in {{holder-validation}}.
+The Holder needs to unwrap the nested claims starting with the top level and proceeding deeper, to insure that there are no unmatched Redacted Claim Hashes anywhere in the document, and no unmatched disclosures.
+
+Once the issued CWT is validated, the Holder can create multiple presentations, generating different SD-KBTs (as described in {{kbt}}) for each presentation by changing, for example, the audience and the choice of disclosures.
+The privacy issues in {{privacy}} apply.
+
+In our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and (partially redacted) location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.
+In our example, the Holder sorts these disclosures in ascending order of the Redacted Claim Hash corresponding to each disclosure. (It could have used *any* order.)
+
+~~~ cbor-diag
+{::include examples/chosen-nested-disclosures.edn}
+~~~
+{: title="The Holder's choice of nested disclosures, sorted"}
+
+Due to the way the claims are nested, disclosing the region of the 2023 inspection would not have been useful without disclosing the enclosing location map and its enclosing 2023 inspection array element.
+In other words, the Holder needs to make sure that any intermediate levels of nested claims it wishes to disclose are also disclosed, otherwise the Verifier will not be able to validate them.
+At best, such "orphaned" disclosures will be discarded by the Verifier, and at worst, the Verifier could reject the entire SD-CWT.
+
+The Holder then presents its SD-KBT to the Verifier.
+
 ## Verifier
 
-Using the example in {{nesting}}, this section walks the reader through the steps of processing an SD-CWT with a specific set of nested disclosures, to generate the Validated Disclosed Claims Set.
-
-In this example, an SD-CWT includes the Holder's choice of (nested) disclosures.
+The Verifier receives the Holder's SD-KBT, which contains an SD-CWT with the Holder's choice of (nested) disclosures.
 The example does not show the SD-KBT for brevity; that does not mean it would not be present.
 In the example the disclosures are sorted in the order of the Redacted Claim Hash corresponding to each disclosure.
 (The Holder can present its disclosures in any order.)
-
-~~~ cbor-diag
-{::include examples/nested_cwt.edn}
-~~~
-{: title="An SD-CWT with nested claims"}
 
 The Verifier needs to match the disclosures to their corresponding Redacted Claims in the Claims Set in the payload of our example SD-CWT.
 It needs to calculate the Redacted Claim Hash for each of the disclosures it receives.
 
 Typically the Verifier would create a lookup table of disclosures indexed by the Redacted Claim Hash.
 Comments in the example show the first 4 bytes of Redacted Claim Hash of each disclosure.
-The comments are only present in the diagnostic (text) notation, to make it easier for the reader; comments are not included in CWTs or in SD-CWT in their native form.
+The comments are only present in the diagnostic (text) notation to make it easier for the reader; comments are not included in CWTs or in SD-CWT in their native form.
 
 Our example document only contains three Redacted Claims that are currently visible.
 
@@ -2040,82 +2122,10 @@ It replaces the matching Redacted Claim and removes the others.
 {: title="Claims after revealing disclosures at Level 3"}
 
 The Verifier has no more Redacted Claim Hashes to process.
+Assuming the other validation steps pass, it can pass the Validated Claims Set on to the application.
+
 If there were remaining disclosures, the Verifier could decide to ignore them or to reject the entire SD-CWT depending on its local policy.
 Extra disclosures cannot be verified and indicate incorrect behavior by the Holder.
-
-## Holder
-
-Once it receives an issued SD-CWT from the Issuer, the Holder validates all of the disclosures as described in {{sd-cwt-preparation}}.
-Below is the issued CWT with the full list of disclosures for our nested example.
-Note that the Holder also needs to unwrap the nested claims as described in the previous section, to insure that there are no unmatched Redacted Claim Hashes anywhere in the document, and no unmatched disclosures.
-
-~~~ cbor-diag
-{::include examples/nested_issuer_cwt.edn}
-~~~
-{: title="The Issued CWT for our nested example"}
-
-Once the issued CWT is validated, the Holder can create multiple presentations, generating different KBTs (as described in {{kbt}}) for each presentation by changing, for example, the audience and the choice of disclosures.
-The privacy issues in {{privacy}} apply.
-
-In our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and (partially redacted) location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.
-In our example, the Holder sorts these disclosures in ascending order of the Redacted Claim Hash corresponding to each disclosure. (It could have used *any* order.)
-
-Due to the way the claims are nested, disclosing the region of the 2023 inspection would not have been useful without disclosing the enclosing location map and its enclosing 2023 inspection array element.
-In other words, the Holder needs to make sure that any intermediate levels of nested claims it wishes to disclose are also disclosed, otherwise the Verifier will not be able to validate them.
-At best, such "orphaned" disclosures will be discarded by the Verifier, and at worst, the Verifier could reject the entire SD-CWT.
-
-~~~ cbor-diag
-{::include examples/chosen-nested-disclosures.edn}
-~~~
-{: title="The Holder's choice of nested disclosures, sorted"}
-
-## Issuer
-
-How the Issuer decides which claims to include in an SD-CWT Claims Set, and which claims in a Claims Set to redact is a local policy matter outside of the scope of this specification.
-The Issuer can list the issued disclosures (if any) in any order.
-
-The Holder or the administrator of the Issuer could have used the To Be Redacted tag (see {{tbr-tag}}) and the To Be Decoy tag (see {{tb-decoy-tag}}) as a hint to the Issuer to indicate claims to be redacted or locations for decoys.
-The examples in this document were produced using this method.
-
-Below is the nested Claims Set example from {{edn-nested-unblinded}} with To Be Redacted tags wrapping the claims that are actually redacted in our nested example.
-
-~~~ cbor-diag
-{
-...
-  504 : [
-    58({
-      500 : true,
-      502 : 1549560720,
-      58(501) : "DCBA-101777",
-      58(503) : {
-          1: "us",
-          58(2): "co",
-          58(3): "80302",
-      }
-    }),
-    58({
-      500 : true,
-      502 : 1612560720,
-      58(501) : "EFGH-789012",
-      58(503) : {
-          1: "us",
-          58(2): "nv",
-          58(3): "89155",
-      }
-    }),
-    58({
-      500 : true,
-      502 : 1674004740,
-      58(501) : "ABCD-123456",
-      58(503) : {
-          1: "us",
-          58(2)): "ca",
-          58(3): "94188",
-      }
-    })
-  ]
-}
-~~~
 
 
 # Implementation Status
