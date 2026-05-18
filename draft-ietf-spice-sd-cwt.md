@@ -733,7 +733,7 @@ The Issuer MUST implement COSE_Sign1 using an appropriate fully-specified asymme
 The Issuer MUST generate a unique cryptographically random salt with at least 128-bits of entropy for each Salted Disclosed Claim.
 If the client communicates a client-generated nonce (`cnonce`) when requesting the SD-CWT, the Issuer MUST include it in the payload.
 
-## Holder Validation
+## Holder Validation {#holder-validation}
 
 Upon receiving an SD-CWT from the Issuer with the Holder as the subject, the
 Holder verifies the following:
@@ -842,7 +842,7 @@ The exact order of the following steps MAY be changed, as long as all checks are
 
 1. First the Verifier must open the protected headers of the SD-KBT and find the Issuer SD-CWT present in the `kcwt` field.
 
-2. Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of !RFC8392}}. Validators MUST treat an `sd_claims` or `sd_aead_encrypted_claims` unprotected Header Parameter with an empty array as invalid.
+2. Next, the Verifier must validate the SD-CWT as described in {{Section 7.2 of !RFC8392}}. Verifiers MUST treat an `sd_claims` or `sd_aead_encrypted_claims` unprotected Header Parameter with an empty array as invalid.
 
 3. The Verifier checks the time claims in the SD-CWT as follows:
 
@@ -1105,7 +1105,7 @@ Instead of the structure from the previous example, imagine that the payload con
     / cnf / 8  : { ... },
     504: [                      / inspection history log /
         {
-            500: True,          / inspection passed /
+            500: true,          / inspection passed /
             502: 1549560720,    / 2019-02-07T17:32:00 /
             501: "DCBA-101777", / inspector license /
             503: {
@@ -1115,7 +1115,7 @@ Instead of the structure from the previous example, imagine that the payload con
             }
         },
         {
-            500: True,          / inspection passed /
+            500: true,          / inspection passed /
             502: 1612560720,    / 2021-02-04T20:14:00 /
             501: "EFGH-789012", / inspector license /
             503: {
@@ -1125,7 +1125,7 @@ Instead of the structure from the previous example, imagine that the payload con
             }
         },
         {
-            500: True,          / inspection passed /
+            500: true,          / inspection passed /
             502: 17183928,      / 2023-01-17T17:19:00 /
             501: "ABCD-123456", / inspector license /
             503: {
@@ -1133,7 +1133,7 @@ Instead of the structure from the previous example, imagine that the payload con
                 2: "ca",        / region=California /
                 3: "94188"      / postcode /
             }
-        },
+        }
     ]
 }
 ~~~
@@ -1142,87 +1142,20 @@ Instead of the structure from the previous example, imagine that the payload con
 
 For example, looking at the nested disclosures below, the first disclosure reveals the entire January 2023 inspection record.
 However, when the record is disclosed, the inspector license number and inspection location are still redacted inside the record.
-The next disclosure reveal the inspector_license_number, and the next
+The fifth disclosure reveals the inspector_license_number, and the fourth
 disclosure reveals the inspection location record, but the region and postcode claims inside the location record are also individually redacted.
-The fourth disclosure reveals the inspection region.
+The second disclosure reveals the inspection region.
 
-The fifth disclosure reveals the earliest inspection record, and the last disclosure reveals the inspector_license_number for that record.
+The last disclosure reveals the earliest inspection record, and the sixth disclosure reveals the inspector_license_number for that record.
 
-Verifiers start replacing each Redacted Claim Hash whose hash matches a Salted Disclosed Claim, with the unredacted Claim Key or Claim Value from that Salted Disclosed Claim. They continue descending until there are no Redacted Claim Hashes at any level of the hierarchy for which they have a corresponding disclosure.
+Verifiers start replacing each Redacted Claim Hash whose hash matches a Salted Disclosed Claim, with the unredacted Claim Key or Claim Value from that Salted Disclosed Claim.
+They continue descending until there are no Redacted Claim Hashes at any level of the hierarchy for which they have a corresponding disclosure.
+A walkthrough of processing an example with nested disclosures is in {{nesting-walkthrough}}.
 
 ~~~ cbor-diag
-/ sd_claims / 17 : [ / these are the disclosures /
-    <<[
-        /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
-        /value/  {
-                     500: true,
-                     502: 1674004740,
-                     simple(59): [
-                     h'af375dc3fba1d082448642c00be7b2f7
-                       bb05c9d8fb61cfc230ddfdfb4616a693',
-                     h'9d151abeb800adcc11ff10ff61fbd3d7
-                       5944c134b40a24abef1787d3ae6583aa'
-                 ]
-                 }   / inspection 17-Jan-2023 /
-    ]>>,
-    <<[
-        /salt/   h'bae611067bb823486797da1ebbb52f83',
-        /value/  "ABCD-123456",
-        /claim/  501   / inspector_license_number /
-    ]>>,
-    <<[
-        /salt/   h'483e4b3c194df6073a9c41ca9f274067',
-        /value/  {
-                     1: "us",
-                     simple(59): [
-                         h'2470fb9175b062c347ab3c3a19776d02
-                           476112a17cd7cfc9416664bc058c220b',
-                         h'cf397a08917528624ca3b332c9edcc54
-                           a72c9411dd5983f68017ce160f709f52'
-                     ]
-                 },
-        /claim/  503   / San Francisco location /
-    ]>>,
-    <<[
-        /salt/   h'52da9de5dc61b33775f9348b991d3d78',
-        /value/  "ca",
-        /claim/  2   / region=California /
-    ]>>,
-    <<[
-        /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
-        /value/  {
-                     500: true,
-                     502: 1549560720,
-                     simple(59): [
-                         h'7257a8697dfa40221079b00fb65fe587
-                           c310e6ca3da1aa33b090335de66ec810',
-                         h'c24c646b52fecd773c6ea01c6caa5a73
-                           422b85d3afa5900fa998336d83a88025'
-                     ]
-                 }   / inspection 7-Feb-2019 /
-    ]>>,
-    <<[
-        /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
-        /value/  "DCBA-101777",
-        /claim/  501   / inspector_license_number /
-    ]>>,
-    <<[
-        /salt/   h'c23a4d192be75dbd583be570482de8dd',
-        /value/  {
-                     1: "us",
-                     simple(59): [
-                         h'1b89717167f39d51eec08b13baeda570
-                           eff5d0aedaa1d7d0821185c33634a5a0',
-                         h'49412884fa1e3787c17d1320bdd48f6e
-                           0e5365da010cde0571d4a7effd13cc2a'
-                     ]
-                 },
-        /claim/  503   / Denver location /
-    ]>>,
-]
+{::include examples/chosen-nested-disclosures.edn}
 ~~~
 {: #edn-nested-blinded title="EDN Example of SD-CWT with Nested Redacted Claims"}
-
 
 After applying the disclosures of the nested structure above, the disclosed Claims Set visible to the Verifier would look like the following:
 
@@ -1236,7 +1169,7 @@ After applying the disclosures of the nested structure above, the disclosed Clai
     / cnf / 8  : { ... },
     504: [                      / inspection history log /
         {
-            500: True,          / inspection passed /
+            500: true,          / inspection passed /
             501: "DCBA-101777", / inspector license /
             502: 1549560720,    / 2019-02-07T17:32:00 /
             503: {
@@ -1244,7 +1177,7 @@ After applying the disclosures of the nested structure above, the disclosed Clai
             }
         },
         {
-            500: True,          / inspection passed /
+            500: true,          / inspection passed /
             501: "ABCD-123456", / inspector license /
             502: 17183928,      / 2023-01-17T17:19:00 /
             503: {
@@ -1960,6 +1893,239 @@ o1KPv4d+W0w6bcZ6Wl3Gswe3KMNyWSbyq+X7SWTNkeOUilST9uu2y7+PbH7HYWkc
 rTdMTaqTh0U/GAWOzljrCo6EoFWjH7f5IUsnUJUiwVnnZPhxHhFglVQ=
 -----END PRIVATE KEY-----
 ~~~
+
+# Nesting Example Walkthrough {#nesting-walkthrough}
+
+## Issuer
+
+How the Issuer decides which claims to include in an SD-CWT Claims Set, and which claims in a Claims Set to redact is a local policy matter outside of the scope of this specification.
+
+Here we will start with the example Claims Set from {{edn-nested-unblinded}}.
+
+The Holder or the administrator of the Issuer could use the To Be Redacted tag (see {{tbr-tag}}) and the To Be Decoy tag (see {{tb-decoy-tag}}) as a hint to the Issuer to indicate claims to be redacted or locations for decoys.
+The examples in this document were produced using this method.
+
+Below is the nested Claims Set example from {{edn-nested-unblinded}} with To Be Redacted tags wrapping the claims that are actually redacted in our nested example.
+
+~~~ cbor-diag
+{
+    / iss / 1  : "https://issuer.example",
+    / sub / 2  : "https://device.example",
+    / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
+    / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
+    / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
+    / cnf / 8  : { ... },
+    504: [                          / inspection history log /
+        58({                        / REDACT /
+            500: true,              / inspection passed /
+            502: 1549560720,        / 2019-02-07T17:32:00 /
+            58(501): "DCBA-101777", / inspector license ; REDACT /
+            58(503): {              / REDACT /
+                1: "us",            / United States /
+                58(2): "co",        / region=Colorado ; REDACT /
+                58(3): "80302"      / postcode ; REDACT /
+            }
+        }),
+        58({                        / REDACT /
+            500: true,              / inspection passed /
+            502: 1612560720,        / 2021-02-04T20:14:00 /
+            58(501): "EFGH-789012", / inspector license ; REDACT /
+            58(503): {              / REDACT /
+                1: "us",            / United States /
+                58(2): "nv",        / region=Nevada ; REDACT /
+                58(3): "89155"      / postcode ; REDACT /
+            }
+        }),
+        58({                        / REDACT /
+            500: true,              / inspection passed /
+            502: 17183928,          / 2023-01-17T17:19:00 /
+            58(501): "ABCD-123456", / inspector license ; REDACT /
+            58(503): {              / REDACT /
+                1: "us",            / United States /
+                58(2): "ca",        / region=California ; REDACT /
+                58(3): "94188"      / postcode ; REDACT /
+            }
+        })
+    ]
+}
+~~~
+{: #-nested-to-be-redacted title="EDN example of Nested Claims Set tagged with desired redactions"}
+
+The Issuer in our example respects the hints and produces the following issued SD-CWT.
+The Issuer has generated 15 disclosures.
+
+> Note that the Issuer can list the issued disclosures (if any) in any order.
+
+~~~ cbor-diag
+{::include examples/nested_issuer_cwt.edn}
+~~~
+{: title="The Issued CWT containing nested redacted claims"}
+
+Now the issued SD-CWT is provided to the Holder for processing.
+
+## Holder
+
+Once it receives an issued SD-CWT from the Issuer, the Holder validates all of the disclosures as described in {{holder-validation}}.
+The Holder needs to unwrap all nested claims starting with the top level and proceeding deeper, to insure that there are no unmatched Redacted Claim Hashes anywhere in the document, and no unmatched disclosures.
+
+Once the issued CWT is validated, the Holder can create multiple presentations, generating different SD-KBTs (as described in {{kbt}}) for each presentation by changing, for example, the audience and the choice of disclosures.
+The privacy issues in {{privacy}} apply.
+
+In our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and partially redacted location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.
+In our example, the Holder sorts these disclosures in ascending order of the Redacted Claim Hash corresponding to each disclosure. (It could have used *any* order.)
+
+~~~ cbor-diag
+{::include examples/chosen-nested-disclosures.edn}
+~~~
+{: title="The Holder's choice of nested disclosures, sorted"}
+
+Due to the way the claims are nested, disclosing the region of the 2023 inspection would not have been useful without disclosing the enclosing location map and its enclosing 2023 inspection array element.
+In other words, the Holder needs to make sure that any intermediate levels of nested claims it wishes to disclose are also disclosed, otherwise the Verifier will not be able to validate them.
+At best, such "orphaned" disclosures will be discarded by the Verifier, and at worst, the Verifier could reject the entire SD-CWT.
+
+The Holder then presents its SD-KBT to the Verifier.
+
+## Verifier
+
+The Verifier receives the Holder's SD-KBT, which contains an SD-CWT with the Holder's choice of (nested) disclosures.
+The example does not show the SD-KBT for brevity; it is always used in an actual presentation.
+In the example the disclosures are sorted in the order of the Redacted Claim Hash corresponding to each disclosure.
+(The Holder can present its disclosures in any order.)
+
+The Verifier needs to match the disclosures to their corresponding Redacted Claims in the Claims Set in the payload of our example SD-CWT.
+The Verifier needs to calculate the Redacted Claim Hash for each of the disclosures it receives.
+
+Typically the Verifier would create a lookup table of disclosures indexed by the Redacted Claim Hash.
+Comments in all the examples show the first 4 bytes of the Redacted Claim Hash of each disclosure.
+The comments are only present in the diagnostic (text) notation to make it easier for the reader; comments are not included in CWTs or in SD-CWT in their native form.
+
+Our example document only contains three Redacted Claims that are currently visible.
+
+~~~ cbor-diag
+...
+/inspection history log/ 504: [
+  / inspection 7-Feb-2019 /
+  60(h'ca6b851688236744ff0cf0814508e4f1
+       81d3811bfec4ed5bb8ace7823132dbc0'),
+  / inspection 4-Feb-2021 /
+  60(h'0dfdc69d0efb65eec14bf28af78cd8f0
+       6cabfe8e2b1a0611ef8bca869ce35b61'),
+  / inspection 17-Jan-2023 /
+  60(h'20d9bb11363bae49851cfd4a3f166539
+       d0aa00433c30aede18380bfa98d781dc')
+]
+...
+~~~
+{: title="Redacted Claims at Level 1"}
+
+The Verifier looks for matching Redacted Claim Hashes among the disclosures it has received.
+In this example it finds two matching hashes (the first and last hash in the inspection history log claim array).
+The Verifier replaces the two matching Redacted Claim Hashes with their disclosed values (in this case, the last and first disclosures, which are both replacing Redacted Claim Elements) and removes the second Redacted Claim Hash.
+The Verifier no longer considers the matched disclosures; each disclosure cannot match more than one Redacted Claim Hash.
+
+~~~ cbor-diag
+...
+/inspection history log/ 504: [
+  {
+    500: true,
+    502: 1549560720,
+    simple(59): [
+      h'7257a8697dfa40221079b00fb65fe587
+        c310e6ca3da1aa33b090335de66ec810',
+      h'c24c646b52fecd773c6ea01c6caa5a73
+        422b85d3afa5900fa998336d83a88025'
+    ]
+  }   / inspection 7-Feb-2019 /,
+  {
+    500: true,
+    502: 1674004740,
+    simple(59): [
+      h'af375dc3fba1d082448642c00be7b2f7
+        bb05c9d8fb61cfc230ddfdfb4616a693',
+      h'9d151abeb800adcc11ff10ff61fbd3d7
+        5944c134b40a24abef1787d3ae6583aa'
+    ]
+  }   / inspection 17-Jan-2023 /
+]
+...
+~~~
+{: title="Claims after revealing disclosures at Level 1"}
+
+The Verifier then repeats the process again at the next "level" of nesting.
+In this example, all the visible Redacted Claims happen to be Redacted Claim Keys.
+The second, third, fourth, and sixth disclosures match.
+The Verifier replaces these Redacted Claims with the corresponding Claim Keys from the disclosures.
+
+~~~ cbor-diag
+...
+/inspection history log/ 504: [
+  {
+    500: true,
+    502: 1549560720,
+    501: "DCBA-101777",
+    503: {
+      1: "us",
+      simple(59): [
+        h'1b89717167f39d51eec08b13baeda570
+          eff5d0aedaa1d7d0821185c33634a5a0',
+        h'49412884fa1e3787c17d1320bdd48f6e
+          0e5365da010cde0571d4a7effd13cc2a'
+      ]
+    }
+  }   / inspection 7-Feb-2019 /,
+  {
+    500: true,
+    502: 1674004740,
+    501: "ABCD-123456",
+    503: {
+      1: "us",
+      simple(59): [
+        h'2470fb9175b062c347ab3c3a19776d02
+          476112a17cd7cfc9416664bc058c220b',
+        h'cf397a08917528624ca3b332c9edcc54
+          a72c9411dd5983f68017ce160f709f52'
+      ]
+    }
+  }   / inspection 17-Jan-2023 /
+]
+...
+~~~
+{: title="Claims after revealing disclosures at Level 2"}
+
+The Verifier then repeats the process again at the next "level" of nesting.
+The Verifier finds a single matching disclosure (the second disclosure).
+The Verifier replaces the matching Redacted Claim Hash and removes the others.
+
+~~~ cbor-diag
+...
+/inspection history log/ 504: [
+  {
+    500: true,
+    502: 1549560720,
+    501: "DCBA-101777",
+    503: {
+      1: "us"
+    }
+  }   / inspection 7-Feb-2019 /,
+  {
+    500: true,
+    502: 1674004740,
+    501: "ABCD-123456",
+    503: {
+      1: "us",
+      2: "ca" / region=California /
+    }
+  }   / inspection 17-Jan-2023 /
+]
+...
+~~~
+{: title="Claims after revealing disclosures at Level 3"}
+
+The Verifier has no more Redacted Claim Hashes to process.
+Assuming the other validation steps pass, the Verifier can pass the Validated Claims Set on to the application.
+
+If there were remaining disclosures, the Verifier could decide to ignore them or to reject the entire SD-CWT depending on its local policy.
+Extra disclosures cannot be verified and indicate incorrect behavior by the Holder.
 
 
 # Implementation Status

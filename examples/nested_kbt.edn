@@ -22,12 +22,17 @@
                                5944c134b40a24abef1787d3ae6583aa'
                          ]
                          }   / inspection 17-Jan-2023 /
-            ]>>,
+            ]>>,         / Redacted Claim Hash begins 20d9bb11 /
             <<[
-                /salt/   h'bae611067bb823486797da1ebbb52f83',
-                /value/  "ABCD-123456",
+                /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+                /value/  "ca",
+                /claim/  2   / region=California /
+            ]>>,         / Redacted Claim Hash begins 2470fb91 /
+            <<[
+                /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+                /value/  "DCBA-101777",
                 /claim/  501   / inspector_license_number /
-            ]>>,
+            ]>>,         / Redacted Claim Hash begins 7257a869 /
             <<[
                 /salt/   h'483e4b3c194df6073a9c41ca9f274067',
                 /value/  {
@@ -40,30 +45,12 @@
                          ]
                          },
                 /claim/  503   / San Francisco location /
-            ]>>,
+            ]>>,         / Redacted Claim Hash begins 9d151abe /
             <<[
-                /salt/   h'52da9de5dc61b33775f9348b991d3d78',
-                /value/  "ca",
-                /claim/  2   / region=California /
-            ]>>,
-            <<[
-                /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
-                /value/  {
-                             500: true,
-                             502: 1549560720,
-                             simple(59): [
-                             h'7257a8697dfa40221079b00fb65fe587
-                               c310e6ca3da1aa33b090335de66ec810',
-                             h'c24c646b52fecd773c6ea01c6caa5a73
-                               422b85d3afa5900fa998336d83a88025'
-                         ]
-                         }   / inspection 7-Feb-2019 /
-            ]>>,
-            <<[
-                /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
-                /value/  "DCBA-101777",
+                /salt/   h'bae611067bb823486797da1ebbb52f83',
+                /value/  "ABCD-123456",
                 /claim/  501   / inspector_license_number /
-            ]>>,
+            ]>>,         / Redacted Claim Hash begins af375dc3 /
             <<[
                 /salt/   h'c23a4d192be75dbd583be570482de8dd',
                 /value/  {
@@ -76,7 +63,20 @@
                          ]
                          },
                 /claim/  503   / Denver location /
-            ]>>,
+            ]>>,         / Redacted Claim Hash begins c24c646b /
+            <<[
+                /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
+                /value/  {
+                             500: true,
+                             502: 1549560720,
+                             simple(59): [
+                             h'7257a8697dfa40221079b00fb65fe587
+                               c310e6ca3da1aa33b090335de66ec810',
+                             h'c24c646b52fecd773c6ea01c6caa5a73
+                               422b85d3afa5900fa998336d83a88025'
+                         ]
+                         }   / inspection 7-Feb-2019 /
+            ]>>,         / Redacted Claim Hash begins ca6b8516 /
         ]
       },
       / CWT payload / << {
@@ -123,8 +123,8 @@
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } >>,      / end of KBT payload /
-  / KBT signature / h'aaba4330c2554c22580dcca6a626ddb5
-                      5f0e508b3634929be93ce0f13cd0a344
-                      6dd8e5fea49413c0943292e532fe9ea7
-                      4f29236f8b8adb5b26cbd593a5113265'
+  / KBT signature / h'8141209b856e1fe3b2bd576a31bf827b
+                      2c916ef6cf9c179f30b5ff4609ca6765
+                      91c058055c38f8a29afa871b69495953
+                      490890a7e766bf64dcde6b6e5d37dd8c'
 ])   / end of kbt /
