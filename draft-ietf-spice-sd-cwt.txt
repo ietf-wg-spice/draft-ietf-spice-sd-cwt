@@ -483,7 +483,7 @@ Issuer                           Holder                         Verifier
 
    {
        / iss / 1  : "https://issuer.example",
-       / sub / 2  : "https://device.example",
+       / sub / 2  : "https://holder.example",
        / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
        / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
        / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -564,7 +564,7 @@ Issuer                           Holder                         Verifier
      },
      / CWT payload / << {
        / iss / 1   : "https://issuer.example",
-       / sub / 2   : "https://device.example",
+       / sub / 2   : "https://holder.example",
        / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
        / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
        / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
@@ -605,12 +605,12 @@ Issuer                           Holder                         Verifier
              bb05c9d8fb61cfc230ddfdfb4616a693'
        ]
      } >>,
-     / CWT signature / h'536b3797c8f396d6dc4fedfa54fa605f
-                         be897df02267ede5b40b257cba5eb2b3
-                         cbf7d4f5733e0ca2e77783d860b8d74a
-                         2b98878930be6c8e3d1de63df909d484
-                         2a800f9d377fa41e9bd5f72743c06cfb
-                         1e5d59892fac51a806cd4caf6cb30cce'
+     / CWT signature / h'12bdb0136ed93db0e3400660d5aee1ba
+                         68ff24e743d613eea55d3bedff167ae4
+                         d3c9c328ebfdc1793a178e754ce11432
+                         f2e69a92eee6953d38d5a58830ece550
+                         21951a83e4e30365828bb7918ceb187a
+                         21da18c071ce2461ef642a9e7959299e'
    ])
 
                 Figure 5: Issued SD-CWT with all disclosures
@@ -733,10 +733,10 @@ Issuer                           Holder                         Verifier
        / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
        / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
      } >>,      / end of KBT payload /
-     / KBT signature / h'67116f888eab35fe82c171db146262c9
-                         922fb3d4fd769641c80569e3c6010f90
-                         251fa2b1dd335bc6bd8314603f57fd03
-                         af7ddb5eb4cce1e59ac07d11dfdce742'
+     / KBT signature / h'ca38c411693201ceb418ab75217745cc
+                         f1d52f76c934ce2910a9f4ccc4293711
+                         f9ee18347b51f6f815d89b77d407e494
+                         5551118df8f9b662e5250fb1c5f070c8'
    ])   / end of kbt /
 
               Figure 11: Elided example of a Key Binding Token
@@ -1329,7 +1329,7 @@ Issuer                           Holder                         Verifier
    sd-payload = {
        ; standard claims
          &(iss: 1) ^ => tstr, ; "https://issuer.example"
-       ? &(sub: 2) ^ => tstr, ; "https://device.example"
+       ? &(sub: 2) ^ => tstr, ; "https://holder.example"
        ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
        ? &(exp: 4) ^ => secs, ; 1883000000
        ? &(nbf: 5) ^ => secs, ; 1683000000
@@ -1651,7 +1651,7 @@ Issuer                           Holder                         Verifier
      },
      / CWT payload / << {
        / iss / 1   : "https://issuer.example",
-       / sub / 2   : "https://device.example",
+       / sub / 2   : "https://holder.example",
        / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
        / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
        / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
@@ -1682,12 +1682,12 @@ Issuer                           Holder                         Verifier
              b53a1f3d241ab6b60c9f309f114ecf88'
        ]
      } >>,
-     / CWT signature / h'fd0b7edae0fa5bd429f07809762a32c5
-                         c160c089091a5c3abbee91710fa388d8
-                         3c1ad6a5a3d219c4265b9f89aef1f511
-                         ff362cbbea6f46bae08978822b672aa5
-                         75cd6fc519394af2a883c394faf16ac1
-                         781afb01f626bdd6fee1205a29dcc203'
+     / CWT signature / h'a96d92f340e37ab56586c74f237a50ef
+                         bf176f7326a88a5429084a283b82a514
+                         27753805febd98987c13f8a41586feda
+                         df507e98d6d26af6f09eb01d0f4a5644
+                         fdd05e7bac083338c7a8770a68896df3
+                         c2f79e5450fd19f5dbbd1868898e984b'
    ])
 
              Figure 20: EDN showing a SD-CWT containing decoys
@@ -1975,7 +1975,7 @@ Issuer                           Holder                         Verifier
          },
          / CWT payload / << {
            / iss / 1   : "https://issuer.example",
-           / sub / 2   : "https://device.example",
+           / sub / 2   : "https://holder.example",
            / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
            / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
            / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
@@ -2016,12 +2016,12 @@ Issuer                           Holder                         Verifier
                  bb05c9d8fb61cfc230ddfdfb4616a693'
            ]
          } >>,
-         / CWT signature / h'536b3797c8f396d6dc4fedfa54fa605f
-                             be897df02267ede5b40b257cba5eb2b3
-                             cbf7d4f5733e0ca2e77783d860b8d74a
-                             2b98878930be6c8e3d1de63df909d484
-                             2a800f9d377fa41e9bd5f72743c06cfb
-                             1e5d59892fac51a806cd4caf6cb30cce'
+         / CWT signature / h'12bdb0136ed93db0e3400660d5aee1ba
+                             68ff24e743d613eea55d3bedff167ae4
+                             d3c9c328ebfdc1793a178e754ce11432
+                             f2e69a92eee6953d38d5a58830ece550
+                             21951a83e4e30365828bb7918ceb187a
+                             21da18c071ce2461ef642a9e7959299e'
        ]),
        / end of issuer SD-CWT /
        / typ /   16:  294   # application/kb+cwt,
@@ -2032,10 +2032,10 @@ Issuer                           Holder                         Verifier
        / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
        / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
      } >>,      / end of KBT payload /
-     / KBT signature / h'67116f888eab35fe82c171db146262c9
-                         922fb3d4fd769641c80569e3c6010f90
-                         251fa2b1dd335bc6bd8314603f57fd03
-                         af7ddb5eb4cce1e59ac07d11dfdce742'
+     / KBT signature / h'ca38c411693201ceb418ab75217745cc
+                         f1d52f76c934ce2910a9f4ccc4293711
+                         f9ee18347b51f6f815d89b77d407e494
+                         5551118df8f9b662e5250fb1c5f070c8'
    ])   / end of kbt /
 
                    Figure 26: A minimal, full EDN Example
@@ -2049,7 +2049,7 @@ Issuer                           Holder                         Verifier
 
    {
        / iss / 1  : "https://issuer.example",
-       / sub / 2  : "https://device.example",
+       / sub / 2  : "https://holder.example",
        / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
        / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
        / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -2189,7 +2189,7 @@ Issuer                           Holder                         Verifier
 
    {
        / iss / 1  : "https://issuer.example",
-       / sub / 2  : "https://device.example",
+       / sub / 2  : "https://holder.example",
        / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
        / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
        / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -3131,7 +3131,7 @@ Appendix A.  Complete CDDL Schema
    sd-payload = {
        ; standard claims
          &(iss: 1) ^ => tstr, ; "https://issuer.example"
-       ? &(sub: 2) ^ => tstr, ; "https://device.example"
+       ? &(sub: 2) ^ => tstr, ; "https://holder.example"
        ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
        ? &(exp: 4) ^ => secs, ; 1883000000
        ? &(nbf: 5) ^ => secs, ; 1683000000
@@ -3547,7 +3547,7 @@ D.1.  Issuer
 
    {
        / iss / 1  : "https://issuer.example",
-       / sub / 2  : "https://device.example",
+       / sub / 2  : "https://holder.example",
        / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
        / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
        / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -3731,7 +3731,7 @@ D.1.  Issuer
      },
      / CWT payload / << {
        / iss / 1   : "https://issuer.example",
-       / sub / 2   : "https://device.example",
+       / sub / 2   : "https://holder.example",
        / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
        / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
        / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
@@ -3757,12 +3757,12 @@ D.1.  Issuer
               d0aa00433c30aede18380bfa98d781dc')
        ]
      } >>,
-     / CWT signature / h'413d8e017bd26e47eb6dd69317a4312b
-                         b84c81a37496d19fa6aa73e16d9441ca
-                         ee0bfdbe37d0b2d945e22115842c75ec
-                         324cb0c9c80cad22b1575bafa577e1d7
-                         77e3d35c26dbc239dc0141d386cbcc96
-                         e0d2d309714d0a38a8aee77456e1a852'
+     / CWT signature / h'8c1e9957b573191c47a9f4244abc4be2
+                         7c9944c2a992e015a86e19c24b041195
+                         51ee920061066edb22823114f96dac2a
+                         1bfa9c7a503e3033a0cd5aad6d9165f7
+                         5483e9a79eb31f9bfdfb07df5fb7b8e5
+                         0da8acbabad974999d12096f4ae8b420'
    ])
 
         Figure 32: The Issued CWT containing nested redacted claims
@@ -4400,6 +4400,8 @@ H.1.  draft-ietf-spice-sd-cwt-08
    *  Fix AEAD nonce length and mention that AAD is empty (PR#260).
 
    Non-normative changes:
+
+   *  Rename device.example to holder.example (PR#289).
 
    *  Globally use KBT instead of KBT (PR#288).
 

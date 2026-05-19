@@ -1981,7 +1981,7 @@ Note that the fictitious map keys shown in the examples do not have IANA registe
 <pre>
 {
     / iss / 1  : "https://issuer.example",
-    / sub / 2  : "https://device.example",
+    / sub / 2  : "https://holder.example",
     / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
     / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -2066,7 +2066,7 @@ After the Holder requests an SD-CWT from the Issuer, the Issuer generates the fo
   },
   / CWT payload / &lt;&lt; {
     / iss / 1   : "https://issuer.example",
-    / sub / 2   : "https://device.example",
+    / sub / 2   : "https://holder.example",
     / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
     / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
     / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
@@ -2107,12 +2107,12 @@ After the Holder requests an SD-CWT from the Issuer, the Issuer generates the fo
           bb05c9d8fb61cfc230ddfdfb4616a693'
     ]
   } &gt;&gt;,
-  / CWT signature / h'536b3797c8f396d6dc4fedfa54fa605f
-                      be897df02267ede5b40b257cba5eb2b3
-                      cbf7d4f5733e0ca2e77783d860b8d74a
-                      2b98878930be6c8e3d1de63df909d484
-                      2a800f9d377fa41e9bd5f72743c06cfb
-                      1e5d59892fac51a806cd4caf6cb30cce'
+  / CWT signature / h'12bdb0136ed93db0e3400660d5aee1ba
+                      68ff24e743d613eea55d3bedff167ae4
+                      d3c9c328ebfdc1793a178e754ce11432
+                      f2e69a92eee6953d38d5a58830ece550
+                      21951a83e4e30365828bb7918ceb187a
+                      21da18c071ce2461ef642a9e7959299e'
 ])
 </pre>
 </div>
@@ -2237,10 +2237,10 @@ If the Holder does not disclose any claims, it <span class="bcp14">MUST</span> o
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } &gt;&gt;,      / end of KBT payload /
-  / KBT signature / h'67116f888eab35fe82c171db146262c9
-                      922fb3d4fd769641c80569e3c6010f90
-                      251fa2b1dd335bc6bd8314603f57fd03
-                      af7ddb5eb4cce1e59ac07d11dfdce742'
+  / KBT signature / h'ca38c411693201ceb418ab75217745cc
+                      f1d52f76c934ce2910a9f4ccc4293711
+                      f9ee18347b51f6f815d89b77d407e494
+                      5551118df8f9b662e5250fb1c5f070c8'
 ])   / end of kbt /
 </pre>
 </div>
@@ -2913,7 +2913,7 @@ sd-unprotected = {
 sd-payload = {
     ; standard claims
       &amp;(iss: 1) ^ =&gt; tstr, ; "https://issuer.example"
-    ? &amp;(sub: 2) ^ =&gt; tstr, ; "https://device.example"
+    ? &amp;(sub: 2) ^ =&gt; tstr, ; "https://holder.example"
     ? &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example/app"
     ? &amp;(exp: 4) ^ =&gt; secs, ; 1883000000
     ? &amp;(nbf: 5) ^ =&gt; secs, ; 1683000000
@@ -3278,7 +3278,7 @@ An example issued SD-CWT containing decoy digests is shown below.<a href="#secti
   },
   / CWT payload / &lt;&lt; {
     / iss / 1   : "https://issuer.example",
-    / sub / 2   : "https://device.example",
+    / sub / 2   : "https://holder.example",
     / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
     / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
     / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
@@ -3309,12 +3309,12 @@ An example issued SD-CWT containing decoy digests is shown below.<a href="#secti
           b53a1f3d241ab6b60c9f309f114ecf88'
     ]
   } &gt;&gt;,
-  / CWT signature / h'fd0b7edae0fa5bd429f07809762a32c5
-                      c160c089091a5c3abbee91710fa388d8
-                      3c1ad6a5a3d219c4265b9f89aef1f511
-                      ff362cbbea6f46bae08978822b672aa5
-                      75cd6fc519394af2a883c394faf16ac1
-                      781afb01f626bdd6fee1205a29dcc203'
+  / CWT signature / h'a96d92f340e37ab56586c74f237a50ef
+                      bf176f7326a88a5429084a283b82a514
+                      27753805febd98987c13f8a41586feda
+                      df507e98d6d26af6f09eb01d0f4a5644
+                      fdd05e7bac083338c7a8770a68896df3
+                      c2f79e5450fd19f5dbbd1868898e984b'
 ])
 </pre>
 </div>
@@ -3593,7 +3593,7 @@ which is not to be used in operational deployments.<a href="#section-12-3" class
       },
       / CWT payload / &lt;&lt; {
         / iss / 1   : "https://issuer.example",
-        / sub / 2   : "https://device.example",
+        / sub / 2   : "https://holder.example",
         / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
         / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
         / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
@@ -3634,12 +3634,12 @@ which is not to be used in operational deployments.<a href="#section-12-3" class
               bb05c9d8fb61cfc230ddfdfb4616a693'
         ]
       } &gt;&gt;,
-      / CWT signature / h'536b3797c8f396d6dc4fedfa54fa605f
-                          be897df02267ede5b40b257cba5eb2b3
-                          cbf7d4f5733e0ca2e77783d860b8d74a
-                          2b98878930be6c8e3d1de63df909d484
-                          2a800f9d377fa41e9bd5f72743c06cfb
-                          1e5d59892fac51a806cd4caf6cb30cce'
+      / CWT signature / h'12bdb0136ed93db0e3400660d5aee1ba
+                          68ff24e743d613eea55d3bedff167ae4
+                          d3c9c328ebfdc1793a178e754ce11432
+                          f2e69a92eee6953d38d5a58830ece550
+                          21951a83e4e30365828bb7918ceb187a
+                          21da18c071ce2461ef642a9e7959299e'
     ]),
     / end of issuer SD-CWT /
     / typ /   16:  294   # application/kb+cwt,
@@ -3650,10 +3650,10 @@ which is not to be used in operational deployments.<a href="#section-12-3" class
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } &gt;&gt;,      / end of KBT payload /
-  / KBT signature / h'67116f888eab35fe82c171db146262c9
-                      922fb3d4fd769641c80569e3c6010f90
-                      251fa2b1dd335bc6bd8314603f57fd03
-                      af7ddb5eb4cce1e59ac07d11dfdce742'
+  / KBT signature / h'ca38c411693201ceb418ab75217745cc
+                      f1d52f76c934ce2910a9f4ccc4293711
+                      f9ee18347b51f6f815d89b77d407e494
+                      5551118df8f9b662e5250fb1c5f070c8'
 ])   / end of kbt /
 </pre>
 </div>
@@ -3675,7 +3675,7 @@ which is not to be used in operational deployments.<a href="#section-12-3" class
 <pre>
 {
     / iss / 1  : "https://issuer.example",
-    / sub / 2  : "https://device.example",
+    / sub / 2  : "https://holder.example",
     / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
     / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -3814,7 +3814,7 @@ A walkthrough of processing an example with nested disclosures is in <a href="#n
 <pre>
 {
     / iss / 1  : "https://issuer.example",
-    / sub / 2  : "https://device.example",
+    / sub / 2  : "https://holder.example",
     / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
     / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -4903,7 +4903,7 @@ sd-unprotected = {
 sd-payload = {
     ; standard claims
       &amp;(iss: 1) ^ =&gt; tstr, ; "https://issuer.example"
-    ? &amp;(sub: 2) ^ =&gt; tstr, ; "https://device.example"
+    ? &amp;(sub: 2) ^ =&gt; tstr, ; "https://holder.example"
     ? &amp;(aud: 3) ^ =&gt; tstr, ; "https://verifier.example/app"
     ? &amp;(exp: 4) ^ =&gt; secs, ; 1883000000
     ? &amp;(nbf: 5) ^ =&gt; secs, ; 1683000000
@@ -5386,7 +5386,7 @@ The examples in this document were produced using this method.<a href="#appendix
 <pre>
 {
     / iss / 1  : "https://issuer.example",
-    / sub / 2  : "https://device.example",
+    / sub / 2  : "https://holder.example",
     / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
     / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -5575,7 +5575,7 @@ The Issuer has generated 15 disclosures.<a href="#appendix-D.1-6" class="pilcrow
   },
   / CWT payload / &lt;&lt; {
     / iss / 1   : "https://issuer.example",
-    / sub / 2   : "https://device.example",
+    / sub / 2   : "https://holder.example",
     / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
     / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
     / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
@@ -5601,12 +5601,12 @@ The Issuer has generated 15 disclosures.<a href="#appendix-D.1-6" class="pilcrow
            d0aa00433c30aede18380bfa98d781dc')
     ]
   } &gt;&gt;,
-  / CWT signature / h'413d8e017bd26e47eb6dd69317a4312b
-                      b84c81a37496d19fa6aa73e16d9441ca
-                      ee0bfdbe37d0b2d945e22115842c75ec
-                      324cb0c9c80cad22b1575bafa577e1d7
-                      77e3d35c26dbc239dc0141d386cbcc96
-                      e0d2d309714d0a38a8aee77456e1a852'
+  / CWT signature / h'8c1e9957b573191c47a9f4244abc4be2
+                      7c9944c2a992e015a86e19c24b041195
+                      51ee920061066edb22823114f96dac2a
+                      1bfa9c7a503e3033a0cd5aad6d9165f7
+                      5483e9a79eb31f9bfdfb07df5fb7b8e5
+                      0da8acbabad974999d12096f4ae8b420'
 ])
 </pre>
 </div>
@@ -6207,93 +6207,96 @@ Likewise, if this algorithm results in any duplicate CBOR map keys, the entire S
 <p id="appendix-H.1-4">Non-normative changes:<a href="#appendix-H.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-H.1-5.1">
-            <p id="appendix-H.1-5.1.1">Globally use KBT instead of KBT (PR#288).<a href="#appendix-H.1-5.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.1.1">Rename device.example to holder.example (PR#289).<a href="#appendix-H.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.2">
-            <p id="appendix-H.1-5.2.1">Add Appendix walking through nested disclosure handling (PR#286).<a href="#appendix-H.1-5.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.2.1">Globally use KBT instead of KBT (PR#288).<a href="#appendix-H.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.3">
-            <p id="appendix-H.1-5.3.1">Clean up AEAD encrypted disclosures section and justify used of AEAD (PR#285).<a href="#appendix-H.1-5.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.3.1">Add Appendix walking through nested disclosure handling (PR#286).<a href="#appendix-H.1-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.4">
-            <p id="appendix-H.1-5.4.1">Heavy editing pass (PR#283).<a href="#appendix-H.1-5.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.4.1">Clean up AEAD encrypted disclosures section and justify used of AEAD (PR#285).<a href="#appendix-H.1-5.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-5.5">
+            <p id="appendix-H.1-5.5.1">Heavy editing pass (PR#283).<a href="#appendix-H.1-5.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-H.1-5.4.2.1">
-                <p id="appendix-H.1-5.4.2.1.1">Renumber Section 4 to Section 3.3 as it is part of the Overview.<a href="#appendix-H.1-5.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-H.1-5.5.2.1">
+                <p id="appendix-H.1-5.5.2.1.1">Renumber Section 4 to Section 3.3 as it is part of the Overview.<a href="#appendix-H.1-5.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-H.1-5.4.2.2">
-                <p id="appendix-H.1-5.4.2.2.1">Move normative statement from Section 3 to Section 6.<a href="#appendix-H.1-5.4.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-H.1-5.5.2.2">
+                <p id="appendix-H.1-5.5.2.2.1">Move normative statement from Section 3 to Section 6.<a href="#appendix-H.1-5.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-H.1-5.4.2.3">
-                <p id="appendix-H.1-5.4.2.3.1">Improve Figures 2 and 3<a href="#appendix-H.1-5.4.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-H.1-5.5.2.3">
+                <p id="appendix-H.1-5.5.2.3.1">Improve Figures 2 and 3<a href="#appendix-H.1-5.5.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-H.1-5.4.2.4">
-                <p id="appendix-H.1-5.4.2.4.1">Remove unused terms or terms used only once.<a href="#appendix-H.1-5.4.2.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-H.1-5.5.2.4">
+                <p id="appendix-H.1-5.5.2.4.1">Remove unused terms or terms used only once.<a href="#appendix-H.1-5.5.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-H.1-5.4.2.5">
-                <p id="appendix-H.1-5.4.2.5.1">Rearrange order of discussion in Section 7.1<a href="#appendix-H.1-5.4.2.5.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-H.1-5.5.2.5">
+                <p id="appendix-H.1-5.5.2.5.1">Rearrange order of discussion in Section 7.1<a href="#appendix-H.1-5.5.2.5.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-H.1-5.4.2.6">
-                <p id="appendix-H.1-5.4.2.6.1">Clarify use of <code>cnonce</code><a href="#appendix-H.1-5.4.2.6.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-H.1-5.5.2.6">
+                <p id="appendix-H.1-5.5.2.6.1">Clarify use of <code>cnonce</code><a href="#appendix-H.1-5.5.2.6.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-H.1-5.4.2.7">
-                <p id="appendix-H.1-5.4.2.7.1">Remind about special definition of duplicate map keys in To Be Redacted section<a href="#appendix-H.1-5.4.2.7.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-H.1-5.5.2.7">
+                <p id="appendix-H.1-5.5.2.7.1">Remind about special definition of duplicate map keys in To Be Redacted section<a href="#appendix-H.1-5.5.2.7.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-H.1-5.4.2.8">
-                <p id="appendix-H.1-5.4.2.8.1">Miscellaneous typo, minor rewordings, cleanups, and clarifications<a href="#appendix-H.1-5.4.2.8.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-H.1-5.5.2.8">
+                <p id="appendix-H.1-5.5.2.8.1">Miscellaneous typo, minor rewordings, cleanups, and clarifications<a href="#appendix-H.1-5.5.2.8.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="appendix-H.1-5.5">
-            <p id="appendix-H.1-5.5.1">Update references (PR#280 and PR#281).<a href="#appendix-H.1-5.5.1" class="pilcrow">¶</a></p>
-</li>
           <li class="normal" id="appendix-H.1-5.6">
-            <p id="appendix-H.1-5.6.1">Add change log for -07 and -08 (PR#279).<a href="#appendix-H.1-5.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.6.1">Update references (PR#280 and PR#281).<a href="#appendix-H.1-5.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.7">
-            <p id="appendix-H.1-5.7.1">Add COSE key thumbprint URIs to Appendix C (PR#278).<a href="#appendix-H.1-5.7.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.7.1">Add change log for -07 and -08 (PR#279).<a href="#appendix-H.1-5.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.8">
-            <p id="appendix-H.1-5.8.1">Explain why SD-CWT specifies claim requirements (PR#276).<a href="#appendix-H.1-5.8.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.8.1">Add COSE key thumbprint URIs to Appendix C (PR#278).<a href="#appendix-H.1-5.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.9">
-            <p id="appendix-H.1-5.9.1">Reframe nonce/freshness text (PR#275).<a href="#appendix-H.1-5.9.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.9.1">Explain why SD-CWT specifies claim requirements (PR#276).<a href="#appendix-H.1-5.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.10">
-            <p id="appendix-H.1-5.10.1">Reword discussion of Verifier use of Issuer keys (PR#274).<a href="#appendix-H.1-5.10.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.10.1">Reframe nonce/freshness text (PR#275).<a href="#appendix-H.1-5.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.11">
-            <p id="appendix-H.1-5.11.1">Justify linkage between KBT and CWT; move revocation discussion to its own section (PR#273).<a href="#appendix-H.1-5.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.11.1">Reword discussion of Verifier use of Issuer keys (PR#274).<a href="#appendix-H.1-5.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.12">
-            <p id="appendix-H.1-5.12.1">Replace blind with redact and unblind with disclose or reveal (PR#272).<a href="#appendix-H.1-5.12.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.12.1">Justify linkage between KBT and CWT; move revocation discussion to its own section (PR#273).<a href="#appendix-H.1-5.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.13">
-            <p id="appendix-H.1-5.13.1">Remove redundant Section 16.7 (PR#271).<a href="#appendix-H.1-5.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.13.1">Replace blind with redact and unblind with disclose or reveal (PR#272).<a href="#appendix-H.1-5.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.14">
-            <p id="appendix-H.1-5.14.1">Explain why Issuer should verify Holder key (PR#266).<a href="#appendix-H.1-5.14.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.14.1">Remove redundant Section 16.7 (PR#271).<a href="#appendix-H.1-5.14.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.15">
-            <p id="appendix-H.1-5.15.1">Reword applicability and linkability discussions (PR#265).<a href="#appendix-H.1-5.15.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.15.1">Explain why Issuer should verify Holder key (PR#266).<a href="#appendix-H.1-5.15.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.16">
-            <p id="appendix-H.1-5.16.1">Reword disclosure threats and mitigations (PR#264).<a href="#appendix-H.1-5.16.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.16.1">Reword applicability and linkability discussions (PR#265).<a href="#appendix-H.1-5.16.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.17">
-            <p id="appendix-H.1-5.17.1">Improve Determinism section (PR#261).<a href="#appendix-H.1-5.17.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.17.1">Reword disclosure threats and mitigations (PR#264).<a href="#appendix-H.1-5.17.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.18">
-            <p id="appendix-H.1-5.18.1">Better explain To Be Decoy integer uniqueness requirements (PR#259).<a href="#appendix-H.1-5.18.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.18.1">Improve Determinism section (PR#261).<a href="#appendix-H.1-5.18.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.19">
-            <p id="appendix-H.1-5.19.1">Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).<a href="#appendix-H.1-5.19.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.19.1">Better explain To Be Decoy integer uniqueness requirements (PR#259).<a href="#appendix-H.1-5.19.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.20">
-            <p id="appendix-H.1-5.20.1">Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.<a href="#appendix-H.1-5.20.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.20.1">Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).<a href="#appendix-H.1-5.20.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.21">
-            <p id="appendix-H.1-5.21.1">Allowed then Reverted that media types can omit <code>application/</code> (PR#283 then PR#287).<a href="#appendix-H.1-5.21.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.21.1">Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.<a href="#appendix-H.1-5.21.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-5.22">
+            <p id="appendix-H.1-5.22.1">Allowed then Reverted that media types can omit <code>application/</code> (PR#283 then PR#287).<a href="#appendix-H.1-5.22.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
