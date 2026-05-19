@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-17T01:56:41.269387+00:00",
+  "timestamp": "2026-05-19T02:08:09.577890+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4919,12 +4919,12 @@
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
+        "has-PR",
         "next-stretch"
       ],
       "body": "Regarding [this note](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-12.1-10.1.1):\n\n> Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.\n\nThis is not right because it assumes that the registry will only ever contain AEADs that are strong enough to resist forgery.  The claim you make here should be that *if the AEAD algorithm provides sufficient protection against forgery* and attacker cannot produce a forged item.\n\nBut this makes no real sense.  The content, if it is to be usable in any way needs to be decryptable.  At that point, you can check the integrity of the content using the hash.\n\nSo why then do you have an AEAD algorithm as opposed to using a simpler cipher?  AES-CTR could work almost as well.\n\nOf the cuff, I can't think of a concrete reason to include a tag, other than the simple and pragmatic one: it is easier to specify the use of an AEAD than it is to specify how to use an unauthenticated cipher.",
       "createdAt": "2026-01-23T03:33:20Z",
-      "updatedAt": "2026-05-04T15:34:10Z",
+      "updatedAt": "2026-05-17T18:43:33Z",
       "closedAt": null,
       "comments": [
         {
@@ -5674,7 +5674,7 @@
       "id": "I_kwDOMm_Q2s79n8AM",
       "title": "Add Appendix showing worked example of processing some non-trivial nested claims",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/269",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5686,7 +5686,46 @@
       ],
       "body": "Use the example from my slides in Dublin IETF",
       "createdAt": "2026-04-13T13:29:07Z",
-      "updatedAt": "2026-05-16T19:00:02Z",
+      "updatedAt": "2026-05-18T13:49:08Z",
+      "closedAt": "2026-05-18T13:49:08Z",
+      "comments": []
+    },
+    {
+      "number": 282,
+      "id": "I_kwDOMm_Q2s8AAAABCgfsrg",
+      "title": "Use KBT instead of SD-KBT everywhere?",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/282",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "author-discuss"
+      ],
+      "body": "",
+      "createdAt": "2026-05-17T11:08:02Z",
+      "updatedAt": "2026-05-17T11:08:02Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 284,
+      "id": "I_kwDOMm_Q2s8AAAABCgsTaA",
+      "title": "Rohan's \"May holidays\" cleanup",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/284",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "next-stretch",
+        "author-discuss"
+      ],
+      "body": "I reread from the Abstract through the AEAD Encrypted Disclosures section.\n\nI created PR#283 with the issues that I could easily solve or propose a solution for. It is now merged.\n\nNot addressed in PR#283  (Note: all Section numbers are after the renumbering in the PR. \u00a74 -> \u00a73.3 . Old bullet point 7 -> point 8 in new \u00a78 )\n\n- [ ] I find the second paragraph after the first sentence of Section 3 to still be a bit misplaced in terms of flow. I think we should move this discussion to Section 5 (Differences from CWT) or just delete it.\n- [ ] the elided KBT example in Section 3.3 might be a bit of a lost opportunity to show the sd_claims again??\n- [ ] we might want to rename `https://device.example` to `https://holder.example` everywhere for consistency\n- [ ] the last bullet of Section 6.2;  point 8 of Section 8, and the last sentence of Section 8 need to say more about nesting. Sections 6 through 8 are our main normative behavior Sections after all.\n- [ ] We could introduce a dedicated Nesting topic as a new Section 9\n- [ ] We need to discuss the semantics of cnonce in the SD-CWT. Is this for use between the Holder and the Issuer, or also for Holder to Verifier? Please check commit 0ffae11 for accuracy.\n- [ ] cnonce in KBT consistency. We have a MAY and a SHOULD. Is this OK?\n- [ ] Section 8 point 8 says that an SD-CWT with extra disclosures is invalid, but we are softer in other places like Appendix D. Do we need to be consistent here?\n- [ ] Do we want to have \"This section is (non)normative\"? If so, we would have Section 2, Sections 4 through 11, and Appendix A as normative. \n\n",
+      "createdAt": "2026-05-17T12:30:03Z",
+      "updatedAt": "2026-05-18T14:11:02Z",
       "closedAt": null,
       "comments": []
     }
@@ -21471,21 +21510,21 @@
       "id": "PR_kwDOMm_Q2s7YXshc",
       "title": "Add Appendix with worked nesting example",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/277",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Ready for review\r\n- [x] Validator part of walkthrough completed\r\n- [x] Holder part\r\n- [x] Issuer part\r\n\r\n\r\nCloses #269 ",
       "createdAt": "2026-05-05T11:25:54Z",
-      "updatedAt": "2026-05-16T19:26:46Z",
+      "updatedAt": "2026-05-18T13:49:35Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5bd700770322e723e30f72bdf6caf9a12e156ced",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "nesting-appendix",
       "headRefOid": "6d2e9943b3204a1c97127b04d2d20cbb5ec49088",
-      "closedAt": null,
+      "closedAt": "2026-05-18T13:49:35Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -21493,9 +21532,16 @@
         {
           "author": "rohanmahy",
           "authorAssociation": "COLLABORATOR",
-          "body": "I originally thought this reverse order was clearer, but now that I have written the text, I think the opposite order would be equally clear, and might be less confusing.",
+          "body": "I originally thought this \"reverse\" order was clearer, but now that I have written the text, I think the opposite order would be equally clear, and might be less confusing. @OR13 @selfissued",
           "createdAt": "2026-05-16T19:26:46Z",
-          "updatedAt": "2026-05-16T19:26:46Z"
+          "updatedAt": "2026-05-17T12:51:00Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Replaced by #286 ",
+          "createdAt": "2026-05-18T13:49:35Z",
+          "updatedAt": "2026-05-18T13:49:35Z"
         }
       ],
       "reviews": []
@@ -21641,6 +21687,543 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 283,
+      "id": "PR_kwDOMm_Q2s7cXvZU",
+      "title": "Heavy editing pass May 2026",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/283",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I did a heavy editing pass on the major sections of the draft for flow, readability, and normative clarity.\r\n\r\nPartially Addresses #284\r\n",
+      "createdAt": "2026-05-17T12:12:49Z",
+      "updatedAt": "2026-05-17T12:49:35Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "6c724ee01c4f387d34e21b920dbc8cd4ff5147f6",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "heavy-pass-may2026",
+      "headRefOid": "b7c9ef1aa72545fd2225f82b872e7508af80c9c7",
+      "closedAt": "2026-05-17T12:49:35Z",
+      "mergedAt": "2026-05-17T12:49:35Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "cd4266d88e7bdae7b22bcac41c2e0d47c870dfc9"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAJ--3w",
+          "commit": {
+            "abbreviatedOid": "0ffae11"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-17T12:34:08Z",
+          "updatedAt": "2026-05-17T12:34:08Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAJ_JEg",
+          "commit": {
+            "abbreviatedOid": "0ffae11"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-17T12:35:29Z",
+          "updatedAt": "2026-05-17T12:35:29Z",
+          "comments": [
+            {
+              "originalPosition": 52,
+              "body": "```suggestion\nThe next diagram follows the steps of a specific Claim being redacted and then disclosed using the terminology specific to this document.\n```",
+              "createdAt": "2026-05-17T12:35:29Z",
+              "updatedAt": "2026-05-17T12:35:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAJ_TPw",
+          "commit": {
+            "abbreviatedOid": "b7c9ef1"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-17T12:37:37Z",
+          "updatedAt": "2026-05-17T12:37:37Z",
+          "comments": [
+            {
+              "originalPosition": 170,
+              "body": "Ah. This has moved down",
+              "createdAt": "2026-05-17T12:37:37Z",
+              "updatedAt": "2026-05-17T12:37:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAJ_aYw",
+          "commit": {
+            "abbreviatedOid": "b7c9ef1"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-17T12:39:20Z",
+          "updatedAt": "2026-05-17T12:39:20Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "I guess this is okay. Term were not used verbatim a lot and the following changes follow this removal",
+              "createdAt": "2026-05-17T12:39:20Z",
+              "updatedAt": "2026-05-17T12:39:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAJ_bDw",
+          "commit": {
+            "abbreviatedOid": "b7c9ef1"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-17T12:39:30Z",
+          "updatedAt": "2026-05-17T12:39:30Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 285,
+      "id": "PR_kwDOMm_Q2s7cbI6X",
+      "title": "Clean up AEAD encrypted disclosures section and justify use of AEAD",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/285",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Clean up AEAD encrypted disclosures section\r\n- Justify use of authenticated encryption in Security Consideration\r\n- Add optional encryption key context in encrypted disclosures\r\n\r\nCloses Issue #219",
+      "createdAt": "2026-05-17T18:43:03Z",
+      "updatedAt": "2026-05-18T14:15:51Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "cd4266d88e7bdae7b22bcac41c2e0d47c870dfc9",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue219",
+      "headRefOid": "f439eef18bd0f71de7d7eecd0144f28e6bf4d239",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAPLsSA",
+          "commit": {
+            "abbreviatedOid": "f439eef"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T14:09:10Z",
+          "updatedAt": "2026-05-18T14:09:10Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "This is confusing.\n\nPerhaps: The issuer must make the plaintext values of all disclosable claims available to the holder by placing them in the unprotected header. The holder MAY then chose to encrypt some of these, and remove their plaintext disclosures while adding corresponding encrypted disclosures, before finally signing the SD-KBT containing all intended disclosures of either type.",
+              "createdAt": "2026-05-18T14:09:10Z",
+              "updatedAt": "2026-05-18T14:09:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAPMTIw",
+          "commit": {
+            "abbreviatedOid": "f439eef"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T14:10:35Z",
+          "updatedAt": "2026-05-18T14:10:35Z",
+          "comments": [
+            {
+              "originalPosition": 93,
+              "body": "Blinded or Redacted?",
+              "createdAt": "2026-05-18T14:10:35Z",
+              "updatedAt": "2026-05-18T14:10:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAPOn3A",
+          "commit": {
+            "abbreviatedOid": "f439eef"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T14:15:27Z",
+          "updatedAt": "2026-05-18T14:15:27Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "https://datatracker.ietf.org/doc/html/rfc7519#section-5.1\n\nhttps://datatracker.ietf.org/doc/html/rfc8152\n\nI don't think you should recommend stripping the application prefix here... thats a JWT thing... and if people want a shorter string, they might as well use an integer.",
+              "createdAt": "2026-05-18T14:15:27Z",
+              "updatedAt": "2026-05-18T14:15:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAPOyog",
+          "commit": {
+            "abbreviatedOid": "f439eef"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "A couple nits",
+          "createdAt": "2026-05-18T14:15:51Z",
+          "updatedAt": "2026-05-18T14:15:51Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 286,
+      "id": "PR_kwDOMm_Q2s7ciKrO",
+      "title": "Alternate version of Appendix with nesting example",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/286",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is almost the same as PR #277 , just rearranged order. I think I like this flow better.\r\n\r\nCloses #269 ",
+      "createdAt": "2026-05-18T06:38:30Z",
+      "updatedAt": "2026-05-18T13:49:07Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "cd4266d88e7bdae7b22bcac41c2e0d47c870dfc9",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "nesting-appendix2",
+      "headRefOid": "d09c32faf479105e825946e3041c1e29d2be485f",
+      "closedAt": "2026-05-18T13:49:06Z",
+      "mergedAt": "2026-05-18T13:49:06Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "29b87e118b90d0604c65d5b85bbed1ea5a4cda97"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO0d0g",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:21:03Z",
+          "updatedAt": "2026-05-18T13:21:04Z",
+          "comments": [
+            {
+              "originalPosition": 229,
+              "body": "```suggestion\nThe Issuer in our example respects the hints and produces the following issued SD-CWT.\n```",
+              "createdAt": "2026-05-18T13:21:03Z",
+              "updatedAt": "2026-05-18T13:21:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO0kaw",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:21:18Z",
+          "updatedAt": "2026-05-18T13:21:19Z",
+          "comments": [
+            {
+              "originalPosition": 230,
+              "body": "```suggestion\nThe Issuer has generated 15 disclosures.\n```",
+              "createdAt": "2026-05-18T13:21:18Z",
+              "updatedAt": "2026-05-18T13:21:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO1Rcg",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:22:53Z",
+          "updatedAt": "2026-05-18T13:22:53Z",
+          "comments": [
+            {
+              "originalPosition": 244,
+              "body": "```suggestion\nThe Holder needs to unwrap all nested claims starting with the top level and proceeding deeper, to insure that there are no unmatched Redacted Claim Hashes anywhere in the document, and no unmatched disclosures.\n```",
+              "createdAt": "2026-05-18T13:22:53Z",
+              "updatedAt": "2026-05-18T13:22:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO1_NQ",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:24:30Z",
+          "updatedAt": "2026-05-18T13:24:30Z",
+          "comments": [
+            {
+              "originalPosition": 249,
+              "body": "```suggestion\nIn our example, the Holder chooses to disclose two of the inspections (from 2019 and 2023), the inspector license numbers and partially redacted location maps from both of these inspections, and the region (California) in the location map of the 2023 inspection.\n```",
+              "createdAt": "2026-05-18T13:24:30Z",
+              "updatedAt": "2026-05-18T13:24:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO36rg",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:28:37Z",
+          "updatedAt": "2026-05-18T13:28:37Z",
+          "comments": [
+            {
+              "originalPosition": 259,
+              "body": "What is the preferred strategy here?",
+              "createdAt": "2026-05-18T13:28:37Z",
+              "updatedAt": "2026-05-18T13:28:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO5oXQ",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:32:01Z",
+          "updatedAt": "2026-05-18T13:32:02Z",
+          "comments": [
+            {
+              "originalPosition": 271,
+              "body": "```suggestion\nThe Verifier needs to calculate the Redacted Claim Hash for each of the disclosures it receives.\n```",
+              "createdAt": "2026-05-18T13:32:02Z",
+              "updatedAt": "2026-05-18T13:32:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO6f3Q",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:33:40Z",
+          "updatedAt": "2026-05-18T13:33:40Z",
+          "comments": [
+            {
+              "originalPosition": 274,
+              "body": "```suggestion\nComments in all the examples show the first 4 bytes of the Redacted Claim Hash of each disclosure.\n```",
+              "createdAt": "2026-05-18T13:33:40Z",
+              "updatedAt": "2026-05-18T13:33:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO6pZQ",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:33:53Z",
+          "updatedAt": "2026-05-18T13:33:53Z",
+          "comments": [
+            {
+              "originalPosition": 266,
+              "body": "```suggestion\nThe example does not show the SD-KBT for brevity; it is always used in an actual presentation.\n```",
+              "createdAt": "2026-05-18T13:33:53Z",
+              "updatedAt": "2026-05-18T13:33:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO7MgA",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:34:55Z",
+          "updatedAt": "2026-05-18T13:34:55Z",
+          "comments": [
+            {
+              "originalPosition": 297,
+              "body": "```suggestion\nIn this example the Verifier finds two matching hashes (the first and last hash in the inspection history log claim array).\n```",
+              "createdAt": "2026-05-18T13:34:55Z",
+              "updatedAt": "2026-05-18T13:34:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO8I4A",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:37:03Z",
+          "updatedAt": "2026-05-18T13:37:03Z",
+          "comments": [
+            {
+              "originalPosition": 298,
+              "body": "```suggestion\nThe Verifier replaces the two matching Redacted Claim Hashes with their disclosed values (in this case, the last and first disclosures, which are both replacing Redacted Claim Elements) and removes the second Redacted Claim Hash.\n```",
+              "createdAt": "2026-05-18T13:37:03Z",
+              "updatedAt": "2026-05-18T13:37:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO8g9Q",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:37:55Z",
+          "updatedAt": "2026-05-18T13:37:55Z",
+          "comments": [
+            {
+              "originalPosition": 299,
+              "body": "```suggestion\nThe Verifier no longer considers the matched disclosures; each disclosure cannot match more than one Redacted Claim Hash.\n```",
+              "createdAt": "2026-05-18T13:37:55Z",
+              "updatedAt": "2026-05-18T13:37:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO9J1A",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:39:18Z",
+          "updatedAt": "2026-05-18T13:39:19Z",
+          "comments": [
+            {
+              "originalPosition": 330,
+              "body": "```suggestion\nIn this example, all the visible Redacted Claims happen to be Redacted Claim Keys.\n```",
+              "createdAt": "2026-05-18T13:39:19Z",
+              "updatedAt": "2026-05-18T13:39:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO-pyw",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:42:11Z",
+          "updatedAt": "2026-05-18T13:42:11Z",
+          "comments": [
+            {
+              "originalPosition": 372,
+              "body": "```suggestion\nThe Verifier finds a single matching disclosure (the second disclosure).\nThe Verifier replaces the matching Redacted Claim Hash and removes the others.\n```",
+              "createdAt": "2026-05-18T13:42:11Z",
+              "updatedAt": "2026-05-18T13:42:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO_GSg",
+          "commit": {
+            "abbreviatedOid": "3fa5f83"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T13:43:06Z",
+          "updatedAt": "2026-05-18T13:43:06Z",
+          "comments": [
+            {
+              "originalPosition": 400,
+              "body": "```suggestion\nAssuming the other validation steps pass, the Verifier can pass the Validated Claims Set on to the application.\n```",
+              "createdAt": "2026-05-18T13:43:06Z",
+              "updatedAt": "2026-05-18T13:43:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAO_6Rw",
+          "commit": {
+            "abbreviatedOid": "e58f426"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-18T13:44:58Z",
+          "updatedAt": "2026-05-18T13:44:58Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
