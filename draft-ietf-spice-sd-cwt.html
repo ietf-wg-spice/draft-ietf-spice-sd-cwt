@@ -1055,7 +1055,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 19 November 2026</td>
+<td class="center">Expires 20 November 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-05-18" class="published">18 May 2026</time>
+<time datetime="2026-05-19" class="published">19 May 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-11-19">19 November 2026</time></dd>
+<dd class="expires"><time datetime="2026-11-20">20 November 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1320,7 +1320,10 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
                 <p id="section-toc.1-1.15.2.7.1"><a href="#section-15.7" class="auto internal xref">15.7</a>.  <a href="#name-covert-channels" class="internal xref">Covert Channels</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.8">
-                <p id="section-toc.1-1.15.2.8.1"><a href="#section-15.8" class="auto internal xref">15.8</a>.  <a href="#name-choice-of-aead-algorithms" class="internal xref">Choice of AEAD algorithms</a></p>
+                <p id="section-toc.1-1.15.2.8.1"><a href="#section-15.8" class="auto internal xref">15.8</a>.  <a href="#name-use-of-authenticated-encryp" class="internal xref">Use of authenticated encryption for encrypted disclosures</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.9">
+                <p id="section-toc.1-1.15.2.9.1"><a href="#section-15.9" class="auto internal xref">15.9</a>.  <a href="#name-choice-of-aead-algorithms" class="internal xref">Choice of AEAD algorithms</a></p>
 </li>
             </ul>
 </li>
@@ -2119,7 +2122,8 @@ After the Holder requests an SD-CWT from the Issuer, the Issuer generates the fo
 </div>
 <p id="section-3.2-3">Some of the claims are <em>redacted</em> in the payload. The corresponding <em>disclosure</em> is communicated in the unprotected header in the <code>sd_claims</code> header parameter.
 For example, the <code>inspector_license_number</code> claim is a Salted Disclosed Claim, consisting of a per-disclosure random salt, the Claim Value, and Claim Key.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<span id="name-cbor-extended-diagnostic-no"></span><figure id="figure-6">
+<span id="name-cbor-extended-diagnostic-no"></span><div id="first-disclosure">
+<figure id="figure-6">
           <div class="lang-cbor-diag sourcecode" id="section-3.2-4.1">
 <pre>
         &lt;&lt;[
@@ -2132,6 +2136,7 @@ For example, the <code>inspector_license_number</code> claim is a Salted Disclos
 <figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
 <a href="#name-cbor-extended-diagnostic-no" class="selfRef">CBOR extended diagnostic notation representation of inspector_license_number disclosure</a>
           </figcaption></figure>
+</div>
 <p id="section-3.2-5">This is represented in CBOR pretty-printed format as follows (with end-of-line comments and spaces inserted for clarity):<a href="#section-3.2-5" class="pilcrow">¶</a></p>
 <span id="name-cbor-encoding-of-inspector_"></span><figure id="figure-7">
           <div class="lang-cbor-pretty sourcecode" id="section-3.2-6.1">
@@ -3189,7 +3194,8 @@ If there are any disclosures that do not have a corresponding Redacted Claim Has
 If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.<a href="#section-8-7.1.1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-8-7.1.2.1">
-              <p id="section-8-7.1.2.1.1">Note: A Verifier <span class="bcp14">MUST</span> be prepared to process disclosures in any order. When disclosures are nested, a disclosed value could appear before the disclosure of its parent.<a href="#section-8-7.1.2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-8-7.1.2.1.1">Note: A Verifier <span class="bcp14">MUST</span> be prepared to process disclosures in any order. When disclosures are nested (see <a href="#nesting" class="auto internal xref">Section 13.2</a>), a disclosure <span class="bcp14">MAY</span> contain additional Redacted Claim Keys.
+A disclosed value could appear before the disclosure of its parent.<a href="#section-8-7.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </li>
@@ -3203,7 +3209,7 @@ If any decoded Redacted Claim Key duplicates another claim key in the same posit
 Once any remaining redacted elements (either redacted claims or decoys) are deleted, the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.<a href="#section-8-8.2.1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-8-8.2.2.1">
-              <p id="section-8-8.2.2.1.1">Note: Undisclosed Redacted Claim Elements will be removed from the Validated Disclosed Claims Set, changing the length of the array.
+              <p id="section-8-8.2.2.1.1">Note: Undisclosed Redacted Claim Elements will be removed from the Validated Disclosed Claims Set, changing the length of the containing array.
 If the semantics of the position of items in the array is important, the issuer should instead disclose or redact the entire array.<a href="#section-8-8.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
@@ -3415,7 +3421,9 @@ Other protocols have a similar type of internal structure for the Verifier.<a hr
 <p id="section-11-3">This section describes how to use AEADs to encrypt disclosures to a target entity, while enabling a initial verifier to confirm the authenticity of the presentation from the Holder.<a href="#section-11-3" class="pilcrow">¶</a></p>
 <p id="section-11-4">In these systems, an appropriate symmetric key and its context are provided completely out-of-band.<a href="#section-11-4" class="pilcrow">¶</a></p>
 <p id="section-11-5">The entire SD-CWT is included in the protected header of the SD-KBT, which secures the entire Issuer-signed SD-CWT including its unprotected headers that include its disclosures.<a href="#section-11-5" class="pilcrow">¶</a></p>
-<p id="section-11-6">When encrypted disclosures are present, they <span class="bcp14">MUST</span> be in the unprotected headers of the Issuer-signed SD-CWT, before the SD-KBT can be generated by the Holder.<a href="#section-11-6" class="pilcrow">¶</a></p>
+<p id="section-11-6">The Issuer <span class="bcp14">MUST</span> make the plaintext Salted Disclosed Claims of all Redacted Claims available to the Holder by placing them in the unprotected header in the <code>sd_claims</code> header parameter.
+The Holder <span class="bcp14">MAY</span> then chose to encrypt some of these Salted Disclosed Claims, omit the plaintext versions from the <code>sd_claims</code> unprotected header field, and add the corresponding encrypted disclosures to the <code>sd_aead_encrypted_claims</code> unprotected header field.
+The Holder finally signs the SD-KBT containing all intended disclosures of either type.<a href="#section-11-6" class="pilcrow">¶</a></p>
 <p id="section-11-7">The initial Verifier of the key binding token might not be able to decrypt encrypted disclosures and <span class="bcp14">MAY</span> decide to forward them to an inner Verifier that can decrypt them.<a href="#section-11-7" class="pilcrow">¶</a></p>
 <div id="aead">
 <section id="section-11.1">
@@ -3424,10 +3432,10 @@ Other protocols have a similar type of internal structure for the Verifier.<a hr
         </h3>
 <p id="section-11.1-1">This section defines two new COSE Header Parameters.
 If present in the protected headers, the first header parameter (<code>sd_aead</code>) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span> registered in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .
-(Guidance on specific algorithms is discussed in <a href="#aead-choice" class="auto internal xref">Section 15.8</a>.)
+(Guidance on specific algorithms is discussed in <a href="#aead-choice" class="auto internal xref">Section 15.9</a>.)
 The second header parameter (<code>sd_aead_encrypted_claims</code>), if present, contains a non-empty list of AEAD encrypted disclosures.
-Taking the first example disclosure from above:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
-<span id="name-edn-example-of-an-encrypted"></span><div id="edn-aead-disclosure">
+Taking the first example disclosure from <a href="#first-disclosure" class="auto internal xref">Figure 6</a>:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
+<span id="name-edn-example-of-plaintext-di"></span><div id="edn-aead-disclosure">
 <figure id="figure-23">
           <div class="lang-cbor-diag sourcecode" id="section-11.1-2.1">
 <pre>
@@ -3439,7 +3447,7 @@ Taking the first example disclosure from above:<a href="#section-11.1-1" class="
 </pre>
 </div>
 <figcaption><a href="#figure-23" class="selfRef">Figure 23</a>:
-<a href="#name-edn-example-of-an-encrypted" class="selfRef">EDN example of an encrypted disclosure</a>
+<a href="#name-edn-example-of-plaintext-di" class="selfRef">EDN example of plaintext disclosure</a>
           </figcaption></figure>
 </div>
 <p id="section-11.1-3">The corresponding bstr is encrypted with an AEAD algorithm <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span>.
@@ -3448,18 +3456,20 @@ The bstr is encrypted with a unique, random nonce of N_MIN octets.
 The associated (authenticated) data <code>A</code> is zero-length.
 The AEAD ciphertext consists of its encryption algorithm's ciphertext and its authentication tag.
 (For example, in AEAD_AES_128_GCM the authentication tag is 16 octets.)
-The nonce (<code>nonce</code>), the encryption algorithm's ciphertext (<code>ciphertext</code>) and authentication tag (<code>tag</code>) are put in an array.
-The resulting array is placed in the <code>sd_aead_encrypted_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
-<p id="section-11.1-4">Given the AEAD encryption key (in hexadecimal):<a href="#section-11.1-4" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-11.1-5">
+The nonce (<code>nonce</code>), the encryption algorithm's ciphertext (<code>ciphertext</code>) and authentication tag (<code>tag</code>) are put in an array.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
+<p id="section-11.1-4">Optionally an AEAD key context <span class="bcp14">MAY</span> be added to the array.
+The key context can be an unsigned integer, a text string, or a byte string of the COSE Key Thumbprint (<span>[<a href="#RFC9679" class="cite xref">RFC9679</a>]</span>) of the decryption key.<a href="#section-11.1-4" class="pilcrow">¶</a></p>
+<p id="section-11.1-5">The resulting array is placed in the <code>sd_aead_encrypted_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.1-5" class="pilcrow">¶</a></p>
+<p id="section-11.1-6">Given the AEAD encryption key (in hexadecimal):<a href="#section-11.1-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-11.1-7">
 <pre>
 a061c27a3273721e210d031863ad81b6
-</pre><a href="#section-11.1-5" class="pilcrow">¶</a>
+</pre><a href="#section-11.1-7" class="pilcrow">¶</a>
 </div>
-<p id="section-11.1-6">A valid AEAD encrypted disclosure for that first disclosure is:<a href="#section-11.1-6" class="pilcrow">¶</a></p>
+<p id="section-11.1-8">A valid AEAD encrypted disclosure for that first disclosure is:<a href="#section-11.1-8" class="pilcrow">¶</a></p>
 <span id="name-edn-example-of-an-aead-encr"></span><div id="edn-aead-claim">
 <figure id="figure-24">
-          <div class="lang-cbor-diag sourcecode" id="section-11.1-7.1">
+          <div class="lang-cbor-diag sourcecode" id="section-11.1-9.1">
 <pre>
 / sd_aead_encrypted_claims / 171 : [ / AEAD encrypted disclosures /
 [
@@ -3474,26 +3484,33 @@ a061c27a3273721e210d031863ad81b6
 </pre>
 </div>
 <figcaption><a href="#figure-24" class="selfRef">Figure 24</a>:
-<a href="#name-edn-example-of-an-aead-encr" class="selfRef">EDN Example of an AEAD Encrypted Claim</a>
+<a href="#name-edn-example-of-an-aead-encr" class="selfRef">EDN Example of an AEAD Encrypted Disclosure</a>
           </figcaption></figure>
 </div>
-<p id="section-11.1-8">The Redacted Claim Hash is still over the unencrypted disclosure.
-The receiver of an AEAD encrypted disclosure locates the appropriate key by looking up the authentication tag.
-If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the <code>sd_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.1-8" class="pilcrow">¶</a></p>
-<p id="section-11.1-9">Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.<a href="#section-11.1-9" class="pilcrow">¶</a></p>
-<p id="section-11.1-10">The CDDL for AEAD encrypted disclosures is below.<a href="#section-11.1-10" class="pilcrow">¶</a></p>
+<p id="section-11.1-10">The Redacted Claim Hash is still over the unencrypted disclosure.
+The receiver of an AEAD encrypted disclosure determines the appropriate decryption key by local configuration, using the <code>aead-key-context</code> if present, or by looking up the authentication tag.<a href="#section-11.1-10" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-11.1-11.1">
+            <p id="section-11.1-11.1.1">Which key determination mechanism to use is the responsibility of the relevant profile or enclosing protocol.<a href="#section-11.1-11.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-11.1-12">If the Verifier is able to decrypt and verify an encrypted disclosure, the decrypted disclosure is then processed as if it were in the <code>sd_claims</code> header parameter in the unprotected headers of the SD-CWT.<a href="#section-11.1-12" class="pilcrow">¶</a></p>
+<p id="section-11.1-13">Details of key management are left to profiles of the specific protocols that make use of AEAD encrypted disclosures.<a href="#section-11.1-13" class="pilcrow">¶</a></p>
+<p id="section-11.1-14">The CDDL for AEAD encrypted disclosures is below.<a href="#section-11.1-14" class="pilcrow">¶</a></p>
 <span id="name-cddl-describing-syntax-of-a"></span><div id="cddl-aead">
 <figure id="figure-25">
-          <div class="lang-cddl sourcecode" id="section-11.1-11.1">
+          <div class="lang-cddl sourcecode" id="section-11.1-15.1">
 <pre>
 aead-encrypted-array = [ +aead-encrypted ]
 aead-encrypted = [
   bstr,              ; nonce of N_MIN octets
   bstr,              ; the encryption ciphertext output of a
                      ;   bstr-encoded-salted
-  bstr               ; the corresponding authentication tag
+  bstr,              ; the corresponding authentication tag
+  ?aead-key-context  ; optional context to select the correct key
 ]
-
+aead-key-context = uint / tstr / thumbprint
+thumbprint = bstr    ; a COSE key thumprint
 </pre>
 </div>
 <figcaption><a href="#figure-25" class="selfRef">Figure 25</a>:
@@ -3501,8 +3518,8 @@ aead-encrypted = [
           </figcaption></figure>
 </div>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-11.1-12.1">
-            <p id="section-11.1-12.1.1">Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.<a href="#section-11.1-12.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-11.1-16.1">
+            <p id="section-11.1-16.1.1">Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.<a href="#section-11.1-16.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -4047,17 +4064,49 @@ The ordering of claims, and precision of timestamps can also be used to produce 
 This is more of a concern for SD-CWT than typical CWTs, because the Holder is usually considered to be aware of the Issuer claims they are disclosing to a Verifier.<a href="#section-15.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="aead-choice">
+<div id="use-of-authenticated-encryption-for-encrypted-disclosures">
 <section id="section-15.8">
-        <h3 id="name-choice-of-aead-algorithms">
-<a href="#section-15.8" class="section-number selfRef">15.8. </a><a href="#name-choice-of-aead-algorithms" class="section-name selfRef">Choice of AEAD algorithms</a>
+        <h3 id="name-use-of-authenticated-encryp">
+<a href="#section-15.8" class="section-number selfRef">15.8. </a><a href="#name-use-of-authenticated-encryp" class="section-name selfRef">Use of authenticated encryption for encrypted disclosures</a>
         </h3>
-<p id="section-15.8-1">The AEAD encrypted disclosures mechanism discussed in <a href="#aead" class="auto internal xref">Section 11.1</a> can refer to any AEAD alogithm in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .<a href="#section-15.8-1" class="pilcrow">¶</a></p>
-<p id="section-15.8-2">When choosing an AEAD algorithm, the tag length is critical for the integrity of encrypted disclosures in SD-CWT.
-As such, implementations <span class="bcp14">MUST NOT</span> use any AEAD algorithm with a tag length less than 16 octets.<a href="#section-15.8-2" class="pilcrow">¶</a></p>
-<p id="section-15.8-3">Algorithms using AES-CCM are <span class="bcp14">NOT RECOMMENDED</span>.<a href="#section-15.8-3" class="pilcrow">¶</a></p>
-<p id="section-15.8-4">As of this writing, implementations <span class="bcp14">MUST NOT</span> use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
-Implementations using the AEGIS algorithms containing an X <span class="bcp14">MUST</span> only use the 256-bit tag variant.<a href="#section-15.8-4" class="pilcrow">¶</a></p>
+<p id="section-15.8-1">This section provides justification of the choice of AEAD (or generally authenticated) algorithms for encrypted disclosures in SD-CWT versus unauthenticated encryption.<a href="#section-15.8-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-15.8-2">
+<li id="section-15.8-2.1">
+            <p id="section-15.8-2.1.1">AEAD algorithms (especially AES_GCM) are among the most widely available cryptographic algorithms.
+Implementations of these algorithms are generally well tested and documented across a wide range of environments and programming environments, and often benefit from hardware accelleration.
+Unauthenticated algorithms are less widely available and are often only available in "subtle" cryptographic interfaces.
+Use of a mainstream AEAD algorithm is less likely to trigger false alarms in security audits than unauthenticated encryption algorithms.<a href="#section-15.8-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-15.8-2.2">
+            <p id="section-15.8-2.2.1">Since SD-CWTs support nested disclosures, a Verifier may need to decrypt and process disclosures from an honest Holder at multiple depths to find the Salted Disclosed Claim and Redacted Claim Hash associated with a specific Redacted Claim.
+Using an authenticated algorithm allows the Verifier to determine immediately if a specific decryption succeeded or failed.
+It also prevents the Verifier from keeping state for encrypted disclosures that were not correctly decrypted.
+Knowing exactly when decryption fails makes troubleshooting easier, and error handling more straightforward to implement.<a href="#section-15.8-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-15.8-2.3">
+            <p id="section-15.8-2.3.1">The amount of time<a href="#section-15.8-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-15.8-2.4">
+            <p id="section-15.8-2.4.1">In the target environments (ex: RATS), the performance penalty of using authenticated encryption is minor compared the other cryptographic operations already in use in those environments.
+Reuse of cryptographic algorithms compatible with existing profiles and cipher suites was considered more important than the performance gain of using unauthenticated encryption.<a href="#section-15.8-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-15.8-2.5">
+            <p id="section-15.8-2.5.1">If desired by the community, it is possible to add an unauthenticated encryption mode (with appropriate guidance) as a future extension.<a href="#section-15.8-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+</section>
+</div>
+<div id="aead-choice">
+<section id="section-15.9">
+        <h3 id="name-choice-of-aead-algorithms">
+<a href="#section-15.9" class="section-number selfRef">15.9. </a><a href="#name-choice-of-aead-algorithms" class="section-name selfRef">Choice of AEAD algorithms</a>
+        </h3>
+<p id="section-15.9-1">The AEAD encrypted disclosures mechanism discussed in <a href="#aead" class="auto internal xref">Section 11.1</a> can refer to any AEAD alogithm in the <a href="https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml">IANA AEAD Algorithms registry</a> .<a href="#section-15.9-1" class="pilcrow">¶</a></p>
+<p id="section-15.9-2">When choosing an AEAD algorithm, the tag length is relevant to the integrity of encrypted disclosures in SD-CWT before the corresponding plaintext can be hashed and matched to a Redacted Claim.
+As such, implementations <span class="bcp14">MUST NOT</span> use any AEAD algorithm with a tag length less than 16 octets.<a href="#section-15.9-2" class="pilcrow">¶</a></p>
+<p id="section-15.9-3">Algorithms using AES-CCM are <span class="bcp14">NOT RECOMMENDED</span>.<a href="#section-15.9-3" class="pilcrow">¶</a></p>
+<p id="section-15.9-4">As of this writing, implementations <span class="bcp14">MUST NOT</span> use algorithms 3 through 14, 18, 19, 21, 22, 24, 25, 27, or 28.
+Implementations using the AEGIS algorithms containing an X <span class="bcp14">MUST</span> only use the 256-bit tag variant.<a href="#section-15.9-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4681,7 +4730,7 @@ An indication of the relevant sections may also be included, but is not required
 <dd class="break"></dd>
 <dt id="I-D.ietf-cbor-edn-literals">[I-D.ietf-cbor-edn-literals]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"CBOR Extended Diagnostic Notation (EDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-24</span>, <time datetime="2026-05-11" class="refDate">11 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-24">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-24</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"Concise Diagnostic Notation (CDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-25</span>, <time datetime="2026-05-18" class="refDate">18 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-25">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-25</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -4988,9 +5037,11 @@ aead-encrypted = [
   bstr,              ; nonce of N_MIN octets
   bstr,              ; the encryption ciphertext output of a
                      ;   bstr-encoded-salted
-  bstr               ; the corresponding authentication tag
+  bstr,              ; the corresponding authentication tag
+  ?aead-key-context  ; optional context to select the correct key
 ]
-
+aead-key-context = uint / tstr / thumbprint
+thumbprint = bstr    ; a COSE key thumprint
 ; redacted_claim_keys is used as a map key. The corresponding value is
 ; an array of Redacted Claim Hashes whose corresponding unredacted map
 ; keys and values are in the same map.
@@ -6144,55 +6195,99 @@ Likewise, if this algorithm results in any duplicate CBOR map keys, the entire S
 <p id="appendix-H.1-2">Normative changes:<a href="#appendix-H.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-H.1-3.1">
-            <p id="appendix-H.1-3.1.1">Use clearer normative language around CBOR tags and nesting (PR#262).<a href="#appendix-H.1-3.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-3.1.1">Add optional key context to AEAD encrypted disclosures (PR#285).<a href="#appendix-H.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-3.2">
-            <p id="appendix-H.1-3.2.1">Fix AEAD nonce length and mention that AAD is empty (PR#260).<a href="#appendix-H.1-3.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-3.2.1">Minor correction that media types can omit <code>application/</code> (PR#283).<a href="#appendix-H.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-3.3">
+            <p id="appendix-H.1-3.3.1">Use clearer normative language around CBOR tags and nesting (PR#262).<a href="#appendix-H.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-3.4">
+            <p id="appendix-H.1-3.4.1">Fix AEAD nonce length and mention that AAD is empty (PR#260).<a href="#appendix-H.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="appendix-H.1-4">Non-normative changes:<a href="#appendix-H.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-H.1-5.1">
-            <p id="appendix-H.1-5.1.1">Add COSE key thumbprint URIs to Appendix C (PR#278).<a href="#appendix-H.1-5.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.1.1">Clean up AEAD encrypted disclosures section and justify used of AEAD (PR#285).<a href="#appendix-H.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.2">
-            <p id="appendix-H.1-5.2.1">Explain why SD-CWT specifies claim requirements (PR#276).<a href="#appendix-H.1-5.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.2.1">Heavy editing pass (PR#283)<a href="#appendix-H.1-5.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-H.1-5.2.2.1">
+                <p id="appendix-H.1-5.2.2.1.1">Renumber Section 4 to Section 3.3 as it is part of the Overview.<a href="#appendix-H.1-5.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-5.2.2.2">
+                <p id="appendix-H.1-5.2.2.2.1">Move normative statement from Section 3 to Section 6.<a href="#appendix-H.1-5.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-5.2.2.3">
+                <p id="appendix-H.1-5.2.2.3.1">Improve Figures 2 and 3<a href="#appendix-H.1-5.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-5.2.2.4">
+                <p id="appendix-H.1-5.2.2.4.1">Remove unused terms or terms used only once.<a href="#appendix-H.1-5.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-5.2.2.5">
+                <p id="appendix-H.1-5.2.2.5.1">Rearrange order of discussion in Section 7.1<a href="#appendix-H.1-5.2.2.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-5.2.2.6">
+                <p id="appendix-H.1-5.2.2.6.1">Clarify use of <code>cnonce</code><a href="#appendix-H.1-5.2.2.6.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-5.2.2.7">
+                <p id="appendix-H.1-5.2.2.7.1">Remind about special definition of duplicate map keys in To Be Redacted section<a href="#appendix-H.1-5.2.2.7.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-5.2.2.8">
+                <p id="appendix-H.1-5.2.2.8.1">Miscellaneous typo, minor rewordings, cleanups, and clarifications<a href="#appendix-H.1-5.2.2.8.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="appendix-H.1-5.3">
-            <p id="appendix-H.1-5.3.1">Reframe nonce/freshness text (PR#275).<a href="#appendix-H.1-5.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.3.1">Update references (PR#280 and PR#281).<a href="#appendix-H.1-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.4">
-            <p id="appendix-H.1-5.4.1">Reword discussion of Verifier use of Issuer keys (PR#274).<a href="#appendix-H.1-5.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.4.1">Add change log for -07 and -08 (PR#279).<a href="#appendix-H.1-5.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.5">
-            <p id="appendix-H.1-5.5.1">Justify linkage between KBT and CWT; move revocation discussion to its own section (PR#273).<a href="#appendix-H.1-5.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.5.1">Add COSE key thumbprint URIs to Appendix C (PR#278).<a href="#appendix-H.1-5.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.6">
-            <p id="appendix-H.1-5.6.1">Replace blind with redact and unblind with disclose or reveal (PR#272).<a href="#appendix-H.1-5.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.6.1">Explain why SD-CWT specifies claim requirements (PR#276).<a href="#appendix-H.1-5.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.7">
-            <p id="appendix-H.1-5.7.1">Remove redundant Section 16.7 (PR#271).<a href="#appendix-H.1-5.7.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.7.1">Reframe nonce/freshness text (PR#275).<a href="#appendix-H.1-5.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.8">
-            <p id="appendix-H.1-5.8.1">Explain why Issuer should verify Holder key (PR#266).<a href="#appendix-H.1-5.8.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.8.1">Reword discussion of Verifier use of Issuer keys (PR#274).<a href="#appendix-H.1-5.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.9">
-            <p id="appendix-H.1-5.9.1">Reword applicability and linkability discussions (PR#265).<a href="#appendix-H.1-5.9.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.9.1">Justify linkage between KBT and CWT; move revocation discussion to its own section (PR#273).<a href="#appendix-H.1-5.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.10">
-            <p id="appendix-H.1-5.10.1">Reword disclosure threats and mitigations (PR#264).<a href="#appendix-H.1-5.10.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.10.1">Replace blind with redact and unblind with disclose or reveal (PR#272).<a href="#appendix-H.1-5.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.11">
-            <p id="appendix-H.1-5.11.1">Improve Determinism section (PR#261).<a href="#appendix-H.1-5.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.11.1">Remove redundant Section 16.7 (PR#271).<a href="#appendix-H.1-5.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.12">
-            <p id="appendix-H.1-5.12.1">Better explain To Be Decoy integer uniqueness requirements (PR#259).<a href="#appendix-H.1-5.12.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.12.1">Explain why Issuer should verify Holder key (PR#266).<a href="#appendix-H.1-5.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.13">
-            <p id="appendix-H.1-5.13.1">Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).<a href="#appendix-H.1-5.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.13.1">Reword applicability and linkability discussions (PR#265).<a href="#appendix-H.1-5.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-5.14">
-            <p id="appendix-H.1-5.14.1">Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.<a href="#appendix-H.1-5.14.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-5.14.1">Reword disclosure threats and mitigations (PR#264).<a href="#appendix-H.1-5.14.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-5.15">
+            <p id="appendix-H.1-5.15.1">Improve Determinism section (PR#261).<a href="#appendix-H.1-5.15.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-5.16">
+            <p id="appendix-H.1-5.16.1">Better explain To Be Decoy integer uniqueness requirements (PR#259).<a href="#appendix-H.1-5.16.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-5.17">
+            <p id="appendix-H.1-5.17.1">Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).<a href="#appendix-H.1-5.17.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-5.18">
+            <p id="appendix-H.1-5.18.1">Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.<a href="#appendix-H.1-5.18.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
