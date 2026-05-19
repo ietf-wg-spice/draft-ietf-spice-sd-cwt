@@ -758,15 +758,15 @@ Issuer                           Holder                         Verifier
    *  the unsigned integer Constrained Application Protocol (CoAP)
       [RFC7252] content-format value 293,
 
-   *  the string content type value application/sd-cwt or sd-cwt,
+   *  the string content type value application/sd-cwt,
 
    *  or a value declaring that the object is a more specific kind of
       SD-CWT, such as a content type value using the +sd-cwt structured
       suffix.
 
-   The Issuer SHOULD use the value 293 instead of application/sd-cwt or
-   sd-cwt, as the CBOR representation is considerably smaller (3 bytes
-   versus 19 or 7 bytes).
+   The Issuer SHOULD use the value 293 instead of application/sd-cwt, as
+   the CBOR representation is considerably smaller (3 bytes versus 19
+   bytes).
 
    An SD-CWT is a format based on CWT, but it allows some additional
    types in maps to indicate values that were or should be redacted, and
@@ -1311,7 +1311,7 @@ Issuer                           Holder                         Verifier
    ])
 
    sd-protected = {
-      &(typ: 16) ^ => 293 / "application/sd-cwt" / "sd-cwt",
+      &(typ: 16) ^ => 293 / "application/sd-cwt",
       &(alg: 1) ^ => int,
       ? &(kid: 4) ^ => bstr,
       ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
@@ -1385,9 +1385,9 @@ Issuer                           Holder                         Verifier
 
    The protected header of the KBT MUST include the typ header parameter
    with the unsigned integer value of 294, or the value application/
-   kb+cwt or kb+cwt.  The Holder SHOULD use the value 294 instead of
-   application/kb+cwt or kb+cwt, as the CBOR representation is
-   considerably smaller (3 bytes versus 19 or 7 bytes).
+   kb+cwt.  The Holder SHOULD use the value 294 instead of application/
+   kb+cwt, as the CBOR representation is considerably smaller (3 bytes
+   versus 19 bytes).
 
    The Holder is conceptually both the subject and the Issuer of the Key
    Binding Token.  Therefore, the sub and iss of a KBT are implied from
@@ -1463,7 +1463,7 @@ Issuer                           Holder                         Verifier
    ])
 
    kbt-protected = {
-      &(typ: 16) ^ => 294 / "application/kb+cwt" / "kb+cwt",
+      &(typ: 16) ^ => 294 / "application/kb+cwt",
       &(alg: 1) ^ => int,
       &(kcwt: 13) ^ => sd-cwt-issued,
       * label => safe_value
@@ -3113,7 +3113,7 @@ Appendix A.  Complete CDDL Schema
    ])
 
    sd-protected = {
-      &(typ: 16) ^ => 293 / "application/sd-cwt" / "sd-cwt",
+      &(typ: 16) ^ => 293 / "application/sd-cwt",
       &(alg: 1) ^ => int,
       ? &(kid: 4) ^ => bstr,
       ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
@@ -3153,7 +3153,7 @@ Appendix A.  Complete CDDL Schema
    ])
 
    kbt-protected = {
-      &(typ: 16) ^ => 294 / "application/kb+cwt" / "kb+cwt",
+      &(typ: 16) ^ => 294 / "application/kb+cwt",
       &(alg: 1) ^ => int,
       &(kcwt: 13) ^ => sd-cwt-issued,
       * label => safe_value
@@ -4394,8 +4394,6 @@ H.1.  draft-ietf-spice-sd-cwt-08
 
    *  Add optional key context to AEAD encrypted disclosures (PR#285).
 
-   *  Minor correction that media types can omit application/ (PR#283).
-
    *  Use clearer normative language around CBOR tags and nesting
       (PR#262).
 
@@ -4405,10 +4403,12 @@ H.1.  draft-ietf-spice-sd-cwt-08
 
    *  Globally use KBT instead of KBT (PR#288).
 
+   *  Add Appendix walking through nested disclosure handling (PR#286).
+
    *  Clean up AEAD encrypted disclosures section and justify used of
       AEAD (PR#285).
 
-   *  Heavy editing pass (PR#283)
+   *  Heavy editing pass (PR#283).
 
       -  Renumber Section 4 to Section 3.3 as it is part of the
          Overview.
@@ -4465,6 +4465,9 @@ H.1.  draft-ietf-spice-sd-cwt-08
 
    *  Remove Mike Jones from Acknowledgments (except in list of SD-JWT
       contributors) since he is already listed as a Contributor.
+
+   *  Allowed then Reverted that media types can omit application/
+      (PR#283 then PR#287).
 
 H.2.  draft-ietf-spice-sd-cwt-07
 
