@@ -349,7 +349,7 @@ Note that the fictitious map keys shown in the examples do not have IANA registe
 ~~~ cbor-diag
 {
     / iss / 1  : "https://issuer.example",
-    / sub / 2  : "https://device.example",
+    / sub / 2  : "https://holder.example",
     / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
     / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -1108,7 +1108,7 @@ Instead of the structure from the previous example, imagine that the payload con
 ~~~ cbor-diag
 {
     / iss / 1  : "https://issuer.example",
-    / sub / 2  : "https://device.example",
+    / sub / 2  : "https://holder.example",
     / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
     / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -1172,7 +1172,7 @@ After applying the disclosures of the nested structure above, the disclosed Clai
 ~~~ cbor-diag
 {
     / iss / 1  : "https://issuer.example",
-    / sub / 2  : "https://device.example",
+    / sub / 2  : "https://holder.example",
     / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
     / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -1941,7 +1941,7 @@ Below is the nested Claims Set example from {{edn-nested-unblinded}} with To Be 
 ~~~ cbor-diag
 {
     / iss / 1  : "https://issuer.example",
-    / sub / 2  : "https://device.example",
+    / sub / 2  : "https://holder.example",
     / exp / 4  : 1725330600, /2024-09-02T19:30:00Z/
     / nbf / 5  : 1725243840, /2024-09-01T19:25:00Z/
     / iat / 6  : 1725244200, /2024-09-01T19:30:00Z/
@@ -2371,6 +2371,7 @@ Normative changes:
 
 Non-normative changes:
 
+- Rename device.example to holder.example (PR#289).
 - Globally use KBT instead of KBT (PR#288).
 - Add Appendix walking through nested disclosure handling (PR#286).
 - Clean up AEAD encrypted disclosures section and justify used of AEAD (PR#285).

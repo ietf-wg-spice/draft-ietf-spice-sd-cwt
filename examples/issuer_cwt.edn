@@ -34,7 +34,7 @@
   },
   / CWT payload / << {
     / iss / 1   : "https://issuer.example",
-    / sub / 2   : "https://device.example",
+    / sub / 2   : "https://holder.example",
     / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
     / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
     / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
@@ -75,10 +75,10 @@
           bb05c9d8fb61cfc230ddfdfb4616a693'
     ]
   } >>,
-  / CWT signature / h'536b3797c8f396d6dc4fedfa54fa605f
-                      be897df02267ede5b40b257cba5eb2b3
-                      cbf7d4f5733e0ca2e77783d860b8d74a
-                      2b98878930be6c8e3d1de63df909d484
-                      2a800f9d377fa41e9bd5f72743c06cfb
-                      1e5d59892fac51a806cd4caf6cb30cce'
+  / CWT signature / h'12bdb0136ed93db0e3400660d5aee1ba
+                      68ff24e743d613eea55d3bedff167ae4
+                      d3c9c328ebfdc1793a178e754ce11432
+                      f2e69a92eee6953d38d5a58830ece550
+                      21951a83e4e30365828bb7918ceb187a
+                      21da18c071ce2461ef642a9e7959299e'
 ])

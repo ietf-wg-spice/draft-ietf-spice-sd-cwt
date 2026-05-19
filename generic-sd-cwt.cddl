@@ -20,7 +20,7 @@ unprotected = {
 sd-payload = {
     ; standard claims
     ? &(iss: 1): tstr, ; "https://issuer.example"
-    ? &(sub: 2): tstr, ; "https://device.example"
+    ? &(sub: 2): tstr, ; "https://holder.example"
       &(aud: 3): tstr, ; "https://verifier.example"
     ? &(exp: 4): int,  ; 1883000000
     ? &(nbf: 5): int,  ; 1683000000
