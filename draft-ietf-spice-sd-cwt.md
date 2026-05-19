@@ -1419,7 +1419,7 @@ Implementations of these algorithms are generally well tested and documented acr
 Unauthenticated algorithms are less widely available and are often only available in "subtle" cryptographic interfaces.
 Use of a mainstream AEAD algorithm is less likely to trigger false alarms in security audits than unauthenticated encryption algorithms.
 
-2. Since SD-CWTs support nested disclosures, a Verifier may need to decrypt and process disclosures from an honest Holder at multiple depths to find the Salted Disclosed Claim and Blinded Claim Hash associated with a specific Redacted Claim.
+2. Since SD-CWTs support nested disclosures, a Verifier may need to decrypt and process disclosures from an honest Holder at multiple depths to find the Salted Disclosed Claim and Redacted Claim Hash associated with a specific Redacted Claim.
 Using an authenticated algorithm allows the Verifier to determine immediately if a specific decryption succeeded or failed.
 It also prevents the Verifier from keeping state for encrypted disclosures that were not correctly decrypted.
 Knowing exactly when decryption fails makes troubleshooting easier, and error handling more straightforward to implement.
