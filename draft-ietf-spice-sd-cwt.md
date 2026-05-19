@@ -458,10 +458,10 @@ SD-CWT is modeled after SD-JWT, with adjustments to align with conventions in CB
 An SD-CWT MUST declare its content type, by including the protected header parameter `typ` {{!RFC9596}} with one of the following values:
 
 - the unsigned integer Constrained Application Protocol (CoAP) {{?RFC7252}} content-format value 293,
-- the string content type value `application/sd-cwt` or `sd-cwt`,
+- the string content type value `application/sd-cwt`,
 - or a value declaring that the object is a more specific kind of SD-CWT, such as a content type value using the `+sd-cwt` structured suffix.
 
-The Issuer SHOULD use the value 293 instead of `application/sd-cwt` or `sd-cwt`, as the CBOR representation is considerably smaller (3 bytes versus 19 or 7 bytes).
+The Issuer SHOULD use the value 293 instead of `application/sd-cwt`, as the CBOR representation is considerably smaller (3 bytes versus 19 bytes).
 
 An SD-CWT is a format based on CWT, but it allows some additional types in maps to indicate values that were or should be redacted, and includes some additional constraints to improve robustness.
 Unlike CWT, SD-CWT requires key binding.
@@ -782,8 +782,8 @@ Regardless if it discloses any claims, the Holder sends the Verifier a unique Ho
 A KBT is itself a type of CWT, signed using the private key corresponding to the key in the `cnf` claim in the presented SD-CWT.
 The KBT contains the SD-CWT, including the Holder's choice of presented disclosures, in the `kcwt` protected header field in the KBT.
 
-The protected header of the KBT MUST include the `typ` header parameter with the unsigned integer value of 294, or the value `application/kb+cwt` or `kb+cwt`.
-The Holder SHOULD use the value 294 instead of `application/kb+cwt` or `kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus 19 or 7 bytes).
+The protected header of the KBT MUST include the `typ` header parameter with the unsigned integer value of 294, or the value `application/kb+cwt`.
+The Holder SHOULD use the value 294 instead of `application/kb+cwt`, as the CBOR representation is considerably smaller (3 bytes versus 19 bytes).
 
 The Holder is conceptually both the subject and the Issuer of the Key Binding Token.
 Therefore, the `sub` and `iss` of a KBT are implied from the `cnf` claim in the included SD-CWT, and MUST NOT be present in the KBT.
@@ -2366,15 +2366,15 @@ Note: RFC Editor, please remove this entire section on publication.
 Normative changes:
 
 - Add optional key context to AEAD encrypted disclosures (PR#285).
-- Minor correction that media types can omit `application/` (PR#283).
 - Use clearer normative language around CBOR tags and nesting (PR#262).
 - Fix AEAD nonce length and mention that AAD is empty (PR#260).
 
 Non-normative changes:
 
 - Globally use KBT instead of KBT (PR#288).
+- Add Appendix walking through nested disclosure handling (PR#286).
 - Clean up AEAD encrypted disclosures section and justify used of AEAD (PR#285).
-- Heavy editing pass (PR#283)
+- Heavy editing pass (PR#283).
   - Renumber Section 4 to Section 3.3 as it is part of the Overview.
   - Move normative statement from Section 3 to Section 6.
   - Improve Figures 2 and 3
@@ -2399,6 +2399,7 @@ Non-normative changes:
 - Better explain To Be Decoy integer uniqueness requirements (PR#259).
 - Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).
 - Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.
+- Allowed then Reverted that media types can omit `application/` (PR#283 then PR#287).
 
 ## draft-ietf-spice-sd-cwt-07
 
