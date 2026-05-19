@@ -8,7 +8,7 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => 293 / "application/sd-cwt" / "sd-cwt",
+   &(typ: 16) ^ => 293 / "application/sd-cwt",
    &(alg: 1) ^ => int,
    ? &(kid: 4) ^ => bstr,
    ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
@@ -26,7 +26,7 @@ sd-unprotected = {
 sd-payload = {
     ; standard claims
       &(iss: 1) ^ => tstr, ; "https://issuer.example"
-    ? &(sub: 2) ^ => tstr, ; "https://device.example"
+    ? &(sub: 2) ^ => tstr, ; "https://holder.example"
     ? &(aud: 3) ^ => tstr, ; "https://verifier.example/app"
     ? &(exp: 4) ^ => secs, ; 1883000000
     ? &(nbf: 5) ^ => secs, ; 1683000000
@@ -48,7 +48,7 @@ kbt-cwt = #6.18([
 ])
 
 kbt-protected = {
-   &(typ: 16) ^ => 294 / "application/kb+cwt" / "kb+cwt",
+   &(typ: 16) ^ => 294 / "application/kb+cwt",
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
    * label => safe_value

@@ -570,7 +570,7 @@ def generate_basic_issuer_cwt_edn(edn_disclosures, exp, nbf, iat,
 {edn_disclosures}  }},
   / CWT payload / << {{
     / iss / 1   : "https://issuer.example",
-    / sub / 2   : "https://device.example",
+    / sub / 2   : "https://holder.example",
     / exp / 4   : {exp},  /{iso_date(exp)}/
     / nbf / 5   : {nbf},  /{iso_date(nbf)}/
     / iat / 6   : {iat},  /{iso_date(iat)}/
@@ -619,7 +619,7 @@ def generate_nested_cwt_edn(edn_disclosures, exp, nbf, iat,
 {edn_disclosures}  }},
   / CWT payload / << {{
     / iss / 1   : "https://issuer.example",
-    / sub / 2   : "https://device.example",
+    / sub / 2   : "https://holder.example",
     / exp / 4   : {exp},  /{iso_date(exp)}/
     / nbf / 5   : {nbf},  /{iso_date(nbf)}/
     / iat / 6   : {iat},  /{iso_date(iat)}/
@@ -672,7 +672,7 @@ def generate_decoy_cwt_edn(edn_disclosures, exp, nbf, iat,
 {edn_disclosures}  }},
   / CWT payload / << {{
     / iss / 1   : "https://issuer.example",
-    / sub / 2   : "https://device.example",
+    / sub / 2   : "https://holder.example",
     / exp / 4   : {exp},  /{iso_date(exp)}/
     / nbf / 5   : {nbf},  /{iso_date(nbf)}/
     / iat / 6   : {iat},  /{iso_date(iat)}/
@@ -716,7 +716,7 @@ if __name__ == "__main__":
 
     to_be_redacted_payload = {
       1   : "https://issuer.example",
-      2   : "https://device.example",
+      2   : "https://holder.example",
       500 : True,
       cbor2.CBORTag(58,501) : "ABCD-123456",
       502 : [
@@ -875,7 +875,7 @@ if __name__ == "__main__":
 
     tbr_nested_payload = {
       1   : "https://issuer.example",
-      2   : "https://device.example",
+      2   : "https://holder.example",
       504 : [    # inspection history log
           cbor2.CBORTag(58, {
               500 : True,
@@ -1016,7 +1016,7 @@ if __name__ == "__main__":
     # example for decoy digests
     tbr_decoy_payload = {
       1   : "https://issuer.example",
-      2   : "https://device.example",
+      2   : "https://holder.example",
       98: [
         cbor2.CBORTag(TO_BE_REDACTED_TAG, "fr"),
         cbor2.CBORTag(TO_BE_DECOY_TAG, 1)

@@ -81,7 +81,7 @@
       },
       / CWT payload / << {
         / iss / 1   : "https://issuer.example",
-        / sub / 2   : "https://device.example",
+        / sub / 2   : "https://holder.example",
         / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
         / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
         / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
@@ -107,12 +107,12 @@
                d0aa00433c30aede18380bfa98d781dc')
         ]
       } >>,
-      / CWT signature / h'413d8e017bd26e47eb6dd69317a4312b
-                          b84c81a37496d19fa6aa73e16d9441ca
-                          ee0bfdbe37d0b2d945e22115842c75ec
-                          324cb0c9c80cad22b1575bafa577e1d7
-                          77e3d35c26dbc239dc0141d386cbcc96
-                          e0d2d309714d0a38a8aee77456e1a852'
+      / CWT signature / h'8c1e9957b573191c47a9f4244abc4be2
+                          7c9944c2a992e015a86e19c24b041195
+                          51ee920061066edb22823114f96dac2a
+                          1bfa9c7a503e3033a0cd5aad6d9165f7
+                          5483e9a79eb31f9bfdfb07df5fb7b8e5
+                          0da8acbabad974999d12096f4ae8b420'
     ]),
     / end of issuer SD-CWT /
     / typ /   16:  294   # application/kb+cwt,
@@ -123,8 +123,8 @@
     / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
     / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
   } >>,      / end of KBT payload /
-  / KBT signature / h'8141209b856e1fe3b2bd576a31bf827b
-                      2c916ef6cf9c179f30b5ff4609ca6765
-                      91c058055c38f8a29afa871b69495953
-                      490890a7e766bf64dcde6b6e5d37dd8c'
+  / KBT signature / h'ddb48359f0f7163caf97f3fb0e780350
+                      3ae271d22519937c5a0a999f7674e738
+                      ee716f20c82b56c9c34286badd1d6ba1
+                      f48159c4e1d106477d0463364bce190a'
 ])   / end of kbt /
