@@ -6,7 +6,7 @@ kbt-cwt = #6.18([
 ])
 
 kbt-protected = {
-   &(typ: 16) ^ => 294 / "application/kb+cwt" / "kb+cwt",
+   &(typ: 16) ^ => 294 / "application/kb+cwt",
    &(alg: 1) ^ => int,
    &(kcwt: 13) ^ => sd-cwt-issued,
    * label => safe_value

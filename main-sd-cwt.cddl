@@ -6,7 +6,7 @@ sd-cwt-issued = #6.18([
 ])
 
 sd-protected = {
-   &(typ: 16) ^ => 293 / "application/sd-cwt" / "sd-cwt",
+   &(typ: 16) ^ => 293 / "application/sd-cwt",
    &(alg: 1) ^ => int,
    ? &(kid: 4) ^ => bstr,
    ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
