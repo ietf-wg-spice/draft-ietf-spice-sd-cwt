@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-19T02:08:09.577890+00:00",
+  "timestamp": "2026-05-21T02:06:07.534465+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -4912,7 +4912,7 @@
       "id": "I_kwDOMm_Q2s7lODsG",
       "title": "AEAD protection and integrity",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/219",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -4924,8 +4924,8 @@
       ],
       "body": "Regarding [this note](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt-06#section-12.1-10.1.1):\n\n> Note: Because the encryption algorithm is in a registry that contains only AEAD algorithms, an attacker cannot replace the algorithm or the message, without a decryption verification failure.\n\nThis is not right because it assumes that the registry will only ever contain AEADs that are strong enough to resist forgery.  The claim you make here should be that *if the AEAD algorithm provides sufficient protection against forgery* and attacker cannot produce a forged item.\n\nBut this makes no real sense.  The content, if it is to be usable in any way needs to be decryptable.  At that point, you can check the integrity of the content using the hash.\n\nSo why then do you have an AEAD algorithm as opposed to using a simpler cipher?  AES-CTR could work almost as well.\n\nOf the cuff, I can't think of a concrete reason to include a tag, other than the simple and pragmatic one: it is easier to specify the use of an AEAD than it is to specify how to use an unauthenticated cipher.",
       "createdAt": "2026-01-23T03:33:20Z",
-      "updatedAt": "2026-05-17T18:43:33Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-19T08:41:10Z",
+      "closedAt": "2026-05-19T08:41:10Z",
       "comments": [
         {
           "author": "martinthomson",
@@ -4996,6 +4996,13 @@
           "body": "Based on discussion among the authors:\n\n### On the use of authenticated encryption\n\nThe tag allows verifiers to validate one decryption at a time. Why is this important?\n\n- the presence of nested tags means that a verifier may need to decrypt several times (often dozens) in order to find the correct Blinded Claim Hash from an honest Holder. Using an authenticated algorithm, the verify would fail immediately if there is a key mismatch or other error.\n- knowing exactly when decryption fails makes troubleshooting easier, and error handling more straightforward to implement.\n- AEAD algorithms (especially AES_GCM) are among the most widely available cryptographic algorithms. These algorithms are generally better tested and documented. Unauthenticated algorithms are less widely available and are often only available in \"subtle\" cryptographic interfaces.\n- in the context of MLS, there could be hundreds or thousands of verifiers in a single group. Detecting a malicious, compromised, or buggy group member early is a valuable property.\n- Use of a mainstream AEAD algorithm is less likely to trigger false alarms in security audits than unauthenticated encryption algorithms.\n\n### On performance and applicability to the target audience of this feature\n\nThe performance penalty of authenticated encryption vs unauthenticated encryption was considered alongside other operations routinely performed in the MLS and RATS ecosystems. The additional cost was considered a \"drop in the bucket\". Reuse of well-tested, easily-available cryptographic algorithms, and compatibility with existing cipher suites was considered more important for the target community of this feature. If the performance of unauthenticated encryption is needed by another community, a similar unauthenticated encrypted disclosures feature could be added at a future time.\n\n### Proposed path forward\n\nIn the absence of an alternative consensus in the WG, the authors propose to include text explaining these decisions in the document and move forward with the existing mechanism. If the presence of AEAD encrypted disclosures slows down approval of the document, we can remove the feature during IESG evaluation, and proceed with the text as a separate document.",
           "createdAt": "2026-04-21T06:22:31Z",
           "updatedAt": "2026-04-21T06:28:37Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #285 . Closing.",
+          "createdAt": "2026-05-19T08:41:10Z",
+          "updatedAt": "2026-05-19T08:41:10Z"
         }
       ]
     },
@@ -5695,17 +5702,19 @@
       "id": "I_kwDOMm_Q2s8AAAABCgfsrg",
       "title": "Use KBT instead of SD-KBT everywhere?",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/282",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [
-        "author-discuss"
+      "assignees": [
+        "rohanmahy"
       ],
-      "body": "",
+      "labels": [
+        "ready-for-pr"
+      ],
+      "body": "Resolved to do the replacement",
       "createdAt": "2026-05-17T11:08:02Z",
-      "updatedAt": "2026-05-17T11:08:02Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-19T15:25:14Z",
+      "closedAt": "2026-05-19T15:25:14Z",
       "comments": []
     },
     {
@@ -5723,9 +5732,9 @@
         "next-stretch",
         "author-discuss"
       ],
-      "body": "I reread from the Abstract through the AEAD Encrypted Disclosures section.\n\nI created PR#283 with the issues that I could easily solve or propose a solution for. It is now merged.\n\nNot addressed in PR#283  (Note: all Section numbers are after the renumbering in the PR. \u00a74 -> \u00a73.3 . Old bullet point 7 -> point 8 in new \u00a78 )\n\n- [ ] I find the second paragraph after the first sentence of Section 3 to still be a bit misplaced in terms of flow. I think we should move this discussion to Section 5 (Differences from CWT) or just delete it.\n- [ ] the elided KBT example in Section 3.3 might be a bit of a lost opportunity to show the sd_claims again??\n- [ ] we might want to rename `https://device.example` to `https://holder.example` everywhere for consistency\n- [ ] the last bullet of Section 6.2;  point 8 of Section 8, and the last sentence of Section 8 need to say more about nesting. Sections 6 through 8 are our main normative behavior Sections after all.\n- [ ] We could introduce a dedicated Nesting topic as a new Section 9\n- [ ] We need to discuss the semantics of cnonce in the SD-CWT. Is this for use between the Holder and the Issuer, or also for Holder to Verifier? Please check commit 0ffae11 for accuracy.\n- [ ] cnonce in KBT consistency. We have a MAY and a SHOULD. Is this OK?\n- [ ] Section 8 point 8 says that an SD-CWT with extra disclosures is invalid, but we are softer in other places like Appendix D. Do we need to be consistent here?\n- [ ] Do we want to have \"This section is (non)normative\"? If so, we would have Section 2, Sections 4 through 11, and Appendix A as normative. \n\n",
+      "body": "I reread from the Abstract through the AEAD Encrypted Disclosures section.\n\nI created PR#283 with the issues that I could easily solve or propose a solution for. It is now merged.\n\nNot addressed in PR#283  (Note: all Section numbers are after the renumbering in the PR. \u00a74 -> \u00a73.3 . Old bullet point 7 -> point 8 in new \u00a78 )\n\n- [ ] I find the second paragraph after the first sentence of Section 3 to still be a bit misplaced in terms of flow. I think we should move this discussion to Section 5 (Differences from CWT) or just delete it.\n- [ ] the elided KBT example in Section 3.3 might be a bit of a lost opportunity to show the sd_claims again??\n- [x] we might want to rename `https://device.example` to `https://holder.example` everywhere for consistency. Done in #289 \n- [ ] the last bullet of Section 6.2;  point 8 of Section 8, and the last sentence of Section 8 need to say more about nesting. Sections 6 through 8 are our main normative behavior Sections after all.\n- [ ] We could introduce a dedicated Nesting topic as a new Section 9\n- [ ] We need to discuss the semantics of cnonce in the SD-CWT. Is this for use between the Holder and the Issuer, or also for Holder to Verifier? Please check commit 0ffae11 for accuracy.\n- [ ] cnonce in KBT consistency. We have a MAY and a SHOULD. Is this OK?\n- [ ] Section 8 point 8 says that an SD-CWT with extra disclosures is invalid, but we are softer in other places like Appendix D. Do we need to be consistent here?\n- [ ] ~~Do we want to have \"This section is (non)normative\"? If so, we would have Section 2, Sections 4 through 11, and~~ mark Appendix A as normative. \n\n",
       "createdAt": "2026-05-17T12:30:03Z",
-      "updatedAt": "2026-05-18T14:11:02Z",
+      "updatedAt": "2026-05-19T16:00:14Z",
       "closedAt": null,
       "comments": []
     }
@@ -21808,24 +21817,26 @@
       "id": "PR_kwDOMm_Q2s7cbI6X",
       "title": "Clean up AEAD encrypted disclosures section and justify use of AEAD",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/285",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- Clean up AEAD encrypted disclosures section\r\n- Justify use of authenticated encryption in Security Consideration\r\n- Add optional encryption key context in encrypted disclosures\r\n\r\nCloses Issue #219",
       "createdAt": "2026-05-17T18:43:03Z",
-      "updatedAt": "2026-05-18T14:15:51Z",
+      "updatedAt": "2026-05-19T08:26:33Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "cd4266d88e7bdae7b22bcac41c2e0d47c870dfc9",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "issue219",
-      "headRefOid": "f439eef18bd0f71de7d7eecd0144f28e6bf4d239",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "2419f7ba049e30dbaf111f489ab374b26b7655f7",
+      "closedAt": "2026-05-19T08:26:33Z",
+      "mergedAt": "2026-05-19T08:26:33Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "538c155956a4a30933f82f6b8225d02b76923917"
+      },
       "comments": [],
       "reviews": [
         {
@@ -21900,6 +21911,72 @@
           "createdAt": "2026-05-18T14:15:51Z",
           "updatedAt": "2026-05-18T14:15:51Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAUbEbQ",
+          "commit": {
+            "abbreviatedOid": "f439eef"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-19T06:39:45Z",
+          "updatedAt": "2026-05-19T06:39:45Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "```suggestion\nThe Issuer MUST make the plaintext Salted Disclosed Claims of all Redacted Claims available to the Holder by placing them in the unprotected header in the `sd_claims` header parameter. \nThe Holder MAY then chose to encrypt some of these Salted Disclosed Claims, omit the plaintext versions from the `sd_claims` unprotected header field, and add the corresponding encrypted disclosures to the `sd_aead_encrypted_claims` unprotected header field.\nThe Holder finally signs the SD-KBT containing all intended disclosures of either type.\n```",
+              "createdAt": "2026-05-19T06:39:45Z",
+              "updatedAt": "2026-05-19T06:39:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAUbVpA",
+          "commit": {
+            "abbreviatedOid": "f439eef"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-19T06:40:38Z",
+          "updatedAt": "2026-05-19T06:50:37Z",
+          "comments": [
+            {
+              "originalPosition": 93,
+              "body": "Nice catch\n\n```suggestion\n2. Since SD-CWTs support nested disclosures, a Verifier may need to decrypt and process disclosures from an honest Holder at multiple depths to find the Salted Disclosed Claim and Redacted Claim Hash associated with a specific Redacted Claim.\n```",
+              "createdAt": "2026-05-19T06:40:39Z",
+              "updatedAt": "2026-05-19T06:50:37Z"
+            },
+            {
+              "originalPosition": 5,
+              "body": "I remember reading this somewhere in the general definition of media types, but it isn't used in HTTP Semantics, so I'll remove it. But to make sure I don't screw it up. I'll need to do in a dedicated commit.",
+              "createdAt": "2026-05-19T06:50:16Z",
+              "updatedAt": "2026-05-19T06:50:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABAVGFEw",
+          "commit": {
+            "abbreviatedOid": "2419f7b"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-19T08:23:58Z",
+          "updatedAt": "2026-05-19T08:26:13Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I'm going to fix this in a separate PR in a few minutes",
+              "createdAt": "2026-05-19T08:25:08Z",
+              "updatedAt": "2026-05-19T08:26:13Z"
+            }
+          ]
         }
       ]
     },
@@ -22224,6 +22301,104 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 287,
+      "id": "PR_kwDOMm_Q2s7c_Izr",
+      "title": "Undo media type change",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/287",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": "No longer allow media types without `application/`",
+      "createdAt": "2026-05-19T08:39:40Z",
+      "updatedAt": "2026-05-19T15:29:25Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "7a8734052426447c14882b0ff595a0278308b7d1",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "undo-media-type",
+      "headRefOid": "dc75d02597c386bc4ee1dd786ece6e30fd07a196",
+      "closedAt": "2026-05-19T15:29:25Z",
+      "mergedAt": "2026-05-19T15:29:25Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "5c34492960b17255e1508662858dd007fc55889a"
+      },
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@OR13 addresses your comment in PR #286 ",
+          "createdAt": "2026-05-19T08:40:37Z",
+          "updatedAt": "2026-05-19T08:40:37Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 288,
+      "id": "PR_kwDOMm_Q2s7dIXc6",
+      "title": "Replace all instances of SD-KBT with just KBT",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/288",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": "Closes #282 ",
+      "createdAt": "2026-05-19T15:22:44Z",
+      "updatedAt": "2026-05-19T15:25:13Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "538c155956a4a30933f82f6b8225d02b76923917",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue282",
+      "headRefOid": "254d6f3ef17f13173557d518210887d0f8fd2728",
+      "closedAt": "2026-05-19T15:25:13Z",
+      "mergedAt": "2026-05-19T15:25:13Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "7a8734052426447c14882b0ff595a0278308b7d1"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 289,
+      "id": "PR_kwDOMm_Q2s7dJINk",
+      "title": "Globally replace device.example with holder.example",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/289",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": "",
+      "createdAt": "2026-05-19T15:53:47Z",
+      "updatedAt": "2026-05-19T15:58:12Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "5c34492960b17255e1508662858dd007fc55889a",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "rename-device-example",
+      "headRefOid": "80df806fdcb4921973dbf59e4e43b67c5da2416c",
+      "closedAt": "2026-05-19T15:58:12Z",
+      "mergedAt": "2026-05-19T15:58:12Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "f381e4e591bb041b56c7df0d8b12f65e9585009a"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
