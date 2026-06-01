@@ -348,15 +348,7 @@ Issuer                           Holder                         Verifier
 
    Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in
    environments that are already using CWTs with minor changes, even if
-   the tokens contain no optional-to-disclose claims.  A Verifier that
-   does not understand selective disclosure at all can only act on non-
-   redacted claims sent by the Holder; it will ignore Redacted Claims
-   representing array items, and will fail to process any SD-CWT
-   containing Redacted Claims that represent map keys.  Optional Claim
-   Keys, whether they are disclosed or not, can only be processed by a
-   Verifier that understands this specification.  However, Claim Keys
-   and Claim Values that are not understood remain ignored, as described
-   in Section 3 of [RFC8392].
+   the tokens contain no optional-to-disclose claims.
 
    The following diagram explains the relationships between the three
    roles and the data each processes, using the terminology defined in
@@ -714,8 +706,9 @@ Issuer                           Holder                         Verifier
    Verifier target audience and optional nonces, and proof of possession
    of the Holder's private key.
 
-   The issued SD-CWT is placed in the kcwt (Confirmation Key CWT)
-   protected header field (defined in [RFC9528]).
+   As shown in the elided example below, the issued SD-CWT is placed in
+   the kcwt (Confirmation Key CWT) protected header field (defined in
+   [RFC9528]).  For the full example, see Section 13.1.
 
    / cose-sign1 / 18( / sd_kbt / [
      / KBT protected / << {
@@ -1528,8 +1521,9 @@ Issuer                           Holder                         Verifier
        described in Section 7.2 of [RFC8392].
 
    6.  If a cnonce is present in the KBT it MUST be acceptable to the
-       Verifier.  A cnonce present in the SD-CWT is intended for the
-       Issuer, not the Verifier.
+       Verifier.  A cnonce present in the SD-CWT is only intended for
+       2-party cases, where the Issuer and the Verifier represent the
+       same entity.
 
    7.  The Verifier checks the time claims in the KBT to enforce the
        following logical constraints:
@@ -4025,10 +4019,10 @@ D.3.  Verifier
    the other validation steps pass, the Verifier can pass the Validated
    Claims Set on to the application.
 
-   If there were remaining disclosures, the Verifier could decide to
-   ignore them or to reject the entire SD-CWT depending on its local
-   policy.  Extra disclosures cannot be verified and indicate incorrect
-   behavior by the Holder.
+   If there were remaining disclosures, the SD-CWT is invalid.  The
+   Verifier could decide to ignore the extra disclosures, or to reject
+   the entire SD-CWT depending on its local policy.  Extra disclosures
+   cannot be verified and indicate incorrect behavior by the Holder.
 
 Appendix E.  Implementation Status
 
@@ -4400,6 +4394,16 @@ H.1.  draft-ietf-spice-sd-cwt-08
    *  Fix AEAD nonce length and mention that AAD is empty (PR#260).
 
    Non-normative changes:
+
+   *  PR#290 / Issue #284
+
+      -  Clarify cnonce in SD-CWT is intended for 2-party model.
+
+      -  Clarify Verifier behavior when extra disclosures are present.
+
+      -  In elided KBT description point to fully worked example
+
+      -  Remove incorrect compatibility discussion
 
    *  Rename device.example to holder.example (PR#289).
 
