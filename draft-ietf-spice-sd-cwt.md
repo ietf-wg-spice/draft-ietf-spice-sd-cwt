@@ -774,7 +774,7 @@ Typically the validating party (Holder or Verifier) would create a lookup table 
 
 The validating party looks for any Redacted Claim matching a Redacted Claim Hash of the disclosures it has received, and replaces the Redacted Claim with the corresponding disclosed value from the Salted Disclosed Claims.
 The validating party then removes the matching Salted Disclosed Claim.
-If there are any remaining Redacted Claims that were present before replacing the matching Redacted Claims with the corresponding disclosures, the extraneous extra caims at the current level are either deleted (in the case of Verifier validation), or the SD-CWT is considered invalid (in the case of Holder validation).
+If there are any remaining Redacted Claims that were present before replacing the matching Redacted Claims with the corresponding disclosures, the extraneous claims at the current level are either deleted (in the case of Verifier validation), or the SD-CWT is considered invalid (in the case of Holder validation).
 
 The newly disclosed claims are then examined for Redacted Claims, and the process repeats.
 When there are no Redacted Claims left anywhere in the document, and no Salted Disclosed Claims, the process is complete.
