@@ -854,7 +854,7 @@ The exact order of the following steps MAY be changed, as long as all checks are
 5. Using the confirmation key, the Verifier validates the KBT as described in {{Section 7.2 of !RFC8392}}.
 
 6. If a `cnonce` is present in the KBT it MUST be acceptable to the Verifier.
-A `cnonce` present in the SD-CWT is intended for the Issuer, not the Verifier.
+A `cnonce` present in the SD-CWT is only intended for 2-party cases, where the Issuer and the Verifier represent the same entity.
 
 7. The Verifier checks the time claims in the KBT to enforce the following logical constraints:
 
