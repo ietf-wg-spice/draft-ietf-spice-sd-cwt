@@ -1,0 +1,7 @@
+sd-cwt-preissued = #6.18([
+   protected: bstr .cbor sd-protected,
+   sd-unprotected,
+   payload: bstr .cbor preissuance_map,
+   signature: bstr
+])
+
