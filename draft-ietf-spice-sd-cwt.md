@@ -2370,6 +2370,11 @@ Normative changes:
 
 Non-normative changes:
 
+- PR#290 / Issue #284
+  - Clarify cnonce in SD-CWT is intended for 2-party model.
+  - Clarify Verifier behavior when extra disclosures are present.
+  - In elided KBT description point to fully worked example
+  - Remove incorrect compatibility discussion
 - Rename device.example to holder.example (PR#289).
 - Globally use KBT instead of KBT (PR#288).
 - Add Appendix walking through nested disclosure handling (PR#286).
