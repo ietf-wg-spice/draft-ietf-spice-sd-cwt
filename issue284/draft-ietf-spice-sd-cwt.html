@@ -3135,7 +3135,7 @@ This guidance can be ignored in cases where replay attacks are mitigated at anot
 </li>
         <li id="section-8-5.3">
           <p id="section-8-5.3.1">If a <code>cnonce</code> is present in the KBT it <span class="bcp14">MUST</span> be acceptable to the Verifier.
-A <code>cnonce</code> present in the SD-CWT is only intended for 2-party cases, where the Issuer and the Verifier represent the same entity.<a href="#section-8-5.3.1" class="pilcrow">¶</a></p>
+A <code>cnonce</code> <span class="bcp14">MAY</span> be present in SD-CWT, but its validity is considered by the holder, and it <span class="bcp14">MUST NOT</span> be disclosed to the verifier.<a href="#section-8-5.3.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-8-5.4">
           <p id="section-8-5.4.1">The Verifier checks the time claims in the KBT to enforce the following logical constraints:<a href="#section-8-5.4.1" class="pilcrow">¶</a></p>
