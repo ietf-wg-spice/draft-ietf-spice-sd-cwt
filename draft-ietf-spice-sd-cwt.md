@@ -222,9 +222,6 @@ Holders choose to disclose none, some, or all of the Redacted Claim Keys and Cla
 Holders present an SD-CWT and any disclosures to Verifiers in a Key Binding Token (KBT) that proves the Holder's control of the private key corresponding to the SD-CWT confirmation (public) key.
 
 Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in environments that are already using CWTs with minor changes, even if the tokens contain no optional-to-disclose claims.
-A Verifier that does not understand selective disclosure at all can only act on non-redacted claims sent by the Holder; it will ignore Redacted Claims representing array items, and will fail to process any SD-CWT containing Redacted Claims that represent map keys.
-Optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
-However, Claim Keys and Claim Values that are not understood remain ignored, as described in {{Section 3 of !RFC8392}}.
 
 The following diagram explains the relationships between the three roles and the data each processes, using the terminology defined in this specification.
 
