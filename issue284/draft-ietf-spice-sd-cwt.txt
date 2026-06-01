@@ -1225,8 +1225,8 @@ Issuer                           Holder                         Verifier
           +---------+-------------------------+----------------+
           | cnf / 8 | MUST                    | Yes            |
           +---------+-------------------------+----------------+
-          | cnonce  | OPTIONAL but never      | Yes            |
-          | / 39    | disclosed to Verifiers  |                |
+          | cnonce  | OPTIONAL                | Yes            |
+          | / 39    |                         |                |
           +---------+-------------------------+----------------+
 
                     Table 2: SD-CWT Claim Requirements
