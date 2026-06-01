@@ -714,7 +714,7 @@ The following table describes the claim requirements for an SD-CWT:
 | `iat` / 6 | OPTIONAL | Yes |
 | `cti` / 7 | OPTIONAL | Yes |
 | `cnf` / 8 | MUST | Yes |
-| `cnonce` / 39 | OPTIONAL but never disclosed to Verifiers | Yes |
+| `cnonce` / 39 | OPTIONAL | Yes |
 {: #sd-cwt-claims title="SD-CWT Claim Requirements"}
 
 The `iss` claim MUST be present unless the protected header contains a certificate or certificate-like entity that fully identifies the Issuer.
