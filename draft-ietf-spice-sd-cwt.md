@@ -746,7 +746,9 @@ Holder verifies the following:
 - if a `cnonce` is present, it was provided by the Holder to this Issuer and is still fresh;
 - there are no non-redacted claims about the subject that violate its privacy policies;
 - any place where the cardinality of claims needs to be protected have sufficient decoys ({{decoys}});
-- every Redacted Claim Hash (some of which may be nested as in {{nesting}}) has a corresponding Salted Disclosed Claim, and vice versa;
+- every Redacted Claim Hash has a corresponding Salted Disclosed Claim, and vice versa;
+a Salted Disclosed Claim (disclosure) MAY contain additional Redacted Claim Keys nested inside the disclosure;
+if any of the Redacted Claim Hashes are nested, the Holder follows the procedure in {{nesting-validation}} (see also {{nesting}} for a worked example);
 - the values of the Salted Disclosed Claims when placed in their unredacted context in the payload are acceptable to the Holder.
 
 > A Holder MAY choose to validate the appropriateness or correctness of some or all of the information in a token, should it have the ability to do so, and it MAY choose to not present information to a Verifier that it deems to be incorrect.
@@ -757,6 +759,28 @@ The following informative CDDL is provided to describe the syntax for SD-CWT iss
 {::include ./main-sd-cwt.cddl}
 ~~~
 {: #cddl-issued-sd-cwt title="CDDL describing issued SD-CWT syntax"}
+
+# Nesting Validation
+
+Both Holders and Verifiers validate the SD-CWTs they receive.
+The Holder needs a Salted Disclosed Claim for every Redacted Claim in the document (at any level).
+The Verifier just needs to match each Salted Disclosed Claim with a Redacted Claim (at any level of the document).
+In other words, both Holder and Verifier require a Redacted Claim for every Salted Disclosed Claim; for the Verifier there can be Redacted Claims that do not have matching Salted Disclosed Claims, but for the Holder there needs to be a one-to-one correspondance.
+
+This matching becomes more involved when there are Redacted Claims inside disclosures.
+This "nesting" of Redacted Claims can occur at multiple levels of depth.
+
+Typically the validating party (Holder or Verifier) would create a lookup table of Salted Disclosed Claims indexed by the Redacted Claim Hash.
+
+The validating party looks for any Redacted Claim matching a Redacted Claim Hash of the disclosures it has received, and replaces the Redacted Claim with the corresponding disclosed value from the Salted Disclosed Claims.
+The validating party then removes the matching Salted Disclosed Claim.
+If there are any remaining Redacted Claims that were present before replacing the matching Redacted Claims with the corresponding disclosures, the extraneous claims at the current level are either deleted (in the case of Verifier validation), or the SD-CWT is considered invalid (in the case of Holder validation).
+
+The newly disclosed claims are then examined for Redacted Claims, and the process repeats.
+When there are no Redacted Claims left anywhere in the document, and no Salted Disclosed Claims, the process is complete.
+
+For a walkthrough of a nested example, see {{nesting}}.
+
 
 # SD-CWT Presentation
 
@@ -880,7 +904,9 @@ Each decoded disclosure is treated as if it is a claim key or claim element at t
 If there are any disclosures that do not have a corresponding Redacted Claim Hash, the entire SD-CWT is invalid.
 If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.
 
-    > Note: A Verifier MUST be prepared to process disclosures in any order. When disclosures are nested (see {{nesting}}), a disclosure MAY contain additional Redacted Claim Keys.
+    > Note: A Verifier MUST be prepared to process disclosures in any order.
+    > A Salted Disclosed Claim (disclosure) MAY contain additional Redacted Claim Keys.
+    > If any Redacted Claim Hashes are nested inside a disclosure, the Verifier follows the procedure in {{nesting-validation}} (see also {{nesting}} for a worked example).
     > A disclosed value could appear before the disclosure of its parent.
 
 {:start="9"}
@@ -2361,10 +2387,9 @@ Note: RFC Editor, please remove this entire section on publication.
 
 ## draft-ietf-spice-sd-cwt-08
 
-**TODO**: Complete before submitting
-
 Normative changes:
 
+- Add more text about nesting validation in new section after Section 6.2 on Holder Validation (PR#292).
 - Add optional key context to AEAD encrypted disclosures (PR#285).
 - Use clearer normative language around CBOR tags and nesting (PR#262).
 - Fix AEAD nonce length and mention that AAD is empty (PR#260).
