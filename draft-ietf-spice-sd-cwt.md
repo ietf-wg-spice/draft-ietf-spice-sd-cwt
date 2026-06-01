@@ -2152,7 +2152,8 @@ The Verifier replaces the matching Redacted Claim Hash and removes the others.
 The Verifier has no more Redacted Claim Hashes to process.
 Assuming the other validation steps pass, the Verifier can pass the Validated Claims Set on to the application.
 
-If there were remaining disclosures, the Verifier could decide to ignore them or to reject the entire SD-CWT depending on its local policy.
+If there were remaining disclosures, the SD-CWT is invalid.
+The Verifier could decide to ignore the extra disclosures, or to reject the entire SD-CWT depending on its local policy.
 Extra disclosures cannot be verified and indicate incorrect behavior by the Holder.
 
 
