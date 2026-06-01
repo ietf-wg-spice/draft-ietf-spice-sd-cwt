@@ -1,3 +1,4 @@
+**/.DS_Store
 *.html
 *.pdf
 *.redxml
@@ -5,10 +6,12 @@
 *.txt
 *.upload
 *~
+.examples.dep
 .tags
 /*-[0-9][0-9].xml
 /.*.mk
 /.gems/
+/.idea/
 /.refcache
 /.venv/
 /.vscode/
@@ -21,5 +24,3 @@ draft-ietf-spice-sd-cwt.xml
 package-lock.json
 report.xml
 !requirements.txt
-**/.DS_Store
-.examples.dep
