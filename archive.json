@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-21T02:06:07.534465+00:00",
+  "timestamp": "2026-06-02T02:33:18.347694+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -5652,20 +5652,19 @@
       "id": "I_kwDOMm_Q2s79nz4C",
       "title": "Explain nesting a bit more (part deux)",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/268",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "ready-for-pr",
-        "next-stretch"
+        "has-PR"
       ],
-      "body": "",
+      "body": "- [ ] the last bullet of Section 6.2;  point 8 of Section 8, and the last sentence of Section 8 need to say more about nesting. Sections 6 through 8 are our main normative behavior Sections after all.\n- [ ] We could introduce a dedicated Nesting topic as a new Section 9\n",
       "createdAt": "2026-04-13T13:26:13Z",
-      "updatedAt": "2026-05-16T19:00:45Z",
-      "closedAt": null,
+      "updatedAt": "2026-06-01T13:32:29Z",
+      "closedAt": "2026-06-01T13:32:28Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -5722,20 +5721,19 @@
       "id": "I_kwDOMm_Q2s8AAAABCgsTaA",
       "title": "Rohan's \"May holidays\" cleanup",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/284",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "rohanmahy"
       ],
       "labels": [
-        "next-stretch",
-        "author-discuss"
+        "has-PR"
       ],
-      "body": "I reread from the Abstract through the AEAD Encrypted Disclosures section.\n\nI created PR#283 with the issues that I could easily solve or propose a solution for. It is now merged.\n\nNot addressed in PR#283  (Note: all Section numbers are after the renumbering in the PR. \u00a74 -> \u00a73.3 . Old bullet point 7 -> point 8 in new \u00a78 )\n\n- [ ] I find the second paragraph after the first sentence of Section 3 to still be a bit misplaced in terms of flow. I think we should move this discussion to Section 5 (Differences from CWT) or just delete it.\n- [ ] the elided KBT example in Section 3.3 might be a bit of a lost opportunity to show the sd_claims again??\n- [x] we might want to rename `https://device.example` to `https://holder.example` everywhere for consistency. Done in #289 \n- [ ] the last bullet of Section 6.2;  point 8 of Section 8, and the last sentence of Section 8 need to say more about nesting. Sections 6 through 8 are our main normative behavior Sections after all.\n- [ ] We could introduce a dedicated Nesting topic as a new Section 9\n- [ ] We need to discuss the semantics of cnonce in the SD-CWT. Is this for use between the Holder and the Issuer, or also for Holder to Verifier? Please check commit 0ffae11 for accuracy.\n- [ ] cnonce in KBT consistency. We have a MAY and a SHOULD. Is this OK?\n- [ ] Section 8 point 8 says that an SD-CWT with extra disclosures is invalid, but we are softer in other places like Appendix D. Do we need to be consistent here?\n- [ ] ~~Do we want to have \"This section is (non)normative\"? If so, we would have Section 2, Sections 4 through 11, and~~ mark Appendix A as normative. \n\n",
+      "body": "I reread from the Abstract through the AEAD Encrypted Disclosures section.\n\nI created PR#283 with the issues that I could easily solve or propose a solution for. It is now merged.\n\nNot addressed in PR#283  (Note: all Section numbers are after the renumbering in the PR. \u00a74 -> \u00a73.3 . Old bullet point 7 -> point 8 in new \u00a78 )\n\n- [x] I find the second paragraph after the first sentence of Section 3 to still be a bit misplaced in terms of flow. I think we should move this discussion to Section 5 (Differences from CWT) or just delete it.\n- [x] the elided KBT example in Section 3.3 might be a bit of a lost opportunity to show the sd_claims again??\n- [x] we might want to rename `https://device.example` to `https://holder.example` everywhere for consistency. Done in #289 \n- [x] We need to discuss the semantics of cnonce in the SD-CWT. Is this for use between the Holder and the Issuer, or also for Holder to Verifier? Please check commit 0ffae11 for accuracy.\n- [x] cnonce in KBT consistency. We have a MAY and a SHOULD. Is this OK?  A: Leave this as is for now. Might make cnonce SHOULD/RECOMMENDED in KBT later if needed.\n- [x] Section 8 point 8 says that an SD-CWT with extra disclosures is invalid, but we are softer in other places like Appendix D. Do we need to be consistent here?\n- [x] ~~Do we want to have \"This section is (non)normative\"? If so, we would have Section 2, Sections 4 through 11, and~~ mark Appendix A as normative. \n\n",
       "createdAt": "2026-05-17T12:30:03Z",
-      "updatedAt": "2026-05-19T16:00:14Z",
-      "closedAt": null,
+      "updatedAt": "2026-06-01T13:32:23Z",
+      "closedAt": "2026-06-01T13:32:23Z",
       "comments": []
     }
   ],
@@ -21526,7 +21524,7 @@
       "labels": [],
       "body": "Ready for review\r\n- [x] Validator part of walkthrough completed\r\n- [x] Holder part\r\n- [x] Issuer part\r\n\r\n\r\nCloses #269 ",
       "createdAt": "2026-05-05T11:25:54Z",
-      "updatedAt": "2026-05-18T13:49:35Z",
+      "updatedAt": "2026-06-01T05:39:21Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5bd700770322e723e30f72bdf6caf9a12e156ced",
@@ -21681,7 +21679,7 @@
       ],
       "body": "",
       "createdAt": "2026-05-16T19:19:32Z",
-      "updatedAt": "2026-05-16T19:20:27Z",
+      "updatedAt": "2026-06-01T05:39:19Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "293c82c02e0e709f35fe6a418a9ce7f0c1cc0ce9",
@@ -21709,7 +21707,7 @@
       "labels": [],
       "body": "I did a heavy editing pass on the major sections of the draft for flow, readability, and normative clarity.\r\n\r\nPartially Addresses #284\r\n",
       "createdAt": "2026-05-17T12:12:49Z",
-      "updatedAt": "2026-05-17T12:49:35Z",
+      "updatedAt": "2026-06-01T05:39:17Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "6c724ee01c4f387d34e21b920dbc8cd4ff5147f6",
@@ -21824,7 +21822,7 @@
       "labels": [],
       "body": "- Clean up AEAD encrypted disclosures section\r\n- Justify use of authenticated encryption in Security Consideration\r\n- Add optional encryption key context in encrypted disclosures\r\n\r\nCloses Issue #219",
       "createdAt": "2026-05-17T18:43:03Z",
-      "updatedAt": "2026-05-19T08:26:33Z",
+      "updatedAt": "2026-06-01T05:39:11Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "cd4266d88e7bdae7b22bcac41c2e0d47c870dfc9",
@@ -21992,7 +21990,7 @@
       "labels": [],
       "body": "This is almost the same as PR #277 , just rearranged order. I think I like this flow better.\r\n\r\nCloses #269 ",
       "createdAt": "2026-05-18T06:38:30Z",
-      "updatedAt": "2026-05-18T13:49:07Z",
+      "updatedAt": "2026-06-01T05:39:15Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "cd4266d88e7bdae7b22bcac41c2e0d47c870dfc9",
@@ -22316,7 +22314,7 @@
       ],
       "body": "No longer allow media types without `application/`",
       "createdAt": "2026-05-19T08:39:40Z",
-      "updatedAt": "2026-05-19T15:29:25Z",
+      "updatedAt": "2026-06-01T05:39:08Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "7a8734052426447c14882b0ff595a0278308b7d1",
@@ -22354,7 +22352,7 @@
       ],
       "body": "Closes #282 ",
       "createdAt": "2026-05-19T15:22:44Z",
-      "updatedAt": "2026-05-19T15:25:13Z",
+      "updatedAt": "2026-06-01T05:39:10Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "538c155956a4a30933f82f6b8225d02b76923917",
@@ -22384,7 +22382,7 @@
       ],
       "body": "",
       "createdAt": "2026-05-19T15:53:47Z",
-      "updatedAt": "2026-05-19T15:58:12Z",
+      "updatedAt": "2026-06-01T05:19:55Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "5c34492960b17255e1508662858dd007fc55889a",
@@ -22399,6 +22397,200 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 290,
+      "id": "PR_kwDOMm_Q2s7hPT8y",
+      "title": "Fix the build (new template CI and Makefile)",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/290",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": "",
+      "createdAt": "2026-06-01T05:53:31Z",
+      "updatedAt": "2026-06-01T05:56:22Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "f381e4e591bb041b56c7df0d8b12f65e9585009a",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue284",
+      "headRefOid": "92765d1aed6aef2e29dc2f575e1f2518398c1ded",
+      "closedAt": "2026-06-01T05:55:38Z",
+      "mergedAt": "2026-06-01T05:55:38Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "30d3edd77c90c70afe87cfbba1547ff26316d554"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 291,
+      "id": "PR_kwDOMm_Q2s7hP-O1",
+      "title": "Address Issue 284",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/291",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes Issue #284\r\n\r\n  - Clarify cnonce in SD-CWT is intended for 2-party model.\r\n  - Clarify Verifier behavior when extra disclosures are present.\r\n  - In elided KBT description point to fully worked example\r\n  - Remove incorrect compatibility discussion\r\n",
+      "createdAt": "2026-06-01T06:38:45Z",
+      "updatedAt": "2026-06-01T13:32:06Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "30d3edd77c90c70afe87cfbba1547ff26316d554",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue284",
+      "headRefOid": "6a94c5463bc1833581edd1447bb470e33d5d7174",
+      "closedAt": "2026-06-01T13:32:05Z",
+      "mergedAt": "2026-06-01T13:32:05Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "123c502b76581857abb6177a65851ef04bf0a139"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABBlizIg",
+          "commit": {
+            "abbreviatedOid": "6dbab53"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-01T13:11:00Z",
+          "updatedAt": "2026-06-01T13:11:01Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\nA `cnonce` MAY be present in SD-CWT, but its validity is considered by the holder, and it MUST NOT be disclosed to the verifier.\n```",
+              "createdAt": "2026-06-01T13:11:01Z",
+              "updatedAt": "2026-06-01T13:18:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABBlrV2Q",
+          "commit": {
+            "abbreviatedOid": "24509e5"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-01T13:30:27Z",
+          "updatedAt": "2026-06-01T13:30:28Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\n| `cnonce` / 39 | OPTIONAL | Yes |\n```",
+              "createdAt": "2026-06-01T13:30:28Z",
+              "updatedAt": "2026-06-01T13:30:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABBlrtEA",
+          "commit": {
+            "abbreviatedOid": "6a94c54"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-06-01T13:31:20Z",
+          "updatedAt": "2026-06-01T13:31:20Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 292,
+      "id": "PR_kwDOMm_Q2s7hWD3D",
+      "title": "Add new Nesting section",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/292",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes Issue #268 \r\n\r\nAdd new nesting section and reference nesting in Section 6.2 and Section 8 step 8.",
+      "createdAt": "2026-06-01T11:41:55Z",
+      "updatedAt": "2026-06-01T13:27:33Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "30d3edd77c90c70afe87cfbba1547ff26316d554",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue268",
+      "headRefOid": "f5facd994480df5544f7e5a8f6c513bd39333aaf",
+      "closedAt": "2026-06-01T13:27:32Z",
+      "mergedAt": "2026-06-01T13:27:32Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "425d0e57a407dcaf4041f4ca9bf204f64168acd1"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABBloEgQ",
+          "commit": {
+            "abbreviatedOid": "dbe6dbe"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-01T13:22:57Z",
+          "updatedAt": "2026-06-01T13:22:57Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "```suggestion\nIf there are any remaining Redacted Claims that were present before replacing the matching Redacted Claims with the corresponding disclosures, the extraneous extra claims at the current level are either deleted (in the case of Verifier validation), or the SD-CWT is considered invalid (in the case of Holder validation).\n```",
+              "createdAt": "2026-06-01T13:22:57Z",
+              "updatedAt": "2026-06-01T13:22:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABBloFYQ",
+          "commit": {
+            "abbreviatedOid": "dbe6dbe"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-01T13:22:59Z",
+          "updatedAt": "2026-06-01T13:22:59Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "```suggestion\nIf there are any remaining Redacted Claims that were present before replacing the matching Redacted Claims with the corresponding disclosures, the extraneous claims at the current level are either deleted (in the case of Verifier validation), or the SD-CWT is considered invalid (in the case of Holder validation).\n```",
+              "createdAt": "2026-06-01T13:22:59Z",
+              "updatedAt": "2026-06-01T13:22:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABBlpziA",
+          "commit": {
+            "abbreviatedOid": "dbe6dbe"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-06-01T13:26:53Z",
+          "updatedAt": "2026-06-01T13:26:53Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
