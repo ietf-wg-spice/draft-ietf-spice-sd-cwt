@@ -93,3 +93,15 @@ Each implementation is also expected to have a single implementation name of up 
 Usage: target
 
 Outputs the short name of the implementation to stdout (without a new line)
+
+
+# Directory structure
+
+Under the `interop` directory, there is an `implementations` directory.
+Each implementation should have a directory under `implementations` with its short name. For example if I have an implementation called `foobar` that can be Issuer and Verifier, there will be directory `interop/implementations/foobar` containing executables called `issue`, `verify`, and `target`.
+
+Results of test runs are in the `interop/tests` directory.
+Combinations of implementations are of the form `I={issuer}_H={holder}_V={verifier}`.
+For example using `foobar` with a Holder implementation called `baz` would result in an implementation string `I=foobar_H=baz_V=foobar`.
+Individual test runs have a directory with a time stamp.
+Individual test cases each have a name, like `shipping_manifest4`.
