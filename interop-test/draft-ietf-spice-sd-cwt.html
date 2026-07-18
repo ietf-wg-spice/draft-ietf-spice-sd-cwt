@@ -13,24 +13,25 @@
        This specification describes a data minimization technique for use with CBOR Web Tokens (CWTs).
 The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), with changes to align with CBOR Object Signing and Encryption (COSE) and CWTs. 
     " name="description">
-<meta content="xml2rfc 3.33.0" name="generator">
+<meta content="xml2rfc 3.34.0" name="generator">
 <meta content="cose" name="keyword">
 <meta content="cwt" name="keyword">
 <meta content="selective disclosure" name="keyword">
 <meta content="draft-ietf-spice-sd-cwt-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.33.0
-    Python 3.12.13
-    ConfigArgParse 1.7
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 6.0.2
-    platformdirs 4.9.6
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.10.1
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.7.0
+    wcwidth 0.8.2
 -->
 <link href="draft-ietf-spice-sd-cwt.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1049,11 +1050,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SD-CWT</td>
-<td class="right">June 2026</td>
+<td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Prorock, et al.</td>
-<td class="center">Expires 3 December 2026</td>
+<td class="center">Expires 19 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1067,12 @@ svg {
 <dd class="internet-draft">draft-ietf-spice-sd-cwt-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-06-01" class="published">1 June 2026</time>
+<time datetime="2026-07-18" class="published">18 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-12-03">3 December 2026</time></dd>
+<dd class="expires"><time datetime="2027-01-19">19 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1134,7 @@ The approach is inspired by the Selective Disclosure JSON Web Token (SD-JWT), wi
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1764,10 +1765,7 @@ CWT Claims Sets contain Claim Keys and Claim Values.
 Issuers choose which Claim Keys and Claim Values to redact or include in unredacted form.
 Holders choose to disclose none, some, or all of the Redacted Claim Keys and Claim Values, and whether to present an issued SD-CWT at all.
 Holders present an SD-CWT and any disclosures to Verifiers in a Key Binding Token (KBT) that proves the Holder's control of the private key corresponding to the SD-CWT confirmation (public) key.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in environments that are already using CWTs with minor changes, even if the tokens contain no optional-to-disclose claims.
-A Verifier that does not understand selective disclosure at all can only act on non-redacted claims sent by the Holder; it will ignore Redacted Claims representing array items, and will fail to process any SD-CWT containing Redacted Claims that represent map keys.
-Optional Claim Keys, whether they are disclosed or not, can only be processed by a Verifier that understands this specification.
-However, Claim Keys and Claim Values that are not understood remain ignored, as described in <span><a href="https://rfc-editor.org/rfc/rfc8392#section-3" class="relref">Section 3</a> of [<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-2">Selective Disclosure CBOR Web Tokens (SD-CWTs) can be deployed in environments that are already using CWTs with minor changes, even if the tokens contain no optional-to-disclose claims.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">The following diagram explains the relationships between the three roles and the data each processes, using the terminology defined in this specification.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <span id="name-inputs-provided-to-each-rol"></span><div id="f-role-inputs">
 <figure id="figure-2">
@@ -2217,7 +2215,8 @@ If the Holder does not disclose any claims, it <span class="bcp14">MUST</span> o
 </div>
 <p id="section-3.3-4">When the Verifier requires freshness, it provides a nonce that the Holder signs in the KBT as the <code>cnonce</code> claim (<a href="#kbt-claims" class="auto internal xref">Table 3</a>).<a href="#section-3.3-4" class="pilcrow">¶</a></p>
 <p id="section-3.3-5">Finally, the Holder generates a Key Binding Token (KBT) that ties together the SD-CWT generated by the Issuer (with the disclosures the Holder chose for the Verifier in its unprotected header), the Verifier target audience and optional nonces, and proof of possession of the Holder's private key.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
-<p id="section-3.3-6">The issued SD-CWT is placed in the <code>kcwt</code> (Confirmation Key CWT) protected header field (defined in <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>).<a href="#section-3.3-6" class="pilcrow">¶</a></p>
+<p id="section-3.3-6">As shown in the elided example below, the issued SD-CWT is placed in the <code>kcwt</code> (Confirmation Key CWT) protected header field (defined in <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>).
+For the full example, see <a href="#minimal-spanning-example" class="auto internal xref">Section 14.1</a>.<a href="#section-3.3-6" class="pilcrow">¶</a></p>
 <span id="name-elided-example-of-a-key-bin"></span><div id="edn-elided-kbt">
 <figure id="figure-11">
           <div class="lang-cbor-diag sourcecode" id="section-3.3-7.1">
@@ -2954,7 +2953,7 @@ This "nesting" of Redacted Claims can occur at multiple levels of depth.<a href=
 <p id="section-7-3">Typically the validating party (Holder or Verifier) would create a lookup table of Salted Disclosed Claims indexed by the Redacted Claim Hash.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7-4">The validating party looks for any Redacted Claim matching a Redacted Claim Hash of the disclosures it has received, and replaces the Redacted Claim with the corresponding disclosed value from the Salted Disclosed Claims.
 The validating party then removes the matching Salted Disclosed Claim.
-If there are any remaining Redacted Claims that were present before replacing the matching Redacted Claims with the corresponding disclosures, the extraneous extra caims at the current level are either deleted (in the case of Verifier validation), or the SD-CWT is considered invalid (in the case of Holder validation).<a href="#section-7-4" class="pilcrow">¶</a></p>
+If there are any remaining Redacted Claims that were present before replacing the matching Redacted Claims with the corresponding disclosures, the extraneous claims at the current level are either deleted (in the case of Verifier validation), or the SD-CWT is considered invalid (in the case of Holder validation).<a href="#section-7-4" class="pilcrow">¶</a></p>
 <p id="section-7-5">The newly disclosed claims are then examined for Redacted Claims, and the process repeats.
 When there are no Redacted Claims left anywhere in the document, and no Salted Disclosed Claims, the process is complete.<a href="#section-7-5" class="pilcrow">¶</a></p>
 <p id="section-7-6">For a walkthrough of a nested example, see <a href="#nesting" class="auto internal xref">Section 14.2</a>.<a href="#section-7-6" class="pilcrow">¶</a></p>
@@ -3162,7 +3161,7 @@ This guidance can be ignored in cases where replay attacks are mitigated at anot
 </li>
         <li id="section-9-5.3">
           <p id="section-9-5.3.1">If a <code>cnonce</code> is present in the KBT it <span class="bcp14">MUST</span> be acceptable to the Verifier.
-A <code>cnonce</code> present in the SD-CWT is intended for the Issuer, not the Verifier.<a href="#section-9-5.3.1" class="pilcrow">¶</a></p>
+A <code>cnonce</code> <span class="bcp14">MAY</span> be present in SD-CWT, but its validity is considered by the holder, and it <span class="bcp14">MUST NOT</span> be disclosed to the verifier.<a href="#section-9-5.3.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-5.4">
           <p id="section-9-5.4.1">The Verifier checks the time claims in the KBT to enforce the following logical constraints:<a href="#section-9-5.4.1" class="pilcrow">¶</a></p>
@@ -3907,7 +3906,7 @@ For example, a high precision issuance time might match the issuance of only a f
         </h3>
 <p id="section-15.2-1">It is possible for the Issuer to encode additional information through the choices made during the serialization stage of producing an SD-CWT, for example, by adjusting the order of CBOR map keys, by choosing different numeric encodings for certain data elements, or by incorporating fewer or more decoys (see <a href="#decoys" class="auto internal xref">Section 10</a>).
 Likewise the Holder can encode information in the KBT.
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-serialization-06#appendix-B" class="relref">Appendix B</a> of [<a href="#I-D.ietf-cbor-serialization" class="cite xref">I-D.ietf-cbor-serialization</a>]</span> provides guidance for constructing application profiles that further constrain CBOR encoding.
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-serialization-07#appendix-B" class="relref">Appendix B</a> of [<a href="#I-D.ietf-cbor-serialization" class="cite xref">I-D.ietf-cbor-serialization</a>]</span> provides guidance for constructing application profiles that further constrain CBOR encoding.
 The construction of such profiles has a significant impact on the privacy properties of a credential type.<a href="#section-15.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -4755,7 +4754,7 @@ An indication of the relevant sections may also be included, but is not required
 <dd class="break"></dd>
 <dt id="I-D.ietf-cbor-edn-literals">[I-D.ietf-cbor-edn-literals]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"Concise Diagnostic Notation (CDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-25</span>, <time datetime="2026-05-18" class="refDate">18 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-25">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-25</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"Concise Diagnostic Notation (CDN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-edn-literals-26</span>, <time datetime="2026-06-15" class="refDate">15 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-26">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-edn-literals-26</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -4824,19 +4823,19 @@ An indication of the relevant sections may also be included, but is not required
 <dl class="references">
 <dt id="I-D.draft-ietf-keytrans-protocol">[I-D.draft-ietf-keytrans-protocol]</dt>
         <dd>
-<span class="refAuthor">McMillion, B.</span> and <span class="refAuthor">F. Linker</span>, <span class="refTitle">"Key Transparency Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-keytrans-protocol-04</span>, <time datetime="2026-04-16" class="refDate">16 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-04">https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-04</a>&gt;</span>. </dd>
+<span class="refAuthor">McMillion, B.</span> and <span class="refAuthor">F. Linker</span>, <span class="refTitle">"Key Transparency Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-keytrans-protocol-05</span>, <time datetime="2026-07-05" class="refDate">5 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-05">https://datatracker.ietf.org/doc/html/draft-ietf-keytrans-protocol-05</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-oauth-sd-jwt-vc">[I-D.draft-ietf-oauth-sd-jwt-vc]</dt>
         <dd>
-<span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-16</span>, <time datetime="2026-04-24" class="refDate">24 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-16">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-16</a>&gt;</span>. </dd>
+<span class="refAuthor">Terbu, O.</span>, <span class="refAuthor">Fett, D.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-sd-jwt-vc-17</span>, <time datetime="2026-07-06" class="refDate">6 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-17">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-sd-jwt-vc-17</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-cbor-serialization">[I-D.ietf-cbor-serialization]</dt>
         <dd>
-<span class="refAuthor">Lundblade, L.</span>, <span class="refTitle">"CBOR Serialization and Determinism"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-serialization-06</span>, <time datetime="2026-04-23" class="refDate">23 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-serialization-06">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-serialization-06</a>&gt;</span>. </dd>
+<span class="refAuthor">Lundblade, L.</span>, <span class="refTitle">"CBOR Serialization and Determinism"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cbor-serialization-07</span>, <time datetime="2026-07-03" class="refDate">3 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cbor-serialization-07">https://datatracker.ietf.org/doc/html/draft-ietf-cbor-serialization-07</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-oauth-status-list">[I-D.ietf-oauth-status-list]</dt>
         <dd>
-<span class="refAuthor">Looker, T.</span>, <span class="refAuthor">Bastian, P.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Token Status List (TSL)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-status-list-20</span>, <time datetime="2026-04-20" class="refDate">20 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-20">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-20</a>&gt;</span>. </dd>
+<span class="refAuthor">Looker, T.</span>, <span class="refAuthor">Bastian, P.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Token Status List (TSL)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-status-list-21</span>, <time datetime="2026-06-21" class="refDate">21 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-21">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-21</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5280">[RFC5280]</dt>
         <dd>
@@ -5885,7 +5884,8 @@ The Verifier replaces the matching Redacted Claim Hash and removes the others.<a
           </figcaption></figure>
 <p id="appendix-D.3-12">The Verifier has no more Redacted Claim Hashes to process.
 Assuming the other validation steps pass, the Verifier can pass the Validated Claims Set on to the application.<a href="#appendix-D.3-12" class="pilcrow">¶</a></p>
-<p id="appendix-D.3-13">If there were remaining disclosures, the Verifier could decide to ignore them or to reject the entire SD-CWT depending on its local policy.
+<p id="appendix-D.3-13">If there were remaining disclosures, the SD-CWT is invalid.
+The Verifier could decide to ignore the extra disclosures, or to reject the entire SD-CWT depending on its local policy.
 Extra disclosures cannot be verified and indicate incorrect behavior by the Holder.<a href="#appendix-D.3-13" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -6234,96 +6234,113 @@ Likewise, if this algorithm results in any duplicate CBOR map keys, the entire S
 <p id="appendix-H.1-3">Non-normative changes:<a href="#appendix-H.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-H.1-4.1">
-            <p id="appendix-H.1-4.1.1">Rename device.example to holder.example (PR#289).<a href="#appendix-H.1-4.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="appendix-H.1-4.2">
-            <p id="appendix-H.1-4.2.1">Globally use KBT instead of KBT (PR#288).<a href="#appendix-H.1-4.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="appendix-H.1-4.3">
-            <p id="appendix-H.1-4.3.1">Add Appendix walking through nested disclosure handling (PR#286).<a href="#appendix-H.1-4.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="appendix-H.1-4.4">
-            <p id="appendix-H.1-4.4.1">Clean up AEAD encrypted disclosures section and justify used of AEAD (PR#285).<a href="#appendix-H.1-4.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="appendix-H.1-4.5">
-            <p id="appendix-H.1-4.5.1">Heavy editing pass (PR#283).<a href="#appendix-H.1-4.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.1.1">PR#290 / Issue #284<a href="#appendix-H.1-4.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-H.1-4.5.2.1">
-                <p id="appendix-H.1-4.5.2.1.1">Renumber Section 4 to Section 3.3 as it is part of the Overview.<a href="#appendix-H.1-4.5.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-H.1-4.1.2.1">
+                <p id="appendix-H.1-4.1.2.1.1">Clarify cnonce in SD-CWT is intended for 2-party model.<a href="#appendix-H.1-4.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-H.1-4.5.2.2">
-                <p id="appendix-H.1-4.5.2.2.1">Move normative statement from Section 3 to Section 6.<a href="#appendix-H.1-4.5.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-H.1-4.1.2.2">
+                <p id="appendix-H.1-4.1.2.2.1">Clarify Verifier behavior when extra disclosures are present.<a href="#appendix-H.1-4.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-H.1-4.5.2.3">
-                <p id="appendix-H.1-4.5.2.3.1">Improve Figures 2 and 3<a href="#appendix-H.1-4.5.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-H.1-4.1.2.3">
+                <p id="appendix-H.1-4.1.2.3.1">In elided KBT description point to fully worked example<a href="#appendix-H.1-4.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-H.1-4.5.2.4">
-                <p id="appendix-H.1-4.5.2.4.1">Remove unused terms or terms used only once.<a href="#appendix-H.1-4.5.2.4.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="appendix-H.1-4.5.2.5">
-                <p id="appendix-H.1-4.5.2.5.1">Rearrange order of discussion in Section 7.1<a href="#appendix-H.1-4.5.2.5.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="appendix-H.1-4.5.2.6">
-                <p id="appendix-H.1-4.5.2.6.1">Clarify use of <code>cnonce</code><a href="#appendix-H.1-4.5.2.6.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="appendix-H.1-4.5.2.7">
-                <p id="appendix-H.1-4.5.2.7.1">Remind about special definition of duplicate map keys in To Be Redacted section<a href="#appendix-H.1-4.5.2.7.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="appendix-H.1-4.5.2.8">
-                <p id="appendix-H.1-4.5.2.8.1">Miscellaneous typo, minor rewordings, cleanups, and clarifications<a href="#appendix-H.1-4.5.2.8.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-H.1-4.1.2.4">
+                <p id="appendix-H.1-4.1.2.4.1">Remove incorrect compatibility discussion<a href="#appendix-H.1-4.1.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
+          <li class="normal" id="appendix-H.1-4.2">
+            <p id="appendix-H.1-4.2.1">Rename device.example to holder.example (PR#289).<a href="#appendix-H.1-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-4.3">
+            <p id="appendix-H.1-4.3.1">Globally use KBT instead of KBT (PR#288).<a href="#appendix-H.1-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-4.4">
+            <p id="appendix-H.1-4.4.1">Add Appendix walking through nested disclosure handling (PR#286).<a href="#appendix-H.1-4.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-4.5">
+            <p id="appendix-H.1-4.5.1">Clean up AEAD encrypted disclosures section and justify used of AEAD (PR#285).<a href="#appendix-H.1-4.5.1" class="pilcrow">¶</a></p>
+</li>
           <li class="normal" id="appendix-H.1-4.6">
-            <p id="appendix-H.1-4.6.1">Update references (PR#280 and PR#281).<a href="#appendix-H.1-4.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.6.1">Heavy editing pass (PR#283).<a href="#appendix-H.1-4.6.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-H.1-4.6.2.1">
+                <p id="appendix-H.1-4.6.2.1.1">Renumber Section 4 to Section 3.3 as it is part of the Overview.<a href="#appendix-H.1-4.6.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-4.6.2.2">
+                <p id="appendix-H.1-4.6.2.2.1">Move normative statement from Section 3 to Section 6.<a href="#appendix-H.1-4.6.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-4.6.2.3">
+                <p id="appendix-H.1-4.6.2.3.1">Improve Figures 2 and 3<a href="#appendix-H.1-4.6.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-4.6.2.4">
+                <p id="appendix-H.1-4.6.2.4.1">Remove unused terms or terms used only once.<a href="#appendix-H.1-4.6.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-4.6.2.5">
+                <p id="appendix-H.1-4.6.2.5.1">Rearrange order of discussion in Section 7.1<a href="#appendix-H.1-4.6.2.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-4.6.2.6">
+                <p id="appendix-H.1-4.6.2.6.1">Clarify use of <code>cnonce</code><a href="#appendix-H.1-4.6.2.6.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-4.6.2.7">
+                <p id="appendix-H.1-4.6.2.7.1">Remind about special definition of duplicate map keys in To Be Redacted section<a href="#appendix-H.1-4.6.2.7.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-H.1-4.6.2.8">
+                <p id="appendix-H.1-4.6.2.8.1">Miscellaneous typo, minor rewordings, cleanups, and clarifications<a href="#appendix-H.1-4.6.2.8.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="appendix-H.1-4.7">
-            <p id="appendix-H.1-4.7.1">Add change log for -07 and -08 (PR#279).<a href="#appendix-H.1-4.7.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.7.1">Update references (PR#280 and PR#281).<a href="#appendix-H.1-4.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.8">
-            <p id="appendix-H.1-4.8.1">Add COSE key thumbprint URIs to Appendix C (PR#278).<a href="#appendix-H.1-4.8.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.8.1">Add change log for -07 and -08 (PR#279).<a href="#appendix-H.1-4.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.9">
-            <p id="appendix-H.1-4.9.1">Explain why SD-CWT specifies claim requirements (PR#276).<a href="#appendix-H.1-4.9.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.9.1">Add COSE key thumbprint URIs to Appendix C (PR#278).<a href="#appendix-H.1-4.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.10">
-            <p id="appendix-H.1-4.10.1">Reframe nonce/freshness text (PR#275).<a href="#appendix-H.1-4.10.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.10.1">Explain why SD-CWT specifies claim requirements (PR#276).<a href="#appendix-H.1-4.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.11">
-            <p id="appendix-H.1-4.11.1">Reword discussion of Verifier use of Issuer keys (PR#274).<a href="#appendix-H.1-4.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.11.1">Reframe nonce/freshness text (PR#275).<a href="#appendix-H.1-4.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.12">
-            <p id="appendix-H.1-4.12.1">Justify linkage between KBT and CWT; move revocation discussion to its own section (PR#273).<a href="#appendix-H.1-4.12.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.12.1">Reword discussion of Verifier use of Issuer keys (PR#274).<a href="#appendix-H.1-4.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.13">
-            <p id="appendix-H.1-4.13.1">Replace blind with redact and unblind with disclose or reveal (PR#272).<a href="#appendix-H.1-4.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.13.1">Justify linkage between KBT and CWT; move revocation discussion to its own section (PR#273).<a href="#appendix-H.1-4.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.14">
-            <p id="appendix-H.1-4.14.1">Remove redundant Section 16.7 (PR#271).<a href="#appendix-H.1-4.14.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.14.1">Replace blind with redact and unblind with disclose or reveal (PR#272).<a href="#appendix-H.1-4.14.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.15">
-            <p id="appendix-H.1-4.15.1">Explain why Issuer should verify Holder key (PR#266).<a href="#appendix-H.1-4.15.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.15.1">Remove redundant Section 16.7 (PR#271).<a href="#appendix-H.1-4.15.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.16">
-            <p id="appendix-H.1-4.16.1">Reword applicability and linkability discussions (PR#265).<a href="#appendix-H.1-4.16.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.16.1">Explain why Issuer should verify Holder key (PR#266).<a href="#appendix-H.1-4.16.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.17">
-            <p id="appendix-H.1-4.17.1">Reword disclosure threats and mitigations (PR#264).<a href="#appendix-H.1-4.17.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.17.1">Reword applicability and linkability discussions (PR#265).<a href="#appendix-H.1-4.17.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.18">
-            <p id="appendix-H.1-4.18.1">Improve Determinism section (PR#261).<a href="#appendix-H.1-4.18.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.18.1">Reword disclosure threats and mitigations (PR#264).<a href="#appendix-H.1-4.18.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.19">
-            <p id="appendix-H.1-4.19.1">Better explain To Be Decoy integer uniqueness requirements (PR#259).<a href="#appendix-H.1-4.19.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.19.1">Improve Determinism section (PR#261).<a href="#appendix-H.1-4.19.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.20">
-            <p id="appendix-H.1-4.20.1">Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).<a href="#appendix-H.1-4.20.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.20.1">Better explain To Be Decoy integer uniqueness requirements (PR#259).<a href="#appendix-H.1-4.20.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.21">
-            <p id="appendix-H.1-4.21.1">Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.<a href="#appendix-H.1-4.21.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.21.1">Temporarily remove Rust CDDL tool from cargo.txt to solve a CI issue (PR#267).<a href="#appendix-H.1-4.21.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-H.1-4.22">
-            <p id="appendix-H.1-4.22.1">Allowed then Reverted that media types can omit <code>application/</code> (PR#283 then PR#287).<a href="#appendix-H.1-4.22.1" class="pilcrow">¶</a></p>
+            <p id="appendix-H.1-4.22.1">Remove Mike Jones from Acknowledgments (except in list of SD-JWT contributors) since he is already listed as a Contributor.<a href="#appendix-H.1-4.22.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-H.1-4.23">
+            <p id="appendix-H.1-4.23.1">Allowed then Reverted that media types can omit <code>application/</code> (PR#283 then PR#287).<a href="#appendix-H.1-4.23.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
