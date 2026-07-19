@@ -1,0 +1,23 @@
+{
+    1  : "https://issuer.example",
+    2  : "https://device.example/manifests/ap8GhizU0",
+    58(300): [                       / Manifest /
+      58({
+        1 : 144,                     / quantity /
+        2: 58([15.78, "EUR"]),       / unit value /
+        3: "de",                     / country of origin /
+        4: [0.790, "kg"],            / unit mass /
+        5: [12.5, 4.8, 2.0, "cm"]    / unit dimensions /
+      }),
+      58({
+        1 : 6,
+        2: 58([25.80, "EUR"]),
+        3: "nl",
+        4: [9.2, "kg"],
+        5: [14.5, 21.8, 30.0, "cm"]
+      })
+    ],
+    58(301): "EXW",                  / Incoterms EXWorks /
+    58(302): [51.949564, 4.147359],  / Rotterdam port /
+    58(303): 1760449111              / 14-Oct-2025 09:28:31Z /
+}
