@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-02T02:33:18.347694+00:00",
+  "timestamp": "2026-07-19T01:27:19.500773+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -22591,6 +22591,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 293,
+      "id": "PR_kwDOMm_Q2s7zVFym",
+      "title": "Create an interop test harness for SD-CWT",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/293",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\r\n- Describe what implementations need to write to plug into the test harness (interop/INTEROP.md)",
+      "createdAt": "2026-07-18T13:04:47Z",
+      "updatedAt": "2026-07-18T14:24:34Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "6733908655b7a9f9527c202d7af8a6cdd9aab5d0",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "interop-test",
+      "headRefOid": "f39e2d59032e987b317f474464080cc802190ff0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
