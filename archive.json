@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-21T01:26:43.881616+00:00",
+  "timestamp": "2026-07-28T01:25:33.713066+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -16037,25 +16037,33 @@
       "id": "PR_kwDOMm_Q2s6zzB1I",
       "title": "WIP: interop test rig",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/156",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-11-17T08:04:54Z",
-      "updatedAt": "2025-11-17T08:04:54Z",
+      "updatedAt": "2026-07-27T13:16:50Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "a62b2969cf48e3e213fa5c412513726ed30a673c",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "interop",
       "headRefOid": "d4cece05825204fa213d439c78f3006d7c474209",
-      "closedAt": null,
+      "closedAt": "2026-07-27T13:16:50Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "closing as discussed on editors call",
+          "createdAt": "2026-07-27T13:16:50Z",
+          "updatedAt": "2026-07-27T13:16:50Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -22604,7 +22612,7 @@
       "labels": [],
       "body": "\r\n- Describe what implementations need to write to plug into the test harness (interop/INTEROP.md)",
       "createdAt": "2026-07-18T13:04:47Z",
-      "updatedAt": "2026-07-19T11:16:39Z",
+      "updatedAt": "2026-07-27T13:30:45Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "6733908655b7a9f9527c202d7af8a6cdd9aab5d0",
@@ -22615,8 +22623,30 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We want to get to the point where we have:\r\n\r\n1. shared configuration for keys and claims\r\n2. harness that runs against registered methods via CLIs\r\n3. test results are gathered and rendered via json + html in github pages (alongside the editors draft)\r\n\r\nYou register an implementation, people checkout this repo, read the instructions on registering their gitignored CLI... run the CLI locally, raise a PR to commit their output.\r\n\r\nIf we worry about cheating, the rendering of verification is done via CLI on the committed outputs, and overwritten by the CI system, so people can't commit verification results directly to the presentation layer.",
+          "createdAt": "2026-07-27T13:30:44Z",
+          "updatedAt": "2026-07-27T13:30:44Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABHVhaeQ",
+          "commit": {
+            "abbreviatedOid": "436548d"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-27T13:12:08Z",
+          "updatedAt": "2026-07-27T13:12:08Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
