@@ -1,6 +1,15 @@
 {
     1  : "https://issuer.example",
     2  : "https://device.example/manifests/ap8GhizU0",
+    4  : 1787052602,                 / 18-Aug-2026 /
+    8 : {
+        1: {
+            / kty /  1: 2,  / EC2   /
+            / crv / -1: 6,  / X25519 /
+            / x /   -2: h'd75a980182b10ab7d54bfed3c964073a
+                          0ee172f3daa62325af021a68f707511a',
+        }
+    },
     58(300): [                       / Manifest /
       58({
         1 : 144,                     / quantity /
