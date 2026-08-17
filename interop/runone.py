@@ -26,7 +26,8 @@ def ok_or_fail(worked):
         return f'{bcolors.FAIL}[FAILED]{bcolors.ENDC}'
 
 def runone(test_case, input_role, input_impl, base, directory,
-           issuer_priv=None, issuer_options=None):
+           issuer_priv=None, options=None,
+           holder_priv=None):
     # exammples
     #    test_case = "shipping-manifest4"
     #    input_role = Role.Holder
@@ -57,14 +58,27 @@ def runone(test_case, input_role, input_impl, base, directory,
             if issuer_priv is None:
                 raise Exception("missing Issuer private key")
             args = [ arg0, issuer_priv ]
-            if issuer_options is not None:
-                arg += issuer_options
+            if options is not None:
+                for argname in options:
+                    args.append(f"--{argname}")
+                    args.append(options[argname])
             infile=open(f'{base}/test_cases/{test_case}/origclaims.cbor', 'rb')
             outfile=open(f'{directory}/{test_case}.sdcwt.cbor', 'wb')
         case Role.Holder:
+            if holder_priv is None:
+                raise Exception("missing Holder private key")
+            args = [ arg0, holder_priv ]
+            if options is not None:
+                for argname in options:
+                    args.append(f"--{argname}")
+                    args.append(options[argname])
             infile=open(f'{directory}/{test_case}.sdcwt.cbor', 'rb')
             outfile=open(f'{directory}/{test_case}.kbt.cbor', 'wb')
         case Role.Verifier:
+            if options is not None:
+                for argname in options:
+                    args.append(f"--{argname}")
+                    args.append(options[argname])
             infile=open(f'{directory}/{test_case}.origclaims.cbor', 'rb')
             outfile=open(f'{directory}/{test_case}.sdcwt.cbor', 'wb')
 
@@ -82,15 +96,17 @@ if __name__ == "__main__":
     utc_now = datetime.now(timezone.utc)
     timestamp = utc_now.strftime("%Y-%m-%dT%H:%M:%S")
     base = "/Users/rohan/src/ietf/ietf-wg-spice/draft-ietf-spice-sd-cwt/interop"
-    directory = base + "/tests/I=dumb_H=dumb/" + timestamp
+    directory = base + "/tests/I=esdicawt_H=esdicawt/" + timestamp
     os.makedirs(directory, exist_ok=True)
 
     test_case = "shipping_manifest4"
-    input_role = Role.Issuer
-    input_impl = "dumb"
+    input_impl = "esdicawt"
     issuer_priv = base + '/test_cases/' + test_case + '/issuer_priv.pem'
-    runone(test_case, input_role, input_impl, base, directory,
-           issuer_priv=issuer_priv, issuer_options=None)
+    holder_priv = base + '/test_cases/' + test_case + '/holder_pub.pem'
+    runone(test_case, Role.Issuer, input_impl, base, directory,
+           issuer_priv=issuer_priv, options=None)
+    runone(test_case, Role.Holder, input_impl, base, directory,
+           holder_priv=holder_priv, options=None)
 
 
 
