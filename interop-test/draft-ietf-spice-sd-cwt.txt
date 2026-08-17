@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 20 January 2027                                    Tradeverifyd
+Expires: 18 February 2027                                   Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                            19 July 2026
+                                                          17 August 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 January 2027.
+   This Internet-Draft will expire on 18 February 2027.
 
 Copyright Notice
 
@@ -2980,9 +2980,9 @@ Issuer                           Holder                         Verifier
 
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "Concise Diagnostic Notation (CDN)", Work in
-              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-26,
-              15 June 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-cbor-edn-literals-26>.
+              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-27,
+              20 July 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-edn-literals-27>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -3061,16 +3061,16 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Digital Credentials (SD-JWT VC)", Work in
-              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-17, 6
-              July 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-sd-jwt-vc-17>.
+              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-18, 3
+              August 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-sd-jwt-vc-18>.
 
    [I-D.ietf-cbor-serialization]
               Lundblade, L., "CBOR Serialization and Determinism", Work
               in Progress, Internet-Draft, draft-ietf-cbor-
-              serialization-07, 3 July 2026,
+              serialization-08, 29 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              serialization-07>.
+              serialization-08>.
 
    [I-D.ietf-oauth-status-list]
               Looker, T., Bastian, P., and C. Bormann, "Token Status
