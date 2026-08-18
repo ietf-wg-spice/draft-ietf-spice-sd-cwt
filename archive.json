@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-28T01:25:33.713066+00:00",
+  "timestamp": "2026-08-18T00:34:22.006510+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -22612,13 +22612,13 @@
       "labels": [],
       "body": "\r\n- Describe what implementations need to write to plug into the test harness (interop/INTEROP.md)",
       "createdAt": "2026-07-18T13:04:47Z",
-      "updatedAt": "2026-07-27T13:30:45Z",
+      "updatedAt": "2026-08-17T13:20:15Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "6733908655b7a9f9527c202d7af8a6cdd9aab5d0",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "interop-test",
-      "headRefOid": "436548d2d098b0f33e1f0f2283f3c441d690779a",
+      "headRefOid": "437f5a5308077e0b14b654babb5bfd0410f6f105",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
