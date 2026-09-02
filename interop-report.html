@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SD-CWT Interop Matrix</title>
+<meta name="description" content="Executed interoperability results for independent SD-CWT implementations against the canonical examples in draft-ietf-spice-sd-cwt-08.">
+<style>
+img{max-width:100%}
+
+:root{
+  --ground:#f7f9fa; --surface:#ffffff; --surface-2:#eef2f4;
+  --ink:#111a1f; --ink-2:#4d5c66; --ink-3:#77868f;
+  --rule:#dde5e9; --rule-2:#c6d2d8;
+  --accent:#0f6d7a; --accent-soft:#e2f0f2;
+  --ok:#1f7a4d; --ok-soft:#e3f2ea;
+  --gap:#8a6a12; --gap-soft:#f7efd9;
+  --blocked:#a4342f; --blocked-soft:#f8e5e3;
+  --shadow:0 1px 2px rgba(16,32,40,.06),0 8px 24px -16px rgba(16,32,40,.28);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0c1216; --surface:#131c22; --surface-2:#1b262d;
+    --ink:#e8eff3; --ink-2:#a2b2bc; --ink-3:#778792;
+    --rule:#243138; --rule-2:#33444d;
+    --accent:#4ec5d6; --accent-soft:#10333a;
+    --ok:#5fc98d; --ok-soft:#11291d;
+    --gap:#d9b055; --gap-soft:#2c2413;
+    --blocked:#eb8078; --blocked-soft:#2e1614;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0c1216; --surface:#131c22; --surface-2:#1b262d;
+  --ink:#e8eff3; --ink-2:#a2b2bc; --ink-3:#778792;
+  --rule:#243138; --rule-2:#33444d;
+  --accent:#4ec5d6; --accent-soft:#10333a;
+  --ok:#5fc98d; --ok-soft:#11291d;
+  --gap:#d9b055; --gap-soft:#2c2413;
+  --blocked:#eb8078; --blocked-soft:#2e1614;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  font-size:15px; line-height:1.6; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:56px 28px 96px; display:flex; flex-direction:column; gap:52px}
+h1,h2,h3{font-family:Charter,"Bitstream Charter","Iowan Old Style",Georgia,serif; text-wrap:balance; margin:0; line-height:1.25}
+h1{font-size:2.15rem; font-weight:600; letter-spacing:-.015em}
+h2{font-size:1.3rem; font-weight:600; letter-spacing:-.008em}
+h3{font-size:1rem; font-weight:600}
+p{margin:0; max-width:68ch}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.86em}
+code{background:var(--surface-2); padding:.1em .38em; border-radius:3px; color:var(--ink)}
+a{color:var(--accent); text-underline-offset:2px}
+/* repo links sit inside headings and table headers: they should read as the
+   label they replace, and only announce themselves on hover or focus */
+.impl a,.card h3 a,footer a{color:inherit; text-decoration:none;
+  border-bottom:1px solid var(--rule-2); transition:color .12s,border-color .12s}
+.impl a:hover,.card h3 a:hover,footer a:hover,
+.impl a:focus-visible,.card h3 a:focus-visible,footer a:focus-visible{
+  color:var(--accent); border-bottom-color:var(--accent)}
+footer a{border-bottom-color:transparent}
+footer a:hover,footer a:focus-visible{border-bottom-color:var(--accent)}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:2px}
+.eyebrow{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.7rem; font-weight:500;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3); margin:0 0 10px
+}
+
+/* header */
+header .lede{color:var(--ink-2); font-size:1.03rem; margin-top:14px}
+.facts{
+  display:flex; flex-wrap:wrap; gap:0; margin-top:26px;
+  border:1px solid var(--rule); border-radius:8px; background:var(--surface); box-shadow:var(--shadow); overflow:hidden
+}
+.fact{flex:1 1 150px; padding:15px 18px; border-right:1px solid var(--rule); min-width:0}
+.fact:last-child{border-right:0}
+.fact dt{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.68rem; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 5px}
+.fact dd{margin:0; font-size:1.45rem; font-weight:600; font-variant-numeric:tabular-nums; letter-spacing:-.01em}
+.fact dd small{display:block; font-size:.74rem; font-weight:400; color:var(--ink-2); letter-spacing:0; margin-top:3px}
+
+/* status marks: shape carries meaning, colour only reinforces it */
+.mark{display:inline-flex; align-items:center; gap:7px; font-size:.82rem; white-space:nowrap}
+.mark::before{content:""; width:11px; height:11px; flex:none; border:1.5px solid currentColor}
+.m-ok{color:var(--ok)} .m-ok::before{background:currentColor}
+.m-gap{color:var(--gap)} .m-gap::before{border-radius:50%}
+.m-blocked{color:var(--blocked)}
+.m-blocked::before{
+  border-radius:50%;
+  background:linear-gradient(to bottom right,transparent 43%,currentColor 43%,currentColor 57%,transparent 57%)
+}
+.m-na{color:var(--ink-3)} .m-na::before{border:0; border-top:1.5px solid currentColor; height:0; width:11px}
+
+.scroller{overflow-x:auto; border:1px solid var(--rule); border-radius:8px; background:var(--surface); box-shadow:var(--shadow)}
+table{border-collapse:collapse; width:100%; min-width:660px; font-size:.88rem}
+caption{text-align:left; padding:15px 18px 0; color:var(--ink-2); font-size:.85rem; caption-side:top}
+th,td{text-align:left; padding:11px 18px; border-bottom:1px solid var(--rule); vertical-align:top}
+thead th{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.68rem; font-weight:500; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--rule-2); white-space:nowrap
+}
+tbody tr:last-child td{border-bottom:0}
+th[scope="row"]{font-weight:500; color:var(--ink)}
+th[scope="row"] small{display:block; font-weight:400; color:var(--ink-3); font-size:.78rem; margin-top:2px}
+.impl{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.72rem; letter-spacing:.02em}
+.impl b{display:block; font-weight:600; font-size:.78rem; color:var(--ink); letter-spacing:.06em}
+td.num{font-variant-numeric:tabular-nums}
+
+.legend{display:flex; flex-wrap:wrap; gap:20px; padding:13px 18px; border-top:1px solid var(--rule);
+  background:var(--surface-2); font-size:.8rem}
+
+/* findings */
+.grid{display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.card{border:1px solid var(--rule); border-radius:8px; background:var(--surface); padding:20px; box-shadow:var(--shadow)}
+.card header{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:4px}
+.card h3{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.85rem; font-weight:600; letter-spacing:.03em}
+.count{font-variant-numeric:tabular-nums; font-size:1.5rem; font-weight:600; font-family:Charter,"Bitstream Charter","Iowan Old Style",Georgia,serif; color:var(--accent)}
+.card .role{font-size:.78rem; color:var(--ink-3); margin-bottom:14px}
+.card ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px}
+.card li{font-size:.84rem; line-height:1.5; padding-left:15px; position:relative; color:var(--ink-2)}
+.card li::before{content:""; position:absolute; left:0; top:.55em; width:5px; height:5px;
+  background:var(--accent); border-radius:1px}
+.card li b{color:var(--ink); font-weight:500}
+
+.note{border-left:2px solid var(--accent); padding:2px 0 2px 18px; color:var(--ink-2)}
+.note strong{color:var(--ink); font-weight:600}
+
+details{border:1px solid var(--rule); border-radius:8px; background:var(--surface); overflow:hidden}
+summary{cursor:pointer; padding:14px 18px; font-weight:500; font-size:.9rem; list-style:none; display:flex;
+  align-items:center; gap:9px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+"; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:var(--accent); font-weight:600}
+details[open] summary::before{content:"\2212"}
+details .body{padding:0 18px 18px; border-top:1px solid var(--rule); padding-top:16px}
+pre{background:var(--surface-2); border:1px solid var(--rule); border-radius:6px; padding:14px 16px;
+  overflow-x:auto; margin:14px 0 0; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.8rem; line-height:1.65}
+pre b{color:var(--accent); font-weight:600}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); font-size:.82rem}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">draft-ietf-spice-sd-cwt-08 &middot; 1 September 2026</p>
+  <h1>SD-CWT Interop Matrix</h1>
+  <p class="lede">
+    Three independent implementations, run against the six canonical examples published in the draft
+    and against each other. Every cell below was executed, not inferred &mdash; the fixtures are the
+    draft&rsquo;s own bytes, and the keys are the ones in Appendix&nbsp;C.
+  </p>
+  <dl class="facts">
+    <div class="fact"><dt>Implementations</dt><dd>3<small>python, javascript, rust</small></dd></div>
+    <div class="fact"><dt>Canonical examples</dt><dd>6 / 6<small>read by all three</small></dd></div>
+    <div class="fact"><dt>Conformance bugs fixed</dt><dd>32<small>across two repos</small></dd></div>
+    <div class="fact"><dt>Tests</dt><dd>673<small>110 + 471 + 92</small></dd></div>
+    <div class="fact"><dt>Interop checks</dt><dd>16 / 16<small>from merged main</small></dd></div>
+  </dl>
+</header>
+
+<section>
+  <p class="eyebrow">The matrix</p>
+  <h2>What each implementation can be confirmed to do</h2>
+  <p style="margin-top:12px;color:var(--ink-2)">
+    Confirmed means a test was run and passed. The one blocked cell has a filed cause, linked below.
+  </p>
+  <div class="scroller" style="margin-top:18px">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Capability</th>
+          <th scope="col"><span class="impl"><b><a href="https://github.com/tradeverifyd/sd-cwt">sd-cwt</a></b>python</span></th>
+          <th scope="col"><span class="impl"><b><a href="https://github.com/tradeverifyd/sd-cwt-js">sd-cwt-js</a></b>javascript</span></th>
+          <th scope="col"><span class="impl"><b><a href="https://github.com/beltram/esdicawt">esdicawt</a></b>rust</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Verify the draft&rsquo;s issued SD-CWT<small>issuer_cwt.cbor, ES384</small></th>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Verify the draft&rsquo;s presentation<small>kbt.cbor, end to end</small></th>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-blocked">blocked</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Present the draft&rsquo;s own credential<small>as Holder, Appendix C key</small></th>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-na">not tested</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Issue with the ES384 issuer key<small>P-384, as the draft does</small></th>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Read the other implementations&rsquo; tokens<small>cross-implementation</small></th>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-blocked">blocked</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Output validates against sd-cwts.cddl<small>ruby cddl tool</small></th>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-na">not tested</span></td>
+        </tr>
+        <tr>
+          <th scope="row">draft-08 MUST / MUST NOT probe<small>13 normative requirements</small></th>
+          <td><span class="mark m-ok">0 violations</span></td>
+          <td><span class="mark m-ok">0 violations</span></td>
+          <td><span class="mark m-na">not tested</span></td>
+        </tr>
+        <tr>
+          <th scope="row">AEAD encrypted disclosures<small>sd_aead_encrypted_claims, 171</small></th>
+          <td><span class="mark m-gap">not implemented</span></td>
+          <td><span class="mark m-gap">not implemented</span></td>
+          <td><span class="mark m-gap">not implemented</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="legend">
+      <span class="mark m-ok">confirmed by a passing test</span>
+      <span class="mark m-blocked">blocked by a known defect</span>
+      <span class="mark m-gap">optional feature, unimplemented</span>
+      <span class="mark m-na">not exercised here</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">Coverage</p>
+  <h2>All six canonical examples, not just the worked one</h2>
+  <p style="margin-top:12px;color:var(--ink-2)">
+    <code>issuer_cwt.cbor</code> and <code>kbt.cbor</code> are the draft&rsquo;s worked example and reach
+    neither decoys nor nesting. The other four do, and they are where a plausible-looking implementation
+    comes apart.
+  </p>
+  <div class="scroller" style="margin-top:18px">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Example</th>
+          <th scope="col">Exercises</th>
+          <th scope="col">Disclosures</th>
+          <th scope="col">python</th>
+          <th scope="col">javascript</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row"><code>issuer_cwt.cbor</code></th><td>the worked example</td>
+          <td class="num">5</td><td><span class="mark m-ok">5 / 5</span></td><td><span class="mark m-ok">5 / 5</span></td></tr>
+        <tr><th scope="row"><code>kbt.cbor</code></th><td>presentation, key binding</td>
+          <td class="num">3</td><td><span class="mark m-ok">3 / 3</span></td><td><span class="mark m-ok">3 / 3</span></td></tr>
+        <tr><th scope="row"><code>decoy.cbor</code></th><td>decoy digests</td>
+          <td class="num">4 <small style="color:var(--ink-3)">(2 decoy)</small></td>
+          <td><span class="mark m-ok">4 / 4</span></td><td><span class="mark m-ok">4 / 4</span></td></tr>
+        <tr><th scope="row"><code>nested_issuer_cwt.cbor</code></th><td>nesting, at depth</td>
+          <td class="num">15</td><td><span class="mark m-ok">15 / 15</span></td><td><span class="mark m-ok">15 / 15</span></td></tr>
+        <tr><th scope="row"><code>nested_cwt.cbor</code></th><td>narrowed nesting</td>
+          <td class="num">7</td><td><span class="mark m-ok">7 / 7</span></td><td><span class="mark m-ok">7 / 7</span></td></tr>
+        <tr><th scope="row"><code>nested_kbt.cbor</code></th><td>nested presentation</td>
+          <td class="num">7</td><td><span class="mark m-ok">7 / 7</span></td><td><span class="mark m-ok">7 / 7</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note" style="margin-top:20px">
+    <p><strong>Nesting has to be resolved iteratively.</strong> Revealing one disclosure exposes Redacted
+    Claim Hashes inside its value, which later disclosures then match. A checker that tests every
+    disclosure against only the outermost hashes reports <b>3 of 15</b> on <code>nested_issuer_cwt.cbor</code>
+    and looks like a library bug. It is the checker that is wrong &mdash; and it is the same reason the
+    every-disclosure-must-be-used rule has to run <em>after</em> reconstruction, never before.</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">What interop testing found</p>
+  <h2>Thirty-two defects that every existing test passed</h2>
+  <p style="margin-top:12px;color:var(--ink-2)">
+    Both suites were green throughout. They sign and verify with the same code on both sides, so they
+    prove self-consistency, not conformance. Nothing compared against bytes the implementation did not
+    produce itself.
+  </p>
+  <div class="grid" style="margin-top:22px">
+
+    <article class="card">
+      <header><h3><a href="https://github.com/tradeverifyd/sd-cwt">sd-cwt</a></h3><span class="count">17</span></header>
+      <p class="role">python &middot; 90 tests green while broken</p>
+      <ul>
+        <li><b>Disclosure hash over the wrong bytes.</b> The CDDL input is <code>bstr .cbor salted-entry</code>; the digest must cover the byte string including its header.</li>
+        <li><b>Payload double-encoded on issuance.</b> The verifier carried a workaround for exactly this, which is why it went unnoticed.</li>
+        <li><b>Could not verify or sign ES384.</b> Verification hardcoded ES256; signing had no ES384 signer at all, so the draft&rsquo;s own issuer key was unusable in both directions.</li>
+        <li><b>A sample URL in every credential</b>, as a tstr where the CDDL requires bstr. That one claim failed CDDL validation for every token produced.</li>
+        <li><b>Duplicate map keys resolved last-one-wins, silently</b> &mdash; how two parties are made to read the same bytes differently.</li>
+        <li><b>An issuer that returned <code>b'dummy_signature_placeholder'</code></b> in the signature slot, under the same class name as the real one.</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <header><h3><a href="https://github.com/tradeverifyd/sd-cwt-js">sd-cwt-js</a></h3><span class="count">15</span></header>
+      <p class="role">javascript &middot; 456 tests green while broken</p>
+      <ul>
+        <li><b>Four registered code points wrong.</b> <code>sd_alg</code> written at 18 rather than 170, so a conforming verifier would never find the hash algorithm; also 19&rarr;171, 20&rarr;172, decoy tag 61&rarr;62.</li>
+        <li><b>ES384 and ES512 silently used SHA-256.</b> Both sides wrong in the same direction, so round-trips passed. The browser shim was correct, so the two builds disagreed with each other.</li>
+        <li><b>Unused disclosures were dropped with a warning</b> where the spec requires the token be rejected &mdash; a holder could attach disclosures from another credential.</li>
+        <li><b>Empty <code>sd_claims</code> emitted and accepted</b>, where the spec requires it be omitted and treated as invalid.</li>
+        <li><b>CBOR tags flattened to plain objects</b> in custom headers, losing the tag number entirely.</li>
+        <li><b>Indefinite-length CBOR and duplicate keys accepted</b>; nested tags, <code>k</code> alongside <code>58(k)</code>, and non-finite times all accepted at issuance.</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <header><h3><a href="https://github.com/beltram/esdicawt">esdicawt</a></h3><span class="count">4</span></header>
+      <p class="role">rust &middot; the most conformant of the three</p>
+      <ul>
+        <li><b>Every registered code point already correct</b> &mdash; 170, 171, 59, 60, 58, 293/294. It was written against the draft with care.</li>
+        <li><b>Its draft-example tests were <code>#[ignore]</code>d</b>, and its submodule pinned to&nbsp;-05. Bumping to&nbsp;-08 took one line, and enabled two assertions that had been parked behind FIXMEs.</li>
+        <li><b><code>kcwt</code> written as a bstr</b> rather than the embedded <code>#6.18</code>. This predates -05, so it is not draft drift. Filed as <a href="https://github.com/beltram/esdicawt/issues/94">issue&nbsp;94</a>.</li>
+        <li><b>A trait bound excluded P-256 and P-384 holder keys</b> &mdash; including the draft&rsquo;s own Appendix C key &mdash; to serve an Ed25519-only fast path.</li>
+      </ul>
+    </article>
+
+  </div>
+
+  <details style="margin-top:22px">
+    <summary>The bug three implementations shared, and why</summary>
+    <div class="body">
+      <p>All three computed the Redacted Claim Hash over the bare <code>salted-entry</code> array instead of
+      the CBOR byte string that wraps it. Independently, in three languages.</p>
+      <p style="margin-top:12px">The reason is in the draft. Section&nbsp;3 walks a reader through the worked
+      example, and the digest it prints there disagrees with the token printed a page earlier:</p>
+      <pre>section 3 walkthrough  <b>d9df03da</b>474fcb3c65771748e2e0608c&hellip;   &larr; hash of the bare array
+the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; hash of the bstr</pre>
+      <p style="margin-top:14px">The normative text is unambiguous &mdash; the CDDL says
+      <code>bstr-encoded-salted = bstr .cbor salted-entry</code>, and Appendix&nbsp;A step&nbsp;2 says to hash
+      that structure. Only the generated example file <code>first-blinded-hash.txt</code> disagrees. But a
+      reader following the walkthrough hand-implements the wrong digest, which is what happened here three
+      times over. All three now match the token.</p>
+    </div>
+  </details>
+</section>
+
+<section>
+  <p class="eyebrow">Method</p>
+  <h2>How to reproduce this</h2>
+  <p style="margin-top:12px;color:var(--ink-2)">
+    Every cell was produced by running code, not by reading it. The inputs are this repository&rsquo;s
+    own <code>examples/*.cbor</code> and the Appendix&nbsp;C keys, unmodified.
+  </p>
+  <div class="scroller" style="margin-top:18px">
+    <table>
+      <thead>
+        <tr><th scope="col">Check</th><th scope="col">How it is decided</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Verify an example</th>
+          <td>COSE_Sign1 signature verifies under the Appendix&nbsp;C key, and every disclosure in
+              <code>sd_claims</code> resolves to a Redacted Claim Hash present in the payload.</td></tr>
+        <tr><th scope="row">Present a credential</th>
+          <td>A subset of the Issuer&rsquo;s disclosures is selected, a new SD-KBT is signed with the
+              Appendix&nbsp;C Holder key, and the result verifies end to end.</td></tr>
+        <tr><th scope="row">Issue</th>
+          <td>A token is produced with the P-384 Issuer key and read back by a different
+              implementation.</td></tr>
+        <tr><th scope="row">CDDL conformance</th>
+          <td>Produced tokens are validated against <code>sd-cwts.cddl</code> with the Ruby
+              <code>cddl</code> tool already vendored for <code>make validate</code>.</td></tr>
+        <tr><th scope="row">Normative probe</th>
+          <td>Thirteen MUST / MUST NOT statements are each exercised with a token that violates them;
+              the implementation must reject it.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note" style="margin-top:20px">
+    <p><strong>This page is informational.</strong> It records what independent implementations were
+    observed to do at a point in time. It is not part of the specification, it does not add or interpret
+    requirements, and where it disagrees with the draft, the draft is correct.</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">The boundary</p>
+  <h2>What this does not yet confirm</h2>
+  <div class="grid" style="margin-top:20px">
+    <article class="card">
+      <header><h3>AEAD disclosures</h3><span class="mark m-gap" role="img" aria-label="optional feature, unimplemented"></span></header>
+      <p class="role">unimplemented in all three</p>
+      <ul>
+        <li><code>sd_aead_encrypted_claims</code> (171) and <code>sd_aead</code> (172) are optional and nobody has built them.</li>
+        <li>The draft ships this example as EDN only, with no signed <code>.cbor</code> vector, so there is nothing to interoperate against yet.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <header><h3>esdicawt cross-interop</h3><span class="mark m-blocked" role="img" aria-label="blocked by a known defect"></span></header>
+      <p class="role">one defect away</p>
+      <ul>
+        <li>Fixing <code>kcwt</code> completes the matrix &mdash; every other capability is already there.</li>
+        <li>Both obvious fixes collide with tag-in-map handling in its pinned ciborium fork, so the shape of the change is the author&rsquo;s call.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <header><h3>Coverage edges</h3><span class="mark m-na" role="img" aria-label="not exercised"></span></header>
+      <p class="role">not exercised</p>
+      <ul>
+        <li><code>sd_alg</code> values other than SHA-256.</li>
+        <li>Thumbprint-style <code>cnf</code> (confirmation key 3) end to end.</li>
+        <li>sd-cwt-js has no test workflow, so its 471 tests never run on a pull request.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <p>Every result executed against freshly cloned <code>main</code> at
+  <a href="https://github.com/tradeverifyd/sd-cwt/commit/33d0ec4"><code>tradeverifyd/sd-cwt@33d0ec4</code></a>, <a href="https://github.com/tradeverifyd/sd-cwt-js/commit/86baf72"><code>tradeverifyd/sd-cwt-js@86baf72</code></a> and
+  <a href="https://github.com/beltram/esdicawt/commit/ed3117d"><code>beltram/esdicawt@ed3117d</code></a>, with the draft repo at
+  <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/commit/6733908"><code>ietf-wg-spice/draft-ietf-spice-sd-cwt@6733908</code></a> (draft-08, unmodified).</p>
+</footer>
+
+</div>
+</body>
+</html>
