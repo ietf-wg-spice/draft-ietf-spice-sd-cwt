@@ -1,9 +1,7 @@
 LIBDIR := lib
 DEPS_FILES := .examples.dep
 
-# Published to the gh-pages branch alongside the draft, by lib/ghpages.mk.
-# Must be set before main.mk is included: GHPAGES_PUBLISHED is assigned with :=
-# at include time, so a later assignment would arrive too late to be seen.
+# Must be set before main.mk is included.
 GHPAGES_EXTRA += interop-report.html
 
 -include $(LIBDIR)/main.mk
