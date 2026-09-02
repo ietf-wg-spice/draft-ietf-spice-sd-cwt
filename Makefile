@@ -1,5 +1,9 @@
 LIBDIR := lib
 DEPS_FILES := .examples.dep
+
+# Must be set before main.mk is included.
+GHPAGES_EXTRA += interop-report.html
+
 -include $(LIBDIR)/main.mk
 
 $(LIBDIR)/main.mk:

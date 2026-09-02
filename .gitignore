@@ -1,5 +1,7 @@
 **/.DS_Store
 *.html
+# ...except the checked-in interop report, which is source, not a build product.
+!interop-report.html
 *.pdf
 *.redxml
 *.swp
