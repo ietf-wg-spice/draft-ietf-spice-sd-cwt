@@ -6,6 +6,7 @@ This is the working area for the IETF [SPICE Working Group](https://datatracker.
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-spice-sd-cwt)
 * [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-spice-sd-cwt)
 * [Compare Editor's Copy to Working Group Draft](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/#go.draft-ietf-spice-sd-cwt.diff)
+* [Interop Report](https://ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/interop-report.html)
 
 
 ## Contributing
