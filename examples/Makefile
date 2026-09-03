@@ -53,8 +53,10 @@ else
 endif
 
 #CDDL_RS := ${BUNDLE_PATH}/../.cargo/bin/cddl
-CDDL_RUBY := ${BUNDLE_PATH}/bin/cddl
-CBOR2PRETTY := ${BUNDLE_PATH}/bin/cbor2pretty.rb
+CDDL_RUBY  := ${BUNDLE_PATH}/bin/cddl
+#CBOR2PRETTY := ${BUNDLE_PATH}/bin/cbor2pretty.rb
+PRETTY2EDN := ${BUNDLE_PATH}/bin/pretty2diag.rb
+CBOR2EDN   := ${BUNDLE_PATH}/bin/cbor2diag.rb
 
 python ?= ../lib/.venv/bin/python3
 
@@ -67,11 +69,11 @@ all: build
 
 ${pygenerated}: .pygenerated.stamp
 
-first-disclosure.pretty: first-disclosure.cborseq
-	${CBOR2PRETTY} $< > $@
-	# This sed command replaces the comment after the salt with a comment just say "16-byte salt"
-	# Note: using pipe character as a sed delimiter below
-	${SED} ${SED_INPLACE} ${SED_EXT_FLAG} -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
+#first-disclosure.pretty: first-disclosure.cborseq
+#	${CBOR2PRETTY} $< > $@
+#	# This sed command replaces the comment after the salt with a comment just say "16-byte salt"
+#	# Note: using pipe character as a sed delimiter below
+#	${SED} ${SED_INPLACE} ${SED_EXT_FLAG} -e 's|^( +[A-Fa-f0-9]{32} *#).*$$|\1 16-byte salt|' $@
 
 .aead.stamp: enc-disc.py
 	${python} enc-disc.py
@@ -83,7 +85,7 @@ aead-key.txt aead-claim-array.edn: .aead.stamp
 build: $(pygenerated) first-disclosure.pretty aead-key.txt aead-claim-array.edn
 
 .PHONY: validate
-validate: validate-cbor validate-edn
+validate: validate-cbor validate-edn validate-pretty
 
 ${full-cddl}: $(cddl)
 	cat $^ > ${full-cddl}
@@ -102,9 +104,16 @@ validate-edn: $(compare-edn) $(cbor) $(validate-progs)
 	for e in ${compare-edn}; do ./compare_edn_to_cbor.sh $${e}; done
 	echo "Manually verify elided-kbt.edn"
 
+.PHONY: validate-pretty
+validate-pretty: first-disclosure.cborseq
+	${PRETTY2EDN} first-disclosure.pretty   > first-disclosure.pretty.edn
+	${CBOR2EDN}   first-disclosure.cborseq  > first-disclosure.cborseq.edn
+	cmp first-disclosure.pretty.edn first-disclosure.cborseq.edn
+	rm first-disclosure.pretty.edn first-disclosure.cborseq.edn
+
 .PHONY: clean
 clean:
-	-rm -f *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
+	-rm -f *.cbor *.cbor.tmp *.edn *.cborseq first-blinded-hash.txt
 	-rm -f ../sd-cwts.cddl
 	-rm -f .pygenerated.stamp .aead.stamp
 
