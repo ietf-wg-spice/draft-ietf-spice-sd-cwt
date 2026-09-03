@@ -931,7 +931,7 @@ if __name__ == "__main__":
 #        i += 1
 
     full_nested_unprotected = {
-      SD_CLAIMS: disclosures
+      SD_CLAIMS: make_sdclaims_array(disclosures)
     }
     issuer_nested_cwt = sign(cwt_protected,
                       full_nested_unprotected,
