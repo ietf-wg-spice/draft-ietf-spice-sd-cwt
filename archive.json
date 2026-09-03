@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-18T00:34:22.006510+00:00",
+  "timestamp": "2026-09-03T01:55:06.380146+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -5734,6 +5734,22 @@
       "createdAt": "2026-05-17T12:30:03Z",
       "updatedAt": "2026-06-01T13:32:23Z",
       "closedAt": "2026-06-01T13:32:23Z",
+      "comments": []
+    },
+    {
+      "number": 295,
+      "id": "I_kwDOMm_Q2s8AAAABPWj6NQ",
+      "title": "Examples don't bstr wrap elements in the sd-claims array",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/295",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\nThe examples in the draft and three implementations independently computed the Redacted Claim Hash over the bare salted-entry array rather than the bstr-encoded-salted value. Four times, in three languages.\n\nThe normative text is unambiguous \u2014 the CDDL says bstr-encoded-salted = bstr .cbor salted-entry, and Appendix A step 2 says to hash that structure. But the Section 3 walkthrough prints:\n\nexamples/first-blinded-hash.txt   `d9df03da474fcb3c65771748e2e0608c\u2026`   \u2190 hash of the bare array\nthe token a page earlier          `af375dc3fba1d082448642c00be7b2f7\u2026 `  \u2190 hash of the bstr-encoded array\n",
+      "createdAt": "2026-09-02T14:31:22Z",
+      "updatedAt": "2026-09-02T14:31:22Z",
+      "closedAt": null,
       "comments": []
     }
   ],
@@ -22605,24 +22621,26 @@
       "id": "PR_kwDOMm_Q2s7zVFym",
       "title": "Create an interop test harness for SD-CWT",
       "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/293",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "\r\n- Describe what implementations need to write to plug into the test harness (interop/INTEROP.md)",
       "createdAt": "2026-07-18T13:04:47Z",
-      "updatedAt": "2026-08-17T13:20:15Z",
+      "updatedAt": "2026-09-02T14:31:56Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "6733908655b7a9f9527c202d7af8a6cdd9aab5d0",
       "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "headRefName": "interop-test",
       "headRefOid": "437f5a5308077e0b14b654babb5bfd0410f6f105",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-09-02T14:31:56Z",
+      "mergedAt": "2026-09-02T14:31:56Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "c4b09f009444b73b3e3151f984a1d3ce3fede935"
+      },
       "comments": [
         {
           "author": "OR13",
@@ -22647,6 +22665,116 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 294,
+      "id": "PR_kwDOMm_Q2s8AAAABB0Bfvw",
+      "title": "Publish an interop report alongside the editor's copy",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/294",
+      "state": "MERGED",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Adds `interop-report.html`, an informational page recording what independent SD-CWT implementations were observed to do against **this repository's own `examples/*.cbor`** and the Appendix C keys.\n\nIt publishes to the editor's copy at `ietf-wg-spice.github.io/draft-ietf-spice-sd-cwt/interop-report.html` and refreshes whenever the draft does.\n\n## What it reports\n\nThree implementations were run: [tradeverifyd/sd-cwt](https://github.com/tradeverifyd/sd-cwt) (python), [tradeverifyd/sd-cwt-js](https://github.com/tradeverifyd/sd-cwt-js) (javascript) and [beltram/esdicawt](https://github.com/beltram/esdicawt) (rust).\n\n- All three read **all six** canonical examples, including the decoy and nested files\n- Two of the three interoperate in both directions; the third is blocked on one defect, [filed upstream](https://github.com/beltram/esdicawt/issues/94) and linked from the page\n- Getting there took **32 conformance fixes** across the two tradeverifyd repos\n\nEvery one of those fixes passed the projects' existing tests. A suite that signs and verifies with its own code proves self-consistency, not conformance \u2014 nothing had been compared against the bytes this repository publishes.\n\n## One finding the WG may want to act on separately\n\nAll three implementations independently computed the Redacted Claim Hash over the bare `salted-entry` array rather than the `bstr-encoded-salted` value. Three times, in three languages.\n\nThe normative text is unambiguous \u2014 the CDDL says `bstr-encoded-salted = bstr .cbor salted-entry`, and Appendix A step 2 says to hash that structure. But the Section 3 walkthrough prints:\n\n```\nexamples/first-blinded-hash.txt   d9df03da474fcb3c65771748e2e0608c\u2026   \u2190 the bare array\nthe token a page earlier          af375dc3fba1d082448642c00be7b2f7\u2026   \u2190 the bstr\n```\n\nA reader hand-implementing from that walkthrough gets it wrong, which is what happened. This is a defect in `examples/first-blinded-hash.txt` as generated by `examples/sd-cwt.py`, **not in the specification**. I've left it alone here \u2014 happy to open a separate issue and PR for the generator if the WG agrees.\n\n## Mechanics\n\n- `GHPAGES_EXTRA` is set **before** `main.mk` is included, because `ghpages.mk` assigns `GHPAGES_PUBLISHED` with `:=` at include time and a later assignment would arrive too late. Verified against the variable database, not assumed.\n- `.gitignore` excludes `*.html`, so the report needs an explicit exception \u2014 it is source, not a build product.\n- Single self-contained file: no external requests, no scripts, no web fonts. Renders in light and dark.\n\n## Not changed\n\nNo change to the draft, the CDDL, or the examples. `make validate` passes unchanged, all six EDN/CBOR pairs still match.\n\nThe page is explicit that it is informational: it does not add or interpret requirements, and where it disagrees with the draft, the draft is correct.\n",
+      "createdAt": "2026-09-01T21:52:25Z",
+      "updatedAt": "2026-09-02T14:32:17Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "6733908655b7a9f9527c202d7af8a6cdd9aab5d0",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "interop-report",
+      "headRefOid": "812935af2827c0c0651dcd782cc8183e9b226dd7",
+      "closedAt": "2026-09-02T14:32:17Z",
+      "mergedAt": "2026-09-02T14:32:17Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "0b44a7ca4ea2535f2cc35e21679e7fbc0dd9b5f4"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABL3EP7g",
+          "commit": {
+            "abbreviatedOid": "3889079"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-02T14:21:09Z",
+          "updatedAt": "2026-09-02T14:21:09Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\n# Must be set before main.mk is included.\n```",
+              "createdAt": "2026-09-02T14:21:09Z",
+              "updatedAt": "2026-09-02T14:21:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABL3IUdg",
+          "commit": {
+            "abbreviatedOid": "3889079"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-02T14:27:09Z",
+          "updatedAt": "2026-09-02T14:27:09Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "this style sheet is really ugly.",
+              "createdAt": "2026-09-02T14:27:09Z",
+              "updatedAt": "2026-09-02T14:27:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABL3IqpA",
+          "commit": {
+            "abbreviatedOid": "812935a"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-02T14:27:38Z",
+          "updatedAt": "2026-09-02T14:27:38Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 296,
+      "id": "PR_kwDOMm_Q2s8AAAABB6fZzA",
+      "title": "Add link for the interop report to the README",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/296",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-09-02T14:39:29Z",
+      "updatedAt": "2026-09-02T14:39:58Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "0b44a7ca4ea2535f2cc35e21679e7fbc0dd9b5f4",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "interop-report-in-readme",
+      "headRefOid": "6f40e092c4b4fe48311270d2da7547562791a06d",
+      "closedAt": "2026-09-02T14:39:58Z",
+      "mergedAt": "2026-09-02T14:39:58Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "93a3c5fa50c2e10abbc019449bfacf5eeca28504"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
