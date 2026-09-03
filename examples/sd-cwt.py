@@ -259,6 +259,20 @@ def new_redacted_entry_tag(value):
     REDACTED_ENTRY_TAG = 60
     return cbor2.CBORTag(REDACTED_ENTRY_TAG, value)
 
+def bare_disclosure_to_hash(bare_disclosure, alg):
+    # double encode to add bstr type and bstr length
+    return sd_hash(cbor2.dumps(cbor2.dumps(bare_disclosure)), hash_alg=alg)
+
+def make_sdclaims_array(presented_disclosures):
+    if len(presented_disclosures) > 0:
+        encoded_claims_array = []
+        for d in presented_disclosures:
+            # double encode to add bstr type and bstr length
+            encoded_claims_array.append(cbor2.dumps(cbor2.dumps(d)))
+        return encoded_claims_array
+    else:
+        return None
+
 def make_time_claims(expiration, now=None, leeway=300):
     # all values should be in seconds
     if now is None:
@@ -322,10 +336,9 @@ def make_disclosure(salt=None, key=None, value=None, decoy_index=None):
         else:
             # map claim
             disclosure_array = [salt, value, key]
-    # double encode to add bstr type and bstr length
     return cbor2.dumps(sort_keys(disclosure_array))
 
-
+## TODO check
 def parse_disclosures(disclosures):
     # takes an array of bstr and returns an array of parsed disclosures
     import cbor2
@@ -358,12 +371,12 @@ def redact_level(item, level, map_value=False, hash_alg=Hash.SHA256):
                     disclosure = make_disclosure(key=key.value, value=new_value)
                     disclosures += disc
                     disclosures.append(disclosure)
-                    h = sd_hash(cbor2.dumps(disclosure), hash_alg=hash_alg)
+                    h = bare_disclosure_to_hash(disclosure, hash_alg)
                     redacted_keys.append(h)
                 elif key.tag == TO_BE_DECOY_TAG:
                     disclosure = make_disclosure(decoy_index=key.value)
                     disclosures.append(disclosure)
-                    h = sd_hash(cbor2.dumps(disclosure), hash_alg=hash_alg)
+                    h = bare_disclosure_to_hash(disclosure, hash_alg)
                     redacted_keys.append(h)
                 else:
                     raise Exception("other tagged map keys not allowed in CWT")
@@ -387,7 +400,7 @@ def redact_level(item, level, map_value=False, hash_alg=Hash.SHA256):
             d = make_disclosure(value=new_item)
             disclosures += disc
             disclosures.append(d)
-            h = sd_hash(cbor2.dumps(d), hash_alg=hash_alg)
+            h = bare_disclosure_to_hash(disclosure, hash_alg)
             redacted = new_redacted_entry_tag(h)
         else: # TO_BE_DECOY_TAG
             if map_value:
@@ -396,7 +409,7 @@ def redact_level(item, level, map_value=False, hash_alg=Hash.SHA256):
                 raise Exception("decoy tag: integer index expected")
             disclosure = make_disclosure(decoy_index=item.value)
             disclosures.append(disclosure)
-            h = sd_hash(cbor2.dumps(disclosure), hash_alg=hash_alg)
+            h = bare_disclosure_to_hash(disclosure, hash_alg)
             redacted = new_redacted_entry_tag(h)
     else:
         redacted = item
@@ -546,7 +559,7 @@ def redacted_hashes_from_disclosures(disclosures, hash_alg=Hash.SHA256):
     # an array of the redacted SHA hex strings in same order as the disclosures
     redacted = []
     for d in disclosures:
-        redacted.append(bytes2hex(sd_hash(cbor2.dumps(d), hash_alg=hash_alg)))
+        redacted.append(bytes2hex(bare_disclosure_to_hash(d, hash_alg)))
     return redacted
 
 
@@ -781,7 +794,7 @@ if __name__ == "__main__":
     payload |= holder_cnf | cwt_time_claims
 
     cwt_full_unprotected = {}
-    cwt_full_unprotected[SD_CLAIMS] = disclosures
+    cwt_full_unprotected[SD_CLAIMS] = make_sdclaims_array(disclosures)
 
     cwt_protected = {
       1  : -35,                                 # alg = ES384
@@ -829,11 +842,9 @@ if __name__ == "__main__":
         redacted=redacted,
         sig=issuer_cwt[-96:])
 
-    encoded_presented_disclosures = []
-    for d in presented_disclosures:
-        encoded_presented_disclosures.append(cbor2.dumps(d))
+    holder_unprotected = {}
+    holder_unprotected[SD_CLAIMS] = make_sdclaims_array(presented_disclosures)
 
-    holder_unprotected = {SD_CLAIMS: encoded_presented_disclosures}
     presentation_cwt = sign(cwt_protected,
                        holder_unprotected,
                        payload,
