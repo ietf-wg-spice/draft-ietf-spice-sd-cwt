@@ -113,7 +113,7 @@ validate-pretty: first-disclosure.cborseq
 
 .PHONY: clean
 clean:
-	-rm -f *.cbor *.cbor.tmp *.edn *.cborseq *.pretty first-blinded-hash.txt
+	-rm -f *.cbor *.cbor.tmp *.edn *.cborseq first-blinded-hash.txt
 	-rm -f ../sd-cwts.cddl
 	-rm -f .pygenerated.stamp .aead.stamp
 
