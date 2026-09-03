@@ -265,11 +265,10 @@ def bare_disclosure_to_hash(bare_disclosure, alg):
 
 def make_sdclaims_array(presented_disclosures):
     if len(presented_disclosures) > 0:
-        encoded_claims_array = []
+        claims_array = []
         for d in presented_disclosures:
-            # double encode to add bstr type and bstr length
-            encoded_claims_array.append(cbor2.dumps(cbor2.dumps(d)))
-        return encoded_claims_array
+            claims_array.append(cbor2.dumps(d))
+        return claims_array
     else:
         return None
 
@@ -336,16 +335,7 @@ def make_disclosure(salt=None, key=None, value=None, decoy_index=None):
         else:
             # map claim
             disclosure_array = [salt, value, key]
-    return cbor2.dumps(sort_keys(disclosure_array))
-
-## TODO check
-def parse_disclosures(disclosures):
-    # takes an array of bstr and returns an array of parsed disclosures
-    import cbor2
-    new_array = []
-    for bstr in disclosures:
-        new_array.append(cbor2.loads(bstr))
-    return new_array
+    return sort_keys(disclosure_array)
 
 
 def redact_level(item, level, map_value=False, hash_alg=Hash.SHA256):
@@ -400,7 +390,7 @@ def redact_level(item, level, map_value=False, hash_alg=Hash.SHA256):
             d = make_disclosure(value=new_item)
             disclosures += disc
             disclosures.append(d)
-            h = bare_disclosure_to_hash(disclosure, hash_alg)
+            h = bare_disclosure_to_hash(d, hash_alg)
             redacted = new_redacted_entry_tag(h)
         else: # TO_BE_DECOY_TAG
             if map_value:
@@ -766,17 +756,16 @@ if __name__ == "__main__":
         "inspected 4-Feb-2021",
         "region=California"
     ]
-    decoded_disclosures = parse_disclosures(disclosures)
-    edn_disclosures = edn_decoded_disclosures(decoded_disclosures,
+    edn_disclosures = edn_decoded_disclosures(disclosures,
                             comments=example_comments, all=True)
     redacted = redacted_hashes_from_disclosures(disclosures)
 
     # write first disclosure becoming blinded claim
-    first_disc_array = decoded_disclosures[0]
+    first_disc_array = disclosures[0]
     with open('first-disclosure.edn', 'w') as file:
         print(edn_one_disclosure(first_disc_array, comment=example_comments[0])[:-1],
             file=file, end='')
-    first_bstr = cbor2.dumps(decoded_disclosures[0])
+    first_bstr = cbor2.dumps(cbor2.dumps(disclosures[0]))
     with open('first-disclosure.cborseq', 'wb') as file:
         file.write(first_bstr)
     first_redacted = bytes2hex(sha256(first_bstr))
@@ -822,9 +811,9 @@ if __name__ == "__main__":
 
     # make KBT for primary example
     presented_disclosures = [
-        decoded_disclosures[0],
-        decoded_disclosures[1],
-        decoded_disclosures[3]
+        disclosures[0],
+        disclosures[1],
+        disclosures[3]
     ]
     presented_comments=[
         example_comments[0],
@@ -927,7 +916,7 @@ if __name__ == "__main__":
     # collect hashes for later explanatory purposes
     nested_hash_list = []
     for d in disclosures:
-        nested_hash_list.append(sha256(cbor2.dumps(d)))
+        nested_hash_list.append(bare_disclosure_to_hash(d, Hash.SHA256))
 
     # make nested-cwt
     payload |= holder_cnf | cwt_time_claims
@@ -968,8 +957,7 @@ if __name__ == "__main__":
         "San Francisco location",    # 13
         "inspection 17-Jan-2023"     # 14
     ]
-    decoded_disclosures = parse_disclosures(disclosures)
-    edn_disclosures = edn_decoded_disclosures(decoded_disclosures,
+    edn_disclosures = edn_decoded_disclosures(disclosures,
                             comments=example_comments, all=True,
                             hashes=nested_hash_list)
 
@@ -993,7 +981,7 @@ if __name__ == "__main__":
         chosen_nested_disclosures.append(disclosures[i])
 
     chosen_nested_unprotected = {
-        SD_CLAIMS: chosen_nested_disclosures
+        SD_CLAIMS: make_sdclaims_array(chosen_nested_disclosures)
     }
 
     nested_cwt = sign(cwt_protected,
@@ -1006,8 +994,7 @@ if __name__ == "__main__":
     nested_kbt = sign(kbt_protected, {}, kbt_payload, holder_priv_key)
     write_to_file(nested_kbt, "nested_kbt.cbor")
 
-    decoded_disclosures = parse_disclosures(chosen_nested_disclosures)
-    edn_disclosures = edn_decoded_disclosures(decoded_disclosures,
+    edn_disclosures = edn_decoded_disclosures(chosen_nested_disclosures,
                             comments=chosen_comments,
                             hashes=chosen_hashes)
     write_to_file(edn_disclosures, 'chosen-nested-disclosures.edn')
@@ -1039,7 +1026,7 @@ if __name__ == "__main__":
     decoy_payload = sort_keys(payload | holder_cnf | cwt_time_claims)
 
     full_decoy_unprotected = {
-      SD_CLAIMS: disclosures
+      SD_CLAIMS: make_sdclaims_array(disclosures)
     }
 
     issuer_decoy_cwt = sign(cwt_protected,
@@ -1055,8 +1042,7 @@ if __name__ == "__main__":
         "inspection result",
         "decoy claim"
     ]
-    decoded_disclosures = parse_disclosures(disclosures)
-    edn_disclosures = edn_decoded_disclosures(decoded_disclosures,
+    edn_disclosures = edn_decoded_disclosures(disclosures,
                           comments=decoy_comments, all=True)
     redacted = redacted_hashes_from_disclosures(disclosures)
     decoy_edn = generate_decoy_cwt_edn(edn_disclosures,
