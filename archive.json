@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-03T01:55:06.380146+00:00",
+  "timestamp": "2026-09-06T01:44:54.664002+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -5744,11 +5744,16 @@
       "state": "OPEN",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "rohanmahy"
+      ],
+      "labels": [
+        "bug",
+        "has-PR"
+      ],
       "body": "\nThe examples in the draft and three implementations independently computed the Redacted Claim Hash over the bare salted-entry array rather than the bstr-encoded-salted value. Four times, in three languages.\n\nThe normative text is unambiguous \u2014 the CDDL says bstr-encoded-salted = bstr .cbor salted-entry, and Appendix A step 2 says to hash that structure. But the Section 3 walkthrough prints:\n\nexamples/first-blinded-hash.txt   `d9df03da474fcb3c65771748e2e0608c\u2026`   \u2190 hash of the bare array\nthe token a page earlier          `af375dc3fba1d082448642c00be7b2f7\u2026 `  \u2190 hash of the bstr-encoded array\n",
       "createdAt": "2026-09-02T14:31:22Z",
-      "updatedAt": "2026-09-02T14:31:22Z",
+      "updatedAt": "2026-09-03T16:29:53Z",
       "closedAt": null,
       "comments": []
     }
@@ -22773,6 +22778,72 @@
       "mergeCommit": {
         "oid": "93a3c5fa50c2e10abbc019449bfacf5eeca28504"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 297,
+      "id": "PR_kwDOMm_Q2s8AAAABCFaGWA",
+      "title": "Make redacted hashes uses the bstr-encoded disclosures (bug in examples of spec)",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/297",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "this impacts the initial examples in the walkthrough in Section 3. Because the full CBOR examples have been validated against the CDDL and compared to the EDN, those full examples were actually correct. \r\n\r\nThis also refactors the sd_cwt.py program to make it hopefully clearer what is happening when something is cbor encoded or decoded.\r\n\r\nAll the CBOR files validate against the CDDL and all the EDN compares correctly to the CBOR files.\r\n\r\nCloses #295 ",
+      "createdAt": "2026-09-03T16:26:46Z",
+      "updatedAt": "2026-09-03T21:44:11Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "93a3c5fa50c2e10abbc019449bfacf5eeca28504",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "issue295",
+      "headRefOid": "04b6f855f83cea0d92d3c62577bce5335740bf5b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABMGiUcg",
+          "commit": {
+            "abbreviatedOid": "04b6f85"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-03T21:44:11Z",
+          "updatedAt": "2026-09-03T21:44:11Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 298,
+      "id": "PR_kwDOMm_Q2s8AAAABCG-lyQ",
+      "title": "Update the interop report: esdicawt fixes landed",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/298",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Beltram fixed both defects the report named \u2014 [`kcwt` as a bstr](https://github.com/beltram/esdicawt/issues/94) and the disclosure digest. With those in, **esdicawt verifies this repository's own `kbt.cbor`** and a javascript-issued presentation. Two cells move from blocked to confirmed.\n\n## One byte pair left\n\nOutbound is still blocked, for a newly identified reason. esdicawt writes the SD-KBT unprotected header as `bf ff` \u2014 an indefinite-length empty map \u2014 where the draft writes `a0`.\n\nSection 6.4 says encoders MUST NOT send indefinite length CBOR and decoders MUST reject it. Both the python and javascript implementations refuse the token, independently and with the same diagnosis, which is a good sign that the rule is doing its job.\n\n## Recorded, not yet fixed upstream\n\n- The `status` claim is **mandatory** when the `status` feature is on \u2014 every other payload claim is `Option` with a default, that one is not. `status` does not appear in `sd-payload` in the CDDL, so no canonical example carries it and none of them parse.\n- A trait bound still excludes P-256 and P-384 Holder keys from the verifier API, including Appendix C's own Holder key. It serves an Ed25519-only fast path that already holds the key it needs.\n- To Be Decoy is 61; \u00a717.3 requests 62.\n\n## Also\n\nThe shared disclosure-hash bug is now **confirmed** in all three implementations rather than inferred in one, and that section now points at #297, which corrects the Section 3 walkthrough that caused it.\n\nAdds a note that neither python nor javascript is registered in this repository's `interop/` harness yet, so the WG can't reproduce those two columns.\n\nNo change to the draft, the CDDL, or the examples.",
+      "createdAt": "2026-09-03T20:01:26Z",
+      "updatedAt": "2026-09-03T20:01:26Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "93a3c5fa50c2e10abbc019449bfacf5eeca28504",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "interop-report-update",
+      "headRefOid": "c959b62888892c29ae91c7a53badc47c8bd33057",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
