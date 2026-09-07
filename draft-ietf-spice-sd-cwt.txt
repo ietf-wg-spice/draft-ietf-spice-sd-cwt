@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 6 March 2027                                       Tradeverifyd
+Expires: 11 March 2027                                      Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                        2 September 2026
+                                                        7 September 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 March 2027.
+   This Internet-Draft will expire on 11 March 2027.
 
 Copyright Notice
 
@@ -627,12 +627,13 @@ Issuer                           Holder                         Verifier
    This is represented in CBOR pretty-printed format as follows (with
    end-of-line comments and spaces inserted for clarity):
 
-   83                                     # array(3)
-      50                                  # bytes(16)
-         bae611067bb823486797da1ebbb52f83 # 16-byte salt
-      6b                                  # text(11)
-         414243442d313233343536           # "ABCD-123456"
-      19 01f5                             # unsigned(501)
+   58 21                                     # bytes(33)
+      83                                     # array(3)
+         50                                  # bytes(16)
+            bae611067bb823486797da1ebbb52f83 # 16-byte salt
+         6b                                  # text(11)
+            414243442d313233343536           # "ABCD-123456"
+         19 01f5                             # unsigned(501)
 
       Figure 7: CBOR encoding of inspector_license_number disclosure,
                        pretty-printed in hexadecimal
@@ -645,7 +646,7 @@ Issuer                           Holder                         Verifier
    Element (for example, for the redacted claim element of
    inspection_dates).
 
-   d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
+   af375dc3fba1d082448642c00be7b2f7bb05c9d8fb61cfc230ddfdfb4616a693
 
      Figure 8: SHA-256 hash of inspector_license_number disclosure, in
                                 hexadecimal
@@ -656,8 +657,8 @@ Issuer                           Holder                         Verifier
 
      / redacted_claim_keys / simple(59) : [
          / redacted inspector_license_number /
-         h'd9df03da474fcb3c65771748e2e0608c
-           f437504ecc24f450aaeacd40dd552b3f',
+         h'af375dc3fba1d082448642c00be7b2f7
+           bb05c9d8fb61cfc230ddfdfb4616a693',
          / ... next redacted claim at the same level would go here /  ],
 
       Figure 9: redacted inspector_license_number claim in the issued
