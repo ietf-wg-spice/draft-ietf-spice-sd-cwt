@@ -149,7 +149,7 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
 <div class="wrap">
 
 <header>
-  <p class="eyebrow">draft-ietf-spice-sd-cwt-08 &middot; 1 September 2026</p>
+  <p class="eyebrow">draft-ietf-spice-sd-cwt-08 &middot; updated 3 September 2026</p>
   <h1>SD-CWT Interop Matrix</h1>
   <p class="lede">
     Three independent implementations, run against the six canonical examples published in the draft
@@ -159,7 +159,7 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
   <dl class="facts">
     <div class="fact"><dt>Implementations</dt><dd>3<small>python, javascript, rust</small></dd></div>
     <div class="fact"><dt>Canonical examples</dt><dd>6 / 6<small>read by all three</small></dd></div>
-    <div class="fact"><dt>Conformance bugs fixed</dt><dd>32<small>across two repos</small></dd></div>
+    <div class="fact"><dt>Conformance bugs fixed</dt><dd>34<small>across three repos</small></dd></div>
     <div class="fact"><dt>Tests</dt><dd>673<small>110 + 471 + 92</small></dd></div>
     <div class="fact"><dt>Interop checks</dt><dd>16 / 16<small>from merged main</small></dd></div>
   </dl>
@@ -192,7 +192,7 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
           <th scope="row">Verify the draft&rsquo;s presentation<small>kbt.cbor, end to end</small></th>
           <td><span class="mark m-ok">confirmed</span></td>
           <td><span class="mark m-ok">confirmed</span></td>
-          <td><span class="mark m-blocked">blocked</span></td>
+          <td><span class="mark m-ok">confirmed<sup>&dagger;</sup></span></td>
         </tr>
         <tr>
           <th scope="row">Present the draft&rsquo;s own credential<small>as Holder, Appendix C key</small></th>
@@ -207,7 +207,13 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
           <td><span class="mark m-ok">confirmed</span></td>
         </tr>
         <tr>
-          <th scope="row">Read the other implementations&rsquo; tokens<small>cross-implementation</small></th>
+          <th scope="row">Reads the others&rsquo; tokens<small>cross-implementation, inbound</small></th>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed<sup>&dagger;</sup></span></td>
+        </tr>
+        <tr>
+          <th scope="row">Its tokens are read by the others<small>cross-implementation, outbound</small></th>
           <td><span class="mark m-ok">confirmed</span></td>
           <td><span class="mark m-ok">confirmed</span></td>
           <td><span class="mark m-blocked">blocked</span></td>
@@ -237,6 +243,10 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
       <span class="mark m-blocked">blocked by a known defect</span>
       <span class="mark m-gap">optional feature, unimplemented</span>
       <span class="mark m-na">not exercised here</span>
+    </div>
+    <div class="legend" style="border-top:1px solid var(--rule)">
+      <span><sup>&dagger;</sup>&nbsp;with the <code>status</code> feature off, and a two-line relaxation of a
+      trait bound that otherwise excludes P-256 and P-384 Holder keys. Neither is upstream yet.</span>
     </div>
   </div>
 </section>
@@ -323,16 +333,29 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
     </article>
 
     <article class="card">
-      <header><h3><a href="https://github.com/beltram/esdicawt">esdicawt</a></h3><span class="count">4</span></header>
-      <p class="role">rust &middot; the most conformant of the three</p>
+      <header><h3><a href="https://github.com/beltram/esdicawt">esdicawt</a></h3><span class="count">2&nbsp;/&nbsp;6</span></header>
+      <p class="role">rust &middot; two fixed upstream, four open</p>
       <ul>
-        <li><b>Every registered code point already correct</b> &mdash; 170, 171, 59, 60, 58, 293/294. It was written against the draft with care.</li>
-        <li><b>Its draft-example tests were <code>#[ignore]</code>d</b>, and its submodule pinned to&nbsp;-05. Bumping to&nbsp;-08 took one line, and enabled two assertions that had been parked behind FIXMEs.</li>
-        <li><b><code>kcwt</code> written as a bstr</b> rather than the embedded <code>#6.18</code>. This predates -05, so it is not draft drift. Filed as <a href="https://github.com/beltram/esdicawt/issues/94">issue&nbsp;94</a>.</li>
-        <li><b>A trait bound excluded P-256 and P-384 holder keys</b> &mdash; including the draft&rsquo;s own Appendix C key &mdash; to serve an Ed25519-only fast path.</li>
+        <li><b>Fixed:</b> <code>kcwt</code> is now the embedded <code>#6.18</code> rather than a bstr
+            (<a href="https://github.com/beltram/esdicawt/issues/94">issue&nbsp;94</a>), and the disclosure
+            digest now covers the <code>bstr</code>. With those two in, it verifies the draft&rsquo;s own
+            SD-KBT and a javascript-issued presentation.</li>
+        <li><b>Emits indefinite-length CBOR.</b> The SD-KBT unprotected header is written
+            <code>bf&nbsp;ff</code> where the draft writes <code>a0</code>. Section&nbsp;6.4 says encoders
+            MUST NOT send it and decoders MUST reject it, so both other implementations refuse the token
+            &mdash; independently, and for exactly this reason.</li>
+        <li><b>The <code>status</code> claim is mandatory</b> when the <code>status</code> feature is on:
+            every other claim on the payload is <code>Option</code> with a default, that one is not. The
+            draft&rsquo;s CDDL does not list <code>status</code> in <code>sd-payload</code> at all, so no
+            canonical example carries it and none of them parse.</li>
+        <li><b>A trait bound still excludes P-256 and P-384 Holder keys</b> from the verifier API,
+            including the draft&rsquo;s own Appendix&nbsp;C key. It exists to serve an Ed25519-only fast
+            path that already holds the key it needs.</li>
+        <li><b>To Be Decoy is 61, and should be 62</b> per Section&nbsp;17.3.</li>
+        <li>Its draft-example tests are still <code>#[ignore]</code>d and its submodule still points at
+            -05, so none of the above surfaces in CI.</li>
       </ul>
     </article>
-
   </div>
 
   <details style="margin-top:22px">
@@ -346,9 +369,13 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
 the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; hash of the bstr</pre>
       <p style="margin-top:14px">The normative text is unambiguous &mdash; the CDDL says
       <code>bstr-encoded-salted = bstr .cbor salted-entry</code>, and Appendix&nbsp;A step&nbsp;2 says to hash
-      that structure. Only the generated example file <code>first-blinded-hash.txt</code> disagrees. But a
+      that structure. Only the generated example file <code>first-blinded-hash.txt</code> disagreed. But a
       reader following the walkthrough hand-implements the wrong digest, which is what happened here three
       times over. All three now match the token.</p>
+      <p style="margin-top:12px">The example itself is being corrected in
+      <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/297">PR&nbsp;297</a>, which
+      regenerates the Section&nbsp;3 walkthrough from the <code>bstr</code> and prints the two-byte header
+      above the array, so the digest a reader computes by hand is the one the token carries.</p>
     </div>
   </details>
 </section>
@@ -404,11 +431,12 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
       </ul>
     </article>
     <article class="card">
-      <header><h3>esdicawt cross-interop</h3><span class="mark m-blocked" role="img" aria-label="blocked by a known defect"></span></header>
-      <p class="role">one defect away</p>
+      <header><h3>esdicawt, outbound</h3><span class="mark m-blocked" role="img" aria-label="blocked by a known defect"></span></header>
+      <p class="role">one defect from a complete matrix</p>
       <ul>
-        <li>Fixing <code>kcwt</code> completes the matrix &mdash; every other capability is already there.</li>
-        <li>Both obvious fixes collide with tag-in-map handling in its pinned ciborium fork, so the shape of the change is the author&rsquo;s call.</li>
+        <li>Inbound is done: it reads the draft&rsquo;s presentation and a javascript-issued one.</li>
+        <li>Outbound is blocked only by the indefinite-length unprotected header. <code>bf&nbsp;ff</code>
+            becoming <code>a0</code> closes the last cell.</li>
       </ul>
     </article>
     <article class="card">
@@ -418,6 +446,8 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
         <li><code>sd_alg</code> values other than SHA-256.</li>
         <li>Thumbprint-style <code>cnf</code> (confirmation key 3) end to end.</li>
         <li>sd-cwt-js has no test workflow, so its 471 tests never run on a pull request.</li>
+        <li>Neither python nor javascript is registered in this repository&rsquo;s own
+            <code>interop/</code> harness, so the working group cannot yet reproduce their columns.</li>
       </ul>
     </article>
   </div>
