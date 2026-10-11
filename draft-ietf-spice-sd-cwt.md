@@ -1434,7 +1434,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead_encrypted_claims
 * Label: 171
-* Value Type: `[ +[bstr,bstr,bstr] ]`
+* Value Type: `[ +[bstr,bstr,bstr,?(uint/tstr/bstr)] ]`
 * Value Registry: (empty)
 * Description: A list of AEAD encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{aead}} of this specification
