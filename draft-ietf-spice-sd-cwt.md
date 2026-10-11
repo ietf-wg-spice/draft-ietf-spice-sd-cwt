@@ -1076,7 +1076,7 @@ A valid AEAD encrypted disclosure for that first disclosure is:
 
 
 The Redacted Claim Hash is still over the unencrypted disclosure.
-The receiver of an AEAD encrypted disclosure determines the appropriate decryption key by local configuration, using the `aead-key-context` if present, or by looking up the authentication tag.
+The receiver of an AEAD encrypted disclosure determines the appropriate decryption key by local configuration, using the `aead-key-context` if present, or by looking up the nonce or authentication tag.
 
 > Which key determination mechanism to use is the responsibility of the relevant profile or enclosing protocol.
 
