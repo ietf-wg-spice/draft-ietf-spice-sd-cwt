@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 6 March 2027                                       Tradeverifyd
+Expires: 14 April 2027                                      Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                        2 September 2026
+                                                         11 October 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 March 2027.
+   This Internet-Draft will expire on 14 April 2027.
 
 Copyright Notice
 
@@ -627,12 +627,13 @@ Issuer                           Holder                         Verifier
    This is represented in CBOR pretty-printed format as follows (with
    end-of-line comments and spaces inserted for clarity):
 
-   83                                     # array(3)
-      50                                  # bytes(16)
-         bae611067bb823486797da1ebbb52f83 # 16-byte salt
-      6b                                  # text(11)
-         414243442d313233343536           # "ABCD-123456"
-      19 01f5                             # unsigned(501)
+   58 21                                     # bytes(33)
+      83                                     # array(3)
+         50                                  # bytes(16)
+            bae611067bb823486797da1ebbb52f83 # 16-byte salt
+         6b                                  # text(11)
+            414243442d313233343536           # "ABCD-123456"
+         19 01f5                             # unsigned(501)
 
       Figure 7: CBOR encoding of inspector_license_number disclosure,
                        pretty-printed in hexadecimal
@@ -645,7 +646,7 @@ Issuer                           Holder                         Verifier
    Element (for example, for the redacted claim element of
    inspection_dates).
 
-   d9df03da474fcb3c65771748e2e0608cf437504ecc24f450aaeacd40dd552b3f
+   af375dc3fba1d082448642c00be7b2f7bb05c9d8fb61cfc230ddfdfb4616a693
 
      Figure 8: SHA-256 hash of inspector_license_number disclosure, in
                                 hexadecimal
@@ -656,8 +657,8 @@ Issuer                           Holder                         Verifier
 
      / redacted_claim_keys / simple(59) : [
          / redacted inspector_license_number /
-         h'd9df03da474fcb3c65771748e2e0608c
-           f437504ecc24f450aaeacd40dd552b3f',
+         h'af375dc3fba1d082448642c00be7b2f7
+           bb05c9d8fb61cfc230ddfdfb4616a693',
          / ... next redacted claim at the same level would go here /  ],
 
       Figure 9: redacted inspector_license_number claim in the issued
@@ -1313,13 +1314,13 @@ Issuer                           Holder                         Verifier
       ? &(kid: 4) ^ => bstr,
       ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
       ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
-      ? &(sd_aead: 172) ^ => uint .size 2,
       * label => safe_value
    }
 
    sd-unprotected = {
       ? &(sd_claims: 17) ^ => salted-array,
       ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
+      ? &(sd_aead: 172) ^ => uint .size 2,
       * label => safe_value
    }
 
@@ -1860,9 +1861,9 @@ Issuer                           Holder                         Verifier
 12.1.  AEAD Encrypted Disclosures Mechanism
 
    This section defines two new COSE Header Parameters.  If present in
-   the protected headers, the first header parameter (sd_aead) specifies
-   an Authenticated Encryption with Additional Data (AEAD) algorithm
-   [RFC5116] registered in the IANA AEAD Algorithms registry
+   the unprotected headers, the first header parameter (sd_aead)
+   specifies an Authenticated Encryption with Additional Data (AEAD)
+   algorithm [RFC5116] registered in the IANA AEAD Algorithms registry
    (https://www.iana.org/assignments/aead-parameters/aead-
    parameters.xhtml) . (Guidance on specific algorithms is discussed in
    Section 16.9.)  The second header parameter
@@ -1918,7 +1919,8 @@ Issuer                           Holder                         Verifier
    The Redacted Claim Hash is still over the unencrypted disclosure.
    The receiver of an AEAD encrypted disclosure determines the
    appropriate decryption key by local configuration, using the aead-
-   key-context if present, or by looking up the authentication tag.
+   key-context if present, or by looking up the nonce or authentication
+   tag.
 
       Which key determination mechanism to use is the responsibility of
       the relevant profile or enclosing protocol.
@@ -2615,7 +2617,7 @@ Issuer                           Holder                         Verifier
 
    *  Label: 171
 
-   *  Value Type: [ +[bstr,bstr,bstr] ]
+   *  Value Type: [ +[bstr,bstr,bstr,?(uint/tstr/bstr)] ]
 
    *  Value Registry: (empty)
 
@@ -2980,9 +2982,9 @@ Issuer                           Holder                         Verifier
 
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "Concise Diagnostic Notation (CDN)", Work in
-              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-27,
-              20 July 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-cbor-edn-literals-27>.
+              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-28,
+              29 September 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-edn-literals-28>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -3068,9 +3070,9 @@ Issuer                           Holder                         Verifier
    [I-D.ietf-cbor-serialization]
               Lundblade, L., "CBOR Serialization and Determinism", Work
               in Progress, Internet-Draft, draft-ietf-cbor-
-              serialization-08, 29 July 2026,
+              serialization-09, 28 September 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              serialization-08>.
+              serialization-09>.
 
    [I-D.ietf-oauth-status-list]
               Looker, T., Bastian, P., and C. Bormann, "Token Status
@@ -3155,13 +3157,13 @@ Appendix A.  Complete CDDL Schema
       ? &(kid: 4) ^ => bstr,
       ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
       ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
-      ? &(sd_aead: 172) ^ => uint .size 2,
       * label => safe_value
    }
 
    sd-unprotected = {
       ? &(sd_claims: 17) ^ => salted-array,
       ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
+      ? &(sd_aead: 172) ^ => uint .size 2,
       * label => safe_value
    }
 
