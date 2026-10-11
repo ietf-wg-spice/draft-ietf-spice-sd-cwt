@@ -897,7 +897,12 @@ A `cnonce` MAY be present in SD-CWT, but its validity is considered by the holde
 - `iat` in the KBT >= `nbf` in the SD-CWT (if both exist)
 
 {:start="8"}
-8. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
+8. If there are any values in the `sd_aead_encrypted_claims` header parameter (see {{encrypted-disclosures}}) for which the Verifier has keys, and the Verifier supports the encryption algorithm used, the Verifier decrypts them and verifies the tag.
+If the Verifier does not have a suitable key for a value in the `sd_aead_encrypted_claims` header field, that item is ignored.
+If the Verifier has a key for a specific claim, but decryption fails, the entire SD-CWT is invalid.
+If decryption succeeds, the Verifier treats each decrypted claim as if it were a disclosure present in the `sd_claims` header parameter.
+
+9. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
 Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Redacted Claim Hash in the payload.
 If there are any disclosures that do not have a corresponding Redacted Claim Hash, the entire SD-CWT is invalid.
 If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.
@@ -907,10 +912,10 @@ If any decoded Redacted Claim Key duplicates another claim key in the same posit
     > If any Redacted Claim Hashes are nested inside a disclosure, the Verifier follows the procedure in {{nesting-validation}} (see also {{nesting}} for a worked example).
     > A disclosed value could appear before the disclosure of its parent.
 
-{:start="9"}
-9. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the KBT contains a value that does not correspond to the intended recipient.
+{:start="10"}
+10. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the KBT contains a value that does not correspond to the intended recipient.
 
-10. Otherwise, the SD-CWT is considered valid.
+11. Otherwise, the SD-CWT is considered valid.
 Once any remaining redacted elements (either redacted claims or decoys) are deleted, the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
 
     > Note: Undisclosed Redacted Claim Elements will be removed from the Validated Disclosed Claims Set, changing the length of the containing array.
