@@ -1036,7 +1036,7 @@ The initial Verifier of the KBT might not be able to decrypt encrypted disclosur
 ## AEAD Encrypted Disclosures Mechanism {#aead}
 
 This section defines two new COSE Header Parameters.
-If present in the protected headers, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
+If present in the unprotected headers, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
 (Guidance on specific algorithms is discussed in {{aead-choice}}.)
 The second header parameter (`sd_aead_encrypted_claims`), if present, contains a non-empty list of AEAD encrypted disclosures.
 Taking the first example disclosure from {{first-disclosure}}:
