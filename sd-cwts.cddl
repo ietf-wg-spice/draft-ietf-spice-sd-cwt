@@ -13,13 +13,13 @@ sd-protected = {
    ? &(kid: 4) ^ => bstr,
    ? &(CWT_Claims: 15) ^ => issued_sd_cwt_map,
    ? &(sd_alg: 170) ^ => int,        ; -16 for sha-256
-   ? &(sd_aead: 172) ^ => uint .size 2,
    * label => safe_value
 }
 
 sd-unprotected = {
    ? &(sd_claims: 17) ^ => salted-array,
    ? &(sd_aead_encrypted_claims: 171) ^ => aead-encrypted-array,
+   ? &(sd_aead: 172) ^ => uint .size 2,
    * label => safe_value
 }
 
