@@ -149,7 +149,7 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
 <div class="wrap">
 
 <header>
-  <p class="eyebrow">draft-ietf-spice-sd-cwt-08 &middot; updated 3 September 2026</p>
+  <p class="eyebrow">draft-ietf-spice-sd-cwt-08 &middot; updated 5 October 2026</p>
   <h1>SD-CWT Interop Matrix</h1>
   <p class="lede">
     Three independent implementations, run against the six canonical examples published in the draft
@@ -159,9 +159,9 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
   <dl class="facts">
     <div class="fact"><dt>Implementations</dt><dd>3<small>python, javascript, rust</small></dd></div>
     <div class="fact"><dt>Canonical examples</dt><dd>6 / 6<small>read by all three</small></dd></div>
-    <div class="fact"><dt>Conformance bugs fixed</dt><dd>34<small>across three repos</small></dd></div>
-    <div class="fact"><dt>Tests</dt><dd>673<small>110 + 471 + 92</small></dd></div>
-    <div class="fact"><dt>Interop checks</dt><dd>16 / 16<small>from merged main</small></dd></div>
+    <div class="fact"><dt>Conformance bugs fixed</dt><dd>36<small>across three repos</small></dd></div>
+    <div class="fact"><dt>Tests</dt><dd>738<small>150 + 496 + 92</small></dd></div>
+    <div class="fact"><dt>Interop checks</dt><dd>40 / 40<small>16 + 24 AEAD, from merged main</small></dd></div>
   </dl>
 </header>
 
@@ -232,8 +232,8 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
         </tr>
         <tr>
           <th scope="row">AEAD encrypted disclosures<small>sd_aead_encrypted_claims, 171</small></th>
-          <td><span class="mark m-gap">not implemented</span></td>
-          <td><span class="mark m-gap">not implemented</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
           <td><span class="mark m-gap">not implemented</span></td>
         </tr>
       </tbody>
@@ -298,7 +298,7 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
 
 <section>
   <p class="eyebrow">What interop testing found</p>
-  <h2>Thirty-two defects that every existing test passed</h2>
+  <h2>Thirty-four defects that every existing test passed</h2>
   <p style="margin-top:12px;color:var(--ink-2)">
     Both suites were green throughout. They sign and verify with the same code on both sides, so they
     prove self-consistency, not conformance. Nothing compared against bytes the implementation did not
@@ -307,7 +307,7 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
   <div class="grid" style="margin-top:22px">
 
     <article class="card">
-      <header><h3><a href="https://github.com/tradeverifyd/sd-cwt">sd-cwt</a></h3><span class="count">17</span></header>
+      <header><h3><a href="https://github.com/tradeverifyd/sd-cwt">sd-cwt</a></h3><span class="count">19</span></header>
       <p class="role">python &middot; 90 tests green while broken</p>
       <ul>
         <li><b>Disclosure hash over the wrong bytes.</b> The CDDL input is <code>bstr .cbor salted-entry</code>; the digest must cover the byte string including its header.</li>
@@ -316,6 +316,8 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
         <li><b>A sample URL in every credential</b>, as a tstr where the CDDL requires bstr. That one claim failed CDDL validation for every token produced.</li>
         <li><b>Duplicate map keys resolved last-one-wins, silently</b> &mdash; how two parties are made to read the same bytes differently.</li>
         <li><b>An issuer that returned <code>b'dummy_signature_placeholder'</code></b> in the signature slot, under the same class name as the real one.</li>
+        <li><b>The verifier never matched disclosures to Redacted Claim Hashes</b>, so one lifted from another credential was accepted. Found while adding AEAD, where a decrypted disclosure means nothing without that check.</li>
+        <li><b>Disclosed claims with integer keys were dropped</b> from the verified result unless the key was 1, 2 or 6 &mdash; including the draft&rsquo;s own <code>501</code>.</li>
       </ul>
     </article>
 
@@ -405,6 +407,12 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
         <tr><th scope="row">CDDL conformance</th>
           <td>Produced tokens are validated against <code>sd-cwts.cddl</code> with the Ruby
               <code>cddl</code> tool already vendored for <code>make validate</code>.</td></tr>
+        <tr><th scope="row">AEAD encrypted disclosures</th>
+          <td><code>interop/run_aead.py</code> presents the draft&rsquo;s <code>issuer_cwt.cbor</code> with
+              disclosure 501 encrypted under the draft&rsquo;s key and nonce, for every Holder &times; Verifier
+              pair. The 171 entry must equal <code>aead-claim-array.edn</code> byte for byte; a Verifier with the
+              key must disclose 501, one without it must still verify and withhold 501, and one with the wrong
+              key must reject.</td></tr>
         <tr><th scope="row">Normative probe</th>
           <td>Thirteen MUST / MUST NOT statements are each exercised with a token that violates them;
               the implementation must reject it.</td></tr>
@@ -423,11 +431,18 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
   <h2>What this does not yet confirm</h2>
   <div class="grid" style="margin-top:20px">
     <article class="card">
-      <header><h3>AEAD disclosures</h3><span class="mark m-gap" role="img" aria-label="optional feature, unimplemented"></span></header>
-      <p class="role">unimplemented in all three</p>
+      <header><h3>AEAD disclosures</h3><span class="mark m-gap" role="img" aria-label="optional feature, partly implemented"></span></header>
+      <p class="role">python &harr; javascript only</p>
       <ul>
-        <li><code>sd_aead_encrypted_claims</code> (171) and <code>sd_aead</code> (172) are optional and nobody has built them.</li>
-        <li>The draft ships this example as EDN only, with no signed <code>.cbor</code> vector, so there is nothing to interoperate against yet.</li>
+        <li>esdicawt does not implement 171 or 172, so it has no cell here yet.</li>
+        <li>The plaintext is the <code>bstr .cbor salted-entry</code> <em>with</em> its <code>58&nbsp;21</code> header.
+            The text says only &ldquo;the corresponding bstr is encrypted&rdquo;; the example is what settles it
+            &mdash; the same gap that produced the shared hashing bug.</li>
+        <li><code>sd_aead</code> (172) sits in the Issuer-signed protected header, but encrypting is the
+            Holder&rsquo;s choice, so a Holder cannot select the algorithm. Both libraries default to
+            AES-128-GCM.</li>
+        <li>The IANA template gives 171 as <code>[ +[bstr,bstr,bstr] ]</code>; <code>aead.cddl</code> allows a
+            fourth key-context element. Validation step 8 mentions only <code>sd_claims</code>.</li>
       </ul>
     </article>
     <article class="card">
@@ -446,8 +461,8 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
         <li><code>sd_alg</code> values other than SHA-256.</li>
         <li>Thumbprint-style <code>cnf</code> (confirmation key 3) end to end.</li>
         <li>sd-cwt-js has no test workflow, so its 471 tests never run on a pull request.</li>
-        <li>Neither python nor javascript is registered in this repository&rsquo;s own
-            <code>interop/</code> harness, so the working group cannot yet reproduce their columns.</li>
+        <li>python and javascript are registered in this repository&rsquo;s <code>interop/</code> harness as
+            Holder and Verifier, which reproduces the AEAD row; neither is registered as Issuer yet.</li>
       </ul>
     </article>
   </div>
@@ -457,7 +472,10 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
   <p>Every result executed against freshly cloned <code>main</code> at
   <a href="https://github.com/tradeverifyd/sd-cwt/commit/33d0ec4"><code>tradeverifyd/sd-cwt@33d0ec4</code></a>, <a href="https://github.com/tradeverifyd/sd-cwt-js/commit/86baf72"><code>tradeverifyd/sd-cwt-js@86baf72</code></a> and
   <a href="https://github.com/beltram/esdicawt/commit/ed3117d"><code>beltram/esdicawt@ed3117d</code></a>, with the draft repo at
-  <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/commit/6733908"><code>ietf-wg-spice/draft-ietf-spice-sd-cwt@6733908</code></a> (draft-08, unmodified).</p>
+  <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/commit/6733908"><code>ietf-wg-spice/draft-ietf-spice-sd-cwt@6733908</code></a> (draft-08, unmodified).
+  The AEAD row was run with <code>interop/run_aead.py</code> against
+  <a href="https://github.com/tradeverifyd/sd-cwt/commit/5a2744c"><code>tradeverifyd/sd-cwt@5a2744c</code></a> and
+  <a href="https://github.com/tradeverifyd/sd-cwt-js/commit/55b32be"><code>tradeverifyd/sd-cwt-js@55b32be</code></a>.</p>
 </footer>
 
 </div>
