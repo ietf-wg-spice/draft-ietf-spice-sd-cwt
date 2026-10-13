@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-06T03:41:34.541295+00:00",
+  "timestamp": "2026-10-13T04:22:06.350596+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -5755,6 +5755,22 @@
       "createdAt": "2026-09-02T14:31:22Z",
       "updatedAt": "2026-09-07T13:37:25Z",
       "closedAt": "2026-09-07T13:37:25Z",
+      "comments": []
+    },
+    {
+      "number": 300,
+      "id": "I_kwDOMm_Q2s8AAAABWaltCA",
+      "title": "sd_aead should be in unprotected headers",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/issues/300",
+      "state": "CLOSED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As the `sd_aead` header is added by the Holder, it should be in the *un*protected headers.\n",
+      "createdAt": "2026-10-11T08:04:34Z",
+      "updatedAt": "2026-10-12T13:10:42Z",
+      "closedAt": "2026-10-12T13:10:42Z",
       "comments": []
     }
   ],
@@ -22877,7 +22893,7 @@
       "labels": [],
       "body": "Adds AEAD encrypted disclosures (`sd_aead_encrypted_claims`, 171) to the interop harness and records the results in the interop report.\n\n## What's in it\n- **`interop/INTEROP.md`**: new `present` options (`--encrypt_list`, `--aead-key`, `--aead-key-context`, `--aead-nonces`, `--audience`) and a repeatable `verify --aead-key`. Also says what happens when the key is missing (verification passes and the claim stays undisclosed) and when the key is wrong (verification fails).\n- **`test_cases/aead_first_disclosure`**: the draft's `issuer_cwt.cbor` with disclosure 501 encrypted under the draft's AEAD key. The nonce is pinned, so the expected 171 entry is `aead-claim-array.edn` byte for byte. Every input is taken from the draft's own examples and Appendix C keys.\n- **`run_aead.py`**: runs the case for every Holder \u00d7 Verifier pair and writes results to `tests/I=draft_H=\u2026_V=\u2026/<timestamp>/`. It checks six things per pair:\n  1. `present` succeeds.\n  2. The 171 entry equals the draft example byte for byte.\n  3. 501 is not in `sd_claims`.\n  4. Verify with the key discloses 501.\n  5. Verify without a key passes and withholds 501.\n  6. Verify with the wrong key rejects the token.\n- **`implementations/sd_cwt`, `implementations/sd_cwt_js`**: `present`, `verify` and `target` wrappers for [tradeverifyd/sd-cwt#5](https://github.com/tradeverifyd/sd-cwt/pull/5) and [tradeverifyd/sd-cwt-js#4](https://github.com/tradeverifyd/sd-cwt-js/pull/4), both merged. Set `SD_CWT_PYTHON` and `SD_CWT_JS_DIR` to point at them.\n- **`interop-report.html`**:\n  - The AEAD row is now confirmed for python and javascript; esdicawt still doesn't implement it.\n  - Two new python verifier defects are listed, both found while adding AEAD.\n  - The method table gains an AEAD row.\n  - The \"does not yet confirm\" section now lists the spec gaps below.\n\n## Result\n```\nH=sd_cwt       V=sd_cwt       6/6\nH=sd_cwt       V=sd_cwt_js    6/6\nH=sd_cwt_js    V=sd_cwt       6/6\nH=sd_cwt_js    V=sd_cwt_js    6/6\n```\n\n## Spec gaps AEAD exposed (for discussion, not changed here)\n1. The plaintext is the `bstr .cbor salted-entry` **including** its `58 21` header. The text only says \"the corresponding bstr is encrypted\"; the example is what settles it. This is the same kind of ambiguity as the hashing bug fixed in #297.\n2. `sd_aead` (172) is in the protected header the Issuer signs, but encrypting is the Holder's choice, so the Holder can't pick the algorithm.\n3. The IANA template gives 171 as `[ +[bstr,bstr,bstr] ]`, but `aead.cddl` allows a fourth key-context element.\n4. Verifier validation step 8 mentions only `sd_claims`; no step covers decrypting 171.\n\nNot included: esdicawt has no AEAD support, and the existing `issue` flow (`runone.py`) is unchanged.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)",
       "createdAt": "2026-10-05T20:50:57Z",
-      "updatedAt": "2026-10-05T20:50:57Z",
+      "updatedAt": "2026-10-12T15:45:20Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "9d022071f3889087cbb8ca6c5fdc5cab6c3e77d7",
@@ -22890,6 +22906,48 @@
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 301,
+      "id": "PR_kwDOMm_Q2s8AAAABHybd0A",
+      "title": "Put sd_aead in unprotected headers",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/301",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As the `sd_aead` header is added by the Holder, it should be in the *un*protected headers.\n\nAlso\n- added key context to the Type in the IANA registration of `sd_aead_encrypted_claims`\n- noted an implementation could use the nonce to determine the out-of-band key\n\nResolves #300 ",
+      "createdAt": "2026-10-11T08:05:52Z",
+      "updatedAt": "2026-10-12T13:10:41Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "9d022071f3889087cbb8ca6c5fdc5cab6c3e77d7",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "sd-aead-unprotected",
+      "headRefOid": "77d160d47ca1a8ef5bf691c62b8797d48bd47c8f",
+      "closedAt": "2026-10-12T13:10:41Z",
+      "mergedAt": "2026-10-12T13:10:41Z",
+      "mergedBy": "OR13",
+      "mergeCommit": {
+        "oid": "f4293248d3c7d3915fec9e2c896a138e0ce5b16c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABR02CqQ",
+          "commit": {
+            "abbreviatedOid": "77d160d"
+          },
+          "author": "OR13",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-12T13:08:59Z",
+          "updatedAt": "2026-10-12T13:08:59Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
