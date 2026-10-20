@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-13T04:22:06.350596+00:00",
+  "timestamp": "2026-10-20T02:29:05.123962+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -22919,7 +22919,7 @@
       "labels": [],
       "body": "As the `sd_aead` header is added by the Holder, it should be in the *un*protected headers.\n\nAlso\n- added key context to the Type in the IANA registration of `sd_aead_encrypted_claims`\n- noted an implementation could use the nonce to determine the out-of-band key\n\nResolves #300 ",
       "createdAt": "2026-10-11T08:05:52Z",
-      "updatedAt": "2026-10-12T13:10:41Z",
+      "updatedAt": "2026-10-18T13:17:11Z",
       "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
       "baseRefName": "main",
       "baseRefOid": "9d022071f3889087cbb8ca6c5fdc5cab6c3e77d7",
@@ -22946,6 +22946,26 @@
           "createdAt": "2026-10-12T13:08:59Z",
           "updatedAt": "2026-10-12T13:08:59Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOMm_Q2s8AAAABS5bWxA",
+          "commit": {
+            "abbreviatedOid": "77d160d"
+          },
+          "author": "cabo",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-18T13:17:11Z",
+          "updatedAt": "2026-10-18T13:17:11Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "What do \"supports\" and \"suitable\" mean here?\n\n(And what does \"first parameter\" mean in 12.1?)\n",
+              "createdAt": "2026-10-18T13:17:11Z",
+              "updatedAt": "2026-10-18T13:17:11Z"
+            }
+          ]
         }
       ]
     }
