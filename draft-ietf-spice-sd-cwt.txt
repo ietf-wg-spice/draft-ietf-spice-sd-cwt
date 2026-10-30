@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 15 April 2027                                      Tradeverifyd
+Expires: 3 May 2027                                         Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                         12 October 2026
+                                                         30 October 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 April 2027.
+   This Internet-Draft will expire on 3 May 2027.
 
 Copyright Notice
 
@@ -3074,16 +3074,16 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Digital Credentials (SD-JWT VC)", Work in
-              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-19,
-              31 August 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-sd-jwt-vc-19>.
+              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-22,
+              27 October 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-oauth-sd-jwt-vc-22>.
 
    [I-D.ietf-cbor-serialization]
               Lundblade, L., "CBOR Serialization and Determinism", Work
               in Progress, Internet-Draft, draft-ietf-cbor-
-              serialization-09, 28 September 2026,
+              serialization-11, 23 October 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              serialization-09>.
+              serialization-11>.
 
    [I-D.ietf-oauth-status-list]
               Looker, T., Bastian, P., and C. Bormann, "Token Status
