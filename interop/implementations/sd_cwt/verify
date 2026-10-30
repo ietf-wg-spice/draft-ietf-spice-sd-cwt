@@ -1,0 +1,2 @@
+#!/bin/sh
+exec "${SD_CWT_PYTHON:-python3}" "$(dirname "$0")/sd_cwt_interop.py" verify "$@"
