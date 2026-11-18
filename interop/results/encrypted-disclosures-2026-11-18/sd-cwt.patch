@@ -1,0 +1,56 @@
+diff --git a/src/sd_cwt/aead.py b/src/sd_cwt/aead.py
+index 2c2219a..1f46ff6 100644
+--- a/src/sd_cwt/aead.py
++++ b/src/sd_cwt/aead.py
+@@ -285,7 +285,12 @@ def decrypt_sd_cwt_disclosures(
+             raise AeadDisclosureError("encrypted disclosure failed authentication")
+ 
+     if decrypted:
+-        unprotected[SD_CLAIMS] = list(unprotected.get(SD_CLAIMS, [])) + decrypted
++        combined = list(unprotected.get(SD_CLAIMS, [])) + decrypted
++        # Each disclosure consumes one Redacted Claim Hash. Do not silently
++        # collapse duplicates when building the reconstruction lookup.
++        if len(set(combined)) != len(combined):
++            raise AeadDisclosureError("duplicate disclosure after AEAD decryption")
++        unprotected[SD_CLAIMS] = combined
+     if remaining:
+         unprotected[SD_AEAD_ENCRYPTED_CLAIMS] = remaining
+     else:
+diff --git a/tests/test_aead.py b/tests/test_aead.py
+index 5471993..4d3ce20 100644
+--- a/tests/test_aead.py
++++ b/tests/test_aead.py
+@@ -289,3 +289,33 @@ class TestCrossImplementationFixtures:
+         assert valid and claims is not None
+         assert claims[501] == "ABCD-123456"
+         assert claims[501] == "ABCD-123456"
++
++
++@pytest.mark.parametrize("plaintext_duplicate", [False, True])
++def test_duplicate_decrypted_disclosures_reject(issued, holder_key, plaintext_duplicate):
++    from sd_cwt.holder_binding import create_sd_kbt
++    from sd_cwt.signers import PresentationSigner
++
++    # Different nonces prove we compare recovered disclosures, not ciphertexts.
++    token = encrypt_sd_cwt_disclosures(
++        issued,
++        [FIRST_DISCLOSURE] if plaintext_duplicate else [],
++        [FIRST_DISCLOSURE] if plaintext_duplicate else [FIRST_DISCLOSURE, FIRST_DISCLOSURE],
++        DRAFT_KEY,
++    )
++    with pytest.raises(AeadDisclosureError, match="duplicate disclosure"):
++        decrypt_sd_cwt_disclosures(token, lambda ctx: DRAFT_KEY)
++
++    kbt = create_sd_kbt(
++        sd_cwt_with_disclosures=token,
++        holder_signer=PresentationSigner(holder_key),
++        audience=AUDIENCE,
++        issued_at=1800000000,
++    )
++    valid, _, _ = _verifier().verify_presentation(
++        kbt, AUDIENCE, aead_key_resolver=lambda ctx: DRAFT_KEY
++    )
++    assert not valid
++    # Without the key a duplicate cannot be detected; forwarding is still valid.
++    valid, _, _ = _verifier().verify_presentation(kbt, AUDIENCE)
++    assert valid

@@ -1,0 +1,60 @@
+▶ AEAD encrypted disclosures: the draft Section 13 vector
+  ✔ the draft's first disclosure is the one in issuer_cwt.cbor (0.817542ms)
+  ✔ decrypts to the first disclosure (2.860833ms)
+  ✔ encrypts with the draft nonce to byte-identical ciphertext and tag (0.574416ms)
+  ✔ encrypts the bstr with its header, not the bare salted-entry (0.092708ms)
+✔ AEAD encrypted disclosures: the draft Section 13 vector (5.011625ms)
+▶ AEAD encrypted disclosures: primitives
+  ✔ round-trips with a random nonce under every supported algorithm (1.993375ms)
+  ✔ rejects the wrong key (0.558417ms)
+  ✔ rejects a tampered tag or ciphertext (0.430458ms)
+  ✔ carries each kind of key context, and rejects other types (1.885667ms)
+  ✔ rejects malformed entries (0.224375ms)
+  ✔ rejects a nonce or key of the wrong length when encrypting (0.147125ms)
+  ✔ refuses algorithms it does not support, including short-tag ones (0.170041ms)
+  ✔ rejects a plaintext that is not a bstr (0.5395ms)
+✔ AEAD encrypted disclosures: primitives (6.287541ms)
+▶ AEAD encrypted disclosures: Holder and Verifier
+  ✔ Holder moves encrypted disclosures from sd_claims to sd_aead_encrypted_claims (2.590666ms)
+  ✔ Holder omits sd_claims entirely when every disclosure is encrypted (0.77225ms)
+  ✔ Holder omits sd_aead_encrypted_claims when nothing is encrypted (0.40675ms)
+  ✔ a Verifier with the key reconstructs encrypted and plaintext disclosures alike (3.187834ms)
+  ✔ tries each candidate key the resolver returns (1.686916ms)
+  ✔ a Verifier without a key leaves the entries encrypted and still verifies (2.320209ms)
+  ✔ rejects when the resolved key does not decrypt (1.745209ms)
+  ✔ rejects a decrypted disclosure that matches no Redacted Claim Hash (1.75925ms)
+  ✔ rejects a disclosure sent both in plaintext and encrypted (1.674125ms)
+  ✔ rejects an empty sd_aead_encrypted_claims (1.12175ms)
+  ✔ rejects a malformed entry even without a key (1.170708ms)
+✔ AEAD encrypted disclosures: Holder and Verifier (18.789459ms)
+▶ AEAD encrypted disclosures: interop fixtures
+  ✔ aead_kbt.js.cbor verifies, produced by this library (scripts/generate-aead-fixture.js) (1.820875ms)
+  ✔ aead_kbt.cbor verifies, produced by the python implementation (tradeverifyd/sd-cwt) (1.110958ms)
+✔ AEAD encrypted disclosures: interop fixtures (3.012375ms)
+▶ duplicate encrypted disclosures
+  ✔ rejects duplicate recovered plaintext (fresh nonce: false) (2.244667ms)
+  ✔ rejects duplicate recovered plaintext (fresh nonce: true) (2.884417ms)
+✔ duplicate encrypted disclosures (5.266792ms)
+▶ nested and multi-recipient Python presentations
+  ✔ preserves nested maps and array positions (key: false) (0.997708ms)
+  ✔ preserves nested maps and array positions (key: true) (1.370958ms)
+  ✔ routes two contexts to recipient both (1.364542ms)
+  ✔ routes two contexts to recipient a (0.993583ms)
+  ✔ routes two contexts to recipient b (0.944209ms)
+  ✔ routes two contexts to recipient neither (0.808291ms)
+✔ nested and multi-recipient Python presentations (6.609916ms)
+▶ authenticated malformed plaintext and AAD
+  ✔ rejects invalid CBOR even with an authentic tag (0.49575ms)
+  ✔ rejects trailing item even with an authentic tag (0.1855ms)
+  ✔ rejects non-preferred bstr even with an authentic tag (0.173125ms)
+  ✔ rejects indefinite bstr even with an authentic tag (0.710167ms)
+  ✔ rejects a valid ciphertext made with nonempty AAD (0.294709ms)
+✔ authenticated malformed plaintext and AAD (2.025584ms)
+ℹ tests 38
+ℹ suites 7
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 110.863542

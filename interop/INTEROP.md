@@ -143,3 +143,24 @@ SD_CWT_JS_DIR=/path/to/sd-cwt-js \
 | `esdicawt` | [beltram/esdicawt](https://github.com/beltram/esdicawt) (rust) | issue, present, verify | symlinks to a local `interop` build |
 | `sd_cwt` | [tradeverifyd/sd-cwt](https://github.com/tradeverifyd/sd-cwt) (python) | present, verify | `SD_CWT_PYTHON`: a python with `sd-cwt` installed |
 | `sd_cwt_js` | [tradeverifyd/sd-cwt-js](https://github.com/tradeverifyd/sd-cwt-js) (javascript) | present, verify | `SD_CWT_JS_DIR`: a checkout with `npm install` done |
+
+## Expanded encrypted-disclosure cross-tests
+
+See [ENCRYPTED-INTEROP.md](ENCRYPTED-INTEROP.md) for the pinned Rust feature-branch
+adapter, Python/JavaScript regression fixes, full reproduction commands, saved
+evidence, and known differences. `run_encrypted.py` extends the canonical AEAD
+case with signed negative probes, contexts, fresh nonces, encrypted-only
+presentations, and explicit algorithm fixtures. It records unsuccessful checks
+and unsupported capabilities rather than treating them as interop successes.
+
+`esdicawt_aead` is the test adapter, distinct from the upstream `esdicawt` CLI.
+Set `ESDICAWT_AEAD_BIN` to its built binary, or use explicit `--impl` arguments
+to exclude it when running without a Rust checkout.
+
+`run_profiles.py` checks complete reconstructed claims, nested/array disclosures,
+three algorithms, byte-string contexts, and recipient-key routing. See
+[PROFILE-INTEROP.md](PROFILE-INTEROP.md) for the follow-up results and the
+`--aead-key-context-cbor` / `--aead-key-map` wrapper extensions.
+
+See [the spec-first security follow-up](SPEC-FIRST-INTEROP.md) for the expanded
+Rust profiles and known header-172 incompatibility.

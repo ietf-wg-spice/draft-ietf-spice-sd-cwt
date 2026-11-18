@@ -1,0 +1,9 @@
+H=esdicawt_aead V=esdicawt_aead 6/6
+H=esdicawt_aead V=sd_cwt       6/6
+H=esdicawt_aead V=sd_cwt_js    6/6
+H=sd_cwt       V=esdicawt_aead 6/6
+H=sd_cwt       V=sd_cwt       6/6
+H=sd_cwt       V=sd_cwt_js    6/6
+H=sd_cwt_js    V=esdicawt_aead 6/6
+H=sd_cwt_js    V=sd_cwt       6/6
+H=sd_cwt_js    V=sd_cwt_js    6/6

@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-18",
+  "python_commit": "e15e39a",
+  "javascript_commit": "93c0f6e",
+  "rust_commit": "c6eb0e426ac3e8ecdbcadf70f2a9d44af05a748f",
+  "rust_library_modified": false,
+  "spec_revision": "477fb72",
+  "scope": "Holder/Verifier profiles, not complete conformance",
+  "sha256": {
+    "npm-audit.json": "c1c9422bc41e4b848a7bc1e69a4897fd406ae0ae0bf04115de58377afa30ba44",
+    "profiles.log": "fca25445b93ce7f063f0c5ec1dbc375744e14b400a087bc14bb7246cfc29050b",
+    "encrypted.log": "ff8e120c73fc41a5f4d951a0efa34a1e9f72b7cd7ab660a0d96f88579a01f37e",
+    "node26-tests.log": "39db92047bb7caeba2847aac1dbd5dd50eebd376dcc64dcbae51451d979354a2",
+    "profile-results.json": "157eb5724c21907e32b2d5c8d78943c0005346520df54a61e155b24f9ecde504",
+    "aead.log": "59bc2ea9b2ffd86d63a4033f09d73f87511835347323bddbc94eefa181234d99",
+    "python-tests.log": "f00709be7242f22ff4efdcde91e0667c817d3f6267c52f948e76e6d0a77a4ed4",
+    "encrypted-results.json": "b54b4500d18ff0e9f03603efc7242f57a682a14027e98c1de264b2b4b33bcdb1",
+    "evidence.tar.gz": "8a6650d52003791a967a2945973faad2c0cf428791893eb6ea792c590a336c89",
+    "python-audit.json": "e0d5f2ccc07af97bbee567edc201eb1ad204baf8c757dc4ca1d64f94b9ce8aa8"
+  }
+}

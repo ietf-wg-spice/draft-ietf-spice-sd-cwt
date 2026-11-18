@@ -26,3 +26,5 @@ draft-ietf-spice-sd-cwt.xml
 package-lock.json
 report.xml
 !requirements.txt
+
+/interop/__pycache__/

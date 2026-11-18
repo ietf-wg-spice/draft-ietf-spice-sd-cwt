@@ -10,6 +10,7 @@ Results go to tests/I=draft_H={holder}_V={verifier}/{timestamp}/.
 """
 
 import argparse
+import csv
 import os
 import subprocess
 import sys
@@ -39,7 +40,7 @@ def impls(names):
 def run(impl, role, args, stdin, out_dir, label):
     exe = os.path.join(BASE, "implementations", impl, role)
     with open(os.path.join(out_dir, f"{CASE}-{label}.log"), "w") as log:
-        p = subprocess.run([exe, *args], input=stdin, stdout=subprocess.PIPE, stderr=log,
+        p = subprocess.run([exe, *args, "--time", "1725244300"], input=stdin, stdout=subprocess.PIPE, stderr=log,
                            cwd=CASE_DIR, timeout=60)
     return p.returncode, p.stdout
 
@@ -60,6 +61,11 @@ def check_pair(holder, verifier, stamp):
 
     def record(name, ok, detail=""):
         results.append((name, ok, detail))
+        # Persist failures too, including a Holder that exits before producing a KBT.
+        with open(os.path.join(out_dir, "results.csv"), "w", newline="") as f:
+            csv.writer(f).writerows(
+                (name, "pass" if ok else "fail", detail) for name, ok, detail in results
+            )
 
     code, kbt = run(holder, "present", [
         "holder_priv.pem", "--issuer", "issuer_pub.pem",
@@ -99,9 +105,6 @@ def check_pair(holder, verifier, stamp):
     code, _ = verify("wrongkey", "wrong_aead_key.hex")
     record("verify with wrong key rejects", code != 0, f"exit {code}")
 
-    with open(os.path.join(out_dir, "results.csv"), "w") as f:
-        for name, ok, detail in results:
-            f.write(f"{name},{'pass' if ok else 'fail'},{detail}\n")
     return results
 
 

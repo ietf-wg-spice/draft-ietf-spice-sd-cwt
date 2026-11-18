@@ -1,0 +1,3 @@
+#!/bin/sh
+: "${ESDICAWT_AEAD_BIN:?set ESDICAWT_AEAD_BIN to the adapter build}"
+exec "$ESDICAWT_AEAD_BIN" verify "$@"

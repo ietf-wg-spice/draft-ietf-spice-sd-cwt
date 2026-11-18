@@ -1,0 +1,21 @@
+511/539 passed; 20 failed; 8 blocked
+FAIL alg-2-draft/sd_cwt/encrypted/esdicawt_aead/full exit 0; actual={2: 'https://holder.example', 1: 'https://issuer.example', 4: 1725330600, 5: 1725243900, 6: 1725244200, 500: True, 502: [1674004740], 503: {'country': 'us'}}
+FAIL alg-2-draft/sd_cwt/encrypted/esdicawt_aead/reordered exit 0; actual={2: 'https://holder.example', 1: 'https://issuer.example', 4: 1725330600, 5: 1725243900, 6: 1725244200, 500: True, 502: [1674004740], 503: {'country': 'us'}}
+FAIL alg-2-draft/sd_cwt_js/encrypted/esdicawt_aead/full exit 0; actual={2: 'https://holder.example', 1: 'https://issuer.example', 4: 1725330600, 5: 1725243900, 6: 1725244200, 500: True, 502: [1674004740], 503: {'country': 'us'}}
+FAIL alg-2-draft/sd_cwt_js/encrypted/esdicawt_aead/reordered exit 0; actual={2: 'https://holder.example', 1: 'https://issuer.example', 4: 1725330600, 5: 1725243900, 6: 1725244200, 500: True, 502: [1674004740], 503: {'country': 'us'}}
+FAIL alg-2-draft/esdicawt_aead/encrypted/sd_cwt/full exit 1; actual=None
+FAIL alg-2-draft/esdicawt_aead/encrypted/sd_cwt/no-key exit 1; actual=None
+FAIL alg-2-draft/esdicawt_aead/encrypted/sd_cwt/reordered exit 1; actual=None
+FAIL alg-2-draft/esdicawt_aead/encrypted/sd_cwt_js/full exit 1; actual=None
+FAIL alg-2-draft/esdicawt_aead/encrypted/sd_cwt_js/no-key exit 1; actual=None
+FAIL alg-2-draft/esdicawt_aead/encrypted/sd_cwt_js/reordered exit 1; actual=None
+FAIL alg-2-nested/sd_cwt/encrypted/esdicawt_aead/full exit 0; actual={2: 'https://holder.example', 1: 'https://issuer.example', 500: True, 'items': ['public']}
+FAIL alg-2-nested/sd_cwt/encrypted/esdicawt_aead/reordered exit 0; actual={2: 'https://holder.example', 1: 'https://issuer.example', 500: True, 'items': ['public']}
+FAIL alg-2-nested/sd_cwt_js/encrypted/esdicawt_aead/full exit 0; actual={2: 'https://holder.example', 1: 'https://issuer.example', 500: True, 'items': ['public']}
+FAIL alg-2-nested/sd_cwt_js/encrypted/esdicawt_aead/reordered exit 0; actual={2: 'https://holder.example', 1: 'https://issuer.example', 500: True, 'items': ['public']}
+FAIL alg-2-nested/esdicawt_aead/encrypted/sd_cwt/full exit 1; actual=None
+FAIL alg-2-nested/esdicawt_aead/encrypted/sd_cwt/no-key exit 1; actual=None
+FAIL alg-2-nested/esdicawt_aead/encrypted/sd_cwt/reordered exit 1; actual=None
+FAIL alg-2-nested/esdicawt_aead/encrypted/sd_cwt_js/full exit 1; actual=None
+FAIL alg-2-nested/esdicawt_aead/encrypted/sd_cwt_js/no-key exit 1; actual=None
+FAIL alg-2-nested/esdicawt_aead/encrypted/sd_cwt_js/reordered exit 1; actual=None

@@ -1,0 +1,3 @@
+259/261 checks passed; /private/tmp/security-published-encrypted/results.json
+FAIL spec H=esdicawt_aead V=None 172 absent from unprotected header: 
+FAIL algorithm H=reference V=esdicawt_aead protected-algorithm-2: exit 0
