@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SD-CWT Interop Matrix</title>
-<meta name="description" content="Executed interoperability results for independent SD-CWT implementations against the canonical examples in draft-ietf-spice-sd-cwt-08.">
+<meta name="description" content="SD-CWT interoperability results, including encrypted disclosures against esdicawt c6eb0e4.">
 <style>
 img{max-width:100%}
 
@@ -149,24 +149,124 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
 <div class="wrap">
 
 <header>
-  <p class="eyebrow">draft-ietf-spice-sd-cwt-08 &middot; updated 3 September 2026</p>
+  <p class="eyebrow">draft-ietf-spice-sd-cwt-08 &middot; updated 18 November 2026</p>
   <h1>SD-CWT Interop Matrix</h1>
   <p class="lede">
-    Three independent implementations, run against the six canonical examples published in the draft
-    and against each other. Every cell below was executed, not inferred &mdash; the fixtures are the
-    draft&rsquo;s own bytes, and the keys are the ones in Appendix&nbsp;C.
+    Three independent implementations, tested against the draft and each other. The November
+    encrypted-disclosures experiment is shown first; the October main-branch snapshot is retained
+    below with its original revisions and scope.
   </p>
+  <p style="margin-top:20px;color:var(--ink-2)">October snapshot totals (not combined with the November experiment):</p>
   <dl class="facts">
     <div class="fact"><dt>Implementations</dt><dd>3<small>python, javascript, rust</small></dd></div>
     <div class="fact"><dt>Canonical examples</dt><dd>6 / 6<small>read by all three</small></dd></div>
-    <div class="fact"><dt>Conformance bugs fixed</dt><dd>34<small>across three repos</small></dd></div>
-    <div class="fact"><dt>Tests</dt><dd>673<small>110 + 471 + 92</small></dd></div>
-    <div class="fact"><dt>Interop checks</dt><dd>16 / 16<small>from merged main</small></dd></div>
+    <div class="fact"><dt>Conformance bugs fixed</dt><dd>36<small>across three repos</small></dd></div>
+    <div class="fact"><dt>Tests</dt><dd>738<small>150 + 496 + 92</small></dd></div>
+    <div class="fact"><dt>Interop checks</dt><dd>40 / 40<small>16 + 24 AEAD, from merged main</small></dd></div>
   </dl>
 </header>
 
+
+<section id="security-spec-2026-11-18">
+  <p class="eyebrow">Latest follow-up &middot; specification controls expected results</p>
+  <h2>Wider coverage exposes a non-default algorithm gap</h2>
+  <p style="margin-top:12px">The extended profile suite records <strong>511 passes,
+    20 failures, and 8 blocked checks out of 539</strong>. All failures involve Rust
+    AES-256 handling of header 172. Blocked negatives have failed positive controls;
+    they are not counted as successful rejection tests.</p>
+  <ul>
+    <li>Beltram’s branch remains at <code>c6eb0e4</code>. The expanded CLI adapter now
+      exercises native nested/array production, AES-256, and 32/48/64-byte key contexts.</li>
+    <li>Python/JavaScript-only profile rows: <strong>316/316</strong>. Default-AES-128
+      nine-pair matrix: <strong>54/54</strong>. The expanded 261-check suite has two
+      Rust failures; AES-256 is no longer classified as an adapter limitation.</li>
+    <li>Rust reads/writes algorithm header 172 in unprotected headers. The draft
+      specifies protected headers. Protected AES-256 inputs lose disclosures in Rust;
+      Rust output with duplicate 172 headers is rejected by our COSE checks.</li>
+    <li>Python: <strong>217 tests</strong>. JavaScript: <strong>541 tests on Node 20/24/26</strong>.
+      The implementation PRs include CI and dependency fixes and signed spec-boundary tests.</li>
+  </ul>
+  <p>Passing profiles do not establish complete conformance. No compatibility fallback
+    weakens protected-header checks. See the
+    <a href="interop/SPEC-FIRST-INTEROP.md">spec-first report, remaining gaps, and reproduction</a>,
+    <a href="interop/results/security-spec-2026-11-18/profile-results.json">profile results</a>,
+    <a href="https://github.com/tradeverifyd/sd-cwt/pull/6">Python PR</a>, and
+    <a href="https://github.com/tradeverifyd/sd-cwt-js/pull/5">JavaScript PR</a>.</p>
+</section>
+
+<section id="encrypted-profiles-2026-11-18">
+  <p class="eyebrow">Earlier 18 November snapshot &middot; complete reconstructed claims</p>
+  <h2>Deeper profiles: 316 / 316 checks pass</h2>
+  <p style="margin-top:12px">Checking entire claim structures exposed a Python defect missed by
+    the earlier claim-501 assertions: nested claims were flattened, numeric claims dropped,
+    and array disclosures not restored. The reconstruction cases improved from
+    <strong>136/220 to 220/220</strong> after the fix.</p>
+  <ul style="margin-top:16px">
+    <li>The extended 316 checks cover nested maps and arrays, reversed disclosure order,
+      AES-128-GCM, AES-256-GCM, ChaCha20-Poly1305, thumbprint contexts, key-rotation candidates,
+      and partial decryption with two recipient keys.</li>
+    <li>Python and JavaScript run both Holder and Verifier roles. Rust verifies the default
+      AES-128 nested/array fixtures; its adapter limitations are unchanged.</li>
+    <li>Python unit tests: <strong>183/183</strong>. JavaScript AEAD: <strong>38/38</strong>.
+      JavaScript full suite: 504/509, with the same five pre-existing failures.</li>
+    <li>Fixed a Python coverage exclusion regex that reported 100% while measuring zero
+      statements. Actual combined line/branch coverage is <strong>96.08% for AEAD</strong>,
+      94.14% for redaction/reconstruction, and <strong>61.16% overall</strong>.</li>
+    <li>Added a JavaScript pull-request workflow for the AEAD regressions; hosted execution
+      remains pending. The original 261-check suite still has its two documented Rust limits.</li>
+  </ul>
+  <p style="margin-top:16px">These suites overlap and are not additive. See
+    <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/interop/PROFILE-INTEROP.md">scope, remaining gaps, and reproduction</a>
+    and <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/interop/results/encrypted-profiles-2026-11-18/results.json">executed results</a>.</p>
+</section>
+
+<section id="encrypted-disclosures-2026-11-18">
+  <p class="eyebrow">Earlier 18 November snapshot &middot; feature branch</p>
+  <h2>Encrypted disclosures: Python &harr; JavaScript &harr; Rust</h2>
+  <p style="margin-top:12px">The default AES-128-GCM vector passes all <strong>54/54</strong>
+    checks across nine Holder &times; Verifier pairs. The expanded suite passes
+    <strong>259/261</strong>: one header-placement difference and one unsupported adapter
+    capability remain. These totals overlap and must not be added together.</p>
+  <div class="scroller" style="margin-top:18px">
+    <table>
+      <thead><tr><th scope="col">Expanded checks</th><th scope="col">Result</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Cross-implementation behavior<small>contexts, encrypted-only, fresh nonces, with/without/wrong key</small></th><td><span class="mark m-ok">138 / 138</span></td></tr>
+        <tr><th scope="row">Validation and header placement<small>re-signed malformed disclosures; positive controls required</small></th><td><span class="mark m-gap">110 / 111</span></td></tr>
+        <tr><th scope="row">Explicit protected algorithms<small>AES-128-GCM and AES-256-GCM reference fixtures</small></th><td>11 passed; 1 unsupported</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note" style="margin-top:20px">
+    <p><strong>Scope and provenance.</strong> Rust is
+    <a href="https://github.com/beltram/esdicawt/commit/c6eb0e426ac3e8ecdbcadf70f2a9d44af05a748f"><code>c6eb0e4</code></a>
+    from <code>feat/encrypted-disclosures</code>, with a CLI-only test adapter calling the
+    library&rsquo;s new AEAD APIs. The stock CLI still rejects encryption/decryption options.
+    Python <code>5a2744c</code> and JavaScript <code>55b32be</code> include the local duplicate-disclosure
+    fixes saved with the evidence. No Rust library behavior was patched.</p>
+  </div>
+  <ul style="margin-top:20px">
+    <li><strong>Fixed locally:</strong> Python accepted duplicate recovered disclosures and
+      plaintext/encrypted duplicates; JavaScript accepted duplicate recovered disclosures.
+      The expanded baseline was 250/261 before these fixes.</li>
+    <li><strong>Spec difference:</strong> Rust emits <code>sd_aead</code> (172) in the unprotected
+      header; this draft specifies the protected header. Default AES-128 success does not prove
+      agreement on explicit algorithm selection.</li>
+    <li><strong>Adapter limit:</strong> only AES-128-GCM, one key, and top-level claim 501 encryption
+      are exposed. The AES-256 keyed probe is unsupported, not a demonstrated Rust-library defect.</li>
+    <li><strong>Validation:</strong> Python 152/152; JavaScript AEAD 27/27. JavaScript&rsquo;s full
+      suite has five failures also reproduced on the unchanged baseline (493/498 after the fix,
+      491/496 before it).</li>
+  </ul>
+  <p style="margin-top:16px">The suite does not establish full spec conformance, nested encrypted
+    disclosure interop, thumbprint-context interop, or multi-key routing.
+    See the <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/interop/ENCRYPTED-INTEROP.md">reproduction instructions and limitations</a>,
+    <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/interop/results/encrypted-disclosures-2026-11-18/results.json">machine-readable results</a>, and
+    <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/interop/results/encrypted-disclosures-2026-11-18/evidence.tar.gz">raw evidence archive</a>.</p>
+</section>
+
 <section>
-  <p class="eyebrow">The matrix</p>
+  <p class="eyebrow">October main-branch snapshot</p>
   <h2>What each implementation can be confirmed to do</h2>
   <p style="margin-top:12px;color:var(--ink-2)">
     Confirmed means a test was run and passed. The one blocked cell has a filed cause, linked below.
@@ -232,8 +332,8 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
         </tr>
         <tr>
           <th scope="row">AEAD encrypted disclosures<small>sd_aead_encrypted_claims, 171</small></th>
-          <td><span class="mark m-gap">not implemented</span></td>
-          <td><span class="mark m-gap">not implemented</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
+          <td><span class="mark m-ok">confirmed</span></td>
           <td><span class="mark m-gap">not implemented</span></td>
         </tr>
       </tbody>
@@ -298,7 +398,7 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
 
 <section>
   <p class="eyebrow">What interop testing found</p>
-  <h2>Thirty-two defects that every existing test passed</h2>
+  <h2>Thirty-four defects that every existing test passed</h2>
   <p style="margin-top:12px;color:var(--ink-2)">
     Both suites were green throughout. They sign and verify with the same code on both sides, so they
     prove self-consistency, not conformance. Nothing compared against bytes the implementation did not
@@ -307,7 +407,7 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
   <div class="grid" style="margin-top:22px">
 
     <article class="card">
-      <header><h3><a href="https://github.com/tradeverifyd/sd-cwt">sd-cwt</a></h3><span class="count">17</span></header>
+      <header><h3><a href="https://github.com/tradeverifyd/sd-cwt">sd-cwt</a></h3><span class="count">19</span></header>
       <p class="role">python &middot; 90 tests green while broken</p>
       <ul>
         <li><b>Disclosure hash over the wrong bytes.</b> The CDDL input is <code>bstr .cbor salted-entry</code>; the digest must cover the byte string including its header.</li>
@@ -316,6 +416,8 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
         <li><b>A sample URL in every credential</b>, as a tstr where the CDDL requires bstr. That one claim failed CDDL validation for every token produced.</li>
         <li><b>Duplicate map keys resolved last-one-wins, silently</b> &mdash; how two parties are made to read the same bytes differently.</li>
         <li><b>An issuer that returned <code>b'dummy_signature_placeholder'</code></b> in the signature slot, under the same class name as the real one.</li>
+        <li><b>The verifier never matched disclosures to Redacted Claim Hashes</b>, so one lifted from another credential was accepted. Found while adding AEAD, where a decrypted disclosure means nothing without that check.</li>
+        <li><b>Disclosed claims with integer keys were dropped</b> from the verified result unless the key was 1, 2 or 6 &mdash; including the draft&rsquo;s own <code>501</code>.</li>
       </ul>
     </article>
 
@@ -405,6 +507,12 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
         <tr><th scope="row">CDDL conformance</th>
           <td>Produced tokens are validated against <code>sd-cwts.cddl</code> with the Ruby
               <code>cddl</code> tool already vendored for <code>make validate</code>.</td></tr>
+        <tr><th scope="row">AEAD encrypted disclosures</th>
+          <td><code>interop/run_aead.py</code> presents the draft&rsquo;s <code>issuer_cwt.cbor</code> with
+              disclosure 501 encrypted under the draft&rsquo;s key and nonce, for every Holder &times; Verifier
+              pair. The 171 entry must equal <code>aead-claim-array.edn</code> byte for byte; a Verifier with the
+              key must disclose 501, one without it must still verify and withhold 501, and one with the wrong
+              key must reject.</td></tr>
         <tr><th scope="row">Normative probe</th>
           <td>Thirteen MUST / MUST NOT statements are each exercised with a token that violates them;
               the implementation must reject it.</td></tr>
@@ -420,14 +528,21 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
 
 <section>
   <p class="eyebrow">The boundary</p>
-  <h2>What this does not yet confirm</h2>
+  <h2>Limits of the October snapshot</h2>
   <div class="grid" style="margin-top:20px">
     <article class="card">
-      <header><h3>AEAD disclosures</h3><span class="mark m-gap" role="img" aria-label="optional feature, unimplemented"></span></header>
-      <p class="role">unimplemented in all three</p>
+      <header><h3>AEAD disclosures</h3><span class="mark m-gap" role="img" aria-label="optional feature, partly implemented"></span></header>
+      <p class="role">python &harr; javascript only</p>
       <ul>
-        <li><code>sd_aead_encrypted_claims</code> (171) and <code>sd_aead</code> (172) are optional and nobody has built them.</li>
-        <li>The draft ships this example as EDN only, with no signed <code>.cbor</code> vector, so there is nothing to interoperate against yet.</li>
+        <li>The October esdicawt revision did not implement AEAD. The November branch experiment above supersedes this AEAD limitation.</li>
+        <li>The plaintext is the <code>bstr .cbor salted-entry</code> <em>with</em> its <code>58&nbsp;21</code> header.
+            The text says only &ldquo;the corresponding bstr is encrypted&rdquo;; the example is what settles it
+            &mdash; the same gap that produced the shared hashing bug.</li>
+        <li><code>sd_aead</code> (172) sits in the Issuer-signed protected header, but encrypting is the
+            Holder&rsquo;s choice, so a Holder cannot select the algorithm. Both libraries default to
+            AES-128-GCM.</li>
+        <li>The IANA template gives 171 as <code>[ +[bstr,bstr,bstr] ]</code>; <code>aead.cddl</code> allows a
+            fourth key-context element. Validation step 8 mentions only <code>sd_claims</code>.</li>
       </ul>
     </article>
     <article class="card">
@@ -446,18 +561,21 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
         <li><code>sd_alg</code> values other than SHA-256.</li>
         <li>Thumbprint-style <code>cnf</code> (confirmation key 3) end to end.</li>
         <li>sd-cwt-js has no test workflow, so its 471 tests never run on a pull request.</li>
-        <li>Neither python nor javascript is registered in this repository&rsquo;s own
-            <code>interop/</code> harness, so the working group cannot yet reproduce their columns.</li>
+        <li>python and javascript are registered in this repository&rsquo;s <code>interop/</code> harness as
+            Holder and Verifier, which reproduces the AEAD row; neither is registered as Issuer yet.</li>
       </ul>
     </article>
   </div>
 </section>
 
 <footer>
-  <p>Every result executed against freshly cloned <code>main</code> at
+  <p>The October snapshot results were executed against freshly cloned <code>main</code> at
   <a href="https://github.com/tradeverifyd/sd-cwt/commit/33d0ec4"><code>tradeverifyd/sd-cwt@33d0ec4</code></a>, <a href="https://github.com/tradeverifyd/sd-cwt-js/commit/86baf72"><code>tradeverifyd/sd-cwt-js@86baf72</code></a> and
   <a href="https://github.com/beltram/esdicawt/commit/ed3117d"><code>beltram/esdicawt@ed3117d</code></a>, with the draft repo at
-  <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/commit/6733908"><code>ietf-wg-spice/draft-ietf-spice-sd-cwt@6733908</code></a> (draft-08, unmodified).</p>
+  <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/commit/6733908"><code>ietf-wg-spice/draft-ietf-spice-sd-cwt@6733908</code></a> (draft-08, unmodified).
+  The AEAD row was run with <code>interop/run_aead.py</code> against
+  <a href="https://github.com/tradeverifyd/sd-cwt/commit/5a2744c"><code>tradeverifyd/sd-cwt@5a2744c</code></a> and
+  <a href="https://github.com/tradeverifyd/sd-cwt-js/commit/55b32be"><code>tradeverifyd/sd-cwt-js@55b32be</code></a>.</p>
 </footer>
 
 </div>
