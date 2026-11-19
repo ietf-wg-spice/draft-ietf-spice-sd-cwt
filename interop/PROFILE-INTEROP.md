@@ -1,5 +1,12 @@
 # Deeper encrypted-disclosure coverage
 
+> **Correction, 19 November:** This is a historical -08 experiment. Draft -09
+> moves header 172 to unprotected headers; Beltram's placement is correct.
+> The latest [pinned -09 rerun](SPEC-FIRST-INTEROP.md) passes all tested profiles.
+> To reproduce this old snapshot, use its historical commits and saved patches,
+> not the current -09 runners.
+
+
 > Historical snapshot. See [the spec-first follow-up](SPEC-FIRST-INTEROP.md)
 > for current implementation revisions, expanded adapter capabilities, and results.
 

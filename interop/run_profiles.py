@@ -3,9 +3,11 @@
 
 Uses draft keys and independently issuer-signed fixtures. Python/JS/Rust produce
 and verify AES-128/AES-256 profiles; ChaCha20 remains scoped to Python/JS.
-Known Rust header-172 failures are retained. Negative cases whose positive
+All algorithm headers follow draft-09. Negative cases whose positive
 control fails are blocked, never counted as successful rejection tests.
 """
+from spec_revision import spec_manifest
+
 import argparse
 import hashlib
 import json
@@ -27,8 +29,7 @@ def digest(d):
 def fixture(algorithm, nested=False):
     original = list(cbor2.loads(ISSUED).value)
     protected = cbor2.loads(original[0])
-    if algorithm != 1:
-        protected[172] = algorithm
+    protected.pop(172, None)  # AEAD selection belongs to the Holder in draft-09
     original[0] = cbor2.dumps(protected)
     payload = cbor2.loads(original[2])
     if nested:
@@ -56,6 +57,7 @@ def fixture(algorithm, nested=False):
 
 
 def main():
+    specification = spec_manifest()
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--output', type=Path, required=True)
     ap.add_argument('--rust', action='store_true')
@@ -121,6 +123,8 @@ def main():
                     label = f'{profile}/{holder}/{mode}'
                     argv = ['holder_priv.pem', '--issuer', 'issuer_pub.pem']
                     argv += ['--disclose_all'] if mode == 'plaintext' else ['--encrypt_list', str(salts), '--aead-key', str(keyfile)]
+                    if mode == 'encrypted' and holder in NAMES:
+                        argv += ['--aead-algorithm', str(alg)]
                     code, token = run(holder, 'present', argv, issued, label + '/present')
                     record(label + '/present', code == 0, f'exit {code}')
                     if code:
@@ -247,11 +251,11 @@ def main():
                 verify(verifier, combined, expected, None, prefix+'/'+kind,
                        extra=('--aead-key-map', str(path)), reject=reject, control=good)
 
-    metadata = {'python': git_state(args.python_repo), 'javascript': git_state(args.js_repo),
+    metadata = {'specification': specification, 'python': git_state(args.python_repo), 'javascript': git_state(args.js_repo),
                 'runner_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                 'rust_adapter': 'c6eb0e4 + cli.patch; AES-128/AES-256, all-disclosure selection, typed contexts' if args.rust else None,
                 'source_sha256': {str(p.relative_to(BASE)): hashlib.sha256(p.read_bytes()).hexdigest()
-                    for p in [BASE/'run_profiles.py', BASE/'run_encrypted.py', BASE/'run_aead.py',
+                    for p in [BASE/'run_profiles.py', BASE/'run_encrypted.py', BASE/'run_aead.py', BASE/'spec_revision.py', BASE/'spec-version.json',
                               BASE/'implementations/sd_cwt/sd_cwt_interop.py',
                               BASE/'implementations/sd_cwt_js/sd_cwt_interop.mjs',
                               BASE/'implementations/esdicawt_aead/cli.patch']}}

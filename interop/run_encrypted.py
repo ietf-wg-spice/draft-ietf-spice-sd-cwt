@@ -5,6 +5,8 @@ Requires cbor2 and cryptography. Does not import any SD-CWT implementation.
 All negative disclosure probes are freshly holder-signed; rejection cannot be
 attributed to a stale KBT signature. Positive controls gate rejection results.
 """
+from spec_revision import spec_manifest
+
 import argparse
 import copy
 import hashlib
@@ -79,6 +81,7 @@ def git_state(path):
 
 
 def main():
+    specification = spec_manifest()
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--impl', action='append')
     ap.add_argument('--output', type=Path, required=True)
@@ -156,12 +159,18 @@ def main():
             record('interop', holder, None, 'draft ciphertext bytes', hdr.get(171) == EXPECTED)
             record('interop', holder, None, 'encrypted disclosure absent from plaintext',
                    DISCLOSURE not in hdr.get(17, []))
-            record('spec', holder, None, '172 absent from unprotected header', 172 not in hdr)
+            record('spec', holder, None, '172 absent from protected header', 172 not in cbor2.loads(inner.value[0]))
         except Exception as e:
             record('interop', holder, None, 'decode presentation', False, str(e))
             continue
 
-        variants = {'resigned-control': (lambda h: None, 'disclose', True),
+        variants = {
+                    'unsupported-registered-algorithm': (lambda h: h.update({172: 15}), 'withhold', True),
+                    'unsupported-registered-algorithm-no-key': (lambda h: h.update({172: 15}), 'withhold', False),
+                    'forbidden-algorithm': (lambda h: h.update({172: 3}), 'reject', True),
+                    'forbidden-algorithm-no-key': (lambda h: h.update({172: 3}), 'reject', False),
+                    'aegis-x-short-tag': (lambda h: h.update({172: 34}), 'reject', True),
+                    'resigned-control': (lambda h: None, 'disclose', True),
                     'empty-encrypted': (lambda h: h.update({171: []}), 'reject', True),
                     'empty-plaintext': (lambda h: h.update({17: []}), 'reject', True),
                     'duplicate-encrypted': (lambda h: h[171].append(copy.deepcopy(h[171][0])), 'reject', True),
@@ -228,8 +237,8 @@ def main():
                 verify(holder, verifier, 'encrypted-only', only_token, 'disclose')
                 verify(holder, verifier, 'encrypted-only-no-key', only_token, 'withhold', key=False)
 
-    # Explicit protected algorithm probes use independently encrypted and issuer-signed
-    # fixtures. The positive AES-128 control establishes these are valid presentations.
+    # Explicit draft-09 unprotected algorithms use independently encrypted fixtures.
+    # The issuer-signed bytes are unchanged; the Holder binds the algorithm in its KBT. The positive AES-128 control establishes these are valid presentations.
     reference = next((out / n / 'present.cbor' for n in names if (out / n / 'present.cbor').stat().st_size), None)
     if reference:
         for alg, aead_key in [(1, KEY), (2, bytes(range(32)))]:
@@ -237,28 +246,26 @@ def main():
             outer = list(cbor2.loads(base).value)
             protected = cbor2.loads(outer[0])
             inner = list(embedded(base).value)
-            ip = cbor2.loads(inner[0]); ip[172] = alg
-            inner[0] = cbor2.dumps(ip)
-            inner[1].pop(172, None)
+            inner[1][172] = alg
             inner[1][171] = [seal(cbor2.dumps(DISCLOSURE), aead_key)]
-            signed = sign(cbor2.CBORTag(18, inner), BASE.parent / 'issuer_privkey.pem')
+            signed = cbor2.dumps(cbor2.CBORTag(18, inner))
             protected[13] = signed if isinstance(protected[13], bytes) else cbor2.loads(signed)
             outer[0] = cbor2.dumps(protected)
             token = sign(cbor2.CBORTag(18, outer), CASE / 'holder_priv.pem')
             keyfile = out / f'algorithm-{alg}.key.hex'; keyfile.write_text(aead_key.hex() + '\n')
             (out / f'algorithm-{alg}.kbt.cbor').write_bytes(token)
             for verifier in names:
-                verify('reference', verifier, f'protected-algorithm-{alg}', token, 'disclose', key=keyfile, group='algorithm')
-                verify('reference', verifier, f'protected-algorithm-{alg}-no-key', token, 'withhold', key=False, group='algorithm')
+                verify('reference', verifier, f'unprotected-algorithm-{alg}', token, 'disclose', key=keyfile, group='algorithm')
+                verify('reference', verifier, f'unprotected-algorithm-{alg}-no-key', token, 'withhold', key=False, group='algorithm')
 
-    metadata = {'timestamp': datetime.now(timezone.utc).isoformat(),
+    metadata = {'specification': specification, 'timestamp': datetime.now(timezone.utc).isoformat(),
                 'draft': git_state(BASE.parent), 'python': git_state(args.python_repo),
                 'javascript': git_state(args.js_repo), 'rust': git_state(args.rust_repo),
                 'implementations': names, 'python_runtime': sys.version,
                 'fixture_sha256': hashlib.sha256(ISSUED).hexdigest(),
                 'source_sha256': {
                     str(p.relative_to(BASE)): hashlib.sha256(p.read_bytes()).hexdigest()
-                    for p in [Path(__file__).resolve(), BASE / 'run_aead.py',
+                    for p in [Path(__file__).resolve(), BASE / 'run_aead.py', BASE / 'spec_revision.py', BASE / 'spec-version.json',
                               *sorted((BASE / 'implementations').rglob('*'))]
                     if p.is_file() and '__pycache__' not in str(p)
                 }}

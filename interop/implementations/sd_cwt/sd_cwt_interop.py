@@ -106,6 +106,7 @@ def present(args: argparse.Namespace) -> int:
         read_hex(args.aead_key) if args.aead_key else b"",
         key_context=context,
         nonces=nonces,
+        algorithm=args.aead_algorithm,
     )
     holder_key = cose_key(args.holder_priv)
     kbt = create_sd_kbt(
@@ -173,6 +174,7 @@ def main() -> int:
         p.add_argument("--disclosure_list")
         p.add_argument("--disclose_all", action="store_true")
         p.add_argument("--encrypt_list")
+        p.add_argument("--aead-algorithm", type=int)
         p.add_argument("--aead-key-context")
         p.add_argument("--aead-key-context-cbor")
         p.add_argument("--aead-nonces")

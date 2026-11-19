@@ -9,6 +9,8 @@ examples/issuer_cwt.cbor, so no implementation has to issue.
 Results go to tests/I=draft_H={holder}_V={verifier}/{timestamp}/.
 """
 
+from spec_revision import spec_manifest
+
 import argparse
 import csv
 import os
@@ -109,6 +111,7 @@ def check_pair(holder, verifier, stamp):
 
 
 def main():
+    print("Specification:", spec_manifest())
     ap = argparse.ArgumentParser()
     ap.add_argument("--impl", action="append")
     names = impls(ap.parse_args().impl)

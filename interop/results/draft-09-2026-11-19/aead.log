@@ -1,0 +1,10 @@
+Specification: {'document': 'draft-ietf-spice-sd-cwt-09', 'git_revision': '79c43819c74c3240b3eab8601996d2b694e30087', 'latest_published_verified': '2026-11-19', 'datatracker_url': 'https://datatracker.ietf.org/doc/draft-ietf-spice-sd-cwt/09/', 'published_text_url': 'https://www.ietf.org/archive/id/draft-ietf-spice-sd-cwt-09.txt', 'published_text_sha256': '323ab1dc695e10ea3ceed8f94e826cd62a8d960f8fffe00eb0535c808ec2efec', 'source_sha256': {'draft-ietf-spice-sd-cwt.md': '0c78d2ffede738979e8f8b3b3052b3a64cc80b8c1531fd935e614a4ba65b9ead', 'aead.cddl': 'eee80c20c613a21955aff69ea479f8060fee151ed5ca8389092428feee4470ee', 'generic-sd-cwt.cddl': '60ca088b531995ac58bfc9a425e1b58f96f5958680712be905c7bafa509b2cf5', 'header.cddl': 'b9ca1fe41c3a88037911aaf5c645a183c74c7a3b5fe4ef2bff52569db8a9d88f', 'kbt.cddl': 'd3d1fdef2029b2efffd69bae11f377d14aeec3db987ce3317e0ee556e2cbd18e', 'legal-values.cddl': 'af2a67ca0153949d3070dd41d7a84af66d959efce8ec3469c2b6351ba28f7f2d', 'main-sd-cwt.cddl': '5d0a3caf8b599367d48b96f8e6f9d69a9af540e193c464d8baf8b3a0d388dd80', 'preissued.cddl': '795dd2c962cf6d0d8ddd704fa395b5269faf43cc4f79ba29cad63b4f8a445589', 'redacted-simple-tag.cddl': '2b05a0e7e3c83604b93024162109a44f6209805a5f2b3978cb618f702bc937a6', 'salted-array.cddl': 'bbe29f3ed7ffd36cb2d2509206f9448782695a5ea8f1625014a574ef3e2cc398', 'sd-cwts.cddl': '54a052a6c447c815d2945023ca9e08b01b1689b0d0725f2ae4b7c21f70ca8f1b'}}
+H=esdicawt_aead V=esdicawt_aead 6/6
+H=esdicawt_aead V=sd_cwt       6/6
+H=esdicawt_aead V=sd_cwt_js    6/6
+H=sd_cwt       V=esdicawt_aead 6/6
+H=sd_cwt       V=sd_cwt       6/6
+H=sd_cwt       V=sd_cwt_js    6/6
+H=sd_cwt_js    V=esdicawt_aead 6/6
+H=sd_cwt_js    V=sd_cwt       6/6
+H=sd_cwt_js    V=sd_cwt_js    6/6

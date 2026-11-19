@@ -1,120 +1,122 @@
-# Spec-first security and interoperability follow-up
+# Latest-spec interoperability: draft -09
 
-Executed 18 November 2026. The specification controls expected results; a peer's
-behavior is not a reason to relax validation. This is an executable profile
-comparison, not certification of complete SD-CWT conformance.
+Executed 19 November 2026 against **draft-ietf-spice-sd-cwt-09**, verified as the
+latest published draft in the IETF Datatracker. The editor's main branch and
+published tag both resolve to `79c43819c74c3240b3eab8601996d2b694e30087`.
 
-## Revisions and scope
+## Correction to the previous report
 
-- Python: `e15e39a`, [implementation PR #6](https://github.com/tradeverifyd/sd-cwt/pull/6).
-- JavaScript: `93c0f6e`, [implementation PR #5](https://github.com/tradeverifyd/sd-cwt-js/pull/5).
+The 18 November report used -08 requirements and incorrectly called Beltram's
+unprotected algorithm header 172 a current-spec defect. **That conclusion is
+withdrawn.** Draft -09 moves `sd_aead` to unprotected headers, as Beltram already
+implemented. Our implementations and test expectations needed updating. The
+previous 511/539 and 259/261 results are historical -08 comparisons, not evidence
+of a -09 Rust defect. Their immutable evidence is retained with that qualification.
+
+## Exact revision and implementation pins
+
+- Specification: [published draft -09](https://datatracker.ietf.org/doc/draft-ietf-spice-sd-cwt/09/),
+  spec commit `79c43819c74c3240b3eab8601996d2b694e30087`.
+- Python: `3054dd7`, [draft -09 PR #7](https://github.com/tradeverifyd/sd-cwt/pull/7).
+- JavaScript: `1ed5ebe`, [draft -09 PR #6](https://github.com/tradeverifyd/sd-cwt-js/pull/6).
 - Beltram: `c6eb0e426ac3e8ecdbcadf70f2a9d44af05a748f`, still the tip of
-  `feat/encrypted-disclosures` when checked with `git ls-remote` on this date.
-- Specification: the repository's draft text at `477fb72`, checked alongside
-  [published draft-08](https://www.ietf.org/archive/id/draft-ietf-spice-sd-cwt-08.html).
-- Rust library source is unchanged. The expanded `cli.patch` enables its AEAD
-  APIs and adds AES-256, all-disclosure encryption (nested maps/arrays), and typed
-  key contexts. It does not move header 172 or re-sign/translate peer output.
+  `feat/encrypted-disclosures` when checked on 19 November. Library source is
+  unchanged; `cli.patch` exposes its AEAD APIs through the interop CLI.
 
-## Results
+[spec-version.json](spec-version.json) records the published text hash and hashes
+of the normative Markdown and all root CDDL files. Every runner checks those
+source hashes before executing and records the manifest with its results. A
+modified-schema negative control demonstrated that a mismatch aborts the run.
+This pin makes results reproducible; future releases require an explicit spec
+review and pin update, not silently using whatever happens to be on main.
+
+## Reviewed -08 to -09 changes
+
+| Change | Implementation and evidence |
+|---|---|
+| Section 12.1 / CDDL move 172 to unprotected headers | Holder-selected AES-128/AES-256/ChaCha20, preserving issuer-signed bytes; native Rust AES-256 fixtures in both libraries; nine Holder × Verifier combinations for AES profiles |
+| Section 9 adds explicit AEAD processing | Available supported keys decrypt and authenticate; wrong selected keys invalidate; absent keys and unsupported permitted algorithms remain opaque; decrypted entries undergo normal hash/location checks |
+| Nonce may select an out-of-band key | Python adds an entry-aware resolver; JavaScript already exposes entry and algorithm; nonce-lookup regression tests |
+| IANA type for 171 includes optional context | Existing uint/text/bstr support retained; 32/48/64-byte contexts exercised across implementations |
+| First-disclosure example digest corrected | Both libraries match `af375dc3fba1d082448642c00be7b2f7bb05c9d8fb61cfc230ddfdfb4616a693`; six canonical binary fixtures checked against the -09 tag |
+
+The full normative source/CDDL diff was reviewed and saved with the evidence.
+Python's obsolete embedded -04/TBD schema was also replaced with the -09 schema.
+The algorithm-selection APIs and migration behavior are documented in each
+implementation's `DRAFT-09.md` and pinned in `SPEC-VERSION.json`.
+
+**Editorial inconsistency for co-authors:** a later sentence in -09 section 12.1
+still says “sd_aead protected header field.” The changed opening paragraph,
+CDDL, and explicit placement change (`cf867df`, merged in #301) say unprotected.
+The implementations and oracle follow the latter. No normative draft text was
+modified by this interop PR.
+
+## Executed results
 
 | Suite | Result |
 |---|---|
-| Original default-AES-128 9-pair matrix | 54/54 passed |
-| Expanded encrypted-disclosure checks | 259/261; two Rust failures |
-| Extended profiles | 511 passed, 20 failed, 8 blocked / 539 |
-| Rows in extended profiles involving only Python/JavaScript | 316/316 passed |
-| Python full suite | 217 passed; Black, Ruff, MyPy passed |
-| JavaScript full suite | 541 passed on Node 20/24/26; builds passed in CI |
+| Extended complete-claims profiles | **539/539 passed**, zero failed/blocked |
+| Encrypted-disclosure and validation probes | **306/306 passed** |
+| Original default-AES-128 9-pair matrix | **54/54 passed** |
+| Python full suite | **234 passed**; Black, Ruff, MyPy passed |
+| JavaScript full suite | **557 passed** on Node 20, 24, and 26; browser build passed |
 
-Counts overlap and must not be added. A negative case is **blocked** when its
-positive control fails; an unrelated rejection is not evidence for that negative
-check. All 20 profile failures and eight blocked checks involve AES-256 and Rust.
+Counts overlap and must not be added. The 306-case suite adds registered but
+unsupported AEAD forwarding, prohibited-algorithm rejection, and AEGIS X tag
+length checks to the corrected 261 probes. Negative cases require a successful
+signed positive control. Unsupported-algorithm probes test opaque forwarding;
+they do not claim cryptographic support for the unsupported cipher.
 
-New passing profiles include Rust Holder production and verification of nested
-maps/arrays, reordered disclosures, no-key withholding, authenticated bad tags,
-32/48/64-byte contexts in both directions, and partial encryption of a child or
-of both parent and child while an unrelated array remains plaintext. Multi-key
-routing and rotation remain Python/JavaScript tests; the Rust adapter selects one
-key and context. ChaCha20 remains Python/JavaScript only.
+The 539 profiles cover native Holder/Verifier AES-128 and AES-256 in all nine
+ordered implementation pairs, complete nested map/array claims, reversed order,
+withholding without keys, invalid tags among valid entries, typed contexts, and
+partial parent/child encryption. ChaCha20 and multi-key routing/rotation remain
+Python/JavaScript profiles. The Rust adapter exposes AES-128/AES-256, one key and
+context, and selection of all disclosures or claim 501; it does not rewrite
+headers or re-sign peer output to obtain interoperability.
 
-## Remaining Rust discrepancy: header 172
+The canonical -09 binary examples are byte-identical to the copied -08 examples;
+the corrected example digest was independently pinned. Derived regression tokens
+use public Appendix C keys and historical verification clocks. Each library now
+has a `fixtures/draft-09` directory with provenance, including native Rust
+AES-256 output. Historical dates do not disable time validation.
 
-The draft's AEAD section selects the algorithm from **protected** header 172,
-with AES-128-GCM as the default when absent. Rust's `DisclosureEncryption` writes
-172 in `SdUnprotected`; its `DisclosureDecryption` reads that unprotected value.
-
-- With default AES-128, the three implementations can exchange presentations.
-  Our verifiers ignore the misplaced algorithm and use the specified default;
-  this does not make the Rust-produced header placement conformant.
-- Given an independently issuer-signed credential with protected 172=2, Rust's
-  verifier treats the algorithm as the default and returns success with the
-  encrypted claims withheld. Complete-claims comparison catches that failure.
-- Rust's AES-256 Holder adds unprotected 172=2 beside the issuer's protected 172=2.
-  Python and JavaScript reject this protected/unprotected duplicate, as required
-  by COSE. They also reject it without a decryption key.
-- Rust-to-Rust AES-256 recovery works in this profile. Agreement between two
-  instances of that implementation is not proof of spec conformity.
-
-The former AES-256 **unsupported adapter** result is now an actual, reproducible
-compatibility failure. Do not restore that label, read unprotected 172 as an
-algorithm fallback, strip the header before verification, or suppress the
-positive-control failures to obtain a green matrix.
-
-The evidence archive includes native presentations, issuer-signed fixtures,
-expected complete claims, exact commands, stderr, hashes, and repository states.
-For example, `profiles/alg-2-draft/sd_cwt/encrypted/esdicawt_aead/full.*`
-reproduces withheld claims, and
-`profiles/alg-2-draft/esdicawt_aead/encrypted/sd_cwt_js/full.*` reproduces
-`Duplicate or unprotected critical header`.
-
-## Spec checks and limits
-
-The implementation PRs add signed positive and adversarial tests for time and
-audience policy, resolved holder-key binding (Python), duplicate/reused/unmatched
-disclosures, nested reconstruction, COSE critical headers, and header conflicts.
-Follow-up tests enforce KBT `iat < credential exp` even with clock leeway,
-`application/sd-cwt` and `+sd-cwt` credential types, and rejection of CWT Claims
-header 15 in a KBT. An earlier Python media-type spelling error was corrected.
-
-This does **not** establish every requirement in the draft. Remaining work
-includes an issuance/Holder-validation matrix, every permitted signature/hash
-and confirmation-method profile, claims split between payload and protected
-header 15 (including equal/conflicting redacted claims), exhaustive allowed
-map-key and nesting checks, resource limits/fuzzing, and stateful replay and
-revocation policy. SHA-256 is the supported high-level disclosure hash. The
-Rust adapter also does not expose arbitrary single nested-path selections,
-multiple keys, or ChaCha20. Those are explicitly untested, not passes.
-
-The five Node 26 test failures were in the development-only `cose-js` oracle's
-legacy CBOR synchronous stream collector. A test-only helper preserves the
-independent encoder and cryptography and collects all output chunks; fixed-byte
-and large-payload controls verify it. No tests were skipped. Python's dependency
-audit now passes including development dependencies on Python 3.13 after replacing
-Safety's incompatible filelock constraint with pip-audit and a fixed filelock
-minimum. Node's production audit is clear; one unfixed elliptic advisory appears
-as two low-severity development dependency findings (elliptic and cose-js).
-
-## Reproduction and evidence
+## Reproduce
 
 Build a new adapter checkout using `implementations/esdicawt_aead/setup.sh` and
-set the three environment variables documented in `ENCRYPTED-INTEROP.md`.
-Use the exact implementation commits above, installed from their checkouts.
+set `ESDICAWT_AEAD_BIN` to its binary. Install Python and JavaScript from the
+implementation revisions above; set `SD_CWT_PYTHON` and `SD_CWT_JS_DIR` accordingly.
 
 ```sh
 "$SD_CWT_PYTHON" interop/run_profiles.py --rust \
   --python-repo /path/to/sd-cwt --js-repo "$SD_CWT_JS_DIR" \
-  --output /tmp/new-security-profiles
+  --output /tmp/new-draft09-profiles
 "$SD_CWT_PYTHON" interop/run_encrypted.py \
   --impl sd_cwt --impl sd_cwt_js --impl esdicawt_aead \
   --python-repo /path/to/sd-cwt --js-repo "$SD_CWT_JS_DIR" \
-  --rust-repo /path/to/esdicawt-adapter --output /tmp/new-security-encrypted
+  --rust-repo /path/to/esdicawt-adapter --output /tmp/new-draft09-encrypted
+"$SD_CWT_PYTHON" interop/run_aead.py \
+  --impl sd_cwt --impl sd_cwt_js --impl esdicawt_aead
 ```
 
-Both commands intentionally return nonzero for the documented failures. Tests
-use explicit epoch 1725244300 inside the historical issuer validity window; they
-do not disable time validation. Output directories must be new.
+All three commands now exit zero. Output directories must be new. Explicit
+algorithm selection is a Holder option (`--aead-algorithm` for Python/JS); the
+Rust adapter selects its associated AES type from the supplied key size. The
+issuer fixture no longer embeds 172 in protected headers. Independently
+constructed non-default-algorithm probes modify only unprotected issuer headers
+and re-sign the enclosing KBT; the issuer-signed bytes stay unchanged.
 
-See [results and evidence](results/security-spec-2026-11-18/manifest.json).
-Earlier dated reports and archives are retained as historical evidence; their
-unit counts and adapter limitations are superseded by this follow-up.
+[Manifest and evidence](results/draft-09-2026-11-19/manifest.json) include exact
+commands, input/output CBOR, expected claims, stderr, implementation states,
+specification/source hashes, unit logs, and archives. Historical 18 November
+results and snapshots are retained separately and explicitly superseded.
+
+## Limits
+
+The tested profiles and reviewed revision delta now align with the latest
+published spec. This is not exhaustive certification of every unchanged
+requirement. Remaining work includes a complete issuance/Holder-validation
+matrix, every signature/hash and confirmation-method profile, claims split
+between payload and protected header 15, exhaustive map-key/nesting rules,
+resource limits/fuzzing, and application replay/revocation policy. SHA-256 is the
+supported high-level disclosure hash. These gaps are untested, not passes.

@@ -66,6 +66,7 @@ async function present(argv) {
       'aead-key-context': { type: 'string' },
       'aead-key-context-cbor': { type: 'string' },
       'aead-nonces': { type: 'string' },
+      'aead-algorithm': { type: 'string' },
       audience: { type: 'string', default: DEFAULT_AUDIENCE },
     },
   });
@@ -100,6 +101,7 @@ async function present(argv) {
   const kbt = await Holder.present({
     token,
     selectedDisclosures: plaintext,
+    aeadAlgorithm: values['aead-algorithm'] === undefined ? undefined : Number(values['aead-algorithm']),
     encryptedDisclosures: toEncrypt.map(disclosure => ({
       disclosure,
       key: aeadKey,

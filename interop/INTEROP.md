@@ -163,4 +163,4 @@ three algorithms, byte-string contexts, and recipient-key routing. See
 `--aead-key-context-cbor` / `--aead-key-map` wrapper extensions.
 
 See [the spec-first security follow-up](SPEC-FIRST-INTEROP.md) for the expanded
-Rust profiles and known header-172 incompatibility.
+Rust profiles, pinned draft -09 sources, and correction of the earlier -08 comparison.
