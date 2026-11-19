@@ -1,0 +1,69 @@
+    / sd_claims / 17 : [ / these are the disclosures /
+        <<[
+            /salt/   h'cd99b3858f1d659f9d16039abf8c5fba',
+            /value/  {
+                         500: true,
+                         502: 1674004740,
+                         simple(59): [
+                         h'af375dc3fba1d082448642c00be7b2f7
+                           bb05c9d8fb61cfc230ddfdfb4616a693',
+                         h'9d151abeb800adcc11ff10ff61fbd3d7
+                           5944c134b40a24abef1787d3ae6583aa'
+                     ]
+                     }   / inspection 17-Jan-2023 /
+        ]>>,         / Redacted Claim Hash begins 20d9bb11 /
+        <<[
+            /salt/   h'52da9de5dc61b33775f9348b991d3d78',
+            /value/  "ca",
+            /claim/  2   / region=California /
+        ]>>,         / Redacted Claim Hash begins 2470fb91 /
+        <<[
+            /salt/   h'591eb2081b05be2dcbb6f8459cc0fe51',
+            /value/  "DCBA-101777",
+            /claim/  501   / inspector_license_number /
+        ]>>,         / Redacted Claim Hash begins 7257a869 /
+        <<[
+            /salt/   h'483e4b3c194df6073a9c41ca9f274067',
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'2470fb9175b062c347ab3c3a19776d02
+                           476112a17cd7cfc9416664bc058c220b',
+                         h'cf397a08917528624ca3b332c9edcc54
+                           a72c9411dd5983f68017ce160f709f52'
+                     ]
+                     },
+            /claim/  503   / San Francisco location /
+        ]>>,         / Redacted Claim Hash begins 9d151abe /
+        <<[
+            /salt/   h'bae611067bb823486797da1ebbb52f83',
+            /value/  "ABCD-123456",
+            /claim/  501   / inspector_license_number /
+        ]>>,         / Redacted Claim Hash begins af375dc3 /
+        <<[
+            /salt/   h'c23a4d192be75dbd583be570482de8dd',
+            /value/  {
+                         1: "us",
+                         simple(59): [
+                         h'1b89717167f39d51eec08b13baeda570
+                           eff5d0aedaa1d7d0821185c33634a5a0',
+                         h'49412884fa1e3787c17d1320bdd48f6e
+                           0e5365da010cde0571d4a7effd13cc2a'
+                     ]
+                     },
+            /claim/  503   / Denver location /
+        ]>>,         / Redacted Claim Hash begins c24c646b /
+        <<[
+            /salt/   h'2df7d2c105b5bf3acf9c698f3658552f',
+            /value/  {
+                         500: true,
+                         502: 1549560720,
+                         simple(59): [
+                         h'7257a8697dfa40221079b00fb65fe587
+                           c310e6ca3da1aa33b090335de66ec810',
+                         h'c24c646b52fecd773c6ea01c6caa5a73
+                           422b85d3afa5900fa998336d83a88025'
+                     ]
+                     }   / inspection 7-Feb-2019 /
+        ]>>,         / Redacted Claim Hash begins ca6b8516 /
+    ]

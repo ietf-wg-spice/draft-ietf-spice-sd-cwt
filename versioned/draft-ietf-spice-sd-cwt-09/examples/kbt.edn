@@ -1,0 +1,92 @@
+/ cose-sign1 / 18( / sd_kbt / [
+  / KBT protected / << {
+    / alg /    1:  -7, / ES256 /
+    / kcwt /  13:  18([  / issuer SD-CWT /
+      / CWT protected / << {
+        / alg /    1  : -35, / ES384 /
+        / kid /    4  : 'https://issuer.example/cose-key3',
+        / typ /    16 : 293, # application/sd-cwt
+        / sd_alg / 170 : -16  / SHA256 /
+      } >>,
+      / CWT unprotected / {
+        / sd_claims / 17 : [ / these are the disclosures /
+            <<[
+                /salt/   h'bae611067bb823486797da1ebbb52f83',
+                /value/  "ABCD-123456",
+                /claim/  501   / inspector_license_number /
+            ]>>,
+            <<[
+                /salt/   h'8de86a012b3043ae6e4457b9e1aaab80',
+                /value/  1549560720   / inspected 7-Feb-2019 /
+            ]>>,
+            <<[
+                /salt/   h'ec615c3035d5a4ff2f5ae29ded683c8e',
+                /value/  "ca",
+                /claim/  "region"   / region=California /
+            ]>>,
+        ]
+      },
+      / CWT payload / << {
+        / iss / 1   : "https://issuer.example",
+        / sub / 2   : "https://holder.example",
+        / exp / 4   : 1725330600,  /2024-09-03T02:30:00+00:00Z/
+        / nbf / 5   : 1725243900,  /2024-09-02T02:25:00+00:00Z/
+        / iat / 6   : 1725244200,  /2024-09-02T02:30:00+00:00Z/
+        / cnf / 8   : {
+          / cose key / 1 : {
+            / kty /  1: 2,  / EC2   /
+            / crv / -1: 1,  / P-256 /
+            / x /   -2: h'8554eb275dcd6fbd1c7ac641aa2c90d9
+                          2022fd0d3024b5af18c7cc61ad527a2d',
+            / y /   -3: h'4dc7ae2c677e96d0cc82597655ce92d5
+                          503f54293d87875d1e79ce4770194343'
+          }
+        },
+        /most_recent_inspection_passed/ 500: true,
+        /inspection_dates/ 502 : [
+            / redacted inspection date 7-Feb-2019 /
+            60(h'1b7fc8ecf4b1290712497d226c04b503
+                 b4aa126c603c83b75d2679c3c613f3fd'),
+            / redacted inspection date 4-Feb-2021 /
+            60(h'64afccd3ad52da405329ad935de1fb36
+                 814ec48fdfd79e3a108ef858e291e146'),
+            1674004740,   / 2023-01-17T17:19:00 /
+        ],
+        / inspection_location / 503 : {
+            "country" : "us",            / United States /
+            / redacted_claim_keys / simple(59) : [
+                / redacted region /
+                h'0d4b8c6123f287a1698ff2db15764564
+                  a976fb742606e8fd00e2140656ba0df3'
+                / redacted postal_code /
+                h'c0b7747f960fc2e201c4d47c64fee141
+                  b78e3ab768ce941863dc8914e8f5815f'
+          ]
+        },
+        / redacted_claim_keys / simple(59) : [
+            / redacted inspector_license_number /
+            h'af375dc3fba1d082448642c00be7b2f7
+              bb05c9d8fb61cfc230ddfdfb4616a693'
+        ]
+      } >>,
+      / CWT signature / h'12bdb0136ed93db0e3400660d5aee1ba
+                          68ff24e743d613eea55d3bedff167ae4
+                          d3c9c328ebfdc1793a178e754ce11432
+                          f2e69a92eee6953d38d5a58830ece550
+                          21951a83e4e30365828bb7918ceb187a
+                          21da18c071ce2461ef642a9e7959299e'
+    ]),
+    / end of issuer SD-CWT /
+    / typ /   16:  294   # application/kb+cwt,
+  } >>,     / end of KBT protected header /
+  / KBT unprotected / {},
+  / KBT payload / << {
+    / aud    /  3    : "https://verifier.example/app",
+    / iat    /  6    : 1725244237, / 2024-09-02T02:30:37+00:00Z /
+    / cnonce / 39    : h'8c0f5f523b95bea44a9a48c649240803'
+  } >>,      / end of KBT payload /
+  / KBT signature / h'ca38c411693201ceb418ab75217745cc
+                      f1d52f76c934ce2910a9f4ccc4293711
+                      f9ee18347b51f6f815d89b77d407e494
+                      5551118df8f9b662e5250fb1c5f070c8'
+])   / end of kbt /

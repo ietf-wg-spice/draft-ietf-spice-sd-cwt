@@ -897,7 +897,12 @@ A `cnonce` MAY be present in SD-CWT, but its validity is considered by the holde
 - `iat` in the KBT >= `nbf` in the SD-CWT (if both exist)
 
 {:start="8"}
-8. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
+8. If there are any values in the `sd_aead_encrypted_claims` header parameter (see {{encrypted-disclosures}}) for which the Verifier has keys, and the Verifier supports the encryption algorithm used, the Verifier decrypts them and verifies the tag.
+If the Verifier does not have a suitable key for a value in the `sd_aead_encrypted_claims` header field, that item is ignored.
+If the Verifier has a key for a specific claim, but decryption fails, the entire SD-CWT is invalid.
+If decryption succeeds, the Verifier treats each decrypted claim as if it were a disclosure present in the `sd_claims` header parameter.
+
+9. The Verifier MUST extract and decode the disclosed claims from the `sd_claims` header parameter in the unprotected header of the SD-CWT.
 Each decoded disclosure is treated as if it is a claim key or claim element at the location corresponding to its Redacted Claim Hash in the payload.
 If there are any disclosures that do not have a corresponding Redacted Claim Hash, the entire SD-CWT is invalid.
 If any decoded Redacted Claim Key duplicates another claim key in the same position, the entire SD-CWT is invalid.
@@ -907,10 +912,10 @@ If any decoded Redacted Claim Key duplicates another claim key in the same posit
     > If any Redacted Claim Hashes are nested inside a disclosure, the Verifier follows the procedure in {{nesting-validation}} (see also {{nesting}} for a worked example).
     > A disclosed value could appear before the disclosure of its parent.
 
-{:start="9"}
-9. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the KBT contains a value that does not correspond to the intended recipient.
+{:start="10"}
+10. A Verifier MUST reject the SD-CWT if the audience claim in either the SD-CWT or the KBT contains a value that does not correspond to the intended recipient.
 
-10. Otherwise, the SD-CWT is considered valid.
+11. Otherwise, the SD-CWT is considered valid.
 Once any remaining redacted elements (either redacted claims or decoys) are deleted, the Validated Disclosed Claims Set is now a CWT Claims Set with no claims marked for redaction.
 
     > Note: Undisclosed Redacted Claim Elements will be removed from the Validated Disclosed Claims Set, changing the length of the containing array.
@@ -1036,7 +1041,7 @@ The initial Verifier of the KBT might not be able to decrypt encrypted disclosur
 ## AEAD Encrypted Disclosures Mechanism {#aead}
 
 This section defines two new COSE Header Parameters.
-If present in the protected headers, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
+If present in the unprotected headers, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
 (Guidance on specific algorithms is discussed in {{aead-choice}}.)
 The second header parameter (`sd_aead_encrypted_claims`), if present, contains a non-empty list of AEAD encrypted disclosures.
 Taking the first example disclosure from {{first-disclosure}}:
@@ -1076,7 +1081,7 @@ A valid AEAD encrypted disclosure for that first disclosure is:
 
 
 The Redacted Claim Hash is still over the unencrypted disclosure.
-The receiver of an AEAD encrypted disclosure determines the appropriate decryption key by local configuration, using the `aead-key-context` if present, or by looking up the authentication tag.
+The receiver of an AEAD encrypted disclosure determines the appropriate decryption key by local configuration, using the `aead-key-context` if present, or by looking up the nonce or authentication tag.
 
 > Which key determination mechanism to use is the responsibility of the relevant profile or enclosing protocol.
 
@@ -1434,7 +1439,7 @@ The following completed registration template per RFC8152 is provided:
 
 * Name: sd_aead_encrypted_claims
 * Label: 171
-* Value Type: `[ +[bstr,bstr,bstr] ]`
+* Value Type: `[ +[bstr,bstr,bstr,?(uint/tstr/bstr)] ]`
 * Value Registry: (empty)
 * Description: A list of AEAD encrypted selectively disclosed claims, which were originally redacted, then later disclosed at the discretion of the sender.
 * Reference: {{aead}} of this specification

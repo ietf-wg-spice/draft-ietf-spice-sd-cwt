@@ -1,0 +1,37 @@
+kbt-cwt = #6.18([
+   protected: bstr .cbor kbt-protected,
+   kbt-unprotected,
+   payload: bstr .cbor kbt-payload,
+   signature: bstr
+])
+
+kbt-protected = {
+   &(typ: 16) ^ => 294 / "application/kb+cwt",
+   &(alg: 1) ^ => int,
+   &(kcwt: 13) ^ => sd-cwt-issued,
+   * label => safe_value
+}
+
+kbt-unprotected = {
+   * label => safe_value
+}
+
+kbt-payload = {
+      &(aud: 3) ^ => tstr,  ; "https://verifier.example/app"
+      time-or-cti-claims,
+    ? &(cnonce: 39) ^ => bstr,
+    * label => safe_value
+}
+
+time-or-cti-claims = (
+  ; Requires either time claims that include an iat OR a cti claim.
+  ; Note that in CDDL, the // operator has very low precedence (see
+  ; Section 2.2.2 of RFC 8610)
+  ;
+  ; It is possible to have both a cti and time claims, but
+  ; time-or-cti-claims insures at least cti or iat is present
+  ? &(exp: 4) ^ => secs,
+  ? &(nbf: 5) ^ => secs,
+    &(iat: 6) ^ => secs  //
+    &(cti: 7) ^ => bstr
+)

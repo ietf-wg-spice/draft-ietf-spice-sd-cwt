@@ -1,0 +1,17 @@
+salted-array = [ +bstr-encoded-salted ]
+
+bstr-encoded-salted = bstr .cbor salted-entry
+salted-entry = salted-claim / salted-element / decoy
+salted-claim = [
+  bstr .size 16,     ; 128-bit salt
+  any,               ; Claim Value
+  (int / text)       ; Claim Key
+]
+salted-element = [
+  bstr .size 16,     ; 128-bit salt
+  any                ; Claim Value
+]
+decoy = [
+  bstr .size 16      ; 128-bit salt
+]
+
