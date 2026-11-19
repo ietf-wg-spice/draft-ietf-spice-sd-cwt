@@ -1,0 +1,337 @@
+diff --git a/interop/Cargo.toml b/interop/Cargo.toml
+index 502dfc0..b5d6e1d 100644
+--- a/interop/Cargo.toml
++++ b/interop/Cargo.toml
+@@ -12,7 +12,8 @@ path = "src/main.rs"
+ 
+ [dependencies]
+ # without the "status" feature since no interop test case carries a status claim
+-esdicawt = { workspace = true, features = ["test-vectors", "ed25519", "p256", "p384"] }
++esdicawt = { workspace = true, features = ["aead", "test-vectors", "ed25519", "p256", "p384"] }
++aes-gcm.workspace = true
+ ciborium.workspace = true
+ clap = { version = "4", features = ["derive"] }
+ ed25519-dalek = { workspace = true, features = ["pkcs8", "pem"] }
+diff --git a/interop/src/holder.rs b/interop/src/holder.rs
+index acd95e4..98c5792 100644
+--- a/interop/src/holder.rs
++++ b/interop/src/holder.rs
+@@ -1,7 +1,7 @@
+ use crate::{
+     PresentArgs,
+     keys::{AnySignature, AnySigningKey, AnyVerifyingKey},
+-    token::{Sign1, decode, disclosure_salt, issuer_keyset, read_stdin, time_verification, unsupported, write_stdout},
++    token::{Sign1, decode, disclosure_salt, issuer_keyset, read_stdin, time_verification, write_stdout},
+ };
+ use ciborium::Value;
+ use esdicawt::{
+@@ -11,20 +11,29 @@ use esdicawt::{
+ use std::{collections::HashSet, path::Path, time::Duration};
+ 
+ pub fn present(args: PresentArgs) -> eyre::Result<()> {
+-    if args.encrypt_list.is_some() {
+-        return Err(unsupported(
+-            "--encrypt_list: AEAD encrypted disclosures (sd_aead_encrypted_claims, 171) are not implemented",
+-        ));
+-    }
+     let sd_cwt = read_stdin()?;
+     let sign1 = Sign1::from_bytes(&sd_cwt)?;
+     let keyset = issuer_keyset(args.issuer.as_deref(), args.issuer_key, &sign1)?;
+     let holder = CliHolder::new(AnySigningKey::from_pem_file(&args.holder_priv)?);
+ 
++    // Adapter selection supports claim 501 or all disclosures, including nested
++    // maps/arrays. The library chooses descendants and performs all encryption.
++    let encrypted_salts = args.encrypt_list.as_deref().map(read_salts).transpose()?.unwrap_or_default();
++    let all_salts = sign1.sd_claims().iter().map(|d| disclosure_salt(d)).collect::<eyre::Result<HashSet<_>>>()?;
++    let encrypt_all = !encrypted_salts.is_empty() && encrypted_salts == all_salts;
++    if !encrypted_salts.is_empty() && !encrypt_all {
++        eyre::ensure!(encrypted_salts.len() == 1, "adapter supports claim 501 or all disclosures");
++        eyre::ensure!(sign1.sd_claims().iter().any(|d|
++            disclosure_salt(d).is_ok_and(|salt| encrypted_salts.contains(&salt))
++            && decode(d).is_ok_and(|v| v.as_array().is_some_and(|a| a.len() == 3 && a[2] == Value::from(501)))
++        ), "adapter supports claim 501 or all disclosures");
++    }
++    let encrypt = !encrypted_salts.is_empty();
+     let presentation = if args.disclose_all {
+         Presentation::Full
+     } else if let Some(list) = &args.disclosure_list {
+-        let salts = read_salts(list)?;
++        let mut salts = read_salts(list)?;
++        salts.extend(encrypted_salts.clone());
+         let available = sign1.sd_claims().iter().map(|d| disclosure_salt(d)).collect::<eyre::Result<HashSet<_>>>()?;
+         let missing = salts.iter().filter(|s| !available.contains(*s)).map(hex::encode).collect::<Vec<_>>();
+         if !missing.is_empty() {
+@@ -35,7 +44,10 @@ pub fn present(args: PresentArgs) -> eyre::Result<()> {
+             issued
+         }))
+     } else {
+-        Presentation::None
++        Presentation::Custom(Box::new(move |mut issued: SaltedArray| {
++            issued.retain(|d| d.to_value().is_ok_and(|d| encrypted_salts.contains(&d.salt().0[..])));
++            issued
++        }))
+     };
+ 
+     let time_verification = time_verification(args.time);
+@@ -67,7 +79,40 @@ pub fn present(args: PresentArgs) -> eyre::Result<()> {
+         extra_kbt_unprotected: None,
+         extra_kbt_payload: None,
+     };
+-    let kbt = holder.new_presentation_raw(sd_cwt, params)?;
++    let kbt = if encrypt {
++        use aes_gcm::KeyInit as _;
++        let key_path = args.aead_key.as_ref().ok_or_else(|| eyre::eyre!("missing --aead-key"))?;
++        let key_bytes = hex::decode(std::fs::read_to_string(key_path)?.trim())?;
++        let key_context = crate::read_aead_context(args.aead_key_context.as_deref(), args.aead_key_context_cbor.as_deref())?;
++        let encryption = esdicawt::DisclosureEncryption {
++            key_context,
++            select: Box::new(move |path| encrypt_all || path == [esdicawt::CborPath::Int(501)]),
++        };
++        let nonce = if let Some(path) = &args.aead_nonces {
++            let csv = std::fs::read_to_string(path)?;
++            let rows = csv.lines().filter(|s| !s.trim().is_empty()).collect::<Vec<_>>();
++            eyre::ensure!(rows.len() == 1, "adapter expects one nonce row");
++            let (salt, nonce) = rows[0].split_once(',').ok_or_else(|| eyre::eyre!("invalid nonce CSV"))?;
++            eyre::ensure!(read_salts(args.encrypt_list.as_ref().unwrap())?.contains(&hex::decode(salt.trim())?), "nonce salt mismatch");
++            let nonce = hex::decode(nonce.trim())?;
++            eyre::ensure!(nonce.len() == 12, "expected 12-byte nonce");
++            Some(nonce)
++        } else { None };
++        match key_bytes.len() {
++            16 => {
++                let key = aes_gcm::Aes128Gcm::new_from_slice(&key_bytes).unwrap();
++                holder.new_encrypted_presentation_raw(&mut TestNonce(nonce), sd_cwt, params, &encryption, &key)?
++            }
++            32 => {
++                let key = aes_gcm::Aes256Gcm::new_from_slice(&key_bytes).unwrap();
++                let holder = CliHolder256::new(AnySigningKey::from_pem_file(&args.holder_priv)?);
++                holder.new_encrypted_presentation_raw(&mut TestNonce(nonce), sd_cwt, params, &encryption, &key)?
++            }
++            _ => eyre::bail!("expected 16- or 32-byte AES key"),
++        }
++    } else {
++        holder.new_presentation_raw(sd_cwt, params)?
++    };
+     write_stdout(&kbt)
+ }
+ 
+@@ -90,6 +135,11 @@ pub struct CliHolder {
+ 
+ impl Holder for CliHolder {
+     type Error = std::convert::Infallible;
++    type Aead = aes_gcm::Aes128Gcm;
++    fn aead_algorithm(&self) -> esdicawt::spec::aead::AeadAlgorithm {
++        esdicawt::spec::aead::AeadAlgorithm::Aes128Gcm
++    }
++
+     type Hasher = sha2::Sha256;
+     type Signer = AnySigningKey;
+     type Signature = AnySignature;
+@@ -121,3 +171,62 @@ impl Holder for CliHolder {
+         &self.verifying_key
+     }
+ }
++
++pub struct CliHolder256 {
++    signing_key: AnySigningKey,
++    verifying_key: AnyVerifyingKey,
++}
++
++impl Holder for CliHolder256 {
++    type Error = std::convert::Infallible;
++    type Aead = aes_gcm::Aes256Gcm;
++    fn aead_algorithm(&self) -> esdicawt::spec::aead::AeadAlgorithm {
++        esdicawt::spec::aead::AeadAlgorithm::Aes256Gcm
++    }
++
++    type Hasher = sha2::Sha256;
++    type Signer = AnySigningKey;
++    type Signature = AnySignature;
++    type Verifier = AnyVerifyingKey;
++
++    type IssuerPayloadClaims = Value;
++    type IssuerProtectedClaims = NoClaims;
++    type IssuerUnprotectedClaims = NoClaims;
++    type KbtProtectedClaims = NoClaims;
++    type KbtUnprotectedClaims = NoClaims;
++    type KbtPayloadClaims = NoClaims;
++
++    fn cwt_algorithm(&self) -> coset::iana::Algorithm {
++        self.signing_key.algorithm()
++    }
++
++    fn new(signing_key: Self::Signer) -> Self {
++        Self {
++            verifying_key: signature::Keypair::verifying_key(&signing_key),
++            signing_key,
++        }
++    }
++
++    fn signer(&self) -> &Self::Signer {
++        &self.signing_key
++    }
++
++    fn verifier(&self) -> &Self::Verifier {
++        &self.verifying_key
++    }
++}
++
++// Fixed nonces are solely for reproducible test vectors. All other randomness uses OsRng.
++struct TestNonce(Option<Vec<u8>>);
++impl rand_core::CryptoRng for TestNonce {}
++impl rand_core::RngCore for TestNonce {
++    fn next_u32(&mut self) -> u32 { rand_core::OsRng.next_u32() }
++    fn next_u64(&mut self) -> u64 { rand_core::OsRng.next_u64() }
++    fn fill_bytes(&mut self, dest: &mut [u8]) {
++        if let Some(nonce) = self.0.take() { dest.copy_from_slice(&nonce); }
++        else { rand_core::OsRng.fill_bytes(dest); }
++    }
++    fn try_fill_bytes(&mut self, dest: &mut [u8]) -> Result<(), rand_core::Error> {
++        self.fill_bytes(dest); Ok(())
++    }
++}
+diff --git a/interop/src/main.rs b/interop/src/main.rs
+index 72cb4bc..65a787c 100644
+--- a/interop/src/main.rs
++++ b/interop/src/main.rs
+@@ -70,6 +70,8 @@ pub struct PresentArgs {
+     pub aead_key: Option<PathBuf>,
+     #[arg(long = "aead-key-context")]
+     pub aead_key_context: Option<String>,
++    #[arg(long = "aead-key-context-cbor")]
++    pub aead_key_context_cbor: Option<PathBuf>,
+     #[arg(long = "aead-nonces")]
+     pub aead_nonces: Option<PathBuf>,
+     /// Audience of the SD-KBT
+@@ -93,6 +95,10 @@ pub struct VerifyArgs {
+     /// Hex encoded AEAD key, may be repeated (unsupported)
+     #[arg(long = "aead-key")]
+     pub aead_key: Vec<PathBuf>,
++    #[arg(long = "aead-key-context")]
++    pub aead_key_context: Option<String>,
++    #[arg(long = "aead-key-context-cbor")]
++    pub aead_key_context_cbor: Option<PathBuf>,
+     /// Verifies the time claims as if it were this time (seconds since epoch)
+     #[arg(long)]
+     pub time: Option<u64>,
+@@ -142,3 +148,14 @@ fn main() -> ExitCode {
+         }
+     }
+ }
++
++// Typed contexts are decoded without rewriting the credential or presentation.
++fn read_aead_context(text: Option<&str>, path: Option<&std::path::Path>) -> eyre::Result<Option<esdicawt::spec::aead::AeadKeyContext>> {
++    eyre::ensure!(text.is_none() || path.is_none(), "choose one context representation");
++    if let Some(path) = path {
++        let bytes = std::fs::read(path)?;
++        return Ok(Some(ciborium::de::from_reader(bytes.as_slice())?));
++    }
++    Ok(text.map(|s| s.parse::<u64>().map(esdicawt::spec::aead::AeadKeyContext::Uint)
++        .unwrap_or_else(|_| esdicawt::spec::aead::AeadKeyContext::Text(s.to_owned()))))
++}
+diff --git a/interop/src/verify.rs b/interop/src/verify.rs
+index b8c91fb..626145d 100644
+--- a/interop/src/verify.rs
++++ b/interop/src/verify.rs
+@@ -1,7 +1,7 @@
+ use crate::{
+     VerifyArgs,
+     keys::{AnySignature, AnyVerifyingKey},
+-    token::{Sign1, encode, issuer_keyset, label_is, map_get, read_stdin, time_verification, unsupported, write_stdout},
++    token::{Sign1, encode, issuer_keyset, label_is, map_get, read_stdin, time_verification, write_stdout},
+ };
+ use ciborium::Value;
+ use esdicawt::{
+@@ -22,15 +22,15 @@ pub fn verify_kbt(kbt: &[u8], args: &VerifyArgs) -> eyre::Result<Vec<u8>> {
+     let sd_cwt = Sign1::from_bytes(kbt)?.kcwt()?;
+     let keyset = issuer_keyset(args.issuer.as_deref(), args.issuer_key, &sd_cwt)?;
+ 
+-    let encrypted = sd_cwt.aead_encrypted_claims();
+-    if encrypted > 0 {
+-        if !args.aead_key.is_empty() {
+-            return Err(unsupported(format!(
+-                "--aead-key: cannot decrypt the {encrypted} AEAD encrypted disclosure(s) (sd_aead_encrypted_claims, 171), not implemented"
+-            )));
+-        }
+-        eprintln!("{encrypted} AEAD encrypted disclosure(s) left undisclosed");
+-    }
++    use aes_gcm::KeyInit as _;
++    eyre::ensure!(args.aead_key.len() <= 1, "adapter supports one key");
++    let key_bytes = args.aead_key.first().map(|p| -> eyre::Result<_> {
++        Ok(hex::decode(std::fs::read_to_string(p)?.trim())?)
++    }).transpose()?;
++    let key = key_bytes.as_ref().filter(|k| k.len() == 16).map(|k| aes_gcm::Aes128Gcm::new_from_slice(k).unwrap());
++    let key256 = key_bytes.as_ref().filter(|k| k.len() == 32).map(|k| aes_gcm::Aes256Gcm::new_from_slice(k).unwrap());
++    eyre::ensure!(key_bytes.is_none() || key.is_some() || key256.is_some(), "expected 16- or 32-byte AES key");
++    let context = crate::read_aead_context(args.aead_key_context.as_deref(), args.aead_key_context_cbor.as_deref())?;
+ 
+     let audience = args.audience.as_deref().map(|a| [a]);
+     let time_verification = time_verification(args.time);
+@@ -47,15 +47,24 @@ pub fn verify_kbt(kbt: &[u8], args: &VerifyArgs) -> eyre::Result<Vec<u8>> {
+         artificial_time: args.time.and_then(|t| i64::try_from(t).ok()),
+     };
+ 
++    let verify = |subject| {
++        if let Some(key) = &key {
++            CliVerifier.verify_encrypted_sd_kbt(kbt, &params(subject), None, &keyset, key, context.as_ref())
++        } else if let Some(key) = &key256 {
++            CliVerifier256.verify_encrypted_sd_kbt(kbt, &params(subject), None, &keyset, key, context.as_ref())
++        } else {
++            CliVerifier.verify_sd_kbt(kbt, &params(subject), None, &keyset)
++        }
++    };
+     // esdicawt always verifies 'sub' (which can be redacted) against an expected one, which the harness does not give.
+     // So the subject is taken from the payload, or from the error when it is redacted
+     let plain_subject = match map_get(&sd_cwt.payload, CWT_CLAIM_SUBJECT) {
+         Some(Value::Text(s)) => s.clone(),
+         _ => String::new(),
+     };
+-    let (verified, subject) = match CliVerifier.verify_sd_kbt(kbt, &params(&plain_subject), None, &keyset) {
++    let (verified, subject) = match verify(&plain_subject) {
+         Ok(verified) => (verified, plain_subject),
+-        Err(SdCwtVerifierError::SubMismatch { actual, .. }) if !actual.is_empty() => (CliVerifier.verify_sd_kbt(kbt, &params(&actual), None, &keyset)?, actual),
++        Err(SdCwtVerifierError::SubMismatch { actual, .. }) if !actual.is_empty() => (verify(&actual)?, actual),
+         Err(e) => return Err(e.into()),
+     };
+ 
+@@ -91,6 +100,31 @@ pub struct CliVerifier;
+ 
+ impl Verifier for CliVerifier {
+     type Error = std::convert::Infallible;
++    type Aead = aes_gcm::Aes128Gcm;
++    fn aead_algorithm(&self) -> esdicawt::spec::aead::AeadAlgorithm {
++        esdicawt::spec::aead::AeadAlgorithm::Aes128Gcm
++    }
++
++    type HolderSignature = AnySignature;
++    type HolderVerifier = AnyVerifyingKey;
++    type IssuerProtectedClaims = NoClaims;
++    type IssuerUnprotectedClaims = NoClaims;
++    type IssuerPayloadClaims = Value;
++    type KbtPayloadClaims = NoClaims;
++    type KbtProtectedClaims = NoClaims;
++    type KbtUnprotectedClaims = NoClaims;
++}
++
++#[derive(Debug, Clone, Copy)]
++pub struct CliVerifier256;
++
++impl Verifier for CliVerifier256 {
++    type Error = std::convert::Infallible;
++    type Aead = aes_gcm::Aes256Gcm;
++    fn aead_algorithm(&self) -> esdicawt::spec::aead::AeadAlgorithm {
++        esdicawt::spec::aead::AeadAlgorithm::Aes256Gcm
++    }
++
+     type HolderSignature = AnySignature;
+     type HolderVerifier = AnyVerifyingKey;
+     type IssuerProtectedClaims = NoClaims;
+@@ -152,6 +186,8 @@ mod tests {
+             issuer: Some(format!("{CASE}/issuer_pub.pem").into()),
+             issuer_key: None,
+             audience: None,
++            aead_key_context: None,
++            aead_key_context_cbor: None,
+             aead_key: aead_key.map(|k| format!("{CASE}/{k}").into()).into_iter().collect(),
+             time: None,
+         }

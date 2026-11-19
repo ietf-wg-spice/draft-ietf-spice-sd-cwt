@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SD-CWT Interop Matrix</title>
-<meta name="description" content="Executed interoperability results for independent SD-CWT implementations against the canonical examples in draft-ietf-spice-sd-cwt-08.">
+<meta name="description" content="SD-CWT interoperability results, including encrypted disclosures against esdicawt c6eb0e4.">
 <style>
 img{max-width:100%}
 
@@ -149,13 +149,14 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
 <div class="wrap">
 
 <header>
-  <p class="eyebrow">draft-ietf-spice-sd-cwt-08 &middot; updated 5 October 2026</p>
+  <p class="eyebrow">draft-ietf-spice-sd-cwt-09 &middot; updated 19 November 2026</p>
   <h1>SD-CWT Interop Matrix</h1>
   <p class="lede">
-    Three independent implementations, run against the six canonical examples published in the draft
-    and against each other. Every cell below was executed, not inferred &mdash; the fixtures are the
-    draft&rsquo;s own bytes, and the keys are the ones in Appendix&nbsp;C.
+    Three independent implementations, tested against the draft and each other. The November
+    encrypted-disclosures experiment is shown first; the October main-branch snapshot is retained
+    below with its original revisions and scope.
   </p>
+  <p style="margin-top:20px;color:var(--ink-2)">October snapshot totals (not combined with the November experiment):</p>
   <dl class="facts">
     <div class="fact"><dt>Implementations</dt><dd>3<small>python, javascript, rust</small></dd></div>
     <div class="fact"><dt>Canonical examples</dt><dd>6 / 6<small>read by all three</small></dd></div>
@@ -165,8 +166,112 @@ footer{border-top:1px solid var(--rule); padding-top:22px; color:var(--ink-3); f
   </dl>
 </header>
 
+
+<section id="draft-09-2026-11-19">
+  <p class="eyebrow">Latest published spec &middot; draft -09 at 79c4381</p>
+  <h2>Draft -09: all tested interoperability profiles pass</h2>
+  <p style="margin-top:12px"><strong>Correction:</strong> the earlier report used -08
+    requirements. Draft -09 moves algorithm header 172 to unprotected headers;
+    Beltram’s placement was correct. Our implementations and fixtures have been
+    updated, and the earlier claim of a current-spec Rust defect is withdrawn.</p>
+  <ul>
+    <li><strong>539/539</strong> complete-claims profiles, <strong>306/306</strong>
+      encrypted-disclosure checks, and <strong>54/54</strong> original cross-pair
+      checks pass. Counts overlap and are not additive.</li>
+    <li>AES-128 and AES-256 work in all nine Python/JavaScript/Rust Holder × Verifier
+      combinations, including nested maps/arrays. Beltram’s library is unchanged.</li>
+    <li>Python: <strong>234 tests</strong>. JavaScript: <strong>557 tests on Node 20/24/26</strong>.
+      Native Rust AES-256 fixtures now protect interoperability in both unit suites.</li>
+    <li>Every runner validates the pinned normative source/schema hashes and records
+      the exact spec version. The reviewed -08/-09 diff and provenance are saved.</li>
+  </ul>
+  <p>See the <a href="interop/SPEC-FIRST-INTEROP.md">updated report, correction,
+    editorial inconsistency, and scope</a>,
+    <a href="interop/results/draft-09-2026-11-19/profile-results.json">profile evidence</a>,
+    <a href="https://github.com/tradeverifyd/sd-cwt/pull/7">Python migration PR</a>, and
+    <a href="https://github.com/tradeverifyd/sd-cwt-js/pull/6">JavaScript migration PR</a>.
+    These passing profiles do not establish exhaustive spec conformance.</p>
+</section>
+
+<details><summary>Historical -08 experiment — superseded by the -09 rerun</summary>
+<p>The following results used -08 expectations. Header-172 defect claims do not apply to -09.</p>
+<section id="encrypted-profiles-2026-11-18">
+  <p class="eyebrow">Earlier 18 November snapshot &middot; complete reconstructed claims</p>
+  <h2>Deeper profiles: 316 / 316 checks pass</h2>
+  <p style="margin-top:12px">Checking entire claim structures exposed a Python defect missed by
+    the earlier claim-501 assertions: nested claims were flattened, numeric claims dropped,
+    and array disclosures not restored. The reconstruction cases improved from
+    <strong>136/220 to 220/220</strong> after the fix.</p>
+  <ul style="margin-top:16px">
+    <li>The extended 316 checks cover nested maps and arrays, reversed disclosure order,
+      AES-128-GCM, AES-256-GCM, ChaCha20-Poly1305, thumbprint contexts, key-rotation candidates,
+      and partial decryption with two recipient keys.</li>
+    <li>Python and JavaScript run both Holder and Verifier roles. Rust verifies the default
+      AES-128 nested/array fixtures; its adapter limitations are unchanged.</li>
+    <li>Python unit tests: <strong>183/183</strong>. JavaScript AEAD: <strong>38/38</strong>.
+      JavaScript full suite: 504/509, with the same five pre-existing failures.</li>
+    <li>Fixed a Python coverage exclusion regex that reported 100% while measuring zero
+      statements. Actual combined line/branch coverage is <strong>96.08% for AEAD</strong>,
+      94.14% for redaction/reconstruction, and <strong>61.16% overall</strong>.</li>
+    <li>Added a JavaScript pull-request workflow for the AEAD regressions; hosted execution
+      remains pending. The original 261-check suite still has its two documented Rust limits.</li>
+  </ul>
+  <p style="margin-top:16px">These suites overlap and are not additive. See
+    <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/interop/PROFILE-INTEROP.md">scope, remaining gaps, and reproduction</a>
+    and <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/interop/results/encrypted-profiles-2026-11-18/results.json">executed results</a>.</p>
+</section>
+</details>
+
+<details><summary>Historical -08 experiment — superseded by the -09 rerun</summary>
+<p>The following results used -08 expectations. Header-172 defect claims do not apply to -09.</p>
+<section id="encrypted-disclosures-2026-11-18">
+  <p class="eyebrow">Earlier 18 November snapshot &middot; feature branch</p>
+  <h2>Encrypted disclosures: Python &harr; JavaScript &harr; Rust</h2>
+  <p style="margin-top:12px">The default AES-128-GCM vector passes all <strong>54/54</strong>
+    checks across nine Holder &times; Verifier pairs. The expanded suite passes
+    <strong>259/261</strong>: one header-placement difference and one unsupported adapter
+    capability remain. These totals overlap and must not be added together.</p>
+  <div class="scroller" style="margin-top:18px">
+    <table>
+      <thead><tr><th scope="col">Expanded checks</th><th scope="col">Result</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Cross-implementation behavior<small>contexts, encrypted-only, fresh nonces, with/without/wrong key</small></th><td><span class="mark m-ok">138 / 138</span></td></tr>
+        <tr><th scope="row">Validation and header placement<small>re-signed malformed disclosures; positive controls required</small></th><td><span class="mark m-gap">110 / 111</span></td></tr>
+        <tr><th scope="row">Explicit protected algorithms<small>AES-128-GCM and AES-256-GCM reference fixtures</small></th><td>11 passed; 1 unsupported</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note" style="margin-top:20px">
+    <p><strong>Scope and provenance.</strong> Rust is
+    <a href="https://github.com/beltram/esdicawt/commit/c6eb0e426ac3e8ecdbcadf70f2a9d44af05a748f"><code>c6eb0e4</code></a>
+    from <code>feat/encrypted-disclosures</code>, with a CLI-only test adapter calling the
+    library&rsquo;s new AEAD APIs. The stock CLI still rejects encryption/decryption options.
+    Python <code>5a2744c</code> and JavaScript <code>55b32be</code> include the local duplicate-disclosure
+    fixes saved with the evidence. No Rust library behavior was patched.</p>
+  </div>
+  <ul style="margin-top:20px">
+    <li><strong>Fixed locally:</strong> Python accepted duplicate recovered disclosures and
+      plaintext/encrypted duplicates; JavaScript accepted duplicate recovered disclosures.
+      The expanded baseline was 250/261 before these fixes.</li>
+    <li><strong>Spec difference:</strong> Rust emits <code>sd_aead</code> (172) in the unprotected
+      header; this draft specifies the protected header. Default AES-128 success does not prove
+      agreement on explicit algorithm selection.</li>
+    <li><strong>Adapter limit:</strong> only AES-128-GCM, one key, and top-level claim 501 encryption
+      are exposed. The AES-256 keyed probe is unsupported, not a demonstrated Rust-library defect.</li>
+    <li><strong>Validation:</strong> Python 152/152; JavaScript AEAD 27/27. JavaScript&rsquo;s full
+      suite has five failures also reproduced on the unchanged baseline (493/498 after the fix,
+      491/496 before it).</li>
+  </ul>
+  <p style="margin-top:16px">The suite does not establish full spec conformance, nested encrypted
+    disclosure interop, thumbprint-context interop, or multi-key routing.
+    See the <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/interop/ENCRYPTED-INTEROP.md">reproduction instructions and limitations</a>,
+    <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/interop/results/encrypted-disclosures-2026-11-18/results.json">machine-readable results</a>, and
+    <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/blob/main/interop/results/encrypted-disclosures-2026-11-18/evidence.tar.gz">raw evidence archive</a>.</p>
+</section>
+</details>
+
 <section>
-  <p class="eyebrow">The matrix</p>
+  <p class="eyebrow">October main-branch snapshot</p>
   <h2>What each implementation can be confirmed to do</h2>
   <p style="margin-top:12px;color:var(--ink-2)">
     Confirmed means a test was run and passed. The one blocked cell has a filed cause, linked below.
@@ -428,13 +533,13 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
 
 <section>
   <p class="eyebrow">The boundary</p>
-  <h2>What this does not yet confirm</h2>
+  <h2>Limits of the October snapshot</h2>
   <div class="grid" style="margin-top:20px">
     <article class="card">
       <header><h3>AEAD disclosures</h3><span class="mark m-gap" role="img" aria-label="optional feature, partly implemented"></span></header>
       <p class="role">python &harr; javascript only</p>
       <ul>
-        <li>esdicawt does not implement 171 or 172, so it has no cell here yet.</li>
+        <li>The October esdicawt revision did not implement AEAD. The November branch experiment above supersedes this AEAD limitation.</li>
         <li>The plaintext is the <code>bstr .cbor salted-entry</code> <em>with</em> its <code>58&nbsp;21</code> header.
             The text says only &ldquo;the corresponding bstr is encrypted&rdquo;; the example is what settles it
             &mdash; the same gap that produced the shared hashing bug.</li>
@@ -469,7 +574,7 @@ the token itself       <b>af375dc3</b>fba1d082448642c00be7b2f7&hellip;   &larr; 
 </section>
 
 <footer>
-  <p>Every result executed against freshly cloned <code>main</code> at
+  <p>The October snapshot results were executed against freshly cloned <code>main</code> at
   <a href="https://github.com/tradeverifyd/sd-cwt/commit/33d0ec4"><code>tradeverifyd/sd-cwt@33d0ec4</code></a>, <a href="https://github.com/tradeverifyd/sd-cwt-js/commit/86baf72"><code>tradeverifyd/sd-cwt-js@86baf72</code></a> and
   <a href="https://github.com/beltram/esdicawt/commit/ed3117d"><code>beltram/esdicawt@ed3117d</code></a>, with the draft repo at
   <a href="https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/commit/6733908"><code>ietf-wg-spice/draft-ietf-spice-sd-cwt@6733908</code></a> (draft-08, unmodified).

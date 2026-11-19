@@ -1,0 +1,927 @@
+
+> sd-cwt@1.0.0 test
+> node --test tests/*.test.js
+
+▶ AEAD encrypted disclosures: the draft Section 13 vector
+  ✔ the draft's first disclosure is the one in issuer_cwt.cbor (0.516417ms)
+  ✔ decrypts to the first disclosure (19.468375ms)
+  ✔ encrypts with the draft nonce to byte-identical ciphertext and tag (0.606666ms)
+  ✔ encrypts the bstr with its header, not the bare salted-entry (0.1025ms)
+✔ AEAD encrypted disclosures: the draft Section 13 vector (21.388833ms)
+▶ AEAD encrypted disclosures: primitives
+  ✔ round-trips with a random nonce under every supported algorithm (12.868ms)
+  ✔ rejects the wrong key (4.753ms)
+  ✔ rejects a tampered tag or ciphertext (3.080584ms)
+  ✔ carries each kind of key context, and rejects other types (11.375ms)
+  ✔ rejects malformed entries (0.243958ms)
+  ✔ rejects a nonce or key of the wrong length when encrypting (0.15675ms)
+  ✔ refuses algorithms it does not support, including short-tag ones (0.179042ms)
+  ✔ rejects a plaintext that is not a bstr (2.821417ms)
+✔ AEAD encrypted disclosures: primitives (35.972375ms)
+▶ AEAD encrypted disclosures: Holder and Verifier
+  ✔ Holder moves encrypted disclosures from sd_claims to sd_aead_encrypted_claims (6.763ms)
+  ✔ Holder omits sd_claims entirely when every disclosure is encrypted (3.241083ms)
+  ✔ Holder omits sd_aead_encrypted_claims when nothing is encrypted (0.53325ms)
+  ✔ a Verifier with the key reconstructs encrypted and plaintext disclosures alike (7.5335ms)
+  ✔ tries each candidate key the resolver returns (5.154917ms)
+  ✔ a Verifier without a key leaves the entries encrypted and still verifies (4.668375ms)
+  ✔ rejects when the resolved key does not decrypt (3.341917ms)
+  ✔ rejects a decrypted disclosure that matches no Redacted Claim Hash (3.071584ms)
+  ✔ rejects a disclosure sent both in plaintext and encrypted (1.79375ms)
+  ✔ rejects an empty sd_aead_encrypted_claims (1.283375ms)
+  ✔ rejects a malformed entry even without a key (1.281625ms)
+✔ AEAD encrypted disclosures: Holder and Verifier (39.088916ms)
+▶ AEAD encrypted disclosures: interop fixtures
+  ✔ aead_kbt.js.cbor verifies, produced by this library (scripts/generate-aead-fixture.js) (3.731542ms)
+  ✔ aead_kbt.cbor verifies, produced by the python implementation (tradeverifyd/sd-cwt) (1.261458ms)
+✔ AEAD encrypted disclosures: interop fixtures (5.085917ms)
+▶ duplicate encrypted disclosures
+  ✔ rejects duplicate recovered plaintext (fresh nonce: false) (4.076208ms)
+  ✔ rejects duplicate recovered plaintext (fresh nonce: true) (3.824958ms)
+✔ duplicate encrypted disclosures (8.042917ms)
+▶ SD-CWT High-Level API
+  ▶ Key Generation
+    ✔ should generate ES256 key pair as COSE Keys (0.542459ms)
+    ✔ should generate ES384 key pair as COSE Keys (0.322041ms)
+    ✔ should generate ES512 key pair as COSE Keys (2.349417ms)
+  ✔ Key Generation (4.824709ms)
+  ▶ Issuer API
+    ✔ should require cnf claim per spec Section 7 (0.529583ms)
+    ✔ should reject redacted cnf claim per spec Section 7 (0.17075ms)
+    ✔ should issue an SD-CWT with no redactable claims (1.619125ms)
+    ✔ should issue an SD-CWT with redactable claims (1.18525ms)
+    ✔ should issue an SD-CWT with multiple redactable claims (0.523792ms)
+    ✔ should issue an SD-CWT with decoys (1.051167ms)
+    ✔ should issue an SD-CWT with nested redactable claims (0.488709ms)
+    ✔ should issue an SD-CWT with redactable array elements (1.225625ms)
+    ✔ should include kid in the token when provided (0.481333ms)
+    ✔ should throw if claims is not a Map (1.001125ms)
+  ✔ Issuer API (8.629166ms)
+  ▶ Holder API
+    ✔ should parse an SD-CWT token (1.038709ms)
+    ✔ should select disclosures by claim name (0.617209ms)
+    ✔ should require audience for presentation per spec Section 8.1 (0.549916ms)
+    ✔ should require holder private key for presentation (0.37525ms)
+    ✔ should create an SD-KBT presentation with audience (0.7355ms)
+    ✔ should create an SD-KBT with nonce (0.596625ms)
+    ✔ should create a presentation with no disclosures (full redaction) (0.615625ms)
+    ✔ should filter valid disclosures (0.869208ms)
+  ✔ Holder API (5.576833ms)
+  ▶ Verifier API
+    ✔ should require expectedAudience per spec Section 9 (0.866333ms)
+    ✔ should verify a presentation with full disclosure (1.712208ms)
+    ✔ should verify a presentation with partial disclosure (1.204625ms)
+    ✔ should verify a presentation with no disclosures (1.078291ms)
+    ✔ should reject presentation with wrong audience (1.017292ms)
+    ✔ should validate nonce when provided (3.516958ms)
+    ✔ should reject presentation with wrong nonce (1.238334ms)
+    ✔ should reject presentation when nonce expected but not provided (1.706708ms)
+    ✔ should fail verification with wrong issuer key (2.000209ms)
+    ✔ should fail verification when holder uses wrong key (1.094834ms)
+    ✔ should reject presentation without SD-KBT structure (0.365791ms)
+    ✔ should return KBT payload with aud and iat (1.641875ms)
+    ✔ should verify token without key binding (deprecated method) (1.42825ms)
+    ✔ should handle nested map reconstructions (1.050167ms)
+    ✔ should handle array element disclosures (1.059958ms)
+  ✔ Verifier API (21.321917ms)
+  ▶ Utils
+    ✔ should check if claims have redactions (0.460667ms)
+    ✔ should return false if no redactions (0.358708ms)
+    ✔ should count redactions correctly (0.456708ms)
+    ✔ should get disclosable claim names (0.567792ms)
+  ✔ Utils (1.91725ms)
+  ▶ End-to-End Scenarios
+    ✔ should complete full SD-CWT workflow with key binding (1.250041ms)
+    ✔ should complete workflow with nonce for replay protection (1.041166ms)
+    ✔ should handle complex nested structures (1.450667ms)
+    ✔ should work with different algorithms (8.800125ms)
+  ✔ End-to-End Scenarios (12.640209ms)
+✔ SD-CWT High-Level API (55.434417ms)
+▶ API: Strict Depth and Validation
+  ▶ MAX_DEPTH constant export
+    ✔ should export MAX_DEPTH as 16 per spec Section 6.5 (0.053416ms)
+  ✔ MAX_DEPTH constant export (0.085792ms)
+  ▶ Issuer with strict mode
+    ✔ should issue with strict mode enabled (0.327167ms)
+    ✔ should reject deeply nested structures in strict mode (0.208292ms)
+  ✔ Issuer with strict mode (0.572334ms)
+  ▶ Verifier with strict mode
+    ✔ should verify with strict mode enabled (0.859959ms)
+  ✔ Verifier with strict mode (0.895959ms)
+  ▶ Verifier with requireClean option
+    ✔ should pass requireClean when all disclosures provided (1.060042ms)
+    ✔ should fail requireClean when disclosures are missing (0.90425ms)
+  ✔ Verifier with requireClean option (2.006375ms)
+  ▶ validateClaimsClean and assertClaimsClean exports
+    ✔ should export validateClaimsClean function (0.413667ms)
+    ✔ should export assertClaimsClean function (0.090833ms)
+    ✔ should detect unprocessed toBeRedacted tags (0.044ms)
+  ✔ validateClaimsClean and assertClaimsClean exports (0.606792ms)
+  ▶ Full API flow with nested structures and decoys
+    ✔ should handle deeply nested structures with decoys (1.078875ms)
+    ✔ should handle arrays with redactable elements and decoys (0.994667ms)
+  ✔ Full API flow with nested structures and decoys (2.130125ms)
+✔ API: Strict Depth and Validation (6.443ms)
+Holder Public Key Hex: a4010220012158208554eb275dcd6fbd1c7ac641aa2c90d92022fd0d3024b5af18c7cc61ad527a2d2258204dc7ae2c677e96d0cc82597655ce92d5503f54293d87875d1e79ce4770194343
+Issuer Public Key Hex: a401022002215830c31798b0c7885fa3528fbf877e5b4c3a6dc67a5a5dc6b307b728c3725926f2abe5fb4964cd91e3948a5493f6ebb6cbbf2258308f6c7ec761691cad374c4daa9387453f18058ece58eb0a8e84a055a31fb7f9214b27509522c159e764f8711e11609554
+
+=== Step 1: Issue SD-CWT ===
+Token length: 388
+Number of disclosures: 3
+Token hex (first 100 chars): d2844ba30138221019012518aa2fa0590110a9017668747470733a2f2f6973737565722e6578616d706c6502766874747073...
+
+=== Step 2: Parse Token ===
+Parsed issuer: https://issuer.example
+
+=== Step 3: Create Presentation ===
+Presentation length: 609
+Presentation hex (first 100 chars): d2845901f5a30126101901260dd2844ba30138221019012518aa2fa111835821835029c87e788fb0df247cf4f938cd490850...
+
+=== Step 4: Verify Presentation ===
+Verification successful!
+Verified claims:
+  1: https://issuer.example
+  2: https://device.example
+  4: 1725330600
+  5: 1725243900
+  6: 1725244200
+  500: true
+  501: ABCD-123456
+
+=== All assertions passed! ===
+Deterministic hex: a4010220012158208554eb275dcd6fbd1c7ac641aa2c90d92022fd0d3024b5af18c7cc61ad527a2d2258204dc7ae2c677e96d0cc82597655ce92d5503f54293d87875d1e79ce4770194343
+Disclosure length: 33
+Disclosure hex: 8350fdc702dda4597e540e4bec3bb7df072a6c7365637265742d76616c75651864
+Correctly rejected wrong audience
+Generated ES256 keys workflow passed!
+Generated public key hex: a6010203262001215820c7ed018fa6f0ad48d15b5c0f2571a704d07a147cbadb106b3c08899e4b6c6c7a22582034a4fc9d3d0e229e34b2f0aea561b07080a6a51c16effa25bcb639e600736d940258205d7c09e35e3f89b52e4d355c71cd3284de90b15031375407a7c91267e0dba86b
+▶ Browser Compatibility - Spec Keys
+  ✔ should create matching COSE Key hex representations (2.231125ms)
+  ✔ should complete full SD-CWT workflow with spec keys (6.221625ms)
+  ✔ should generate deterministic hex output for COSE Keys (0.17225ms)
+  ✔ should serialize disclosures consistently (0.796291ms)
+  ✔ should handle audience mismatch correctly (1.91725ms)
+✔ Browser Compatibility - Spec Keys (12.031042ms)
+▶ Browser Compatibility - Generated Keys
+  ✔ should work with dynamically generated ES256 keys (5.173167ms)
+  ✔ should serialize and deserialize generated keys correctly (0.465708ms)
+✔ Browser Compatibility - Generated Keys (5.778125ms)
+▶ cbor2 sanity tests
+  ▶ encode
+    ✔ should encode a simple integer (1.8755ms)
+    ✔ should encode a string (0.158875ms)
+    ✔ should encode an array (0.27125ms)
+    ✔ should encode an object (0.436292ms)
+    ✔ should encode null and undefined (0.093709ms)
+    ✔ should encode booleans (0.101ms)
+    ✔ should encode floating point numbers (0.127833ms)
+    ✔ should encode nested structures (0.137292ms)
+    ✔ should encode Buffer/Uint8Array (byte strings) (0.136166ms)
+  ✔ encode (5.078667ms)
+  ▶ decode
+    ✔ should decode an encoded integer (0.557916ms)
+    ✔ should decode an encoded string (0.121125ms)
+    ✔ should decode an encoded array (0.602542ms)
+    ✔ should decode an encoded object (0.499584ms)
+    ✔ should decode null (0.092958ms)
+    ✔ should decode booleans (0.215875ms)
+    ✔ should decode floating point numbers (0.096792ms)
+    ✔ should decode nested structures (0.236292ms)
+  ✔ decode (4.779917ms)
+  ▶ roundtrip
+    ✔ should roundtrip negative integers (0.107834ms)
+    ✔ should roundtrip large integers (0.064875ms)
+    ✔ should roundtrip empty array (0.05725ms)
+    ✔ should roundtrip empty object (0.055125ms)
+  ✔ roundtrip (0.377959ms)
+✔ cbor2 sanity tests (10.5835ms)
+▶ COSE Sign1 Module
+  ▶ generateKeyPair
+    ✔ should generate an ES256 key pair as COSE Keys by default (0.680292ms)
+    ✔ should generate an ES384 key pair as COSE Keys (0.385542ms)
+    ✔ should generate an ES512 key pair as COSE Keys (0.332666ms)
+    ✔ should throw for unsupported algorithm (0.224958ms)
+  ✔ generateKeyPair (2.136416ms)
+  ▶ sign
+    ✔ should sign a buffer payload (1.677584ms)
+    ✔ should sign a string payload (0.253541ms)
+    ✔ should sign with custom kid (0.231459ms)
+    ✔ should throw if payload is missing (0.158583ms)
+    ✔ should throw if signer key is incomplete (missing d) (0.11575ms)
+    ✔ should sign with different algorithms (1.836875ms)
+  ✔ sign (4.4875ms)
+  ▶ verify
+    ✔ should verify a signed message (1.660375ms)
+    ✔ should verify with ES384 (1.26975ms)
+    ✔ should verify with ES512 (1.478334ms)
+    ✔ should fail verification with wrong key (0.655708ms)
+    ✔ should throw if COSE Sign1 message is missing (0.178291ms)
+    ✔ should throw if verifier key is incomplete (0.470125ms)
+  ✔ verify (5.845ms)
+  ▶ sign and verify integration
+    ✔ should handle empty payload (0.503625ms)
+    ✔ should handle large payload (1.427708ms)
+    ✔ should handle binary payload (2.069958ms)
+    ✔ should handle JSON payload (2.198292ms)
+    ✔ should use custom kid option (4.26275ms)
+    ✔ should work with externally generated keys (0.5635ms)
+  ✔ sign and verify integration (11.208709ms)
+  ▶ custom header parameters
+    ✔ should sign with content_type in protected headers (0.880667ms)
+    ✔ should sign with kid in protected headers (0.567958ms)
+    ✔ should sign with kid in unprotected headers (0.475ms)
+    ✔ should sign with x5chain (X.509 certificate chain) (0.545334ms)
+    ✔ should sign with crit (critical) header (0.47275ms)
+    ✔ should sign with numeric content_type (0.436459ms)
+    ✔ should sign with combined protected and unprotected headers (0.535667ms)
+    ✔ should override kid option with unprotectedHeaders kid (0.461708ms)
+    ✔ should handle IV in unprotected headers (0.586875ms)
+    ✔ should handle Partial_IV in unprotected headers (0.483958ms)
+    ✔ should preserve payload integrity with various header combinations (1.680917ms)
+  ✔ custom header parameters (7.300625ms)
+  ▶ private/custom header parameters (integer keys)
+    ✔ should sign with custom protected header using negative integer key (3.903917ms)
+    ✔ should sign with custom unprotected header using negative integer key (0.677042ms)
+    ✔ should sign with custom header using Map (0.54175ms)
+    ✔ should sign with multiple custom headers (0.658167ms)
+    ✔ should combine standard and custom headers (0.570166ms)
+    ✔ should handle binary data in custom headers (0.504291ms)
+    ✔ should handle nested structures in custom headers (0.562542ms)
+    ✔ should work with ES384 and custom headers (1.166959ms)
+    ✔ should work with ES512 and custom headers (1.34125ms)
+  ✔ private/custom header parameters (integer keys) (10.085541ms)
+  ▶ getHeaders
+    ✔ should extract protected headers from a signed message (0.391167ms)
+    ✔ should extract unprotected headers from a signed message (0.316875ms)
+    ✔ should throw for invalid input (0.063584ms)
+    ✔ should throw for invalid COSE structure (0.100125ms)
+  ✔ getHeaders (0.944959ms)
+  ▶ EdDSA (Ed25519) with algorithm -8
+    ✔ should have EdDSA algorithm constant (0.053584ms)
+    ✔ should generate Ed25519 key pair as COSE Keys (OKP type) (0.166875ms)
+    ✔ should sign and verify with Ed25519 COSE Keys (0.522375ms)
+    ✔ should auto-detect Ed25519 algorithm from COSE Key (per RFC 9864) (0.435958ms)
+    ✔ should include kid in unprotected headers (0.435958ms)
+    ✔ should fail verification with wrong Ed25519 key (0.552208ms)
+    ✔ should work with custom headers (0.831125ms)
+  ✔ EdDSA (Ed25519) with algorithm -8 (3.10075ms)
+  ▶ RFC 9864 Fully-Specified Algorithms (High-Level API)
+    ✔ should export fully-specified algorithm constants per RFC 9864 (0.084125ms)
+    ✔ should generate Ed25519 COSE Key with fully-specified algorithm (0.115667ms)
+    ✔ should sign and verify with Ed25519 fully-specified algorithm (0.423292ms)
+    ✔ should generate Ed448 COSE Key with fully-specified algorithm (0.164708ms)
+    ✔ should sign and verify with Ed448 fully-specified algorithm (0.612375ms)
+    ✔ should prefer fully-specified algorithm when auto-detecting Ed25519 curve (0.417875ms)
+    ✔ should prefer fully-specified algorithm when auto-detecting Ed448 curve (0.600584ms)
+    ✔ should still support deprecated EdDSA when explicitly specified (0.413375ms)
+  ✔ RFC 9864 Fully-Specified Algorithms (High-Level API) (2.951375ms)
+✔ COSE Sign1 Module (48.567167ms)
+▶ cose-js sanity tests
+  ▶ module structure
+    ✔ should export sign object (0.366291ms)
+  ✔ module structure (0.80475ms)
+  ▶ COSE Sign1
+    ✔ should create a COSE Sign1 message (104.764542ms)
+    ✖ should verify a COSE Sign1 message (7.4705ms)
+    ✔ should fail verification with wrong key (7.050333ms)
+    ✖ should handle different payloads (6.186833ms)
+  ✖ COSE Sign1 (125.717417ms)
+✖ cose-js sanity tests (126.825042ms)
+▶ Cross-platform Crypto Compatibility
+  ▶ COSE Key Format
+    ✔ generateKeyPair returns COSE Key Maps (1.886042ms)
+    ✔ isCoseKey correctly identifies COSE Keys (0.282166ms)
+    ✔ coseKeyToInternal converts COSE Key to internal format (0.560625ms)
+    ✔ getAlgorithmFromCoseKey detects algorithm from curve (0.479458ms)
+  ✔ COSE Key Format (3.724ms)
+  ▶ Sign and Verify with COSE Keys
+    ✔ sign and verify with COSE Key format (2.042833ms)
+    ✔ sign with algorithm auto-detection from COSE Key (4.71525ms)
+  ✔ Sign and Verify with COSE Keys (6.876542ms)
+  ▶ Node-Browser Cross-Platform Signing
+    ✔ Node crypto self-roundtrip (0.775917ms)
+    ✔ Browser crypto self-roundtrip (9.291916ms)
+    ✔ Node sign -> Browser verify (cross-platform) (1.090917ms)
+COSE Key private key type: Map
+COSE Key has kty: true
+COSE Key has crv: true
+Signed message length: 79
+Verified payload length: 5
+CBOR bytes length: 112
+Hex string length: 224
+Hex: a601020326200121582036123caeeec8fff6edd0...
+    ✔ Browser sign -> Node verify (cross-platform) (4.924209ms)
+  ✔ Node-Browser Cross-Platform Signing (16.642625ms)
+  ▶ COSE Sign1 with COSE Keys End-to-End
+    ✔ COSE Sign1 roundtrip with COSE Key format (1.724375ms)
+    ✔ COSE Sign1 with custom headers and COSE Key (0.726167ms)
+    ✔ Verification fails with wrong COSE Key (1.09975ms)
+  ✔ COSE Sign1 with COSE Keys End-to-End (3.712667ms)
+✔ Cross-platform Crypto Compatibility (31.388667ms)
+▶ COSE Key Serialization
+  ✔ serializeCoseKey serializes a COSE Key to CBOR bytes (0.281125ms)
+  ✔ deserializeCoseKey parses CBOR bytes back to COSE Key (1.011125ms)
+  ✔ roundtrip: serialize and deserialize private key (0.35225ms)
+  ✔ coseKeyToHex returns base16 of CBOR-serialized COSE Key (0.340833ms)
+  ✔ coseKeyFromHex parses hex string back to COSE Key (0.286458ms)
+  ✔ serialized key can be used for verification (1.660625ms)
+  ✔ serialized key can be used for signing (0.715875ms)
+  ✔ deserializeCoseKey throws on invalid input (0.134542ms)
+  ✔ serializeCoseKey throws on non-Map input (0.064459ms)
+✔ COSE Key Serialization (5.024ms)
+▶ COSE Key Thumbprint (RFC 9679)
+  ✔ computeCoseKeyThumbprint returns 32 bytes for SHA-256 (0.252ms)
+  ✔ coseKeyThumbprint returns hex string (0.319417ms)
+  ✔ thumbprint is same for private and public key with same coordinates (0.17725ms)
+  ✔ different keys have different thumbprints (0.2955ms)
+  ✔ coseKeyThumbprintUri returns correct format (0.252166ms)
+  ✔ thumbprint is deterministic (0.203084ms)
+  ✔ thumbprint works with ES384 keys (0.314459ms)
+  ✔ computeCoseKeyThumbprint throws on unsupported key type (0.083667ms)
+  ✔ computeCoseKeyThumbprint throws on missing parameters (0.055833ms)
+✔ COSE Key Thumbprint (RFC 9679) (2.075916ms)
+▶ draft-ietf-spice-sd-cwt-08 canonical examples
+  ▶ issuer_cwt.cbor
+    ✔ parses, exposing the documented protected headers (2.666125ms)
+    ✔ verifies under the Appendix C issuer key (2.417875ms)
+  ✔ issuer_cwt.cbor (5.605875ms)
+  ▶ Redacted Claim Hash construction
+    ✔ hashes the bstr, matching the digest in the issued payload (7.338875ms)
+    ✔ does not hash the bare salted-entry array encoding (5.013ms)
+  ✔ Redacted Claim Hash construction (12.490333ms)
+  ▶ kbt.cbor
+    ✔ accepts the integer typ 294 rather than requiring the media type string (0.2235ms)
+    ✔ carries the SD-CWT in kcwt as the embedded tag 18 structure (0.131292ms)
+    ✔ verifies end to end and reconstructs exactly the disclosed claims (11.019625ms)
+    ✔ rejects a presentation aimed at a different audience (1.182959ms)
+    ✔ rejects a replayed nonce (0.98075ms)
+  ✔ kbt.cbor (13.75675ms)
+✔ draft-ietf-spice-sd-cwt-08 canonical examples (34.136083ms)
+▶ acting as Holder over the draft's own credential
+  ✔ presents a chosen subset of the Issuer's disclosures, and verifies (2.129292ms)
+  ✔ produces a kcwt whose embedded SD-CWT is the Issuer's bytes, untouched (1.733583ms)
+✔ acting as Holder over the draft's own credential (5.68625ms)
+▶ every canonical example in the draft
+  ▶ decoy.cbor
+    ✔ verifies, and every disclosure including the decoys is used (1.187292ms)
+  ✔ decoy.cbor (1.237541ms)
+  ▶ nested disclosures
+    ✔ nested_issuer_cwt.cbor verifies and resolves all 15 disclosures (2.929292ms)
+    ✔ nested_cwt.cbor verifies and resolves all 7 disclosures (1.0025ms)
+    ✔ nested_kbt.cbor verifies end to end (1.603917ms)
+  ✔ nested disclosures (5.639542ms)
+✔ every canonical example in the draft (6.963708ms)
+▶ Hex utilities
+  ▶ encode
+    ✔ should encode empty bytes (0.414459ms)
+    ✔ should encode single byte (0.1025ms)
+    ✔ should encode multiple bytes (0.071875ms)
+    ✔ should handle null/undefined (0.050167ms)
+  ✔ encode (1.155959ms)
+  ▶ decode
+    ✔ should decode empty string (0.414583ms)
+    ✔ should decode hex string (0.128375ms)
+    ✔ should handle whitespace (0.07925ms)
+    ✔ should handle uppercase (0.059167ms)
+  ✔ decode (0.829875ms)
+  ▶ roundtrip
+    ✔ should roundtrip bytes (0.07225ms)
+  ✔ roundtrip (0.152791ms)
+✔ Hex utilities (2.445667ms)
+▶ EDN.stringify
+  ▶ primitives
+    ✔ should stringify null (0.2625ms)
+    ✔ should stringify undefined (0.043417ms)
+    ✔ should stringify booleans (0.041958ms)
+    ✔ should stringify numbers (0.043584ms)
+    ✔ should stringify strings (0.052666ms)
+  ✔ primitives (0.552084ms)
+  ▶ bytes
+    ✔ should stringify short byte arrays (0.055625ms)
+    ✔ should stringify empty byte array (0.033834ms)
+  ✔ bytes (0.135125ms)
+  ▶ maps
+    ✔ should stringify empty map (0.054ms)
+    ✔ should stringify map with number keys (0.070542ms)
+    ✔ should stringify map with string keys (0.041167ms)
+    ✔ should stringify nested maps (0.081208ms)
+  ✔ maps (0.324583ms)
+  ▶ arrays
+    ✔ should stringify empty array (0.052208ms)
+    ✔ should stringify array with values (0.648916ms)
+  ✔ arrays (0.745916ms)
+  ▶ CBOR tags
+    ✔ should stringify CBOR tag (0.067ms)
+    ✔ should stringify CBOR tag with number content (0.033625ms)
+    ✔ should stringify nested CBOR tags (0.035125ms)
+  ✔ CBOR tags (0.18125ms)
+  ▶ simple values
+    ✔ should stringify simple value (0.041792ms)
+  ✔ simple values (0.072583ms)
+✔ EDN.stringify (2.178291ms)
+▶ EDN.parse
+  ▶ primitives
+    ✔ should parse null (0.195875ms)
+    ✔ should parse booleans (0.060958ms)
+    ✔ should parse positive numbers (0.07225ms)
+    ✔ should parse negative numbers (0.051917ms)
+    ✔ should parse floating point numbers (0.042584ms)
+    ✔ should parse strings (0.056792ms)
+    ✔ should parse strings with escapes (0.043458ms)
+  ✔ primitives (0.611042ms)
+  ▶ hex bytes
+    ✔ should parse hex bytes (0.079ms)
+    ✔ should parse empty hex bytes (0.048375ms)
+    ✔ should parse hex bytes with whitespace (0.044875ms)
+  ✔ hex bytes (0.216667ms)
+  ▶ maps
+    ✔ should parse empty map (0.088ms)
+    ✔ should parse map with number keys (0.03675ms)
+    ✔ should parse map with string keys (0.031167ms)
+    ✔ should parse map with multiple entries (0.04425ms)
+    ✔ should parse nested maps (0.03625ms)
+    ✔ should parse map with comments (0.044625ms)
+    ✔ should parse map with "to be redacted" comments (0.069792ms)
+    ✔ should parse complex comments with colons (0.048ms)
+  ✔ maps (0.485292ms)
+  ▶ arrays
+    ✔ should parse empty array (0.054667ms)
+    ✔ should parse array with values (0.091334ms)
+    ✔ should parse array with mixed types (0.040875ms)
+    ✔ should parse nested arrays (0.040333ms)
+  ✔ arrays (0.282084ms)
+  ▶ CBOR tags
+    ✔ should parse CBOR tag with string content (0.045334ms)
+    ✔ should parse CBOR tag with number content (0.030917ms)
+    ✔ should parse nested CBOR tags (0.03625ms)
+    ✔ should parse CBOR tag as map key (0.045833ms)
+  ✔ CBOR tags (0.209ms)
+  ▶ simple values
+    ✔ should parse simple value (0.074917ms)
+  ✔ simple values (0.105125ms)
+  ▶ complex structures
+    ✔ should parse spec-like claims (0.094958ms)
+  ✔ complex structures (0.11575ms)
+✔ EDN.parse (2.1325ms)
+▶ EDN.formatClaims
+  ✔ should format empty claims (0.106333ms)
+  ✔ should add comments for known CWT claims (0.151042ms)
+  ✔ should not add comments for unknown claims (0.036333ms)
+  ✔ should not add comments to nested maps (0.056166ms)
+  ✔ should add "to be redacted" comments for Tag 58 keys (0.043625ms)
+  ✔ should add "to be redacted" comments for nested Tag 58 keys (0.057208ms)
+✔ EDN.formatClaims (0.514125ms)
+▶ EDN roundtrip
+  ✔ should roundtrip simple map (0.077292ms)
+  ✔ should roundtrip nested structure (0.071291ms)
+  ✔ should roundtrip CBOR tags (0.040875ms)
+  ✔ should roundtrip array (0.051917ms)
+✔ EDN roundtrip (0.286291ms)
+▶ Example Templates
+  ▶ Facility Inspection Example
+    ✔ should issue, present, and verify with all disclosures (8.927625ms)
+    ✔ should verify with partial disclosures (1.647917ms)
+  ✔ Facility Inspection Example (11.053875ms)
+  ▶ Multimodal Bill of Lading (MBL) Example
+    ✔ should issue with nested transport modes and cargo arrays (2.803417ms)
+    ✔ should verify with no disclosures (all cargo redacted) (1.394625ms)
+  ✔ Multimodal Bill of Lading (MBL) Example (4.330792ms)
+  ▶ Commercial Invoice Example
+    ✔ should issue with nested buyer and line items (2.221709ms)
+    ✔ should verify with prices redacted but descriptions visible (1.957834ms)
+  ✔ Commercial Invoice Example (4.303625ms)
+  ▶ Decoy handling across examples
+    ✔ should handle multiple decoys in different positions (1.291333ms)
+  ✔ Decoy handling across examples (1.368084ms)
+✔ Example Templates (21.412667ms)
+▶ SD-CWT Tags and Simple Values
+  ▶ Tag constants
+    ✔ should have correct tag numbers (0.37425ms)
+  ✔ Tag constants (0.9595ms)
+  ▶ SimpleValue constants
+    ✔ should have correct simple value numbers (0.089916ms)
+  ✔ SimpleValue constants (0.165542ms)
+✔ SD-CWT Tags and Simple Values (1.429667ms)
+▶ To Be Redacted Tag
+  ▶ toBeRedacted()
+    ✔ should create a tag with number 58 (0.148167ms)
+    ✔ should wrap integer claim keys (0.055791ms)
+    ✔ should wrap string claim keys (0.060208ms)
+    ✔ should wrap negative integer claim keys (0.062375ms)
+  ✔ toBeRedacted() (0.474833ms)
+  ▶ isToBeRedacted()
+    ✔ should return true for toBeRedacted tagged values (0.083458ms)
+    ✔ should return false for other tags (0.043666ms)
+    ✔ should return false for non-tag values (0.046042ms)
+  ✔ isToBeRedacted() (0.264916ms)
+  ▶ CBOR encoding roundtrip
+    ✔ should encode and decode tag 58 with integer (0.842917ms)
+    ✔ should encode and decode tag 58 with string (0.182625ms)
+    ✔ should encode tag 58 as map key in a Map (0.322375ms)
+  ✔ CBOR encoding roundtrip (1.414875ms)
+✔ To Be Redacted Tag (2.281042ms)
+▶ Redacted Claim Element Tag
+  ▶ redactedClaimElement()
+    ✔ should create a tag with number 60 (0.2435ms)
+  ✔ redactedClaimElement() (0.28675ms)
+  ▶ isRedactedClaimElement()
+    ✔ should return true for redacted claim element tags (0.071417ms)
+    ✔ should return false for other values (0.040208ms)
+  ✔ isRedactedClaimElement() (0.165458ms)
+  ▶ CBOR encoding roundtrip
+    ✔ should encode and decode tag 60 with byte string (0.335ms)
+    ✔ should encode redacted elements in an array (0.144583ms)
+  ✔ CBOR encoding roundtrip (0.527209ms)
+✔ Redacted Claim Element Tag (1.064958ms)
+▶ Redacted Keys Simple Value
+  ▶ redactedKeysKey()
+    ✔ should create simple value 59 (0.055167ms)
+  ✔ redactedKeysKey() (0.085166ms)
+  ▶ simple()
+    ✔ should create arbitrary simple values (0.05375ms)
+  ✔ simple() (0.07875ms)
+  ▶ isRedactedKeysKey()
+    ✔ should return true for simple(59) (0.076917ms)
+    ✔ should return false for other simple values (0.035708ms)
+    ✔ should return false for non-simple values (0.039208ms)
+  ✔ isRedactedKeysKey() (0.198375ms)
+  ▶ CBOR encoding roundtrip
+    ✔ should encode and decode simple(59) as map key (1.147458ms)
+  ✔ CBOR encoding roundtrip (1.200042ms)
+✔ Redacted Keys Simple Value (1.72175ms)
+▶ To Be Decoy Tag
+  ▶ toBeDecoy()
+    ✔ should create a tag with number 62 (0.103417ms)
+    ✔ should throw for non-positive integers (0.272083ms)
+  ✔ toBeDecoy() (0.416083ms)
+  ▶ isToBeDecoy()
+    ✔ should return true for toBeDecoy tagged values (0.244333ms)
+    ✔ should return false for other values (0.156209ms)
+  ✔ isToBeDecoy() (0.496208ms)
+✔ To Be Decoy Tag (0.980458ms)
+▶ Disclosure Utilities
+  ▶ generateSalt()
+    ✔ should generate 16-byte salt (0.242834ms)
+    ✔ should generate different salts each time (0.0795ms)
+  ✔ generateSalt() (0.364042ms)
+  ▶ createSaltedDisclosure()
+    ✔ should create disclosure for claim key (0.153875ms)
+    ✔ should work with string claim names (0.198542ms)
+  ✔ createSaltedDisclosure() (0.626583ms)
+  ▶ createArrayElementDisclosure()
+    ✔ should create disclosure for array element (no claim name) (0.114417ms)
+  ✔ createArrayElementDisclosure() (0.146292ms)
+  ▶ hashDisclosure()
+    ✔ should compute SHA-256 hash of disclosure (0.352542ms)
+    ✔ should produce consistent hashes (0.08875ms)
+  ✔ hashDisclosure() (0.479208ms)
+  ▶ decodeDisclosure()
+    ✔ should decode claim key disclosure (0.132125ms)
+    ✔ should decode array element disclosure (0.089541ms)
+    ✔ should decode decoy disclosure (0.052167ms)
+  ✔ decodeDisclosure() (0.317875ms)
+✔ Disclosure Utilities (2.060792ms)
+▶ processToBeRedacted()
+  ✔ should process a map with tagged keys (0.26575ms)
+  ✔ should process multiple tagged keys (0.119083ms)
+  ✔ should handle nested maps (0.074708ms)
+  ✔ should process decoys (0.107416ms)
+✔ processToBeRedacted() (0.61975ms)
+▶ processArrayToBeRedacted()
+  ✔ should process array with tagged elements (0.166ms)
+  ✔ should handle mixed redacted and regular elements (0.067333ms)
+  ✔ should handle decoys in arrays (0.090166ms)
+✔ processArrayToBeRedacted() (0.363959ms)
+▶ Example from SD-CWT spec
+  ✔ should create structure similar to spec example (0.27625ms)
+✔ Example from SD-CWT spec (0.300042ms)
+▶ reconstructClaims()
+  ✔ should reconstruct a simple redacted map claim (0.269625ms)
+  ✔ should reconstruct multiple redacted claims (0.119375ms)
+  ✔ should handle partial disclosure (selective disclosure) (0.101167ms)
+  ✔ should reconstruct nested maps (0.101291ms)
+  ✔ should handle claims with no redacted keys (0.049ms)
+  ✔ should handle decoys (no reconstruction possible) (0.079667ms)
+✔ reconstructClaims() (0.791416ms)
+▶ reconstructArray()
+  ✔ should reconstruct a simple redacted array (0.219792ms)
+  ✔ should handle partial array disclosure (0.093541ms)
+  ✔ should handle array decoys (0.073458ms)
+  ✔ should reconstruct nested arrays (0.089333ms)
+✔ reconstructArray() (0.525666ms)
+▶ Roundtrip: Redaction → Reconstruction
+  ✔ should roundtrip simple map claims (0.109791ms)
+  ✔ should roundtrip array elements (0.098125ms)
+  ✔ should roundtrip complex nested structures (1.431833ms)
+  ✔ should handle selective disclosure in complex structures (0.247708ms)
+  ✔ should survive CBOR encode/decode cycle (0.134333ms)
+  ✔ should handle string claim keys (0.07825ms)
+  ✔ should handle mixed integer and string keys (0.109958ms)
+  ✔ should handle deeply nested structures (0.150583ms)
+✔ Roundtrip: Redaction → Reconstruction (2.473375ms)
+▶ CBOR Map Preservation
+  ✔ should decode CBOR maps as JavaScript Maps with cborDecodeOptions (0.178458ms)
+  ✔ should preserve nested Maps through CBOR roundtrip (0.077833ms)
+  ✔ should preserve Maps inside arrays through CBOR roundtrip (0.069834ms)
+  ✔ should preserve Maps in disclosure values (0.084334ms)
+✔ CBOR Map Preservation (0.466875ms)
+▶ Isolation Tests: Redaction and Reconstruction without Signing
+  ✔ should verify that disclosure hash matches redacted key hash (0.129083ms)
+  ✔ should verify that array element disclosure hash matches tag contents (0.08875ms)
+  ✔ should fail reconstruction with wrong disclosure (0.107791ms)
+  ✔ should handle empty claims map (0.041459ms)
+  ✔ should handle empty array (0.0485ms)
+  ✔ should reconstruct complex values (maps as claim values) (0.111208ms)
+  ✔ should reconstruct complex values (arrays as claim values) (0.173084ms)
+✔ Isolation Tests: Redaction and Reconstruction without Signing (0.776709ms)
+▶ Depth Limit and Strict Mode
+  ▶ MAX_DEPTH constant
+    ✔ should be 16 as per spec section 6.5 (0.034833ms)
+  ✔ MAX_DEPTH constant (0.055709ms)
+  ▶ processToBeRedacted with depth tracking
+    ✔ should accept options object with strict flag (0.083292ms)
+    ✔ should process structures up to depth 16 without strict mode (0.068084ms)
+    ✔ should throw when depth exceeds 16 in strict mode (0.1425ms)
+    ✔ should process exactly depth 16 in strict mode (0.04425ms)
+  ✔ processToBeRedacted with depth tracking (0.380833ms)
+  ▶ processArrayToBeRedacted with depth tracking
+    ✔ should throw when array nesting exceeds 16 in strict mode (0.105ms)
+  ✔ processArrayToBeRedacted with depth tracking (0.123083ms)
+  ▶ reconstructClaims with depth tracking
+    ✔ should accept options object with strict flag (0.093584ms)
+    ✔ should throw when depth exceeds 16 in strict mode during reconstruction (0.155167ms)
+  ✔ reconstructClaims with depth tracking (0.274458ms)
+✔ Depth Limit and Strict Mode (0.899125ms)
+▶ Nested Structures: Maps, Arrays, and Tags
+  ▶ Map containing Array containing Map
+    ✔ should process and reconstruct map->array->map with redactions (0.094916ms)
+  ✔ Map containing Array containing Map (0.11425ms)
+  ▶ Array containing Map containing Array
+    ✔ should process and reconstruct array->map->array with redactions (0.126334ms)
+  ✔ Array containing Map containing Array (0.145459ms)
+  ▶ Non-SD-CWT CBOR Tags
+    ✔ should preserve non-SD-CWT tags during processing (0.100958ms)
+    ✔ should process redactable elements inside non-SD-CWT tags (0.122417ms)
+    ✔ should process tags containing arrays (0.083916ms)
+  ✔ Non-SD-CWT CBOR Tags (0.343959ms)
+  ▶ Triple nesting: Map -> Array -> Map -> Array
+    ✔ should handle deep alternating nesting with redactions at each level (0.170333ms)
+  ✔ Triple nesting: Map -> Array -> Map -> Array (0.1885ms)
+✔ Nested Structures: Maps, Arrays, and Tags (0.853667ms)
+▶ Decoys at All Nesting Levels
+  ✔ should insert decoys in top-level map (0.106ms)
+  ✔ should insert decoys in nested map (0.0715ms)
+  ✔ should insert decoys in arrays (0.083084ms)
+  ✔ should insert decoys in deeply nested arrays (0.096792ms)
+  ✔ should mix decoys with real redacted claims (0.118292ms)
+✔ Decoys at All Nesting Levels (0.526375ms)
+▶ Validation: validateClaimsClean and assertClaimsClean
+  ▶ validateClaimsClean
+    ✔ should pass for clean claims with no SD-CWT artifacts (0.21325ms)
+    ✔ should fail for claims with ToBeRedacted tag (pre-issuance only per spec Section 14) (0.054458ms)
+    ✔ should fail for claims with ToBeDecoy tag (pre-issuance only) (0.044708ms)
+    ✔ should fail for claims with RedactedClaimElement when checking for Validated Disclosed Claims Set (0.051292ms)
+    ✔ should fail for claims with redacted keys (simple 59) when checking for Validated Disclosed Claims Set (0.0585ms)
+    ✔ should pass with allowRedacted=true for Presented Disclosed Claims Set (partial disclosure) (0.051208ms)
+    ✔ should detect pre-issuance artifacts in deeply nested structures (0.044334ms)
+    ✔ should detect pre-issuance artifacts in arrays (0.038875ms)
+    ✔ should detect pre-issuance artifacts in nested CBOR tags (0.038125ms)
+    ✔ should pass for properly processed and fully reconstructed claims (Validated Disclosed Claims Set) (0.097ms)
+    ✔ should enforce depth limit in strict mode (per spec Section 6.5) (0.058333ms)
+  ✔ validateClaimsClean (0.917667ms)
+  ▶ assertClaimsClean
+    ✔ should not throw for clean claims (0.094292ms)
+    ✔ should throw for claims with pre-issuance artifacts (0.068666ms)
+  ✔ assertClaimsClean (0.191875ms)
+✔ Validation: validateClaimsClean and assertClaimsClean (1.154625ms)
+▶ Full Roundtrip with Validation
+  ✔ should produce clean claims after full disclosure (0.212792ms)
+  ✔ should not be clean with partial disclosure (decoys remain) (0.102041ms)
+  ✔ should handle complex nested structure with full roundtrip (0.158709ms)
+  ✔ should produce clean claims when disclosures are provided (decoys removed) (0.273ms)
+✔ Full Roundtrip with Validation (0.819917ms)
+▶ Array Disclosure: Size and Index Changes
+  ▶ Basic array disclosure removes undisclosed elements
+    ✔ should reduce array size when elements are not disclosed (0.145708ms)
+    ✔ should return empty array when no elements are disclosed (0.082042ms)
+  ✔ Basic array disclosure removes undisclosed elements (0.272333ms)
+  ▶ Decoys are removed from verified arrays
+    ✔ should remove all decoys from reconstructed array (0.087541ms)
+    ✔ should remove decoys interspersed with real elements (0.128417ms)
+  ✔ Decoys are removed from verified arrays (0.248041ms)
+  ▶ Index changes after disclosure
+    ✔ should have correct indexes for disclosed elements after removal (0.1375ms)
+    ✔ should preserve order of disclosed elements (0.124375ms)
+    ✔ should preserve relative order when middle elements are not disclosed (0.075084ms)
+  ✔ Index changes after disclosure (0.386792ms)
+  ▶ Nested arrays with disclosure removal
+    ✔ should remove undisclosed elements from nested arrays (0.111667ms)
+    ✔ should handle deeply nested arrays with mixed disclosures (0.165375ms)
+  ✔ Nested arrays with disclosure removal (0.308ms)
+  ▶ Arrays in maps with disclosure removal
+    ✔ should remove undisclosed elements from arrays within maps (0.197916ms)
+    ✔ should correctly reconstruct arrays when all elements are disclosed (0.306041ms)
+  ✔ Arrays in maps with disclosure removal (0.551958ms)
+  ▶ Complex selective disclosure scenarios
+    ✔ should handle selective disclosure with specific element selection (0.258042ms)
+    ✔ should validate clean after disclosure with array size change (0.141959ms)
+  ✔ Complex selective disclosure scenarios (0.447ms)
+✔ Array Disclosure: Size and Index Changes (2.364833ms)
+▶ Depth 16 Edge Cases
+  ✔ should successfully process structure at exactly depth 16 with strict mode (0.162708ms)
+  ✔ should count depth correctly for arrays and maps alternating (0.061459ms)
+  ✔ should count tags as adding to depth (0.106ms)
+✔ Depth 16 Edge Cases (0.37475ms)
+▶ COSE Sign1 Implementation
+  ▶ generateKeyPair
+    ✔ should generate ES256 key pair (1.071375ms)
+    ✔ should generate ES384 key pair (0.304125ms)
+    ✔ should generate ES512 key pair (0.294667ms)
+    ✔ should generate Ed25519 (EdDSA) key pair (0.237666ms)
+  ✔ generateKeyPair (2.409792ms)
+  ▶ sign
+    ✔ should sign with Map-based protected header (1.323292ms)
+    ✔ should include unprotected headers (1.141208ms)
+    ✔ should throw if protectedHeader is not a Map (0.376416ms)
+    ✔ should throw if Algorithm is missing (0.187667ms)
+    ✔ should support custom header parameters with negative keys (0.433084ms)
+  ✔ sign (3.655833ms)
+  ▶ verify
+    ✔ should verify a signed message (1.11225ms)
+    ✔ should verify with ES384 (1.181584ms)
+    ✔ should verify with ES512 (1.30425ms)
+    ✔ should verify with EdDSA (Ed25519, algorithm -8) (1.005125ms)
+    ✔ should fail verification with wrong Ed25519 key (0.575959ms)
+    ✔ should fail verification with wrong key (0.585958ms)
+  ✔ verify (5.909042ms)
+  ▶ decode
+    ✔ should decode and extract all components (0.396917ms)
+  ✔ decode (0.436042ms)
+  ▶ interop with cose-js
+    ✖ cose-js should verify messages signed by our implementation (96.187541ms)
+    ✖ our implementation should verify messages signed by cose-js (6.431375ms)
+    ✖ should interop with kid header (4.209167ms)
+  ✖ interop with cose-js (107.0275ms)
+  ▶ edge cases
+    ✔ should handle empty payload (0.572125ms)
+    ✔ should handle large payload (0.499625ms)
+    ✔ should handle binary payload (0.483583ms)
+    ✔ should support multiple custom headers (0.632333ms)
+  ✔ edge cases (2.277958ms)
+  ▶ EdDSA (Ed25519) with algorithm -8
+    ✔ should have correct algorithm constant (0.074708ms)
+    ✔ should generate Ed25519 key pair with correct structure (OKP key type) (0.105208ms)
+    ✔ should sign and verify with Ed25519 (0.420125ms)
+    ✔ should include correct algorithm in protected header (0.249625ms)
+    ✔ should produce 64-byte signature for Ed25519 (0.245ms)
+    ✔ should reject signing with OKP key missing d (0.152292ms)
+    ✔ should reject signing with OKP key missing x (0.087334ms)
+    ✔ should reject verifying with OKP key missing x (0.250917ms)
+    ✔ should handle empty payload with Ed25519 (0.363041ms)
+    ✔ should handle large payload with Ed25519 (0.416292ms)
+    ✔ should include custom headers with Ed25519 (0.534791ms)
+  ✔ EdDSA (Ed25519) with algorithm -8 (3.023333ms)
+  ▶ RFC 9864 Fully-Specified Algorithms
+    ✔ should have correct algorithm constants per RFC 9864 (0.0905ms)
+    ✔ should generate Ed25519 key pair with fully-specified algorithm (-50) (0.091708ms)
+    ✔ should sign and verify with Ed25519 fully-specified algorithm (-50) (0.401375ms)
+    ✔ should produce 64-byte signature for Ed25519 (-50) (0.360625ms)
+    ✔ should fail verification with wrong Ed25519 key (0.647541ms)
+    ✔ should generate Ed448 key pair with fully-specified algorithm (-51) (0.177833ms)
+    ✔ should sign and verify with Ed448 fully-specified algorithm (-51) (0.580292ms)
+    ✔ should produce 114-byte signature for Ed448 (-51) (0.32675ms)
+    ✔ should fail verification with wrong Ed448 key (0.715625ms)
+    ✔ should not allow cross-algorithm verification (Ed25519 vs Ed448) (0.539542ms)
+    ✔ should interop between deprecated EdDSA (-8) and fully-specified Ed25519 (-50) keys (0.625625ms)
+  ✔ RFC 9864 Fully-Specified Algorithms (4.73375ms)
+✖ COSE Sign1 Implementation (129.930375ms)
+▶ SD-CWT Spec Test Vectors
+  ▶ Appendix C: Test Keys
+    ✔ should have valid Holder key (P-256) (0.386667ms)
+    ✔ should have valid Issuer key (P-384) (0.486ms)
+  ✔ Appendix C: Test Keys (1.323583ms)
+  ▶ Section 13.1: Minimal Spanning Example
+    ✔ should create and verify SD-CWT matching spec structure (4.3975ms)
+    ✔ should create SD-KBT and verify with spec keys (3.405542ms)
+    ✔ should reject SD-KBT with wrong issuer key (1.251958ms)
+    ✔ should reject SD-KBT with wrong holder key binding (2.398417ms)
+  ✔ Section 13.1: Minimal Spanning Example (11.64125ms)
+  ▶ Hash computation verification
+    ✔ should compute correct disclosure hash (0.183125ms)
+  ✔ Hash computation verification (0.271875ms)
+  ▶ CBOR structure verification
+    ✔ should encode cnf claim in spec-compatible format (0.083417ms)
+    ✔ should encode redacted claim element with Tag 60 (0.713ms)
+    ✔ should encode redacted claim keys with simple(59) (0.781709ms)
+  ✔ CBOR structure verification (1.66075ms)
+  ▶ IANA Considerations - Header Parameters (Section 17.1)
+    ✔ should set sd_alg (label 170) in protected header when disclosures exist (0.698916ms)
+    ✔ should set typ (label 16) to the CoAP content-format 293 in protected header (0.591417ms)
+    ✔ should set sd_claims (label 17) in SD-CWT during presentation (0.964ms)
+    ✔ should omit sd_claims in presentation when no disclosures selected (0.851042ms)
+  ✔ IANA Considerations - Header Parameters (Section 17.1) (3.196334ms)
+  ▶ IANA Considerations - CBOR Simple Values (Section 17.2)
+    ✔ should use simple(59) as map key for redacted claim keys array (0.676041ms)
+  ✔ IANA Considerations - CBOR Simple Values (Section 17.2) (0.708666ms)
+  ▶ IANA Considerations - CBOR Tags (Section 17.3)
+    ✔ should use Tag 58 for marking claims to be redacted (pre-issuance) (0.059583ms)
+    ✔ should use Tag 60 for redacted array elements (post-issuance) (0.961916ms)
+    ✔ should have Tag 60 contents matching disclosure hash (0.884ms)
+  ✔ IANA Considerations - CBOR Tags (Section 17.3) (1.992334ms)
+  ▶ Disclosure format verification (Section 5)
+    ✔ should create named claim disclosure with format [salt, value, key] (0.752916ms)
+    ✔ should create array element disclosure with format [salt, value] (no key) (0.627417ms)
+    ✔ should create string-keyed claim disclosure with format [salt, value, key] (0.613917ms)
+  ✔ Disclosure format verification (Section 5) (2.064167ms)
+  ▶ Array element disclosure (Section 13.1)
+    ✔ should issue and verify with redacted array elements (0.761209ms)
+    ✔ should allow selective disclosure of individual array elements (2.236917ms)
+    ✔ should disclose all array elements when all disclosures provided (1.589ms)
+    ✔ should remove undisclosed array elements when disclosures withheld (2.333583ms)
+  ✔ Array element disclosure (Section 13.1) (7.049333ms)
+  ▶ Combined named claims and array elements (Section 13.1)
+    ✔ should handle mixed disclosure types in a single SD-CWT (0.832166ms)
+    ✔ should support partial disclosure of both types (1.676625ms)
+  ✔ Combined named claims and array elements (Section 13.1) (2.575459ms)
+  ▶ Full roundtrip with spec keys
+    ✔ should complete full issuance and verification flow (1.984583ms)
+  ✔ Full roundtrip with spec keys (2.017167ms)
+  ▶ CWT Claims Header Parameter (RFC 9597 / Section 17.1)
+    ✔ should issue SD-CWT with claims in protected header (0.681625ms)
+    ✔ should parse SD-CWT with claims in protected header (0.592542ms)
+    ✔ should verify SD-CWT with claims in protected header (2.1365ms)
+    ✔ should handle array disclosures with claims in protected header (1.585459ms)
+    ✔ should handle nested map disclosures with claims in protected header (1.523208ms)
+    ✔ should maintain protected header integrity for claims (0.928875ms)
+  ✔ CWT Claims Header Parameter (RFC 9597 / Section 17.1) (7.564ms)
+✔ SD-CWT Spec Test Vectors (42.634041ms)
+ℹ tests 498
+ℹ suites 157
+ℹ pass 493
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 394.827625
+
+✖ failing tests:
+
+test at tests/cose.test.js:53:5
+✖ should verify a COSE Sign1 message (7.4705ms)
+  Error: Insufficient data
+      at Object.decodeFirstSync (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cbor/lib/decoder.js:218:15)
+      at verifyInternal (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cose-js/lib/sign.js:245:41)
+      at exports.verify (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cose-js/lib/sign.js:211:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/orie/github.com/tradeverifyd/sd-cwt-js/tests/cose.test.js:55:24)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/cose.test.js:82:5
+✖ should handle different payloads (6.186833ms)
+  Error: Insufficient data
+      at Object.decodeFirstSync (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cbor/lib/decoder.js:218:15)
+      at verifyInternal (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cose-js/lib/sign.js:245:41)
+      at exports.verify (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cose-js/lib/sign.js:211:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/orie/github.com/tradeverifyd/sd-cwt-js/tests/cose.test.js:92:26)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/sign1.test.js:285:5
+✖ cose-js should verify messages signed by our implementation (96.187541ms)
+  Error: Signature missmatch
+      at doVerify (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cose-js/lib/sign.js:165:13)
+      at verifyInternal (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cose-js/lib/sign.js:281:5)
+      at exports.verify (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cose-js/lib/sign.js:211:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/orie/github.com/tradeverifyd/sd-cwt-js/tests/sign1.test.js:308:24)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1869:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/sign1.test.js:312:5
+✖ our implementation should verify messages signed by cose-js (6.431375ms)
+  RangeError: Offset is outside the bounds of the DataView
+      at DataView.prototype.getUint8 (<anonymous>)
+      at #n (file:///Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cbor2/lib/decodeStream.js:1:1008)
+      at #n.next (<anonymous>)
+      at #n (file:///Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cbor2/lib/decodeStream.js:1:2856)
+      at #n.next (<anonymous>)
+      at [Symbol.iterator] (file:///Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cbor2/lib/decodeStream.js:1:768)
+      at [Symbol.iterator].next (<anonymous>)
+      at Module.l (file:///Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cbor2/lib/decoder.js:1:931)
+      at Module.verify (file:///Users/orie/github.com/tradeverifyd/sd-cwt-js/src/cose/sign1.js:249:35)
+      at TestContext.<anonymous> (file:///Users/orie/github.com/tradeverifyd/sd-cwt-js/tests/sign1.test.js:334:36)
+
+test at tests/sign1.test.js:342:5
+✖ should interop with kid header (4.209167ms)
+  Error: Signature missmatch
+      at doVerify (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cose-js/lib/sign.js:165:13)
+      at verifyInternal (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cose-js/lib/sign.js:281:5)
+      at exports.verify (/Users/orie/github.com/tradeverifyd/sd-cwt-js/node_modules/cose-js/lib/sign.js:211:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/orie/github.com/tradeverifyd/sd-cwt-js/tests/sign1.test.js:369:24)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:960:7)

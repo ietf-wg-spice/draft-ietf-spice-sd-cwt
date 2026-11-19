@@ -92,7 +92,11 @@ def present(args: argparse.Namespace) -> int:
         log("--encrypt_list needs --aead-key")
         return 2
     context = args.aead_key_context
-    if context is not None and context.isdigit():
+    if args.aead_key_context_cbor:
+        if context is not None:
+            raise ValueError("choose one context option")
+        context = cbor_utils.decode(open(args.aead_key_context_cbor, "rb").read())
+    if isinstance(context, str) and context.isdigit():
         context = int(context)
 
     with_disclosures = encrypt_sd_cwt_disclosures(
@@ -102,6 +106,7 @@ def present(args: argparse.Namespace) -> int:
         read_hex(args.aead_key) if args.aead_key else b"",
         key_context=context,
         nonces=nonces,
+        algorithm=args.aead_algorithm,
     )
     holder_key = cose_key(args.holder_priv)
     kbt = create_sd_kbt(
@@ -131,6 +136,11 @@ def verify(args: argparse.Namespace) -> int:
 
     keys = [read_hex(p) for p in args.aead_key or []]
     resolver = (lambda ctx: keys) if keys else None
+    if args.aead_key_map:
+        if keys:
+            raise ValueError("choose --aead-key or --aead-key-map")
+        mapping = cbor_utils.decode(open(args.aead_key_map, "rb").read())
+        resolver = lambda ctx: mapping.get(ctx)
 
     embedded = kcwt_to_bytes(cbor_utils.decode(arr[0])[13])
     try:
@@ -142,7 +152,7 @@ def verify(args: argparse.Namespace) -> int:
         log(f"{len(undecrypted)} encrypted disclosure(s) left undecrypted")
 
     valid, claims, _ = SDCWTVerifier(lambda kid: issuer_key).verify_presentation(
-        kbt, audience, aead_key_resolver=resolver
+        kbt, audience, aead_key_resolver=resolver, now=args.time
     )
     if not valid or claims is None:
         log("presentation did not verify")
@@ -164,12 +174,15 @@ def main() -> int:
         p.add_argument("--disclosure_list")
         p.add_argument("--disclose_all", action="store_true")
         p.add_argument("--encrypt_list")
+        p.add_argument("--aead-algorithm", type=int)
         p.add_argument("--aead-key-context")
+        p.add_argument("--aead-key-context-cbor")
         p.add_argument("--aead-nonces")
         p.add_argument("--aead-key")
         p.add_argument("--audience", default=DEFAULT_AUDIENCE)
     else:
         p.add_argument("--aead-key", action="append")
+        p.add_argument("--aead-key-map")
         p.add_argument("--audience")
     p.add_argument("--issuer")
     p.add_argument("--issuer-key", choices=["ignore", "fetch", "cache"])

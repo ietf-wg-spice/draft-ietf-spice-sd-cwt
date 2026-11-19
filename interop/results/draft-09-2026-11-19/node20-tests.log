@@ -1,0 +1,3965 @@
+TAP version 13
+# Subtest: AEAD encrypted disclosures: the draft Section 13 vector
+    # Subtest: the draft's first disclosure is the one in issuer_cwt.cbor
+    ok 1 - the draft's first disclosure is the one in issuer_cwt.cbor
+      ---
+      duration_ms: 0.600375
+      ...
+    # Subtest: decrypts to the first disclosure
+    ok 2 - decrypts to the first disclosure
+      ---
+      duration_ms: 12.827208
+      ...
+    # Subtest: encrypts with the draft nonce to byte-identical ciphertext and tag
+    ok 3 - encrypts with the draft nonce to byte-identical ciphertext and tag
+      ---
+      duration_ms: 0.583166
+      ...
+    # Subtest: encrypts the bstr with its header, not the bare salted-entry
+    ok 4 - encrypts the bstr with its header, not the bare salted-entry
+      ---
+      duration_ms: 0.155125
+      ...
+    1..4
+ok 1 - AEAD encrypted disclosures: the draft Section 13 vector
+  ---
+  duration_ms: 14.824708
+  type: 'suite'
+  ...
+# Subtest: AEAD encrypted disclosures: primitives
+    # Subtest: round-trips with a random nonce under every supported algorithm
+    ok 1 - round-trips with a random nonce under every supported algorithm
+      ---
+      duration_ms: 37.03125
+      ...
+    # Subtest: rejects the wrong key
+    ok 2 - rejects the wrong key
+      ---
+      duration_ms: 0.720709
+      ...
+    # Subtest: rejects a tampered tag or ciphertext
+    ok 3 - rejects a tampered tag or ciphertext
+      ---
+      duration_ms: 1.06225
+      ...
+    # Subtest: carries each kind of key context, and rejects other types
+    ok 4 - carries each kind of key context, and rejects other types
+      ---
+      duration_ms: 5.710625
+      ...
+    # Subtest: rejects malformed entries
+    ok 5 - rejects malformed entries
+      ---
+      duration_ms: 0.27725
+      ...
+    # Subtest: rejects a nonce or key of the wrong length when encrypting
+    ok 6 - rejects a nonce or key of the wrong length when encrypting
+      ---
+      duration_ms: 0.263041
+      ...
+    # Subtest: refuses algorithms it does not support, including short-tag ones
+    ok 7 - refuses algorithms it does not support, including short-tag ones
+      ---
+      duration_ms: 0.229208
+      ...
+    # Subtest: rejects a plaintext that is not a bstr
+    ok 8 - rejects a plaintext that is not a bstr
+      ---
+      duration_ms: 4.462792
+      ...
+    1..8
+ok 2 - AEAD encrypted disclosures: primitives
+  ---
+  duration_ms: 50.363334
+  type: 'suite'
+  ...
+# Subtest: AEAD encrypted disclosures: Holder and Verifier
+    # Subtest: Holder moves encrypted disclosures from sd_claims to sd_aead_encrypted_claims
+    ok 1 - Holder moves encrypted disclosures from sd_claims to sd_aead_encrypted_claims
+      ---
+      duration_ms: 6.341292
+      ...
+    # Subtest: Holder omits sd_claims entirely when every disclosure is encrypted
+    ok 2 - Holder omits sd_claims entirely when every disclosure is encrypted
+      ---
+      duration_ms: 3.046625
+      ...
+    # Subtest: Holder omits sd_aead_encrypted_claims when nothing is encrypted
+    ok 3 - Holder omits sd_aead_encrypted_claims when nothing is encrypted
+      ---
+      duration_ms: 4.29875
+      ...
+    # Subtest: a Verifier with the key reconstructs encrypted and plaintext disclosures alike
+    ok 4 - a Verifier with the key reconstructs encrypted and plaintext disclosures alike
+      ---
+      duration_ms: 7.85
+      ...
+    # Subtest: tries each candidate key the resolver returns
+    ok 5 - tries each candidate key the resolver returns
+      ---
+      duration_ms: 6.178167
+      ...
+    # Subtest: a Verifier without a key leaves the entries encrypted and still verifies
+    ok 6 - a Verifier without a key leaves the entries encrypted and still verifies
+      ---
+      duration_ms: 6.367542
+      ...
+    # Subtest: rejects when the resolved key does not decrypt
+    ok 7 - rejects when the resolved key does not decrypt
+      ---
+      duration_ms: 4.246125
+      ...
+    # Subtest: rejects a decrypted disclosure that matches no Redacted Claim Hash
+    ok 8 - rejects a decrypted disclosure that matches no Redacted Claim Hash
+      ---
+      duration_ms: 8.14575
+      ...
+    # Subtest: rejects a disclosure sent both in plaintext and encrypted
+    ok 9 - rejects a disclosure sent both in plaintext and encrypted
+      ---
+      duration_ms: 3.376584
+      ...
+    # Subtest: rejects an empty sd_aead_encrypted_claims
+    ok 10 - rejects an empty sd_aead_encrypted_claims
+      ---
+      duration_ms: 2.416417
+      ...
+    # Subtest: rejects a malformed entry even without a key
+    ok 11 - rejects a malformed entry even without a key
+      ---
+      duration_ms: 4.116417
+      ...
+    1..11
+ok 3 - AEAD encrypted disclosures: Holder and Verifier
+  ---
+  duration_ms: 57.907958
+  type: 'suite'
+  ...
+# Subtest: AEAD encrypted disclosures: interop fixtures
+    # Subtest: aead_kbt.js.cbor verifies, produced by this library (scripts/generate-aead-fixture.js)
+    ok 1 - aead_kbt.js.cbor verifies, produced by this library (scripts/generate-aead-fixture.js)
+      ---
+      duration_ms: 3.551292
+      ...
+    # Subtest: aead_kbt.cbor verifies, produced by the python implementation (tradeverifyd/sd-cwt)
+    ok 2 - aead_kbt.cbor verifies, produced by the python implementation (tradeverifyd/sd-cwt)
+      ---
+      duration_ms: 11.991875
+      ...
+    1..2
+ok 4 - AEAD encrypted disclosures: interop fixtures
+  ---
+  duration_ms: 15.805709
+  type: 'suite'
+  ...
+# Subtest: duplicate encrypted disclosures
+    # Subtest: rejects duplicate recovered plaintext (fresh nonce: false)
+    ok 1 - rejects duplicate recovered plaintext (fresh nonce: false)
+      ---
+      duration_ms: 7.410834
+      ...
+    # Subtest: rejects duplicate recovered plaintext (fresh nonce: true)
+    ok 2 - rejects duplicate recovered plaintext (fresh nonce: true)
+      ---
+      duration_ms: 18.551791
+      ...
+    1..2
+ok 5 - duplicate encrypted disclosures
+  ---
+  duration_ms: 26.112083
+  type: 'suite'
+  ...
+# Subtest: nested and multi-recipient Python presentations
+    # Subtest: preserves nested maps and array positions (key: false)
+    ok 1 - preserves nested maps and array positions (key: false)
+      ---
+      duration_ms: 2.04675
+      ...
+    # Subtest: preserves nested maps and array positions (key: true)
+    ok 2 - preserves nested maps and array positions (key: true)
+      ---
+      duration_ms: 3.407084
+      ...
+    # Subtest: routes two contexts to recipient both
+    ok 3 - routes two contexts to recipient both
+      ---
+      duration_ms: 4.803209
+      ...
+    # Subtest: routes two contexts to recipient a
+    ok 4 - routes two contexts to recipient a
+      ---
+      duration_ms: 4.154458
+      ...
+    # Subtest: routes two contexts to recipient b
+    ok 5 - routes two contexts to recipient b
+      ---
+      duration_ms: 3.983791
+      ...
+    # Subtest: routes two contexts to recipient neither
+    ok 6 - routes two contexts to recipient neither
+      ---
+      duration_ms: 2.192417
+      ...
+    1..6
+ok 6 - nested and multi-recipient Python presentations
+  ---
+  duration_ms: 20.785875
+  type: 'suite'
+  ...
+# Subtest: authenticated malformed plaintext and AAD
+    # Subtest: rejects invalid CBOR even with an authentic tag
+    ok 1 - rejects invalid CBOR even with an authentic tag
+      ---
+      duration_ms: 1.6975
+      ...
+    # Subtest: rejects trailing item even with an authentic tag
+    ok 2 - rejects trailing item even with an authentic tag
+      ---
+      duration_ms: 0.343167
+      ...
+    # Subtest: rejects non-preferred bstr even with an authentic tag
+    ok 3 - rejects non-preferred bstr even with an authentic tag
+      ---
+      duration_ms: 0.297083
+      ...
+    # Subtest: rejects indefinite bstr even with an authentic tag
+    ok 4 - rejects indefinite bstr even with an authentic tag
+      ---
+      duration_ms: 0.307917
+      ...
+    # Subtest: rejects a valid ciphertext made with nonempty AAD
+    ok 5 - rejects a valid ciphertext made with nonempty AAD
+      ---
+      duration_ms: 0.267541
+      ...
+    1..5
+ok 7 - authenticated malformed plaintext and AAD
+  ---
+  duration_ms: 3.035542
+  type: 'suite'
+  ...
+# Subtest: draft-09 algorithm selection and forwarding
+    # Subtest: Holder chooses algorithm 1 without changing issuer-signed bytes
+    ok 1 - Holder chooses algorithm 1 without changing issuer-signed bytes
+      ---
+      duration_ms: 4.518834
+      ...
+    # Subtest: Holder chooses algorithm 2 without changing issuer-signed bytes
+    ok 2 - Holder chooses algorithm 2 without changing issuer-signed bytes
+      ---
+      duration_ms: 4.939542
+      ...
+    # Subtest: Holder chooses algorithm 29 without changing issuer-signed bytes
+    ok 3 - Holder chooses algorithm 29 without changing issuer-signed bytes
+      ---
+      duration_ms: 7.315875
+      ...
+    # Subtest: rejects invalid algorithm id -1
+    ok 4 - rejects invalid algorithm id -1
+      ---
+      duration_ms: 6.85725
+      ...
+    # Subtest: rejects invalid algorithm id 65536
+    ok 5 - rejects invalid algorithm id 65536
+      ---
+      duration_ms: 2.76925
+      ...
+    # Subtest: rejects invalid algorithm id true
+    ok 6 - rejects invalid algorithm id true
+      ---
+      duration_ms: 4.781083
+      ...
+    # Subtest: rejects invalid algorithm id 1.5
+    ok 7 - rejects invalid algorithm id 1.5
+      ---
+      duration_ms: 2.852708
+      ...
+    # Subtest: rejects invalid algorithm id "2"
+    ok 8 - rejects invalid algorithm id "2"
+      ---
+      duration_ms: 15.148333
+      ...
+    # Subtest: rejects invalid algorithm id 3
+    ok 9 - rejects invalid algorithm id 3
+      ---
+      duration_ms: 2.626583
+      ...
+    # Subtest: rejects invalid algorithm id 14
+    ok 10 - rejects invalid algorithm id 14
+      ---
+      duration_ms: 2.5395
+      ...
+    # Subtest: rejects invalid algorithm id 28
+    ok 11 - rejects invalid algorithm id 28
+      ---
+      duration_ms: 2.650167
+      ...
+    # Subtest: keeps unsupported algorithms opaque without invoking key resolution
+    ok 12 - keeps unsupported algorithms opaque without invoking key resolution
+      ---
+      duration_ms: 2.979709
+      ...
+    # Subtest: supports selecting a key by nonce
+    ok 13 - supports selecting a key by nonce
+      ---
+      duration_ms: 2.995166
+      ...
+    1..13
+ok 8 - draft-09 algorithm selection and forwarding
+  ---
+  duration_ms: 63.396959
+  type: 'suite'
+  ...
+# Subtest: verifies native Rust draft-09 AES-256 fixture with key=false
+ok 9 - verifies native Rust draft-09 AES-256 fixture with key=false
+  ---
+  duration_ms: 2.096125
+  ...
+# Subtest: verifies native Rust draft-09 AES-256 fixture with key=true
+ok 10 - verifies native Rust draft-09 AES-256 fixture with key=true
+  ---
+  duration_ms: 3.462334
+  ...
+# Subtest: matches the published draft-09 first-disclosure digest
+ok 11 - matches the published draft-09 first-disclosure digest
+  ---
+  duration_ms: 0.113542
+  ...
+# Subtest: SD-CWT High-Level API
+    # Subtest: Key Generation
+        # Subtest: should generate ES256 key pair as COSE Keys
+        ok 1 - should generate ES256 key pair as COSE Keys
+          ---
+          duration_ms: 1.496708
+          ...
+        # Subtest: should generate ES384 key pair as COSE Keys
+        ok 2 - should generate ES384 key pair as COSE Keys
+          ---
+          duration_ms: 0.883541
+          ...
+        # Subtest: should generate ES512 key pair as COSE Keys
+        ok 3 - should generate ES512 key pair as COSE Keys
+          ---
+          duration_ms: 1.780083
+          ...
+        1..3
+    ok 1 - Key Generation
+      ---
+      duration_ms: 4.481791
+      type: 'suite'
+      ...
+    # Subtest: Issuer API
+        # Subtest: should require cnf claim per spec Section 7
+        ok 1 - should require cnf claim per spec Section 7
+          ---
+          duration_ms: 0.438291
+          ...
+        # Subtest: should reject redacted cnf claim per spec Section 7
+        ok 2 - should reject redacted cnf claim per spec Section 7
+          ---
+          duration_ms: 0.152125
+          ...
+        # Subtest: should issue an SD-CWT with no redactable claims
+        ok 3 - should issue an SD-CWT with no redactable claims
+          ---
+          duration_ms: 1.625417
+          ...
+        # Subtest: should issue an SD-CWT with redactable claims
+        ok 4 - should issue an SD-CWT with redactable claims
+          ---
+          duration_ms: 1.4545
+          ...
+        # Subtest: should issue an SD-CWT with multiple redactable claims
+        ok 5 - should issue an SD-CWT with multiple redactable claims
+          ---
+          duration_ms: 1.960416
+          ...
+        # Subtest: should issue an SD-CWT with decoys
+        ok 6 - should issue an SD-CWT with decoys
+          ---
+          duration_ms: 1.782541
+          ...
+        # Subtest: should issue an SD-CWT with nested redactable claims
+        ok 7 - should issue an SD-CWT with nested redactable claims
+          ---
+          duration_ms: 1.041417
+          ...
+        # Subtest: should issue an SD-CWT with redactable array elements
+        ok 8 - should issue an SD-CWT with redactable array elements
+          ---
+          duration_ms: 1.999583
+          ...
+        # Subtest: should include kid in the token when provided
+        ok 9 - should include kid in the token when provided
+          ---
+          duration_ms: 0.907583
+          ...
+        # Subtest: should throw if claims is not a Map
+        ok 10 - should throw if claims is not a Map
+          ---
+          duration_ms: 0.195291
+          ...
+        1..10
+    ok 2 - Issuer API
+      ---
+      duration_ms: 11.881792
+      type: 'suite'
+      ...
+    # Subtest: Holder API
+        # Subtest: should parse an SD-CWT token
+        ok 1 - should parse an SD-CWT token
+          ---
+          duration_ms: 0.98225
+          ...
+        # Subtest: should select disclosures by claim name
+        ok 2 - should select disclosures by claim name
+          ---
+          duration_ms: 0.971917
+          ...
+        # Subtest: should require audience for presentation per spec Section 8.1
+        ok 3 - should require audience for presentation per spec Section 8.1
+          ---
+          duration_ms: 0.884916
+          ...
+        # Subtest: should require holder private key for presentation
+        ok 4 - should require holder private key for presentation
+          ---
+          duration_ms: 0.672125
+          ...
+        # Subtest: should create an SD-KBT presentation with audience
+        ok 5 - should create an SD-KBT presentation with audience
+          ---
+          duration_ms: 1.398417
+          ...
+        # Subtest: should create an SD-KBT with nonce
+        ok 6 - should create an SD-KBT with nonce
+          ---
+          duration_ms: 1.128458
+          ...
+        # Subtest: should create a presentation with no disclosures (full redaction)
+        ok 7 - should create a presentation with no disclosures (full redaction)
+          ---
+          duration_ms: 2.197166
+          ...
+        # Subtest: should filter valid disclosures
+        ok 8 - should filter valid disclosures
+          ---
+          duration_ms: 1.201958
+          ...
+        1..8
+    ok 3 - Holder API
+      ---
+      duration_ms: 11.054584
+      type: 'suite'
+      ...
+    # Subtest: Verifier API
+        # Subtest: should require expectedAudience per spec Section 9
+        ok 1 - should require expectedAudience per spec Section 9
+          ---
+          duration_ms: 1.424875
+          ...
+        # Subtest: should verify a presentation with full disclosure
+        ok 2 - should verify a presentation with full disclosure
+          ---
+          duration_ms: 3.78025
+          ...
+        # Subtest: should verify a presentation with partial disclosure
+        ok 3 - should verify a presentation with partial disclosure
+          ---
+          duration_ms: 2.523167
+          ...
+        # Subtest: should verify a presentation with no disclosures
+        ok 4 - should verify a presentation with no disclosures
+          ---
+          duration_ms: 2.359584
+          ...
+        # Subtest: should reject presentation with wrong audience
+        ok 5 - should reject presentation with wrong audience
+          ---
+          duration_ms: 2.932875
+          ...
+        # Subtest: should validate nonce when provided
+        ok 6 - should validate nonce when provided
+          ---
+          duration_ms: 1.744625
+          ...
+        # Subtest: should reject presentation with wrong nonce
+        ok 7 - should reject presentation with wrong nonce
+          ---
+          duration_ms: 1.823375
+          ...
+        # Subtest: should reject presentation when nonce expected but not provided
+        ok 8 - should reject presentation when nonce expected but not provided
+          ---
+          duration_ms: 2.584458
+          ...
+        # Subtest: should fail verification with wrong issuer key
+        ok 9 - should fail verification with wrong issuer key
+          ---
+          duration_ms: 1.625334
+          ...
+        # Subtest: should fail verification when holder uses wrong key
+        ok 10 - should fail verification when holder uses wrong key
+          ---
+          duration_ms: 34.930917
+          ...
+        # Subtest: should reject presentation without SD-KBT structure
+        ok 11 - should reject presentation without SD-KBT structure
+          ---
+          duration_ms: 1.0465
+          ...
+        # Subtest: should return KBT payload with aud and iat
+        ok 12 - should return KBT payload with aud and iat
+          ---
+          duration_ms: 4.676917
+          ...
+        # Subtest: should verify token without key binding (deprecated method)
+        ok 13 - should verify token without key binding (deprecated method)
+          ---
+          duration_ms: 23.249208
+          ...
+        # Subtest: should handle nested map reconstructions
+        ok 14 - should handle nested map reconstructions
+          ---
+          duration_ms: 15.370791
+          ...
+        # Subtest: should handle array element disclosures
+        ok 15 - should handle array element disclosures
+          ---
+          duration_ms: 2.475166
+          ...
+        1..15
+    ok 4 - Verifier API
+      ---
+      duration_ms: 102.93675
+      type: 'suite'
+      ...
+    # Subtest: Utils
+        # Subtest: should check if claims have redactions
+        ok 1 - should check if claims have redactions
+          ---
+          duration_ms: 2.785834
+          ...
+        # Subtest: should return false if no redactions
+        ok 2 - should return false if no redactions
+          ---
+          duration_ms: 0.682833
+          ...
+        # Subtest: should count redactions correctly
+        ok 3 - should count redactions correctly
+          ---
+          duration_ms: 1.25475
+          ...
+        # Subtest: should get disclosable claim names
+        ok 4 - should get disclosable claim names
+          ---
+          duration_ms: 0.769125
+          ...
+        1..4
+    ok 5 - Utils
+      ---
+      duration_ms: 5.589334
+      type: 'suite'
+      ...
+    # Subtest: End-to-End Scenarios
+        # Subtest: should complete full SD-CWT workflow with key binding
+        ok 1 - should complete full SD-CWT workflow with key binding
+          ---
+          duration_ms: 21.96475
+          ...
+        # Subtest: should complete workflow with nonce for replay protection
+        ok 2 - should complete workflow with nonce for replay protection
+          ---
+          duration_ms: 4.294
+          ...
+        # Subtest: should handle complex nested structures
+        ok 3 - should handle complex nested structures
+          ---
+          duration_ms: 14.013583
+          ...
+        # Subtest: should work with different algorithms
+        ok 4 - should work with different algorithms
+          ---
+          duration_ms: 22.847292
+          ...
+        1..4
+    ok 6 - End-to-End Scenarios
+      ---
+      duration_ms: 63.24775
+      type: 'suite'
+      ...
+    1..6
+ok 12 - SD-CWT High-Level API
+  ---
+  duration_ms: 199.772333
+  type: 'suite'
+  ...
+# Subtest: API: Strict Depth and Validation
+    # Subtest: MAX_DEPTH constant export
+        # Subtest: should export MAX_DEPTH as 16 per spec Section 6.5
+        ok 1 - should export MAX_DEPTH as 16 per spec Section 6.5
+          ---
+          duration_ms: 0.089458
+          ...
+        1..1
+    ok 1 - MAX_DEPTH constant export
+      ---
+      duration_ms: 0.1565
+      type: 'suite'
+      ...
+    # Subtest: Issuer with strict mode
+        # Subtest: should issue with strict mode enabled
+        ok 1 - should issue with strict mode enabled
+          ---
+          duration_ms: 0.753458
+          ...
+        # Subtest: should reject deeply nested structures in strict mode
+        ok 2 - should reject deeply nested structures in strict mode
+          ---
+          duration_ms: 0.362709
+          ...
+        1..2
+    ok 2 - Issuer with strict mode
+      ---
+      duration_ms: 1.16325
+      type: 'suite'
+      ...
+    # Subtest: Verifier with strict mode
+        # Subtest: should verify with strict mode enabled
+        ok 1 - should verify with strict mode enabled
+          ---
+          duration_ms: 3.112292
+          ...
+        1..1
+    ok 3 - Verifier with strict mode
+      ---
+      duration_ms: 3.180083
+      type: 'suite'
+      ...
+    # Subtest: Verifier with requireClean option
+        # Subtest: should pass requireClean when all disclosures provided
+        ok 1 - should pass requireClean when all disclosures provided
+          ---
+          duration_ms: 2.005958
+          ...
+        # Subtest: should fail requireClean when disclosures are missing
+        ok 2 - should fail requireClean when disclosures are missing
+          ---
+          duration_ms: 1.599083
+          ...
+        1..2
+    ok 4 - Verifier with requireClean option
+      ---
+      duration_ms: 3.67225
+      type: 'suite'
+      ...
+    # Subtest: validateClaimsClean and assertClaimsClean exports
+        # Subtest: should export validateClaimsClean function
+        ok 1 - should export validateClaimsClean function
+          ---
+          duration_ms: 0.448792
+          ...
+        # Subtest: should export assertClaimsClean function
+        ok 2 - should export assertClaimsClean function
+          ---
+          duration_ms: 0.09025
+          ...
+        # Subtest: should detect unprocessed toBeRedacted tags
+        ok 3 - should detect unprocessed toBeRedacted tags
+          ---
+          duration_ms: 0.046542
+          ...
+        1..3
+    ok 5 - validateClaimsClean and assertClaimsClean exports
+      ---
+      duration_ms: 0.638042
+      type: 'suite'
+      ...
+    # Subtest: Full API flow with nested structures and decoys
+        # Subtest: should handle deeply nested structures with decoys
+        ok 1 - should handle deeply nested structures with decoys
+          ---
+          duration_ms: 4.112541
+          ...
+        # Subtest: should handle arrays with redactable elements and decoys
+        ok 2 - should handle arrays with redactable elements and decoys
+          ---
+          duration_ms: 4.534458
+          ...
+        1..2
+    ok 6 - Full API flow with nested structures and decoys
+      ---
+      duration_ms: 10.074375
+      type: 'suite'
+      ...
+    1..6
+ok 13 - API: Strict Depth and Validation
+  ---
+  duration_ms: 23.376667
+  type: 'suite'
+  ...
+# Holder Public Key Hex: a4010220012158208554eb275dcd6fbd1c7ac641aa2c90d92022fd0d3024b5af18c7cc61ad527a2d2258204dc7ae2c677e96d0cc82597655ce92d5503f54293d87875d1e79ce4770194343
+# Issuer Public Key Hex: a401022002215830c31798b0c7885fa3528fbf877e5b4c3a6dc67a5a5dc6b307b728c3725926f2abe5fb4964cd91e3948a5493f6ebb6cbbf2258308f6c7ec761691cad374c4daa9387453f18058ece58eb0a8e84a055a31fb7f9214b27509522c159e764f8711e11609554
+# === Step 1: Issue SD-CWT ===
+# Token length: 388
+# Number of disclosures: 3
+# Token hex (first 100 chars): d2844ba30138221019012518aa2fa0590110a9017668747470733a2f2f6973737565722e6578616d706c6502766874747073...
+# === Step 2: Parse Token ===
+# Parsed issuer: https://issuer.example
+# === Step 3: Create Presentation ===
+# Presentation length: 609
+# Presentation hex (first 100 chars): d2845901f5a30126101901260dd2844ba30138221019012518aa2fa111835821835076b91c19e1c7eda6ad09c66c1ffb248f...
+# === Step 4: Verify Presentation ===
+# Verification successful!
+# Verified claims:
+#   1: https://issuer.example
+#   2: https://device.example
+#   4: 1725330600
+#   5: 1725243900
+#   6: 1725244200
+#   500: true
+#   501: ABCD-123456
+# === All assertions passed! ===
+# Deterministic hex: a4010220012158208554eb275dcd6fbd1c7ac641aa2c90d92022fd0d3024b5af18c7cc61ad527a2d2258204dc7ae2c677e96d0cc82597655ce92d5503f54293d87875d1e79ce4770194343
+# Disclosure length: 33
+# Disclosure hex: 8350cea68004a41b5e34d1313c8b4cb9bdbe6c7365637265742d76616c75651864
+# Correctly rejected wrong audience
+# Generated ES256 keys workflow passed!
+# Generated public key hex: a6010203262001215820f80aca0995382d02226ed1bb492e0d947cf5ae13c6c139419b22f0d1d6e55e17225820a04b874f1e00a9473897204b9b0cfa8ab1c010dc21419180eac7387068d83a5302582022a7fa346cafb391970e177fb8591b4e87ec2bc6df4538bc6780adbe9479eb5e
+# Subtest: Browser Compatibility - Spec Keys
+    # Subtest: should create matching COSE Key hex representations
+    ok 1 - should create matching COSE Key hex representations
+      ---
+      duration_ms: 2.646791
+      ...
+    # Subtest: should complete full SD-CWT workflow with spec keys
+    ok 2 - should complete full SD-CWT workflow with spec keys
+      ---
+      duration_ms: 9.808083
+      ...
+    # Subtest: should generate deterministic hex output for COSE Keys
+    ok 3 - should generate deterministic hex output for COSE Keys
+      ---
+      duration_ms: 0.283625
+      ...
+    # Subtest: should serialize disclosures consistently
+    ok 4 - should serialize disclosures consistently
+      ---
+      duration_ms: 2.16575
+      ...
+    # Subtest: should handle audience mismatch correctly
+    ok 5 - should handle audience mismatch correctly
+      ---
+      duration_ms: 3.719875
+      ...
+    1..5
+ok 14 - Browser Compatibility - Spec Keys
+  ---
+  duration_ms: 19.337833
+  type: 'suite'
+  ...
+# Subtest: Browser Compatibility - Generated Keys
+    # Subtest: should work with dynamically generated ES256 keys
+    ok 1 - should work with dynamically generated ES256 keys
+      ---
+      duration_ms: 3.81425
+      ...
+    # Subtest: should serialize and deserialize generated keys correctly
+    ok 2 - should serialize and deserialize generated keys correctly
+      ---
+      duration_ms: 0.410625
+      ...
+    1..2
+ok 15 - Browser Compatibility - Generated Keys
+  ---
+  duration_ms: 4.38225
+  type: 'suite'
+  ...
+# Subtest: cbor2 sanity tests
+    # Subtest: encode
+        # Subtest: should encode a simple integer
+        ok 1 - should encode a simple integer
+          ---
+          duration_ms: 0.808791
+          ...
+        # Subtest: should encode a string
+        ok 2 - should encode a string
+          ---
+          duration_ms: 0.131667
+          ...
+        # Subtest: should encode an array
+        ok 3 - should encode an array
+          ---
+          duration_ms: 0.150291
+          ...
+        # Subtest: should encode an object
+        ok 4 - should encode an object
+          ---
+          duration_ms: 0.132375
+          ...
+        # Subtest: should encode null and undefined
+        ok 5 - should encode null and undefined
+          ---
+          duration_ms: 0.07475
+          ...
+        # Subtest: should encode booleans
+        ok 6 - should encode booleans
+          ---
+          duration_ms: 0.07325
+          ...
+        # Subtest: should encode floating point numbers
+        ok 7 - should encode floating point numbers
+          ---
+          duration_ms: 0.106125
+          ...
+        # Subtest: should encode nested structures
+        ok 8 - should encode nested structures
+          ---
+          duration_ms: 0.288541
+          ...
+        # Subtest: should encode Buffer/Uint8Array (byte strings)
+        ok 9 - should encode Buffer/Uint8Array (byte strings)
+          ---
+          duration_ms: 0.259333
+          ...
+        1..9
+    ok 1 - encode
+      ---
+      duration_ms: 2.62825
+      type: 'suite'
+      ...
+    # Subtest: decode
+        # Subtest: should decode an encoded integer
+        ok 1 - should decode an encoded integer
+          ---
+          duration_ms: 0.474291
+          ...
+        # Subtest: should decode an encoded string
+        ok 2 - should decode an encoded string
+          ---
+          duration_ms: 0.171209
+          ...
+        # Subtest: should decode an encoded array
+        ok 3 - should decode an encoded array
+          ---
+          duration_ms: 0.484209
+          ...
+        # Subtest: should decode an encoded object
+        ok 4 - should decode an encoded object
+          ---
+          duration_ms: 0.305083
+          ...
+        # Subtest: should decode null
+        ok 5 - should decode null
+          ---
+          duration_ms: 0.077375
+          ...
+        # Subtest: should decode booleans
+        ok 6 - should decode booleans
+          ---
+          duration_ms: 0.152458
+          ...
+        # Subtest: should decode floating point numbers
+        ok 7 - should decode floating point numbers
+          ---
+          duration_ms: 0.076084
+          ...
+        # Subtest: should decode nested structures
+        ok 8 - should decode nested structures
+          ---
+          duration_ms: 0.308083
+          ...
+        1..8
+    ok 2 - decode
+      ---
+      duration_ms: 2.235459
+      type: 'suite'
+      ...
+    # Subtest: roundtrip
+        # Subtest: should roundtrip negative integers
+        ok 1 - should roundtrip negative integers
+          ---
+          duration_ms: 0.222
+          ...
+        # Subtest: should roundtrip large integers
+        ok 2 - should roundtrip large integers
+          ---
+          duration_ms: 0.085084
+          ...
+        # Subtest: should roundtrip empty array
+        ok 3 - should roundtrip empty array
+          ---
+          duration_ms: 0.152875
+          ...
+        # Subtest: should roundtrip empty object
+        ok 4 - should roundtrip empty object
+          ---
+          duration_ms: 0.166083
+          ...
+        1..4
+    ok 3 - roundtrip
+      ---
+      duration_ms: 0.699292
+      type: 'suite'
+      ...
+    1..3
+ok 16 - cbor2 sanity tests
+  ---
+  duration_ms: 6.036375
+  type: 'suite'
+  ...
+# Subtest: COSE Sign1 Module
+    # Subtest: generateKeyPair
+        # Subtest: should generate an ES256 key pair as COSE Keys by default
+        ok 1 - should generate an ES256 key pair as COSE Keys by default
+          ---
+          duration_ms: 0.786834
+          ...
+        # Subtest: should generate an ES384 key pair as COSE Keys
+        ok 2 - should generate an ES384 key pair as COSE Keys
+          ---
+          duration_ms: 1.009166
+          ...
+        # Subtest: should generate an ES512 key pair as COSE Keys
+        ok 3 - should generate an ES512 key pair as COSE Keys
+          ---
+          duration_ms: 2.244833
+          ...
+        # Subtest: should throw for unsupported algorithm
+        ok 4 - should throw for unsupported algorithm
+          ---
+          duration_ms: 1.8205
+          ...
+        1..4
+    ok 1 - generateKeyPair
+      ---
+      duration_ms: 6.367291
+      type: 'suite'
+      ...
+    # Subtest: sign
+        # Subtest: should sign a buffer payload
+        ok 1 - should sign a buffer payload
+          ---
+          duration_ms: 1.462291
+          ...
+        # Subtest: should sign a string payload
+        ok 2 - should sign a string payload
+          ---
+          duration_ms: 0.373209
+          ...
+        # Subtest: should sign with custom kid
+        ok 3 - should sign with custom kid
+          ---
+          duration_ms: 0.472375
+          ...
+        # Subtest: should throw if payload is missing
+        ok 4 - should throw if payload is missing
+          ---
+          duration_ms: 0.253375
+          ...
+        # Subtest: should throw if signer key is incomplete (missing d)
+        ok 5 - should throw if signer key is incomplete (missing d)
+          ---
+          duration_ms: 0.242459
+          ...
+        # Subtest: should sign with different algorithms
+        ok 6 - should sign with different algorithms
+          ---
+          duration_ms: 6.918959
+          ...
+        1..6
+    ok 2 - sign
+      ---
+      duration_ms: 9.997792
+      type: 'suite'
+      ...
+    # Subtest: verify
+        # Subtest: should verify a signed message
+        ok 1 - should verify a signed message
+          ---
+          duration_ms: 6.311042
+          ...
+        # Subtest: should verify with ES384
+        ok 2 - should verify with ES384
+          ---
+          duration_ms: 3.24325
+          ...
+        # Subtest: should verify with ES512
+        ok 3 - should verify with ES512
+          ---
+          duration_ms: 6.754958
+          ...
+        # Subtest: should fail verification with wrong key
+        ok 4 - should fail verification with wrong key
+          ---
+          duration_ms: 1.247208
+          ...
+        # Subtest: should throw if COSE Sign1 message is missing
+        ok 5 - should throw if COSE Sign1 message is missing
+          ---
+          duration_ms: 0.298792
+          ...
+        # Subtest: should throw if verifier key is incomplete
+        ok 6 - should throw if verifier key is incomplete
+          ---
+          duration_ms: 0.693417
+          ...
+        1..6
+    ok 3 - verify
+      ---
+      duration_ms: 18.763083
+      type: 'suite'
+      ...
+    # Subtest: sign and verify integration
+        # Subtest: should handle empty payload
+        ok 1 - should handle empty payload
+          ---
+          duration_ms: 1.010625
+          ...
+        # Subtest: should handle large payload
+        ok 2 - should handle large payload
+          ---
+          duration_ms: 25.673459
+          ...
+        # Subtest: should handle binary payload
+        ok 3 - should handle binary payload
+          ---
+          duration_ms: 0.900333
+          ...
+        # Subtest: should handle JSON payload
+        ok 4 - should handle JSON payload
+          ---
+          duration_ms: 0.881542
+          ...
+        # Subtest: should use custom kid option
+        ok 5 - should use custom kid option
+          ---
+          duration_ms: 0.720541
+          ...
+        # Subtest: should work with externally generated keys
+        ok 6 - should work with externally generated keys
+          ---
+          duration_ms: 0.604959
+          ...
+        1..6
+    ok 4 - sign and verify integration
+      ---
+      duration_ms: 29.938708
+      type: 'suite'
+      ...
+    # Subtest: custom header parameters
+        # Subtest: should sign with content_type in protected headers
+        ok 1 - should sign with content_type in protected headers
+          ---
+          duration_ms: 7.054167
+          ...
+        # Subtest: should sign with kid in protected headers
+        ok 2 - should sign with kid in protected headers
+          ---
+          duration_ms: 1.017459
+          ...
+        # Subtest: should sign with kid in unprotected headers
+        ok 3 - should sign with kid in unprotected headers
+          ---
+          duration_ms: 2.687791
+          ...
+        # Subtest: should sign with x5chain (X.509 certificate chain)
+        ok 4 - should sign with x5chain (X.509 certificate chain)
+          ---
+          duration_ms: 0.946916
+          ...
+        # Subtest: should sign with crit (critical) header
+        ok 5 - should sign with crit (critical) header
+          ---
+          duration_ms: 0.841959
+          ...
+        # Subtest: should sign with numeric content_type
+        ok 6 - should sign with numeric content_type
+          ---
+          duration_ms: 0.619125
+          ...
+        # Subtest: should sign with combined protected and unprotected headers
+        ok 7 - should sign with combined protected and unprotected headers
+          ---
+          duration_ms: 0.78925
+          ...
+        # Subtest: should override kid option with unprotectedHeaders kid
+        ok 8 - should override kid option with unprotectedHeaders kid
+          ---
+          duration_ms: 0.602042
+          ...
+        # Subtest: should handle IV in unprotected headers
+        ok 9 - should handle IV in unprotected headers
+          ---
+          duration_ms: 1.447875
+          ...
+        # Subtest: should handle Partial_IV in unprotected headers
+        ok 10 - should handle Partial_IV in unprotected headers
+          ---
+          duration_ms: 0.764
+          ...
+        # Subtest: should preserve payload integrity with various header combinations
+        ok 11 - should preserve payload integrity with various header combinations
+          ---
+          duration_ms: 2.495166
+          ...
+        1..11
+    ok 5 - custom header parameters
+      ---
+      duration_ms: 19.480042
+      type: 'suite'
+      ...
+    # Subtest: private/custom header parameters (integer keys)
+        # Subtest: should sign with custom protected header using negative integer key
+        ok 1 - should sign with custom protected header using negative integer key
+          ---
+          duration_ms: 1.059875
+          ...
+        # Subtest: should sign with custom unprotected header using negative integer key
+        ok 2 - should sign with custom unprotected header using negative integer key
+          ---
+          duration_ms: 0.727958
+          ...
+        # Subtest: should sign with custom header using Map
+        ok 3 - should sign with custom header using Map
+          ---
+          duration_ms: 0.78725
+          ...
+        # Subtest: should sign with multiple custom headers
+        ok 4 - should sign with multiple custom headers
+          ---
+          duration_ms: 5.688167
+          ...
+        # Subtest: should combine standard and custom headers
+        ok 5 - should combine standard and custom headers
+          ---
+          duration_ms: 0.819416
+          ...
+        # Subtest: should handle binary data in custom headers
+        ok 6 - should handle binary data in custom headers
+          ---
+          duration_ms: 0.779
+          ...
+        # Subtest: should handle nested structures in custom headers
+        ok 7 - should handle nested structures in custom headers
+          ---
+          duration_ms: 0.815958
+          ...
+        # Subtest: should work with ES384 and custom headers
+        ok 8 - should work with ES384 and custom headers
+          ---
+          duration_ms: 2.991584
+          ...
+        # Subtest: should work with ES512 and custom headers
+        ok 9 - should work with ES512 and custom headers
+          ---
+          duration_ms: 6.614125
+          ...
+        1..9
+    ok 6 - private/custom header parameters (integer keys)
+      ---
+      duration_ms: 20.471209
+      type: 'suite'
+      ...
+    # Subtest: getHeaders
+        # Subtest: should extract protected headers from a signed message
+        ok 1 - should extract protected headers from a signed message
+          ---
+          duration_ms: 0.533833
+          ...
+        # Subtest: should extract unprotected headers from a signed message
+        ok 2 - should extract unprotected headers from a signed message
+          ---
+          duration_ms: 0.463958
+          ...
+        # Subtest: should throw for invalid input
+        ok 3 - should throw for invalid input
+          ---
+          duration_ms: 0.070583
+          ...
+        # Subtest: should throw for invalid COSE structure
+        ok 4 - should throw for invalid COSE structure
+          ---
+          duration_ms: 0.117292
+          ...
+        1..4
+    ok 7 - getHeaders
+      ---
+      duration_ms: 1.254125
+      type: 'suite'
+      ...
+    # Subtest: EdDSA (Ed25519) with algorithm -8
+        # Subtest: should have EdDSA algorithm constant
+        ok 1 - should have EdDSA algorithm constant
+          ---
+          duration_ms: 0.066792
+          ...
+        # Subtest: should generate Ed25519 key pair as COSE Keys (OKP type)
+        ok 2 - should generate Ed25519 key pair as COSE Keys (OKP type)
+          ---
+          duration_ms: 0.215792
+          ...
+        # Subtest: should sign and verify with Ed25519 COSE Keys
+        ok 3 - should sign and verify with Ed25519 COSE Keys
+          ---
+          duration_ms: 25.404666
+          ...
+        # Subtest: should auto-detect Ed25519 algorithm from COSE Key (per RFC 9864)
+        ok 4 - should auto-detect Ed25519 algorithm from COSE Key (per RFC 9864)
+          ---
+          duration_ms: 0.743
+          ...
+        # Subtest: should include kid in unprotected headers
+        ok 5 - should include kid in unprotected headers
+          ---
+          duration_ms: 0.6275
+          ...
+        # Subtest: should fail verification with wrong Ed25519 key
+        ok 6 - should fail verification with wrong Ed25519 key
+          ---
+          duration_ms: 0.603666
+          ...
+        # Subtest: should work with custom headers
+        ok 7 - should work with custom headers
+          ---
+          duration_ms: 0.575541
+          ...
+        1..7
+    ok 8 - EdDSA (Ed25519) with algorithm -8
+      ---
+      duration_ms: 28.352958
+      type: 'suite'
+      ...
+    # Subtest: RFC 9864 Fully-Specified Algorithms (High-Level API)
+        # Subtest: should export fully-specified algorithm constants per RFC 9864
+        ok 1 - should export fully-specified algorithm constants per RFC 9864
+          ---
+          duration_ms: 0.093083
+          ...
+        # Subtest: should generate Ed25519 COSE Key with fully-specified algorithm
+        ok 2 - should generate Ed25519 COSE Key with fully-specified algorithm
+          ---
+          duration_ms: 0.162
+          ...
+        # Subtest: should sign and verify with Ed25519 fully-specified algorithm
+        ok 3 - should sign and verify with Ed25519 fully-specified algorithm
+          ---
+          duration_ms: 0.502208
+          ...
+        # Subtest: should generate Ed448 COSE Key with fully-specified algorithm
+        ok 4 - should generate Ed448 COSE Key with fully-specified algorithm
+          ---
+          duration_ms: 0.185333
+          ...
+        # Subtest: should sign and verify with Ed448 fully-specified algorithm
+        ok 5 - should sign and verify with Ed448 fully-specified algorithm
+          ---
+          duration_ms: 0.682166
+          ...
+        # Subtest: should prefer fully-specified algorithm when auto-detecting Ed25519 curve
+        ok 6 - should prefer fully-specified algorithm when auto-detecting Ed25519 curve
+          ---
+          duration_ms: 0.500584
+          ...
+        # Subtest: should prefer fully-specified algorithm when auto-detecting Ed448 curve
+        ok 7 - should prefer fully-specified algorithm when auto-detecting Ed448 curve
+          ---
+          duration_ms: 0.555084
+          ...
+        # Subtest: should still support deprecated EdDSA when explicitly specified
+        ok 8 - should still support deprecated EdDSA when explicitly specified
+          ---
+          duration_ms: 0.503458
+          ...
+        1..8
+    ok 9 - RFC 9864 Fully-Specified Algorithms (High-Level API)
+      ---
+      duration_ms: 3.282875
+      type: 'suite'
+      ...
+    1..9
+ok 17 - COSE Sign1 Module
+  ---
+  duration_ms: 142.562458
+  type: 'suite'
+  ...
+# Subtest: cose-js sanity tests
+    # Subtest: module structure
+        # Subtest: should export sign object
+        ok 1 - should export sign object
+          ---
+          duration_ms: 0.406917
+          ...
+        1..1
+    ok 1 - module structure
+      ---
+      duration_ms: 0.784625
+      type: 'suite'
+      ...
+    # Subtest: COSE Sign1
+        # Subtest: should create a COSE Sign1 message
+        ok 1 - should create a COSE Sign1 message
+          ---
+          duration_ms: 150.456041
+          ...
+        # Subtest: should verify a COSE Sign1 message
+        ok 2 - should verify a COSE Sign1 message
+          ---
+          duration_ms: 33.518416
+          ...
+        # Subtest: should fail verification with wrong key
+        ok 3 - should fail verification with wrong key
+          ---
+          duration_ms: 13.113542
+          ...
+        # Subtest: should handle different payloads
+        ok 4 - should handle different payloads
+          ---
+          duration_ms: 37.851792
+          ...
+        1..4
+    ok 2 - COSE Sign1
+      ---
+      duration_ms: 235.122375
+      type: 'suite'
+      ...
+    1..2
+ok 18 - cose-js sanity tests
+  ---
+  duration_ms: 236.71425
+  type: 'suite'
+  ...
+# Subtest: legacy CBOR oracle preserves complete wire bytes
+ok 19 - legacy CBOR oracle preserves complete wire bytes
+  ---
+  duration_ms: 0.71075
+  ...
+# Subtest: Cross-platform Crypto Compatibility
+    # Subtest: COSE Key Format
+        # Subtest: generateKeyPair returns COSE Key Maps
+        ok 1 - generateKeyPair returns COSE Key Maps
+          ---
+          duration_ms: 1.771667
+          ...
+        # Subtest: isCoseKey correctly identifies COSE Keys
+        ok 2 - isCoseKey correctly identifies COSE Keys
+          ---
+          duration_ms: 0.337833
+          ...
+        # Subtest: coseKeyToInternal converts COSE Key to internal format
+        ok 3 - coseKeyToInternal converts COSE Key to internal format
+          ---
+          duration_ms: 0.68875
+          ...
+        # Subtest: getAlgorithmFromCoseKey detects algorithm from curve
+        ok 4 - getAlgorithmFromCoseKey detects algorithm from curve
+          ---
+          duration_ms: 1.064
+          ...
+        1..4
+    ok 1 - COSE Key Format
+      ---
+      duration_ms: 4.273375
+      type: 'suite'
+      ...
+    # Subtest: Sign and Verify with COSE Keys
+        # Subtest: sign and verify with COSE Key format
+        ok 1 - sign and verify with COSE Key format
+          ---
+          duration_ms: 45.929666
+          ...
+        # Subtest: sign with algorithm auto-detection from COSE Key
+        ok 2 - sign with algorithm auto-detection from COSE Key
+          ---
+          duration_ms: 4.058375
+          ...
+        1..2
+    ok 2 - Sign and Verify with COSE Keys
+      ---
+      duration_ms: 50.097792
+      type: 'suite'
+      ...
+    # Subtest: Node-Browser Cross-Platform Signing
+        # Subtest: Node crypto self-roundtrip
+        ok 1 - Node crypto self-roundtrip
+          ---
+          duration_ms: 0.375583
+          ...
+        # Subtest: Browser crypto self-roundtrip
+        ok 2 - Browser crypto self-roundtrip
+          ---
+          duration_ms: 10.36575
+          ...
+        # Subtest: Node sign -> Browser verify (cross-platform)
+        ok 3 - Node sign -> Browser verify (cross-platform)
+          ---
+          duration_ms: 1.841291
+          ...
+# COSE Key private key type: Map
+# COSE Key has kty: true
+# COSE Key has crv: true
+# Signed message length: 79
+# Verified payload length: 5
+# CBOR bytes length: 112
+# Hex string length: 224
+# Hex: a60102032620012158201e74e029ece259385013...
+        # Subtest: Browser sign -> Node verify (cross-platform)
+        ok 4 - Browser sign -> Node verify (cross-platform)
+          ---
+          duration_ms: 4.312833
+          ...
+        1..4
+    ok 3 - Node-Browser Cross-Platform Signing
+      ---
+      duration_ms: 17.201416
+      type: 'suite'
+      ...
+    # Subtest: COSE Sign1 with COSE Keys End-to-End
+        # Subtest: COSE Sign1 roundtrip with COSE Key format
+        ok 1 - COSE Sign1 roundtrip with COSE Key format
+          ---
+          duration_ms: 7.433459
+          ...
+        # Subtest: COSE Sign1 with custom headers and COSE Key
+        ok 2 - COSE Sign1 with custom headers and COSE Key
+          ---
+          duration_ms: 4.3185
+          ...
+        # Subtest: Verification fails with wrong COSE Key
+        ok 3 - Verification fails with wrong COSE Key
+          ---
+          duration_ms: 1.415416
+          ...
+        1..3
+    ok 4 - COSE Sign1 with COSE Keys End-to-End
+      ---
+      duration_ms: 14.230125
+      type: 'suite'
+      ...
+    1..4
+ok 20 - Cross-platform Crypto Compatibility
+  ---
+  duration_ms: 86.292916
+  type: 'suite'
+  ...
+# Subtest: COSE Key Serialization
+    # Subtest: serializeCoseKey serializes a COSE Key to CBOR bytes
+    ok 1 - serializeCoseKey serializes a COSE Key to CBOR bytes
+      ---
+      duration_ms: 5.227958
+      ...
+    # Subtest: deserializeCoseKey parses CBOR bytes back to COSE Key
+    ok 2 - deserializeCoseKey parses CBOR bytes back to COSE Key
+      ---
+      duration_ms: 5.257084
+      ...
+    # Subtest: roundtrip: serialize and deserialize private key
+    ok 3 - roundtrip: serialize and deserialize private key
+      ---
+      duration_ms: 2.5195
+      ...
+    # Subtest: coseKeyToHex returns base16 of CBOR-serialized COSE Key
+    ok 4 - coseKeyToHex returns base16 of CBOR-serialized COSE Key
+      ---
+      duration_ms: 1.873666
+      ...
+    # Subtest: coseKeyFromHex parses hex string back to COSE Key
+    ok 5 - coseKeyFromHex parses hex string back to COSE Key
+      ---
+      duration_ms: 0.60025
+      ...
+    # Subtest: serialized key can be used for verification
+    ok 6 - serialized key can be used for verification
+      ---
+      duration_ms: 0.963084
+      ...
+    # Subtest: serialized key can be used for signing
+    ok 7 - serialized key can be used for signing
+      ---
+      duration_ms: 0.900958
+      ...
+    # Subtest: deserializeCoseKey throws on invalid input
+    ok 8 - deserializeCoseKey throws on invalid input
+      ---
+      duration_ms: 0.111208
+      ...
+    # Subtest: serializeCoseKey throws on non-Map input
+    ok 9 - serializeCoseKey throws on non-Map input
+      ---
+      duration_ms: 0.058917
+      ...
+    1..9
+ok 21 - COSE Key Serialization
+  ---
+  duration_ms: 17.78425
+  type: 'suite'
+  ...
+# Subtest: COSE Key Thumbprint (RFC 9679)
+    # Subtest: computeCoseKeyThumbprint returns 32 bytes for SHA-256
+    ok 1 - computeCoseKeyThumbprint returns 32 bytes for SHA-256
+      ---
+      duration_ms: 3.137792
+      ...
+    # Subtest: coseKeyThumbprint returns hex string
+    ok 2 - coseKeyThumbprint returns hex string
+      ---
+      duration_ms: 1.1685
+      ...
+    # Subtest: thumbprint is same for private and public key with same coordinates
+    ok 3 - thumbprint is same for private and public key with same coordinates
+      ---
+      duration_ms: 0.528166
+      ...
+    # Subtest: different keys have different thumbprints
+    ok 4 - different keys have different thumbprints
+      ---
+      duration_ms: 1.244292
+      ...
+    # Subtest: coseKeyThumbprintUri returns correct format
+    ok 5 - coseKeyThumbprintUri returns correct format
+      ---
+      duration_ms: 1.108959
+      ...
+    # Subtest: thumbprint is deterministic
+    ok 6 - thumbprint is deterministic
+      ---
+      duration_ms: 0.476459
+      ...
+    # Subtest: thumbprint works with ES384 keys
+    ok 7 - thumbprint works with ES384 keys
+      ---
+      duration_ms: 0.824583
+      ...
+    # Subtest: computeCoseKeyThumbprint throws on unsupported key type
+    ok 8 - computeCoseKeyThumbprint throws on unsupported key type
+      ---
+      duration_ms: 0.074917
+      ...
+    # Subtest: computeCoseKeyThumbprint throws on missing parameters
+    ok 9 - computeCoseKeyThumbprint throws on missing parameters
+      ---
+      duration_ms: 2.321333
+      ...
+    1..9
+ok 22 - COSE Key Thumbprint (RFC 9679)
+  ---
+  duration_ms: 11.072583
+  type: 'suite'
+  ...
+# Subtest: draft-ietf-spice-sd-cwt-09 canonical examples
+    # Subtest: issuer_cwt.cbor
+        # Subtest: parses, exposing the documented protected headers
+        ok 1 - parses, exposing the documented protected headers
+          ---
+          duration_ms: 1.896166
+          ...
+        # Subtest: verifies under the Appendix C issuer key
+        ok 2 - verifies under the Appendix C issuer key
+          ---
+          duration_ms: 2.099917
+          ...
+        1..2
+    ok 1 - issuer_cwt.cbor
+      ---
+      duration_ms: 4.356292
+      type: 'suite'
+      ...
+    # Subtest: Redacted Claim Hash construction
+        # Subtest: hashes the bstr, matching the digest in the issued payload
+        ok 1 - hashes the bstr, matching the digest in the issued payload
+          ---
+          duration_ms: 0.272125
+          ...
+        # Subtest: does not hash the bare salted-entry array encoding
+        ok 2 - does not hash the bare salted-entry array encoding
+          ---
+          duration_ms: 0.077125
+          ...
+        1..2
+    ok 2 - Redacted Claim Hash construction
+      ---
+      duration_ms: 0.486541
+      type: 'suite'
+      ...
+    # Subtest: kbt.cbor
+        # Subtest: accepts the integer typ 294 rather than requiring the media type string
+        ok 1 - accepts the integer typ 294 rather than requiring the media type string
+          ---
+          duration_ms: 0.181166
+          ...
+        # Subtest: carries the SD-CWT in kcwt as the embedded tag 18 structure
+        ok 2 - carries the SD-CWT in kcwt as the embedded tag 18 structure
+          ---
+          duration_ms: 0.259292
+          ...
+        # Subtest: verifies end to end and reconstructs exactly the disclosed claims
+        ok 3 - verifies end to end and reconstructs exactly the disclosed claims
+          ---
+          duration_ms: 7.100875
+          ...
+        # Subtest: rejects a presentation aimed at a different audience
+        ok 4 - rejects a presentation aimed at a different audience
+          ---
+          duration_ms: 2.332333
+          ...
+        # Subtest: rejects a replayed nonce
+        ok 5 - rejects a replayed nonce
+          ---
+          duration_ms: 1.859166
+          ...
+        1..5
+    ok 3 - kbt.cbor
+      ---
+      duration_ms: 11.897667
+      type: 'suite'
+      ...
+    1..3
+ok 23 - draft-ietf-spice-sd-cwt-09 canonical examples
+  ---
+  duration_ms: 17.253292
+  type: 'suite'
+  ...
+# Subtest: acting as Holder over the draft's own credential
+    # Subtest: presents a chosen subset of the Issuer's disclosures, and verifies
+    ok 1 - presents a chosen subset of the Issuer's disclosures, and verifies
+      ---
+      duration_ms: 8.37475
+      ...
+    # Subtest: produces a kcwt whose embedded SD-CWT is the Issuer's bytes, untouched
+    ok 2 - produces a kcwt whose embedded SD-CWT is the Issuer's bytes, untouched
+      ---
+      duration_ms: 1.907959
+      ...
+    1..2
+ok 24 - acting as Holder over the draft's own credential
+  ---
+  duration_ms: 10.450792
+  type: 'suite'
+  ...
+# Subtest: every canonical example in the draft
+    # Subtest: decoy.cbor
+        # Subtest: verifies, and every disclosure including the decoys is used
+        ok 1 - verifies, and every disclosure including the decoys is used
+          ---
+          duration_ms: 3.535792
+          ...
+        1..1
+    ok 1 - decoy.cbor
+      ---
+      duration_ms: 3.606042
+      type: 'suite'
+      ...
+    # Subtest: nested disclosures
+        # Subtest: nested_issuer_cwt.cbor verifies and resolves all 15 disclosures
+        ok 1 - nested_issuer_cwt.cbor verifies and resolves all 15 disclosures
+          ---
+          duration_ms: 5.860959
+          ...
+        # Subtest: nested_cwt.cbor verifies and resolves all 7 disclosures
+        ok 2 - nested_cwt.cbor verifies and resolves all 7 disclosures
+          ---
+          duration_ms: 1.996792
+          ...
+        # Subtest: nested_kbt.cbor verifies end to end
+        ok 3 - nested_kbt.cbor verifies end to end
+          ---
+          duration_ms: 3.003458
+          ...
+        1..3
+    ok 2 - nested disclosures
+      ---
+      duration_ms: 12.718791
+      type: 'suite'
+      ...
+    1..2
+ok 25 - every canonical example in the draft
+  ---
+  duration_ms: 16.490208
+  type: 'suite'
+  ...
+# Subtest: Hex utilities
+    # Subtest: encode
+        # Subtest: should encode empty bytes
+        ok 1 - should encode empty bytes
+          ---
+          duration_ms: 0.501458
+          ...
+        # Subtest: should encode single byte
+        ok 2 - should encode single byte
+          ---
+          duration_ms: 0.088708
+          ...
+        # Subtest: should encode multiple bytes
+        ok 3 - should encode multiple bytes
+          ---
+          duration_ms: 0.065083
+          ...
+        # Subtest: should handle null/undefined
+        ok 4 - should handle null/undefined
+          ---
+          duration_ms: 0.109167
+          ...
+        1..4
+    ok 1 - encode
+      ---
+      duration_ms: 1.160458
+      type: 'suite'
+      ...
+    # Subtest: decode
+        # Subtest: should decode empty string
+        ok 1 - should decode empty string
+          ---
+          duration_ms: 2.286042
+          ...
+        # Subtest: should decode hex string
+        ok 2 - should decode hex string
+          ---
+          duration_ms: 0.12875
+          ...
+        # Subtest: should handle whitespace
+        ok 3 - should handle whitespace
+          ---
+          duration_ms: 0.075708
+          ...
+        # Subtest: should handle uppercase
+        ok 4 - should handle uppercase
+          ---
+          duration_ms: 0.113042
+          ...
+        1..4
+    ok 2 - decode
+      ---
+      duration_ms: 2.791042
+      type: 'suite'
+      ...
+    # Subtest: roundtrip
+        # Subtest: should roundtrip bytes
+        ok 1 - should roundtrip bytes
+          ---
+          duration_ms: 0.120833
+          ...
+        1..1
+    ok 3 - roundtrip
+      ---
+      duration_ms: 0.175291
+      type: 'suite'
+      ...
+    1..3
+ok 26 - Hex utilities
+  ---
+  duration_ms: 4.609083
+  type: 'suite'
+  ...
+# Subtest: EDN.stringify
+    # Subtest: primitives
+        # Subtest: should stringify null
+        ok 1 - should stringify null
+          ---
+          duration_ms: 0.225
+          ...
+        # Subtest: should stringify undefined
+        ok 2 - should stringify undefined
+          ---
+          duration_ms: 0.054459
+          ...
+        # Subtest: should stringify booleans
+        ok 3 - should stringify booleans
+          ---
+          duration_ms: 0.049208
+          ...
+        # Subtest: should stringify numbers
+        ok 4 - should stringify numbers
+          ---
+          duration_ms: 0.053667
+          ...
+        # Subtest: should stringify strings
+        ok 5 - should stringify strings
+          ---
+          duration_ms: 0.05625
+          ...
+        1..5
+    ok 1 - primitives
+      ---
+      duration_ms: 0.631333
+      type: 'suite'
+      ...
+    # Subtest: bytes
+        # Subtest: should stringify short byte arrays
+        ok 1 - should stringify short byte arrays
+          ---
+          duration_ms: 0.10025
+          ...
+        # Subtest: should stringify empty byte array
+        ok 2 - should stringify empty byte array
+          ---
+          duration_ms: 0.040667
+          ...
+        1..2
+    ok 2 - bytes
+      ---
+      duration_ms: 0.188958
+      type: 'suite'
+      ...
+    # Subtest: maps
+        # Subtest: should stringify empty map
+        ok 1 - should stringify empty map
+          ---
+          duration_ms: 0.068375
+          ...
+        # Subtest: should stringify map with number keys
+        ok 2 - should stringify map with number keys
+          ---
+          duration_ms: 0.176791
+          ...
+        # Subtest: should stringify map with string keys
+        ok 3 - should stringify map with string keys
+          ---
+          duration_ms: 0.059375
+          ...
+        # Subtest: should stringify nested maps
+        ok 4 - should stringify nested maps
+          ---
+          duration_ms: 0.053625
+          ...
+        1..4
+    ok 3 - maps
+      ---
+      duration_ms: 0.414333
+      type: 'suite'
+      ...
+    # Subtest: arrays
+        # Subtest: should stringify empty array
+        ok 1 - should stringify empty array
+          ---
+          duration_ms: 0.119
+          ...
+        # Subtest: should stringify array with values
+        ok 2 - should stringify array with values
+          ---
+          duration_ms: 0.057125
+          ...
+        1..2
+    ok 4 - arrays
+      ---
+      duration_ms: 0.281583
+      type: 'suite'
+      ...
+    # Subtest: CBOR tags
+        # Subtest: should stringify CBOR tag
+        ok 1 - should stringify CBOR tag
+          ---
+          duration_ms: 0.094292
+          ...
+        # Subtest: should stringify CBOR tag with number content
+        ok 2 - should stringify CBOR tag with number content
+          ---
+          duration_ms: 0.044125
+          ...
+        # Subtest: should stringify nested CBOR tags
+        ok 3 - should stringify nested CBOR tags
+          ---
+          duration_ms: 0.048375
+          ...
+        1..3
+    ok 5 - CBOR tags
+      ---
+      duration_ms: 0.239542
+      type: 'suite'
+      ...
+    # Subtest: simple values
+        # Subtest: should stringify simple value
+        ok 1 - should stringify simple value
+          ---
+          duration_ms: 0.050334
+          ...
+        1..1
+    ok 6 - simple values
+      ---
+      duration_ms: 0.079917
+      type: 'suite'
+      ...
+    1..6
+ok 27 - EDN.stringify
+  ---
+  duration_ms: 1.979417
+  type: 'suite'
+  ...
+# Subtest: EDN.parse
+    # Subtest: primitives
+        # Subtest: should parse null
+        ok 1 - should parse null
+          ---
+          duration_ms: 0.257584
+          ...
+        # Subtest: should parse booleans
+        ok 2 - should parse booleans
+          ---
+          duration_ms: 0.063958
+          ...
+        # Subtest: should parse positive numbers
+        ok 3 - should parse positive numbers
+          ---
+          duration_ms: 0.073875
+          ...
+        # Subtest: should parse negative numbers
+        ok 4 - should parse negative numbers
+          ---
+          duration_ms: 0.059125
+          ...
+        # Subtest: should parse floating point numbers
+        ok 5 - should parse floating point numbers
+          ---
+          duration_ms: 0.064666
+          ...
+        # Subtest: should parse strings
+        ok 6 - should parse strings
+          ---
+          duration_ms: 0.138792
+          ...
+        # Subtest: should parse strings with escapes
+        ok 7 - should parse strings with escapes
+          ---
+          duration_ms: 0.051334
+          ...
+        1..7
+    ok 1 - primitives
+      ---
+      duration_ms: 0.793
+      type: 'suite'
+      ...
+    # Subtest: hex bytes
+        # Subtest: should parse hex bytes
+        ok 1 - should parse hex bytes
+          ---
+          duration_ms: 0.087708
+          ...
+        # Subtest: should parse empty hex bytes
+        ok 2 - should parse empty hex bytes
+          ---
+          duration_ms: 0.042042
+          ...
+        # Subtest: should parse hex bytes with whitespace
+        ok 3 - should parse hex bytes with whitespace
+          ---
+          duration_ms: 0.12325
+          ...
+        1..3
+    ok 2 - hex bytes
+      ---
+      duration_ms: 0.346709
+      type: 'suite'
+      ...
+    # Subtest: maps
+        # Subtest: should parse empty map
+        ok 1 - should parse empty map
+          ---
+          duration_ms: 0.102833
+          ...
+        # Subtest: should parse map with number keys
+        ok 2 - should parse map with number keys
+          ---
+          duration_ms: 0.0465
+          ...
+        # Subtest: should parse map with string keys
+        ok 3 - should parse map with string keys
+          ---
+          duration_ms: 0.040834
+          ...
+        # Subtest: should parse map with multiple entries
+        ok 4 - should parse map with multiple entries
+          ---
+          duration_ms: 0.060041
+          ...
+        # Subtest: should parse nested maps
+        ok 5 - should parse nested maps
+          ---
+          duration_ms: 0.046625
+          ...
+        # Subtest: should parse map with comments
+        ok 6 - should parse map with comments
+          ---
+          duration_ms: 0.083167
+          ...
+        # Subtest: should parse map with "to be redacted" comments
+        ok 7 - should parse map with "to be redacted" comments
+          ---
+          duration_ms: 0.150167
+          ...
+        # Subtest: should parse complex comments with colons
+        ok 8 - should parse complex comments with colons
+          ---
+          duration_ms: 0.059833
+          ...
+        1..8
+    ok 3 - maps
+      ---
+      duration_ms: 0.675709
+      type: 'suite'
+      ...
+    # Subtest: arrays
+        # Subtest: should parse empty array
+        ok 1 - should parse empty array
+          ---
+          duration_ms: 0.071959
+          ...
+        # Subtest: should parse array with values
+        ok 2 - should parse array with values
+          ---
+          duration_ms: 0.208084
+          ...
+        # Subtest: should parse array with mixed types
+        ok 3 - should parse array with mixed types
+          ---
+          duration_ms: 0.086125
+          ...
+        # Subtest: should parse nested arrays
+        ok 4 - should parse nested arrays
+          ---
+          duration_ms: 0.140875
+          ...
+        1..4
+    ok 4 - arrays
+      ---
+      duration_ms: 0.586125
+      type: 'suite'
+      ...
+    # Subtest: CBOR tags
+        # Subtest: should parse CBOR tag with string content
+        ok 1 - should parse CBOR tag with string content
+          ---
+          duration_ms: 0.07225
+          ...
+        # Subtest: should parse CBOR tag with number content
+        ok 2 - should parse CBOR tag with number content
+          ---
+          duration_ms: 0.046875
+          ...
+        # Subtest: should parse nested CBOR tags
+        ok 3 - should parse nested CBOR tags
+          ---
+          duration_ms: 0.048292
+          ...
+        # Subtest: should parse CBOR tag as map key
+        ok 4 - should parse CBOR tag as map key
+          ---
+          duration_ms: 0.0735
+          ...
+        1..4
+    ok 5 - CBOR tags
+      ---
+      duration_ms: 0.299083
+      type: 'suite'
+      ...
+    # Subtest: simple values
+        # Subtest: should parse simple value
+        ok 1 - should parse simple value
+          ---
+          duration_ms: 0.105167
+          ...
+        1..1
+    ok 6 - simple values
+      ---
+      duration_ms: 0.132084
+      type: 'suite'
+      ...
+    # Subtest: complex structures
+        # Subtest: should parse spec-like claims
+        ok 1 - should parse spec-like claims
+          ---
+          duration_ms: 1.018
+          ...
+        1..1
+    ok 7 - complex structures
+      ---
+      duration_ms: 1.059125
+      type: 'suite'
+      ...
+    1..7
+ok 28 - EDN.parse
+  ---
+  duration_ms: 4.038083
+  type: 'suite'
+  ...
+# Subtest: EDN.formatClaims
+    # Subtest: should format empty claims
+    ok 1 - should format empty claims
+      ---
+      duration_ms: 0.124875
+      ...
+    # Subtest: should add comments for known CWT claims
+    ok 2 - should add comments for known CWT claims
+      ---
+      duration_ms: 0.160042
+      ...
+    # Subtest: should not add comments for unknown claims
+    ok 3 - should not add comments for unknown claims
+      ---
+      duration_ms: 0.046292
+      ...
+    # Subtest: should not add comments to nested maps
+    ok 4 - should not add comments to nested maps
+      ---
+      duration_ms: 0.062208
+      ...
+    # Subtest: should add "to be redacted" comments for Tag 58 keys
+    ok 5 - should add "to be redacted" comments for Tag 58 keys
+      ---
+      duration_ms: 0.047875
+      ...
+    # Subtest: should add "to be redacted" comments for nested Tag 58 keys
+    ok 6 - should add "to be redacted" comments for nested Tag 58 keys
+      ---
+      duration_ms: 0.050417
+      ...
+    1..6
+ok 29 - EDN.formatClaims
+  ---
+  duration_ms: 0.568708
+  type: 'suite'
+  ...
+# Subtest: EDN roundtrip
+    # Subtest: should roundtrip simple map
+    ok 1 - should roundtrip simple map
+      ---
+      duration_ms: 0.074125
+      ...
+    # Subtest: should roundtrip nested structure
+    ok 2 - should roundtrip nested structure
+      ---
+      duration_ms: 0.185875
+      ...
+    # Subtest: should roundtrip CBOR tags
+    ok 3 - should roundtrip CBOR tags
+      ---
+      duration_ms: 0.055
+      ...
+    # Subtest: should roundtrip array
+    ok 4 - should roundtrip array
+      ---
+      duration_ms: 0.065792
+      ...
+    1..4
+ok 30 - EDN roundtrip
+  ---
+  duration_ms: 0.427125
+  type: 'suite'
+  ...
+# Subtest: Example Templates
+    # Subtest: Facility Inspection Example
+        # Subtest: should issue, present, and verify with all disclosures
+        ok 1 - should issue, present, and verify with all disclosures
+          ---
+          duration_ms: 13.883583
+          ...
+        # Subtest: should verify with partial disclosures
+        ok 2 - should verify with partial disclosures
+          ---
+          duration_ms: 6.31375
+          ...
+        1..2
+    ok 1 - Facility Inspection Example
+      ---
+      duration_ms: 20.652083
+      type: 'suite'
+      ...
+    # Subtest: Multimodal Bill of Lading (MBL) Example
+        # Subtest: should issue with nested transport modes and cargo arrays
+        ok 1 - should issue with nested transport modes and cargo arrays
+          ---
+          duration_ms: 11.1705
+          ...
+        # Subtest: should verify with no disclosures (all cargo redacted)
+        ok 2 - should verify with no disclosures (all cargo redacted)
+          ---
+          duration_ms: 4.664166
+          ...
+        1..2
+    ok 2 - Multimodal Bill of Lading (MBL) Example
+      ---
+      duration_ms: 15.952209
+      type: 'suite'
+      ...
+    # Subtest: Commercial Invoice Example
+        # Subtest: should issue with nested buyer and line items
+        ok 1 - should issue with nested buyer and line items
+          ---
+          duration_ms: 9.696417
+          ...
+        # Subtest: should verify with prices redacted but descriptions visible
+        ok 2 - should verify with prices redacted but descriptions visible
+          ---
+          duration_ms: 3.20575
+          ...
+        1..2
+    ok 3 - Commercial Invoice Example
+      ---
+      duration_ms: 13.032417
+      type: 'suite'
+      ...
+    # Subtest: Decoy handling across examples
+        # Subtest: should handle multiple decoys in different positions
+        ok 1 - should handle multiple decoys in different positions
+          ---
+          duration_ms: 4.594583
+          ...
+        1..1
+    ok 4 - Decoy handling across examples
+      ---
+      duration_ms: 4.682916
+      type: 'suite'
+      ...
+    1..4
+ok 31 - Example Templates
+  ---
+  duration_ms: 54.868417
+  type: 'suite'
+  ...
+# Subtest: SD-CWT Tags and Simple Values
+    # Subtest: Tag constants
+        # Subtest: should have correct tag numbers
+        ok 1 - should have correct tag numbers
+          ---
+          duration_ms: 0.497958
+          ...
+        1..1
+    ok 1 - Tag constants
+      ---
+      duration_ms: 2.136125
+      type: 'suite'
+      ...
+    # Subtest: SimpleValue constants
+        # Subtest: should have correct simple value numbers
+        ok 1 - should have correct simple value numbers
+          ---
+          duration_ms: 0.070625
+          ...
+        1..1
+    ok 2 - SimpleValue constants
+      ---
+      duration_ms: 0.125416
+      type: 'suite'
+      ...
+    1..2
+ok 32 - SD-CWT Tags and Simple Values
+  ---
+  duration_ms: 2.884
+  type: 'suite'
+  ...
+# Subtest: To Be Redacted Tag
+    # Subtest: toBeRedacted()
+        # Subtest: should create a tag with number 58
+        ok 1 - should create a tag with number 58
+          ---
+          duration_ms: 0.155708
+          ...
+        # Subtest: should wrap integer claim keys
+        ok 2 - should wrap integer claim keys
+          ---
+          duration_ms: 0.060167
+          ...
+        # Subtest: should wrap string claim keys
+        ok 3 - should wrap string claim keys
+          ---
+          duration_ms: 0.057333
+          ...
+        # Subtest: should wrap negative integer claim keys
+        ok 4 - should wrap negative integer claim keys
+          ---
+          duration_ms: 0.058667
+          ...
+        1..4
+    ok 1 - toBeRedacted()
+      ---
+      duration_ms: 0.642958
+      type: 'suite'
+      ...
+    # Subtest: isToBeRedacted()
+        # Subtest: should return true for toBeRedacted tagged values
+        ok 1 - should return true for toBeRedacted tagged values
+          ---
+          duration_ms: 0.091916
+          ...
+        # Subtest: should return false for other tags
+        ok 2 - should return false for other tags
+          ---
+          duration_ms: 0.231292
+          ...
+        # Subtest: should return false for non-tag values
+        ok 3 - should return false for non-tag values
+          ---
+          duration_ms: 0.137167
+          ...
+        1..3
+    ok 2 - isToBeRedacted()
+      ---
+      duration_ms: 0.551875
+      type: 'suite'
+      ...
+    # Subtest: CBOR encoding roundtrip
+        # Subtest: should encode and decode tag 58 with integer
+        ok 1 - should encode and decode tag 58 with integer
+          ---
+          duration_ms: 1.065333
+          ...
+        # Subtest: should encode and decode tag 58 with string
+        ok 2 - should encode and decode tag 58 with string
+          ---
+          duration_ms: 0.241958
+          ...
+        # Subtest: should encode tag 58 as map key in a Map
+        ok 3 - should encode tag 58 as map key in a Map
+          ---
+          duration_ms: 0.35175
+          ...
+        1..3
+    ok 3 - CBOR encoding roundtrip
+      ---
+      duration_ms: 1.894417
+      type: 'suite'
+      ...
+    1..3
+ok 33 - To Be Redacted Tag
+  ---
+  duration_ms: 3.208166
+  type: 'suite'
+  ...
+# Subtest: Redacted Claim Element Tag
+    # Subtest: redactedClaimElement()
+        # Subtest: should create a tag with number 60
+        ok 1 - should create a tag with number 60
+          ---
+          duration_ms: 0.278
+          ...
+        1..1
+    ok 1 - redactedClaimElement()
+      ---
+      duration_ms: 0.328667
+      type: 'suite'
+      ...
+    # Subtest: isRedactedClaimElement()
+        # Subtest: should return true for redacted claim element tags
+        ok 1 - should return true for redacted claim element tags
+          ---
+          duration_ms: 0.098208
+          ...
+        # Subtest: should return false for other values
+        ok 2 - should return false for other values
+          ---
+          duration_ms: 0.047041
+          ...
+        1..2
+    ok 2 - isRedactedClaimElement()
+      ---
+      duration_ms: 0.189458
+      type: 'suite'
+      ...
+    # Subtest: CBOR encoding roundtrip
+        # Subtest: should encode and decode tag 60 with byte string
+        ok 1 - should encode and decode tag 60 with byte string
+          ---
+          duration_ms: 0.236667
+          ...
+        # Subtest: should encode redacted elements in an array
+        ok 2 - should encode redacted elements in an array
+          ---
+          duration_ms: 0.248417
+          ...
+        1..2
+    ok 3 - CBOR encoding roundtrip
+      ---
+      duration_ms: 0.527584
+      type: 'suite'
+      ...
+    1..3
+ok 34 - Redacted Claim Element Tag
+  ---
+  duration_ms: 1.20775
+  type: 'suite'
+  ...
+# Subtest: Redacted Keys Simple Value
+    # Subtest: redactedKeysKey()
+        # Subtest: should create simple value 59
+        ok 1 - should create simple value 59
+          ---
+          duration_ms: 0.270625
+          ...
+        1..1
+    ok 1 - redactedKeysKey()
+      ---
+      duration_ms: 0.393333
+      type: 'suite'
+      ...
+    # Subtest: simple()
+        # Subtest: should create arbitrary simple values
+        ok 1 - should create arbitrary simple values
+          ---
+          duration_ms: 0.118375
+          ...
+        1..1
+    ok 2 - simple()
+      ---
+      duration_ms: 0.207
+      type: 'suite'
+      ...
+    # Subtest: isRedactedKeysKey()
+        # Subtest: should return true for simple(59)
+        ok 1 - should return true for simple(59)
+          ---
+          duration_ms: 0.159833
+          ...
+        # Subtest: should return false for other simple values
+        ok 2 - should return false for other simple values
+          ---
+          duration_ms: 0.052167
+          ...
+        # Subtest: should return false for non-simple values
+        ok 3 - should return false for non-simple values
+          ---
+          duration_ms: 0.045542
+          ...
+        1..3
+    ok 3 - isRedactedKeysKey()
+      ---
+      duration_ms: 0.333292
+      type: 'suite'
+      ...
+    # Subtest: CBOR encoding roundtrip
+        # Subtest: should encode and decode simple(59) as map key
+        ok 1 - should encode and decode simple(59) as map key
+          ---
+          duration_ms: 0.337042
+          ...
+        1..1
+    ok 4 - CBOR encoding roundtrip
+      ---
+      duration_ms: 0.36425
+      type: 'suite'
+      ...
+    1..4
+ok 35 - Redacted Keys Simple Value
+  ---
+  duration_ms: 2.742791
+  type: 'suite'
+  ...
+# Subtest: To Be Decoy Tag
+    # Subtest: toBeDecoy()
+        # Subtest: should create a tag with number 62
+        ok 1 - should create a tag with number 62
+          ---
+          duration_ms: 0.069417
+          ...
+        # Subtest: should throw for non-positive integers
+        ok 2 - should throw for non-positive integers
+          ---
+          duration_ms: 0.229458
+          ...
+        1..2
+    ok 1 - toBeDecoy()
+      ---
+      duration_ms: 0.337333
+      type: 'suite'
+      ...
+    # Subtest: isToBeDecoy()
+        # Subtest: should return true for toBeDecoy tagged values
+        ok 1 - should return true for toBeDecoy tagged values
+          ---
+          duration_ms: 0.053083
+          ...
+        # Subtest: should return false for other values
+        ok 2 - should return false for other values
+          ---
+          duration_ms: 0.0365
+          ...
+        1..2
+    ok 2 - isToBeDecoy()
+      ---
+      duration_ms: 0.124125
+      type: 'suite'
+      ...
+    1..2
+ok 36 - To Be Decoy Tag
+  ---
+  duration_ms: 0.508458
+  type: 'suite'
+  ...
+# Subtest: Disclosure Utilities
+    # Subtest: generateSalt()
+        # Subtest: should generate 16-byte salt
+        ok 1 - should generate 16-byte salt
+          ---
+          duration_ms: 0.142208
+          ...
+        # Subtest: should generate different salts each time
+        ok 2 - should generate different salts each time
+          ---
+          duration_ms: 0.064708
+          ...
+        1..2
+    ok 1 - generateSalt()
+      ---
+      duration_ms: 0.241208
+      type: 'suite'
+      ...
+    # Subtest: createSaltedDisclosure()
+        # Subtest: should create disclosure for claim key
+        ok 1 - should create disclosure for claim key
+          ---
+          duration_ms: 0.25875
+          ...
+        # Subtest: should work with string claim names
+        ok 2 - should work with string claim names
+          ---
+          duration_ms: 0.183041
+          ...
+        1..2
+    ok 2 - createSaltedDisclosure()
+      ---
+      duration_ms: 3.609708
+      type: 'suite'
+      ...
+    # Subtest: createArrayElementDisclosure()
+        # Subtest: should create disclosure for array element (no claim name)
+        ok 1 - should create disclosure for array element (no claim name)
+          ---
+          duration_ms: 0.284417
+          ...
+        1..1
+    ok 3 - createArrayElementDisclosure()
+      ---
+      duration_ms: 0.3175
+      type: 'suite'
+      ...
+    # Subtest: hashDisclosure()
+        # Subtest: should compute SHA-256 hash of disclosure
+        ok 1 - should compute SHA-256 hash of disclosure
+          ---
+          duration_ms: 0.42425
+          ...
+        # Subtest: should produce consistent hashes
+        ok 2 - should produce consistent hashes
+          ---
+          duration_ms: 0.116417
+          ...
+        1..2
+    ok 4 - hashDisclosure()
+      ---
+      duration_ms: 0.576167
+      type: 'suite'
+      ...
+    # Subtest: decodeDisclosure()
+        # Subtest: should decode claim key disclosure
+        ok 1 - should decode claim key disclosure
+          ---
+          duration_ms: 0.208167
+          ...
+        # Subtest: should decode array element disclosure
+        ok 2 - should decode array element disclosure
+          ---
+          duration_ms: 0.084791
+          ...
+        # Subtest: should decode decoy disclosure
+        ok 3 - should decode decoy disclosure
+          ---
+          duration_ms: 0.069375
+          ...
+        1..3
+    ok 5 - decodeDisclosure()
+      ---
+      duration_ms: 0.402
+      type: 'suite'
+      ...
+    1..5
+ok 37 - Disclosure Utilities
+  ---
+  duration_ms: 5.345875
+  type: 'suite'
+  ...
+# Subtest: processToBeRedacted()
+    # Subtest: should process a map with tagged keys
+    ok 1 - should process a map with tagged keys
+      ---
+      duration_ms: 0.26425
+      ...
+    # Subtest: should process multiple tagged keys
+    ok 2 - should process multiple tagged keys
+      ---
+      duration_ms: 0.141333
+      ...
+    # Subtest: should handle nested maps
+    ok 3 - should handle nested maps
+      ---
+      duration_ms: 0.092916
+      ...
+    # Subtest: should process decoys
+    ok 4 - should process decoys
+      ---
+      duration_ms: 0.12325
+      ...
+    1..4
+ok 38 - processToBeRedacted()
+  ---
+  duration_ms: 0.666666
+  type: 'suite'
+  ...
+# Subtest: processArrayToBeRedacted()
+    # Subtest: should process array with tagged elements
+    ok 1 - should process array with tagged elements
+      ---
+      duration_ms: 0.236958
+      ...
+    # Subtest: should handle mixed redacted and regular elements
+    ok 2 - should handle mixed redacted and regular elements
+      ---
+      duration_ms: 0.140375
+      ...
+    # Subtest: should handle decoys in arrays
+    ok 3 - should handle decoys in arrays
+      ---
+      duration_ms: 0.223083
+      ...
+    1..3
+ok 39 - processArrayToBeRedacted()
+  ---
+  duration_ms: 0.637083
+  type: 'suite'
+  ...
+# Subtest: Example from SD-CWT spec
+    # Subtest: should create structure similar to spec example
+    ok 1 - should create structure similar to spec example
+      ---
+      duration_ms: 0.695917
+      ...
+    1..1
+ok 40 - Example from SD-CWT spec
+  ---
+  duration_ms: 0.721042
+  type: 'suite'
+  ...
+# Subtest: reconstructClaims()
+    # Subtest: should reconstruct a simple redacted map claim
+    ok 1 - should reconstruct a simple redacted map claim
+      ---
+      duration_ms: 0.455208
+      ...
+    # Subtest: should reconstruct multiple redacted claims
+    ok 2 - should reconstruct multiple redacted claims
+      ---
+      duration_ms: 0.340709
+      ...
+    # Subtest: should handle partial disclosure (selective disclosure)
+    ok 3 - should handle partial disclosure (selective disclosure)
+      ---
+      duration_ms: 0.262875
+      ...
+    # Subtest: should reconstruct nested maps
+    ok 4 - should reconstruct nested maps
+      ---
+      duration_ms: 0.20625
+      ...
+    # Subtest: should handle claims with no redacted keys
+    ok 5 - should handle claims with no redacted keys
+      ---
+      duration_ms: 0.079375
+      ...
+    # Subtest: should handle decoys (no reconstruction possible)
+    ok 6 - should handle decoys (no reconstruction possible)
+      ---
+      duration_ms: 0.128833
+      ...
+    1..6
+ok 41 - reconstructClaims()
+  ---
+  duration_ms: 1.53525
+  type: 'suite'
+  ...
+# Subtest: reconstructArray()
+    # Subtest: should reconstruct a simple redacted array
+    ok 1 - should reconstruct a simple redacted array
+      ---
+      duration_ms: 0.526875
+      ...
+    # Subtest: should handle partial array disclosure
+    ok 2 - should handle partial array disclosure
+      ---
+      duration_ms: 0.193125
+      ...
+    # Subtest: should handle array decoys
+    ok 3 - should handle array decoys
+      ---
+      duration_ms: 0.167667
+      ...
+    # Subtest: should reconstruct nested arrays
+    ok 4 - should reconstruct nested arrays
+      ---
+      duration_ms: 0.145666
+      ...
+    1..4
+ok 42 - reconstructArray()
+  ---
+  duration_ms: 1.983417
+  type: 'suite'
+  ...
+# Subtest: Roundtrip: Redaction → Reconstruction
+    # Subtest: should roundtrip simple map claims
+    ok 1 - should roundtrip simple map claims
+      ---
+      duration_ms: 0.201
+      ...
+    # Subtest: should roundtrip array elements
+    ok 2 - should roundtrip array elements
+      ---
+      duration_ms: 0.25
+      ...
+    # Subtest: should roundtrip complex nested structures
+    ok 3 - should roundtrip complex nested structures
+      ---
+      duration_ms: 0.654958
+      ...
+    # Subtest: should handle selective disclosure in complex structures
+    ok 4 - should handle selective disclosure in complex structures
+      ---
+      duration_ms: 0.301084
+      ...
+    # Subtest: should survive CBOR encode/decode cycle
+    ok 5 - should survive CBOR encode/decode cycle
+      ---
+      duration_ms: 4.139209
+      ...
+    # Subtest: should handle string claim keys
+    ok 6 - should handle string claim keys
+      ---
+      duration_ms: 0.974583
+      ...
+    # Subtest: should handle mixed integer and string keys
+    ok 7 - should handle mixed integer and string keys
+      ---
+      duration_ms: 0.274709
+      ...
+    # Subtest: should handle deeply nested structures
+    ok 8 - should handle deeply nested structures
+      ---
+      duration_ms: 0.439834
+      ...
+    1..8
+ok 43 - Roundtrip: Redaction → Reconstruction
+  ---
+  duration_ms: 7.501208
+  type: 'suite'
+  ...
+# Subtest: CBOR Map Preservation
+    # Subtest: should decode CBOR maps as JavaScript Maps with cborDecodeOptions
+    ok 1 - should decode CBOR maps as JavaScript Maps with cborDecodeOptions
+      ---
+      duration_ms: 0.217916
+      ...
+    # Subtest: should preserve nested Maps through CBOR roundtrip
+    ok 2 - should preserve nested Maps through CBOR roundtrip
+      ---
+      duration_ms: 0.12075
+      ...
+    # Subtest: should preserve Maps inside arrays through CBOR roundtrip
+    ok 3 - should preserve Maps inside arrays through CBOR roundtrip
+      ---
+      duration_ms: 0.102042
+      ...
+    # Subtest: should preserve Maps in disclosure values
+    ok 4 - should preserve Maps in disclosure values
+      ---
+      duration_ms: 0.136
+      ...
+    1..4
+ok 44 - CBOR Map Preservation
+  ---
+  duration_ms: 0.63075
+  type: 'suite'
+  ...
+# Subtest: Isolation Tests: Redaction and Reconstruction without Signing
+    # Subtest: should verify that disclosure hash matches redacted key hash
+    ok 1 - should verify that disclosure hash matches redacted key hash
+      ---
+      duration_ms: 0.140334
+      ...
+    # Subtest: should verify that array element disclosure hash matches tag contents
+    ok 2 - should verify that array element disclosure hash matches tag contents
+      ---
+      duration_ms: 0.214416
+      ...
+    # Subtest: should fail reconstruction with wrong disclosure
+    ok 3 - should fail reconstruction with wrong disclosure
+      ---
+      duration_ms: 0.144708
+      ...
+    # Subtest: should handle empty claims map
+    ok 4 - should handle empty claims map
+      ---
+      duration_ms: 0.042167
+      ...
+    # Subtest: should handle empty array
+    ok 5 - should handle empty array
+      ---
+      duration_ms: 0.042417
+      ...
+    # Subtest: should reconstruct complex values (maps as claim values)
+    ok 6 - should reconstruct complex values (maps as claim values)
+      ---
+      duration_ms: 0.210292
+      ...
+    # Subtest: should reconstruct complex values (arrays as claim values)
+    ok 7 - should reconstruct complex values (arrays as claim values)
+      ---
+      duration_ms: 0.203833
+      ...
+    1..7
+ok 45 - Isolation Tests: Redaction and Reconstruction without Signing
+  ---
+  duration_ms: 1.093083
+  type: 'suite'
+  ...
+# Subtest: Depth Limit and Strict Mode
+    # Subtest: MAX_DEPTH constant
+        # Subtest: should be 16 as per spec section 6.5
+        ok 1 - should be 16 as per spec section 6.5
+          ---
+          duration_ms: 0.58275
+          ...
+        1..1
+    ok 1 - MAX_DEPTH constant
+      ---
+      duration_ms: 0.631958
+      type: 'suite'
+      ...
+    # Subtest: processToBeRedacted with depth tracking
+        # Subtest: should accept options object with strict flag
+        ok 1 - should accept options object with strict flag
+          ---
+          duration_ms: 0.1735
+          ...
+        # Subtest: should process structures up to depth 16 without strict mode
+        ok 2 - should process structures up to depth 16 without strict mode
+          ---
+          duration_ms: 0.089584
+          ...
+        # Subtest: should throw when depth exceeds 16 in strict mode
+        ok 3 - should throw when depth exceeds 16 in strict mode
+          ---
+          duration_ms: 0.133958
+          ...
+        # Subtest: should process exactly depth 16 in strict mode
+        ok 4 - should process exactly depth 16 in strict mode
+          ---
+          duration_ms: 0.053333
+          ...
+        1..4
+    ok 2 - processToBeRedacted with depth tracking
+      ---
+      duration_ms: 0.509334
+      type: 'suite'
+      ...
+    # Subtest: processArrayToBeRedacted with depth tracking
+        # Subtest: should throw when array nesting exceeds 16 in strict mode
+        ok 1 - should throw when array nesting exceeds 16 in strict mode
+          ---
+          duration_ms: 0.111709
+          ...
+        1..1
+    ok 3 - processArrayToBeRedacted with depth tracking
+      ---
+      duration_ms: 0.134458
+      type: 'suite'
+      ...
+    # Subtest: reconstructClaims with depth tracking
+        # Subtest: should accept options object with strict flag
+        ok 1 - should accept options object with strict flag
+          ---
+          duration_ms: 0.473083
+          ...
+        # Subtest: should throw when depth exceeds 16 in strict mode during reconstruction
+        ok 2 - should throw when depth exceeds 16 in strict mode during reconstruction
+          ---
+          duration_ms: 0.127875
+          ...
+        1..2
+    ok 4 - reconstructClaims with depth tracking
+      ---
+      duration_ms: 0.633417
+      type: 'suite'
+      ...
+    1..4
+ok 46 - Depth Limit and Strict Mode
+  ---
+  duration_ms: 1.989208
+  type: 'suite'
+  ...
+# Subtest: Nested Structures: Maps, Arrays, and Tags
+    # Subtest: Map containing Array containing Map
+        # Subtest: should process and reconstruct map->array->map with redactions
+        ok 1 - should process and reconstruct map->array->map with redactions
+          ---
+          duration_ms: 0.236
+          ...
+        1..1
+    ok 1 - Map containing Array containing Map
+      ---
+      duration_ms: 0.262
+      type: 'suite'
+      ...
+    # Subtest: Array containing Map containing Array
+        # Subtest: should process and reconstruct array->map->array with redactions
+        ok 1 - should process and reconstruct array->map->array with redactions
+          ---
+          duration_ms: 0.264625
+          ...
+        1..1
+    ok 2 - Array containing Map containing Array
+      ---
+      duration_ms: 0.304583
+      type: 'suite'
+      ...
+    # Subtest: Non-SD-CWT CBOR Tags
+        # Subtest: should preserve non-SD-CWT tags during processing
+        ok 1 - should preserve non-SD-CWT tags during processing
+          ---
+          duration_ms: 0.178291
+          ...
+        # Subtest: should process redactable elements inside non-SD-CWT tags
+        ok 2 - should process redactable elements inside non-SD-CWT tags
+          ---
+          duration_ms: 0.221959
+          ...
+        # Subtest: should process tags containing arrays
+        ok 3 - should process tags containing arrays
+          ---
+          duration_ms: 0.150375
+          ...
+        1..3
+    ok 3 - Non-SD-CWT CBOR Tags
+      ---
+      duration_ms: 0.589667
+      type: 'suite'
+      ...
+    # Subtest: Triple nesting: Map -> Array -> Map -> Array
+        # Subtest: should handle deep alternating nesting with redactions at each level
+        ok 1 - should handle deep alternating nesting with redactions at each level
+          ---
+          duration_ms: 0.409208
+          ...
+        1..1
+    ok 4 - Triple nesting: Map -> Array -> Map -> Array
+      ---
+      duration_ms: 0.449125
+      type: 'suite'
+      ...
+    1..4
+ok 47 - Nested Structures: Maps, Arrays, and Tags
+  ---
+  duration_ms: 1.693042
+  type: 'suite'
+  ...
+# Subtest: Decoys at All Nesting Levels
+    # Subtest: should insert decoys in top-level map
+    ok 1 - should insert decoys in top-level map
+      ---
+      duration_ms: 1.540584
+      ...
+    # Subtest: should insert decoys in nested map
+    ok 2 - should insert decoys in nested map
+      ---
+      duration_ms: 0.247625
+      ...
+    # Subtest: should insert decoys in arrays
+    ok 3 - should insert decoys in arrays
+      ---
+      duration_ms: 0.20225
+      ...
+    # Subtest: should insert decoys in deeply nested arrays
+    ok 4 - should insert decoys in deeply nested arrays
+      ---
+      duration_ms: 0.158875
+      ...
+    # Subtest: should mix decoys with real redacted claims
+    ok 5 - should mix decoys with real redacted claims
+      ---
+      duration_ms: 1.949042
+      ...
+    1..5
+ok 48 - Decoys at All Nesting Levels
+  ---
+  duration_ms: 4.212916
+  type: 'suite'
+  ...
+# Subtest: Validation: validateClaimsClean and assertClaimsClean
+    # Subtest: validateClaimsClean
+        # Subtest: should pass for clean claims with no SD-CWT artifacts
+        ok 1 - should pass for clean claims with no SD-CWT artifacts
+          ---
+          duration_ms: 0.208291
+          ...
+        # Subtest: should fail for claims with ToBeRedacted tag (pre-issuance only per spec Section 14)
+        ok 2 - should fail for claims with ToBeRedacted tag (pre-issuance only per spec Section 14)
+          ---
+          duration_ms: 0.056375
+          ...
+        # Subtest: should fail for claims with ToBeDecoy tag (pre-issuance only)
+        ok 3 - should fail for claims with ToBeDecoy tag (pre-issuance only)
+          ---
+          duration_ms: 0.604
+          ...
+        # Subtest: should fail for claims with RedactedClaimElement when checking for Validated Disclosed Claims Set
+        ok 4 - should fail for claims with RedactedClaimElement when checking for Validated Disclosed Claims Set
+          ---
+          duration_ms: 0.069416
+          ...
+        # Subtest: should fail for claims with redacted keys (simple 59) when checking for Validated Disclosed Claims Set
+        ok 5 - should fail for claims with redacted keys (simple 59) when checking for Validated Disclosed Claims Set
+          ---
+          duration_ms: 0.060917
+          ...
+        # Subtest: should pass with allowRedacted=true for Presented Disclosed Claims Set (partial disclosure)
+        ok 6 - should pass with allowRedacted=true for Presented Disclosed Claims Set (partial disclosure)
+          ---
+          duration_ms: 0.047166
+          ...
+        # Subtest: should detect pre-issuance artifacts in deeply nested structures
+        ok 7 - should detect pre-issuance artifacts in deeply nested structures
+          ---
+          duration_ms: 0.047917
+          ...
+        # Subtest: should detect pre-issuance artifacts in arrays
+        ok 8 - should detect pre-issuance artifacts in arrays
+          ---
+          duration_ms: 0.036917
+          ...
+        # Subtest: should detect pre-issuance artifacts in nested CBOR tags
+        ok 9 - should detect pre-issuance artifacts in nested CBOR tags
+          ---
+          duration_ms: 0.107167
+          ...
+        # Subtest: should pass for properly processed and fully reconstructed claims (Validated Disclosed Claims Set)
+        ok 10 - should pass for properly processed and fully reconstructed claims (Validated Disclosed Claims Set)
+          ---
+          duration_ms: 0.29425
+          ...
+        # Subtest: should enforce depth limit in strict mode (per spec Section 6.5)
+        ok 11 - should enforce depth limit in strict mode (per spec Section 6.5)
+          ---
+          duration_ms: 0.070083
+          ...
+        1..11
+    ok 1 - validateClaimsClean
+      ---
+      duration_ms: 1.704334
+      type: 'suite'
+      ...
+    # Subtest: assertClaimsClean
+        # Subtest: should not throw for clean claims
+        ok 1 - should not throw for clean claims
+          ---
+          duration_ms: 0.09225
+          ...
+        # Subtest: should throw for claims with pre-issuance artifacts
+        ok 2 - should throw for claims with pre-issuance artifacts
+          ---
+          duration_ms: 0.058083
+          ...
+        1..2
+    ok 2 - assertClaimsClean
+      ---
+      duration_ms: 0.176666
+      type: 'suite'
+      ...
+    1..2
+ok 49 - Validation: validateClaimsClean and assertClaimsClean
+  ---
+  duration_ms: 1.927625
+  type: 'suite'
+  ...
+# Subtest: Full Roundtrip with Validation
+    # Subtest: should produce clean claims after full disclosure
+    ok 1 - should produce clean claims after full disclosure
+      ---
+      duration_ms: 0.316958
+      ...
+    # Subtest: should not be clean with partial disclosure (decoys remain)
+    ok 2 - should not be clean with partial disclosure (decoys remain)
+      ---
+      duration_ms: 0.187041
+      ...
+    # Subtest: should handle complex nested structure with full roundtrip
+    ok 3 - should handle complex nested structure with full roundtrip
+      ---
+      duration_ms: 0.31475
+      ...
+    # Subtest: should produce clean claims when disclosures are provided (decoys removed)
+    ok 4 - should produce clean claims when disclosures are provided (decoys removed)
+      ---
+      duration_ms: 0.193166
+      ...
+    1..4
+ok 50 - Full Roundtrip with Validation
+  ---
+  duration_ms: 1.054667
+  type: 'suite'
+  ...
+# Subtest: Array Disclosure: Size and Index Changes
+    # Subtest: Basic array disclosure removes undisclosed elements
+        # Subtest: should reduce array size when elements are not disclosed
+        ok 1 - should reduce array size when elements are not disclosed
+          ---
+          duration_ms: 0.155084
+          ...
+        # Subtest: should return empty array when no elements are disclosed
+        ok 2 - should return empty array when no elements are disclosed
+          ---
+          duration_ms: 0.101417
+          ...
+        1..2
+    ok 1 - Basic array disclosure removes undisclosed elements
+      ---
+      duration_ms: 0.285125
+      type: 'suite'
+      ...
+    # Subtest: Decoys are removed from verified arrays
+        # Subtest: should remove all decoys from reconstructed array
+        ok 1 - should remove all decoys from reconstructed array
+          ---
+          duration_ms: 0.111959
+          ...
+        # Subtest: should remove decoys interspersed with real elements
+        ok 2 - should remove decoys interspersed with real elements
+          ---
+          duration_ms: 0.232833
+          ...
+        1..2
+    ok 2 - Decoys are removed from verified arrays
+      ---
+      duration_ms: 0.371375
+      type: 'suite'
+      ...
+    # Subtest: Index changes after disclosure
+        # Subtest: should have correct indexes for disclosed elements after removal
+        ok 1 - should have correct indexes for disclosed elements after removal
+          ---
+          duration_ms: 0.242833
+          ...
+        # Subtest: should preserve order of disclosed elements
+        ok 2 - should preserve order of disclosed elements
+          ---
+          duration_ms: 0.223292
+          ...
+        # Subtest: should preserve relative order when middle elements are not disclosed
+        ok 3 - should preserve relative order when middle elements are not disclosed
+          ---
+          duration_ms: 0.110833
+          ...
+        1..3
+    ok 3 - Index changes after disclosure
+      ---
+      duration_ms: 0.612167
+      type: 'suite'
+      ...
+    # Subtest: Nested arrays with disclosure removal
+        # Subtest: should remove undisclosed elements from nested arrays
+        ok 1 - should remove undisclosed elements from nested arrays
+          ---
+          duration_ms: 0.154917
+          ...
+        # Subtest: should handle deeply nested arrays with mixed disclosures
+        ok 2 - should handle deeply nested arrays with mixed disclosures
+          ---
+          duration_ms: 0.288375
+          ...
+        1..2
+    ok 4 - Nested arrays with disclosure removal
+      ---
+      duration_ms: 0.473834
+      type: 'suite'
+      ...
+    # Subtest: Arrays in maps with disclosure removal
+        # Subtest: should remove undisclosed elements from arrays within maps
+        ok 1 - should remove undisclosed elements from arrays within maps
+          ---
+          duration_ms: 1.30725
+          ...
+        # Subtest: should correctly reconstruct arrays when all elements are disclosed
+        ok 2 - should correctly reconstruct arrays when all elements are disclosed
+          ---
+          duration_ms: 0.2575
+          ...
+        1..2
+    ok 5 - Arrays in maps with disclosure removal
+      ---
+      duration_ms: 1.605375
+      type: 'suite'
+      ...
+    # Subtest: Complex selective disclosure scenarios
+        # Subtest: should handle selective disclosure with specific element selection
+        ok 1 - should handle selective disclosure with specific element selection
+          ---
+          duration_ms: 0.407792
+          ...
+        # Subtest: should validate clean after disclosure with array size change
+        ok 2 - should validate clean after disclosure with array size change
+          ---
+          duration_ms: 0.261542
+          ...
+        1..2
+    ok 6 - Complex selective disclosure scenarios
+      ---
+      duration_ms: 0.712458
+      type: 'suite'
+      ...
+    1..6
+ok 51 - Array Disclosure: Size and Index Changes
+  ---
+  duration_ms: 4.151625
+  type: 'suite'
+  ...
+# Subtest: Depth 16 Edge Cases
+    # Subtest: should successfully process structure at exactly depth 16 with strict mode
+    ok 1 - should successfully process structure at exactly depth 16 with strict mode
+      ---
+      duration_ms: 0.346333
+      ...
+    # Subtest: should count depth correctly for arrays and maps alternating
+    ok 2 - should count depth correctly for arrays and maps alternating
+      ---
+      duration_ms: 0.055583
+      ...
+    # Subtest: should count tags as adding to depth
+    ok 3 - should count tags as adding to depth
+      ---
+      duration_ms: 0.081583
+      ...
+    1..3
+ok 52 - Depth 16 Edge Cases
+  ---
+  duration_ms: 0.522916
+  type: 'suite'
+  ...
+# Subtest: security review: authenticated adversarial inputs
+    # Subtest: accepts the positive control
+    ok 1 - accepts the positive control
+      ---
+      duration_ms: 19.798375
+      ...
+    # Subtest: rejects expired credential
+    ok 2 - rejects expired credential
+      ---
+      duration_ms: 12.395708
+      ...
+    # Subtest: rejects not-yet-valid credential
+    ok 3 - rejects not-yet-valid credential
+      ---
+      duration_ms: 5.146583
+      ...
+    # Subtest: rejects expired presentation
+    ok 4 - rejects expired presentation
+      ---
+      duration_ms: 3.495208
+      ...
+    # Subtest: rejects not-yet-valid presentation
+    ok 5 - rejects not-yet-valid presentation
+      ---
+      duration_ms: 5.93375
+      ...
+    # Subtest: rejects non-finite expiry
+    ok 6 - rejects non-finite expiry
+      ---
+      duration_ms: 3.585958
+      ...
+    # Subtest: rejects boolean issued-at
+    ok 7 - rejects boolean issued-at
+      ---
+      duration_ms: 3.525375
+      ...
+    # Subtest: rejects presentation outlives credential
+    ok 8 - rejects presentation outlives credential
+      ---
+      duration_ms: 3.32975
+      ...
+    # Subtest: rejects unknown critical extension
+    ok 9 - rejects unknown critical extension
+      ---
+      duration_ms: 0.650042
+      ...
+    # Subtest: rejects wrong credential type
+    ok 10 - rejects wrong credential type
+      ---
+      duration_ms: 2.895416
+      ...
+    # Subtest: rejects duplicate header
+    ok 11 - rejects duplicate header
+      ---
+      duration_ms: 9.374208
+      ...
+    # Subtest: rejects an audience revealed by a disclosure
+    ok 12 - rejects an audience revealed by a disclosure
+      ---
+      duration_ms: 3.976084
+      ...
+    # Subtest: does not overwrite an existing claim during reconstruction
+    ok 13 - does not overwrite an existing claim during reconstruction
+      ---
+      duration_ms: 0.228959
+      ...
+    # Subtest: rejects repeated plaintext disclosures
+    ok 14 - rejects repeated plaintext disclosures
+      ---
+      duration_ms: 0.289625
+      ...
+    1..14
+ok 53 - security review: authenticated adversarial inputs
+  ---
+  duration_ms: 75.541334
+  type: 'suite'
+  ...
+# Subtest: security review: policy boundaries and controls
+    # Subtest: enforces the exact expiry boundary with explicit clock skew
+    ok 1 - enforces the exact expiry boundary with explicit clock skew
+      ---
+      duration_ms: 6.214416
+      ...
+    # Subtest: rejects invalid leeway NaN
+    ok 2 - rejects invalid leeway NaN
+      ---
+      duration_ms: 7.343583
+      ...
+    # Subtest: rejects invalid leeway Infinity
+    ok 3 - rejects invalid leeway Infinity
+      ---
+      duration_ms: 5.564625
+      ...
+    # Subtest: rejects invalid leeway -1
+    ok 4 - rejects invalid leeway -1
+      ---
+      duration_ms: 3.22625
+      ...
+    # Subtest: rejects invalid leeway true
+    ok 5 - rejects invalid leeway true
+      ---
+      duration_ms: 8.484833
+      ...
+    # Subtest: checks the expected challenge
+    ok 6 - checks the expected challenge
+      ---
+      duration_ms: 4.616792
+      ...
+    # Subtest: rejects a decoy without a matching hash
+    ok 7 - rejects a decoy without a matching hash
+      ---
+      duration_ms: 3.216875
+      ...
+    # Subtest: accepts the understood critical algorithm parameter
+    ok 8 - accepts the understood critical algorithm parameter
+      ---
+      duration_ms: 3.283958
+      ...
+    # Subtest: rejects reusing one disclosure at two hash locations
+    ok 9 - rejects reusing one disclosure at two hash locations
+      ---
+      duration_ms: 0.226541
+      ...
+    1..9
+ok 54 - security review: policy boundaries and controls
+  ---
+  duration_ms: 42.597667
+  type: 'suite'
+  ...
+# Subtest: requires KBT issuance strictly before issuer expiry even with leeway
+ok 55 - requires KBT issuance strictly before issuer expiry even with leeway
+  ---
+  duration_ms: 6.32225
+  ...
+# Subtest: accepts the spec credential type 293
+ok 56 - accepts the spec credential type 293
+  ---
+  duration_ms: 10.901334
+  ...
+# Subtest: accepts the spec credential type application/sd-cwt
+ok 57 - accepts the spec credential type application/sd-cwt
+  ---
+  duration_ms: 3.109584
+  ...
+# Subtest: accepts the spec credential type application/example+sd-cwt
+ok 58 - accepts the spec credential type application/example+sd-cwt
+  ---
+  duration_ms: 12.43425
+  ...
+# Subtest: rejects incorrect credential type application/sd+cwt
+ok 59 - rejects incorrect credential type application/sd+cwt
+  ---
+  duration_ms: 2.864083
+  ...
+# Subtest: rejects incorrect credential type application/+sd-cwt
+ok 60 - rejects incorrect credential type application/+sd-cwt
+  ---
+  duration_ms: 4.712542
+  ...
+# Subtest: rejects incorrect credential type not a media type+sd-cwt
+ok 61 - rejects incorrect credential type not a media type+sd-cwt
+  ---
+  duration_ms: 2.675917
+  ...
+# Subtest: rejects a CWT Claims header in the KBT
+ok 62 - rejects a CWT Claims header in the KBT
+  ---
+  duration_ms: 1.651166
+  ...
+# Subtest: COSE Sign1 Implementation
+    # Subtest: generateKeyPair
+        # Subtest: should generate ES256 key pair
+        ok 1 - should generate ES256 key pair
+          ---
+          duration_ms: 1.03875
+          ...
+        # Subtest: should generate ES384 key pair
+        ok 2 - should generate ES384 key pair
+          ---
+          duration_ms: 0.740834
+          ...
+        # Subtest: should generate ES512 key pair
+        ok 3 - should generate ES512 key pair
+          ---
+          duration_ms: 1.687125
+          ...
+        # Subtest: should generate Ed25519 (EdDSA) key pair
+        ok 4 - should generate Ed25519 (EdDSA) key pair
+          ---
+          duration_ms: 0.251333
+          ...
+        1..4
+    ok 1 - generateKeyPair
+      ---
+      duration_ms: 4.047291
+      type: 'suite'
+      ...
+    # Subtest: sign
+        # Subtest: should sign with Map-based protected header
+        ok 1 - should sign with Map-based protected header
+          ---
+          duration_ms: 1.415334
+          ...
+        # Subtest: should include unprotected headers
+        ok 2 - should include unprotected headers
+          ---
+          duration_ms: 1.259792
+          ...
+        # Subtest: should throw if protectedHeader is not a Map
+        ok 3 - should throw if protectedHeader is not a Map
+          ---
+          duration_ms: 0.498875
+          ...
+        # Subtest: should throw if Algorithm is missing
+        ok 4 - should throw if Algorithm is missing
+          ---
+          duration_ms: 0.196875
+          ...
+        # Subtest: should support custom header parameters with negative keys
+        ok 5 - should support custom header parameters with negative keys
+          ---
+          duration_ms: 0.687292
+          ...
+        1..5
+    ok 2 - sign
+      ---
+      duration_ms: 4.337875
+      type: 'suite'
+      ...
+    # Subtest: verify
+        # Subtest: should verify a signed message
+        ok 1 - should verify a signed message
+          ---
+          duration_ms: 1.318417
+          ...
+        # Subtest: should verify with ES384
+        ok 2 - should verify with ES384
+          ---
+          duration_ms: 2.938166
+          ...
+        # Subtest: should verify with ES512
+        ok 3 - should verify with ES512
+          ---
+          duration_ms: 6.806167
+          ...
+        # Subtest: should verify with EdDSA (Ed25519, algorithm -8)
+        ok 4 - should verify with EdDSA (Ed25519, algorithm -8)
+          ---
+          duration_ms: 0.595375
+          ...
+        # Subtest: should fail verification with wrong Ed25519 key
+        ok 5 - should fail verification with wrong Ed25519 key
+          ---
+          duration_ms: 0.60925
+          ...
+        # Subtest: should fail verification with wrong key
+        ok 6 - should fail verification with wrong key
+          ---
+          duration_ms: 0.733875
+          ...
+        1..6
+    ok 3 - verify
+      ---
+      duration_ms: 13.182916
+      type: 'suite'
+      ...
+    # Subtest: decode
+        # Subtest: should decode and extract all components
+        ok 1 - should decode and extract all components
+          ---
+          duration_ms: 1.623833
+          ...
+        1..1
+    ok 4 - decode
+      ---
+      duration_ms: 1.678375
+      type: 'suite'
+      ...
+    # Subtest: interop with cose-js
+        # Subtest: cose-js should verify messages signed by our implementation
+        ok 1 - cose-js should verify messages signed by our implementation
+          ---
+          duration_ms: 94.787125
+          ...
+        # Subtest: our implementation should verify messages signed by cose-js
+        ok 2 - our implementation should verify messages signed by cose-js
+          ---
+          duration_ms: 5.417208
+          ...
+        # Subtest: should interop with kid header
+        ok 3 - should interop with kid header
+          ---
+          duration_ms: 5.395042
+          ...
+        1..3
+    ok 5 - interop with cose-js
+      ---
+      duration_ms: 105.717709
+      type: 'suite'
+      ...
+    # Subtest: edge cases
+        # Subtest: should handle empty payload
+        ok 1 - should handle empty payload
+          ---
+          duration_ms: 0.833709
+          ...
+        # Subtest: should handle large payload
+        ok 2 - should handle large payload
+          ---
+          duration_ms: 1.084916
+          ...
+        # Subtest: should handle binary payload
+        ok 3 - should handle binary payload
+          ---
+          duration_ms: 0.658125
+          ...
+        # Subtest: should support multiple custom headers
+        ok 4 - should support multiple custom headers
+          ---
+          duration_ms: 0.974667
+          ...
+        1..4
+    ok 6 - edge cases
+      ---
+      duration_ms: 3.661334
+      type: 'suite'
+      ...
+    # Subtest: EdDSA (Ed25519) with algorithm -8
+        # Subtest: should have correct algorithm constant
+        ok 1 - should have correct algorithm constant
+          ---
+          duration_ms: 0.108416
+          ...
+        # Subtest: should generate Ed25519 key pair with correct structure (OKP key type)
+        ok 2 - should generate Ed25519 key pair with correct structure (OKP key type)
+          ---
+          duration_ms: 0.148167
+          ...
+        # Subtest: should sign and verify with Ed25519
+        ok 3 - should sign and verify with Ed25519
+          ---
+          duration_ms: 0.567583
+          ...
+        # Subtest: should include correct algorithm in protected header
+        ok 4 - should include correct algorithm in protected header
+          ---
+          duration_ms: 0.380125
+          ...
+        # Subtest: should produce 64-byte signature for Ed25519
+        ok 5 - should produce 64-byte signature for Ed25519
+          ---
+          duration_ms: 0.28625
+          ...
+        # Subtest: should reject signing with OKP key missing d
+        ok 6 - should reject signing with OKP key missing d
+          ---
+          duration_ms: 0.156458
+          ...
+        # Subtest: should reject signing with OKP key missing x
+        ok 7 - should reject signing with OKP key missing x
+          ---
+          duration_ms: 0.082333
+          ...
+        # Subtest: should reject verifying with OKP key missing x
+        ok 8 - should reject verifying with OKP key missing x
+          ---
+          duration_ms: 0.342708
+          ...
+        # Subtest: should handle empty payload with Ed25519
+        ok 9 - should handle empty payload with Ed25519
+          ---
+          duration_ms: 0.433125
+          ...
+        # Subtest: should handle large payload with Ed25519
+        ok 10 - should handle large payload with Ed25519
+          ---
+          duration_ms: 0.431291
+          ...
+        # Subtest: should include custom headers with Ed25519
+        ok 11 - should include custom headers with Ed25519
+          ---
+          duration_ms: 0.623
+          ...
+        1..11
+    ok 7 - EdDSA (Ed25519) with algorithm -8
+      ---
+      duration_ms: 3.696208
+      type: 'suite'
+      ...
+    # Subtest: RFC 9864 Fully-Specified Algorithms
+        # Subtest: should have correct algorithm constants per RFC 9864
+        ok 1 - should have correct algorithm constants per RFC 9864
+          ---
+          duration_ms: 0.1145
+          ...
+        # Subtest: should generate Ed25519 key pair with fully-specified algorithm (-50)
+        ok 2 - should generate Ed25519 key pair with fully-specified algorithm (-50)
+          ---
+          duration_ms: 0.139167
+          ...
+        # Subtest: should sign and verify with Ed25519 fully-specified algorithm (-50)
+        ok 3 - should sign and verify with Ed25519 fully-specified algorithm (-50)
+          ---
+          duration_ms: 0.495917
+          ...
+        # Subtest: should produce 64-byte signature for Ed25519 (-50)
+        ok 4 - should produce 64-byte signature for Ed25519 (-50)
+          ---
+          duration_ms: 0.277334
+          ...
+        # Subtest: should fail verification with wrong Ed25519 key
+        ok 5 - should fail verification with wrong Ed25519 key
+          ---
+          duration_ms: 0.472208
+          ...
+        # Subtest: should generate Ed448 key pair with fully-specified algorithm (-51)
+        ok 6 - should generate Ed448 key pair with fully-specified algorithm (-51)
+          ---
+          duration_ms: 0.12125
+          ...
+        # Subtest: should sign and verify with Ed448 fully-specified algorithm (-51)
+        ok 7 - should sign and verify with Ed448 fully-specified algorithm (-51)
+          ---
+          duration_ms: 0.495792
+          ...
+        # Subtest: should produce 114-byte signature for Ed448 (-51)
+        ok 8 - should produce 114-byte signature for Ed448 (-51)
+          ---
+          duration_ms: 0.286417
+          ...
+        # Subtest: should fail verification with wrong Ed448 key
+        ok 9 - should fail verification with wrong Ed448 key
+          ---
+          duration_ms: 0.525125
+          ...
+        # Subtest: should not allow cross-algorithm verification (Ed25519 vs Ed448)
+        ok 10 - should not allow cross-algorithm verification (Ed25519 vs Ed448)
+          ---
+          duration_ms: 0.470417
+          ...
+        # Subtest: should interop between deprecated EdDSA (-8) and fully-specified Ed25519 (-50) keys
+        ok 11 - should interop between deprecated EdDSA (-8) and fully-specified Ed25519 (-50) keys
+          ---
+          duration_ms: 0.772916
+          ...
+        1..11
+    ok 8 - RFC 9864 Fully-Specified Algorithms
+      ---
+      duration_ms: 4.37875
+      type: 'suite'
+      ...
+    1..8
+ok 63 - COSE Sign1 Implementation
+  ---
+  duration_ms: 141.503042
+  type: 'suite'
+  ...
+# Subtest: SD-CWT Spec Test Vectors
+    # Subtest: Appendix C: Test Keys
+        # Subtest: should have valid Holder key (P-256)
+        ok 1 - should have valid Holder key (P-256)
+          ---
+          duration_ms: 0.422417
+          ...
+        # Subtest: should have valid Issuer key (P-384)
+        ok 2 - should have valid Issuer key (P-384)
+          ---
+          duration_ms: 0.066125
+          ...
+        1..2
+    ok 1 - Appendix C: Test Keys
+      ---
+      duration_ms: 0.775458
+      type: 'suite'
+      ...
+    # Subtest: Section 13.1: Minimal Spanning Example
+        # Subtest: should create and verify SD-CWT matching spec structure
+        ok 1 - should create and verify SD-CWT matching spec structure
+          ---
+          duration_ms: 7.080875
+          ...
+        # Subtest: should create SD-KBT and verify with spec keys
+        ok 2 - should create SD-KBT and verify with spec keys
+          ---
+          duration_ms: 8.356875
+          ...
+        # Subtest: should reject SD-KBT with wrong issuer key
+        ok 3 - should reject SD-KBT with wrong issuer key
+          ---
+          duration_ms: 2.630291
+          ...
+        # Subtest: should reject SD-KBT with wrong holder key binding
+        ok 4 - should reject SD-KBT with wrong holder key binding
+          ---
+          duration_ms: 13.0705
+          ...
+        1..4
+    ok 2 - Section 13.1: Minimal Spanning Example
+      ---
+      duration_ms: 31.314625
+      type: 'suite'
+      ...
+    # Subtest: Hash computation verification
+        # Subtest: should compute correct disclosure hash
+        ok 1 - should compute correct disclosure hash
+          ---
+          duration_ms: 0.328709
+          ...
+        1..1
+    ok 3 - Hash computation verification
+      ---
+      duration_ms: 0.401208
+      type: 'suite'
+      ...
+    # Subtest: CBOR structure verification
+        # Subtest: should encode cnf claim in spec-compatible format
+        ok 1 - should encode cnf claim in spec-compatible format
+          ---
+          duration_ms: 0.097708
+          ...
+        # Subtest: should encode redacted claim element with Tag 60
+        ok 2 - should encode redacted claim element with Tag 60
+          ---
+          duration_ms: 1.672917
+          ...
+        # Subtest: should encode redacted claim keys with simple(59)
+        ok 3 - should encode redacted claim keys with simple(59)
+          ---
+          duration_ms: 1.788625
+          ...
+        1..3
+    ok 4 - CBOR structure verification
+      ---
+      duration_ms: 3.710375
+      type: 'suite'
+      ...
+    # Subtest: IANA Considerations - Header Parameters (Section 17.1)
+        # Subtest: should set sd_alg (label 170) in protected header when disclosures exist
+        ok 1 - should set sd_alg (label 170) in protected header when disclosures exist
+          ---
+          duration_ms: 1.643291
+          ...
+        # Subtest: should set typ (label 16) to the CoAP content-format 293 in protected header
+        ok 2 - should set typ (label 16) to the CoAP content-format 293 in protected header
+          ---
+          duration_ms: 1.55025
+          ...
+        # Subtest: should set sd_claims (label 17) in SD-CWT during presentation
+        ok 3 - should set sd_claims (label 17) in SD-CWT during presentation
+          ---
+          duration_ms: 2.385583
+          ...
+        # Subtest: should omit sd_claims in presentation when no disclosures selected
+        ok 4 - should omit sd_claims in presentation when no disclosures selected
+          ---
+          duration_ms: 3.526209
+          ...
+        1..4
+    ok 5 - IANA Considerations - Header Parameters (Section 17.1)
+      ---
+      duration_ms: 9.2785
+      type: 'suite'
+      ...
+    # Subtest: IANA Considerations - CBOR Simple Values (Section 17.2)
+        # Subtest: should use simple(59) as map key for redacted claim keys array
+        ok 1 - should use simple(59) as map key for redacted claim keys array
+          ---
+          duration_ms: 2.0525
+          ...
+        1..1
+    ok 6 - IANA Considerations - CBOR Simple Values (Section 17.2)
+      ---
+      duration_ms: 2.118958
+      type: 'suite'
+      ...
+    # Subtest: IANA Considerations - CBOR Tags (Section 17.3)
+        # Subtest: should use Tag 58 for marking claims to be redacted (pre-issuance)
+        ok 1 - should use Tag 58 for marking claims to be redacted (pre-issuance)
+          ---
+          duration_ms: 0.094541
+          ...
+        # Subtest: should use Tag 60 for redacted array elements (post-issuance)
+        ok 2 - should use Tag 60 for redacted array elements (post-issuance)
+          ---
+          duration_ms: 1.679958
+          ...
+        # Subtest: should have Tag 60 contents matching disclosure hash
+        ok 3 - should have Tag 60 contents matching disclosure hash
+          ---
+          duration_ms: 2.602083
+          ...
+        1..3
+    ok 7 - IANA Considerations - CBOR Tags (Section 17.3)
+      ---
+      duration_ms: 4.463792
+      type: 'suite'
+      ...
+    # Subtest: Disclosure format verification (Section 5)
+        # Subtest: should create named claim disclosure with format [salt, value, key]
+        ok 1 - should create named claim disclosure with format [salt, value, key]
+          ---
+          duration_ms: 1.647625
+          ...
+        # Subtest: should create array element disclosure with format [salt, value] (no key)
+        ok 2 - should create array element disclosure with format [salt, value] (no key)
+          ---
+          duration_ms: 2.669375
+          ...
+        # Subtest: should create string-keyed claim disclosure with format [salt, value, key]
+        ok 3 - should create string-keyed claim disclosure with format [salt, value, key]
+          ---
+          duration_ms: 1.683959
+          ...
+        1..3
+    ok 8 - Disclosure format verification (Section 5)
+      ---
+      duration_ms: 6.091084
+      type: 'suite'
+      ...
+    # Subtest: Array element disclosure (Section 13.1)
+        # Subtest: should issue and verify with redacted array elements
+        ok 1 - should issue and verify with redacted array elements
+          ---
+          duration_ms: 2.291792
+          ...
+        # Subtest: should allow selective disclosure of individual array elements
+        ok 2 - should allow selective disclosure of individual array elements
+          ---
+          duration_ms: 4.765417
+          ...
+        # Subtest: should disclose all array elements when all disclosures provided
+        ok 3 - should disclose all array elements when all disclosures provided
+          ---
+          duration_ms: 10.051375
+          ...
+        # Subtest: should remove undisclosed array elements when disclosures withheld
+        ok 4 - should remove undisclosed array elements when disclosures withheld
+          ---
+          duration_ms: 3.590542
+          ...
+        1..4
+    ok 9 - Array element disclosure (Section 13.1)
+      ---
+      duration_ms: 20.835667
+      type: 'suite'
+      ...
+    # Subtest: Combined named claims and array elements (Section 13.1)
+        # Subtest: should handle mixed disclosure types in a single SD-CWT
+        ok 1 - should handle mixed disclosure types in a single SD-CWT
+          ---
+          duration_ms: 1.926042
+          ...
+        # Subtest: should support partial disclosure of both types
+        ok 2 - should support partial disclosure of both types
+          ---
+          duration_ms: 4.954292
+          ...
+        1..2
+    ok 10 - Combined named claims and array elements (Section 13.1)
+      ---
+      duration_ms: 6.947791
+      type: 'suite'
+      ...
+    # Subtest: Full roundtrip with spec keys
+        # Subtest: should complete full issuance and verification flow
+        ok 1 - should complete full issuance and verification flow
+          ---
+          duration_ms: 4.598541
+          ...
+        1..1
+    ok 11 - Full roundtrip with spec keys
+      ---
+      duration_ms: 4.657166
+      type: 'suite'
+      ...
+    # Subtest: CWT Claims Header Parameter (RFC 9597 / Section 17.1)
+        # Subtest: should issue SD-CWT with claims in protected header
+        ok 1 - should issue SD-CWT with claims in protected header
+          ---
+          duration_ms: 2.002
+          ...
+        # Subtest: should parse SD-CWT with claims in protected header
+        ok 2 - should parse SD-CWT with claims in protected header
+          ---
+          duration_ms: 1.694667
+          ...
+        # Subtest: should verify SD-CWT with claims in protected header
+        ok 3 - should verify SD-CWT with claims in protected header
+          ---
+          duration_ms: 7.312875
+          ...
+        # Subtest: should handle array disclosures with claims in protected header
+        ok 4 - should handle array disclosures with claims in protected header
+          ---
+          duration_ms: 3.77075
+          ...
+        # Subtest: should handle nested map disclosures with claims in protected header
+        ok 5 - should handle nested map disclosures with claims in protected header
+          ---
+          duration_ms: 3.570167
+          ...
+        # Subtest: should maintain protected header integrity for claims
+        ok 6 - should maintain protected header integrity for claims
+          ---
+          duration_ms: 2.119583
+          ...
+        1..6
+    ok 12 - CWT Claims Header Parameter (RFC 9597 / Section 17.1)
+      ---
+      duration_ms: 20.606333
+      type: 'suite'
+      ...
+    1..12
+ok 64 - SD-CWT Spec Test Vectors
+  ---
+  duration_ms: 112.097917
+  type: 'suite'
+  ...
+1..64
+# tests 557
+# suites 162
+# pass 557
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 423.8815

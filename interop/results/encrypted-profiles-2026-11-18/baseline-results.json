@@ -1,0 +1,2023 @@
+{
+  "metadata": {
+    "python": {
+      "commit": "5a2744c8ebb2d67e912e450aa2c3fce70c61ff46",
+      "status": "M src/sd_cwt/aead.py\n M tests/test_aead.py",
+      "diff_sha256": "74c801a4d42695fc26d20ebc516198d1d61827f557fa3cc774541128f9a23c5e"
+    },
+    "javascript": {
+      "commit": "55b32bef7135056207dccdca344eefc9a55244b1",
+      "status": "M src/api.js\n M tests/aead.test.js",
+      "diff_sha256": "ec3e207715d94c068c062658b42e493c772fff2c79b8e74427a4156566c34706"
+    },
+    "runner_sha256": "97468e403d134501897b4d02cdc01498bcf4b749cf4ea4bf02a1839ea24105f8",
+    "rust_adapter": "c6eb0e4 + cli.patch; AES-128 only"
+  },
+  "passed": 136,
+  "total": 220,
+  "checks": [
+    {
+      "check": "alg-1-draft/sd_cwt/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e']}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e']}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e']}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e']}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 501: 'ABCD-123456', 'region': 'ca', 'postal_code': '94188'}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 6: 1725244200, 'postal_code': '94188', 'region': 'ca', 501: 'ABCD-123456'}"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e']}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/plaintext/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/encrypted/present",
+      "status": "pass",
+      "detail": "exit 0"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/full",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'city': 'private city', 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/no-key",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e']}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/reordered",
+      "status": "fail",
+      "detail": "exit 0; actual={1: 'https://issuer.example', 2: 'https://holder.example', 'items': ['public', b'\\x8a\\x9b\\xb5\\x90\\x10-\\xe9\\x81\\x97\\xc9\\xcapi\\x01\\x17N\\x18\\x8e\\x10\\x16\\xc1\\x98\\xack\\x94\\xeam\\xed\\x00\\x9a&\\x0e'], 'profile': {'public': True, CBORSimpleValue(value=59): [b'\\x07\\xc7\\x94\\xd7\\x11@\\x0e\\xa9M\\x17N\\x00\\x06\\xbb\\xb8\\xf2D:\\xb1b\\xb7\\xce\\xca\\xec\\x87P=S\\xec\\xd8@L']}, 'city': 'private city'}"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag",
+      "status": "fail",
+      "detail": "exit 1; actual=None"
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/full",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag",
+      "status": "pass",
+      "detail": ""
+    }
+  ],
+  "artifacts_sha256": {
+    "alg-1-nested-salts.cbor": "6b49bb4321e366c0c99c6e75c59556af377d60f09f8552bad43c140b791a2236",
+    "key-29.hex": "6c86c6aac5fb24bcf5d9939cb7d7d5645ce39418f449e03b262dd4fa14b4b92b",
+    "alg-29-draft-issued.cbor": "5bca479ca28f92c27e2a4ecbc39028b7445ab81f88a6e167571b46b6bae64425",
+    "alg-2-draft-issued.cbor": "db4b47388dd2aba5f886c268233574dfe1ab7f792047ad109342ce6ff4dade9e",
+    "alg-2-nested-issued.cbor": "0c0fe80595b5c9a2f6b91564f9e7ea83a9985f9042c61999986d19fd065b1a9b",
+    "alg-1-nested-issued.cbor": "9c5100ae30c94f72d41c1531c7ba7e5621f7ac63e6c197759a4aa4813ce8e6f1",
+    "alg-2-draft-expected.cbor": "1bdf2ac0841c86253fd8c9f69bb75cbb3d3bf8caab07fc5d56254e0148e5f962",
+    "alg-1-draft-expected.cbor": "1bdf2ac0841c86253fd8c9f69bb75cbb3d3bf8caab07fc5d56254e0148e5f962",
+    "alg-29-nested-expected.cbor": "648898e7162525e9de263d032755b02e5da8e5fbe78a9a134449e3f074adc6c0",
+    "alg-1-nested-expected.cbor": "648898e7162525e9de263d032755b02e5da8e5fbe78a9a134449e3f074adc6c0",
+    "alg-2-draft-salts.cbor": "240ae5df2ec51bc317473b2e96ae806544baa5afe7a74756f69b513ebb98e45b",
+    "alg-2-nested-salts.cbor": "6b49bb4321e366c0c99c6e75c59556af377d60f09f8552bad43c140b791a2236",
+    "alg-29-nested-salts.cbor": "6b49bb4321e366c0c99c6e75c59556af377d60f09f8552bad43c140b791a2236",
+    "alg-29-draft-expected.cbor": "1bdf2ac0841c86253fd8c9f69bb75cbb3d3bf8caab07fc5d56254e0148e5f962",
+    "key-1.hex": "e9f93155c8739850f11c28ad00da079aad4672ea64362a9088d6b2aa37b932bf",
+    "alg-1-draft-issued.cbor": "d1d6166646094802fed6d2ed2efbd81fc2f04e42f0f3240cf9227f0332e4adbf",
+    "key-2.hex": "6c86c6aac5fb24bcf5d9939cb7d7d5645ce39418f449e03b262dd4fa14b4b92b",
+    "alg-1-draft-salts.cbor": "240ae5df2ec51bc317473b2e96ae806544baa5afe7a74756f69b513ebb98e45b",
+    "alg-2-nested-expected.cbor": "648898e7162525e9de263d032755b02e5da8e5fbe78a9a134449e3f074adc6c0",
+    "alg-29-nested-issued.cbor": "ce758697b2b1b735d3e772fb9a81da6d3b507031848a54ee1fc991a0d15df6dd",
+    "alg-29-draft-salts.cbor": "240ae5df2ec51bc317473b2e96ae806544baa5afe7a74756f69b513ebb98e45b",
+    "alg-1-draft/sd_cwt/plaintext/present.input.cbor": "d1d6166646094802fed6d2ed2efbd81fc2f04e42f0f3240cf9227f0332e4adbf",
+    "alg-1-draft/sd_cwt/plaintext/present.cbor": "35e80ad2ebcc8cc9fbf780aa88ad73aa8bcd1692b82127af0ee224a82fc86e83",
+    "alg-1-draft/sd_cwt/plaintext/present.log": "23b81fb85eb0371cb395ca2d2730d079d818f771e3a9212680dc35f1f1828d1d",
+    "alg-1-draft/sd_cwt/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-1-draft/sd_cwt/encrypted/present.input.cbor": "d1d6166646094802fed6d2ed2efbd81fc2f04e42f0f3240cf9227f0332e4adbf",
+    "alg-1-draft/sd_cwt/encrypted/present.cbor": "786f25df978efcb3ac534e288ef09e1c326a68b2bab2b3bfe9029b38c0a93ce6",
+    "alg-1-draft/sd_cwt/encrypted/present.log": "7c46f6219434d6e12e3716873aa340c0ca9e01194f07e30a6b8cf19402db09ed",
+    "alg-1-draft/sd_cwt/encrypted/present.command.json": "1571e0b4c49aba80026ed79d9b0fda157f5e07c303ce64e30a283ee82eec420a",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/full.input.cbor": "786f25df978efcb3ac534e288ef09e1c326a68b2bab2b3bfe9029b38c0a93ce6",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/no-key.cbor": "53fec394422c9a60feec5c5e16ca2ac78060d1dd8d41b489fffd0b42cd75c494",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/no-key.input.cbor": "786f25df978efcb3ac534e288ef09e1c326a68b2bab2b3bfe9029b38c0a93ce6",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "aa31c82d9488298d2386a77577cf83ae2e1d424ccb10f2e559f56ec0692f9295",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/reordered.input.cbor": "fd39f289f588f31dca1b94a3126c275cbaa56a8f9fbaf1a2149381026554a196",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/full.input.cbor": "786f25df978efcb3ac534e288ef09e1c326a68b2bab2b3bfe9029b38c0a93ce6",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/no-key.cbor": "ac44051d7e2ae6e546030bad607413b540915216f1e82d147cb205b4b7abfaf4",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/full.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/full.cbor": "30285811b076c70abf9df5c318b32ed609d345f3c9b6fc21b83b9e7407b23a91",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/no-key.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/no-key.input.cbor": "786f25df978efcb3ac534e288ef09e1c326a68b2bab2b3bfe9029b38c0a93ce6",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/one-bad-tag.input.cbor": "324f30d59f613e80025bd4a4fbe4d2a2bf8ae1f8aa28b90c67c9a8830269133e",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/reordered.input.cbor": "e1229cd10d9a420d34160c183bd4d35ab46b405a41e02ba65d594751c16df7c0",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/reordered.cbor": "30285811b076c70abf9df5c318b32ed609d345f3c9b6fc21b83b9e7407b23a91",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/one-bad-tag.log": "754df8ae23a29fdb6269b069a60a4e95d1d2c504c8836ce3139e47d5c0417201",
+    "alg-1-draft/sd_cwt/encrypted/esdicawt_aead/reordered.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/full.input.cbor": "786f25df978efcb3ac534e288ef09e1c326a68b2bab2b3bfe9029b38c0a93ce6",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/no-key.cbor": "bd8044640a5529c00055c25d35c6fa54ebd172e69f37a1d31bb8b7c65ad52419",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/no-key.input.cbor": "786f25df978efcb3ac534e288ef09e1c326a68b2bab2b3bfe9029b38c0a93ce6",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.input.cbor": "68de3594db39e4f89fc8ab9dddcdd8b1dbe5b4bc0b8e34f2e93f8d999abd69e5",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/reordered.input.cbor": "cff102b0f3a900c9e7aa4b76fceee08837402feec39e951501c04fd5af0cd9d2",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-1-draft/sd_cwt/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/full.input.cbor": "35e80ad2ebcc8cc9fbf780aa88ad73aa8bcd1692b82127af0ee224a82fc86e83",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/no-key.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/no-key.input.cbor": "35e80ad2ebcc8cc9fbf780aa88ad73aa8bcd1692b82127af0ee224a82fc86e83",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/reordered.input.cbor": "9c6574c3961db4644fb4e026b2352757b160bb29bf1943acf80125a0597728ff",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/full.input.cbor": "35e80ad2ebcc8cc9fbf780aa88ad73aa8bcd1692b82127af0ee224a82fc86e83",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/no-key.cbor": "30285811b076c70abf9df5c318b32ed609d345f3c9b6fc21b83b9e7407b23a91",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/full.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/full.cbor": "30285811b076c70abf9df5c318b32ed609d345f3c9b6fc21b83b9e7407b23a91",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/no-key.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/no-key.input.cbor": "35e80ad2ebcc8cc9fbf780aa88ad73aa8bcd1692b82127af0ee224a82fc86e83",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/reordered.input.cbor": "17b532f728bd50b0e2d3122f4f3777255a832690946918db4e9553f595eaf8fa",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/reordered.cbor": "30285811b076c70abf9df5c318b32ed609d345f3c9b6fc21b83b9e7407b23a91",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/plaintext/esdicawt_aead/reordered.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/full.input.cbor": "35e80ad2ebcc8cc9fbf780aa88ad73aa8bcd1692b82127af0ee224a82fc86e83",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/no-key.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/no-key.input.cbor": "35e80ad2ebcc8cc9fbf780aa88ad73aa8bcd1692b82127af0ee224a82fc86e83",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/reordered.input.cbor": "bb13fc8251f5bbd31055ee8d5aba13bdab4262f3f18ac62bb074bbc2bae01994",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/plaintext/present.input.cbor": "d1d6166646094802fed6d2ed2efbd81fc2f04e42f0f3240cf9227f0332e4adbf",
+    "alg-1-draft/sd_cwt_js/plaintext/present.cbor": "7618510d1129dfeca3c1c1758d6c743d9e98fb91ba215ebf5e915b07154a257f",
+    "alg-1-draft/sd_cwt_js/plaintext/present.log": "23b81fb85eb0371cb395ca2d2730d079d818f771e3a9212680dc35f1f1828d1d",
+    "alg-1-draft/sd_cwt_js/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-1-draft/sd_cwt_js/encrypted/present.input.cbor": "d1d6166646094802fed6d2ed2efbd81fc2f04e42f0f3240cf9227f0332e4adbf",
+    "alg-1-draft/sd_cwt_js/encrypted/present.cbor": "fc83ca3f010f63b2901d8655a833d968200ffbd13e874c7fadbe224364f31b5c",
+    "alg-1-draft/sd_cwt_js/encrypted/present.log": "7c46f6219434d6e12e3716873aa340c0ca9e01194f07e30a6b8cf19402db09ed",
+    "alg-1-draft/sd_cwt_js/encrypted/present.command.json": "1571e0b4c49aba80026ed79d9b0fda157f5e07c303ce64e30a283ee82eec420a",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/full.input.cbor": "fc83ca3f010f63b2901d8655a833d968200ffbd13e874c7fadbe224364f31b5c",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.cbor": "53fec394422c9a60feec5c5e16ca2ac78060d1dd8d41b489fffd0b42cd75c494",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.input.cbor": "fc83ca3f010f63b2901d8655a833d968200ffbd13e874c7fadbe224364f31b5c",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "426c9e612d68d4d15a80bd919e8d10e84adf714cefc2aa2e53b886867088f82c",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.input.cbor": "fe27f3587da3a6d44d1b2e2fc7cd3457606af7d2de4764cd32abe6e8f4079273",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/full.input.cbor": "fc83ca3f010f63b2901d8655a833d968200ffbd13e874c7fadbe224364f31b5c",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/no-key.cbor": "ac44051d7e2ae6e546030bad607413b540915216f1e82d147cb205b4b7abfaf4",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/full.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/full.cbor": "30285811b076c70abf9df5c318b32ed609d345f3c9b6fc21b83b9e7407b23a91",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/no-key.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/no-key.input.cbor": "fc83ca3f010f63b2901d8655a833d968200ffbd13e874c7fadbe224364f31b5c",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/one-bad-tag.input.cbor": "60ef4a109535e8b253d3d63f57b6b46117685150f2401a08f8da5f3436cab4f6",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/reordered.input.cbor": "a96823f89a76fd42ecde05ee8a39e65dad07ed7c2fe6deafb2a6b418efcf733a",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/reordered.cbor": "30285811b076c70abf9df5c318b32ed609d345f3c9b6fc21b83b9e7407b23a91",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/one-bad-tag.log": "754df8ae23a29fdb6269b069a60a4e95d1d2c504c8836ce3139e47d5c0417201",
+    "alg-1-draft/sd_cwt_js/encrypted/esdicawt_aead/reordered.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/full.input.cbor": "fc83ca3f010f63b2901d8655a833d968200ffbd13e874c7fadbe224364f31b5c",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/no-key.cbor": "bd8044640a5529c00055c25d35c6fa54ebd172e69f37a1d31bb8b7c65ad52419",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/no-key.input.cbor": "fc83ca3f010f63b2901d8655a833d968200ffbd13e874c7fadbe224364f31b5c",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.input.cbor": "c17796211f6bc35ccd30398f6400d0a65a76c187bfc26d09f58cbb312b7942a8",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/reordered.input.cbor": "a767bc838d320dbd542f790a224446e16b5015552c04f8de678fa0c358b1b73e",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-1-draft/sd_cwt_js/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/full.input.cbor": "7618510d1129dfeca3c1c1758d6c743d9e98fb91ba215ebf5e915b07154a257f",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.input.cbor": "7618510d1129dfeca3c1c1758d6c743d9e98fb91ba215ebf5e915b07154a257f",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.input.cbor": "ce2056dcb95021bfd4c38be990ff0ab9e5d4f5fa18030328a0cc0dfc5b4694a6",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/full.input.cbor": "7618510d1129dfeca3c1c1758d6c743d9e98fb91ba215ebf5e915b07154a257f",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/no-key.cbor": "30285811b076c70abf9df5c318b32ed609d345f3c9b6fc21b83b9e7407b23a91",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/full.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/full.cbor": "30285811b076c70abf9df5c318b32ed609d345f3c9b6fc21b83b9e7407b23a91",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/no-key.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/no-key.input.cbor": "7618510d1129dfeca3c1c1758d6c743d9e98fb91ba215ebf5e915b07154a257f",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/reordered.input.cbor": "ed8bd616c73d085e8ba679ff758d98dba3c502e82fe00ab1ebdd9f6750a444a6",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/reordered.cbor": "30285811b076c70abf9df5c318b32ed609d345f3c9b6fc21b83b9e7407b23a91",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/plaintext/esdicawt_aead/reordered.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/full.input.cbor": "7618510d1129dfeca3c1c1758d6c743d9e98fb91ba215ebf5e915b07154a257f",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/no-key.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/no-key.input.cbor": "7618510d1129dfeca3c1c1758d6c743d9e98fb91ba215ebf5e915b07154a257f",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/reordered.input.cbor": "9f83a2c3b8a1568a0598b0f3eacdd78b11304eecc95207b6944ce3dbbdddebf3",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-draft/sd_cwt_js/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/plaintext/present.input.cbor": "9c5100ae30c94f72d41c1531c7ba7e5621f7ac63e6c197759a4aa4813ce8e6f1",
+    "alg-1-nested/sd_cwt/plaintext/present.cbor": "32c2c8ebf1b74d54994521bab60ddfdfeffdc9bb3a6cbf4bcba1ce831889a4bc",
+    "alg-1-nested/sd_cwt/plaintext/present.log": "a8d0de19591320201d979b1bcb9dee327f646454ebe20807afe93b2fed3d8dbe",
+    "alg-1-nested/sd_cwt/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-1-nested/sd_cwt/encrypted/present.input.cbor": "9c5100ae30c94f72d41c1531c7ba7e5621f7ac63e6c197759a4aa4813ce8e6f1",
+    "alg-1-nested/sd_cwt/encrypted/present.cbor": "4ef9069ca27ab97855b2e63ad4a4fd18da1d25a83d651c0fa8cad99abbab2429",
+    "alg-1-nested/sd_cwt/encrypted/present.log": "acb68d5cebd639a129905e61d6181ecab9fb81ef79672a24540df3d8ce45a130",
+    "alg-1-nested/sd_cwt/encrypted/present.command.json": "fa4291edf0a41dcbc6ab6db93160528aa349695a3f85505f1eae62c3a8ad3bc1",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/full.input.cbor": "4ef9069ca27ab97855b2e63ad4a4fd18da1d25a83d651c0fa8cad99abbab2429",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/no-key.cbor": "cfa0cfc2acc99ac0f19567e52d5bc44a0935c3d2141ab630cffb007fabc814cc",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/no-key.input.cbor": "4ef9069ca27ab97855b2e63ad4a4fd18da1d25a83d651c0fa8cad99abbab2429",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "d666929ebead00c00f2c9855acdbe7ad70e4021f34f91c8a3181f48a90ab9238",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/reordered.input.cbor": "ac4e697a964c59a6e8a160eba4eadd873102f79db855ba3a6f973cc6baafad61",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/full.input.cbor": "4ef9069ca27ab97855b2e63ad4a4fd18da1d25a83d651c0fa8cad99abbab2429",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/no-key.cbor": "c30eeb3ac2a4b00f13a726f9b7f4cdbfb9cfa4d75e3b5c05916c3c1f625f6b78",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/full.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/full.cbor": "1523749e4914ff5f48ec98b2c80b7a61e84abb6a0ef74d9e76f1c9633257192e",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/no-key.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/no-key.input.cbor": "4ef9069ca27ab97855b2e63ad4a4fd18da1d25a83d651c0fa8cad99abbab2429",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/one-bad-tag.input.cbor": "cf1ddcd820ba5853a2f38add40f68431577b672ee9479531dad0f039dcd836f1",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/reordered.input.cbor": "c65fab8947002f4f45f6637916d888307c36e16d2254a2dae39d44598de8306c",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/reordered.cbor": "1523749e4914ff5f48ec98b2c80b7a61e84abb6a0ef74d9e76f1c9633257192e",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/one-bad-tag.log": "754df8ae23a29fdb6269b069a60a4e95d1d2c504c8836ce3139e47d5c0417201",
+    "alg-1-nested/sd_cwt/encrypted/esdicawt_aead/reordered.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/full.input.cbor": "4ef9069ca27ab97855b2e63ad4a4fd18da1d25a83d651c0fa8cad99abbab2429",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/no-key.cbor": "14016cfa9ef84ed4de308d3c059c8258d7b4223cfcc9a4c0bc9475a796ab3ec4",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/no-key.input.cbor": "4ef9069ca27ab97855b2e63ad4a4fd18da1d25a83d651c0fa8cad99abbab2429",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.input.cbor": "bce1c4075fd0cf849f9c82c16d23826ffa0c1ff0d822cc6741468d79623e1036",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/reordered.input.cbor": "51d61b32aeeb13fd80c4d13e3e304fc5a7c16dc71cb262b2c90b806c6da35667",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-1-nested/sd_cwt/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/full.input.cbor": "32c2c8ebf1b74d54994521bab60ddfdfeffdc9bb3a6cbf4bcba1ce831889a4bc",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/no-key.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/no-key.input.cbor": "32c2c8ebf1b74d54994521bab60ddfdfeffdc9bb3a6cbf4bcba1ce831889a4bc",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/reordered.input.cbor": "35cdb76a64ce185f28903902150ba598413f6ce9b1c37137d3bf921136bf5bab",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/full.input.cbor": "32c2c8ebf1b74d54994521bab60ddfdfeffdc9bb3a6cbf4bcba1ce831889a4bc",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/no-key.cbor": "1523749e4914ff5f48ec98b2c80b7a61e84abb6a0ef74d9e76f1c9633257192e",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/full.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/full.cbor": "1523749e4914ff5f48ec98b2c80b7a61e84abb6a0ef74d9e76f1c9633257192e",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/no-key.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/no-key.input.cbor": "32c2c8ebf1b74d54994521bab60ddfdfeffdc9bb3a6cbf4bcba1ce831889a4bc",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/reordered.input.cbor": "cd28a6a2d926d57db1f36cc32eb3ab76077be07515c76f19e0c7767aec1b9628",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/reordered.cbor": "1523749e4914ff5f48ec98b2c80b7a61e84abb6a0ef74d9e76f1c9633257192e",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/plaintext/esdicawt_aead/reordered.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/full.input.cbor": "32c2c8ebf1b74d54994521bab60ddfdfeffdc9bb3a6cbf4bcba1ce831889a4bc",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/no-key.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/no-key.input.cbor": "32c2c8ebf1b74d54994521bab60ddfdfeffdc9bb3a6cbf4bcba1ce831889a4bc",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/reordered.input.cbor": "fddaf7ebc5cffdf078088f7c7c1d4a21bed8249b6c4d7ba4fb6e731b0aed332c",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/plaintext/present.input.cbor": "9c5100ae30c94f72d41c1531c7ba7e5621f7ac63e6c197759a4aa4813ce8e6f1",
+    "alg-1-nested/sd_cwt_js/plaintext/present.cbor": "87e955c7dcf535551984ba5cf49ffdc82c395cfc3c9f37914a940b5e4d37ab2c",
+    "alg-1-nested/sd_cwt_js/plaintext/present.log": "a8d0de19591320201d979b1bcb9dee327f646454ebe20807afe93b2fed3d8dbe",
+    "alg-1-nested/sd_cwt_js/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-1-nested/sd_cwt_js/encrypted/present.input.cbor": "9c5100ae30c94f72d41c1531c7ba7e5621f7ac63e6c197759a4aa4813ce8e6f1",
+    "alg-1-nested/sd_cwt_js/encrypted/present.cbor": "9b6ca271e7c7b97d00cace0cf2d6d15f01fb76f3dcc18ba7fbf860eae3364d76",
+    "alg-1-nested/sd_cwt_js/encrypted/present.log": "acb68d5cebd639a129905e61d6181ecab9fb81ef79672a24540df3d8ce45a130",
+    "alg-1-nested/sd_cwt_js/encrypted/present.command.json": "fa4291edf0a41dcbc6ab6db93160528aa349695a3f85505f1eae62c3a8ad3bc1",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/full.input.cbor": "9b6ca271e7c7b97d00cace0cf2d6d15f01fb76f3dcc18ba7fbf860eae3364d76",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.cbor": "cfa0cfc2acc99ac0f19567e52d5bc44a0935c3d2141ab630cffb007fabc814cc",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.input.cbor": "9b6ca271e7c7b97d00cace0cf2d6d15f01fb76f3dcc18ba7fbf860eae3364d76",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "6565eda37791765cba97ef9cc92f08641d84e8a7d1049afedcc5e14480260d3b",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.input.cbor": "f85085903f31662fb12bce9c25adfeae9dc4e6cd2fccd9da201013ad9c55a3df",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/full.input.cbor": "9b6ca271e7c7b97d00cace0cf2d6d15f01fb76f3dcc18ba7fbf860eae3364d76",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/no-key.cbor": "c30eeb3ac2a4b00f13a726f9b7f4cdbfb9cfa4d75e3b5c05916c3c1f625f6b78",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/full.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/full.cbor": "1523749e4914ff5f48ec98b2c80b7a61e84abb6a0ef74d9e76f1c9633257192e",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/no-key.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/no-key.input.cbor": "9b6ca271e7c7b97d00cace0cf2d6d15f01fb76f3dcc18ba7fbf860eae3364d76",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/one-bad-tag.input.cbor": "b9ae3f1ab470bcebc56edd545ff61cf0975182b25c423d16df028b4b1e9a7088",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/reordered.input.cbor": "30dd3a512bf81f8476dd04f7d893457aa93284fee2a75a3313ee2ec8a177faf9",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/reordered.cbor": "1523749e4914ff5f48ec98b2c80b7a61e84abb6a0ef74d9e76f1c9633257192e",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/one-bad-tag.log": "754df8ae23a29fdb6269b069a60a4e95d1d2c504c8836ce3139e47d5c0417201",
+    "alg-1-nested/sd_cwt_js/encrypted/esdicawt_aead/reordered.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/full.input.cbor": "9b6ca271e7c7b97d00cace0cf2d6d15f01fb76f3dcc18ba7fbf860eae3364d76",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/no-key.cbor": "14016cfa9ef84ed4de308d3c059c8258d7b4223cfcc9a4c0bc9475a796ab3ec4",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.command.json": "d2bb501889e4f14141a28e3613065906d403815ab58324b28392236c300b452b",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/no-key.input.cbor": "9b6ca271e7c7b97d00cace0cf2d6d15f01fb76f3dcc18ba7fbf860eae3364d76",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.input.cbor": "0bc0b199b98f1cf891b7ea1222a38b283f73788c6309e2ed5c0c01637876b8e0",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/reordered.input.cbor": "0e3990317c58f1cf16cf82acecb286a962f316211b2123fa383d5c1d2358ef72",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-1-nested/sd_cwt_js/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/full.input.cbor": "87e955c7dcf535551984ba5cf49ffdc82c395cfc3c9f37914a940b5e4d37ab2c",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.input.cbor": "87e955c7dcf535551984ba5cf49ffdc82c395cfc3c9f37914a940b5e4d37ab2c",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.input.cbor": "292cd971204ed81d8e09a3db837020ea794c7cce12a99a686c2080cb8508f67d",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/full.input.cbor": "87e955c7dcf535551984ba5cf49ffdc82c395cfc3c9f37914a940b5e4d37ab2c",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/no-key.cbor": "1523749e4914ff5f48ec98b2c80b7a61e84abb6a0ef74d9e76f1c9633257192e",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/full.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/full.cbor": "1523749e4914ff5f48ec98b2c80b7a61e84abb6a0ef74d9e76f1c9633257192e",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/no-key.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/no-key.input.cbor": "87e955c7dcf535551984ba5cf49ffdc82c395cfc3c9f37914a940b5e4d37ab2c",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/reordered.input.cbor": "5f751434c68108ae65c207b9451ffe3435903e9f5048441ca627cd813a55785a",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/reordered.cbor": "1523749e4914ff5f48ec98b2c80b7a61e84abb6a0ef74d9e76f1c9633257192e",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/plaintext/esdicawt_aead/reordered.log": "88de5e92b250bc80ce3a14b49e8cac74aaf4709daafe10be3bfc4898e04d77e2",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/full.input.cbor": "87e955c7dcf535551984ba5cf49ffdc82c395cfc3c9f37914a940b5e4d37ab2c",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/no-key.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/no-key.input.cbor": "87e955c7dcf535551984ba5cf49ffdc82c395cfc3c9f37914a940b5e4d37ab2c",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/full.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/reordered.input.cbor": "9c4561a78eabe2c07ad783b203099dd89f3e6d49becd8edbd03f99cf15e07883",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/reordered.command.json": "ef4a6abc2d82b68345ff599c63afdb71a58d5fa944e6fec83acae7896e2d26a9",
+    "alg-1-nested/sd_cwt_js/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/plaintext/present.input.cbor": "db4b47388dd2aba5f886c268233574dfe1ab7f792047ad109342ce6ff4dade9e",
+    "alg-2-draft/sd_cwt/plaintext/present.cbor": "f1daf3bb4c9e3bd1793425887767e5164855a5b4aecdc4ee5033ff15535ce40b",
+    "alg-2-draft/sd_cwt/plaintext/present.log": "23b81fb85eb0371cb395ca2d2730d079d818f771e3a9212680dc35f1f1828d1d",
+    "alg-2-draft/sd_cwt/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-2-draft/sd_cwt/encrypted/present.input.cbor": "db4b47388dd2aba5f886c268233574dfe1ab7f792047ad109342ce6ff4dade9e",
+    "alg-2-draft/sd_cwt/encrypted/present.cbor": "7596280f54345292c3bed5c16ccc65f2e7550ae96ab6dd5da472c0c10e97414c",
+    "alg-2-draft/sd_cwt/encrypted/present.log": "7c46f6219434d6e12e3716873aa340c0ca9e01194f07e30a6b8cf19402db09ed",
+    "alg-2-draft/sd_cwt/encrypted/present.command.json": "a007301192c2e979e374a0c4a23401a866f60d6a3d731475556b17f48ba83999",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/full.input.cbor": "7596280f54345292c3bed5c16ccc65f2e7550ae96ab6dd5da472c0c10e97414c",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/no-key.cbor": "53fec394422c9a60feec5c5e16ca2ac78060d1dd8d41b489fffd0b42cd75c494",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.command.json": "924c310769d44245bdff8313d0fd53f8f25688e66e9972f6571be5ce2e23dac2",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/no-key.input.cbor": "7596280f54345292c3bed5c16ccc65f2e7550ae96ab6dd5da472c0c10e97414c",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "9edfd67a35fc834197813f9ff224f991701ad98f5db8b801226d11347d209c08",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/reordered.input.cbor": "6d736dd7f751016e72576a232bbbde2ea278c12a27ce4ba6507729c5023d394d",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/full.input.cbor": "7596280f54345292c3bed5c16ccc65f2e7550ae96ab6dd5da472c0c10e97414c",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/no-key.cbor": "bd8044640a5529c00055c25d35c6fa54ebd172e69f37a1d31bb8b7c65ad52419",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.command.json": "924c310769d44245bdff8313d0fd53f8f25688e66e9972f6571be5ce2e23dac2",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/no-key.input.cbor": "7596280f54345292c3bed5c16ccc65f2e7550ae96ab6dd5da472c0c10e97414c",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.input.cbor": "83c4bcbf7e201e437a04922fd87b402e3796bc8efb23f8f08a103c240ef1f9ab",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/reordered.input.cbor": "76f8038ab3e68c443223b8b226599743e847e022ce747ee84876e38ace9584be",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-2-draft/sd_cwt/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/full.input.cbor": "f1daf3bb4c9e3bd1793425887767e5164855a5b4aecdc4ee5033ff15535ce40b",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/no-key.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/no-key.input.cbor": "f1daf3bb4c9e3bd1793425887767e5164855a5b4aecdc4ee5033ff15535ce40b",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/reordered.input.cbor": "e1c4a910a6b3085560742d5eaa997773de25b810be4c9b681500161e32c498af",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/full.input.cbor": "f1daf3bb4c9e3bd1793425887767e5164855a5b4aecdc4ee5033ff15535ce40b",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/no-key.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/no-key.input.cbor": "f1daf3bb4c9e3bd1793425887767e5164855a5b4aecdc4ee5033ff15535ce40b",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/reordered.input.cbor": "3ff8874bed283bf3bb2c94bdcde69e274060ce72b8cde99532f0afc12e78f382",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/plaintext/present.input.cbor": "db4b47388dd2aba5f886c268233574dfe1ab7f792047ad109342ce6ff4dade9e",
+    "alg-2-draft/sd_cwt_js/plaintext/present.cbor": "03d3ff510fe42ef559b9e0122399658fbdb94671c5aa11c0ffc2d7dcfea9d657",
+    "alg-2-draft/sd_cwt_js/plaintext/present.log": "23b81fb85eb0371cb395ca2d2730d079d818f771e3a9212680dc35f1f1828d1d",
+    "alg-2-draft/sd_cwt_js/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-2-draft/sd_cwt_js/encrypted/present.input.cbor": "db4b47388dd2aba5f886c268233574dfe1ab7f792047ad109342ce6ff4dade9e",
+    "alg-2-draft/sd_cwt_js/encrypted/present.cbor": "eae65ccdb05b126829b494483f9a8547b23f58fc334bfceefc47a908c432ef9d",
+    "alg-2-draft/sd_cwt_js/encrypted/present.log": "7c46f6219434d6e12e3716873aa340c0ca9e01194f07e30a6b8cf19402db09ed",
+    "alg-2-draft/sd_cwt_js/encrypted/present.command.json": "a007301192c2e979e374a0c4a23401a866f60d6a3d731475556b17f48ba83999",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/full.input.cbor": "eae65ccdb05b126829b494483f9a8547b23f58fc334bfceefc47a908c432ef9d",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.cbor": "53fec394422c9a60feec5c5e16ca2ac78060d1dd8d41b489fffd0b42cd75c494",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.command.json": "924c310769d44245bdff8313d0fd53f8f25688e66e9972f6571be5ce2e23dac2",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.input.cbor": "eae65ccdb05b126829b494483f9a8547b23f58fc334bfceefc47a908c432ef9d",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "bb6278908901b4c0eeeac08a75577fe8c1ad8dc68c0e2c6d387708e9e6705538",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.input.cbor": "0e0c9cf10c904e2cdfce1c63361296a73f3fcf96e27b1345fde9a161e3d654ae",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/full.input.cbor": "eae65ccdb05b126829b494483f9a8547b23f58fc334bfceefc47a908c432ef9d",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/no-key.cbor": "bd8044640a5529c00055c25d35c6fa54ebd172e69f37a1d31bb8b7c65ad52419",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.command.json": "924c310769d44245bdff8313d0fd53f8f25688e66e9972f6571be5ce2e23dac2",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/no-key.input.cbor": "eae65ccdb05b126829b494483f9a8547b23f58fc334bfceefc47a908c432ef9d",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.input.cbor": "0134720257f12d3932a74ce879b2af47a37fa998803c89ebd39074d16a9b4703",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/reordered.input.cbor": "af624a139c257e37233f2b2f2e50ad99bf303ab77524e04b28342572bed08ca1",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-2-draft/sd_cwt_js/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/full.input.cbor": "03d3ff510fe42ef559b9e0122399658fbdb94671c5aa11c0ffc2d7dcfea9d657",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.input.cbor": "03d3ff510fe42ef559b9e0122399658fbdb94671c5aa11c0ffc2d7dcfea9d657",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.input.cbor": "1230585751b287b0214c6c2ec02b722f8ddd822ffe9cd43c95a4eb5ae73a6064",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/full.input.cbor": "03d3ff510fe42ef559b9e0122399658fbdb94671c5aa11c0ffc2d7dcfea9d657",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/no-key.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/no-key.input.cbor": "03d3ff510fe42ef559b9e0122399658fbdb94671c5aa11c0ffc2d7dcfea9d657",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/reordered.input.cbor": "deef3e81aa0259108d603f21ae34f869d6eed377fda54cd474cc3f4194be3b95",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-draft/sd_cwt_js/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/plaintext/present.input.cbor": "ce758697b2b1b735d3e772fb9a81da6d3b507031848a54ee1fc991a0d15df6dd",
+    "alg-29-nested/sd_cwt/plaintext/present.cbor": "4ee20b6294c1860972f82c0253b26c12e08f01c366b7b453be5c94aba9e7f7c2",
+    "alg-29-nested/sd_cwt/plaintext/present.log": "a8d0de19591320201d979b1bcb9dee327f646454ebe20807afe93b2fed3d8dbe",
+    "alg-29-nested/sd_cwt/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-29-nested/sd_cwt/encrypted/present.input.cbor": "ce758697b2b1b735d3e772fb9a81da6d3b507031848a54ee1fc991a0d15df6dd",
+    "alg-29-nested/sd_cwt/encrypted/present.cbor": "cfda0c9fe1368bdfe792b120ef2d4e732c4a15b173a18a5c3b8c71c6d3c14ce6",
+    "alg-29-nested/sd_cwt/encrypted/present.log": "acb68d5cebd639a129905e61d6181ecab9fb81ef79672a24540df3d8ce45a130",
+    "alg-29-nested/sd_cwt/encrypted/present.command.json": "205d7147fd29761bc7146691935b17d48b04b345bc2b8459f3c9ef0c7b81d04f",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/full.input.cbor": "cfda0c9fe1368bdfe792b120ef2d4e732c4a15b173a18a5c3b8c71c6d3c14ce6",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/no-key.cbor": "cfa0cfc2acc99ac0f19567e52d5bc44a0935c3d2141ab630cffb007fabc814cc",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.command.json": "ddff7c59dc5917b3db4009fee38b5f9bdb774ff562361af2920fc3c38e04018b",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/no-key.input.cbor": "cfda0c9fe1368bdfe792b120ef2d4e732c4a15b173a18a5c3b8c71c6d3c14ce6",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "8883d3ccc878237e5bf01f622874a5a529ce6d5f746c722c17749bc43d9356d0",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/reordered.input.cbor": "5d0a5235218beb9093260594e0c875448e00ccc5e7d149c8e180ec5ed9ce56d1",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/full.input.cbor": "cfda0c9fe1368bdfe792b120ef2d4e732c4a15b173a18a5c3b8c71c6d3c14ce6",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/no-key.cbor": "14016cfa9ef84ed4de308d3c059c8258d7b4223cfcc9a4c0bc9475a796ab3ec4",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.command.json": "ddff7c59dc5917b3db4009fee38b5f9bdb774ff562361af2920fc3c38e04018b",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/no-key.input.cbor": "cfda0c9fe1368bdfe792b120ef2d4e732c4a15b173a18a5c3b8c71c6d3c14ce6",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.input.cbor": "d32862ab1f6e1f1dd68a772147a4ae77a9de3e37115010616dac38ac4537eae6",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/reordered.input.cbor": "4160a76df57fe9594ca21f5fd9e7fbcba6c37f0b1faac0c3be400d94728bee31",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-29-nested/sd_cwt/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/full.input.cbor": "4ee20b6294c1860972f82c0253b26c12e08f01c366b7b453be5c94aba9e7f7c2",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/no-key.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/no-key.input.cbor": "4ee20b6294c1860972f82c0253b26c12e08f01c366b7b453be5c94aba9e7f7c2",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/reordered.input.cbor": "89a1235e28cec969cd4e767d52c10e6e4aeb2ef578262715fd3f7b2d54ddaa34",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/full.input.cbor": "4ee20b6294c1860972f82c0253b26c12e08f01c366b7b453be5c94aba9e7f7c2",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/no-key.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/no-key.input.cbor": "4ee20b6294c1860972f82c0253b26c12e08f01c366b7b453be5c94aba9e7f7c2",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/reordered.input.cbor": "dfab11ea62e97a37f4613cf29e4c9c2c60fceb91d74fbbf838dbba551c2bc0f0",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/plaintext/present.input.cbor": "ce758697b2b1b735d3e772fb9a81da6d3b507031848a54ee1fc991a0d15df6dd",
+    "alg-29-nested/sd_cwt_js/plaintext/present.cbor": "352bfc7e28a23e28dd6db4f5cb06e748e2e519501c54f4aee9a1646ca3787d86",
+    "alg-29-nested/sd_cwt_js/plaintext/present.log": "a8d0de19591320201d979b1bcb9dee327f646454ebe20807afe93b2fed3d8dbe",
+    "alg-29-nested/sd_cwt_js/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-29-nested/sd_cwt_js/encrypted/present.input.cbor": "ce758697b2b1b735d3e772fb9a81da6d3b507031848a54ee1fc991a0d15df6dd",
+    "alg-29-nested/sd_cwt_js/encrypted/present.cbor": "6227b94a4c01355df233d25599d8b6d2ab06673c65640fa72df75e8e725fa68e",
+    "alg-29-nested/sd_cwt_js/encrypted/present.log": "acb68d5cebd639a129905e61d6181ecab9fb81ef79672a24540df3d8ce45a130",
+    "alg-29-nested/sd_cwt_js/encrypted/present.command.json": "205d7147fd29761bc7146691935b17d48b04b345bc2b8459f3c9ef0c7b81d04f",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/full.input.cbor": "6227b94a4c01355df233d25599d8b6d2ab06673c65640fa72df75e8e725fa68e",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.cbor": "cfa0cfc2acc99ac0f19567e52d5bc44a0935c3d2141ab630cffb007fabc814cc",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.command.json": "ddff7c59dc5917b3db4009fee38b5f9bdb774ff562361af2920fc3c38e04018b",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.input.cbor": "6227b94a4c01355df233d25599d8b6d2ab06673c65640fa72df75e8e725fa68e",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "ac008656a26902315fbb284c06e83e87082711087cb7d11a03cc6101bb74ee77",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.input.cbor": "860b0f51581a5d9556fa36a0651de95f73e8322b6fcf37febaf71e89a8444178",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/full.input.cbor": "6227b94a4c01355df233d25599d8b6d2ab06673c65640fa72df75e8e725fa68e",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/no-key.cbor": "14016cfa9ef84ed4de308d3c059c8258d7b4223cfcc9a4c0bc9475a796ab3ec4",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.command.json": "ddff7c59dc5917b3db4009fee38b5f9bdb774ff562361af2920fc3c38e04018b",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/no-key.input.cbor": "6227b94a4c01355df233d25599d8b6d2ab06673c65640fa72df75e8e725fa68e",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.input.cbor": "9bc62e3bceb1798051f145341eebeee5118126f3f52976db09f64aa7f4d8c85e",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/reordered.input.cbor": "8abaede61032cebd35661f3c4b793cc757b315c34e3ddab4ef5b1a0ca1a79c4c",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-29-nested/sd_cwt_js/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/full.input.cbor": "352bfc7e28a23e28dd6db4f5cb06e748e2e519501c54f4aee9a1646ca3787d86",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.input.cbor": "352bfc7e28a23e28dd6db4f5cb06e748e2e519501c54f4aee9a1646ca3787d86",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.input.cbor": "0714d5523e037e488fdaa7c6387590f88c1c7496b60c56da671399ba1959ef72",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/full.input.cbor": "352bfc7e28a23e28dd6db4f5cb06e748e2e519501c54f4aee9a1646ca3787d86",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/no-key.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/no-key.input.cbor": "352bfc7e28a23e28dd6db4f5cb06e748e2e519501c54f4aee9a1646ca3787d86",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/reordered.input.cbor": "ed89cc11fa83113d9cd83f44a138372f3d6f93eb05bb3e081a95817d90b9da08",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-nested/sd_cwt_js/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/plaintext/present.input.cbor": "0c0fe80595b5c9a2f6b91564f9e7ea83a9985f9042c61999986d19fd065b1a9b",
+    "alg-2-nested/sd_cwt/plaintext/present.cbor": "427f45a1b2850afce34b00a762c2a3b794dd59c0a01249b9cc828a0494b47493",
+    "alg-2-nested/sd_cwt/plaintext/present.log": "a8d0de19591320201d979b1bcb9dee327f646454ebe20807afe93b2fed3d8dbe",
+    "alg-2-nested/sd_cwt/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-2-nested/sd_cwt/encrypted/present.input.cbor": "0c0fe80595b5c9a2f6b91564f9e7ea83a9985f9042c61999986d19fd065b1a9b",
+    "alg-2-nested/sd_cwt/encrypted/present.cbor": "7eaf39b017547582ccf930cbc0a13fe1c79157e1eb0332dc8586c80315b2f5d4",
+    "alg-2-nested/sd_cwt/encrypted/present.log": "acb68d5cebd639a129905e61d6181ecab9fb81ef79672a24540df3d8ce45a130",
+    "alg-2-nested/sd_cwt/encrypted/present.command.json": "6c1f6e1608998f0508e83a110dfd6231d3a72bf6a6017076f58dd090a3794ef3",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/full.input.cbor": "7eaf39b017547582ccf930cbc0a13fe1c79157e1eb0332dc8586c80315b2f5d4",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/no-key.cbor": "cfa0cfc2acc99ac0f19567e52d5bc44a0935c3d2141ab630cffb007fabc814cc",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.command.json": "924c310769d44245bdff8313d0fd53f8f25688e66e9972f6571be5ce2e23dac2",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/no-key.input.cbor": "7eaf39b017547582ccf930cbc0a13fe1c79157e1eb0332dc8586c80315b2f5d4",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "e2aa4b5f1c2db50ef7cf8c3866f32d31d71fe8a2e557aa424f71c9ab48b2b186",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/reordered.input.cbor": "88785019b6ac1ad29b8bba20e53fa16394c6e7020595157003e5d0b9fa291bb1",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/full.input.cbor": "7eaf39b017547582ccf930cbc0a13fe1c79157e1eb0332dc8586c80315b2f5d4",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/no-key.cbor": "14016cfa9ef84ed4de308d3c059c8258d7b4223cfcc9a4c0bc9475a796ab3ec4",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.command.json": "924c310769d44245bdff8313d0fd53f8f25688e66e9972f6571be5ce2e23dac2",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/no-key.input.cbor": "7eaf39b017547582ccf930cbc0a13fe1c79157e1eb0332dc8586c80315b2f5d4",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.input.cbor": "fae752417b6bf381c62b9a0c251c259c050f4072b4b6935e5e2226545ff2d64d",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/reordered.input.cbor": "d845d5d34110ec0cb957b573e394805ed6f954f75bfdaebaa682e4e52e28a5d4",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-2-nested/sd_cwt/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/full.input.cbor": "427f45a1b2850afce34b00a762c2a3b794dd59c0a01249b9cc828a0494b47493",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/no-key.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/no-key.input.cbor": "427f45a1b2850afce34b00a762c2a3b794dd59c0a01249b9cc828a0494b47493",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/reordered.input.cbor": "9cff6bed33e546b6a4392648e5f0d96f44ef283f2601f67599b3550864dd1cc6",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/full.input.cbor": "427f45a1b2850afce34b00a762c2a3b794dd59c0a01249b9cc828a0494b47493",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/no-key.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/no-key.input.cbor": "427f45a1b2850afce34b00a762c2a3b794dd59c0a01249b9cc828a0494b47493",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/reordered.input.cbor": "ee9a2f5eb5edc275025e5bb2c55a223830ebe387162f8688980ed0bc2a81c0dd",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/plaintext/present.input.cbor": "0c0fe80595b5c9a2f6b91564f9e7ea83a9985f9042c61999986d19fd065b1a9b",
+    "alg-2-nested/sd_cwt_js/plaintext/present.cbor": "4f9f537134af7a8a56bc2a028888ebc24dc4518efb088e26e0386f988a33213a",
+    "alg-2-nested/sd_cwt_js/plaintext/present.log": "a8d0de19591320201d979b1bcb9dee327f646454ebe20807afe93b2fed3d8dbe",
+    "alg-2-nested/sd_cwt_js/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-2-nested/sd_cwt_js/encrypted/present.input.cbor": "0c0fe80595b5c9a2f6b91564f9e7ea83a9985f9042c61999986d19fd065b1a9b",
+    "alg-2-nested/sd_cwt_js/encrypted/present.cbor": "8a5ff42fe6dacf192d380373f70db91c16de0a4c13ac1a0adb3d93659c106e29",
+    "alg-2-nested/sd_cwt_js/encrypted/present.log": "acb68d5cebd639a129905e61d6181ecab9fb81ef79672a24540df3d8ce45a130",
+    "alg-2-nested/sd_cwt_js/encrypted/present.command.json": "6c1f6e1608998f0508e83a110dfd6231d3a72bf6a6017076f58dd090a3794ef3",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/full.input.cbor": "8a5ff42fe6dacf192d380373f70db91c16de0a4c13ac1a0adb3d93659c106e29",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.cbor": "cfa0cfc2acc99ac0f19567e52d5bc44a0935c3d2141ab630cffb007fabc814cc",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.command.json": "924c310769d44245bdff8313d0fd53f8f25688e66e9972f6571be5ce2e23dac2",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.input.cbor": "8a5ff42fe6dacf192d380373f70db91c16de0a4c13ac1a0adb3d93659c106e29",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "fdd97357c2ca2f919da5d455331d5d488ee01ed0964a442aaa9201246364b43d",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.input.cbor": "c2870ad51a8b17c18e91491eb91ab92867d390de97860b0bbfa274ba34964c50",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/full.input.cbor": "8a5ff42fe6dacf192d380373f70db91c16de0a4c13ac1a0adb3d93659c106e29",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/no-key.cbor": "14016cfa9ef84ed4de308d3c059c8258d7b4223cfcc9a4c0bc9475a796ab3ec4",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.command.json": "924c310769d44245bdff8313d0fd53f8f25688e66e9972f6571be5ce2e23dac2",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/no-key.log": "df158a48943356a55952531c766093891178ac7b3c85d382016bf5efc5ddc9b5",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/no-key.input.cbor": "8a5ff42fe6dacf192d380373f70db91c16de0a4c13ac1a0adb3d93659c106e29",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.input.cbor": "2326d54bc2d96d3dc0430daaea14bd2b0cb3ca9d0e2812adba14a33c14659272",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/reordered.input.cbor": "647c64182b015b4839ed7dfbec1b683a4eabd4c14199d3ec05c5c803e428aa52",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-2-nested/sd_cwt_js/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/full.input.cbor": "4f9f537134af7a8a56bc2a028888ebc24dc4518efb088e26e0386f988a33213a",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/full.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.input.cbor": "4f9f537134af7a8a56bc2a028888ebc24dc4518efb088e26e0386f988a33213a",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.input.cbor": "03b933d277053b9d99d570cbe4ca146db79713a2c8c29d4c7a38a549930c03fe",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.cbor": "047f014a6a00c25568d44fb802c43241646cbb3f527716873f21cb171680ae5a",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/full.input.cbor": "4f9f537134af7a8a56bc2a028888ebc24dc4518efb088e26e0386f988a33213a",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/no-key.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/full.cbor": "4e189b52233ef196408a6a6de873ecec6118599079a3364dc363be452e194549",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/no-key.input.cbor": "4f9f537134af7a8a56bc2a028888ebc24dc4518efb088e26e0386f988a33213a",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/full.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/reordered.input.cbor": "3d8e12c8fa9de109b7de728a12f01778b6fb18bdc2d34ed3fab9e5917fc87b2a",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/reordered.cbor": "241615f282e6457e278e49e7cf4fa373c4de0910a32282d2dec0dd42584e8f54",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/reordered.command.json": "a78f55baa00998753b7f00403b4196c0b4c5ed85d108f40f647fc4b3cd34d84c",
+    "alg-2-nested/sd_cwt_js/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/plaintext/present.input.cbor": "5bca479ca28f92c27e2a4ecbc39028b7445ab81f88a6e167571b46b6bae64425",
+    "alg-29-draft/sd_cwt/plaintext/present.cbor": "21922c1738ca90cc6a2f2c6fd5e3b27f78dba3bf61d615ec6a862c12286456fc",
+    "alg-29-draft/sd_cwt/plaintext/present.log": "23b81fb85eb0371cb395ca2d2730d079d818f771e3a9212680dc35f1f1828d1d",
+    "alg-29-draft/sd_cwt/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-29-draft/sd_cwt/encrypted/present.input.cbor": "5bca479ca28f92c27e2a4ecbc39028b7445ab81f88a6e167571b46b6bae64425",
+    "alg-29-draft/sd_cwt/encrypted/present.cbor": "69a5d7471f63f0659ff3c01ee9ae090443a7c193fb05fb0e81d587ad5353cc5e",
+    "alg-29-draft/sd_cwt/encrypted/present.log": "7c46f6219434d6e12e3716873aa340c0ca9e01194f07e30a6b8cf19402db09ed",
+    "alg-29-draft/sd_cwt/encrypted/present.command.json": "578c730c9c77f4e1bf6a94ad366745618e21ac33d8bebf1144ec61662f2e305b",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/full.input.cbor": "69a5d7471f63f0659ff3c01ee9ae090443a7c193fb05fb0e81d587ad5353cc5e",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/no-key.cbor": "53fec394422c9a60feec5c5e16ca2ac78060d1dd8d41b489fffd0b42cd75c494",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.command.json": "ddff7c59dc5917b3db4009fee38b5f9bdb774ff562361af2920fc3c38e04018b",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/no-key.input.cbor": "69a5d7471f63f0659ff3c01ee9ae090443a7c193fb05fb0e81d587ad5353cc5e",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "3041c20da676f4c9e7c8e4ffe12c65f72cce857fbbc8b776aa2fa5cd4ca550d9",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/reordered.input.cbor": "5e25daa33003150cd39e9f73c409e88af8c6fcb78ca3a376356c538082a7cb42",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/full.input.cbor": "69a5d7471f63f0659ff3c01ee9ae090443a7c193fb05fb0e81d587ad5353cc5e",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/no-key.cbor": "bd8044640a5529c00055c25d35c6fa54ebd172e69f37a1d31bb8b7c65ad52419",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.command.json": "ddff7c59dc5917b3db4009fee38b5f9bdb774ff562361af2920fc3c38e04018b",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/no-key.input.cbor": "69a5d7471f63f0659ff3c01ee9ae090443a7c193fb05fb0e81d587ad5353cc5e",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.input.cbor": "2c9dfbf9c9ef445cebaaa157011b93df37082e9249b7beb96b534643686e06cb",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/reordered.input.cbor": "cbabd10b0abaec038fe0adde02436de80428a51170cca00c0c246ade145644b6",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-29-draft/sd_cwt/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/full.input.cbor": "21922c1738ca90cc6a2f2c6fd5e3b27f78dba3bf61d615ec6a862c12286456fc",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/no-key.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/no-key.input.cbor": "21922c1738ca90cc6a2f2c6fd5e3b27f78dba3bf61d615ec6a862c12286456fc",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/reordered.input.cbor": "c0e7be7f4407e867694d8e96b16772a560545e1a4a965ea49837059963e2b5b1",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/full.input.cbor": "21922c1738ca90cc6a2f2c6fd5e3b27f78dba3bf61d615ec6a862c12286456fc",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/no-key.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/no-key.input.cbor": "21922c1738ca90cc6a2f2c6fd5e3b27f78dba3bf61d615ec6a862c12286456fc",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/reordered.input.cbor": "c7723491fff6ddd8aea3f846ff89f1f9d6bd97eb9fa7775a2fcc33bb2253b967",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/plaintext/present.input.cbor": "5bca479ca28f92c27e2a4ecbc39028b7445ab81f88a6e167571b46b6bae64425",
+    "alg-29-draft/sd_cwt_js/plaintext/present.cbor": "64ff8aa9e4e173c8c09735876151d3f662311d3fe3363c552a0300099690b310",
+    "alg-29-draft/sd_cwt_js/plaintext/present.log": "23b81fb85eb0371cb395ca2d2730d079d818f771e3a9212680dc35f1f1828d1d",
+    "alg-29-draft/sd_cwt_js/plaintext/present.command.json": "f7e82e6f3d19addb567eafb95715393acfe26bdbd2abcf3839e8177345dfb408",
+    "alg-29-draft/sd_cwt_js/encrypted/present.input.cbor": "5bca479ca28f92c27e2a4ecbc39028b7445ab81f88a6e167571b46b6bae64425",
+    "alg-29-draft/sd_cwt_js/encrypted/present.cbor": "77bc625e12dc8e258129e6a06cc908cf3a47f0488ea38efbc24d85ebf5bb4110",
+    "alg-29-draft/sd_cwt_js/encrypted/present.log": "7c46f6219434d6e12e3716873aa340c0ca9e01194f07e30a6b8cf19402db09ed",
+    "alg-29-draft/sd_cwt_js/encrypted/present.command.json": "578c730c9c77f4e1bf6a94ad366745618e21ac33d8bebf1144ec61662f2e305b",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/full.input.cbor": "77bc625e12dc8e258129e6a06cc908cf3a47f0488ea38efbc24d85ebf5bb4110",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.cbor": "53fec394422c9a60feec5c5e16ca2ac78060d1dd8d41b489fffd0b42cd75c494",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.command.json": "ddff7c59dc5917b3db4009fee38b5f9bdb774ff562361af2920fc3c38e04018b",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.input.cbor": "77bc625e12dc8e258129e6a06cc908cf3a47f0488ea38efbc24d85ebf5bb4110",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.input.cbor": "8aa35eed9ec6b6aee0277bd6c60131d004b8c3d1a08dde6f222a2ab47a3ec263",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.input.cbor": "d90a6ac57a4f8c01dbc17b67af1736750cb3522bf53ba7ee0778169efe70d7ea",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/one-bad-tag.log": "9f2864b7b7c859aa54d0583a7c9a7c27b4de3ca6368ee479ceee1eeaa7204f5a",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/full.input.cbor": "77bc625e12dc8e258129e6a06cc908cf3a47f0488ea38efbc24d85ebf5bb4110",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/no-key.cbor": "bd8044640a5529c00055c25d35c6fa54ebd172e69f37a1d31bb8b7c65ad52419",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.command.json": "ddff7c59dc5917b3db4009fee38b5f9bdb774ff562361af2920fc3c38e04018b",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/no-key.log": "973189d30690159728c599ac3d30ab1d1910a1f78eaeb3024f096d9dc95202bd",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/no-key.input.cbor": "77bc625e12dc8e258129e6a06cc908cf3a47f0488ea38efbc24d85ebf5bb4110",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.input.cbor": "24475af2bce561e90af4577d02b032b90a8463dbd2bf12ad29a9ff32431a5e9e",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/reordered.input.cbor": "19e9c67da14af7b9a03e44846233d05db9e9bca8b9ecc817912342e2bfd0a0e7",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.cbor": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/one-bad-tag.log": "3de635a3e2fa6a5838620b2233e99f106829e9b5854e47d480ccef2d733c6e00",
+    "alg-29-draft/sd_cwt_js/encrypted/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/full.input.cbor": "64ff8aa9e4e173c8c09735876151d3f662311d3fe3363c552a0300099690b310",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/full.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.input.cbor": "64ff8aa9e4e173c8c09735876151d3f662311d3fe3363c552a0300099690b310",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.input.cbor": "8fd95f295d291ec4b77a8985a92a57c025edeba179c684dbcbceb6010c498f94",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.cbor": "d64584127fe0a0f7c19245479f4052472cb42a56933cdc9745435495b48307b5",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt_js/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/full.input.cbor": "64ff8aa9e4e173c8c09735876151d3f662311d3fe3363c552a0300099690b310",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/no-key.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/full.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/full.cbor": "b63325b480973b3d9320eed137420f543091d1f93b0bf3322983d2154ec46abf",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/no-key.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/no-key.input.cbor": "64ff8aa9e4e173c8c09735876151d3f662311d3fe3363c552a0300099690b310",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/full.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/reordered.input.cbor": "b41b307d3081b572875064d5c43821dfad342746d6b2b6194d08263eaef84701",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/reordered.cbor": "6fb075c569ce6668507ca2c8130f6c15130070d6e2c1e91c38fcd9aa9635deaf",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/no-key.command.json": "2bb716f25bc6d856db1fd531ebb3571f13e4390307412d5b0d27b37ddf5beea6",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/reordered.command.json": "7c281b0aa4592ff234df906ba0765eed92db3649ca07a76379167cfc96162630",
+    "alg-29-draft/sd_cwt_js/plaintext/sd_cwt/reordered.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -64,7 +64,9 @@ async function present(argv) {
       encrypt_list: { type: 'string' },
       'aead-key': { type: 'string' },
       'aead-key-context': { type: 'string' },
+      'aead-key-context-cbor': { type: 'string' },
       'aead-nonces': { type: 'string' },
+      'aead-algorithm': { type: 'string' },
       audience: { type: 'string', default: DEFAULT_AUDIENCE },
     },
   });
@@ -89,12 +91,17 @@ async function present(argv) {
   }
   let keyContext = values['aead-key-context'];
   if (keyContext !== undefined && /^\d+$/.test(keyContext)) keyContext = Number(keyContext);
+  if (values['aead-key-context-cbor']) {
+    if (keyContext !== undefined) throw new Error('choose one context option');
+    keyContext = decode(new Uint8Array(readFileSync(values['aead-key-context-cbor'])));
+  }
   const aeadKey = values['aead-key'] ? hex(readFileSync(values['aead-key'], 'utf8')) : undefined;
 
   const holder = jwkFromPem(positionals[0]);
   const kbt = await Holder.present({
     token,
     selectedDisclosures: plaintext,
+    aeadAlgorithm: values['aead-algorithm'] === undefined ? undefined : Number(values['aead-algorithm']),
     encryptedDisclosures: toEncrypt.map(disclosure => ({
       disclosure,
       key: aeadKey,
@@ -102,6 +109,7 @@ async function present(argv) {
       nonce: nonces.get(toHex(decode(disclosure)[0])),
     })),
     holderPrivateKey: holder.key,
+    issuedAt: values.time === undefined ? undefined : Number(values.time),
     audience: values.audience,
     algorithm: holder.alg,
   });
@@ -118,17 +126,26 @@ async function verify(argv) {
       time: { type: 'string' },
       audience: { type: 'string' },
       'aead-key': { type: 'string', multiple: true },
+      'aead-key-map': { type: 'string' },
     },
   });
   if (!values.issuer) throw new Error('no --issuer key');
   const presentation = readStdin();
   const audience = values.audience ?? decode(decode(presentation).contents[2]).get(3);
   const keys = (values['aead-key'] ?? []).map(p => hex(readFileSync(p, 'utf8')));
+  let resolver = keys.length ? () => keys : undefined;
+  if (values['aead-key-map']) {
+    if (keys.length) throw new Error('choose --aead-key or --aead-key-map');
+    const entries = decode(new Uint8Array(readFileSync(values['aead-key-map'])));
+    const mapping = new Map([...entries].map(([ctx, key]) => [toHex(cbor.encode(ctx)), key]));
+    resolver = ({ keyContext }) => mapping.get(toHex(cbor.encode(keyContext)));
+  }
   const result = await Verifier.verify({
     presentation,
+    now: values.time === undefined ? undefined : Number(values.time),
     issuerPublicKey: jwkFromPem(values.issuer).key,
     expectedAudience: audience,
-    aeadKeyResolver: keys.length ? () => keys : undefined,
+    aeadKeyResolver: resolver,
   });
   if (result.undecryptedDisclosures?.length) {
     console.error(`${result.undecryptedDisclosures.length} encrypted disclosure(s) left undecrypted`);

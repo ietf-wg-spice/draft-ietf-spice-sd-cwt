@@ -1,0 +1,525 @@
+diff --git a/.coveragerc b/.coveragerc
+index 635c5b5..e54ded7 100644
+--- a/.coveragerc
++++ b/.coveragerc
+@@ -19,8 +19,8 @@ exclude_lines =
+     if TYPE_CHECKING:
+     @abstractmethod
+     @abc.abstractmethod
+-    pass
+-    ...
++    ^\s*pass\s*(#.*)?$
++    ^\s*\.\.\.\s*$
+ 
+ precision = 2
+ show_missing = True
+diff --git a/src/sd_cwt/aead.py b/src/sd_cwt/aead.py
+index 2c2219a..1f46ff6 100644
+--- a/src/sd_cwt/aead.py
++++ b/src/sd_cwt/aead.py
+@@ -285,7 +285,12 @@ def decrypt_sd_cwt_disclosures(
+             raise AeadDisclosureError("encrypted disclosure failed authentication")
+ 
+     if decrypted:
+-        unprotected[SD_CLAIMS] = list(unprotected.get(SD_CLAIMS, [])) + decrypted
++        combined = list(unprotected.get(SD_CLAIMS, [])) + decrypted
++        # Each disclosure consumes one Redacted Claim Hash. Do not silently
++        # collapse duplicates when building the reconstruction lookup.
++        if len(set(combined)) != len(combined):
++            raise AeadDisclosureError("duplicate disclosure after AEAD decryption")
++        unprotected[SD_CLAIMS] = combined
+     if remaining:
+         unprotected[SD_AEAD_ENCRYPTED_CLAIMS] = remaining
+     else:
+diff --git a/src/sd_cwt/redaction.py b/src/sd_cwt/redaction.py
+index 6201594..01f5bf4 100644
+--- a/src/sd_cwt/redaction.py
++++ b/src/sd_cwt/redaction.py
+@@ -415,3 +415,80 @@ def edn_to_redacted_cbor(
+     cbor_claims = cbor_utils.encode(sd_cwt_claims)
+ 
+     return cbor_claims, disclosures
++
++
++def reconstruct_claims(payload: dict[Any, Any], disclosures: list[bytes]) -> dict[Any, Any]:
++    """Apply each disclosure at its hash location, preserving maps and arrays.
++
++    Undisclosed map entries and array elements are removed. A disclosure can
++    introduce further hash locations, so input order does not matter. Reject
++    duplicate consumption, duplicate map keys, and unreachable disclosures.
++    """
++    lookup = {}
++    for raw in disclosures:
++        disclosure = cbor_utils.decode(raw)
++        if (
++            not isinstance(disclosure, list)
++            or len(disclosure) not in (2, 3)
++            or not isinstance(disclosure[0], bytes)
++        ):
++            raise ValueError("invalid salted disclosure")
++        digest = hash_disclosure(raw)
++        if digest in lookup:
++            raise ValueError("duplicate disclosure")
++        lookup[digest] = disclosure
++    used: set[bytes] = set()
++    redacted_key = cbor_utils.create_simple_value(59)
++    omitted = object()
++
++    def take(digest: bytes, length: int):
++        if not isinstance(digest, bytes):
++            raise ValueError("redacted claim hash must be a byte string")
++        if digest not in lookup:
++            return None
++        if digest in used:
++            raise ValueError("disclosure used more than once")
++        disclosure = lookup[digest]
++        if len(disclosure) != length:
++            raise ValueError("map/array disclosure shape mismatch")
++        used.add(digest)
++        return disclosure
++
++    def walk(node: Any, depth: int = 0, array_element: bool = False):
++        if depth > 16:
++            raise ValueError("nested disclosures exceed maximum depth of 16")
++        if isinstance(node, dict):
++            result = {key: walk(value, depth) for key, value in node.items() if key != redacted_key}
++            hashes = node.get(redacted_key, [])
++            if not isinstance(hashes, list):
++                raise ValueError("redacted map hashes must be an array")
++            for digest in hashes:
++                disclosure = take(digest, 3)
++                if disclosure is not None:
++                    _, value, key = disclosure
++                    if key == redacted_key or key in result:
++                        raise ValueError("duplicate disclosed map key")
++                    result[key] = walk(value, depth + 1)
++            return result
++        if isinstance(node, list):
++            result = []
++            for value in node:
++                reconstructed = walk(value, depth, array_element=True)
++                if reconstructed is not omitted:
++                    result.append(reconstructed)
++            return result
++        if cbor_utils.is_tag(node):
++            number = cbor_utils.get_tag_number(node)
++            value = cbor_utils.get_tag_value(node)
++            if number == 60:
++                if not array_element:
++                    raise ValueError("redacted array element outside an array")
++                disclosure = take(value, 2)
++                return walk(disclosure[1], depth + 1) if disclosure is not None else omitted
++            return cbor_utils.create_tag(number, walk(value, depth))
++        return node
++
++    result = walk(payload)
++    if used != lookup.keys():
++        raise ValueError("disclosures match no Redacted Claim Hash")
++    return result
+diff --git a/src/sd_cwt/simple_api.py b/src/sd_cwt/simple_api.py
+index 170e67b..1f49f9f 100644
+--- a/src/sd_cwt/simple_api.py
++++ b/src/sd_cwt/simple_api.py
+@@ -14,7 +14,7 @@ from .aead import (
+ )
+ from .cose_sign1 import cose_sign1_sign
+ from .holder_binding import create_cnf_claim, create_sd_kbt, kcwt_to_bytes
+-from .redaction import edn_to_redacted_cbor, unmatched_disclosures
++from .redaction import edn_to_redacted_cbor, reconstruct_claims, unmatched_disclosures
+ from .signers import CredentialSigner, PresentationSigner
+ from .thumbprint import CoseKeyThumbprint
+ 
+@@ -556,54 +556,12 @@ class SDCWTVerifier:
+         Returns:
+             Tuple of (clean_claims, tags_absent)
+         """
+-        # First, extract the base claims from payload (same as before)
+-        base_claims, _ = self._extract_clean_claims(payload)
+-        clean_claims: dict[Any, Any] = dict(base_claims)
+-
+-        # Extract disclosed claims from SD-CWT unprotected header
+-        try:
+-            cose_sign1 = cbor_utils.decode(sd_cwt_with_disclosures)
+-            if cbor_utils.is_tag(cose_sign1):
+-                cose_sign1_value = cbor_utils.get_tag_value(cose_sign1)
+-            else:
+-                cose_sign1_value = cose_sign1
+-
+-            if isinstance(cose_sign1_value, list) and len(cose_sign1_value) >= 2:
+-                unprotected_header = cose_sign1_value[1]
+-                if isinstance(unprotected_header, dict):
+-                    # Extract sd_claims (key 17 based on spec examples)
+-                    sd_claims = unprotected_header.get(17, [])
+-
+-                    # Process each disclosure and add to clean_claims
+-                    for disclosure_bytes in sd_claims:
+-                        if isinstance(disclosure_bytes, bytes):
+-                            disclosure = cbor_utils.decode(disclosure_bytes)
+-                            if isinstance(disclosure, list) and len(disclosure) == 3:
+-                                # SD-CWT format: [salt, value, key]
+-                                salt, value, key = disclosure
+-
+-                                # Add disclosed claim to clean_claims
+-                                if isinstance(key, str):
+-                                    clean_claims[key] = value
+-                                elif isinstance(key, int):
+-                                    # Handle numeric keys by converting to standard claim names
+-                                    if key == 1:
+-                                        clean_claims["iss"] = value
+-                                    elif key == 2:
+-                                        clean_claims["sub"] = value
+-                                    elif key == 6:
+-                                        clean_claims["iat"] = value
+-                                    else:
+-                                        clean_claims[key] = value
+-
+-        except Exception:
+-            # If disclosure processing fails, just return the base claims
+-            pass
+-
+-        # All disclosed claims should have tags absent since they're explicitly disclosed
+-        tags_absent = True
+-
+-        return clean_claims, tags_absent
++        cose = cbor_utils.get_tag_value(cbor_utils.decode(sd_cwt_with_disclosures))
++        reconstructed = reconstruct_claims(payload, cose[1].get(17, []))
++        # Preserve this API's standard-claim aliases and omission of cnf, but
++        # retain all application labels and their original nesting.
++        aliases = {1: "iss", 2: "sub", 6: "iat"}
++        return {aliases.get(k, k): v for k, v in reconstructed.items() if k != 8}, True
+ 
+     def _clean_value_recursive(self, value: Any) -> tuple[Any, bool]:
+         """Recursively clean a value and check for redaction tags.
+diff --git a/tests/test_aead.py b/tests/test_aead.py
+index 5471993..e014fd9 100644
+--- a/tests/test_aead.py
++++ b/tests/test_aead.py
+@@ -225,14 +225,14 @@ class TestPresentation:
+         assert valid and claims is not None
+         assert claims[501] == "ABCD-123456"
+         assert claims[501] == "ABCD-123456"
+-        assert claims["region"] == "ca"
++        assert claims[503]["region"] == "ca"
+ 
+     def test_verifier_without_the_key_still_verifies(self, issued, holder_key, disclosures):
+         kbt = self._present(issued, holder_key, disclosures)
+         valid, claims, _ = _verifier().verify_presentation(kbt, AUDIENCE)
+         assert valid and claims is not None
+         assert 501 not in claims
+-        assert claims["region"] == "ca"
++        assert claims[503]["region"] == "ca"
+ 
+     def test_wrong_key_rejects_the_presentation(self, issued, holder_key, disclosures):
+         kbt = self._present(issued, holder_key, disclosures)
+@@ -289,3 +289,108 @@ class TestCrossImplementationFixtures:
+         assert valid and claims is not None
+         assert claims[501] == "ABCD-123456"
+         assert claims[501] == "ABCD-123456"
++
++
++@pytest.mark.parametrize("plaintext_duplicate", [False, True])
++def test_duplicate_decrypted_disclosures_reject(issued, holder_key, plaintext_duplicate):
++    from sd_cwt.holder_binding import create_sd_kbt
++    from sd_cwt.signers import PresentationSigner
++
++    # Different nonces prove we compare recovered disclosures, not ciphertexts.
++    token = encrypt_sd_cwt_disclosures(
++        issued,
++        [FIRST_DISCLOSURE] if plaintext_duplicate else [],
++        [FIRST_DISCLOSURE] if plaintext_duplicate else [FIRST_DISCLOSURE, FIRST_DISCLOSURE],
++        DRAFT_KEY,
++    )
++    with pytest.raises(AeadDisclosureError, match="duplicate disclosure"):
++        decrypt_sd_cwt_disclosures(token, lambda ctx: DRAFT_KEY)
++
++    kbt = create_sd_kbt(
++        sd_cwt_with_disclosures=token,
++        holder_signer=PresentationSigner(holder_key),
++        audience=AUDIENCE,
++        issued_at=1800000000,
++    )
++    valid, _, _ = _verifier().verify_presentation(
++        kbt, AUDIENCE, aead_key_resolver=lambda ctx: DRAFT_KEY
++    )
++    assert not valid
++    # Without the key a duplicate cannot be detected; forwarding is still valid.
++    valid, _, _ = _verifier().verify_presentation(kbt, AUDIENCE)
++    assert valid
++
++
++class TestNestedCrossImplementation:
++    """Generated by the draft repository's interop/run_profiles.py, JS Holder."""
++
++    @pytest.mark.parametrize("with_key", [False, True])
++    def test_nested_and_array_disclosures_keep_their_locations(self, with_key):
++        token = (FIXTURES / "nested_aead.js.cbor").read_bytes()
++        valid, claims, clean = _verifier().verify_presentation(
++            token, AUDIENCE, aead_key_resolver=(lambda ctx: DRAFT_KEY) if with_key else None
++        )
++        expected = {
++            "iss": "https://issuer.example",
++            "sub": "https://holder.example",
++            500: True,
++            "items": ["public"],
++        }
++        if with_key:
++            expected["profile"] = {"public": True, "city": "private city"}
++            expected["items"].append({"kind": "secret"})
++        assert valid and clean
++        assert claims == expected
++
++    @pytest.mark.parametrize("recipient", ["both", "a", "b", "neither"])
++    def test_context_routing_and_partial_decryption(self, recipient):
++        token = (FIXTURES / "two_key_aead.js.cbor").read_bytes()
++        mapping = {}
++        if recipient in ("both", "a"):
++            mapping[bytes(range(32))] = DRAFT_KEY
++        if recipient in ("both", "b"):
++            mapping["recipient-b"] = bytes(range(16))
++        valid, claims, clean = _verifier().verify_presentation(
++            token, AUDIENCE, aead_key_resolver=mapping.get
++        )
++        assert valid and clean
++        assert (501 in claims) == (recipient in ("both", "a"))
++        assert ("region" in claims[503]) == (recipient in ("both", "b"))
++        assert claims[503]["postal_code"] == "94188"
++        assert claims[502] == [1549560720, 1612560720, 1674004740]
++
++
++@pytest.mark.parametrize(
++    "plaintext",
++    [
++        b"\xff",  # invalid CBOR
++        cbor_utils.encode(FIRST_DISCLOSURE) + b"\x00",  # trailing item
++        b"\x59\x00\x21" + FIRST_DISCLOSURE,  # non-preferred bstr length
++        b"\x5f" + cbor_utils.encode(FIRST_DISCLOSURE) + b"\xff",  # indefinite bstr
++    ],
++)
++def test_authenticated_but_malformed_plaintext_is_rejected(plaintext):
++    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
++
++    nonce = bytes(12)
++    ciphertext = AESGCM(DRAFT_KEY).encrypt(nonce, plaintext, b"")
++    with pytest.raises(AeadDisclosureError):
++        decrypt_disclosure([nonce, ciphertext[:-16], ciphertext[-16:]], DRAFT_KEY)
++
++
++def test_nonempty_aad_is_not_accepted():
++    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
++
++    nonce = bytes(12)
++    ciphertext = AESGCM(DRAFT_KEY).encrypt(nonce, cbor_utils.encode(FIRST_DISCLOSURE), b"wrong aad")
++    with pytest.raises(AeadDisclosureError, match="authentication"):
++        decrypt_disclosure([nonce, ciphertext[:-16], ciphertext[-16:]], DRAFT_KEY)
++
++
++def test_no_encrypted_header_passthrough(issued):
++    assert decrypt_sd_cwt_disclosures(issued, None) == (issued, [])
++
++
++def test_fixed_nonce_count_must_match(issued):
++    with pytest.raises(ValueError, match="one entry"):
++        encrypt_sd_cwt_disclosures(issued, [], [FIRST_DISCLOSURE], DRAFT_KEY, nonces=[])
+diff --git a/tests/fixtures/draft-08/encrypted-profile-provenance.md b/tests/fixtures/draft-08/encrypted-profile-provenance.md
+new file mode 100644
+index 0000000..7abc0a4
+--- /dev/null
++++ b/tests/fixtures/draft-08/encrypted-profile-provenance.md
+@@ -0,0 +1,21 @@
++# Encrypted profile regression fixtures
++
++Generated by `interop/run_profiles.py` in ietf-wg-spice/draft-ietf-spice-sd-cwt
++on 18 November 2026, using the public Appendix C issuer and holder keys.
++
++`nested_aead.*.cbor` was presented by the other implementation: Python
++`5a2744c` or JavaScript `55b32be` plus local duplicate-disclosure fixes.
++It contains an encrypted parent map, child map disclosure, and array element;
++the child precedes its parent. Without the AEAD key the parent and array element
++are withheld. The expected values are asserted in `tests/test_aead.py` or
++`tests/aead.test.js`.
++
++`two_key_aead.*.cbor` combines encrypted entries produced by the other
++implementation into a freshly holder-signed KBT. Claim 501 uses the draft AES
++key and context bytes 00 through 1f. The nested region claim uses AES key bytes
++00 through 0f and text context `recipient-b`. The remaining disclosures are
++plaintext. This fixture tests verifier routing, not a single multi-key Holder
++API call. Unknown contexts stay undisclosed; the issuer and holder signatures
++remain mandatory.
++
++These are public test keys and fixtures, not production credentials.
+diff --git a/tests/fixtures/draft-08/nested_aead.js.cbor b/tests/fixtures/draft-08/nested_aead.js.cbor
+new file mode 100644
+index 0000000000000000000000000000000000000000..77a3be47a42ce1b8a0a0a8fcf3a930d7e4e5781a
+GIT binary patch
+literal 736
+zcmccA63JAsm{CnYl2MKKQcHy15=ILpmI#H6l9GaAD}DXU;^NZOBE8g##N2|MRQ=@q
+z;#A%2)JkKZdR2*4`U@piH#hr;&*ilC;*#G{Ty{D<LT#32)uxD<-(|#=zw>xpektzP
+zJ)vbr?A|T&?uJfu_;{jO<?VyRORof^Jmj04wM9qgwIWk+kc?nOvrpfb;u*d1ZNgKG
+z<}8cw@`<e9XSL?Pn&rQ%lcR2D>~{00D0Z3q_vXe(*>Z#QJ9l>MTK#^5LK!Oy16S*$
+z7+udmFQ>0f+fC1_>%Kod>Gm9F!<m0Sy^>Zd3y%&sfAQqTxtoO8R;1_(JDEkiX!g0C
+zneoNo+#+v@V`i)oij7>~t(v;C#V-~;+z{0<S4gYyjhxCRi5c~0Cckb8E!Wx;u>0ey
+zb*9M<2|e3B{E$5EBpz{V8DkmtFk*s>XXNLkAi|DgA>$H8CIv>t2!+;=*Xprn^Y_YB
+z9dlfzGvTI!(qCQ!m96U~j-N?f8&svM6rtdIe4S2u-Lwm5nj*_W&rP}-U>~As+uj~4
+zS9#98K+@S+lJU#e)Xb99+~TIRg3_d%%;Xz35ei+iw@whyec3qu<f(#8MsYuhJ^`_V
+zGuC8Jd6oN?VU`--59`JVg{<^xLd^TWOU!-A|HaavKveys_?e=|5pz?Gb2Z`(|EWYI
+z%<WbBbiA<3tWV?HS37sZ>_cZ}I2OLtoV9Mt-=~c0)6&W|uAaDilgTknhYxpC7AUWC
+zc6<_d@!pQEVkcwE>vz5{ja_?4BK1<}T*j#@e<nozmhYVPV@EiH_|?QN_y24<6OS*5
+zP+P=YAp;A)vecr?v`j=u=_eKxut{b8z10`tP_k{p&n0^#Z*fcz|5<;oZ<5*O(2eJ^
+x?b7PCA6}PaKYy&r*ZXw*V`G;s>4(0oK9jW|E$oY{lg6inM#pIre<$R50|2VdOLzbP
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/fixtures/draft-08/two_key_aead.js.cbor b/tests/fixtures/draft-08/two_key_aead.js.cbor
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd5a6a7ad3d2081a37dd2416ed77b7a03c074f1c
+GIT binary patch
+literal 893
+zcmccA63NWFm{CnYl2MKKQcHy15=ILpmI#H6l9GaAD}DXU;^NZOBE8g##N2|MRQ=@q
+z;#A%2)JkKZdR2*4`ilgc!<zznUt}?A8#u4aa|z%1aMkJtshF7T2|)3x?;PF%yY6kR
+z^?YTLR8tisl_0w_AVQ@%!2FP{-;vuKYzcDNxyRCZf2LZR7+P3l7vvY0B<92?=clAf
+ztZr)Y$<(nrto+<bb3tNTP=xZK6J1uG6;cN{R3c^Gc0E@zR{#I;z`E$Wi(H~^e6-r0
+zy!<X-K)Y{kq*?v~Ax-rik4?(810xg|7@3$^SlQS)IJvlac=`AR1cih}M8(7<B&DQf
+zWaZ>rd|F;<Uhh4<QRHN)MtX!?hXdP>52@?&w({lWe7d2<yZ%x9yc=S(_}_k$cqOzV
+zKy{O9>(ePc=N~^mpYHp)Sw6ccH94~&Gc~V7Hz|@aaTQ}3_K;(Oi)ZBLq##0+MJnxD
+z$qH7fw5y7L*np(62FF6iC5%i8jEWHots$?~W6$RAm8m-BxJqZjO$DXDyap;;*Gn8f
+zlejjhN>?dD!T0z&o%FhC7tS<AmW7_1bTz;}MANptJyx#roO^+!v$G`Qm#>nH-<ogO
+zL?}qtpLp|Sqb9qMXRT5W%U0$stAuhAY?`;ns#P97Cj9v?NKMN6Gndx}-Es)lTst}T
+z;cv4>za#zkug|j*==%}zXyQXRspR9HERu}h7o{iXm*$leRVI}d|FCX~P~i3MNmTyS
+zzA&@@({0f**OZlIzf08EUi@WvB*GT9i}!Pc!h!82_0#wdJz_j^r6%RyL&xoXR@*bq
+zO_4~x(<$=eYh(Nm>&6I$_2#jMe=oey<kIGJfcyET@4Hz~-uRt({*b}lzrWqYmQ9XG
+zSh3I0Hfe`W>ur`7QFrszME|CnIkeohvI+ILQtGq5KUe0P-1NBGpbhhl@=aV=+R`p=
+z<4Kv=bdrB5+q=B`fB3n#Z9Nno9CR@AlKZUEC1*-vm!Hey@bz+>$?`_ZrY6arb3ugK
+zBIXJiSTvTU7G<VoA|gybv7mrWD(mm9nGp_mu9&WT6qp^ODX_+Q^7;On4GsG(t_DUv
+v)0pL6SvI{etjH&&rhK7fbd}3i<uzYE9y)q9``SGpx0CzDPfzYqJ?;$v8U%nq
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/test_reconstruction.py b/tests/test_reconstruction.py
+new file mode 100644
+index 0000000..d2e2da0
+--- /dev/null
++++ b/tests/test_reconstruction.py
+@@ -0,0 +1,121 @@
++"""Validate claim locations, not just presence of an expected disclosed value."""
++
++import pytest
++
++from sd_cwt import cbor_utils as cbor
++from sd_cwt.redaction import hash_disclosure, reconstruct_claims
++
++R = cbor.create_simple_value(59)
++
++
++def disclosure(value, key=None, salt=b"s" * 16):
++    return cbor.encode([salt, value] + ([] if key is None else [key]))
++
++
++@pytest.mark.parametrize("reverse", [False, True])
++def test_nested_parent_array_and_same_names_in_different_maps(reverse):
++    child = disclosure("inner", "name")
++    parent = disclosure({"visible": True, R: [hash_disclosure(child)]}, "profile", b"p" * 16)
++    item = disclosure({"name": "array"}, salt=b"a" * 16)
++    payload = {
++        "name": "outer",
++        500: True,
++        R: [hash_disclosure(parent)],
++        "items": ["public", cbor.create_tag(60, hash_disclosure(item))],
++    }
++    ds = [child, parent, item]
++    assert reconstruct_claims(payload, ds[::-1] if reverse else ds) == {
++        "name": "outer",
++        500: True,
++        "profile": {"visible": True, "name": "inner"},
++        "items": ["public", {"name": "array"}],
++    }
++    assert reconstruct_claims(payload, []) == {"name": "outer", 500: True, "items": ["public"]}
++    assert reconstruct_claims(payload, [parent])["profile"] == {"visible": True}
++
++
++def test_no_flattening_and_no_redaction_metadata_in_draft():
++    from pathlib import Path
++
++    token = cbor.get_tag_value(
++        cbor.decode((Path(__file__).parent / "fixtures/draft-08/issuer_cwt.cbor").read_bytes())
++    )
++    claims = reconstruct_claims(cbor.decode(token[2]), token[1][17])
++    assert claims[500] is True
++    assert claims[502] == [1549560720, 1612560720, 1674004740]
++    assert claims[503] == {"country": "us", "region": "ca", "postal_code": "94188"}
++    assert "region" not in claims and R not in claims and R not in claims[503]
++
++
++def test_reject_duplicate_map_key():
++    d = disclosure("hidden", "name")
++    with pytest.raises(ValueError, match="duplicate"):
++        reconstruct_claims({"name": "visible", R: [hash_disclosure(d)]}, [d])
++
++
++@pytest.mark.parametrize("duplicate", [False, True])
++def test_reject_orphan_or_repeated_disclosure(duplicate):
++    d = disclosure("hidden", "name")
++    with pytest.raises(ValueError):
++        reconstruct_claims(
++            {R: [hash_disclosure(d)]} if duplicate else {}, [d, d] if duplicate else [d]
++        )
++
++
++def test_reject_child_without_disclosed_parent():
++    child = disclosure("hidden", "name")
++    parent = disclosure({R: [hash_disclosure(child)]}, "profile", b"p" * 16)
++    with pytest.raises(ValueError, match="no Redacted"):
++        reconstruct_claims({R: [hash_disclosure(parent)]}, [child])
++
++
++@pytest.mark.parametrize("map_entry", [False, True])
++def test_reject_disclosure_at_wrong_kind_of_location(map_entry):
++    d = disclosure("value", "key") if map_entry else disclosure("value")
++    payload = (
++        {"items": [cbor.create_tag(60, hash_disclosure(d))]}
++        if map_entry
++        else {R: [hash_disclosure(d)]}
++    )
++    with pytest.raises(ValueError, match="shape mismatch"):
++        reconstruct_claims(payload, [d])
++
++
++def test_reject_reuse_of_one_hash_in_two_locations():
++    d = disclosure("value", "key")
++    payload = {"a": {R: [hash_disclosure(d)]}, "b": {R: [hash_disclosure(d)]}}
++    with pytest.raises(ValueError, match="more than once"):
++        reconstruct_claims(payload, [d])
++
++
++@pytest.mark.parametrize("bad", [[b"salt"], ["not bytes", "value"], {}])
++def test_reject_malformed_disclosure(bad):
++    with pytest.raises(ValueError, match="invalid salted"):
++        reconstruct_claims({}, [cbor.encode(bad)])
++
++
++@pytest.mark.parametrize("hashes", ["not an array", [123]])
++def test_reject_invalid_hash_locations(hashes):
++    with pytest.raises(ValueError):
++        reconstruct_claims({R: hashes}, [])
++
++
++def test_preserve_unrelated_tags():
++    value = cbor.create_tag(999, {"value": 7})
++    assert reconstruct_claims({"tagged": value}, []) == {"tagged": value}
++
++
++def test_reject_array_placeholder_outside_array():
++    with pytest.raises(ValueError, match="outside an array"):
++        reconstruct_claims({"bad": cbor.create_tag(60, b"h" * 32)}, [])
++
++
++def test_bound_nested_disclosure_recursion():
++    ds = []
++    value = "leaf"
++    for _ in range(17):
++        d = disclosure(value, "child")
++        ds.append(d)
++        value = {R: [hash_disclosure(d)]}
++    with pytest.raises(ValueError, match="maximum depth"):
++        reconstruct_claims(value, ds)

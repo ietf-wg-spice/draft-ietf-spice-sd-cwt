@@ -1,0 +1,54 @@
+diff --git a/src/api.js b/src/api.js
+index 41e980f..b1fe0ed 100644
+--- a/src/api.js
++++ b/src/api.js
+@@ -647,8 +647,14 @@ export const Verifier = {
+       sdCwtHeaders, aeadKeyResolver
+     );
+     const plaintextHex = new Set(plaintextDisclosures.map(d => Buffer.from(d).toString('hex')));
++    const decryptedHex = new Set();
+     for (const d of decryptedDisclosures) {
+-      if (plaintextHex.has(Buffer.from(d).toString('hex'))) {
++      const hex = Buffer.from(d).toString('hex');
++      if (decryptedHex.has(hex)) {
++        throw new Error('Invalid SD-CWT: duplicate decrypted disclosure');
++      }
++      decryptedHex.add(hex);
++      if (plaintextHex.has(hex)) {
+         throw new Error('Invalid SD-CWT: a disclosure is present both in sd_claims and in sd_aead_encrypted_claims');
+       }
+     }
+diff --git a/tests/aead.test.js b/tests/aead.test.js
+index 1f675ec..fdb6f52 100644
+--- a/tests/aead.test.js
++++ b/tests/aead.test.js
+@@ -344,3 +344,29 @@ describe('AEAD encrypted disclosures: interop fixtures', () => {
+   }
+ 
+ });
++
++
++describe('duplicate encrypted disclosures', () => {
++  for (const freshNonce of [false, true]) {
++    it(`rejects duplicate recovered plaintext (fresh nonce: ${freshNonce})`, async () => {
++      const kbt = await present({ encryptedDisclosures: [{ disclosure: FIRST_DISCLOSURE, key: AEAD_KEY }] });
++      const second = freshNonce ? await encryptDisclosure(FIRST_DISCLOSURE, AEAD_KEY) : undefined;
++      const duplicate = await withSdCwtUnprotected(kbt, u => {
++        const entries = u.get(171);
++        entries.push(second ?? entries[0]);
++      });
++      await assert.rejects(() => Verifier.verify({
++        presentation: duplicate,
++        issuerPublicKey: ISSUER_PUBLIC_KEY,
++        expectedAudience: AUDIENCE,
++        aeadKeyResolver: keyFor(AEAD_KEY),
++      }), /duplicate decrypted disclosure/);
++      const result = await Verifier.verify({
++        presentation: duplicate,
++        issuerPublicKey: ISSUER_PUBLIC_KEY,
++        expectedAudience: AUDIENCE,
++      });
++      assert.ok(!result.claims.has(501));
++    });
++  }
++});
