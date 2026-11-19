@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-01T03:00:10.816218+00:00",
+  "timestamp": "2026-11-19T04:54:09.874106+00:00",
   "repo": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
   "labels": [
     {
@@ -22984,6 +22984,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 302,
+      "id": "PR_kwDOMm_Q2s8AAAABQL6S5Q",
+      "title": "Expand encrypted interop profiles with spec-first security evidence",
+      "url": "https://github.com/ietf-wg-spice/draft-ietf-spice-sd-cwt/pull/302",
+      "state": "OPEN",
+      "author": "OR13",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The previous encrypted-disclosure matrix could not exercise Rust AES-256 or native nested Holder output. Expand the CLI adapter and profile runner against Beltram's unchanged `c6eb0e4` library, and publish reproducible evidence with specification-controlled expectations.\n\n## Results\n\n- Extended profiles: **511 passed, 20 failed, 8 blocked / 539**. Every failure involves Rust AES-256/header-172 handling. Failed positive controls block negative cases rather than producing misleading rejection passes.\n- Python/JavaScript-only profile rows: **316/316**; original nine-pair AES-128 matrix: **54/54**.\n- The 261-case suite now has **two actual Rust failures**, replacing the former AES-256 adapter-unsupported label.\n- Python implementation PR #6: 217 tests and all hosted checks pass. JavaScript PR #5: 541 tests and builds pass on Node 20/24/26.\n\nThe draft places algorithm header 172 in protected headers. Rust reads/writes it in unprotected headers: protected AES-256 inputs lose disclosures, and its own output duplicates protected/unprotected header 172 and is rejected by our COSE verifiers. No token translation or relaxed validation hides this difference.\n\nSee [SPEC-FIRST-INTEROP.md](interop/SPEC-FIRST-INTEROP.md) for revisions, reproduction, remaining coverage, and failure examples. The report and evidence include preceding baseline/fix snapshots, marked historical, plus current commands, hashes, CBOR, and logs. Most added lines are machine-readable evidence. The specification text and upstream Rust library are unchanged.\n\nImplementation changes: https://github.com/tradeverifyd/sd-cwt/pull/6 and https://github.com/tradeverifyd/sd-cwt-js/pull/5.\n\nThe failing interop commands intentionally return nonzero. This PR does not claim complete spec conformance, maximal interop, or a green AES-256 matrix.\n",
+      "createdAt": "2026-11-18T17:50:50Z",
+      "updatedAt": "2026-11-18T17:50:50Z",
+      "baseRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "baseRefName": "main",
+      "baseRefOid": "79c43819c74c3240b3eab8601996d2b694e30087",
+      "headRepository": "ietf-wg-spice/draft-ietf-spice-sd-cwt",
+      "headRefName": "interop-spec-first-encrypted-review",
+      "headRefOid": "42256869a834e4f340b1b9d677812ab6eb1e79ff",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
