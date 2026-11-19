@@ -5,11 +5,11 @@
 Secure Patterns for Internet CrEdentials                      M. Prorock
 Internet-Draft                                                  mesur.io
 Intended status: Standards Track                               O. Steele
-Expires: 3 May 2027                                         Tradeverifyd
+Expires: 23 May 2027                                        Tradeverifyd
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                  R. Mahy
-                                                         30 October 2026
+                                                        19 November 2026
 
 
              Selective Disclosure CBOR Web Tokens (SD-CWT)
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 May 2027.
+   This Internet-Draft will expire on 23 May 2027.
 
 Copyright Notice
 
@@ -1891,7 +1891,7 @@ Issuer                           Holder                         Verifier
                Figure 23: EDN example of plaintext disclosure
 
    The corresponding bstr is encrypted with an AEAD algorithm [RFC5116].
-   If present, the algorithm of the sd_aead protected header field is
+   If present, the algorithm of the sd_aead unprotected header field is
    used, or AEAD_AES_128_GCM if no algorithm was specified.  The bstr is
    encrypted with a unique, random nonce of N_MIN octets.  The
    associated (authenticated) data A is zero-length.  The AEAD
@@ -2993,9 +2993,9 @@ Issuer                           Holder                         Verifier
 
    [I-D.ietf-cbor-edn-literals]
               Bormann, C., "Concise Diagnostic Notation (CDN)", Work in
-              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-28,
-              29 September 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-cbor-edn-literals-28>.
+              Progress, Internet-Draft, draft-ietf-cbor-edn-literals-29,
+              31 October 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-cbor-edn-literals-29>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -3067,23 +3067,23 @@ Issuer                           Holder                         Verifier
    [I-D.draft-ietf-keytrans-protocol]
               McMillion, B. and F. Linker, "Key Transparency Protocol",
               Work in Progress, Internet-Draft, draft-ietf-keytrans-
-              protocol-05, 5 July 2026,
+              protocol-06, 2 November 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-
-              keytrans-protocol-05>.
+              keytrans-protocol-06>.
 
    [I-D.draft-ietf-oauth-sd-jwt-vc]
               Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
               Verifiable Digital Credentials (SD-JWT VC)", Work in
-              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-22,
-              27 October 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-sd-jwt-vc-22>.
+              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-27,
+              16 November 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-oauth-sd-jwt-vc-27>.
 
    [I-D.ietf-cbor-serialization]
               Lundblade, L., "CBOR Serialization and Determinism", Work
               in Progress, Internet-Draft, draft-ietf-cbor-
-              serialization-11, 23 October 2026,
+              serialization-13, 15 November 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cbor-
-              serialization-11>.
+              serialization-13>.
 
    [I-D.ietf-oauth-status-list]
               Looker, T., Bastian, P., and C. Bormann, "Token Status
