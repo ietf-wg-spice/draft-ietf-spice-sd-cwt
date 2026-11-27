@@ -517,7 +517,7 @@ The following subsections discuss differences between CWT and SD-CWT or clarify 
 Some of these changes are necessary to enable the new functionality of SD-CWT, while some constraints were made in the interest of more robustness.
 
 > Variability in serialization can also be exploited to impact privacy.
-See {{security}} for more details on the privacy impact of serialization and profiling.
+See {{determinism}} for more details on the privacy impact of serialization and profiling.
 
 ## Definite Length CBOR Required
 
@@ -536,7 +536,7 @@ In CBOR, a NumericDate can be represented as an unsigned integer, a negative int
 CBOR (both {{?RFC7049}} and {{!RFC8949}}) refer to floating-point values to include NaNs, and floating-point numbers that include finite and infinite numbers.
 Neither JSON {{?RFC8259}} nor JWT {{?RFC7519}} can represent infinite values.
 
-As IEEE double-precision floating point numbers smaller than -(2^53) and larger than 2^53 are no longer as precise as CBOR integers, use of floating point numbers smaller than -(2^53) and larger than 2^53 is FORBIDDEN.
+As IEEE double-precision floating point numbers smaller than -(2^53) and larger than 2^53 are no longer as precise as CBOR integers, implementations MUST NOT encode or accept floating point numbers smaller than -(2^53) or larger than 2^53.
 
 ## Allowed types of CBOR map keys
 
@@ -615,6 +615,8 @@ This applies to any map anywhere in an SD-CWT or a KBT.
 
 Likewise, a single SD-CWT Claims Set MUST NOT contain a map (at any level of depth) with both a map key `k`, and `k` tagged with the To Be Redacted tag (see {{tbr-tag}}).
 Map keys and their To Be Redacted tagged verison are considered duplicate map keys for the purposes of this specification.
+
+Implementations receiving map keys violating either of these provisions MUST reject the entire KBT or SD-CWT.
 
 For example, if the map below is contained inside a payload, it is invalid because the map key 500 and the map key 58(500) cannot both be present.
 
@@ -786,6 +788,7 @@ When issuing an SD-CWT to a Holder, the Issuer includes all the Salted Disclosed
 
 By contrast, when a Holder presents an SD-CWT to a Verifier, it can disclose none, some, or all of its Redacted Claims.
 If the Holder wishes to disclose any Redacted Claims, it includes that subset of its Salted Disclosed Claims in the `sd_claims` header parameter of the unprotected header.
+(The Holder presents the exact byte string of each presented Salted Disclosed Claim, otherwise the hash will not match.)
 If there is nothing to be disclosed, the `sd_claims` header parameter is omitted.
 
 The Holder has flexibility in determining the order of disclosures when making presentations.
@@ -1041,9 +1044,11 @@ The initial Verifier of the KBT might not be able to decrypt encrypted disclosur
 ## AEAD Encrypted Disclosures Mechanism {#aead}
 
 This section defines two new COSE Header Parameters.
-If present in the unprotected headers, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
+If present, the first header parameter (`sd_aead`) specifies an Authenticated Encryption with Additional Data (AEAD) algorithm {{!RFC5116}} registered in the [IANA AEAD Algorithms registry](https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml) .
 (Guidance on specific algorithms is discussed in {{aead-choice}}.)
 The second header parameter (`sd_aead_encrypted_claims`), if present, contains a non-empty list of AEAD encrypted disclosures.
+Both parameters are provided by the Holder. As such, they can only appear in the unprotected headers of an SD-CWT inside a KBT.
+
 Taking the first example disclosure from {{first-disclosure}}:
 
 ~~~ cbor-diag
@@ -1061,6 +1066,8 @@ The nonce (`nonce`), the encryption algorithm's ciphertext (`ciphertext`) and au
 
 Optionally an AEAD key context MAY be added to the array.
 The key context can be an unsigned integer, a text string, or a byte string of the COSE Key Thumbprint ({{!RFC9679}}) of the decryption key.
+
+> The key context is similar to an audience in that its purpose is only to distinguish which of multiple keys to use. It has no cryptographic significance.
 
 The resulting array is placed in the `sd_aead_encrypted_claims` header parameter in the unprotected headers of the SD-CWT.
 
@@ -1385,8 +1392,6 @@ Use of a mainstream AEAD algorithm is less likely to trigger false alarms in sec
 Using an authenticated algorithm allows the Verifier to determine immediately if a specific decryption succeeded or failed.
 It also prevents the Verifier from keeping state for encrypted disclosures that were not correctly decrypted.
 Knowing exactly when decryption fails makes troubleshooting easier, and error handling more straightforward to implement.
-
-3. The amount of time
 
 3. In the target environments (ex: RATS), the performance penalty of using authenticated encryption is minor compared the other cryptographic operations already in use in those environments.
 Reuse of cryptographic algorithms compatible with existing profiles and cipher suites was considered more important than the performance gain of using unauthenticated encryption.
